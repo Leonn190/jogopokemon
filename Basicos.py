@@ -3,6 +3,7 @@ import Gerador
 
 def gerador_charmander():
     Nome = "Charmander"
+    Tipo = ["fogo"]
 
     Status_base = {
         "Vida": 100,
@@ -16,7 +17,7 @@ def gerador_charmander():
     Ataques_normais = [ataques.golpe_de_fogo]
     Ataques_especiais = [ataques.fogo_puro,ataques.defesa_flamejante]
 
-    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais)
+    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo)
     
 def gerador_bulbasauro():
     Nome = "Bulbasauro"
