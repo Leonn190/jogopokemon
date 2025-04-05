@@ -1,11 +1,17 @@
 import Basicos
+import pokebolas
 
 LV = {
     "vida": 0
 }
 
-player1 = ["nome",LV,LV,LV,LV,LV,LV]
-player2 = ["nome",LV,LV,LV,LV,LV,LV]
+turno = 0
+
+inventario_p1 = []
+inventario_p2 = []
+
+player1 = ["nome",LV,LV,LV,LV,LV,LV,inventario_p1]
+player2 = ["nome",LV,LV,LV,LV,LV,LV,inventario_p2]
 
 def inicio(player1, player2):
 
@@ -45,14 +51,20 @@ def inicio(player1, player2):
             break
         else:
             print("Pokémon inválido. Tente novamente.")
+    
+    print ("Agora que todos escolheram o pokemon inicial, vamos fazer a compra inicial!")
+    comprar(player1,6)
+    comprar(player2,6)
 
-    rodada(player1, player2)
+    passar_o_turno(player2, player1)
 
 def rodada(player,inimigo):
-    desejo = input(f"Qual ação deseja realizar {player[0]}? Usar um pokemon ou passar o turno?").lower()
+    desejo = input(f"Qual ação deseja realizar {player[0]}? Usar um pokemon, capturar um pokemon, passar o turno?").lower()
     if desejo == "usar um pokemon" or desejo == "usar pokemon" or desejo =="1":
         opções_de_pokemon(player,inimigo)
-    elif desejo == "passar o turno" or desejo == "passar turno" or desejo == "2":
+    elif desejo == "capturar um pokemon" or desejo == "capturar" or desejo == "2":
+        capturar_pokemon(player)
+    elif desejo == "passar o turno" or desejo == "passar turno" or desejo == "3":
         passar_o_turno(player, inimigo)
     else:
         print ("ação invalida, tente novamente")
@@ -85,12 +97,14 @@ def opções_de_pokemon(player, inimigo):
             print("Ação invalida! Tente novamente")
 
 def passar_o_turno(player, inimigo):
+    global turno
     if all(player[i]["vida"] <= 0 for i in range(1, 7)):
         print (f"{player[0]} foi derrotado, a vitória é de {inimigo[0]}!")
     elif all(inimigo[i]["vida"] <= 0 for i in range(1, 7)):
         print (f"{inimigo[0]} foi derrotado, a vitória é de {player[0]}!")
     else:
-        print(f"Novo turno de {inimigo[0]}")
+        turno += 1
+        print(f"Iniciando o turno {turno}, Vez de {inimigo[0]}")
         rodada(inimigo,player)
 
 def atacar(pokemon, inimigo, player):
@@ -114,6 +128,25 @@ def atacar(pokemon, inimigo, player):
             print("Ataque inválido! Tente novamente")
 
     passar_o_turno(player, inimigo)
+
+def comprar(player,compras):
+    for i in range(compras):
+        while True:
+            loja = input(f"{player[0]}, você deseja comprar em qual loja? loja de pokebolas?").lower()
+            if loja == "loja de pokebolas" or loja == "pokebolas" or loja == "1":
+                player[7].append (pokebolas.ganhar_pokebola(player,"aleatoria"))
+                print ("compra realizada")
+                break
+            else:
+                print("loja invalida, tente novamente")
+    print (f"A compra foi realizada! seu inventário atual é: {player[7]}") 
+
+def capturar_pokemon(player):
+    pokebolas_existentes = ["Pokebola","Gratball","Ultraball","Masterball"]
+    pokebola_utilizada = int(input(f"escolha a pokebola que voce vai usar! escolha o numero do item no inventário: {player[7]}"))
+    if player[7][pokebola_utilizada]["nome"] in pokebolas_existentes:
+        del player[7][pokebola_utilizada]
+
 
 inicio(player1,player2)
 

@@ -1,7 +1,7 @@
 import random
 import ataquesN
 import ataquesS
-import pokemon.Evo2
+import Evo2
 
 def charmeleon(poke):
     
@@ -10,7 +10,7 @@ def charmeleon(poke):
     
     poke["nome"] = "charmeleon"
     poke["tipo"] = ["fogo"]
-    poke["evolução"] = pokemon.Evo2.charizard
+    poke["evolução"] = Evo2.charizard
     poke["estágio"] = "Estágio 1"
    
     poke["vida"] += 10
@@ -33,7 +33,7 @@ def ivysaur(poke):
     
     poke["nome"] = "ivysaur"
     poke["tipo"] = ["planta","venenoso"]
-    poke["evolução"] = pokemon.Evo2.charizard
+    poke["evolução"] = Evo2.charizard
     poke["estágio"] = "Estágio 1"
    
     poke["vida"] += 10
@@ -56,7 +56,7 @@ def wartortle(poke):
     
     poke["nome"] = "charmeleon"
     poke["tipo"] = ["agua"]
-    poke["evolução"] = pokemon.Evo2.charizard
+    poke["evolução"] = Evo2.charizard
     poke["estágio"] = "Estágio 1"
    
     poke["vida"] += 10
