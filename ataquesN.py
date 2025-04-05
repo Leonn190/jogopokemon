@@ -1,16 +1,20 @@
 import random
+import Funções
 
-def golpe_de_fogo(atacante, alvo):
-    if alvo['def'] > 50:
-        alvo['def'] = 50
-    dano = 50 - alvo["def"]
-    alvo["vida"] -= dano
-
-def disparo_quente(atacante, alvo):
-    if alvo['def'] > 10:
-        alvo['def'] = 10
-    dano = 10 - alvo["def"]
-    alvo["vida"] -= dano
-
-def ataque_n(atacante,alvo,player,inimigo):
+def A(atacante,alvo,player,inimigo):
+    Dano = atacante["atk"] * 1
+    Tipo = ["fogo"]
+    mitigação = 100 / (100 + alvo["def"])
+    Dano_E = Dano * Funções.efetividade(Tipo,alvo["tipo"])
     
+    dano_F = Dano_E * mitigação
+    alvo["vida"] = round(alvo["vida"] - dano_F,2)
+
+def B(atacante,alvo,player,inimigo):
+    Dano = atacante["atk"] * 1.1
+    Tipo = ["fogo"]
+    mitigação = 100 / (100 + alvo["def"]) 
+    Dano_E = Dano * Funções.efetividade(Tipo,alvo["tipo"])
+    
+    dano_F = Dano_E * mitigação
+    alvo["vida"] = round(alvo["vida"] - dano_F,2)

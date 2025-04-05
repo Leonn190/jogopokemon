@@ -1,14 +1,20 @@
 import random
+import Funções
 
-def fogo_puro(atacante, alvo):
-    if alvo['def SP'] > 60:
-        alvo['def SP'] = 60
-    dano = 60 - alvo["def SP"]
-    alvo["vida"] -= dano
+def C(atacante,alvo,player,inimigo):
+    Dano = atacante["atk SP"] * 1.1
+    Tipo = ["fogo"]
+    mitigação = 100 / (100 + alvo["def SP"]) 
+    Dano_E = Dano * Funções.efetividade(Tipo,alvo["tipo"])
+    
+    dano_F = Dano_E * mitigação
+    alvo["vida"] = round(alvo["vida"] - dano_F,2)
 
-def defesa_flamejante(atacante, alvo):
-    if alvo['def SP'] > 60:
-        alvo['def SP'] = 60
-    dano = 40 - alvo["def SP"]
-    alvo["vida"] -= dano
-    atacante["def"] += 10
+def D(atacante,alvo,player,inimigo):
+    Dano = atacante["atk SP"] * 1
+    Tipo = ["fogo"]
+    mitigação = 100 / (100 + alvo["def SP"]) 
+    Dano_E = Dano * Funções.efetividade(Tipo,alvo["tipo"])
+    
+    dano_F = Dano_E * mitigação
+    alvo["vida"] = round(alvo["vida"] - dano_F,2)

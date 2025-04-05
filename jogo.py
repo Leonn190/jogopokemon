@@ -13,33 +13,33 @@ def inicio(player1, player2):
     player2[0] = input("Qual é seu nome player 2? ")
 
     while True:
-        pokemon_inicial_p1 = input(f"Qual será seu Pokémon inicial {player1[0]}? Charmander, Bulbasauro ou Squirtle? ").lower()
-        if pokemon_inicial_p1 == "charmander":
+        pokemon_inicial = input(f"Qual será seu Pokémon inicial {player1[0]}? Charmander, Bulbasaur ou Squirtle? ").lower()
+        if pokemon_inicial == "charmander" or pokemon_inicial == "1":
             player1[1] = Basicos.gerador_charmander()
-            print(f"Charmander com {player1[1]['IV']}% de IV foi selecionado")
+            print(f"Charmander com {player1[1]['IV']} de IV foi selecionado")
             break
-        elif pokemon_inicial_p1 == "bulbasauro":
-            player1[1] = Basicos.gerador_bulbasauro()
-            print(f"Bulbasauro com {player1[1]['IV']}% de IV foi selecionado")
+        elif pokemon_inicial == "bulbasaur" or pokemon_inicial == "2":
+            player1[1] = Basicos.gerador_bulbasaur()
+            print(f"Bulbasauro com {player1[1]['IV']} de IV foi selecionado")
             break
-        elif pokemon_inicial_p1 == "squirtle":
+        elif pokemon_inicial == "squirtle" or pokemon_inicial == "3":
             player1[1] = Basicos.gerador_squirtle()
-            print(f"Squirtle com {player1[1]['IV']}% de IV foi selecionado")
+            print(f"Squirtle com {player1[1]['IV']} de IV foi selecionado")
             break
         else:
             print("Pokémon inválido. Tente novamente.")
 
     while True:
-        pokemon_inicial_p2 = input(f"Qual será seu Pokémon inicial {player2[0]}? Charmander, Bulbasauro ou Squirtle? ").lower()
-        if pokemon_inicial_p2 == "charmander":
+        pokemon_inicial = input(f"Qual será seu Pokémon inicial {player2[0]}? Charmander, Bulbasaur ou Squirtle? ").lower()
+        if pokemon_inicial == "charmander" or pokemon_inicial == "1":
             player2[1] = Basicos.gerador_charmander()
             print(f"Charmander com {player2[1]['IV']}% de IV foi selecionado")
             break
-        elif pokemon_inicial_p2 == "bulbasauro":
-            player2[1] = Basicos.gerador_bulbasauro()
+        elif pokemon_inicial == "bulbasauro" or pokemon_inicial == "2":
+            player2[1] = Basicos.gerador_bulbasaur()
             print(f"Bulbasauro com {player2[1]['IV']}% de IV foi selecionado")
             break
-        elif pokemon_inicial_p2 == "squirtle":
+        elif pokemon_inicial == "squirtle" or pokemon_inicial == "3":
             player2[1] = Basicos.gerador_squirtle()
             print(f"Squirtle com {player2[1]['IV']}% de IV foi selecionado")
             break
@@ -53,7 +53,7 @@ def rodada(player,inimigo):
     if desejo == "usar um pokemon" or desejo == "usar pokemon" or desejo =="1":
         opções_de_pokemon(player,inimigo)
     elif desejo == "passar o turno" or desejo == "passar turno" or desejo == "2":
-        passar_o_turno(inimigo, player)
+        passar_o_turno(player, inimigo)
     else:
         print ("ação invalida, tente novamente")
         rodada(player,inimigo)
@@ -66,18 +66,21 @@ def opções_de_pokemon(player, inimigo):
             break
         else:
             print ("esse pokemon não existe! Tente novamente")
-    desejo = input(f"O que {pokemon['nome']} deseja fazer? Atacar, Mover ou Evoluir?").lower()
     while True:
+        desejo = input(f"O que {pokemon['nome']} deseja fazer? Atacar, Mover ou Evoluir?").lower()
         if desejo == "atacar" or desejo == "1":
             atacar(pokemon, inimigo, player)
             break
         elif desejo == "mover" or desejo == "2":
             print("Movimentação ainda não configurada, tente apenas atacar.")
         elif desejo == "evoluir" or desejo == "3":
-            if pokemon("XP atu") >= pokemon("XP"):
-                pokemon["evolução"](pokemon)
+            if pokemon["XP atu"] >= pokemon["XP"]:
+                nome_antigo = pokemon['nome']
+                player1[pokemon_escolhido] = pokemon["evolução"](pokemon)
+                pokemon = player1[pokemon_escolhido]
+                print (f"Seu {nome_antigo} evoluiu para um {pokemon['nome']}!")
             else:
-                print (f"Ainda não tem o XP necessário para evoluir, Seu XP é {pokemon["XP atu"]} e precisa de {pokemon["XP"]} para evoluir")
+                print (f"Ainda não tem o XP necessário para evoluir, Seu XP é {pokemon['XP atu']} e precisa de {pokemon['XP']} para evoluir")
         else:
             print("Ação invalida! Tente novamente")
 
@@ -99,11 +102,13 @@ def atacar(pokemon, inimigo, player):
             pokemon["ataque normal"](pokemon, alvo, player, inimigo)
             print(f"O {pokemon['nome']} usou um ataque normal para atacar o {alvo['nome']} inimigo!")
             print(f"A vida atual do {alvo['nome']} inimigo é {alvo['vida']}")
+            pokemon["XP atu"] += 1
             break
         if ataque == "ataque especial" or ataque == "especial" or ataque == "2":
             pokemon["ataque especial"](pokemon, alvo, player, inimigo)
             print(f"O {pokemon['nome']} usou um ataque especial para atacar o {alvo['nome']} inimigo!")
             print(f"A vida atual do {alvo['nome']} inimigo é {alvo['vida']}")
+            pokemon["XP atu"] += 1
             break
         else:
             print("Ataque inválido! Tente novamente")
@@ -111,3 +116,4 @@ def atacar(pokemon, inimigo, player):
     passar_o_turno(player, inimigo)
 
 inicio(player1,player2)
+
