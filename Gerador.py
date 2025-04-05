@@ -1,6 +1,6 @@
 import random
 
-def Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais):
+def Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução):
     
     Var_nula = [0]
     Var_baixa = [10,0,0,-10]
@@ -55,13 +55,17 @@ def Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais):
 
     return {
         "nome": Nome,
+        "tipo": Tipo,
         "vida": vida,
+        "estagio": "Basico",
         "def": Def,
         "def SP": Def_SP,
-        "Velocidade": Status_base["Velocidade"],
+        "velocidade": Status_base["Velocidade"],
         "XP": Status_base["XP"],
-        "Custo": Status_base["Custo"],
+        "custo": Status_base["Custo"],
         "ataque normal": random.choice(Ataques_normais),
         "ataque especial": random.choice(Ataques_especiais),
+        "evolução": Evolução,
+        "XP Atu": 0,
         "IV": f"{IV}%"
     }

@@ -1,9 +1,13 @@
-import ataques
+import ataquesN
+import ataquesS
+import Evo1
 import Gerador
 
 def gerador_charmander():
+    
     Nome = "Charmander"
     Tipo = ["fogo"]
+    Evolução = [Evo1.charmeleon]
 
     Status_base = {
         "Vida": 100,
@@ -14,13 +18,16 @@ def gerador_charmander():
         "Custo": 1
     }
 
-    Ataques_normais = [ataques.golpe_de_fogo]
-    Ataques_especiais = [ataques.fogo_puro,ataques.defesa_flamejante]
+    Ataques_normais = [ataquesN.golpe_de_fogo]
+    Ataques_especiais = [ataquesS.fogo_puro,ataquesS.defesa_flamejante]
 
-    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo)
+    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
     
-def gerador_bulbasauro():
-    Nome = "Bulbasauro"
+def gerador_bulbasaur():
+    
+    Nome = "Bulbasaur"
+    Tipo = ["planta","veneno"]
+    Evolução = [Evo1.ivysaur]
 
     Status_base = {
         "Vida": 100,
@@ -31,13 +38,16 @@ def gerador_bulbasauro():
         "Custo": 1
     }
 
-    Ataques_normais = [ataques.golpe_de_fogo,ataques.disparo_quente]
-    Ataques_especiais = [ataques.fogo_puro]
+    Ataques_normais = [ataquesN.golpe_de_fogo,ataquesN.disparo_quente]
+    Ataques_especiais = [ataquesS.fogo_puro]
 
-    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais)
+    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
 
 def gerador_squirtle():
+
     Nome = "Squirtle"
+    Tipo = ["agua"]
+    Evolução = [Evo1.wartorle]
 
     Status_base = {
         "Vida": 100,
@@ -48,8 +58,27 @@ def gerador_squirtle():
         "Custo": 1
     }
 
-    Ataques_normais = [ataques.golpe_de_fogo,ataques.disparo_quente]
-    Ataques_especiais = [ataques.fogo_puro]
+    Ataques_normais = [ataquesN.golpe_de_fogo,ataquesN.disparo_quente]
+    Ataques_especiais = [ataquesS.fogo_puro]
 
-    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais)
+    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
 
+def pokemon():
+    
+    Nome = ""
+    Tipo = ["",""]
+    Evolução = [Evo1.]
+
+    Status_base = {
+        "Vida": ,
+        "Def": ,
+        "Def SP": ,
+        "Velocidade": ,
+        "XP": ,
+        "Custo": 
+    }
+
+    Ataques_normais = [ataquesN.,ataquesN.]
+    Ataques_especiais = [ataquesS.,ataquesS.]
+
+    return Gerador.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
