@@ -36,9 +36,9 @@ def inicio(player1, player2):
     player1[0] = input("Qual é seu nome player 1? ")
     player2[0] = input("Qual é seu nome player 2? ")
 
-    intersecção = input("irei fornecer 12 energias para cada jogador, certo?")
+    intersecção = input("irei fornecer 15 energias para cada jogador, certo?")
 
-    ganhar_energia(player1,12)
+    ganhar_energia(player1,15)
 
     intersecção = input(f"Sua vez {player2[0]}, pronto?")
 
@@ -91,16 +91,30 @@ def inicio(player1, player2):
 
 def rodada(player,inimigo):
     global turno
+    
+    ações = [0 ,"usar um pokemon", "capturar um pokemon", "usar itens", "fazer analises", "modificar energias descartaveis", "passar o turno"]
+    
     if turno > 2:
         comprar(player,1)
+        ganhar_energia(player,3)
     
-    desejo = input(f"Qual ação deseja realizar {player[0]}? Usar um pokemon, capturar um pokemon, passar o turno?").lower()
-    if desejo == "usar um pokemon" or desejo == "usar pokemon" or desejo =="1":
+    for i in range(len(ações)-1):
+        print (f"{i+1} - {ações[i+1]}")
+    desejo = input(f"Qual ação deseja realizar {player[0]}? ações disponiveis acima").lower()
+
+    if desejo in ["usar um pokemon", "usar pokemon", "pokemon","1"]:
         opções_de_pokemon(player,inimigo)
-    elif desejo == "capturar um pokemon" or desejo == "capturar" or desejo == "2":
+    elif desejo in ["capturar um pokemon", "capturar pokemon", "capturar","2"]:
         capturar_pokemon(player)
         rodada(player,inimigo)
-    elif desejo == "passar o turno" or desejo == "passar turno" or desejo == "3":
+    elif desejo in ["usar itens","itens","3"]:
+        usar_itens(player,inimigo)
+    elif desejo in ["fazer analises", "analises", "4"]:
+        analises(player,inimigo)
+    elif desejo in ["modificar energias descartaveis", "modificar energias", "5"]:
+        modificar_energias_descartaveis(player)
+        rodada(player,inimigo)
+    elif desejo in ["passar o turno", "passar turno", "passar", "6"]:
         passar_o_turno(player, inimigo)
     else:
         print ("ação invalida, tente novamente")
@@ -166,7 +180,7 @@ def atacar(pokemon, inimigo, player):
             if foi == 0:
                 resposta = input("Seu ataque não teve energias o suficiente, quer tentar outro ataque?")
             else:
-                print(f"O {pokemon['nome']} usou um ataque normal para atacar o {alvo['nome']} inimigo!")
+                print(f"O {pokemon['nome']} usou um ataque normal {pokemon['ataque normal']['nome']} para atacar o {alvo['nome']} inimigo!")
                 print(f"A vida atual do {alvo['nome']} inimigo é {alvo['vida']}")
                 pokemon["XP atu"] += 1
                 break
@@ -176,7 +190,7 @@ def atacar(pokemon, inimigo, player):
             if foi == 0:
                 resposta = input("Seu ataque não teve energias o suficiente, quer tentar outro ataque?")
             else:
-                print(f"O {pokemon['nome']} usou um ataque normal para atacar o {alvo['nome']} inimigo!")
+                print(f"O {pokemon['nome']} usou um ataque normal {pokemon['ataque especial']['nome']} para atacar o {alvo['nome']} inimigo!")
                 print(f"A vida atual do {alvo['nome']} inimigo é {alvo['vida']}")
                 pokemon["XP atu"] += 1
                 break
@@ -289,6 +303,23 @@ def modificar_energias_descartaveis(player):
     for i in range(len(player[9])):
         print (f"{i} - {player[9][i]}")
 
+def usar_itens(player,inimigo):
+    print (f"Inventario de {player[0]}")
+    for i in range(len(player[7])-1):
+        print (f"{i+1} - {player[7][i+1]['nome']}") 
+    
+def analises(player,inimigo):
+
+    analises_disponiveis = [0,"ver seus pokemon", "ver os pokemons inimigo", "ver suas energias", "ver as energias inimigas"]
+
+    print ("qual analise voce deseja fazer")
+    for i in range(len(analises_disponiveis)):
+        print (f"{i+1} - {analises_disponiveis[i+1]}")
+    desejo = input("qual?")
+
+    if desejo in ["ver seus pokemon", "1"]:
+        for i in range(len()):
+            pass
 
 inicio(player1,player2)
 
