@@ -1,2 +1,1 @@
-jonas = "hau"
-print (f"aaaaa {jonas}")
+print ("jonas")   ; print ("tertulia")

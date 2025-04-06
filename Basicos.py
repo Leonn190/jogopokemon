@@ -1,5 +1,7 @@
-import ataquesN
-import ataquesS
+from D_ataquesN import A
+from D_ataquesN import B
+from D_ataquesS import C
+from D_ataquesS import D
 import Evo1
 import Funções
 
@@ -20,8 +22,8 @@ def gerador_charmander():
         "Custo": 1
     }
 
-    Ataques_normais = [ataquesN.A]
-    Ataques_especiais = [ataquesS.C,ataquesS.D]
+    Ataques_normais = [A]
+    Ataques_especiais = [C,D]
 
     return Funções.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
     
@@ -42,8 +44,8 @@ def gerador_bulbasaur():
         "Custo": 1
     }
 
-    Ataques_normais = [ataquesN.A,ataquesN.B]
-    Ataques_especiais = [ataquesS.D]
+    Ataques_normais = [A,B]
+    Ataques_especiais = [D]
 
     return Funções.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
 
@@ -64,7 +66,7 @@ def gerador_squirtle():
         "Custo": 1
     }
 
-    Ataques_normais = [ataquesN.A,ataquesN.B]
-    Ataques_especiais = [ataquesS.C]
+    Ataques_normais = [A,B]
+    Ataques_especiais = [C]
 
     return Funções.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)

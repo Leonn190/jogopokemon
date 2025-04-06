@@ -1,12 +1,12 @@
 import random
-import ataquesN
-import ataquesS
+import F_ataquesN
+import F_ataquesS
 import Evo2
 
 def charizard(poke):
     
-    Ataques_normais = [ataquesN.A]
-    Ataques_especiais = [ataquesS.C]
+    Ataques_normais = [F_ataquesN.A]
+    Ataques_especiais = [F_ataquesS.C]
     
     poke["nome"] = "charizard"
     poke["tipo"] = ["fogo"]

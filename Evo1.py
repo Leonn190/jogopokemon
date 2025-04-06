@@ -1,12 +1,12 @@
 import random
-import ataquesN
-import ataquesS
+import F_ataquesN
+import F_ataquesS
 import Evo2
 
 def charmeleon(poke):
     
-    Ataques_normais = [ataquesN.A]
-    Ataques_especiais = [ataquesS.C]
+    Ataques_normais = [F_ataquesN.A]
+    Ataques_especiais = [F_ataquesS.C]
     
     poke["nome"] = "charmeleon"
     poke["tipo"] = ["fogo"]
@@ -28,8 +28,8 @@ def charmeleon(poke):
 
 def ivysaur(poke):
     
-    Ataques_normais = [ataquesN.A]
-    Ataques_especiais = [ataquesS.C]
+    Ataques_normais = [F_ataquesN.A]
+    Ataques_especiais = [F_ataquesS.C]
     
     poke["nome"] = "ivysaur"
     poke["tipo"] = ["planta","venenoso"]
@@ -51,8 +51,8 @@ def ivysaur(poke):
 
 def wartortle(poke):
     
-    Ataques_normais = [ataquesN.A]
-    Ataques_especiais = [ataquesS.C]
+    Ataques_normais = [F_ataquesN.A]
+    Ataques_especiais = [F_ataquesS.C]
     
     poke["nome"] = "charmeleon"
     poke["tipo"] = ["agua"]
