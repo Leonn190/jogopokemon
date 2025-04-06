@@ -1,14 +1,19 @@
 import Basicos
 import pokebolas
+import Spawn
+import random
 
 LV = {
-    "vida": 0
+    "vida": 0,
+    "custo": -50
 }
+
+Centro = [0]
 
 turno = 0
 
-inventario_p1 = []
-inventario_p2 = []
+inventario_p1 = [0,]
+inventario_p2 = [0,]
 
 player1 = ["nome",LV,LV,LV,LV,LV,LV,inventario_p1]
 player2 = ["nome",LV,LV,LV,LV,LV,LV,inventario_p2]
@@ -63,7 +68,7 @@ def rodada(player,inimigo):
     if desejo == "usar um pokemon" or desejo == "usar pokemon" or desejo =="1":
         opções_de_pokemon(player,inimigo)
     elif desejo == "capturar um pokemon" or desejo == "capturar" or desejo == "2":
-        capturar_pokemon(player)
+        capturar_pokemon(player,inimigo)
     elif desejo == "passar o turno" or desejo == "passar turno" or desejo == "3":
         passar_o_turno(player, inimigo)
     else:
@@ -98,6 +103,7 @@ def opções_de_pokemon(player, inimigo):
 
 def passar_o_turno(player, inimigo):
     global turno
+    global Centro
     if all(player[i]["vida"] <= 0 for i in range(1, 7)):
         print (f"{player[0]} foi derrotado, a vitória é de {inimigo[0]}!")
     elif all(inimigo[i]["vida"] <= 0 for i in range(1, 7)):
@@ -105,13 +111,19 @@ def passar_o_turno(player, inimigo):
     else:
         turno += 1
         print(f"Iniciando o turno {turno}, Vez de {inimigo[0]}")
+        if turno == 1:
+            for i in range(1,4):
+                Spawn.spawn_do_centro(Centro)
+        else:
+            Spawn.spawn_do_centro(Centro)
+        
         rodada(inimigo,player)
 
 def atacar(pokemon, inimigo, player):
     alvo_escolhido = int(input("escolha seu alvo, 1 ou 2"))
     alvo = inimigo[alvo_escolhido]
-    ataque = input(f"Quer atacar o {alvo['nome']} com o ataque normal ou o ataque especial?").lower()
     while True:
+        ataque = input(f"Quer atacar o {alvo['nome']} com o ataque normal ou o ataque especial?").lower()
         if ataque == "ataque normal" or ataque == "normal" or ataque == "1":
             pokemon["ataque normal"](pokemon, alvo, player, inimigo)
             print(f"O {pokemon['nome']} usou um ataque normal para atacar o {alvo['nome']} inimigo!")
@@ -139,13 +151,59 @@ def comprar(player,compras):
                 break
             else:
                 print("loja invalida, tente novamente")
-    print (f"A compra foi realizada! seu inventário atual é: {player[7]}") 
+    
+    print (f"A compra foi realizada! seu inventário atual é:")
+    for i in range(len(player[7])-1):
+        print (f"{i+1} - {player[7][i+1]['nome']}") 
 
-def capturar_pokemon(player):
-    pokebolas_existentes = ["Pokebola","Gratball","Ultraball","Masterball"]
-    pokebola_utilizada = int(input(f"escolha a pokebola que voce vai usar! escolha o numero do item no inventário: {player[7]}"))
-    if player[7][pokebola_utilizada]["nome"] in pokebolas_existentes:
-        del player[7][pokebola_utilizada]
+def capturar_pokemon(player,inimigo):
+    global Centro
+    global LV
+
+    print ("pokemons que estão atualmente no centro:")
+    for i in range(len(Centro)-1):
+        print (f"{i+1} - {Centro[i+1]['nome']}")
+    pokemon_escolhido = int(input("Qual o numero do pokemon que voce deseja capturar?"))
+
+    pokebolas_existentes = ["pokebola","greatball","ultraball","masterball"]
+    
+    resposta = 2
+
+    for i in range(len(player[7])-1):
+        if player[7][i+1]["nome"] in pokebolas_existentes:
+            resposta = "sim"
+
+    if resposta == 2:
+        print ("sem pokebolas disponiveis")
+
+    print (resposta)
+    while resposta == "sim" or resposta == "s" or resposta == "1":
+        for i in range(len(player[7])-1):
+            print (f"{i+1} - {player[7][i+1]['nome']}")
+        pokebola_utilizada = int(input("escolha a pokebola que voce vai usar! escolha o numero do item no inventário mostrado acima:"))
+        if player[7][pokebola_utilizada]["nome"] in pokebolas_existentes:
+            maestria = random.randint(1,player[7][pokebola_utilizada]["poder"] * 2)
+            if maestria > Centro[pokemon_escolhido]["dificuldade"]:
+                if LV in player:
+                    for i in range(len(player)-2):
+                        if player[i+1]["custo"] == -50:
+                            player[i+1] = Centro[pokemon_escolhido]["gerador"]()
+                            print (f"Parabens, você capturou um {Centro[pokemon_escolhido]['nome']} utilizando uma {player[7][pokebola_utilizada]['nome']}! ele está na posição {i+1}")
+                            del Centro[pokemon_escolhido]
+                            del player[7][pokebola_utilizada]
+                            rodada(player,inimigo)
+                else:
+                    print ("sua lista de pokemon está cheia")
+            else:
+                print ("Voce falhou em capturar o pokemon, que pena")
+        
+            del player[7][pokebola_utilizada]
+            resposta = input("quer tentar mais uma vez?")
+                
+        else:
+            print ("O item selecionado não é uma pokebola ou não existe")
+    rodada(player,inimigo)
+    
 
 
 inicio(player1,player2)

@@ -1,7 +1,7 @@
 import random
 import ataquesN
 import ataquesS
-
+import Evo2
 
 def charizard(poke):
     

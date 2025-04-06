@@ -1,19 +1,23 @@
 import random
 
 Pokebola = {
-
+    "nome": "pokebola",
+    "poder": 2
 }
 
 Gratball = {
-
+    "nome": "greatball",
+    "poder": 4
 }
 
 Ultraball = {
-
+    "nome": "ultraball",
+    "poder": 6
 }
 
 Masterball = {
-
+    "nome": "masterball",
+    "poder": 9
 }
 
 pokebolas = [Pokebola,Gratball,Ultraball,Masterball]

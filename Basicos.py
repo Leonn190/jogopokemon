@@ -1,13 +1,13 @@
 import ataquesN
 import ataquesS
-import pokemon.Evo1
+import Evo1
 import Funções
 
 def gerador_charmander():
     
     Nome = "Charmander"
     Tipo = ["fogo"]
-    Evolução = pokemon.Evo1.charmeleon
+    Evolução = Evo1.charmeleon
 
     Status_base = {
         "Vida": 100,
@@ -29,7 +29,7 @@ def gerador_bulbasaur():
     
     Nome = "Bulbasaur"
     Tipo = ["planta","veneno"]
-    Evolução = pokemon.Evo1.ivysaur
+    Evolução = Evo1.ivysaur
 
     Status_base = {
         "Vida": 100,
@@ -51,7 +51,7 @@ def gerador_squirtle():
 
     Nome = "Squirtle"
     Tipo = ["agua"]
-    Evolução = pokemon.Evo1.wartortle
+    Evolução = Evo1.wartortle
 
     Status_base = {
         "Vida": 100,
