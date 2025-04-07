@@ -1,12 +1,8 @@
 import Basicos
-import pokebolas
+import itens
 import Spawn
 import random
-
-LV = {
-    "vida": 0,
-    "custo": -50
-}
+from prettytable import PrettyTable
 
 Centro = [0]
 
@@ -28,17 +24,20 @@ Energias = ["fogo", "agua", "eletrico", "planta", "gelo", "lutador", "veneno", "
 descartaveis_p1 = []
 descartaveis_p2 = []
 
-player1 = ["nome",LV,LV,LV,LV,LV,LV,inventario_p1,Energias_p1,descartaveis_p1]
-player2 = ["nome",LV,LV,LV,LV,LV,LV,inventario_p2,Energias_p2,descartaveis_p2]
+pokemon_p1 = [0]
+pokemon_p2 = [0]
+
+player1 = ["nome",pokemon_p1,inventario_p1,Energias_p1,descartaveis_p1]
+player2 = ["nome",pokemon_p2,inventario_p2,Energias_p2,descartaveis_p2]
 
 def inicio(player1, player2):
 
     player1[0] = input("Qual é seu nome player 1? ")
     player2[0] = input("Qual é seu nome player 2? ")
 
-    intersecção = input("irei fornecer 15 energias para cada jogador, certo?")
+    intersecção = input("irei fornecer 20 energias para cada jogador, certo?")
 
-    ganhar_energia(player1,15)
+    ganhar_energia(player1,20)
 
     intersecção = input(f"Sua vez {player2[0]}, pronto?")
 
@@ -47,16 +46,19 @@ def inicio(player1, player2):
     while True:
         pokemon_inicial = input(f"Qual será seu Pokémon inicial {player1[0]}? Charmander, Bulbasaur ou Squirtle? ").lower()
         if pokemon_inicial == "charmander" or pokemon_inicial == "1":
-            player1[1] = Basicos.gerador_charmander()
-            print(f"Charmander com {player1[1]['IV']} de IV foi selecionado")
+            pokemon1_p1 = Basicos.gerador_charmander()
+            player1[1].append(pokemon1_p1)
+            print(f"Charmander com {player1[1][1]['IV']} de IV foi selecionado")
             break
         elif pokemon_inicial == "bulbasaur" or pokemon_inicial == "2":
-            player1[1] = Basicos.gerador_bulbasaur()
-            print(f"Bulbasauro com {player1[1]['IV']} de IV foi selecionado")
+            pokemon1_p1 = Basicos.gerador_bulbasaur()
+            player1[1].append(pokemon1_p1)
+            print(f"Bulbasauro com {player1[1][1]['IV']} de IV foi selecionado")
             break
         elif pokemon_inicial == "squirtle" or pokemon_inicial == "3":
-            player1[1] = Basicos.gerador_squirtle()
-            print(f"Squirtle com {player1[1]['IV']} de IV foi selecionado")
+            pokemon1_p1 = Basicos.gerador_squirtle()
+            player1[1].append(pokemon1_p1)
+            print(f"Squirtle com {player1[1][1]['IV']} de IV foi selecionado")
             break
         else:
             print("Pokémon inválido. Tente novamente.")
@@ -64,16 +66,19 @@ def inicio(player1, player2):
     while True:
         pokemon_inicial = input(f"Qual será seu Pokémon inicial {player2[0]}? Charmander, Bulbasaur ou Squirtle? ").lower()
         if pokemon_inicial == "charmander" or pokemon_inicial == "1":
-            player2[1] = Basicos.gerador_charmander()
-            print(f"Charmander com {player2[1]['IV']} de IV foi selecionado")
+            pokemon1_p2 = Basicos.gerador_charmander()
+            player2[1].append(pokemon1_p2)
+            print(f"Charmander com {player2[1][1]['IV']} de IV foi selecionado")
             break
         elif pokemon_inicial == "bulbasauro" or pokemon_inicial == "2":
-            player2[1] = Basicos.gerador_bulbasaur()
-            print(f"Bulbasauro com {player2[1]['IV']} de IV foi selecionado")
+            pokemon1_p2 = Basicos.gerador_bulbasaur()
+            player2[1].append(pokemon1_p2)
+            print(f"Bulbasauro com {player2[1][1]['IV']} de IV foi selecionado")
             break
         elif pokemon_inicial == "squirtle" or pokemon_inicial == "3":
-            player2[1] = Basicos.gerador_squirtle()
-            print(f"Squirtle com {player2[1]['IV']} de IV foi selecionado")
+            pokemon1_p2 = Basicos.gerador_squirtle()
+            player2[1].append(pokemon1_p2)
+            print(f"Squirtle com {player2[1][1]['IV']} de IV foi selecionado")
             break
         else:
             print("Pokémon inválido. Tente novamente.")
@@ -111,6 +116,7 @@ def rodada(player,inimigo):
         usar_itens(player,inimigo)
     elif desejo in ["fazer analises", "analises", "4"]:
         analises(player,inimigo)
+        rodada(player,inimigo)
     elif desejo in ["modificar energias descartaveis", "modificar energias", "5"]:
         modificar_energias_descartaveis(player)
         rodada(player,inimigo)
@@ -123,7 +129,7 @@ def rodada(player,inimigo):
 def opções_de_pokemon(player, inimigo):
     while True:
         pokemon_escolhido = int(input("Qual pokemon voce deseja escolher? escolha de 1 a 6"))
-        pokemon = player[pokemon_escolhido]
+        pokemon = player[1][pokemon_escolhido]
         if pokemon != 0:
             break
         else:
@@ -149,9 +155,9 @@ def opções_de_pokemon(player, inimigo):
 def passar_o_turno(player, inimigo):
     global turno
     global Centro
-    if all(player[i]["vida"] <= 0 for i in range(1, 7)):
+    if all(player[1][i+1]["vida"] <= 0 for i in range(len(player[1])-1)):
         print (f"{player[0]} foi derrotado, a vitória é de {inimigo[0]}!")
-    elif all(inimigo[i]["vida"] <= 0 for i in range(1, 7)):
+    elif all(inimigo[1][i+1]["vida"] <= 0 for i in range(len(inimigo[1])-1)):
         print (f"{inimigo[0]} foi derrotado, a vitória é de {player[0]}!")
     else:
         turno += 1
@@ -166,7 +172,7 @@ def passar_o_turno(player, inimigo):
 
 def atacar(pokemon, inimigo, player):
     alvo_escolhido = int(input("escolha seu alvo, 1 a 6"))
-    alvo = inimigo[alvo_escolhido]
+    alvo = inimigo[1][alvo_escolhido]
     resposta = "1"
    
     while resposta == "sim" or resposta == "s" or resposta == "1":
@@ -202,17 +208,25 @@ def atacar(pokemon, inimigo, player):
 def comprar(player,compras):
     for i in range(compras):
         while True:
-            loja = input(f"{player[0]}, você deseja comprar em qual loja? loja de pokebolas, de itens ?").lower()
-            if loja == "loja de pokebolas" or loja == "pokebolas" or loja == "1":
-                player[7].append (pokebolas.ganhar_pokebola(player,"aleatoria"))
-                print ("compra realizada na loja de pokebolas")
+            loja = input(f"{player[0]}, você deseja comprar em qual loja? loja de pokebolas, de itens ou de amplificadores ?").lower()
+            if loja in ["loja de pokebolas", "pokebolas","1"]:
+                tipo = "pokebola"
+                break
+            elif loja in ["loja de itens", "itens","2"]:
+                tipo = "item"
+                break
+            elif loja in ["loja de amplificadores","amplificadores","3"]:
+                tipo = "amplificador"
                 break
             else:
                 print("loja invalida, tente novamente")
+        ganho = itens.ganhar_item(player,tipo)
+        print (f"Você ganhou: {ganho['nome']}!")
+        player[2].append(ganho)
     
     print (f"A compra foi realizada! seu inventário atual é:")
-    for i in range(len(player[7])-1):
-        print (f"{i+1} - {player[7][i+1]['nome']}") 
+    for i in range(len(player[2])-1):
+        print (f"{i+1} - {player[2][i+1]['nome']}") 
 
 def capturar_pokemon(player):
     global Centro
@@ -227,35 +241,34 @@ def capturar_pokemon(player):
     
     resposta = "não"
 
-    for i in range(len(player[7])-1):
-        if player[7][i+1]["nome"] in pokebolas_existentes:
+    for i in range(len(player[2])-1):
+        if player[2][i+1]["nome"] in pokebolas_existentes:
             resposta = "sim"
 
     if resposta == "não":
         print ("sem pokebolas disponiveis")
 
     while resposta == "sim" or resposta == "s" or resposta == "1":
-        for i in range(len(player[7])-1):
-            print (f"{i+1} - {player[7][i+1]['nome']}")
+        for i in range(len(player[2])-1):
+            print (f"{i+1} - {player[2][i+1]['nome']}")
         pokebola_utilizada = int(input("escolha a pokebola que voce vai usar! escolha o numero do item no inventário mostrado acima:"))
-        if player[7][pokebola_utilizada]["nome"] in pokebolas_existentes:
-            maestria = random.randint(1,player[7][pokebola_utilizada]["poder"] * 2)
+        if player[2][pokebola_utilizada]["nome"] in pokebolas_existentes:
+            maestria = random.randint(1,player[2][pokebola_utilizada]["poder"] * 2)
             if maestria > Centro[pokemon_escolhido]["dificuldade"]:
-                if LV in player:
-                    for i in range(len(player)-2):
-                        if player[i+1]["custo"] == -50:
-                            player[i+1] = Centro[pokemon_escolhido]["gerador"]()
-                            print (f"Parabens, você capturou um {Centro[pokemon_escolhido]['nome']} utilizando uma {player[7][pokebola_utilizada]['nome']}! ele está na posição {i+1}")
-                            del Centro[pokemon_escolhido]
-                            del player[7][pokebola_utilizada]
-                            return
+                if len(player[1]) < 7:
+                    novo_pokemon = Centro[pokemon_escolhido]["gerador"]()
+                    player[1].append (novo_pokemon)
+                    print (f"Parabens, você capturou um {Centro[pokemon_escolhido]['nome']} utilizando uma {player[2][pokebola_utilizada]['nome']}! ele está na posição {len(player[1])-1} e tem {Centro[pokemon_escolhido]['IV']} de IV")
+                    del Centro[pokemon_escolhido]
+                    del player[2][pokebola_utilizada]
+                    return
                 else:
                     print ("sua lista de pokemon está cheia")
             else:
                 print ("Voce falhou em capturar o pokemon, que pena")
         
-            del player[7][pokebola_utilizada]
-            resposta = input("quer tentar mais uma vez?").lower()
+                del player[2][pokebola_utilizada]
+                resposta = input("quer tentar mais uma vez?").lower()
                 
         else:
             print ("O item selecionado não é uma pokebola ou não existe")
@@ -264,7 +277,7 @@ def ganhar_energia(player,numero):
     global Energias
     for i in range(numero):
         j = random.choice(Energias)
-        player[8][j] = player[8][j] + 1
+        player[3][j] = player[3][j] + 1
         print (f"{player[0]} ganhou 1 energia de {j}")
 
 def modificar_energias_descartaveis(player):
@@ -273,8 +286,8 @@ def modificar_energias_descartaveis(player):
         r = "sim"
         while r in ["sim","s"]:
             escolha = input(f"qual voce quer adicionar, {player[0]}?").lower()
-            if escolha in Energias and escolha not in player[9]:
-                player[9].append (escolha)
+            if escolha in Energias and escolha not in player[4]:
+                player[4].append (escolha)
                 r = input("vamos adicionar mais alguma?").lower()
             else:
                 print ("essa energia não existe ou já foi adicionada, tente novamente")
@@ -284,42 +297,75 @@ def modificar_energias_descartaveis(player):
             decisão = input(f"{player[0]}, você deseja adicionar ou remover um tipo?").lower()
             if decisão == "adicionar" or decisão == "1":
                 escolha = input("qual voce quer adicionar?").lower()
-                if escolha in Energias and escolha not in player[9]:
-                    player[9].append (escolha)
+                if escolha in Energias and escolha not in player[4]:
+                    player[4].append (escolha)
                     resposta = input("energia foi adicionada, deseja fazer mais alguma modificação?")
                 else:
                     print ("essa energia não existe ou já está na lista, tente novamente")
             elif decisão == "remover" or decisão == "2":
-                if len(player[9]) == 1:
-                    print (f"existe apenas o tipo {player[9][0]} nas suas energias descartaveis, adicione mais uma para remove-lo")
+                if len(player[4]) == 1:
+                    print (f"existe apenas o tipo {player[4][0]} nas suas energias descartaveis, adicione mais uma para remove-lo")
                 else: 
                     print ("mostrando sua lista de energias abaixo:")
-                    for i in range(len(player[9])):
-                        print (f"{i} - {player[9][i]}")
+                    for i in range(len(player[4])):
+                        print (f"{i} - {player[4][i]}")
                     escolha = int(input("escolha o numero da energia que irá remover da lista acima"))
-                    del player[9][escolha]
+                    del player[4][escolha]
                     resposta = input("O tipo foi removido, deseja fazer mais alguma modificação")
-    print ("mostrando sua lista de energias descartaveis abaixo após as modificações: (0 é a)")
-    for i in range(len(player[9])):
-        print (f"{i} - {player[9][i]}")
+    print ("mostrando sua lista de energias descartaveis abaixo após as modificações: (0 é a principal)")
+    for i in range(len(player[4])):
+        print (f"{i} - {player[4][i]}")
 
 def usar_itens(player,inimigo):
-    print (f"Inventario de {player[0]}")
-    for i in range(len(player[7])-1):
-        print (f"{i+1} - {player[7][i+1]['nome']}") 
+    tabela = PrettyTable()
+
+    U = player[2]
+
+    tabela.title = f"Inventario de {player[0]}"
+    tabela.field_names = ["pos", " Nome do item ", "Classe", "Descrição"]
+    for i in range(len(U)-1):
+        tabela.add_row ([i+1,U[i+1]["nome"],U[i+1]["classe"],U[i+1]["Descrição"]]) 
+    print (tabela)
     
 def analises(player,inimigo):
+    global Energias
 
-    analises_disponiveis = [0,"ver seus pokemon", "ver os pokemons inimigo", "ver suas energias", "ver as energias inimigas"]
+    analises_disponiveis = [0,"ver seus pokemons", "ver os pokemons inimigos", "ver suas energias", "ver as energias inimigas"]
+    resposta = "sim"
+    
+    while resposta not in ["n","nao","não"]:
+        tabela = PrettyTable()
+        print ("qual analise voce deseja fazer")
+        for i in range(len(analises_disponiveis)-1):
+            print (f"{i+1} - {analises_disponiveis[i+1]}")
+        desejo = input("qual?")
+        
+        Tipo = "fogo"
 
-    print ("qual analise voce deseja fazer")
-    for i in range(len(analises_disponiveis)):
-        print (f"{i+1} - {analises_disponiveis[i+1]}")
-    desejo = input("qual?")
-
-    if desejo in ["ver seus pokemon", "1"]:
-        for i in range(len()):
-            pass
+        if desejo in ["ver seus pokemon", "1","ver os pokemons inimigos", "2"]:
+            if desejo in ["ver seus pokemon", "1"]:
+                V = player
+            elif desejo in ["ver os pokemons inimigos", "2"]:
+                V = inimigo
+            for i in range(len(V[1])-1):
+                U = V[1][i+1]
+                tabela.title =  f"Status do {U['nome']} de {V[0]}"
+                tabela.field_names = ["Vida"," ATK ","Sp ATK"," DEF ","Sp DEF"," VEL ","custo","ataque normal","ataque especial","XP","IV"]
+                tabela.add_row([U["vida"],U["atk"],U["atk SP"],U["def"],U["def SP"],U["velocidade"],U["custo"],U["ataque normal"]["nome"],U["ataque especial"]["nome"],U["XP atu"],U["IV"]])
+        elif desejo in ["ver suas energias", "3","ver as energias inimigas", "4"]:
+            if desejo in ["ver suas energias", "3"]:
+                V = player
+            elif desejo in ["ver as energias inimigas", "4"]:
+                V = inimigo
+            exibi = []
+            for Tipo in Energias:
+                exibi.append(V[3][Tipo])
+            tabela.title = f"Coleção de energias do {V[0]}"
+            tabela.field_names = Energias
+            tabela.add_row(exibi)
+        print (tabela)
+        resposta = input("Deseja realizar mais alguma analise?")
+        tabela = 0
 
 inicio(player1,player2)
 

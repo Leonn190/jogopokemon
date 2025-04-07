@@ -6,14 +6,14 @@ def A(atacante,alvo,player,inimigo,F):
     pagou = 0
     for i in range(len(F["custo"])):
         if F["custo"][i] == "normal":
-            for j in range(len(player[9])):
-                if player[8][player[9][j]] >= 1:
-                    player[8][player[9][j]] = player[8][player[9][j]] - 1
+            for j in range(len(player[4])):
+                if player[3][player[4][j]] >= 1:
+                    player[3][player[4][j]] = player[3][player[4][j]] - 1
                     pagou += 1
                     break
         else:
-            if player[8][F["custo"][i]] >= 1:
-                player[8][F["custo"][i]] = player[8][F["custo"][i]] - 1
+            if player[3][F["custo"][i]] >= 1:
+                player[3][F["custo"][i]] = player[3][F["custo"][i]] - 1
                 pagou += 1
     
     if pagou != len(F["custo"]):
@@ -33,14 +33,14 @@ def B(atacante,alvo,player,inimigo,F):
     pagou = 0
     for i in range(len(F["custo"])):
         if F["custo"][i] == "normal":
-            for j in range(len(player[9])):
-                if player[8][player[9][j]] >= 1:
-                    player[8][player[9][j]] = player[8][player[9][j]] - 1
+            for j in range(len(player[4])):
+                if player[3][player[4][j]] >= 1:
+                    player[3][player[4][j]] = player[3][player[4][j]] - 1
                     pagou += 1
                     break
         else:
-            if player[8][F["custo"][i]] >= 1:
-                player[8][F["custo"][i]] = player[8][F["custo"][i]] - 1
+            if player[3][F["custo"][i]] >= 1:
+                player[3][F["custo"][i]] = player[3][F["custo"][i]] - 1
                 pagou += 1
     
     if pagou != len(F["custo"]):
