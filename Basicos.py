@@ -341,7 +341,7 @@ Jynx = {
 
 Mewtwo = {
 
-    "nome": "Mewtwo",
+    "nome": "mewtwo",
     "raridade": 0,
     "dificuldade": 0,
     "code": 1,
