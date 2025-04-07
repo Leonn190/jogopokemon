@@ -81,9 +81,10 @@ def inicio(player1, player2):
         else:
             print("Pokémon inválido. Tente novamente.")
     
-    print ("Agora que todos escolheram o pokemon inicial, vamos fazer as 6 compras iniciais!")
-    Funções.comprar(player1,6)
-    Funções.comprar(player2,6)
+    print ("Agora que todos escolheram o pokemon inicial, vamos fazer as 5 compras iniciais!")
+    
+    Funções.comprar(player1,5)
+    Funções.comprar(player2,5)
 
     intersecção = input("Por fim precisamos definir as energias descartaveis de cada jogador, essas energias serão usadas na ordem que voce posicionar elas, certo?")
 

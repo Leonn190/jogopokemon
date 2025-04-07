@@ -5,7 +5,7 @@ from Ataques_S import C,D
 Venusaur = {
     "nome": "Venusaur",
     "tipo": ["planta","veneno"],
-    "evolução": "c",
+    "evolução": 0,
     "estagio": "estagio 2",
     "vida": 30,
     "atk": 20,
@@ -22,7 +22,7 @@ Venusaur = {
 Charizard = {
     "nome": "",
     "tipo": ["fogo,voador"],
-    "evolução": "c",
+    "evolução": 0,
     "estagio": "estagio 2",
     "vida": 30,
     "atk": 20,
@@ -39,7 +39,7 @@ Charizard = {
 Blastoise = {
     "nome": "blastoise",
     "tipo": ["agua"],
-    "evolução": "c",
+    "evolução": 0,
     "estagio": "estagio 2",
     "vida": 30,
     "atk": 20,
@@ -52,3 +52,112 @@ Blastoise = {
     "ataques normais": random.choice([B]),
     "ataques especiais": random.choice([C,D])
 }
+
+Machamp = {
+    "nome": "Machamp",
+    "tipo": ["planta","veneno"],
+    "evolução": 0,
+    "estagio": "estagio 1",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
+
+Gengar = {
+    "nome": "gengar",
+    "tipo": ["planta","veneno"],
+    "evolução": 0,
+    "estagio": "estagio 1",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
+
+Golem = {
+    "nome": "Golem",
+    "tipo": ["planta","veneno"],
+    "evolução": 0,
+    "estagio": "estagio 1",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
+
+Butterfree = {
+    "nome": "butterfree",
+    "tipo": ["planta","veneno"],
+    "evolução": 0,
+    "estagio": "estagio 1",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
+
+Alakazam = {
+    "nome": "alakazam",
+    "tipo": ["planta","veneno"],
+    "evolução": 0,
+    "estagio": "estagio 1",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
+
+Dragonite = {
+    "nome": "dragonite",
+    "tipo": ["planta","veneno"],
+    "evolução": 0,
+    "estagio": "estagio 1",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
+
+
+
+
+
+
+

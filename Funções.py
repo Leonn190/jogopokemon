@@ -24,8 +24,15 @@ def comprar(player,compras):
         player[2].append(ganho)
     
     print (f"A compra foi realizada! seu inventário atual é:")
-    for i in range(len(player[2])-1):
-        print (f"{i+1} - {player[2][i+1]['nome']}") 
+    tabela = PrettyTable()
+
+    U = player[2]
+
+    tabela.title = f"Inventario de {player[0]}"
+    tabela.field_names = ["Num", " Nome do item ", "Classe", "Descrição"]
+    for i in range(len(U)-1):
+        tabela.add_row ([i+1,U[i+1]["nome"],U[i+1]["classe"],U[i+1]["Descrição"]]) 
+    print (tabela) 
 
 def ganhar_energia(player,numero):
     global Energias
