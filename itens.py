@@ -34,55 +34,63 @@ Masterball = {
 
 Poçao = {
     "nome": "poção",
-    "classe": "consumivel",
+    "classe": "poçao",
     "Descrição": "Cura 30 de HP dos pokemon",
     "raridade": 1,
-    "Cura": 30
+    "cura": 30
 } 
 
 Super_Poçao = {
     "nome": "super poção",
-    "classe": "consumivel",
+    "classe": "poçao",
     "Descrição": "Cura 60 de HP dos pokemon",
     "raridade": 2,
-    "Cura": 60
+    "cura": 60
 } 
 
 Hiper_Poçao = {
     "nome": "hiper poção",
-    "classe": "consumivel",
+    "classe": "poçao",
     "Descrição": "Cura 100 de HP dos pokemon",
     "raridade": 3,
-    "Cura": 100
+    "cura": 100
 } 
 
 Mega_poção = {
     "nome": "mega poção",
-    "classe": "consumivel",
+    "classe": "poçao",
     "Descrição": "Cura 150 de HP dos pokemon",
     "raridade": 4,
-    "Cura": 150
+    "cura": 150
 } 
 
 Caixa = {
     "nome": "caixa",
-    "classe": "consumivel",
+    "classe": "caixa",
     "Descrição": "serve para fazer 3 compras",
     "raridade": 2,
-    "Compra": 3
+    "compra": 3
 }
 
 Pilha_de_caixas = {
     "nome": "pilha de caixas",
-    "classe": "consumivel",
+    "classe": "caixa",
     "Descrição": "serve para fazer 5 compras",
     "raridade": 4,
-    "Compra": 5
+    "compra": 5
+}
+
+Coletor = {
+    "nome": "coletor",
+    "classe": "coletor",
+    "Descrição": "serve para ganhar 3 energias",
+    "raridade": 1,
+    "compra": 3
 }
 
 Citrino = {
     "nome": "citrino",
-    "classe": "consumivel",
+    "classe": "amplificador",
     "Descrição": "aumenta a defesa dos pokemons",
     "raridade": 3,
     "aumento": "def"
@@ -90,7 +98,7 @@ Citrino = {
 
 Safira = {
     "nome": "safira",
-    "classe": "consumivel",
+    "classe": "amplificador",
     "Descrição": "aumenta a defesa especial dos pokemons",
     "raridade": 3,
     "aumento": "def SP"
@@ -98,7 +106,7 @@ Safira = {
 
 Rubi = {
     "nome": "rubi",
-    "classe": "consumivel",
+    "classe": "amplificador",
     "Descrição": "aumenta a ataque dos pokemons",
     "raridade": 3,
     "aumento": "atk"
@@ -106,7 +114,7 @@ Rubi = {
 
 Ametista = {
     "nome": "ametista",
-    "classe": "consumivel",
+    "classe": "amplificador",
     "Descrição": "aumenta a ataque especial dos pokemons",
     "raridade": 3,
     "aumento": "atk SP"
@@ -114,30 +122,13 @@ Ametista = {
 
 Esmeralda = {
     "nome": "esmeralda",
-    "classe": "consumivel",
+    "classe": "amplificador",
     "Descrição": "aumenta 1 de XP dos pokemon",
     "raridade": 4,
     "aumento": "XP atu"
 }
 
-itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Pilha_de_caixas]
+itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Pilha_de_caixas,Coletor]
 pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball]
 amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
-
-def ganhar_item(player,tipo):
-
-    raridades = []
-
-    if tipo == "item":
-        U = itens_disponiveis
-    elif tipo == "pokebola":
-        U = pokebolas_disponiveis
-    elif tipo == "amplificador":
-        U = amplificadores_disponiveis
-
-    for i in range(len(U)):
-        for j in range(6 - U[i]["raridade"]):
-            raridades.append(U[i])
-    item = random.choice(raridades)
-    return item
         

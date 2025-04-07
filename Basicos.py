@@ -1,72 +1,60 @@
-from D_ataquesN import A
-from D_ataquesN import B
-from D_ataquesS import C
-from D_ataquesS import D
-import Evo1
-import Funções
+from Ataques_N import A,B
+from Ataques_S import C,D
+from Evo1 import Ivysaur,Charmeleon,Wartortle
 
-def gerador_charmander():
-    
-    Nome = "Charmander"
-    Tipo = ["fogo"]
-    Evolução = Evo1.charmeleon
+Bulbasaur = {
+    "nome": "bulbasaur",
+    "raridade": 0,
+    "dificuldade": 0,
+    "code": 1,
+    "tipo": ["planta","veneno"],
+    "evolução": Ivysaur,
+    "vida": 100,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": [B],
+    "ataques especiais": [C,D]
+}
 
-    Status_base = {
-        "Vida": 100,
-        "Atk": 20,
-        "Atk SP": 20,
-        "Def": 10,
-        "Def SP": 10,
-        "Velocidade": 3,
-        "XP": 3,
-        "Custo": 1
-    }
+Charmander = {
+    "nome": "charmander",
+    "raridade": 0,
+    "dificuldade": 0,
+    "code": 2,
+    "tipo": ["fogo"],
+    "evolução": Charmeleon,
+    "vida": 100,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": [A],
+    "ataques especiais": [C,D]
+}
 
-    Ataques_normais = [A]
-    Ataques_especiais = [C,D]
-
-    return Funções.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
-    
-def gerador_bulbasaur():
-    
-    Nome = "Bulbasaur"
-    Tipo = ["planta","veneno"]
-    Evolução = Evo1.ivysaur
-
-    Status_base = {
-        "Vida": 100,
-        "Atk": 20,
-        "Atk SP": 20,
-        "Def": 10,
-        "Def SP": 10,
-        "Velocidade": 3,
-        "XP": 3,
-        "Custo": 1
-    }
-
-    Ataques_normais = [A,B]
-    Ataques_especiais = [D]
-
-    return Funções.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
-
-def gerador_squirtle():
-
-    Nome = "Squirtle"
-    Tipo = ["agua"]
-    Evolução = Evo1.wartortle
-
-    Status_base = {
-        "Vida": 100,
-        "Atk": 20,
-        "Atk SP": 20,
-        "Def": 10,
-        "Def SP": 10,
-        "Velocidade": 3,
-        "XP": 3,
-        "Custo": 1
-    }
-
-    Ataques_normais = [A,B]
-    Ataques_especiais = [C]
-
-    return Funções.Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução)
+Squirtle = {
+    "nome": "Squirtle",
+    "raridade": 0,
+    "dificuldade": 0,
+    "code": 1,
+    "tipo": ["agua"],
+    "evolução": Wartortle,
+    "vida": 100,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": [B,A],
+    "ataques especiais": [C]
+}

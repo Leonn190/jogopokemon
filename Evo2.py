@@ -1,27 +1,54 @@
 import random
-import F_ataquesN
-import F_ataquesS
-import Evo2
+from Ataques_N import A,B
+from Ataques_S import C,D
 
-def charizard(poke):
-    
-    Ataques_normais = [F_ataquesN.A]
-    Ataques_especiais = [F_ataquesS.C]
-    
-    poke["nome"] = "charizard"
-    poke["tipo"] = ["fogo"]
-    poke["evolução"] = "n"
-    poke["estágio"] = "Estágio 1"
-   
-    poke["vida"] += 10
-    poke["def"] += 10
-    poke["def SP"] += 10
-    poke["velocidade"] = 2
-    poke["custo"] = 2
-    poke["XP"] = 3
-    poke["XP atu"] = 0
+Venusaur = {
+    "nome": "Venusaur",
+    "tipo": ["planta","veneno"],
+    "evolução": "c",
+    "estagio": "estagio 2",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
 
-    poke["ataque_normal"] = random.choice(Ataques_normais)
-    poke["ataque_especial"] = random.choice(Ataques_especiais)
+Charizard = {
+    "nome": "",
+    "tipo": ["fogo,voador"],
+    "evolução": "c",
+    "estagio": "estagio 2",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}
 
-    return poke
+Blastoise = {
+    "nome": "blastoise",
+    "tipo": ["agua"],
+    "evolução": "c",
+    "estagio": "estagio 2",
+    "vida": 30,
+    "atk": 20,
+    "atk SP": 30,
+    "def": 20,
+    "def SP": 30,
+    "velocidade": 3,
+    "XP": 3,
+    "custo": 3,
+    "ataques normais": random.choice([B]),
+    "ataques especiais": random.choice([C,D])
+}

@@ -1,6 +1,5 @@
-import Basicos
-import itens
-import Spawn
+import Gerador
+import Funções
 import random
 from prettytable import PrettyTable
 
@@ -36,28 +35,28 @@ def inicio(player1, player2):
 
     intersecção = input("irei fornecer 20 energias para cada jogador, certo?")
 
-    ganhar_energia(player1,20)
+    Funções.ganhar_energia(player1,20)
 
     intersecção = input(f"Sua vez {player2[0]}, pronto?")
 
-    ganhar_energia(player2,12)
+    Funções.ganhar_energia(player2,20)
 
     while True:
         pokemon_inicial = input(f"Qual será seu Pokémon inicial {player1[0]}? Charmander, Bulbasaur ou Squirtle? ").lower()
         if pokemon_inicial == "charmander" or pokemon_inicial == "1":
-            pokemon1_p1 = Basicos.gerador_charmander()
+            pokemon1_p1 = Gerador.Gerador_final(2)
             player1[1].append(pokemon1_p1)
-            print(f"Charmander com {player1[1][1]['IV']} de IV foi selecionado")
+            print(f"Charmander com {player1[1][1].IV} de IV foi selecionado")
             break
         elif pokemon_inicial == "bulbasaur" or pokemon_inicial == "2":
-            pokemon1_p1 = Basicos.gerador_bulbasaur()
+            pokemon1_p1 = Gerador.Gerador_final(1)
             player1[1].append(pokemon1_p1)
-            print(f"Bulbasauro com {player1[1][1]['IV']} de IV foi selecionado")
+            print(f"Bulbasauro com {player1[1][1].IV} de IV foi selecionado")
             break
         elif pokemon_inicial == "squirtle" or pokemon_inicial == "3":
-            pokemon1_p1 = Basicos.gerador_squirtle()
+            pokemon1_p1 = Gerador.Gerador_final(3)
             player1[1].append(pokemon1_p1)
-            print(f"Squirtle com {player1[1][1]['IV']} de IV foi selecionado")
+            print(f"Squirtle com {player1[1][1].IV} de IV foi selecionado")
             break
         else:
             print("Pokémon inválido. Tente novamente.")
@@ -65,26 +64,26 @@ def inicio(player1, player2):
     while True:
         pokemon_inicial = input(f"Qual será seu Pokémon inicial {player2[0]}? Charmander, Bulbasaur ou Squirtle? ").lower()
         if pokemon_inicial == "charmander" or pokemon_inicial == "1":
-            pokemon1_p2 = Basicos.gerador_charmander()
+            pokemon1_p2 = Gerador.Gerador_final(2)
             player2[1].append(pokemon1_p2)
-            print(f"Charmander com {player2[1][1]['IV']} de IV foi selecionado")
+            print(f"Charmander com {player2[1][1].IV} de IV foi selecionado")
             break
         elif pokemon_inicial == "bulbasauro" or pokemon_inicial == "2":
-            pokemon1_p2 = Basicos.gerador_bulbasaur()
+            pokemon1_p2 = Gerador.Gerador_final(1)
             player2[1].append(pokemon1_p2)
-            print(f"Bulbasauro com {player2[1][1]['IV']} de IV foi selecionado")
+            print(f"Bulbasauro com {player2[1][1].IV} de IV foi selecionado")
             break
         elif pokemon_inicial == "squirtle" or pokemon_inicial == "3":
-            pokemon1_p2 = Basicos.gerador_squirtle()
+            pokemon1_p2 = Gerador.Gerador_final(3)
             player2[1].append(pokemon1_p2)
-            print(f"Squirtle com {player2[1][1]['IV']} de IV foi selecionado")
+            print(f"Squirtle com {player2[1][1].IV} de IV foi selecionado")
             break
         else:
             print("Pokémon inválido. Tente novamente.")
     
     print ("Agora que todos escolheram o pokemon inicial, vamos fazer as 6 compras iniciais!")
-    comprar(player1,6)
-    comprar(player2,6)
+    Funções.comprar(player1,6)
+    Funções.comprar(player2,6)
 
     intersecção = input("Por fim precisamos definir as energias descartaveis de cada jogador, essas energias serão usadas na ordem que voce posicionar elas, certo?")
 
@@ -93,15 +92,16 @@ def inicio(player1, player2):
 
     passar_o_turno(player2, player1)
 
-def rodada(player,inimigo):
+def rodada(player,inimigo): 
     global turno
+    global Centro
     
     ações = [0 ,"usar um pokemon", "capturar um pokemon", "usar itens", "fazer analises", "modificar energias descartaveis", "passar o turno"]
     
     if turno > 2:
-        comprar(player,1)
-        ganhar_energia(player,3)
-    
+        Funções.ganhar_energia(player,3)
+        Funções.comprar(player,1)
+        
     for i in range(len(ações)-1):
         print (f"{i+1} - {ações[i+1]}")
     desejo = input(f"Qual ação deseja realizar {player[0]}? ações disponiveis acima").lower()
@@ -109,7 +109,10 @@ def rodada(player,inimigo):
     if desejo in ["usar um pokemon", "usar pokemon", "pokemon","1"]:
         opções_de_pokemon(player,inimigo)
     elif desejo in ["capturar um pokemon", "capturar pokemon", "capturar","2"]:
-        capturar_pokemon(player)
+        if len(Centro) < 1:
+            ("O centro está vazio!")
+        else:
+            capturar_pokemon(player)
         rodada(player,inimigo)
     elif desejo in ["usar itens","itens","3"]:
         usar_itens(player,inimigo)
@@ -127,45 +130,46 @@ def rodada(player,inimigo):
 
 def opções_de_pokemon(player, inimigo):
     while True:
-        pokemon_escolhido = int(input("Qual pokemon voce deseja escolher? escolha de 1 a 6"))
+        pokemon_escolhido = int(input("Qual pokemon você deseja escolher? Escolha de 1 a 6: "))
         pokemon = player[1][pokemon_escolhido]
-        if pokemon != 0:
+        if pokemon is not None:
             break
         else:
-            print ("esse pokemon não existe! Tente novamente")
+            print("Esse Pokémon não existe! Tente novamente.")
+
     while True:
-        desejo = input(f"O que {pokemon['nome']} deseja fazer? Atacar, Mover ou Evoluir?").lower()
+        desejo = input(f"O que {pokemon.nome} deseja fazer? Atacar, Mover ou Evoluir? ").lower()
         if desejo == "atacar" or desejo == "1":
-            atacar(pokemon, inimigo, player)
+            atacar(pokemon,inimigo,player)
             break
         elif desejo == "mover" or desejo == "2":
             print("Movimentação ainda não configurada, tente apenas atacar.")
         elif desejo == "evoluir" or desejo == "3":
-            if pokemon["XP atu"] >= pokemon["XP"]:
-                nome_antigo = pokemon['nome']
-                player1[pokemon_escolhido] = pokemon["evolução"](pokemon)
-                pokemon = player1[pokemon_escolhido]
-                print (f"Seu {nome_antigo} evoluiu para um {pokemon['nome']}!")
+            if pokemon.xp_atual >= pokemon.xp_total:
+                nome_antigo = pokemon.nome
+                player[1][pokemon_escolhido] = pokemon.evoluir()  # Supondo que .evoluir() retorna nova instância
+                pokemon = player[1][pokemon_escolhido]
+                print(f"Seu {nome_antigo} evoluiu para um {pokemon.nome}!")
             else:
-                print (f"Ainda não tem o XP necessário para evoluir, Seu XP é {pokemon['XP atu']} e precisa de {pokemon['XP']} para evoluir")
+                print(f"Ainda não tem o XP necessário para evoluir. Seu XP é {pokemon.xp_atual} e precisa de {pokemon.xp_total} para evoluir.")
         else:
-            print("Ação invalida! Tente novamente")
+            print("Ação inválida! Tente novamente.")
 
 def passar_o_turno(player, inimigo):
     global turno
     global Centro
-    if all(player[1][i+1]["vida"] <= 0 for i in range(len(player[1])-1)):
+    if all(player[1][i+1].Vida <= 0 for i in range(len(player[1])-1)):
         print (f"{player[0]} foi derrotado, a vitória é de {inimigo[0]}!")
-    elif all(inimigo[1][i+1]["vida"] <= 0 for i in range(len(inimigo[1])-1)):
+    elif all(inimigo[1][i+1].Vida <= 0 for i in range(len(inimigo[1])-1)):
         print (f"{inimigo[0]} foi derrotado, a vitória é de {player[0]}!")
     else:
         turno += 1
         print(f"Iniciando o turno {turno}, Vez de {inimigo[0]}")
         if turno == 1:
             for i in range(1,4):
-                Spawn.spawn_do_centro(Centro)
+                Gerador.spawn_do_centro(Centro)
         else:
-            Spawn.spawn_do_centro(Centro)
+            Gerador.spawn_do_centro(Centro)
         
         rodada(inimigo,player)
 
@@ -173,63 +177,29 @@ def atacar(pokemon, inimigo, player):
     alvo_escolhido = int(input("escolha seu alvo, 1 a 6"))
     alvo = inimigo[1][alvo_escolhido]
     resposta = "1"
-   
+
     while resposta == "sim" or resposta == "s" or resposta == "1":
-        print (f"ataques de {pokemon['nome']} disponiveis")
-        print (f"1 - Ataque normal - {pokemon['ataque normal']['nome']} - Custo: ({pokemon['ataque normal']['custo']})")
-        print (f"2 - Ataque especial - {pokemon['ataque especial']['nome']} - Custo: ({pokemon['ataque especial']['custo']})")
-        ataque = input(f"Quer atacar o {alvo['nome']} com o ataque normal ou o ataque especial?").lower()
+        print(f"Ataques de {pokemon.nome} disponíveis")
+        print(f"1 - Ataque normal - {pokemon.ataque_normal['nome']} - Custo: ({pokemon.ataque_normal['custo']})")
+        print(f"2 - Ataque especial - {pokemon.ataque_especial['nome']} - Custo: ({pokemon.ataque_especial['custo']})")
         
+        ataque = input(f"Quer atacar o {alvo.nome} inimigo com o ataque normal ou o ataque especial?").lower()
+
         if ataque == "ataque normal" or ataque == "normal" or ataque == "1":
-            foi = pokemon["ataque normal"]["fun"](pokemon, alvo, player, inimigo,pokemon["ataque normal"])
-            if foi == 0:
-                resposta = input("Seu ataque não teve energias o suficiente, quer tentar outro ataque?")
-            else:
-                print(f"O {pokemon['nome']} usou um ataque normal {pokemon['ataque normal']['nome']} para atacar o {alvo['nome']} inimigo!")
-                print(f"A vida atual do {alvo['nome']} inimigo é {alvo['vida']}")
-                pokemon["XP atu"] += 1
-                break
-       
-        if ataque == "ataque especial" or ataque == "especial" or ataque == "2":
-            foi = pokemon["ataque especial"]["fun"](pokemon, alvo, player, inimigo,pokemon["ataque especial"])
-            if foi == 0:
-                resposta = input("Seu ataque não teve energias o suficiente, quer tentar outro ataque?")
-            else:
-                print(f"O {pokemon['nome']} usou um ataque normal {pokemon['ataque especial']['nome']} para atacar o {alvo['nome']} inimigo!")
-                print(f"A vida atual do {alvo['nome']} inimigo é {alvo['vida']}")
-                pokemon["XP atu"] += 1
-                break
+            print("ga")
+            pokemon.atacar(alvo,player,inimigo,1)
+            break
+        elif ataque == "ataque especial" or ataque == "especial" or ataque == "2":
+            print("ga")
+            pokemon.atacar(alvo,player,inimigo,2)
+            break
         else:
             print("Ataque inválido! Tente novamente")
 
     passar_o_turno(player, inimigo)
 
-def comprar(player,compras):
-    for i in range(compras):
-        while True:
-            loja = input(f"{player[0]}, você deseja comprar em qual loja? loja de pokebolas, de itens ou de amplificadores ?").lower()
-            if loja in ["loja de pokebolas", "pokebolas","1"]:
-                tipo = "pokebola"
-                break
-            elif loja in ["loja de itens", "itens","2"]:
-                tipo = "item"
-                break
-            elif loja in ["loja de amplificadores","amplificadores","3"]:
-                tipo = "amplificador"
-                break
-            else:
-                print("loja invalida, tente novamente")
-        ganho = itens.ganhar_item(player,tipo)
-        print (f"Você ganhou: {ganho['nome']}!")
-        player[2].append(ganho)
-    
-    print (f"A compra foi realizada! seu inventário atual é:")
-    for i in range(len(player[2])-1):
-        print (f"{i+1} - {player[2][i+1]['nome']}") 
-
 def capturar_pokemon(player):
     global Centro
-    global LV
 
     print ("pokemons que estão atualmente no centro:")
     for i in range(len(Centro)-1):
@@ -255,9 +225,9 @@ def capturar_pokemon(player):
             maestria = random.randint(1,player[2][pokebola_utilizada]["poder"] * 2)
             if maestria > Centro[pokemon_escolhido]["dificuldade"]:
                 if len(player[1]) < 7:
-                    novo_pokemon = Centro[pokemon_escolhido]["gerador"]()
+                    novo_pokemon = Gerador.Gerador_final(Centro[pokemon_escolhido]["code"])
                     player[1].append (novo_pokemon)
-                    print (f"Parabens, você capturou um {Centro[pokemon_escolhido]['nome']} utilizando uma {player[2][pokebola_utilizada]['nome']}! ele está na posição {len(player[1])-1} e tem {Centro[pokemon_escolhido]['IV']} de IV")
+                    print (f"Parabens, você capturou um {Centro[pokemon_escolhido]['nome']} utilizando uma {player[2][pokebola_utilizada]['nome']}! ele está na posição {len(player[1])-1} e tem {novo_pokemon.IV} de IV")
                     del Centro[pokemon_escolhido]
                     del player[2][pokebola_utilizada]
                     return
@@ -271,13 +241,6 @@ def capturar_pokemon(player):
                 
         else:
             print ("O item selecionado não é uma pokebola ou não existe")
-
-def ganhar_energia(player,numero):
-    global Energias
-    for i in range(numero):
-        j = random.choice(Energias)
-        player[3][j] = player[3][j] + 1
-        print (f"{player[0]} ganhou 1 energia de {j}")
 
 def modificar_energias_descartaveis(player):
     global turno
@@ -321,37 +284,44 @@ def usar_itens(player,inimigo):
     U = player[2]
 
     tabela.title = f"Inventario de {player[0]}"
-    tabela.field_names = ["pos", " Nome do item ", "Classe", "Descrição"]
+    tabela.field_names = ["Num", " Nome do item ", "Classe", "Descrição"]
     for i in range(len(U)-1):
         tabela.add_row ([i+1,U[i+1]["nome"],U[i+1]["classe"],U[i+1]["Descrição"]]) 
     print (tabela)
+    resposta = input("quer utilizar algum item?").lower()
+    if resposta in ["não","nao","n"]:
+        return
+    else:
+        item = int(input(f"deseja utilizar qual item {player[0]}?"))
+        Funções.usar_item(player[2][item],player,inimigo)
+    rodada(player,inimigo)
     
 def analises(player,inimigo):
     global Energias
 
-    analises_disponiveis = [0,"ver seus pokemons", "ver os pokemons inimigos", "ver suas energias", "ver as energias inimigas"]
+    analises_disponiveis = [0, "ver seus pokemons", "ver os pokemons inimigos", "ver suas energias", "ver as energias inimigas"]
     resposta = "sim"
-    
-    while resposta not in ["n","nao","não"]:
+
+    while resposta not in ["n", "nao", "não"]:
         tabela = PrettyTable()
-        print ("qual analise voce deseja fazer")
-        for i in range(len(analises_disponiveis)-1):
-            print (f"{i+1} - {analises_disponiveis[i+1]}")
-        desejo = input("qual?")
-        
+        print("Qual análise você deseja fazer?")
+        for i in range(len(analises_disponiveis) - 1):
+            print(f"{i+1} - {analises_disponiveis[i+1]}")
+        desejo = input("Qual?")
+
         Tipo = "fogo"
 
-        if desejo in ["ver seus pokemon", "1","ver os pokemons inimigos", "2"]:
+        if desejo in ["ver seus pokemon", "1", "ver os pokemons inimigos", "2"]:
             if desejo in ["ver seus pokemon", "1"]:
                 V = player
             elif desejo in ["ver os pokemons inimigos", "2"]:
                 V = inimigo
-            for i in range(len(V[1])-1):
-                U = V[1][i+1]
-                tabela.title =  f"Status do {U['nome']} de {V[0]}"
-                tabela.field_names = ["Vida"," ATK ","Sp ATK"," DEF ","Sp DEF"," VEL ","custo","ataque normal","ataque especial","XP","IV"]
-                tabela.add_row([U["vida"],U["atk"],U["atk SP"],U["def"],U["def SP"],U["velocidade"],U["custo"],U["ataque normal"]["nome"],U["ataque especial"]["nome"],U["XP atu"],U["IV"]])
-        elif desejo in ["ver suas energias", "3","ver as energias inimigas", "4"]:
+            for i in range(len(V[1]) - 1):
+                U = V[1][i + 1]
+                tabela.title = f"Status dos pokemons de {V[0]}"
+                tabela.field_names = ["nome","Vida", "ATK", "Sp ATK", "DEF", "Sp DEF", "VEL", "custo", "ataque normal", "ataque especial", "XP", "IV"]
+                tabela.add_row([U.nome,U.Vida, U.Atk, U.Atk_sp, U.Def, U.Def_sp, U.vel, U.custo, U.ataque_normal["nome"], U.ataque_especial["nome"], U.xp_atu, U.IV])
+        elif desejo in ["ver suas energias", "3", "ver as energias inimigas", "4"]:
             if desejo in ["ver suas energias", "3"]:
                 V = player
             elif desejo in ["ver as energias inimigas", "4"]:
@@ -362,8 +332,9 @@ def analises(player,inimigo):
             tabela.title = f"Coleção de energias do {V[0]}"
             tabela.field_names = Energias
             tabela.add_row(exibi)
-        print (tabela)
-        resposta = input("Deseja realizar mais alguma analise?")
+
+        print(tabela)
+        resposta = input("Deseja realizar mais alguma análise?")
         tabela = 0
 
 inicio(player1,player2)

@@ -1,91 +1,38 @@
 import random
+from prettytable import PrettyTable
+import Gerador
 
-def Gerador(Nome,Status_base,Ataques_normais,Ataques_especiais,Tipo,Evolução):
+Energias = ["fogo", "agua", "eletrico", "planta", "gelo", "lutador", "veneno", "terra", "voador", "psiquico", "inseto", "pedra", "fantasma", "dragao", "sombrio", "aço", "fada"]
+
+def comprar(player,compras):
+    for i in range(compras):
+        while True:
+            loja = input(f"{player[0]}, você deseja comprar em qual loja? loja de pokebolas, de itens ou de amplificadores ?").lower()
+            if loja in ["loja de pokebolas", "pokebolas","1"]:
+                tipo = "pokebola"
+                break
+            elif loja in ["loja de itens", "itens","2"]:
+                tipo = "item"
+                break
+            elif loja in ["loja de amplificadores","amplificadores","3"]:
+                tipo = "amplificador"
+                break
+            else:
+                print("loja invalida, tente novamente")
+        ganho = Gerador.ganhar_item(tipo)
+        print (f"Você ganhou: {ganho['nome']}!")
+        player[2].append(ganho)
     
-    Var_minuscula = (-5, 5)
-    Var_baixa = (-10, 10)
-    Var_media = (-20, 20)
-    Var_alta = (-30, 30)
+    print (f"A compra foi realizada! seu inventário atual é:")
+    for i in range(len(player[2])-1):
+        print (f"{i+1} - {player[2][i+1]['nome']}") 
 
-    if Status_base["Vida"] <= 50:
-        Var_V = Var_minuscula
-    elif Status_base["Vida"] <= 200:
-        Var_V = Var_baixa
-    elif Status_base["Vida"] <= 400:
-        Var_V = Var_media
-    else:
-        Var_V = Var_alta
-    Variacao = random.randint(*Var_V)
-    vida = Status_base["Vida"] + Variacao
-
-    if Status_base["Atk"] <= 20:
-        Var_A = Var_minuscula
-    elif Status_base["Atk"] <= 80:
-        Var_A = Var_baixa
-    else:
-        Var_A = Var_media
-    Variacao = random.randint(*Var_A)
-    Atk = Status_base["Atk"] + Variacao
-
-    if Status_base["Atk SP"] <= 20:
-        Var_AS = Var_minuscula
-    elif Status_base["Atk SP"] <= 80:
-        Var_AS = Var_baixa
-    else:
-        Var_AS = Var_media
-    Variacao = random.randint(*Var_AS)
-    Atk_SP = Status_base["Atk SP"] + Variacao
-
-    if Status_base["Def"] <= 20:
-        Var_D = Var_minuscula
-    elif Status_base["Def"] <= 80:
-        Var_D = Var_baixa
-    else:
-        Var_D = Var_media
-    Variacao = random.randint(*Var_D)
-    Def = Status_base["Def"] + Variacao
-
-    if Status_base["Def SP"] <= 20:
-        Var_DS = Var_minuscula
-    elif Status_base["Def SP"] <= 80:
-        Var_DS = Var_baixa
-    else:
-        Var_DS = Var_media
-    Variacao = random.randint(*Var_DS)
-    Def_SP = Status_base["Def SP"] + Variacao
-    
-    def calc_iv(base, valor_final, intervalo):
-        min_val, max_val = intervalo
-        if max_val == min_val:
-            return 0
-        return ((valor_final - (base + min_val)) / (max_val - min_val)) * 100
-
-    IVV = calc_iv(Status_base["Vida"], vida, Var_V)
-    IVA = calc_iv(Status_base["Atk"], Atk, Var_A)
-    IVAS = calc_iv(Status_base["Atk SP"], Atk_SP, Var_AS)
-    IVD = calc_iv(Status_base["Def"], Def, Var_D)
-    IVDS = calc_iv(Status_base["Def SP"], Def_SP, Var_DS)
-
-    IV = round((IVV+IVA+IVAS+IVD+IVDS) / 5,2)
-
-    return {
-        "nome": Nome,
-        "tipo": Tipo,
-        "vida": vida,
-        "estagio": "Basico",
-        "atk": Atk,
-        "atk SP": Atk_SP,
-        "def": Def,
-        "def SP": Def_SP,
-        "velocidade": Status_base["Velocidade"],
-        "XP": Status_base["XP"],
-        "custo": Status_base["Custo"],
-        "ataque normal": random.choice(Ataques_normais),
-        "ataque especial": random.choice(Ataques_especiais),
-        "evolução": Evolução,
-        "XP atu": 0,
-        "IV": f"{IV}%"
-    }
+def ganhar_energia(player,numero):
+    global Energias
+    for i in range(numero):
+        j = random.choice(Energias)
+        player[3][j] = player[3][j] + 1
+        print (f"{player[0]} ganhou 1 energia de {j}")
 
 def efetividade(Tipo_do_ataque,Tipo_do_atacado):
     
@@ -168,3 +115,37 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado):
             multiplicador = multiplicador + tabela_tipos[Tipo_do_ataque[i]][Tipo_do_atacado[j]]
 
     return multiplicador
+
+def usar_item(item,player,inimigo):
+    if item["classe"] in ["poçao","amplificador"]:
+        tabela = PrettyTable()
+        for i in range(len(player[1]) - 1):
+            U = player[1][i + 1]
+            tabela.title = f"Status dos pokemons de {player[0]}"
+            tabela.field_names = ["num","nome","Vida", "ATK", "Sp ATK", "DEF", "Sp DEF", "VEL", "custo", "ataque normal", "ataque especial", "XP", "IV"]
+            tabela.add_row([i+1,U.nome,U.Vida, U.Atk, U.Atk_sp, U.Def, U.Def_sp, U.vel, U.custo, U.ataque_normal["nome"], U.ataque_especial["nome"], U.xp_atu, U.IV])
+            print (tabela)
+            escolha = int(input(f"Escolha o numero do pokemon que voce vai utilizar o item {item['nome']}"))
+            if item["classe"] in ["poçao"]:
+                cura = item["cura"]
+                player[2].remove(item)
+                player[1][escolha].curar(cura)
+                return
+            elif item["classe"] in ["amplificador"]:
+                tipo = item["aumento"]
+                player[2].remove(item)
+                player[1][escolha].amplificar(tipo,0.15,player[1][escolha])
+                return
+    elif item["classe"] in ["caixa","coletor"]:
+        compras = item["compra"]
+        if item["classe"] in ["caixa"]:
+            player[2].remove(item)
+            comprar(player,compras)
+            return
+        elif item["classe"] in ["coletor"]:
+            player[2].remove(item)
+            ganhar_energia(player,compras)
+            return
+    elif item["classe"] == "pokebola":
+        print (f"{item["nome"]} deve ser usado apenas para capturar pokemons, item invalido!")
+        return
