@@ -5,7 +5,6 @@ import random
 from prettytable import PrettyTable
 
 Centro = [0]
-
 turno = 0
 
 inventario_p1 = [0,]
