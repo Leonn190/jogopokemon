@@ -297,47 +297,52 @@ def usar_itens(player,inimigo):
         Funções.usar_item(player[2][item],player,inimigo)
     rodada(player,inimigo)
     
-def analises(player,inimigo):
+def analises(player,inimigo): 
     global Energias
 
     analises_disponiveis = [0, "ver seus pokemons", "ver os pokemons inimigos", "ver suas energias", "ver as energias inimigas"]
     resposta = "sim"
 
     while resposta not in ["n", "nao", "não"]:
-        tabela = PrettyTable()
-        print("Qual análise você deseja fazer?")
-        for i in range(len(analises_disponiveis) - 1):
-            print(f"{i+1} - {analises_disponiveis[i+1]}")
-        desejo = input("Qual?")
+        while True:
+            tabela = PrettyTable()
+            print("Qual análise você deseja fazer?")
+            for i in range(len(analises_disponiveis) - 1):
+                print(f"{i+1} - {analises_disponiveis[i+1]}")
+            desejo = input("Qual?")
 
-        Tipo = "fogo"
-
-        if desejo in ["ver seus pokemon", "1", "ver os pokemons inimigos", "2"]:
-            if desejo in ["ver seus pokemon", "1"]:
-                V = player
-            elif desejo in ["ver os pokemons inimigos", "2"]:
-                V = inimigo
-            # erro
-            for i in range(len(V[1]) - 1):
-                U = V[1][i + 1]
-                tabela.title = f"Status dos pokemons de {V[0]}"
-                tabela.field_names = ["nome","Vida", "ATK", "Sp ATK", "DEF", "Sp DEF", "VEL", "custo", "ataque normal", "ataque especial", "XP", "IV"]
-                tabela.add_row([U.nome,U.Vida, U.Atk, U.Atk_sp, U.Def, U.Def_sp, U.vel, U.custo, U.ataque_normal["nome"], U.ataque_especial["nome"], U.xp_atu, U.IV])
-        elif desejo in ["ver suas energias", "3", "ver as energias inimigas", "4"]:
-            if desejo in ["ver suas energias", "3"]:
-                V = player
-            elif desejo in ["ver as energias inimigas", "4"]:
-                V = inimigo
-            exibi = []
-            for Tipo in Energias:
-                exibi.append(V[3][Tipo])
-            tabela.title = f"Coleção de energias do {V[0]}"
-            tabela.field_names = Energias
-            tabela.add_row(exibi)
-
+            Tipo = "fogo"
+        
+            if desejo in ["ver seus pokemon", "1", "ver os pokemons inimigos", "2"]:
+                print ("goia")
+                if desejo in ["ver seus pokemon", "1"]:
+                    print ("goia")
+                    V = player
+                elif desejo in ["ver os pokemons inimigos", "2"]:
+                    V = inimigo
+                for i in range(len(V[1]) - 1):
+                    U = V[1][i + 1]
+                    tabela.title = f"Status dos pokemons de {V[0]}"
+                    tabela.field_names = ["nome","Vida", "ATK", "Sp ATK", "DEF", "Sp DEF", "VEL", "custo", "ataque normal", "ataque especial","tipo", "XP", "IV"]
+                    tabela.add_row([U.nome,U.Vida, U.Atk, U.Atk_sp, U.Def, U.Def_sp, U.vel, U.custo, U.ataque_normal["nome"], U.ataque_especial["nome"],U.tipo, U.xp_atu, U.IV])
+                break
+            elif desejo in ["ver suas energias", "3", "ver as energias inimigas", "4"]:
+                if desejo in ["ver suas energias", "3"]:
+                    V = player
+                elif desejo in ["ver as energias inimigas", "4"]:
+                    V = inimigo
+                exibi = []
+                for Tipo in Energias:
+                    exibi.append(V[3][Tipo])
+                tabela.title = f"Coleção de energias do {V[0]}"
+                tabela.field_names = Energias
+                tabela.add_row(exibi)
+                break
+            else:
+                print ("Analise inválida, tente novamente")
+        
         print(tabela)
         resposta = input("Deseja realizar mais alguma análise?")
         tabela = 0
 
 inicio(player1,player2)
-
