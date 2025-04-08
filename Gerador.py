@@ -1,7 +1,7 @@
 import random
 import Funções
 from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
-from Basicos import Bulbasaur,Charmander,Squirtle
+from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 
 class Pokemon:
     def __init__(self, pokemon):
@@ -115,8 +115,8 @@ class Pokemon:
         print (f"O seu {self.nome} causou {round(dano_F,2)} de dano com o ataque {F['nome']} no {alvo.nome} inimigo")
         alvo.atacado(dano_F)
         
-Pokedex = [0,Bulbasaur,Charmander,Squirtle]
-pokemons_possiveis = [Bulbasaur,Charmander,Squirtle]
+Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
+pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
 
 def Gerador(Pokemon):
     Pok = Pokemon

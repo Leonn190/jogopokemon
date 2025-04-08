@@ -317,6 +317,7 @@ def analises(player,inimigo):
                 V = player
             elif desejo in ["ver os pokemons inimigos", "2"]:
                 V = inimigo
+            # erro
             for i in range(len(V[1]) - 1):
                 U = V[1][i + 1]
                 tabela.title = f"Status dos pokemons de {V[0]}"
