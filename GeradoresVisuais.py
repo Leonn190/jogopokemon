@@ -95,6 +95,7 @@ def Botao_Selecao(
     desfazer_esquerdo=None, desfazer_direito=None,
     tecla_esquerda=None, tecla_direita=None
 ):
+
     x, y, largura, altura = espaço
     mouse = pygame.mouse.get_pos()
     clique = pygame.mouse.get_pressed()
@@ -144,25 +145,25 @@ def Botao_Selecao(
         if modo == "esquerdo":
             if estado_global["selecionado_esquerdo"] == id_botao:
                 if desfazer_esquerdo:
-                    desfazer_esquerdo()
+                    desfazer_esquerdo(id_botao)
                 estado_global["selecionado_esquerdo"] = None
             else:
                 if estado_global["selecionado_esquerdo"] and desfazer_esquerdo:
-                    desfazer_esquerdo()
+                    desfazer_esquerdo(id_botao)
                 estado_global["selecionado_esquerdo"] = id_botao
                 if funcao_esquerdo:
-                    funcao_esquerdo()
+                    funcao_esquerdo(id_botao)
         elif modo == "direito":
             if estado_global["selecionado_direito"] == id_botao:
                 if desfazer_direito:
-                    desfazer_direito()
+                    desfazer_direito(id_botao)
                 estado_global["selecionado_direito"] = None
             else:
                 if estado_global["selecionado_direito"] and desfazer_direito:
-                    desfazer_direito()
+                    desfazer_direito(id_botao)
                 estado_global["selecionado_direito"] = id_botao
                 if funcao_direito:
-                    funcao_direito()
+                    funcao_direito(id_botao)
 
     # Clique do mouse
     if eventos:

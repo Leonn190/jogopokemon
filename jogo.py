@@ -146,13 +146,13 @@ def opções_de_pokemon(player, inimigo):
         elif desejo == "mover" or desejo == "2":
             print("Movimentação ainda não configurada, tente apenas atacar.")
         elif desejo == "evoluir" or desejo == "3":
-            if pokemon.xp_atual >= pokemon.xp_total:
+            if pokemon.xp_atu >= pokemon.xp_total:
                 nome_antigo = pokemon.nome
-                player[1][pokemon_escolhido] = pokemon.evoluir()  # Supondo que .evoluir() retorna nova instância
+                player[1][pokemon_escolhido] = pokemon.evoluir() 
                 pokemon = player[1][pokemon_escolhido]
                 print(f"Seu {nome_antigo} evoluiu para um {pokemon.nome}!")
             else:
-                print(f"Ainda não tem o XP necessário para evoluir. Seu XP é {pokemon.xp_atual} e precisa de {pokemon.xp_total} para evoluir.")
+                print(f"Ainda não tem o XP necessário para evoluir. Seu XP é {pokemon.xp_atu} e precisa de {pokemon.xp_total} para evoluir.")
         else:
             print("Ação inválida! Tente novamente.")
 

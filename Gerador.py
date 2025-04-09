@@ -3,6 +3,15 @@ import Funções
 from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
 from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 
+class Jogador:
+    def __init__(self, informaçoes, Energias0):
+        self.nome = informaçoes[0]
+        self.pokemons = [informaçoes[1]]
+        self.inventário = [0,]
+        self.energias = Energias0
+
+
+
 class Pokemon:
     def __init__(self, pokemon):
         self.nome = pokemon["nome"]
@@ -54,15 +63,15 @@ class Pokemon:
         elif tipo == "atk SP":
             J = self.Atk_sp
             self.Atk_sp = self.Atk_sp + (self.Atk_sp * amplificador)
-            print (f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk_sp}")
+            print (f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
         elif tipo == "def":
             J = self.Def
             self.Def = self.Def + (self.Def * amplificador)
-            print (f"{self.nome} amplificou seu ATK, foi de {J} para {self.Def}")
+            print (f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
         elif tipo == "def SP":
             J = self.Def_sp
             self.Def_sp = self.Def_sp + (self.Def_sp * amplificador)
-            print (f"{self.nome} amplificou seu ATK, foi de {J} para {self.Def_sp}")
+            print (f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
     def atacado(self,dano):
         self.Vida = self.Vida - dano
@@ -209,7 +218,6 @@ def Gerador(Pokemon):
     }
 
 def Gerador_final(code):
-
     return Pokemon(Gerador(Pokedex[code]))
 
 def spawn_do_centro(centro):

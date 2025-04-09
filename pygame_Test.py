@@ -25,6 +25,9 @@ altura_tela = info.current_h
 
 mensagens_terminal = []
 
+informaçoesp1 = []
+informaçoesp2 = []
+
 estado = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None
@@ -86,19 +89,21 @@ def PréPartida(estados):
         GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
 
-        GV.Reta_Central(tela, 1920, 1080, PRETO, 4)
         GV.Texto(tela, "Jogador 1", (360, 50), Fonte70, PRETO)
         GV.Texto(tela, "Jogador 2", (1320, 50), Fonte70, PRETO)
 
+        GV.Texto(tela, "Escreva seu Nome:", (190, 485), Fonte40, PRETO)
+        GV.Texto(tela, "Escreva seu Nome:", (1170, 485), Fonte40, PRETO)
+
         texto1, selecionado1 = GV.Barra_De_Texto(
-    tela, (50, 400, 300, 40), Fonte30, 
+    tela, (500, 480, 300, 40), Fonte30, 
     CINZA, PRETO, PRETO, eventos, texto1,
-    A.minha_funcao_envio, AZUL,selecionado1)
+    A.Nome_p1, AZUL,selecionado1)
 
         texto2, selecionado2 = GV.Barra_De_Texto(
-    tela, (50, 700, 300, 40), Fonte30, 
+    tela, (1470, 480, 300, 40), Fonte30, 
     CINZA, PRETO, PRETO, eventos, texto2,
-    A.minha_funcao_envio, AZUL,selecionado2)
+    A.Nome_p2, AZUL,selecionado2)
 
         GV.Botao_Selecao(
     tela,
@@ -113,9 +118,9 @@ def PréPartida(estados):
     id_botao="BulbasaurP1",   
     estado_global=estado,
     eventos=eventos,
-    funcao_esquerdo=A.acaoteste1,
+    funcao_esquerdo=A.Pokemon_inicial,
     funcao_direito=None,
-    desfazer_esquerdo=A.desfazteste2,
+    desfazer_esquerdo=A.Remover_inicial,
     desfazer_direito=None,
     tecla_esquerda=pygame.K_1,
     tecla_direita=None)
@@ -134,9 +139,9 @@ def PréPartida(estados):
     id_botao="CharmanderP1",   
     estado_global=estado,
     eventos=eventos,
-    funcao_esquerdo=A.acaoteste1,
+    funcao_esquerdo=A.Pokemon_inicial,
     funcao_direito=None,
-    desfazer_esquerdo=A.desfazteste2,
+    desfazer_esquerdo=A.Remover_inicial,
     desfazer_direito=None,
     tecla_esquerda=pygame.K_2,
     tecla_direita=None)
@@ -155,15 +160,38 @@ def PréPartida(estados):
     id_botao="SquirtleP1",   
     estado_global=estado,
     eventos=eventos,
-    funcao_esquerdo=A.acaoteste1,
+    funcao_esquerdo=A.Pokemon_inicial,
     funcao_direito=None,
-    desfazer_esquerdo=A.desfazteste2,
+    desfazer_esquerdo=A.Remover_inicial,
     desfazer_direito=None,
     tecla_esquerda=pygame.K_3,
     tecla_direita=None)
         GV.Imagem(tela, "imagens/squirtle.png",(620,150,235,235))
 
+        for i in range(5):
+            GV.Botao_Selecao(
+    tela,
+    (((i + 1 * 60) + (i * 160)), 650, 150, 150),
+    "",
+    Fonte30,
+    cor_fundo=AZUL_CLARO,
+    cor_borda_normal=PRETO,
+    cor_borda_esquerda=AMARELO,   
+    cor_borda_direita=None,
+    cor_passagem=AMARELO,
+    id_botao="SquirtleP1",   
+    estado_global=estado,
+    eventos=eventos,
+    funcao_esquerdo=A.Pokemon_inicial,
+    funcao_direito=None,
+    desfazer_esquerdo=A.Remover_inicial,
+    desfazer_direito=None,
+    tecla_esquerda=pygame.K_3,
+    tecla_direita=None)
+            GV.Imagem(tela, "imagens/loja.png",(((i + 1 * 72) + (i * 160)),660,120,120))
+
     # outro lado
+        GV.Reta_Central(tela, 1920, 1080, PRETO, 4)
 
         GV.Botao_Selecao(
     tela,
@@ -178,11 +206,11 @@ def PréPartida(estados):
     id_botao="Squirtlep2",   
     estado_global=estado2,
     eventos=eventos,
-    funcao_esquerdo=A.acaoteste1,
+    funcao_esquerdo=A.Pokemon_inicial,
     funcao_direito=None,
-    desfazer_esquerdo=A.desfazteste2,
+    desfazer_esquerdo=A.Remover_inicial,
     desfazer_direito=None,
-    tecla_esquerda=pygame.K_7,
+    tecla_esquerda=pygame.K_9,
     tecla_direita=None)
         GV.Imagem(tela, "imagens/squirtle.png",(1600,150,235,235))
 
@@ -199,9 +227,9 @@ def PréPartida(estados):
     id_botao="CharmanderP2",   
     estado_global=estado2,
     eventos=eventos,
-    funcao_esquerdo=A.acaoteste1,
+    funcao_esquerdo=A.Pokemon_inicial,
     funcao_direito=None,
-    desfazer_esquerdo=A.desfazteste2,
+    desfazer_esquerdo=A.Remover_inicial,
     desfazer_direito=None,
     tecla_esquerda=pygame.K_8,
     tecla_direita=None)
@@ -220,11 +248,11 @@ def PréPartida(estados):
     id_botao="BulbasaurP2",   
     estado_global=estado2,
     eventos=eventos,
-    funcao_esquerdo=A.acaoteste1,
+    funcao_esquerdo=A.Pokemon_inicial,
     funcao_direito=None,
-    desfazer_esquerdo=A.desfazteste2,
+    desfazer_esquerdo=A.Remover_inicial,
     desfazer_direito=None,
-    tecla_esquerda=pygame.K_9,
+    tecla_esquerda=pygame.K_7,
     tecla_direita=None)
         GV.Imagem(tela, "imagens/Bulbasaur.png",(1060,150,235,235))
 
