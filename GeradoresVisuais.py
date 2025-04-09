@@ -30,10 +30,11 @@ Fonte15 = pygame.font.SysFont(None, 15)
 Fontes = [Fonte15,Fonte20,Fonte30,Fonte40,Fonte50]
 Cores = [PRETO,BRANCO,CINZA,AZUL,AZUL_CLARO,AMARELO,VERMELHO,VERDE,VERDE_CLARO,LARANJA,ROXO,ROSA,DOURADO,PRATA]
 
-def Botao(tela, texto, x, y, largura, altura, cor_normal, cor_borda, cor_passagem,
+def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
            acao, Fonte, estado_clique, grossura=2, tecla_atalho=None,
            mostrar_na_tela=True, eventos=None):
-    
+
+    x, y, largura, altura = espaço
     mouse = pygame.mouse.get_pos()
     clique = pygame.mouse.get_pressed()
 
@@ -80,19 +81,128 @@ def Botao(tela, texto, x, y, largura, altura, cor_normal, cor_borda, cor_passage
             if evento.type == pygame.KEYUP and evento.key == tecla_atalho:
                 estado_clique["pressionado_tecla"] = False
 
-def adicionar_mensagem(texto, max_linhas):
+def Botao_Selecao(
+    tela, espaço, texto, Fonte,
+    cor_fundo, cor_borda_normal,
+    cor_borda_esquerda=None, cor_borda_direita=None,
+    cor_passagem=None, id_botao=None,
+    estado_global=None, eventos=None,
+    funcao_esquerdo=None, funcao_direito=None,
+    desfazer_esquerdo=None, desfazer_direito=None,
+    tecla_esquerda=None, tecla_direita=None
+):
+    x, y, largura, altura = espaço
+    mouse = pygame.mouse.get_pos()
+    clique = pygame.mouse.get_pressed()
+    mouse_sobre = x <= mouse[0] <= x + largura and y <= mouse[1] <= y + altura
+
+    if "selecionado_esquerdo" not in estado_global:
+        estado_global["selecionado_esquerdo"] = None
+    if "selecionado_direito" not in estado_global:
+        estado_global["selecionado_direito"] = None
+
+    # Tecla de atalho
+    ativado_por_tecla_esq = False
+    ativado_por_tecla_dir = False
+    if eventos:
+        for evento in eventos:
+            if evento.type == pygame.KEYDOWN:
+                if tecla_esquerda and evento.key == tecla_esquerda:
+                    ativado_por_tecla_esq = True
+                if tecla_direita and evento.key == tecla_direita:
+                    ativado_por_tecla_dir = True
+
+    # Verificar seleção atual
+    modo_selecionado = None
+    if estado_global["selecionado_esquerdo"] == id_botao:
+        modo_selecionado = "esquerdo"
+    elif estado_global["selecionado_direito"] == id_botao:
+        modo_selecionado = "direito"
+
+    # Determinar cor da borda
+    cor_borda_atual = cor_borda_normal
+    if modo_selecionado == "esquerdo" and cor_borda_esquerda:
+        cor_borda_atual = cor_borda_esquerda
+    elif modo_selecionado == "direito" and cor_borda_direita:
+        cor_borda_atual = cor_borda_direita
+    elif mouse_sobre and cor_passagem:
+        cor_borda_atual = cor_passagem
+
+    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+    pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), 3)
+
+    texto_render = Fonte.render(texto, True, (0, 0, 0))
+    texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
+    tela.blit(texto_render, texto_rect)
+
+    # Função auxiliar para aplicar e desfazer
+    def aplicar_selecao(modo):
+        if modo == "esquerdo":
+            if estado_global["selecionado_esquerdo"] == id_botao:
+                if desfazer_esquerdo:
+                    desfazer_esquerdo()
+                estado_global["selecionado_esquerdo"] = None
+            else:
+                if estado_global["selecionado_esquerdo"] and desfazer_esquerdo:
+                    desfazer_esquerdo()
+                estado_global["selecionado_esquerdo"] = id_botao
+                if funcao_esquerdo:
+                    funcao_esquerdo()
+        elif modo == "direito":
+            if estado_global["selecionado_direito"] == id_botao:
+                if desfazer_direito:
+                    desfazer_direito()
+                estado_global["selecionado_direito"] = None
+            else:
+                if estado_global["selecionado_direito"] and desfazer_direito:
+                    desfazer_direito()
+                estado_global["selecionado_direito"] = id_botao
+                if funcao_direito:
+                    funcao_direito()
+
+    # Clique do mouse
+    if eventos:
+        for evento in eventos:
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                if mouse_sobre:
+                    if evento.button == 1 and cor_borda_esquerda:
+                        if modo_selecionado == "direito" and desfazer_direito:
+                            desfazer_direito()
+                            estado_global["selecionado_direito"] = None
+                        aplicar_selecao("esquerdo")
+                    elif evento.button == 3 and cor_borda_direita:
+                        if modo_selecionado == "esquerdo" and desfazer_esquerdo:
+                            desfazer_esquerdo()
+                            estado_global["selecionado_esquerdo"] = None
+                        aplicar_selecao("direito")
+
+            # Teclas
+            elif evento.type == pygame.KEYDOWN:
+                if tecla_esquerda and evento.key == tecla_esquerda and cor_borda_esquerda:
+                    if modo_selecionado == "direito" and desfazer_direito:
+                        desfazer_direito()
+                        estado_global["selecionado_direito"] = None
+                    aplicar_selecao("esquerdo")
+                if tecla_direita and evento.key == tecla_direita and cor_borda_direita:
+                    if modo_selecionado == "esquerdo" and desfazer_esquerdo:
+                        desfazer_esquerdo()
+                        estado_global["selecionado_esquerdo"] = None
+                    aplicar_selecao("direito")
+
+def adicionar_mensagem(texto, max_linhas=6):
     mensagens_terminal.append(texto)
     if len(mensagens_terminal) > max_linhas:
         mensagens_terminal.pop(0)  
 
-def Terminal(tela, x, y, largura, altura, fonte, cor_fundo, cor_texto):
+def Terminal(tela, espaço, fonte, cor_fundo, cor_texto):
+    x, y, largura, altura = espaço
     pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
-    pygame.draw.rect(tela, cor_texto, (x, y, largura, altura), 2) 
+    pygame.draw.rect(tela, cor_texto, (x, y, largura, altura), 2)
 
     espaco_linha = fonte.get_height() + 6
     for i, mensagem in enumerate(mensagens_terminal):
         texto = fonte.render(mensagem, True, cor_texto)
-        tela.blit(texto, (x + 10, y + 5 + i * espaco_linha))
+        tela.blit(texto, (x + 10, y + 5 + i * espaco_linha))            
 
 def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, cor_texto, cor_borda):
     num_colunas = len(colunas)
@@ -160,7 +270,8 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
             1
         )
 
-def Imagem(tela, nome_arquivo, x, y, largura, altura):
+def Imagem(tela, nome_arquivo, espaço):
+    x, y, largura, altura = espaço
     try:
         imagem = pygame.image.load(nome_arquivo)
         imagem = pygame.transform.scale(imagem, (largura, altura))
@@ -168,3 +279,62 @@ def Imagem(tela, nome_arquivo, x, y, largura, altura):
     except pygame.error as e:
         print(f"Erro ao carregar a imagem '{nome_arquivo}': {e}")
 
+def Barra_De_Texto(tela, espaço, fonte, cor_fundo, cor_borda, cor_texto,
+                   eventos, texto_atual, ao_enviar, cor_selecionado):
+
+    x, y, largura, altura = espaço
+    retangulo = pygame.Rect(x, y, largura, altura)
+    
+    # Armazena o estado da seleção
+    if not hasattr(Barra_De_Texto, "ativa"):
+        Barra_De_Texto.ativa = False
+
+    for evento in eventos:
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            if retangulo.collidepoint(evento.pos):
+                # Alterna o estado ao clicar na própria barra
+                Barra_De_Texto.ativa = not Barra_De_Texto.ativa
+            else:
+                # Clicando fora, sempre desseleciona
+                Barra_De_Texto.ativa = False
+
+        if Barra_De_Texto.ativa and evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_RETURN:
+                if texto_atual.strip() != "":
+                    ao_enviar(texto_atual)
+                texto_atual = ""
+            elif evento.key == pygame.K_BACKSPACE:
+                texto_atual = texto_atual[:-1]
+            else:
+                texto_atual += evento.unicode
+
+    # Cor da borda dependendo se está ativa
+    cor_borda_atual = cor_selecionado if Barra_De_Texto.ativa else cor_borda
+
+    pygame.draw.rect(tela, cor_fundo, retangulo)
+    pygame.draw.rect(tela, cor_borda_atual, retangulo, 2)
+
+    texto_surface = fonte.render(texto_atual, True, cor_texto)
+    tela.blit(texto_surface, (retangulo.x + 10, retangulo.y + (altura - texto_surface.get_height()) // 2))
+
+    return texto_atual
+
+def Texto(tela, texto, posicao, fonte, cor):
+    render = fonte.render(texto, True, cor)
+    tela.blit(render, posicao)
+
+# modelo apenas:
+
+# def Menu(estados, Nome):
+#     while estados[Nome]:
+#         tela.fill(BRANCO)
+#         eventos = pygame.event.get()
+#         for evento in eventos:
+#             if evento.type == pygame.QUIT:
+#                 estados[Nome] = False
+#                 estados["Rodando_Jogo"] = False
+
+
+
+#         pygame.display.update()
+#         relogio.tick(60)
