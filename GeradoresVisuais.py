@@ -11,8 +11,10 @@ BRANCO = (255, 255, 255)
 CINZA = (200, 200, 200)
 AZUL = (100, 100, 255)
 AZUL_CLARO = (173, 216, 230)
+AZUL_SUPER_CLARO = (220, 235, 255)
 AMARELO = (255, 255, 0)
 VERMELHO = (255, 0, 0)
+VERMELHO_CLARO = (255, 102, 102)
 VERDE = (0, 255, 0)
 VERDE_CLARO = (144, 238, 144)
 LARANJA = (255, 165, 0)
@@ -21,6 +23,8 @@ ROSA = (255, 192, 203)
 DOURADO = (255, 215, 0)
 PRATA = (192, 192, 192)
 
+
+Fonte70 = pygame.font.SysFont(None, 70)
 Fonte50 = pygame.font.SysFont(None, 50)
 Fonte40 = pygame.font.SysFont(None, 40)
 Fonte30 = pygame.font.SysFont(None, 30)
@@ -280,25 +284,19 @@ def Imagem(tela, nome_arquivo, espaço):
         print(f"Erro ao carregar a imagem '{nome_arquivo}': {e}")
 
 def Barra_De_Texto(tela, espaço, fonte, cor_fundo, cor_borda, cor_texto,
-                   eventos, texto_atual, ao_enviar, cor_selecionado):
+                   eventos, texto_atual, ao_enviar, cor_selecionado, selecionada):
 
     x, y, largura, altura = espaço
     retangulo = pygame.Rect(x, y, largura, altura)
-    
-    # Armazena o estado da seleção
-    if not hasattr(Barra_De_Texto, "ativa"):
-        Barra_De_Texto.ativa = False
 
     for evento in eventos:
         if evento.type == pygame.MOUSEBUTTONDOWN:
             if retangulo.collidepoint(evento.pos):
-                # Alterna o estado ao clicar na própria barra
-                Barra_De_Texto.ativa = not Barra_De_Texto.ativa
+                selecionada = not selecionada  # Clica nela → alterna
             else:
-                # Clicando fora, sempre desseleciona
-                Barra_De_Texto.ativa = False
+                selecionada = False  # Clica fora → desativa
 
-        if Barra_De_Texto.ativa and evento.type == pygame.KEYDOWN:
+        if selecionada and evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_RETURN:
                 if texto_atual.strip() != "":
                     ao_enviar(texto_atual)
@@ -309,19 +307,24 @@ def Barra_De_Texto(tela, espaço, fonte, cor_fundo, cor_borda, cor_texto,
                 texto_atual += evento.unicode
 
     # Cor da borda dependendo se está ativa
-    cor_borda_atual = cor_selecionado if Barra_De_Texto.ativa else cor_borda
+    cor_borda_atual = cor_selecionado if selecionada else cor_borda
 
     pygame.draw.rect(tela, cor_fundo, retangulo)
     pygame.draw.rect(tela, cor_borda_atual, retangulo, 2)
 
-    texto_surface = fonte.render(texto_atual, True, cor_texto)
+    texto_surface = fonte.render(str(texto_atual), True, cor_texto)
     tela.blit(texto_surface, (retangulo.x + 10, retangulo.y + (altura - texto_surface.get_height()) // 2))
 
-    return texto_atual
+    return texto_atual, selecionada
 
 def Texto(tela, texto, posicao, fonte, cor):
     render = fonte.render(texto, True, cor)
     tela.blit(render, posicao)
+
+def Reta_Central(tela, largura_tela, altura_tela, cor=PRETO, espessura=2):
+    x_centro = largura_tela // 2
+    pygame.draw.line(tela, cor, (x_centro, 0), (x_centro, altura_tela), espessura)
+
 
 # modelo apenas:
 
