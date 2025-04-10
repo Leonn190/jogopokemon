@@ -1,14 +1,18 @@
 import random
 import Funções
-from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
-from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
+from Armazém_De_Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
+from Armazém_De_Dados.Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
         self.pokemons = [informaçoes[1]]
         self.inventário = [0,]
-
+        self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxo": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
+        self.ouro = 10
+    
+    def ganhar_item(item):
+        pass
 
 
 class Pokemon:

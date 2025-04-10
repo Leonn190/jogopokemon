@@ -149,19 +149,32 @@ def Botao_Selecao(
                     desfazer_esquerdo(id_botao)
                 estado_global["selecionado_esquerdo"] = None
             else:
+                # Desfaz o direito se for o mesmo botão
+                if estado_global["selecionado_direito"] == id_botao:
+                    if desfazer_direito:
+                        desfazer_direito(id_botao)
+                    estado_global["selecionado_direito"] = None
+
                 if estado_global["selecionado_esquerdo"] and desfazer_esquerdo:
-                    desfazer_esquerdo(id_botao)
+                    desfazer_esquerdo(estado_global["selecionado_esquerdo"])
                 estado_global["selecionado_esquerdo"] = id_botao
                 if funcao_esquerdo:
                     funcao_esquerdo(id_botao)
+
         elif modo == "direito":
             if estado_global["selecionado_direito"] == id_botao:
                 if desfazer_direito:
                     desfazer_direito(id_botao)
                 estado_global["selecionado_direito"] = None
             else:
+                # Desfaz o esquerdo se for o mesmo botão
+                if estado_global["selecionado_esquerdo"] == id_botao:
+                    if desfazer_esquerdo:
+                        desfazer_esquerdo(id_botao)
+                    estado_global["selecionado_esquerdo"] = None
+
                 if estado_global["selecionado_direito"] and desfazer_direito:
-                    desfazer_direito(id_botao)
+                    desfazer_direito(estado_global["selecionado_direito"])
                 estado_global["selecionado_direito"] = id_botao
                 if funcao_direito:
                     funcao_direito(id_botao)
@@ -173,12 +186,12 @@ def Botao_Selecao(
                 if mouse_sobre:
                     if evento.button == 1 and cor_borda_esquerda:
                         if modo_selecionado == "direito" and desfazer_direito:
-                            desfazer_direito()
+                            desfazer_direito(id_botao)
                             estado_global["selecionado_direito"] = None
                         aplicar_selecao("esquerdo")
                     elif evento.button == 3 and cor_borda_direita:
                         if modo_selecionado == "esquerdo" and desfazer_esquerdo:
-                            desfazer_esquerdo()
+                            desfazer_esquerdo(id_botao)
                             estado_global["selecionado_esquerdo"] = None
                         aplicar_selecao("direito")
 
@@ -186,12 +199,12 @@ def Botao_Selecao(
             elif evento.type == pygame.KEYDOWN:
                 if tecla_esquerda and evento.key == tecla_esquerda and cor_borda_esquerda:
                     if modo_selecionado == "direito" and desfazer_direito:
-                        desfazer_direito()
+                        desfazer_direito(id_botao)
                         estado_global["selecionado_direito"] = None
                     aplicar_selecao("esquerdo")
                 if tecla_direita and evento.key == tecla_direita and cor_borda_direita:
                     if modo_selecionado == "esquerdo" and desfazer_esquerdo:
-                        desfazer_esquerdo()
+                        desfazer_esquerdo(id_botao)
                         estado_global["selecionado_esquerdo"] = None
                     aplicar_selecao("direito")
 
@@ -276,14 +289,13 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
             1
         )
 
-def Imagem(tela, nome_arquivo, espaço):
-    x, y, largura, altura = espaço
-    try:
-        imagem = pygame.image.load(nome_arquivo)
-        imagem = pygame.transform.scale(imagem, (largura, altura))
-        tela.blit(imagem, (x, y))
-    except pygame.error as e:
-        print(f"Erro ao carregar a imagem '{nome_arquivo}': {e}")
+def Carregar_Imagem(nome_arquivo,tamanho,tipo="n"):
+    if tipo == "PNG":
+        Imagem_original = pygame.image.load(nome_arquivo).convert_alpha()
+        return pygame.transform.scale(Imagem_original, tamanho)
+    else:
+        Imagem_original = pygame.image.load(nome_arquivo).convert()
+        return pygame.transform.scale(Imagem_original, tamanho)
 
 def Barra_De_Texto(tela, espaço, fonte, cor_fundo, cor_borda, cor_texto,
                    eventos, texto_atual, ao_enviar, cor_selecionado, selecionada):
@@ -329,17 +341,22 @@ def Reta_Central(tela, largura_tela, altura_tela, cor=PRETO, espessura=2):
 
 
 # modelo apenas:
+tela = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
+relogio = pygame.time.Clock()
 
-# def Menu(estados, Nome):
-#     while estados[Nome]:
-#         tela.fill(BRANCO)
-#         eventos = pygame.event.get()
-#         for evento in eventos:
-#             if evento.type == pygame.QUIT:
-#                 estados[Nome] = False
-#                 estados["Rodando_Jogo"] = False
+def Menu(estados, Nome):
+     
+     
+     
+     while estados[Nome]:
+        tela.fill(BRANCO)
+        eventos = pygame.event.get()
+        for evento in eventos:
+            if evento.type == pygame.QUIT:
+                 estados[Nome] = False
+                 estados["Rodando_Jogo"] = False
 
+        
 
-
-#         pygame.display.update()
-#         relogio.tick(60)
+        pygame.display.update()
+        relogio.tick(60)
