@@ -4,11 +4,10 @@ from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponi
 from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 
 class Jogador:
-    def __init__(self, informaçoes, Energias0):
+    def __init__(self, informaçoes):
         self.nome = informaçoes[0]
         self.pokemons = [informaçoes[1]]
         self.inventário = [0,]
-        self.energias = Energias0
 
 
 

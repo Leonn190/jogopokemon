@@ -1,10 +1,14 @@
 import GeradoresVisuais as GV
 import Gerador
+import random
 
-informaçoesp1 = [0,0]
-informaçoesp2 = [0,0]
+informaçoesp1 = [0,random.randint(1,3)]
+informaçoesp2 = [0,random.randint(1,3)]
 
-def iniciar_partida(estados):
+Contador1 = 0
+Contador2 = 0 
+
+def iniciar_prépartida(estados):
     print("Iniciando partida!")
     estados["Rodando_Menu"] = False
     estados["Rodando_PréPartida"] = True
@@ -36,13 +40,34 @@ def Pokemon_inicial(id_botao):
 def Remover_inicial(id_botao):
     pass
 
-def acaoteste1():
-    GV.adicionar_mensagem("olá")
+def Loja_I(ID):
+    global informaçoesp1
+    global informaçoesp2
+    global Contador1
+    global Contador2
 
-def acaoteste2():
-    GV.adicionar_mensagem("eae")
+    if ID == "PokebolasLojaIp1" and Contador1 < 5:
+        informaçoesp1.append("pokebola")
+        Contador1 += 1
+        print("P1 comprou pokebola")
+    elif ID == "ItensLojaIp1" and Contador1 < 5:
+        informaçoesp1.append("item")
+        Contador1 += 1
+        print("P1 comprou item")
+    elif ID == "PokebolasLojaIp2" and Contador2 < 5:
+        informaçoesp2.append("pokebola")
+        Contador2 += 1
+        print("P2 comprou pokebola")
+    elif ID == "ItensLojaIp2" and Contador2 < 5:
+        informaçoesp2.append("item")
+        Contador2 += 1
+        print("P2 comprou item")
 
-    GV.adicionar_mensagem("eu desfiz esquerdo")
+def Iniciar_partida(estados):
+    print (informaçoesp1)
+    print (informaçoesp2)
+    estados["Rodando_PréPartida"] = False
+    estados["Rodando_Partida"] = True
 
 def Nome_p1(texto):
     global informaçoesp1

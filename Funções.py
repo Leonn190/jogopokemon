@@ -2,7 +2,7 @@ import random
 from prettytable import PrettyTable
 import Gerador
 
-Energias = ["fogo", "agua", "eletrico", "planta", "gelo", "lutador", "veneno", "terra", "voador", "psiquico", "inseto", "pedra", "fantasma", "dragao", "sombrio", "aço", "fada"]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
 
 def comprar(player,compras):
     for i in range(compras):

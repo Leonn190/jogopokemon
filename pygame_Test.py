@@ -5,7 +5,7 @@ import PygameAções as A
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
-    AMARELO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
+    AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA)
 
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
@@ -38,8 +38,23 @@ estado2 = {
     "selecionado_direito": None
 }
 
+estado3 = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+}
+
+estado4 = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+}
+
 B1 = {"estado": False}
 B2 = {"estado": False}
+B3 = {"estado": False, "ID": "PokebolasLojaIp1"}
+B4 = {"estado": False, "ID": "ItensLojaIp1"}
+B5 = {"estado": False, "ID": "ItensLojaIp2"}
+B6 = {"estado": False, "ID": "PokebolasLojaIp2"}
+B7 = {"estado": False} 
 
 relogio = pygame.time.Clock()
 
@@ -50,6 +65,17 @@ estados = {
     "Rodando_Partida": False,
 }
 
+def BotoesMenu(eventos,estados):
+
+    GV.Botao(tela, "Iniciar a partida", (560, 350, 500, 140), CINZA, PRETO, DOURADO,
+                 lambda: A.iniciar_prépartida(estados), Fonte50, B1, 4, None, True, eventos)
+
+    GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
+                 lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
+
+    GV.Terminal(tela, (0, 700, 800, 180), Fonte30, AZUL_CLARO, PRETO)
+
+
 def Menu(estados):
     while estados["Rodando_Menu"]:
         tela.fill(BRANCO)
@@ -59,13 +85,7 @@ def Menu(estados):
                 estados["Rodando_Menu"] = False
                 estados["Rodando_Jogo"] = False
 
-        GV.Botao(tela, "Iniciar a partida", (560, 350, 500, 140), CINZA, PRETO, DOURADO,
-                 lambda: A.iniciar_partida(estados), Fonte50, B1, 4, None, True, eventos)
-
-        GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
-                 lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
-
-        GV.Terminal(tela, (0, 700, 800, 180), Fonte30, AZUL_CLARO, PRETO)
+        BotoesMenu(eventos, estados)
 
         pygame.display.update()
         relogio.tick(60)
@@ -78,8 +98,20 @@ def PréPartida(estados):
     texto2 = ""
     selecionado2 = False
 
+    tela.fill(AZUL_SUPER_CLARO)
+
+    GV.Texto(tela, "Jogador 1", (360, 50), Fonte70, PRETO)
+    GV.Texto(tela, "Jogador 2", (1320, 50), Fonte70, PRETO)
+
+    GV.Texto(tela, "Escreva seu Nome:", (190, 485), Fonte40, PRETO)
+    GV.Texto(tela, "Escreva seu Nome:", (1170, 485), Fonte40, PRETO)
+
+    GV.Texto(tela, "Faça 5 compras na loja: ", (215, 665), Fonte40, PRETO)
+    GV.Texto(tela, "Faça 5 compras na loja: ", (1175, 665), Fonte40, PRETO)
+
+    GV.Reta_Central(tela, 1920, 1080, PRETO, 4)
+
     while estados["Rodando_PréPartida"]:
-        tela.fill(AZUL_SUPER_CLARO)
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:
@@ -88,12 +120,6 @@ def PréPartida(estados):
 
         GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
-
-        GV.Texto(tela, "Jogador 1", (360, 50), Fonte70, PRETO)
-        GV.Texto(tela, "Jogador 2", (1320, 50), Fonte70, PRETO)
-
-        GV.Texto(tela, "Escreva seu Nome:", (190, 485), Fonte40, PRETO)
-        GV.Texto(tela, "Escreva seu Nome:", (1170, 485), Fonte40, PRETO)
 
         texto1, selecionado1 = GV.Barra_De_Texto(
     tela, (500, 480, 300, 40), Fonte30, 
@@ -168,31 +194,6 @@ def PréPartida(estados):
     tecla_direita=None)
         GV.Imagem(tela, "imagens/squirtle.png",(620,150,235,235))
 
-        for i in range(5):
-            GV.Botao_Selecao(
-    tela,
-    (((i + 1 * 60) + (i * 160)), 650, 150, 150),
-    "",
-    Fonte30,
-    cor_fundo=AZUL_CLARO,
-    cor_borda_normal=PRETO,
-    cor_borda_esquerda=AMARELO,   
-    cor_borda_direita=None,
-    cor_passagem=AMARELO,
-    id_botao="SquirtleP1",   
-    estado_global=estado,
-    eventos=eventos,
-    funcao_esquerdo=A.Pokemon_inicial,
-    funcao_direito=None,
-    desfazer_esquerdo=A.Remover_inicial,
-    desfazer_direito=None,
-    tecla_esquerda=pygame.K_3,
-    tecla_direita=None)
-            GV.Imagem(tela, "imagens/loja.png",(((i + 1 * 72) + (i * 160)),660,120,120))
-
-    # outro lado
-        GV.Reta_Central(tela, 1920, 1080, PRETO, 4)
-
         GV.Botao_Selecao(
     tela,
     (1600, 150, 240, 240),
@@ -256,10 +257,35 @@ def PréPartida(estados):
     tecla_direita=None)
         GV.Imagem(tela, "imagens/Bulbasaur.png",(1060,150,235,235))
 
-        GV.Terminal(tela, (0, 900, 960, 180), Fonte30, AZUL_CLARO, PRETO)
+       
+        GV.Botao(tela, "", (180, 700, 200, 200), CINZA, PRETO, DOURADO,
+                 lambda: A.Loja_I(B4["ID"]), Fonte50, B4, 4, None, True, eventos)
+
+        GV.Imagem(tela, "imagens/itens.png",(190,710,180,180))
+
+        GV.Botao(tela, "", (480, 700, 200, 200), CINZA, PRETO, DOURADO,
+                 lambda: A.Loja_I(B3["ID"]), Fonte50, B3, 4, None, True, eventos)
+
+        GV.Imagem(tela, "imagens/poke.png",(490,710,180,180))
+
+
+        GV.Botao(tela, "", (1140, 700, 200, 200), CINZA, PRETO, DOURADO,    
+                 lambda: A.Loja_I(B5["ID"]), Fonte50, B5, 4, None, True, eventos)
+        
+        GV.Imagem(tela, "imagens/itens.png",(1150,710,180,180))
+
+        GV.Botao(tela, "", (1440, 700, 200, 200), CINZA, PRETO, DOURADO,
+                 lambda: A.Loja_I(B6["ID"]), Fonte50, B6, 4, None, True, eventos)
+        
+        GV.Imagem(tela, "imagens/poke.png",(1450,710,180,180))
+
+
+        GV.Botao(tela, "Inicar Jogo", (800, 650, 350, 80), CINZA, PRETO, DOURADO,
+                 lambda: A.Iniciar_partida(estados), Fonte70, B7, 4, None, True, eventos)
 
         pygame.display.update()
-        relogio.tick(60)
+        relogio.tick(50)
+
 
 def Partida(estados):
     while estados["Rodando_Partida"]:
@@ -277,6 +303,8 @@ def Partida(estados):
 
         pygame.display.update()
         relogio.tick(60)
+
+
 
 while estados["Rodando_Jogo"]:
     if estados["Rodando_Menu"]:

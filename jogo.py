@@ -9,15 +9,10 @@ turno = 0
 inventario_p1 = [0,]
 inventario_p2 = [0,]
 
-Energias_p1 = { "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0, "veneno": 0,
-                "terra": 0, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0,
-                "sombrio": 0, "aço": 0, "fada": 0}
+Energias_p1 = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxo": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
+Energias_p2 = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxo": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
 
-Energias_p2 = { "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0, "veneno": 0,
-                "terra": 0, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0,
-                "sombrio": 0, "aço": 0, "fada": 0}
-
-Energias = ["fogo", "agua", "eletrico", "planta", "gelo", "lutador", "veneno", "terra", "voador", "psiquico", "inseto", "pedra", "fantasma", "dragao", "sombrio", "aço", "fada"]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
 
 descartaveis_p1 = []
 descartaveis_p2 = []
