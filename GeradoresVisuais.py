@@ -283,6 +283,10 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
     num_colunas = len(colunas)
     altura_linha = fonte.get_height() + 10
 
+    # Garantir que todos os valores em 'colunas' e 'linhas' sejam strings
+    colunas = [str(coluna) for coluna in colunas]
+    linhas = [[str(valor) for valor in linha] for linha in linhas]
+
     # Calcular largura proporcional das colunas com base no conteúdo
     larguras_reais = []
     for i in range(num_colunas):

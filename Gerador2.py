@@ -1,6 +1,6 @@
 import random
-from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
 from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
+from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
 import Funções2
 
 class Jogador:
