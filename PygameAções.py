@@ -1,9 +1,10 @@
 import GeradoresVisuais as GV
-import Gerador
+import Gerador2 as G
+import Partida
 import random
 
-informaçoesp1 = [random.choice(["Jogador_Legal","Jogador_Bacanudo","Jogador_Estratégico","Jogador_Habilidoso"]),random.randint(1,3)]
-informaçoesp2 = [random.choice(["Jogador_Astuto","Jogador_Habil","Jogador_Feliz","Jogador_Irado"]),random.randint(1,3)]
+informaçoesp1 = [random.choice(["Jogador Legal","Jogador Bacanudo","Jogador Estratégico","Jogador Habilidoso"]),random.randint(1,3)]
+informaçoesp2 = [random.choice(["Jogador Astuto","Jogador Habil","Jogador Feliz","Jogador Irado"]),random.randint(1,3)]
 
 Contador1 = 0
 Contador2 = 0 
@@ -21,6 +22,7 @@ def fechar_jogo(estados):
     estados["Rodando_Jogo"] = False
 
 def Pokemon_inicial(id_botao):
+    print ("johana")
     global informaçoesp1
     global informaçoesp2
     
@@ -46,7 +48,7 @@ def Voltar(estados):
         informaçoesp1 = [0,random.randint(1,3)]
         informaçoesp2 = [0,random.randint(1,3)]
 
-def Remover_inicial(id_botao=None):
+def Remover_inicial(id_botao):
     pass
 
 def Loja_I(ID):
@@ -73,8 +75,6 @@ def Loja_I(ID):
         print("P2 comprou item")
 
 def Iniciar_partida(estados):
-    print (informaçoesp1)
-    print (informaçoesp2)
     estados["Rodando_PréPartida"] = False
     estados["Rodando_Partida"] = True
 
@@ -86,16 +86,32 @@ def Nome_p2(texto):
     global informaçoesp2
     informaçoesp2[0] = texto
 
-def seleciona(Id_botao):
+def seleciona(ID, player, inimigo, Visor):
+    index_map = {
+        "Pokemon1": 0,
+        "Pokemon2": 1,
+        "Pokemon3": 2,
+        "Pokemon4": 3,
+        "Pokemon5": 4,
+        "Pokemon6": 5
+    }
+    pokemonS =0
+    idx = index_map[ID]
+    if idx < len(player.pokemons):
+            pokemonS = player.pokemons[idx]
+            if idx == 0:
+                print("bdjdjdjjd")
+    else:
+        GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")
+        return pokemonS
+    
+def desseleciona(ID,player,inimigo,Visor):
     pass
 
-def desseleciona(id_botao):
+def vizualiza(ID,player,inimigo,Visor):
     pass
 
-def vizualiza(id_botao):
-    pass
-
-def oculta(id_botao):
+def oculta(ID,player,inimigo,Visor):
     pass
 
 #

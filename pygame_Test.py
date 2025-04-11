@@ -1,12 +1,14 @@
 import pygame
 import sys
+import Partida
 import GeradoresVisuais as GV
+import Gerador2 as G
 import PygameAções as A
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
-    LARANJA, ROXO, ROSA, DOURADO, PRATA)
+    LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
 import ctypes
@@ -34,6 +36,8 @@ estado2 = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None
 }
+
+Visor = []
 
 B1 = {"estado": False}
 B2 = {"estado": False}
@@ -74,7 +78,7 @@ def TelaPréPartida(eventos,estados):
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)  
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
-                 lambda: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
+                 lambda estados: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
 
     GV.Botao_Selecao(
     tela, (80, 150, 240, 240),
@@ -83,8 +87,8 @@ def TelaPréPartida(eventos,estados):
     cor_borda_esquerda=AMARELO, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="BulbasaurP1",   
     estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.Pokemon_inicial, funcao_direito=None,
-    desfazer_esquerdo=A.Remover_inicial, desfazer_direito=None,
+    funcao_esquerdo=lambda :A.Pokemon_inicial("BulbasaurP1"), funcao_direito=None,
+    desfazer_esquerdo=lambda:A.Remover_inicial("BulbasaurP1"), desfazer_direito=None,
     tecla_esquerda=pygame.K_1, tecla_direita=None)
 
     GV.Botao_Selecao(
@@ -94,8 +98,8 @@ def TelaPréPartida(eventos,estados):
     cor_borda_esquerda=AMARELO, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="CharmanderP1",   
     estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.Pokemon_inicial, funcao_direito=None,
-    desfazer_esquerdo=A.Remover_inicial, desfazer_direito=None,
+    funcao_esquerdo=lambda:A.Pokemon_inicial("CharmanderP1"), funcao_direito=None,
+    desfazer_esquerdo=lambda:A.Remover_inicial("CharmanderP1"), desfazer_direito=None,
     tecla_esquerda=pygame.K_2, tecla_direita=None)
         
     GV.Botao_Selecao(
@@ -105,8 +109,8 @@ def TelaPréPartida(eventos,estados):
     cor_borda_esquerda=AMARELO, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="SquirtleP1",   
     estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.Pokemon_inicial, funcao_direito=None,
-    desfazer_esquerdo=A.Remover_inicial, desfazer_direito=None,
+    funcao_esquerdo=lambda:A.Pokemon_inicial("SquirtleP1"), funcao_direito=None,
+    desfazer_esquerdo=lambda:A.Remover_inicial("SquirtleP1"), desfazer_direito=None,
     tecla_esquerda=pygame.K_3, tecla_direita=None)
 
     GV.Botao_Selecao(
@@ -116,8 +120,8 @@ def TelaPréPartida(eventos,estados):
     cor_borda_esquerda=AMARELO, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="Squirtlep2",   
     estado_global=estado2, eventos=eventos,
-    funcao_esquerdo=A.Pokemon_inicial, funcao_direito=None,
-    desfazer_esquerdo=A.Remover_inicial, desfazer_direito=None,
+    funcao_esquerdo=lambda:A.Pokemon_inicial("Squirtlep2"), funcao_direito=None,
+    desfazer_esquerdo=lambda:A.Remover_inicial("Squirtlep2"), desfazer_direito=None,
     tecla_esquerda=pygame.K_9, tecla_direita=None)
 
     GV.Botao_Selecao(
@@ -127,8 +131,8 @@ def TelaPréPartida(eventos,estados):
     cor_borda_esquerda=AMARELO, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="CharmanderP2",   
     estado_global=estado2, eventos=eventos,
-    funcao_esquerdo=A.Pokemon_inicial, funcao_direito=None,
-    desfazer_esquerdo=A.Remover_inicial, desfazer_direito=None,
+    funcao_esquerdo=lambda:A.Pokemon_inicial("CharmanderP2"), funcao_direito=None,
+    desfazer_esquerdo=lambda:A.Remover_inicial("CharmanderP2"), desfazer_direito=None,
     tecla_esquerda=pygame.K_8, tecla_direita=None)
         
     GV.Botao_Selecao(
@@ -138,8 +142,8 @@ def TelaPréPartida(eventos,estados):
     cor_borda_esquerda=AMARELO, cor_borda_direita=None,
     cor_passagem=AMARELO,id_botao="BulbasaurP2", 
     estado_global=estado2,eventos=eventos, 
-    funcao_esquerdo=A.Pokemon_inicial, funcao_direito=None, 
-    desfazer_esquerdo=A.Remover_inicial, desfazer_direito=None,
+    funcao_esquerdo=lambda:A.Pokemon_inicial("BulbasaurP2"), funcao_direito=None, 
+    desfazer_esquerdo=lambda:A.Remover_inicial("BulbasaurP2"), desfazer_direito=None,
     tecla_esquerda=pygame.K_7, tecla_direita=None)
     
     #itensp1
@@ -160,79 +164,6 @@ def TelaPréPartida(eventos,estados):
 
     GV.Botao(tela, "Iniciar Partida", (770, 640, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
                  lambda: A.Iniciar_partida(estados), Fonte70, B7, 4, None, True, eventos)
-
-def TelaPartida(eventos,estados):
-    
-    GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
-                 lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
-
-    GV.Terminal(tela, (0, 850, 420, 230), Fonte30, AZUL_CLARO, PRETO)
-
-    GV.Botao_Selecao(
-    tela, (420, 889, 190, 190),
-    "", Fonte30,
-    cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Pokemon1",   
-    estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.seleciona, funcao_direito=A.vizualiza,
-    desfazer_esquerdo=A.desseleciona, desfazer_direito=A.oculta,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
-
-    GV.Botao_Selecao(
-    tela, (610, 889, 190, 190),
-    "", Fonte30,
-    cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Pokemon2",   
-    estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.seleciona, funcao_direito=A.vizualiza,
-    desfazer_esquerdo=A.desseleciona, desfazer_direito=A.oculta,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
-
-    GV.Botao_Selecao(
-    tela, (800, 889, 190, 190),
-    "", Fonte30,
-    cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Pokemon3",   
-    estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.seleciona, funcao_direito=A.vizualiza,
-    desfazer_esquerdo=A.desseleciona, desfazer_direito=A.oculta,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
-
-    GV.Botao_Selecao(
-    tela, (990, 889, 190, 190),
-    "", Fonte30,
-    cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Pokemon4",   
-    estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.seleciona, funcao_direito=A.vizualiza,
-    desfazer_esquerdo=A.desseleciona, desfazer_direito=A.oculta,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
-
-    GV.Botao_Selecao(
-    tela, (1180, 889, 190, 190),
-    "", Fonte30,
-    cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Pokemon5",   
-    estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.seleciona, funcao_direito=A.vizualiza,
-    desfazer_esquerdo=A.desseleciona, desfazer_direito=A.oculta,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
-
-    GV.Botao_Selecao(
-    tela, (1370, 889, 190, 190),
-    "", Fonte30,
-    cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Pokemon6",   
-    estado_global=estado1, eventos=eventos,
-    funcao_esquerdo=A.seleciona, funcao_direito=A.vizualiza,
-    desfazer_esquerdo=A.desseleciona, desfazer_direito=A.oculta,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
 
 def Menu(estados):
 
@@ -301,27 +232,13 @@ def PréPartida(estados):
         pygame.display.update()
         relogio.tick(50)
 
-def Partida(estados):
-    while estados["Rodando_Partida"]:
-        tela.fill(BRANCO)
-        eventos = pygame.event.get()
-        for evento in eventos:
-            if evento.type == pygame.QUIT:
-                estados["Rodando_Partida"] = False
-                estados["Rodando_Jogo"] = False
-
-        TelaPartida(eventos,estados)
-
-        pygame.display.update()
-        relogio.tick(60)
-
 while estados["Rodando_Jogo"]:
     if estados["Rodando_Menu"]:
         Menu(estados)
     elif estados["Rodando_PréPartida"]:
         PréPartida(estados)
     elif estados["Rodando_Partida"]:
-        Partida(estados)
+        Partida.Partida(tela,estados,relogio)
 
 pygame.quit()
 sys.exit()

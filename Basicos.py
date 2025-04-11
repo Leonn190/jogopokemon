@@ -41,7 +41,7 @@ Charmander = {
 }
 
 Squirtle = {
-    "nome": "Squirtle",
+    "nome": "squirtle",
     "raridade": 3,
     "dificuldade": 3,
     "code": 3,

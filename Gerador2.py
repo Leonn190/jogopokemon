@@ -1,12 +1,12 @@
 import random
-import Funções
-from armazem.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
-from armazem.Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
+from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
+from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
+import Funções2
 
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
-        self.pokemons = [informaçoes[1]]
+        self.pokemons = [Gerador_final(informaçoes[1])]
         self.inventário = [0,]
         self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxo": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
         self.ouro = 10
@@ -14,6 +14,8 @@ class Jogador:
     def ganhar_item(item):
         pass
 
+def Gerador_player(informaçoes):
+    return Jogador(informaçoes)
 
 class Pokemon:
     def __init__(self, pokemon):
@@ -36,6 +38,8 @@ class Pokemon:
         self.evolucao = pokemon["evolução"]
         self.xp_atu = pokemon["XP atu"]
         self.IV = pokemon["IV"]
+        self.code = pokemon["code"]
+
 
     def evoluir(self):
         self.nome = self.evolucao["nome"]
@@ -120,7 +124,7 @@ class Pokemon:
         Dano_I = U * F["dano"]
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
-        Dano_E = Dano_I * Funções.efetividade(Tipo,alvo.tipo)
+        Dano_E = Dano_I * Funções2.efetividade(Tipo,alvo.tipo)
         dano_F = Dano_E * mitigação
 
 
@@ -217,7 +221,8 @@ def Gerador(Pokemon):
         "ataque especial": random.choice(Pok["ataques especiais"]),
         "evolução": Pok["evolução"],
         "XP atu": 0,
-        "IV": f"{IV}%"
+        "IV": f"{IV}%",
+        "code": Pok["code"]
     }
 
 def Gerador_final(code):
