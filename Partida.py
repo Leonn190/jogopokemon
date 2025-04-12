@@ -12,6 +12,7 @@ from GeradoresVisuais import (
 PokemonS = None
 PokemonV = None
 informacao = None
+Visor = None
 
 Turno = 1
 
@@ -21,7 +22,6 @@ def passar_turno(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
 
     global Turno
     global mensagens_terminal
-    print (mensagens_terminal)
 
     x, y, largura, altura = espaço
     mouse = pygame.mouse.get_pos()
@@ -138,12 +138,22 @@ def vizualiza(ID,player,inimigo,):
 
 def oculta(ID,player,inimigo,):
     global PokemonV
+    global estadoInfo
     PokemonV = None
+    estadoInfo["selecionado_esquerdo"] = None
 
 def informa(ID,Pokemon):
     pass
 
 def desinforma(ID,Pokemon):
+    global estadoInfo
+    estadoInfo["selecionado_esquerdo"] = None
+    pass
+
+def Abre(ID,player,inimigo):
+    pass
+
+def Fecha(ID,player,inimigo):
     pass
 
 mensagens_terminal = []
@@ -154,6 +164,11 @@ estado = {
 }
 
 estadoInfo = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+}
+
+estadoOutros = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None
 }
@@ -187,7 +202,7 @@ def S(PokemonS,tela,eventos):
     f"{PokemonS.ataque_normal["nome"]}", Fonte25,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Atk Norm",   
+    cor_passagem=AMARELO, id_botao="Atk Norm.S",   
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk Norm",PokemonS), funcao_direito=None,
     desfazer_esquerdo=lambda:desinforma("Atk Norm",PokemonS), desfazer_direito=None,
@@ -197,9 +212,9 @@ def S(PokemonS,tela,eventos):
     f"{PokemonS.ataque_especial["nome"]}", Fonte25,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Atk SP",   
+    cor_passagem=AMARELO, id_botao="Atk SP.S",   
     estado_global=estadoInfo, eventos=eventos,
-    funcao_esquerdo=lambda:informa("Atk SP",PokemonS), funcao_direito=None,
+    funcao_esquerdo=lambda:informa("Atk SPS",PokemonS), funcao_direito=None,
     desfazer_esquerdo=lambda:desinforma("Atk SP",PokemonS), desfazer_direito=None,
     tecla_esquerda=None, tecla_direita=None)
 
@@ -215,39 +230,40 @@ def V(PokemonV,tela,eventos):
         ["Sp ATK", str(PokemonV.Atk_sp), "caju"],
         ["DEF", str(PokemonV.Def), "caju"],
         ["Sp DEF", str(PokemonV.Def_sp), "caju"],
-        ["VEL", str(PokemonV.vel), "caju"],
-        ["Custo", str(PokemonV.custo), "caju"],
-        ["XP", str(PokemonV.xp_atu), "caju"]
+        ["VEL", str(PokemonV.vel), "Tipo:"],
+        ["Custo", str(PokemonV.custo), PokemonV.tipo[0]],
+        ["XP", str(PokemonV.xp_atu), PokemonV.tipo[1] if len(PokemonV.tipo) > 1 else ""]
     ]
 
     # Chamada da função Tabela
     GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 0, 350, Fonte25, AZUL_CLARO, PRETO, PRETO)
 
     GV.Botao_Selecao(
-    tela, (1570, 300, 175, 30),
-    f"{PokemonS.ataque_normal["nome"]}", Fonte25,
+    tela, (1570, 290, 175, 30),
+    f"{PokemonV.ataque_normal["nome"]}", Fonte25,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Atk Norm",   
+    cor_passagem=AMARELO, id_botao="Atk Norm.V",   
     estado_global=estadoInfo, eventos=eventos,
-    funcao_esquerdo=lambda:informa("Atk Norm",PokemonS), funcao_direito=None,
-    desfazer_esquerdo=lambda:desinforma("Atk Norm",PokemonS), desfazer_direito=None,
+    funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
+    desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
     tecla_esquerda=pygame.K_1, tecla_direita=None)
     GV.Botao_Selecao(
-    tela, (1745, 300, 175, 30),
+    tela, (1745, 290, 175, 30),
     f"{PokemonS.ataque_especial["nome"]}", Fonte25,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Atk SP",   
+    cor_passagem=AMARELO, id_botao="Atk SP.V",   
     estado_global=estadoInfo, eventos=eventos,
-    funcao_esquerdo=lambda:informa("Atk SP",PokemonS), funcao_direito=None,
-    desfazer_esquerdo=lambda:desinforma("Atk SP",PokemonS), desfazer_direito=None,
+    funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
+    desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
     tecla_esquerda=pygame.K_1, tecla_direita=None)
     
 def TelaPartida(tela,eventos,estados,player,inimigo):
     global PokemonS
     global PokemonV
     global informacao
+    global Visor
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
@@ -259,6 +275,37 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
 
     GV.Texto_caixa(tela,player.nome,(0, 800, 420, 50),Fonte50,AZUL,PRETO) 
     GV.Texto_caixa(tela,inimigo.nome,(0, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO) 
+
+    GV.Botao_Selecao(
+    tela, (0, 740, 70, 60),
+    "", Fonte30,
+    cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
+    cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
+    cor_passagem=AMARELO, id_botao="Inventario",   
+    estado_global=estadoOutros, eventos=eventos,
+    funcao_esquerdo=lambda:Abre("Inventario",player,inimigo), funcao_direito=None,
+    desfazer_esquerdo=lambda:Fecha("Inventario",player,inimigo), desfazer_direito=None,
+    tecla_esquerda=pygame.K_1, tecla_direita=None)
+    GV.Botao_Selecao(
+    tela, (70, 740, 70, 60),
+    "", Fonte30,
+    cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
+    cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
+    cor_passagem=AMARELO, id_botao="Energias",   
+    estado_global=estadoOutros, eventos=eventos,
+    funcao_esquerdo=lambda:Abre("Energias",player,inimigo), funcao_direito=None,
+    desfazer_esquerdo=lambda:Fecha("Energias",player,inimigo), desfazer_direito=None,
+    tecla_esquerda=pygame.K_1, tecla_direita=None)
+    GV.Botao_Selecao(
+    tela, (140, 740, 70, 60),
+    "", Fonte30,
+    cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
+    cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
+    cor_passagem=AMARELO, id_botao="Centro",   
+    estado_global=estadoOutros, eventos=eventos,
+    funcao_esquerdo=lambda:Abre("Centro",player,inimigo), funcao_direito=None,
+    desfazer_esquerdo=lambda:Fecha("Centro",player,inimigo), desfazer_direito=None,
+    tecla_esquerda=pygame.K_1, tecla_direita=None)
 
     GV.Texto_caixa(tela,f"Turno: {Turno}",(0, 500, 420, 50),Fonte50,AZUL,PRETO) 
 
@@ -405,11 +452,14 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     return player, inimigo
 
 def Partida(tela,estados,relogio):
-    global Visor
 
     bulbasaurIMG = GV.Carregar_Imagem("imagens/bulbasaur.png", (180,180),"PNG")
     charmanderIMG = GV.Carregar_Imagem("imagens/charmander.png", (180,180),"PNG")
     squirtleIMG = GV.Carregar_Imagem("imagens/squirtle.png", (180,180),"PNG")
+
+    InventárioIMG = GV.Carregar_Imagem("imagens/inventario.png", (60,60),"PNG")
+    energiasIMG = GV.Carregar_Imagem("imagens/energias.png", (50,50),"PNG")
+    CentroIMG = GV.Carregar_Imagem("imagens/centro.png", (70,70),"PNG")
 
     imagens = {
     "bulbasaur": bulbasaurIMG,
@@ -424,6 +474,10 @@ def Partida(tela,estados,relogio):
 
     player = Jogador1
     inimigo = Jogador2
+
+    pygame.mixer.music.load('Musicas/PartidaTheme.ogg')  
+    pygame.mixer.music.set_volume(0.0)
+    pygame.mixer.music.play(-1)
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
@@ -440,6 +494,10 @@ def Partida(tela,estados,relogio):
 
         for i in range(len(inimigo.pokemons)):
             tela.blit(imagens[inimigo.pokemons[i].nome],((420 + i * 200),0))
+
+        tela.blit(InventárioIMG,(5,740))
+        tela.blit(energiasIMG,(80,745))
+        tela.blit(CentroIMG,(140,735))
 
         pygame.display.update()
         relogio.tick(60)

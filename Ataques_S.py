@@ -4,6 +4,7 @@ C = {
     "tipo": ["fogo"],
     "custo": ["normal","fogo","fogo"],
     "dano": 1,
+    "Info": 0
 }
 
 D = {
@@ -11,4 +12,5 @@ D = {
     "tipo": ["fogo"],
     "custo": ["normal","fogo","fogo"],
     "dano": 1.1,
+    "Info": 0
 }
