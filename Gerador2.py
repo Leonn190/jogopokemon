@@ -1,4 +1,5 @@
 import random
+import GeradoresVisuais as GV
 from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
 import Funções2
@@ -13,6 +14,34 @@ class Jogador:
     
     def ganhar_item(self,item):
         self.inventario.append(item)
+    
+    def usar_item(self,indice,Pokemon):
+        pass
+        # item = self.inventario[indice] 
+        # if item["classe"] == "pokebola":
+        #     GV.adicionar_mensagem("Pokebolas devem ser utilizadas apenas para capturar pokemons")
+        # else:
+        #     if item["classe"] in ["poçao"]:
+        #         cura = item["cura"]
+        #         self.inventario.remove(item)
+        #         Pokemon.curar(cura)
+        #         return
+        #     elif item["classe"] in ["amplificador"]:
+        #         tipo = item["aumento"]
+        #         self.inventario.remove(item)
+        #         Pokemon.amplificar(tipo,0.15,Pokemon)
+        #         return
+        #     elif item["classe"] in ["caixa","coletor"]:
+        #         compras = item["compra"]
+        #         if item["classe"] in ["caixa"]:
+        #             self.inventario.remove(item)
+        #             comprar(player,compras)
+        #             return
+        #     elif item["classe"] in ["coletor"]:
+        #         self.inventario.remove(item)
+        #         ganhar_energia(player,compras)
+        #         return
+
 
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)

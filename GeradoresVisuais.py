@@ -16,6 +16,7 @@ AMARELO = (255, 255, 0)
 AMARELO_CLARO = (255, 255, 153)
 VERMELHO = (255, 0, 0)
 VERMELHO_CLARO = (255, 102, 102)
+VERMELHO_SUPER_CLARO = (255, 153, 153)
 VERDE = (0, 255, 0)
 VERDE_CLARO = (144, 238, 144)
 LARANJA = (255, 165, 0)
@@ -223,7 +224,8 @@ def Terminal(tela, espaço, fonte, cor_fundo, cor_texto):
         texto = fonte.render(mensagem, True, cor_texto)
         tela.blit(texto, (x + 10, y + 5 + i * espaco_linha))            
 
-def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, cor_texto, cor_borda, cor_cabecalho):
+def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, fonte_cabecalho, cor_fundo, cor_borda, cor_cabecalho):
+    PRETO = (0, 0, 0)  # Cor padrão para texto
     num_colunas = len(colunas)
     altura_linha = fonte.get_height() + 10
 
@@ -249,20 +251,20 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
     # Fundo da tabela
     pygame.draw.rect(tela, cor_fundo, (x, y, largura_total_real, altura_total))
 
-    # Borda externa da tabela (normal)
+    # Borda externa da tabela
     pygame.draw.rect(tela, cor_borda, (x, y, largura_total_real, altura_total), 2)
 
     # Título (linha 0)
     pygame.draw.rect(tela, cor_cabecalho, (x, y, largura_total_real, altura_linha))
-    titulo_render = fonte.render(nome, True, cor_texto)
+    titulo_render = fonte_cabecalho.render(nome, True, PRETO)
     titulo_rect = titulo_render.get_rect(center=(x + largura_total_real // 2, y + altura_linha // 2))
     tela.blit(titulo_render, titulo_rect)
 
-    # Linha do cabeçalho (linha 1)
+    # Cabeçalho (linha 1)
     pygame.draw.rect(tela, cor_cabecalho, (x, y + altura_linha, largura_total_real, altura_linha))
     for i, coluna in enumerate(colunas):
         coluna_x = x + sum(larguras_ajustadas[:i])
-        texto = fonte.render(coluna, True, cor_texto)
+        texto = fonte_cabecalho.render(coluna, True, PRETO)
         texto_rect = texto.get_rect(center=(coluna_x + larguras_ajustadas[i] // 2, y + altura_linha + altura_linha // 2))
         tela.blit(texto, texto_rect)
 
@@ -277,7 +279,7 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
         linha_y = y + (j + 2) * altura_linha
         for i, valor in enumerate(linha):
             coluna_x = x + sum(larguras_ajustadas[:i])
-            texto = fonte.render(valor, True, cor_texto)
+            texto = fonte.render(valor, True, PRETO)
             texto_rect = texto.get_rect(center=(coluna_x + larguras_ajustadas[i] // 2, linha_y + altura_linha // 2))
             tela.blit(texto, texto_rect)
 
