@@ -162,6 +162,7 @@ class Pokemon:
         
 Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
 pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "preta", "cinza"]
 
 def Gerador(Pokemon):
     Pok = Pokemon
@@ -269,20 +270,28 @@ def spawn_do_centro(centro):
     print (f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
     return centro
 
-def gera_item(tipo):
+def gera_item(tipo,player,custo):
 
     raridades = []
+    if player.ouro >= custo:
+        if tipo == "energia":
+            energia_sorteada = random.choice(Energias)
+            player.energias[energia_sorteada] += 1
 
-    if tipo == "item":
-        U = itens_disponiveis
-    elif tipo == "pokebola":
-        U = pokebolas_disponiveis
-    elif tipo == "amplificador":
-        U = amplificadores_disponiveis
+        else:
+            if tipo == "item":
+                U = itens_disponiveis
+            elif tipo == "pokebola":
+                U = pokebolas_disponiveis
+            elif tipo == "amplificador":
+                U = amplificadores_disponiveis
 
-    for i in range(len(U)):
-        for j in range(6 - U[i]["raridade"]):
-            raridades.append(U[i])
-    item = random.choice(raridades)
-    return item
+            for i in range(len(U)):
+                for j in range(6 - U[i]["raridade"]):
+                    raridades.append(U[i])
+            player.ouro -= custo
+            item = random.choice(raridades)
+            player.inventario.append(item)
+    else:
+        GV.adicionar_mensagem("Você não tem ouro o suficiente")
         

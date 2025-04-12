@@ -29,11 +29,12 @@ Fonte70 = pygame.font.SysFont(None, 70)
 Fonte50 = pygame.font.SysFont(None, 50)
 Fonte40 = pygame.font.SysFont(None, 40)
 Fonte30 = pygame.font.SysFont(None, 30)
-Fonte25 = pygame.font.SysFont(None, 28)
-Fonte20 = pygame.font.SysFont(None, 20)
+Fonte25 = pygame.font.SysFont(None, 25)
+Fonte28 = pygame.font.SysFont(None, 28)
+Fonte20 = pygame.font.SysFont(None, 23)
 Fonte15 = pygame.font.SysFont(None, 15)
 
-Fontes = [Fonte15,Fonte20,Fonte25,Fonte30,Fonte40,Fonte50]
+Fontes = [Fonte15,Fonte20,Fonte25,Fonte28,Fonte30,Fonte40,Fonte50]
 Cores = [PRETO,BRANCO,CINZA,AZUL,AZUL_CLARO,AMARELO,VERMELHO,VERDE,VERDE_CLARO,LARANJA,ROXO,ROSA,DOURADO,PRATA]
 
 def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,

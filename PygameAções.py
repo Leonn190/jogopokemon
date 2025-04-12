@@ -88,5 +88,3 @@ def Nome_p2(texto):
 
 
 
-
-

@@ -3,7 +3,7 @@ import GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
 from GeradoresVisuais import (
-    Fonte15, Fonte20, Fonte25, Fonte30, Fonte40, Fonte50,Fonte70,
+    Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
@@ -13,6 +13,11 @@ PokemonS = None
 PokemonV = None
 informacao = None
 Visor = None
+
+LojaItensP = 3
+LojaPokeP = 4
+LojaAmpliP = 3
+LojaEnerP = 1
 
 Turno = 1
 tempo_restante = 0 
@@ -239,22 +244,27 @@ estadoOutros = {
 }
 
 B1 = {"estado": False}
-B2 = {"estado": False}
+B2 = {"estado": False, "ID": "item"}
+B3 = {"estado": False, "ID": "pokebola"}
+B4 = {"estado": False, "ID": "amplificador"}
+B5 = {"estado": False, "ID": "energia"}
+B6 = {"estado": False}
+B7 = {"estado": False}
 
 def A(Visor,tela,eventos,player,inimigo):
     global PokemonS
 
     if Visor == "Inventario":
         nomeA = f"Inventário de {player.nome}"
-        colunasA = ["Nome", "Tipo", "Descrição"]
+        colunasA = ["Nome", "Descrição"]
         linhasA = []
         for item in player.inventario:
-            linhasA.append([item["nome"], item["classe"], item["Descrição"]])
-        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 300, 420, Fonte20, Fonte25, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
+            linhasA.append([item["nome"], item["Descrição"]])
+        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 300, 420, Fonte20, Fonte28, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
 
-        for i in range(player.inventario):
-            GV.Botao(tela, "", (300, 400, 30, 30), CINZA, PRETO, AZUL,
-                 lambda: G.player.usar_item(i,PokemonS), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
+        # for i in range(player.inventario):
+        #     GV.Botao(tela, "", (300, 400, 30, 30), CINZA, PRETO, AZUL,
+        #          lambda: G.player.usar_item(i,PokemonS), Fonte50, B6, 3, pygame.K_ESCAPE, False, eventos)
 
     elif Visor == "Energias":
         nomeA = f"Energias de {player.nome}"
@@ -266,7 +276,7 @@ def A(Visor,tela,eventos,player,inimigo):
         ["Verde", player.energias["verde"], "Roxa",player.energias["roxa"]],
         ["Cinza", player.energias["cinza"], "Preta",player.energias["preta"]],
         ]
-        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 300, 420, Fonte25, Fonte30, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
+        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 300, 420, Fonte28, Fonte30, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
 
 def S(PokemonS,tela,eventos):
     nomeS = f"Status do {PokemonS.nome}"
@@ -286,11 +296,11 @@ def S(PokemonS,tela,eventos):
     ]
 
     # Chamada da função Tabela
-    GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 570, 350, Fonte25, Fonte30, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
+    GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 570, 350, Fonte28, Fonte30, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
 
     GV.Botao_Selecao(
     tela, (1570, 860, 175, 30),
-    f"{PokemonS.ataque_normal["nome"]}", Fonte25,
+    f"{PokemonS.ataque_normal["nome"]}", Fonte28,
     cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
     cor_passagem=AMARELO, id_botao="Atk Norm.S",   
@@ -300,7 +310,7 @@ def S(PokemonS,tela,eventos):
     tecla_esquerda=None, tecla_direita=None, grossura=1)
     GV.Botao_Selecao(
     tela, (1745, 860, 175, 30),
-    f"{PokemonS.ataque_especial["nome"]}", Fonte25,
+    f"{PokemonS.ataque_especial["nome"]}", Fonte28,
     cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
     cor_passagem=AMARELO, id_botao="Atk SP.S",   
@@ -327,11 +337,11 @@ def V(PokemonV,tela,eventos,inimigo):
     ]
 
     if PokemonV in inimigo.pokemons:
-        GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 240, 350, Fonte25,Fonte30, VERMELHO_SUPER_CLARO, PRETO, VERMELHO_CLARO)
+        GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 240, 350, Fonte28,Fonte30, VERMELHO_SUPER_CLARO, PRETO, VERMELHO_CLARO)
 
         GV.Botao_Selecao(
         tela, (1570, 530, 175, 30),
-        f"{PokemonV.ataque_normal["nome"]}", Fonte25,
+        f"{PokemonV.ataque_normal["nome"]}", Fonte28,
         cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
         cor_passagem=AMARELO, id_botao="Atk Norm.V",   
@@ -341,7 +351,7 @@ def V(PokemonV,tela,eventos,inimigo):
         tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
         GV.Botao_Selecao(
         tela, (1745, 530, 175, 30),
-        f"{PokemonV.ataque_especial["nome"]}", Fonte25,
+        f"{PokemonV.ataque_especial["nome"]}", Fonte28,
         cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
         cor_passagem=AMARELO, id_botao="Atk SP.V",   
@@ -351,11 +361,11 @@ def V(PokemonV,tela,eventos,inimigo):
         tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
 
     else:
-        GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 240, 350, Fonte25,Fonte30, AZUL_SUPER_CLARO, PRETO,AZUL_CLARO)
+        GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 240, 350, Fonte28,Fonte30, AZUL_SUPER_CLARO, PRETO,AZUL_CLARO)
 
         GV.Botao_Selecao(
         tela, (1570, 530, 175, 30),
-        f"{PokemonV.ataque_normal["nome"]}", Fonte25,
+        f"{PokemonV.ataque_normal["nome"]}", Fonte28,
         cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
         cor_passagem=AMARELO, id_botao="Atk Norm.V",   
@@ -365,7 +375,7 @@ def V(PokemonV,tela,eventos,inimigo):
         tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
         GV.Botao_Selecao(
         tela, (1745, 530, 175, 30),
-        f"{PokemonV.ataque_especial["nome"]}", Fonte25,
+        f"{PokemonV.ataque_especial["nome"]}", Fonte28,
         cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
         cor_passagem=AMARELO, id_botao="Atk SP.V",   
@@ -380,13 +390,18 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     global informacao
     global Visor
 
+    global LojaItensP
+    global LojaPokeP
+    global LojaAmpliP
+    global LojaEnerP
+
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,
-                 lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
+                 lambda: A.fechar_jogo(estados), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)
 
     player, inimigo = passar_turno(tela, "Passar Turno", (500, 400, 320, 80), CINZA, PRETO, AZUL,
-                  Fonte50, B2, player, inimigo, 3, None, True, eventos)
+                  Fonte50, B7, player, inimigo, 3, None, True, eventos)
 
-    GV.Terminal(tela, (0, 850, 420, 230), Fonte25, AZUL_CLARO, PRETO)
+    GV.Terminal(tela, (0, 850, 420, 230), Fonte28, AZUL_CLARO, PRETO)
 
     GV.Texto_caixa(tela,player.nome,(0, 800, 420, 50),Fonte50,AZUL,PRETO) 
     GV.Texto_caixa(tela,inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
@@ -394,7 +409,21 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
 
     player, inimigo = cronometro(tela, (0, 100, 200, 40), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:Ao_terminar(player,inimigo),Turno,player,inimigo)
 
+    GV.Texto_caixa(tela,str(LojaItensP),(1525, 158, 50, 20),Fonte20,CINZA,PRETO,2)
+    GV.Botao(tela, "", (1510, 80, 80, 80), CINZA, PRETO, VERDE_CLARO,
+                 lambda: G.gera_item(B2["ID"],player,LojaItensP), Fonte50, B2, 3, None, True, eventos)
     
+    GV.Texto_caixa(tela,str(LojaPokeP),(1605, 158, 50, 20),Fonte20,CINZA,PRETO,2)
+    GV.Botao(tela, "", (1590, 80, 80, 80), CINZA, PRETO, VERDE_CLARO,
+                 lambda: G.gera_item(B3["ID"],player,LojaPokeP), Fonte50, B3, 3, None, True, eventos)
+    
+    GV.Texto_caixa(tela,str(LojaAmpliP),(1685, 158, 50, 20),Fonte20,CINZA,PRETO,2)
+    GV.Botao(tela, "", (1670, 80, 80, 80), CINZA, PRETO, VERDE_CLARO,
+                 lambda: G.gera_item(B4["ID"],player,LojaAmpliP), Fonte50, B4, 3, None, True, eventos)
+    
+    GV.Texto_caixa(tela,str(LojaEnerP),(1765, 158, 50, 20),Fonte20,CINZA,PRETO,2)
+    GV.Botao(tela, "", (1750, 80, 80, 80), CINZA, PRETO, VERDE_CLARO,
+                 lambda: G.gera_item(B5["ID"],player,LojaEnerP), Fonte50, B4, 3, None, True, eventos)
 
     GV.Botao_Selecao(
     tela, (0, 740, 70, 60),
@@ -586,6 +615,11 @@ def Partida(tela,estados,relogio):
     energiasIMG = GV.Carregar_Imagem("imagens/energias.png", (50,50),"PNG")
     CentroIMG = GV.Carregar_Imagem("imagens/centro.png", (70,70),"PNG")
 
+    LojaPokebolasIMG = GV.Carregar_Imagem("imagens/Poke.png", (70,70),"PNG")
+    LojaItensIMG = GV.Carregar_Imagem("imagens/itens.png", (70,70),"PNG")
+    LojaAmplificadoresIMG = GV.Carregar_Imagem("imagens/amplificadores.png", (70,70),"PNG")
+    LojaEnergiasIMG = GV.Carregar_Imagem("imagens/energias.png", (60,60),"PNG")
+
     imagens = {
     "bulbasaur": bulbasaurIMG,
     "charmander": charmanderIMG,
@@ -634,6 +668,11 @@ def Partida(tela,estados,relogio):
         tela.blit(InventárioIMG,(5,740))
         tela.blit(energiasIMG,(80,745))
         tela.blit(CentroIMG,(140,735))
+
+        tela.blit(LojaItensIMG,(1515,85))
+        tela.blit(LojaPokebolasIMG,(1595,85))
+        tela.blit(LojaAmplificadoresIMG,(1675,85))
+        tela.blit(LojaEnergiasIMG,(1760,88))
 
         if Turno > 5 and not altera_musica:
             pygame.mixer.music.load("Musicas/Partida2theme.ogg")
