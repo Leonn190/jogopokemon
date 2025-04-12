@@ -7,12 +7,12 @@ class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
         self.pokemons = [Gerador_final(informaçoes[1])]
-        self.inventário = [0,]
-        self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxo": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
+        self.inventario = []
+        self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
         self.ouro = 10
     
-    def ganhar_item(item):
-        pass
+    def ganhar_item(self,item):
+        self.inventario.append(item)
 
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)
@@ -240,7 +240,7 @@ def spawn_do_centro(centro):
     print (f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
     return centro
 
-def ganhar_item(tipo):
+def gera_item(tipo):
 
     raridades = []
 

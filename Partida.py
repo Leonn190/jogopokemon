@@ -151,10 +151,11 @@ def desinforma(ID,Pokemon):
     pass
 
 def Abre(ID,player,inimigo):
-    pass
-
+    global Visor
+    Visor = ID
+    
 def Fecha(ID,player,inimigo):
-    pass
+    Visor = None
 
 mensagens_terminal = []
 
@@ -173,9 +174,28 @@ estadoOutros = {
     "selecionado_direito": None
 }
 
-
 B1 = {"estado": False}
 B2 = {"estado": False}
+
+def A(Visor,tela,eventos,player,inimigo):
+    if Visor == "Inventario":
+        nomeA = f"Inventário de {player.nome}"
+        colunasA = ["Nome", "Classe", "Descrição"]
+        linhasA = []
+        for item in player.inventario:
+            linhasA.append([item["nome"], item["classe"], item["Descrição"]])
+        GV.Tabela(nomeA, colunasA, linhasA, tela, 1000, 500, 350, Fonte15, AZUL_SUPER_CLARO, PRETO, PRETO,AZUL_CLARO)
+    elif Visor == "Energias":
+        nomeA = f"Energias de {player.nome}"
+        colunasA = ["tipo", "Num", "Tipo", "Num"]
+        linhasA = [
+        ["Vermelha",player.energias["vermelha"], "Laranja",player.energias["laranja"]],
+        ["Azul", player.energias["azul"], "Marrom",player.energias["marrom"]],
+        ["Amarela", player.energias["amarela"], "Rosa",player.energias["rosa"]],
+        ["Verde", player.energias["verde"], "Roxa",player.energias["roxa"]],
+        ["Cinza", player.energias["cinza"], "Preta",player.energias["preta"]],
+        ]
+        GV.Tabela(nomeA, colunasA, linhasA, tela, 1000, 500, 350, Fonte15, AZUL_SUPER_CLARO, PRETO, PRETO,AZUL_CLARO)
 
 def S(PokemonS,tela,eventos):
     nomeS = f"Status do {PokemonS.nome}"
@@ -195,7 +215,7 @@ def S(PokemonS,tela,eventos):
     ]
 
     # Chamada da função Tabela
-    GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 500, 350, Fonte25, AZUL_CLARO, PRETO, PRETO)
+    GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 500, 350, Fonte25, AZUL_SUPER_CLARO, PRETO, PRETO,AZUL_CLARO)
 
     GV.Botao_Selecao(
     tela, (1570, 790, 175, 30),
@@ -206,7 +226,7 @@ def S(PokemonS,tela,eventos):
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk Norm",PokemonS), funcao_direito=None,
     desfazer_esquerdo=lambda:desinforma("Atk Norm",PokemonS), desfazer_direito=None,
-    tecla_esquerda=None, tecla_direita=None)
+    tecla_esquerda=None, tecla_direita=None, grossura=1)
     GV.Botao_Selecao(
     tela, (1745, 790, 175, 30),
     f"{PokemonS.ataque_especial["nome"]}", Fonte25,
@@ -216,15 +236,15 @@ def S(PokemonS,tela,eventos):
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk SPS",PokemonS), funcao_direito=None,
     desfazer_esquerdo=lambda:desinforma("Atk SP",PokemonS), desfazer_direito=None,
-    tecla_esquerda=None, tecla_direita=None)
+    tecla_esquerda=None, tecla_direita=None, grossura=1)
 
 def V(PokemonV,tela,eventos):
-    nomeS = f"Status do {PokemonV.nome}"
+    nomeV = f"Status do {PokemonV.nome}"
 
-    colunasS = ["nome", "valor", "IV"]  # 3 colunas: nome, valor, IV
+    colunasV = ["nome", "valor", "IV"]  # 3 colunas: nome, valor, IV
 
     # Linhas com os atributos e o valor "caju" para IV
-    linhasS = [
+    linhasV = [
         ["Vida", str(PokemonV.Vida), "caju"],
         ["ATK", str(PokemonV.Atk), "caju"],
         ["Sp ATK", str(PokemonV.Atk_sp), "caju"],
@@ -236,7 +256,7 @@ def V(PokemonV,tela,eventos):
     ]
 
     # Chamada da função Tabela
-    GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 0, 350, Fonte25, AZUL_CLARO, PRETO, PRETO)
+    GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 0, 350, Fonte25, AZUL_SUPER_CLARO, PRETO, PRETO,AZUL_CLARO)
 
     GV.Botao_Selecao(
     tela, (1570, 290, 175, 30),
@@ -247,17 +267,17 @@ def V(PokemonV,tela,eventos):
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
     desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
+    tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
     GV.Botao_Selecao(
     tela, (1745, 290, 175, 30),
-    f"{PokemonS.ataque_especial["nome"]}", Fonte25,
+    f"{PokemonV.ataque_especial["nome"]}", Fonte25,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
     cor_passagem=AMARELO, id_botao="Atk SP.V",   
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
     desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
+    tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
     
 def TelaPartida(tela,eventos,estados,player,inimigo):
     global PokemonS
@@ -265,7 +285,7 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     global informacao
     global Visor
 
-    GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
+    GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
 
     player, inimigo = passar_turno(tela, "Passar Turno", (300, 400, 320, 80), CINZA, PRETO, AZUL,
@@ -280,7 +300,7 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     tela, (0, 740, 70, 60),
     "", Fonte30,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
+    cor_borda_esquerda=VERDE, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="Inventario",   
     estado_global=estadoOutros, eventos=eventos,
     funcao_esquerdo=lambda:Abre("Inventario",player,inimigo), funcao_direito=None,
@@ -290,7 +310,7 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     tela, (70, 740, 70, 60),
     "", Fonte30,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
+    cor_borda_esquerda=VERDE, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="Energias",   
     estado_global=estadoOutros, eventos=eventos,
     funcao_esquerdo=lambda:Abre("Energias",player,inimigo), funcao_direito=None,
@@ -300,7 +320,7 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     tela, (140, 740, 70, 60),
     "", Fonte30,
     cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
+    cor_borda_esquerda=VERDE, cor_borda_direita=None,
     cor_passagem=AMARELO, id_botao="Centro",   
     estado_global=estadoOutros, eventos=eventos,
     funcao_esquerdo=lambda:Abre("Centro",player,inimigo), funcao_direito=None,
@@ -443,15 +463,18 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
 
     if PokemonS is not None:
         S(PokemonS,tela,eventos)
-     
    
     if PokemonV is not None:
         V(PokemonV,tela,eventos)
+
+    if Visor is not None:
+        A(Visor,tela,eventos,player,inimigo)
          
 
     return player, inimigo
 
 def Partida(tela,estados,relogio):
+    global Turno
 
     bulbasaurIMG = GV.Carregar_Imagem("imagens/bulbasaur.png", (180,180),"PNG")
     charmanderIMG = GV.Carregar_Imagem("imagens/charmander.png", (180,180),"PNG")
@@ -472,12 +495,20 @@ def Partida(tela,estados,relogio):
     Jogador1 = G.Gerador_player(informaçoesp1)
     Jogador2 = G.Gerador_player(informaçoesp2)
 
+    for item in informaçoesp1[3:]:
+        Jogador1.ganhar_item(G.gera_item(item))
+
+    for item in informaçoesp2[3:]:
+        Jogador2.ganhar_item(G.gera_item(item))
+
     player = Jogador1
     inimigo = Jogador2
 
-    pygame.mixer.music.load('Musicas/PartidaTheme.ogg')  
-    pygame.mixer.music.set_volume(0.0)
+    pygame.mixer.music.load('Musicas/Partida1Theme.ogg')  
+    pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
+
+    altera_musica = False
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
@@ -498,6 +529,11 @@ def Partida(tela,estados,relogio):
         tela.blit(InventárioIMG,(5,740))
         tela.blit(energiasIMG,(80,745))
         tela.blit(CentroIMG,(140,735))
+
+        if Turno > 5 and not altera_musica:
+            pygame.mixer.music.load("Musicas/Partida2theme.ogg")
+            pygame.mixer.music.play(-1)  # -1 = repetir para sempre
+            altera_musica = True  # garante que só toca uma vez
 
         pygame.display.update()
         relogio.tick(60)

@@ -94,7 +94,7 @@ def Botao_Selecao(
     estado_global=None, eventos=None,
     funcao_esquerdo=None, funcao_direito=None,
     desfazer_esquerdo=None, desfazer_direito=None,
-    tecla_esquerda=None, tecla_direita=None
+    tecla_esquerda=None, tecla_direita=None,grossura=5
 ):
 
     x, y, largura, altura = espaço
@@ -135,7 +135,7 @@ def Botao_Selecao(
         cor_borda_atual = cor_passagem
 
     pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
-    pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), 3)
+    pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
 
     texto_render = Fonte.render(texto, True, (0, 0, 0))
     texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
@@ -223,7 +223,7 @@ def Terminal(tela, espaço, fonte, cor_fundo, cor_texto):
         texto = fonte.render(mensagem, True, cor_texto)
         tela.blit(texto, (x + 10, y + 5 + i * espaco_linha))            
 
-def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, cor_texto, cor_borda):
+def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, cor_texto, cor_borda, cor_cabecalho):
     num_colunas = len(colunas)
     altura_linha = fonte.get_height() + 10
 
@@ -240,33 +240,39 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
 
     soma_larguras = sum(larguras_reais)
     larguras_ajustadas = [int((larg * largura_total) / soma_larguras) for larg in larguras_reais]
-
-    # Recalcular a largura total real após arredondamento
     largura_total_real = sum(larguras_ajustadas)
 
-    # CALCULA a altura total de forma correta:
+    # Altura total
     num_linhas_total = 1 + 1 + len(linhas)
     altura_total = num_linhas_total * altura_linha
 
-    # Desenhar fundo da tabela
+    # Fundo da tabela
     pygame.draw.rect(tela, cor_fundo, (x, y, largura_total_real, altura_total))
 
-    # Desenhar borda completa
+    # Borda externa da tabela (normal)
     pygame.draw.rect(tela, cor_borda, (x, y, largura_total_real, altura_total), 2)
 
-    # Desenhar título (linha 0)
+    # Título (linha 0)
+    pygame.draw.rect(tela, cor_cabecalho, (x, y, largura_total_real, altura_linha))
     titulo_render = fonte.render(nome, True, cor_texto)
     titulo_rect = titulo_render.get_rect(center=(x + largura_total_real // 2, y + altura_linha // 2))
     tela.blit(titulo_render, titulo_rect)
 
-    # Cabeçalho (linha 1)
+    # Linha do cabeçalho (linha 1)
+    pygame.draw.rect(tela, cor_cabecalho, (x, y + altura_linha, largura_total_real, altura_linha))
     for i, coluna in enumerate(colunas):
         coluna_x = x + sum(larguras_ajustadas[:i])
         texto = fonte.render(coluna, True, cor_texto)
         texto_rect = texto.get_rect(center=(coluna_x + larguras_ajustadas[i] // 2, y + altura_linha + altura_linha // 2))
         tela.blit(texto, texto_rect)
 
-    # Linhas de dados (a partir da linha 2)
+    # Reforçar bordas do cabeçalho (mais grossas)
+    pygame.draw.line(tela, cor_borda, (x, y), (x + largura_total_real, y), 3)  # topo
+    pygame.draw.line(tela, cor_borda, (x, y + 2 * altura_linha), (x + largura_total_real, y + 2 * altura_linha), 3)  # base do cabeçalho
+    pygame.draw.line(tela, cor_borda, (x, y), (x, y + 2 * altura_linha), 3)  # esquerda
+    pygame.draw.line(tela, cor_borda, (x + largura_total_real, y), (x + largura_total_real, y + 2 * altura_linha), 3)  # direita
+
+    # Linhas de dados
     for j, linha in enumerate(linhas):
         linha_y = y + (j + 2) * altura_linha
         for i, valor in enumerate(linha):
@@ -274,24 +280,13 @@ def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, cor_fundo, c
             texto = fonte.render(valor, True, cor_texto)
             texto_rect = texto.get_rect(center=(coluna_x + larguras_ajustadas[i] // 2, linha_y + altura_linha // 2))
             tela.blit(texto, texto_rect)
+
         for i in range(1, num_colunas):
             linha_x = x + sum(larguras_ajustadas[:i])
-            pygame.draw.line(
-                tela,
-                cor_borda,
-                (linha_x, y + altura_linha),
-                (linha_x, y + altura_total),
-                1
-            )
+            pygame.draw.line(tela, cor_borda, (linha_x, y + altura_linha), (linha_x, y + altura_total), 1)
 
     for j in range(1, len(linhas) + 2):
-        pygame.draw.line(
-            tela,
-            cor_borda,
-            (x, y + j * altura_linha),
-            (x + largura_total_real, y + j * altura_linha),
-            1
-        )
+        pygame.draw.line(tela, cor_borda, (x, y + j * altura_linha), (x + largura_total_real, y + j * altura_linha), 1)
 
 def Carregar_Imagem(nome_arquivo,tamanho,tipo="n"):
     if tipo == "PNG":

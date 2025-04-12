@@ -169,6 +169,10 @@ def Menu(estados):
 
     Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo2.PNG", (1920,1080),"PNG")
 
+    pygame.mixer.music.load('Musicas/MenuTheme.ogg')  
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1)
+
     while estados["Rodando_Menu"]:
         tela.blit(Fundo_Menu, (0, 0))
         eventos = pygame.event.get()
