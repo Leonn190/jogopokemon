@@ -78,7 +78,7 @@ def TelaPréPartida(eventos,estados):
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)  
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
-                 lambda estados: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
+                 lambda: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
 
     GV.Botao_Selecao(
     tela, (80, 150, 240, 240),
@@ -167,7 +167,7 @@ def TelaPréPartida(eventos,estados):
 
 def Menu(estados):
 
-    Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo1.jpg", (1920,1080))
+    Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo2.PNG", (1920,1080),"PNG")
 
     while estados["Rodando_Menu"]:
         tela.blit(Fundo_Menu, (0, 0))
@@ -190,7 +190,7 @@ def PréPartida(estados):
     texto2 = ""
     selecionado2 = False
 
-    Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo1.jpg", (1920,1080))
+    Fundo_pré = GV.Carregar_Imagem("imagens/Fundo1.jpg", (1920,1080))
     bulbasaurIMG = GV.Carregar_Imagem("imagens/bulbasaur.png", (235,235),"PNG")
     charmanderIMG = GV.Carregar_Imagem("imagens/charmander.png", (235,235),"PNG")
     squirtleIMG = GV.Carregar_Imagem("imagens/squirtle.png", (235,235),"PNG")
@@ -198,7 +198,7 @@ def PréPartida(estados):
     Loja_itens = GV.Carregar_Imagem("imagens/poke.png", (180,180),"PNG")
 
     while estados["Rodando_PréPartida"]:
-        tela.blit(Fundo_Menu, (0, 0))
+        tela.blit(Fundo_pré, (0, 0))
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:

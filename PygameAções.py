@@ -86,32 +86,7 @@ def Nome_p2(texto):
     global informaçoesp2
     informaçoesp2[0] = texto
 
-def seleciona(ID, player, inimigo, Visor):
-    index_map = {
-        "Pokemon1": 0,
-        "Pokemon2": 1,
-        "Pokemon3": 2,
-        "Pokemon4": 3,
-        "Pokemon5": 4,
-        "Pokemon6": 5
-    }
-    pokemonS =0
-    idx = index_map[ID]
-    if idx < len(player.pokemons):
-            pokemonS = player.pokemons[idx]
-            if idx == 0:
-                print("bdjdjdjjd")
-    else:
-        GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")
-        return pokemonS
-    
-def desseleciona(ID,player,inimigo,Visor):
-    pass
 
-def vizualiza(ID,player,inimigo,Visor):
-    pass
 
-def oculta(ID,player,inimigo,Visor):
-    pass
 
-#
+

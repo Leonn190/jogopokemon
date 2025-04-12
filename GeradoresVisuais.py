@@ -24,7 +24,6 @@ ROSA = (255, 192, 203)
 DOURADO = (255, 215, 0)
 PRATA = (192, 192, 192)
 
-
 Fonte70 = pygame.font.SysFont(None, 70)
 Fonte50 = pygame.font.SysFont(None, 50)
 Fonte40 = pygame.font.SysFont(None, 40)
@@ -86,61 +85,6 @@ def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
         for evento in eventos:
             if evento.type == pygame.KEYUP and evento.key == tecla_atalho:
                 estado_clique["pressionado_tecla"] = False
-
-def passar_turno(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
-                        Fonte, estado_clique, player, inimigo, grossura=2,
-                        tecla_atalho=None, mostrar_na_tela=True, eventos=None):
-
-    x, y, largura, altura = espaço
-    mouse = pygame.mouse.get_pos()
-    clique = pygame.mouse.get_pressed()
-
-    mouse_sobre = x <= mouse[0] <= x + largura and y <= mouse[1] <= y + altura
-
-    tecla_ativada = False
-    if tecla_atalho and eventos:
-        for evento in eventos:
-            if evento.type == pygame.KEYDOWN and evento.key == tecla_atalho:
-                tecla_ativada = True
-
-    cor_borda_atual = cor_passagem if mouse_sobre or tecla_ativada else cor_borda
-
-    if mostrar_na_tela:
-        pygame.draw.rect(tela, cor_normal, (x, y, largura, altura))
-        pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
-
-        if texto:
-            texto_render = Fonte.render(texto, True, (0, 0, 0))
-            texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
-            tela.blit(texto_render, texto_rect)
-
-    # Clique com mouse (executa apenas uma vez)
-    if mouse_sobre and clique[0] == 1:
-        if not estado_clique.get("pressionado", False):
-            estado_clique["pressionado"] = True
-            player, inimigo = inimigo, player
-            for i in range(10):
-                adicionar_mensagem("")
-            adicionar_mensagem(f"Novo turno de {player.nome}!")
-    else:
-        estado_clique["pressionado"] = False
-
-    # Clique com tecla (executa apenas uma vez)
-    if tecla_ativada:
-        if not estado_clique.get("pressionado_tecla", False):
-            estado_clique["pressionado_tecla"] = True
-            player, inimigo = inimigo, player
-            for i in range(10):
-                adicionar_mensagem("")
-            adicionar_mensagem(f"Novo turno de {player.nome}!")
-    elif tecla_atalho:
-        # Libera o clique da tecla ao soltar
-        for evento in eventos:
-            if evento.type == pygame.KEYUP and evento.key == tecla_atalho:
-                estado_clique["pressionado_tecla"] = False
-
-    
-    return player, inimigo, 
 
 def Botao_Selecao(
     tela, espaço, texto, Fonte,
