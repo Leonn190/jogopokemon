@@ -15,10 +15,13 @@ informacao = None
 Visor = None
 
 Turno = 1
+tempo_restante = 0 
+
 def Ao_terminar(player,inimigo):
     global Turno
     global mensagens_terminal
 
+    player.ouro += 2 + (tempo_restante // 20)
     player, inimigo = inimigo, player
     Turno += 1
     Fecha()
@@ -27,10 +30,7 @@ def Ao_terminar(player,inimigo):
     mensagens_terminal = []
     GV.adicionar_mensagem(f"Novo turno de {player.nome}!")
     return player, inimigo
-
-# Criação da variável global que armazena o tempo restante
-tempo_restante = 0  # fora da função
-
+ 
 def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor_tempo, ao_terminar, turno_atual, player, inimigo):
     global tempo_restante
 
@@ -71,7 +71,6 @@ def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor
 
     return player, inimigo
 
-
 def passar_turno(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
                         Fonte, estado_clique, player, inimigo, grossura=2,
                         tecla_atalho=None, mostrar_na_tela=True, eventos=None):
@@ -109,6 +108,7 @@ def passar_turno(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
             Fecha()
             desseleciona()
             oculta()
+            player.ouro += 2 + (tempo_restante // 20)
             player, inimigo = inimigo, player
             Turno += 1
             mensagens_terminal = []
@@ -123,6 +123,7 @@ def passar_turno(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
             Fecha()
             desseleciona()
             oculta()
+            player.ouro += 2 + (tempo_restante // 20)
             player, inimigo = inimigo, player
             Turno += 1
             mensagens_terminal = []
@@ -393,6 +394,8 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
 
     player, inimigo = cronometro(tela, (0, 100, 200, 40), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:Ao_terminar(player,inimigo),Turno,player,inimigo)
 
+    
+
     GV.Botao_Selecao(
     tela, (0, 740, 70, 60),
     "", Fonte30,
@@ -636,7 +639,7 @@ def Partida(tela,estados,relogio):
             pygame.mixer.music.load("Musicas/Partida2theme.ogg")
             pygame.mixer.music.play(-1)  # -1 = repetir para sempre
             altera_musica = True  # garante que só toca uma vez
-            
+
         pygame.display.update()
         relogio.tick(60)
 

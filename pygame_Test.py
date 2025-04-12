@@ -59,7 +59,7 @@ estados = {
 
 def TelaMenu(eventos,estados):
 
-    GV.Botao(tela, "Iniciar a partida", (700, 395, 520, 150), CINZA, PRETO, DOURADO,
+    GV.Botao(tela, "Iniciar a partida", (700, 600, 520, 150), CINZA, PRETO, DOURADO,
                  lambda: A.iniciar_prépartida(estados), Fonte70, B1, 4, None, True, eventos)
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
@@ -162,12 +162,13 @@ def TelaPréPartida(eventos,estados):
     GV.Botao(tela, "", (1470, 700, 200, 200), CINZA, PRETO, DOURADO,
                  lambda: A.Loja_I(B6["ID"]), Fonte50, B6, 4, None, True, eventos)        
 
-    GV.Botao(tela, "Iniciar Partida", (770, 640, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
+    GV.Botao(tela, "Iniciar Partida", (770, 880, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
                  lambda: A.Iniciar_partida(estados), Fonte70, B7, 4, None, True, eventos)
 
 def Menu(estados):
 
-    Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo2.PNG", (1920,1080),"PNG")
+    Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo2.jpg", (1920,1080),)
+    Logo_Menu = GV.Carregar_Imagem("imagens/logo.png", (800,800),"PNG")
 
     pygame.mixer.music.load('Musicas/MenuTheme.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -175,6 +176,7 @@ def Menu(estados):
 
     while estados["Rodando_Menu"]:
         tela.blit(Fundo_Menu, (0, 0))
+        tela.blit(Logo_Menu, (560, -200))
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:
@@ -182,6 +184,7 @@ def Menu(estados):
                 estados["Rodando_Jogo"] = False
 
         TelaMenu(eventos, estados)
+
 
         pygame.display.update()
         relogio.tick(60)
