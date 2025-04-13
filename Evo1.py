@@ -16,8 +16,8 @@ Ivysaur = {
     "velocidade": 3,
     "XP": 3,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Charmeleon = {
@@ -33,8 +33,8 @@ Charmeleon = {
     "velocidade": 4,
     "XP": 3,
     "custo": 1,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Wartortle = {
@@ -50,8 +50,8 @@ Wartortle = {
     "velocidade": 3,
     "XP": 3,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Machoke = {
@@ -68,8 +68,8 @@ Machoke = {
     "velocidade": 3,
     "XP": 3,
     "custo": 3,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Haunter = {
@@ -85,8 +85,8 @@ Haunter = {
     "velocidade": 4,
     "XP": 3,
     "custo": 1,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais": [B],
+    "ataques especiais": [C,D]
 }
 
 Graveler = {
@@ -102,8 +102,8 @@ Graveler = {
     "velocidade": 2,
     "XP": 3,
     "custo": 4,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Metapod = {
@@ -119,8 +119,8 @@ Metapod = {
     "velocidade": 2,
     "XP": 4,
     "custo": 3,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Kadabra = {
@@ -136,8 +136,8 @@ Kadabra = {
     "velocidade": 4,
     "XP": 3,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Dragonair = {
@@ -153,8 +153,8 @@ Dragonair = {
     "velocidade": 4,
     "XP": 4,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Raichu = {
@@ -170,8 +170,8 @@ Raichu = {
     "velocidade": 6,
     "XP": 3,
     "custo": 1,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Zoroark = {
@@ -187,8 +187,8 @@ Zoroark = {
     "velocidade": 5,
     "XP": 3,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Gyarados = {
@@ -204,8 +204,8 @@ Gyarados = {
     "velocidade": 4,
     "XP": 3,
     "custo": 4,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Wigglytuff = {
@@ -221,8 +221,8 @@ Wigglytuff = {
     "velocidade": 2,
     "XP": 3,
     "custo": 3,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Magneton = {
@@ -238,7 +238,7 @@ Magneton = {
     "velocidade": 3,
     "XP": 3,
     "custo": 1,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 

@@ -15,8 +15,8 @@ Venusaur = {
     "velocidade": 3,
     "XP": 3,
     "custo": 4,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Charizard = {
@@ -32,8 +32,8 @@ Charizard = {
     "velocidade": 4,
     "XP": 3,
     "custo": 3,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Blastoise = {
@@ -49,8 +49,8 @@ Blastoise = {
     "velocidade": 2,
     "XP": 3,
     "custo": 4,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Machamp = {
@@ -66,8 +66,8 @@ Machamp = {
     "velocidade": 3,
     "XP": 3,
     "custo": 3,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Gengar = {
@@ -83,8 +83,8 @@ Gengar = {
     "velocidade": 5,
     "XP": 3,
     "custo": 3,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Golem = {
@@ -100,8 +100,8 @@ Golem = {
     "velocidade": 1,
     "XP": 3,
     "custo": 5,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Butterfree = {
@@ -117,8 +117,8 @@ Butterfree = {
     "velocidade": 3,
     "XP": 3,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Alakazam = {
@@ -134,8 +134,8 @@ Alakazam = {
     "velocidade": 5,
     "XP": 3,
     "custo": 2,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 Dragonite = {
@@ -151,8 +151,8 @@ Dragonite = {
     "velocidade": 4,
     "XP": 3,
     "custo": 5,
-    "ataques normais": random.choice([B]),
-    "ataques especiais": random.choice([C,D])
+    "ataques normais":[B],
+    "ataques especiais":[C,D]
 }
 
 

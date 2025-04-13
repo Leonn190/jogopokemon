@@ -74,25 +74,27 @@ class Pokemon:
         self.IV = pokemon["IV"]
         self.code = pokemon["code"]
 
-
     def evoluir(self):
         self.nome = self.evolucao["nome"]
         self.VidaMax = self.VidaMax * self.evolucao["vida"]
-        self.Vida = self.Vida * self.evolucao["vida"]
-        self.Def = self.Def * self.evolucao["def"]
-        self.Def_sp = self.Def_sp * self.evolucao["def SP"]
-        self.Atk = self.Atk * self.evolucao["atk"]
-        self.Atk_sp = self.Atk_sp * self.evolucao["atk SP"]
-        self.vel = self.evolucao["vel"]
+        self.Vida = round(self.Vida * self.evolucao["vida"],1)
+        self.Def = round(self.Def * self.evolucao["def"],1)
+        self.Def_sp = round(self.Def_sp * self.evolucao["def SP"],1)
+        self.Atk = round(self.Atk * self.evolucao["atk"],1)
+        self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"],1)
+        self.vel = self.evolucao["velocidade"]
         self.custo = self.evolucao["custo"]
-        self.ataque_normal = self.evolucao["ataque normal"]
-        self.ataque_especial = self.evolucao["ataque especial"]
+        self.ataque_normal = random.choice(self.evolucao["ataques normais"])
+        self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
         self.xp_atu = 0
         self.Estagio = self.evolucao["estagio"]
+        self.evolucao = self.evolucao["evolução"]
 
     def XP(self,quantidade):
         self.xp_atu = self.xp_atu + quantidade
         GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
+        if self.xp_atu >= self.xp_total:
+            self.evoluir()
     
     def amplificar(self,tipo,amplificador,pokemon_amplificado):
         if tipo == "XP atu":
@@ -114,9 +116,16 @@ class Pokemon:
             self.Def_sp = self.Def_sp + round((self.Def_sp * amplificador),1)
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
-    def atacado(self,dano):
+    def atacado(self,dano,player):
+        danoOriginal = dano
+        if self.Vida <= dano:
+            dano = self.Vida
+        
         self.Vida = round(self.Vida - dano,1)
-        GV.adicionar_mensagem(f"A vida atual do {self.nome} inimigo é {(self.Vida)}")
+        GV.adicionar_mensagem(f"{self.nome} recebeu {danoOriginal} de dano, sua vida atual é {self.Vida}")
+        if self.Vida == 0:
+            GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
+            player.pokemons.remove(self)
 
     def curar(self,cura):
         dano_tomado = self.VidaMax - self.Vida
@@ -124,11 +133,11 @@ class Pokemon:
         if self.Vida > self.VidaMax:
             self.Vida = self.VidaMax
             cura = dano_tomado 
-        GV.adicionar_mensagem(f"{self.nome} curou {cura} de vida, sua vida atual é {self.Vida}")
+        GV.adicionar_mensagem(f"{self.nome} curou {round(cura,1)} de vida, sua vida atual é {self.Vida}")
 
     def atacar(self,alvo,player,inimigo,tipo):
         
-        if tipo == 1:
+        if tipo == "N":
             F = self.ataque_normal
             U = self.Atk
             V = alvo.Def
@@ -137,37 +146,45 @@ class Pokemon:
             U = self.Atk_sp
             V = alvo.Def_sp
         
-  
         pagou = 0
+        gastas = []
         for i in range(len(F["custo"])):
             if F["custo"][i] == "normal":
-                for j in range(len(player[4])):
-                    if player[3][player[4][j]] >= 1:
-                        player[3][player[4][j]] = player[3][player[4][j]] - 1
+                for j in range(30):
+                    j = random.randint(0,9)
+                    if player.energias[Energias[j]] >= 1:
+                        player.energias[Energias[j]] -= 1
+                        gastas.append(Energias[j])
                         pagou += 1
                         break
             else:
-                if player[3][F["custo"][i]] >= 1:
-                    player[3][F["custo"][i]] = player[3][F["custo"][i]] - 1
+                if player.energias[F["custo"][i]] >= 1:
+                    player.energias[F["custo"][i]] -= 1
+                    gastas.append(F["custo"][i])
                     pagou += 1
         
         if pagou != len(F["custo"]):
-            print ("Sem energias, seu ataque falhou")
-            return 0
+            GV.adicionar_mensagem("Sem energias, seu ataque falhou")
+            for i in range(len(gastas)):
+                player.energias[gastas[i]] += 1
+            return None
+
 
         Dano_I = U * F["dano"]
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
         Dano_E = Dano_I * Funções2.efetividade(Tipo,alvo.tipo)
-        dano_F = Dano_E * mitigação
+        dano_F = round(Dano_E * mitigação,1)
 
 
-        print (f"O seu {self.nome} causou {round(dano_F,2)} de dano com o ataque {F['nome']} no {alvo.nome} inimigo")
-        alvo.atacado(dano_F)
+        GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
+        GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
+        self.XP(1)
+        alvo.atacado(dano_F,inimigo)
         
 Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
 pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
-Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "preta", "cinza"]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
 def Gerador(Pokemon):
     Pok = Pokemon

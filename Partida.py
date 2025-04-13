@@ -308,8 +308,14 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo=(
     # Borda
     pygame.draw.rect(tela, cor_borda, (x, y, largura, altura), 2)
 
-def ataca(Pokemon,player,inimigo,ID):
-    pass
+def atacaN(Pokemon,player,inimigo,ID):
+    alvo = inimigo.pokemons[ID]
+    Pokemon.atacar(alvo,player,inimigo,"N")
+
+def atacaS(Pokemon,player,inimigo,ID):
+    alvo = inimigo.pokemons[ID]
+    Pokemon.atacar(alvo,player,inimigo,"S")
+    
 
 mensagens_terminal = []
 
@@ -341,21 +347,20 @@ B5 = {"estado": False, "ID": "energia"}
 B6 = {"estado": False}
 B7 = {"estado": False}
 
-B8 = {"estado": False}
-B9 = {"estado": False}
-B10 = {"estado": False}
-B11= {"estado": False}
-B12 = {"estado": False}
-B13 = {"estado": False}
-B14= {"estado": False}
-B15= {"estado": False}
-B16= {"estado": False}
-B17= {"estado": False}
-B18= {"estado": False}
-B19= {"estado": False}
-B20 = {"estado": False}
+B8 = {"estado": False, "ID": 0}
+B9 = {"estado": False, "ID": 1}
+B10 = {"estado": False, "ID": 2}
+B11 = {"estado": False, "ID": 3}
+B12 = {"estado": False, "ID": 4}
+B13 = {"estado": False, "ID": 5}
+B14 = {"estado": False, "ID": 0}
+B15 = {"estado": False, "ID": 1}
+B16 = {"estado": False, "ID": 2}
+B17 = {"estado": False, "ID": 3}
+B18 = {"estado": False, "ID": 4}
+B19 = {"estado": False, "ID": 5}
 
-BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20]
+BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 #botoes de clique unico = B6
 
 def A(Visor,tela,eventos,player,inimigo):
@@ -446,7 +451,7 @@ def S(PokemonS,tela,eventos,player,inimigo):
     cor_passagem=AMARELO, id_botao="Atk Norm.S",   
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk Norm",PokemonS), funcao_direito=None,
-    desfazer_esquerdo=lambda:desinforma("Atk Norm",PokemonS), desfazer_direito=None,
+    desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
     tecla_esquerda=None, tecla_direita=None, grossura=1)
     GV.Botao_Selecao(
     tela, (1745, 860, 175, 30),
@@ -456,7 +461,7 @@ def S(PokemonS,tela,eventos,player,inimigo):
     cor_passagem=AMARELO, id_botao="Atk SP.S",   
     estado_global=estadoInfo, eventos=eventos,
     funcao_esquerdo=lambda:informa("Atk SPS",PokemonS), funcao_direito=None,
-    desfazer_esquerdo=lambda:desinforma("Atk SP",PokemonS), desfazer_direito=None,
+    desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
     tecla_esquerda=None, tecla_direita=None, grossura=1)
 
     
@@ -466,15 +471,9 @@ def S(PokemonS,tela,eventos,player,inimigo):
         BJ = BA[i+6]
 
         GV.Botao(tela, "", (1435 - i * 190, 210, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                 lambda: ataca(PokemonS,player,inimigo,BI), Fonte50, BI, 3, None, True, eventos)
+                 lambda: atacaN(PokemonS,player,inimigo,BI["ID"]), Fonte50, BI, 2, None, True, eventos)
         GV.Botao(tela, "", (1335 - i * 190, 210, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                 lambda: ataca(PokemonS,player,inimigo,BJ), Fonte50, BJ, 3, None, True, eventos)
-        
-
-
-
-
-
+                 lambda: atacaS(PokemonS,player,inimigo,BJ["ID"]), Fonte50, BJ, 2, None, True, eventos)
 
 
 def V(PokemonV,tela,eventos,inimigo):
@@ -505,7 +504,7 @@ def V(PokemonV,tela,eventos,inimigo):
         cor_passagem=AMARELO, id_botao="Atk Norm.V",   
         estado_global=estadoInfo, eventos=eventos,
         funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
-        desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
+        desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
         tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
         GV.Botao_Selecao(
         tela, (1745, 530, 175, 30),
@@ -515,7 +514,7 @@ def V(PokemonV,tela,eventos,inimigo):
         cor_passagem=AMARELO, id_botao="Atk SP.V",   
         estado_global=estadoInfo, eventos=eventos,
         funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
-        desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
+        desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
         tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
 
     else:
