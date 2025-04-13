@@ -228,7 +228,10 @@ def Terminal(tela, espaço, fonte, cor_fundo, cor_texto):
 def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, fonte_cabecalho, cor_fundo, cor_borda, cor_cabecalho):
     PRETO = (0, 0, 0)  # Cor padrão para texto
     num_colunas = len(colunas)
-    altura_linha = fonte.get_height() + 10
+    if y == 250:
+        altura_linha = fonte.get_height() + 15
+    else:
+        altura_linha = fonte.get_height() + 10
 
     # Garantir que todos os valores em 'colunas' e 'linhas' sejam strings
     colunas = [str(coluna) for coluna in colunas]

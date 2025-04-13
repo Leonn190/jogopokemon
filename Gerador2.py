@@ -16,31 +16,34 @@ class Jogador:
         self.inventario.append(item)
     
     def usar_item(self,indice,Pokemon):
-        pass
-        # item = self.inventario[indice] 
-        # if item["classe"] == "pokebola":
-        #     GV.adicionar_mensagem("Pokebolas devem ser utilizadas apenas para capturar pokemons")
-        # else:
-        #     if item["classe"] in ["poçao"]:
-        #         cura = item["cura"]
-        #         self.inventario.remove(item)
-        #         Pokemon.curar(cura)
-        #         return
-        #     elif item["classe"] in ["amplificador"]:
-        #         tipo = item["aumento"]
-        #         self.inventario.remove(item)
-        #         Pokemon.amplificar(tipo,0.15,Pokemon)
-        #         return
-        #     elif item["classe"] in ["caixa","coletor"]:
-        #         compras = item["compra"]
-        #         if item["classe"] in ["caixa"]:
-        #             self.inventario.remove(item)
-        #             comprar(player,compras)
-        #             return
-        #     elif item["classe"] in ["coletor"]:
-        #         self.inventario.remove(item)
-        #         ganhar_energia(player,compras)
-        #         return
+            item = self.inventario[indice] 
+            if item["classe"] == "pokebola":
+                GV.adicionar_mensagem("Pokebolas devem ser utilizadas apenas para capturar pokemons")
+            else:
+                if item["classe"] in ["poçao"] and Pokemon is not None:
+                        cura = item["cura"]
+                        self.inventario.remove(item)
+                        Pokemon.curar(cura)
+                        return
+                elif item["classe"] in ["amplificador"] and Pokemon is not None:
+                        tipo = item["aumento"]
+                        self.inventario.remove(item)
+                        Pokemon.amplificar(tipo,0.15,Pokemon)
+                        return
+                elif item["classe"] in ["caixa","coletor"]:
+                    compras = item["compra"]
+                    if item["classe"] in ["caixa"]:
+                        self.inventario.remove(item)
+                        for _ in range(compras):
+                            self.inventario.append(caixa())
+                        return
+                    elif item["classe"] in ["coletor"]:
+                        self.inventario.remove(item)
+                        for _ in range(compras):
+                            self.energias[coletor()] += 1
+                        return
+                else:
+                    GV.adicionar_mensagem("selecione um pokemon para usar um item")
 
 
 def Gerador_player(informaçoes):
@@ -87,39 +90,39 @@ class Pokemon:
 
     def XP(self,quantidade):
         self.xp_atu = self.xp_atu + quantidade
-        print (f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
+        GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
     
     def amplificar(self,tipo,amplificador,pokemon_amplificado):
         if tipo == "XP atu":
             pokemon_amplificado.XP(1)
         elif tipo == "atk":
             J = self.Atk
-            self.Atk = self.Atk + (self.Atk * amplificador)
-            print (f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk}")
+            self.Atk = round(self.Atk + (self.Atk * amplificador),1)
+            GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk}")
         elif tipo == "atk SP":
             J = self.Atk_sp
-            self.Atk_sp = self.Atk_sp + (self.Atk_sp * amplificador)
-            print (f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
+            self.Atk_sp = round(self.Atk_sp + (self.Atk_sp * amplificador),1)
+            GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
         elif tipo == "def":
             J = self.Def
-            self.Def = self.Def + (self.Def * amplificador)
-            print (f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
+            self.Def = self.Def + round((self.Def * amplificador),1)
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
         elif tipo == "def SP":
             J = self.Def_sp
-            self.Def_sp = self.Def_sp + (self.Def_sp * amplificador)
-            print (f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
+            self.Def_sp = self.Def_sp + round((self.Def_sp * amplificador),1)
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
     def atacado(self,dano):
-        self.Vida = self.Vida - dano
-        print (f"A vida atual do {self.nome} inimigo é {round(self.Vida,2)}")
+        self.Vida = round(self.Vida - dano,1)
+        GV.adicionar_mensagem(f"A vida atual do {self.nome} inimigo é {(self.Vida)}")
 
     def curar(self,cura):
         dano_tomado = self.VidaMax - self.Vida
-        self.Vida = self.Vida + cura
+        self.Vida = round(self.Vida + cura,1)
         if self.Vida > self.VidaMax:
             self.Vida = self.VidaMax
             cura = dano_tomado 
-        print (f"{self.nome} curou {cura} de vida, sua vida atual é {self.Vida}")
+        GV.adicionar_mensagem(f"{self.nome} curou {cura} de vida, sua vida atual é {self.Vida}")
 
     def atacar(self,alvo,player,inimigo,tipo):
         
@@ -270,11 +273,12 @@ def spawn_do_centro(centro):
     print (f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
     return centro
 
-def gera_item(tipo,player,custo):
+def gera_item(tipo,player,custo=0):
 
     raridades = []
     if player.ouro >= custo:
         if tipo == "energia":
+            player.ouro -= custo
             energia_sorteada = random.choice(Energias)
             player.energias[energia_sorteada] += 1
 
@@ -291,7 +295,19 @@ def gera_item(tipo,player,custo):
                     raridades.append(U[i])
             player.ouro -= custo
             item = random.choice(raridades)
+            GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
             player.inventario.append(item)
     else:
         GV.adicionar_mensagem("Você não tem ouro o suficiente")
-        
+
+def caixa():
+        raridades = []
+        U = itens_disponiveis + pokebolas_disponiveis + amplificadores_disponiveis
+        for i in range(len(U)):
+                    for j in range(6 - U[i]["raridade"]):
+                        raridades.append(U[i])
+        item = random.choice(raridades)
+        return item
+def coletor():
+    energia_sorteada = random.choice(Energias)
+    return energia_sorteada

@@ -260,11 +260,11 @@ def A(Visor,tela,eventos,player,inimigo):
         linhasA = []
         for item in player.inventario:
             linhasA.append([item["nome"], item["Descrição"]])
-        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 300, 420, Fonte20, Fonte28, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
+        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 250, 420, Fonte20, Fonte28, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
 
-        # for i in range(player.inventario):
-        #     GV.Botao(tela, "", (300, 400, 30, 30), CINZA, PRETO, AZUL,
-        #          lambda: G.player.usar_item(i,PokemonS), Fonte50, B6, 3, pygame.K_ESCAPE, False, eventos)
+        for i in range(len(player.inventario)):
+            GV.Botao(tela, "", (418, (310 + i * 30), 30, 30), CINZA, PRETO, AZUL,
+                 lambda: player.usar_item(i,PokemonS), Fonte50, B6, 1, None, True, eventos)
 
     elif Visor == "Energias":
         nomeA = f"Energias de {player.nome}"
@@ -398,16 +398,16 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)
 
-    player, inimigo = passar_turno(tela, "Passar Turno", (500, 400, 320, 80), CINZA, PRETO, AZUL,
+    player, inimigo = passar_turno(tela, "Passar Turno", (1620, 1000, 300, 80), CINZA, PRETO, AZUL,
                   Fonte50, B7, player, inimigo, 3, None, True, eventos)
 
-    GV.Terminal(tela, (0, 850, 420, 230), Fonte28, AZUL_CLARO, PRETO)
+    GV.Terminal(tela, (0, 850, 420, 230), Fonte20, AZUL_CLARO, PRETO)
 
     GV.Texto_caixa(tela,player.nome,(0, 800, 420, 50),Fonte50,AZUL,PRETO) 
     GV.Texto_caixa(tela,inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
     GV.Texto_caixa(tela,f"Seu ouro: {player.ouro}",(210, 740, 210, 60),Fonte40,LARANJA,PRETO) 
 
-    player, inimigo = cronometro(tela, (0, 100, 200, 40), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:Ao_terminar(player,inimigo),Turno,player,inimigo)
+    player, inimigo = cronometro(tela, (0, 60, 150, 40), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:Ao_terminar(player,inimigo),Turno,player,inimigo)
 
     GV.Texto_caixa(tela,str(LojaItensP),(1525, 158, 50, 20),Fonte20,CINZA,PRETO,2)
     GV.Botao(tela, "", (1510, 80, 80, 80), CINZA, PRETO, VERDE_CLARO,
@@ -607,6 +607,8 @@ def TelaPartida(tela,eventos,estados,player,inimigo):
 def Partida(tela,estados,relogio):
     global Turno
 
+    Fundo = GV.Carregar_Imagem("imagens/fundo3.jpg", (1920,1080),)
+
     bulbasaurIMG = GV.Carregar_Imagem("imagens/bulbasaur.png", (180,180),"PNG")
     charmanderIMG = GV.Carregar_Imagem("imagens/charmander.png", (180,180),"PNG")
     squirtleIMG = GV.Carregar_Imagem("imagens/squirtle.png", (180,180),"PNG")
@@ -632,10 +634,10 @@ def Partida(tela,estados,relogio):
     Jogador2 = G.Gerador_player(informaçoesp2)
 
     for item in informaçoesp1[3:]:
-        Jogador1.ganhar_item(G.gera_item(item))
+        G.gera_item(item,Jogador1)
 
     for item in informaçoesp2[3:]:
-        Jogador2.ganhar_item(G.gera_item(item))
+        G.gera_item(item,Jogador2)
 
     player = Jogador1
     inimigo = Jogador2
@@ -651,6 +653,7 @@ def Partida(tela,estados,relogio):
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
+        tela.blit(Fundo,(0,0))
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:
