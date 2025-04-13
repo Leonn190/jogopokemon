@@ -39,6 +39,10 @@ def Pokemon_inicial(id_botao):
     elif id_botao == "SquirtleP2":
         informaçoesp2[1] = 3
 
+def Fim_da_partida(Vencedor,Perdedor,estados):
+    estados["Rodando_Partida"] = False
+    estados["Rodando_Final"] = True
+
 def Voltar(estados):
     global informaçoesp1
     global informaçoesp2
@@ -60,19 +64,15 @@ def Loja_I(ID):
     if ID == "PokebolasLojaIp1" and Contador1 < 5:
         informaçoesp1.append("pokebola")
         Contador1 += 1
-        print("P1 comprou pokebola")
     elif ID == "ItensLojaIp1" and Contador1 < 5:
         informaçoesp1.append("item")
         Contador1 += 1
-        print("P1 comprou item")
     elif ID == "PokebolasLojaIp2" and Contador2 < 5:
         informaçoesp2.append("pokebola")
         Contador2 += 1
-        print("P2 comprou pokebola")
     elif ID == "ItensLojaIp2" and Contador2 < 5:
         informaçoesp2.append("item")
         Contador2 += 1
-        print("P2 comprou item")
 
 def Iniciar_partida(estados):
     estados["Rodando_PréPartida"] = False

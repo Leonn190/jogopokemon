@@ -72,8 +72,8 @@ Caixa = {
     "compra": 3
 }
 
-Pilha_de_caixas = {
-    "nome": "pilha de caixas",
+Caixote = {
+    "nome": "caixote",
     "classe": "caixa",
     "Descrição": "serve para fazer 5 compras",
     "raridade": 4,
@@ -128,7 +128,7 @@ Esmeralda = {
     "aumento": "XP atu"
 }
 
-itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Pilha_de_caixas,Coletor]
+itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
 pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball]
 amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
         

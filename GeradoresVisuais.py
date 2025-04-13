@@ -370,3 +370,6 @@ def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO, grossura=3)
 def Reta_Central(tela, largura_tela, altura_tela, cor=PRETO, espessura=2):
     x_centro = largura_tela // 2
     pygame.draw.line(tela, cor, (x_centro, 0), (x_centro, altura_tela), espessura)
+
+def limpa_terminal():
+    mensagens_terminal.clear()

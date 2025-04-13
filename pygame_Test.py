@@ -1,6 +1,7 @@
 import pygame
 import sys
 import Partida
+import Final
 import GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
@@ -29,13 +30,11 @@ mensagens_terminal = []
 
 estado1 = {
     "selecionado_esquerdo": None,
-    "selecionado_direito": None
-}
+    "selecionado_direito": None}
 
 estado2 = {
     "selecionado_esquerdo": None,
-    "selecionado_direito": None
-}
+    "selecionado_direito": None}
 
 Visor = []
 
@@ -55,6 +54,7 @@ estados = {
     "Rodando_Menu": True,
     "Rodando_PréPartida": False,
     "Rodando_Partida": False,
+    "Rodando_Final": False
 }
 
 def TelaMenu(eventos,estados):
@@ -246,6 +246,8 @@ while estados["Rodando_Jogo"]:
         PréPartida(estados)
     elif estados["Rodando_Partida"]:
         Partida.Partida(tela,estados,relogio)
+    elif estados["Rodando_Final"]:
+        Final.Final(tela,estados,relogio)
 
 pygame.quit()
 sys.exit()

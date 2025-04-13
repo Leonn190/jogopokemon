@@ -18,18 +18,24 @@ class Jogador:
     def usar_item(self,indice,Pokemon):
             item = self.inventario[indice] 
             if item["classe"] == "pokebola":
-                GV.adicionar_mensagem("Pokebolas devem ser utilizadas apenas para capturar pokemons")
+                GV.adicionar_mensagem("Pokebolas devem ser usadas apenas para capturar pokemons")
             else:
                 if item["classe"] in ["poçao"] and Pokemon is not None:
-                        cura = item["cura"]
-                        self.inventario.remove(item)
-                        Pokemon.curar(cura)
-                        return
+                        if Pokemon.Vida > 0:
+                            cura = item["cura"]
+                            self.inventario.remove(item)
+                            Pokemon.curar(cura)
+                            return
+                        else:
+                            GV.adicionar_mensagem("Pokemons nocauteados não podem ser curados")
                 elif item["classe"] in ["amplificador"] and Pokemon is not None:
-                        tipo = item["aumento"]
-                        self.inventario.remove(item)
-                        Pokemon.amplificar(tipo,0.15,Pokemon)
-                        return
+                        if Pokemon.Vida > 0:
+                            tipo = item["aumento"]
+                            self.inventario.remove(item)
+                            Pokemon.amplificar(tipo,0.15,Pokemon)
+                            return
+                        else:
+                            GV.adicionar_mensagem("Pokemons nocauteados não podem ser amplificados")
                 elif item["classe"] in ["caixa","coletor"]:
                     compras = item["compra"]
                     if item["classe"] in ["caixa"]:
@@ -72,6 +78,11 @@ class Pokemon:
         self.evolucao = pokemon["evolução"]
         self.xp_atu = pokemon["XP atu"]
         self.IV = pokemon["IV"]
+        self.IV_vida = pokemon["IV vida"]
+        self.IV_atk = pokemon["IV atk"]
+        self.IV_atkSP = pokemon["IV atk SP"]
+        self.IV_def = pokemon["IV def"]
+        self.IV_defSP = pokemon["IV def SP"]
         self.code = pokemon["code"]
 
     def evoluir(self):
@@ -92,9 +103,12 @@ class Pokemon:
 
     def XP(self,quantidade):
         self.xp_atu = self.xp_atu + quantidade
-        GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
         if self.xp_atu >= self.xp_total:
+            nome_antigo = self.nome
             self.evoluir()
+            GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
+        else:
+            GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
     
     def amplificar(self,tipo,amplificador,pokemon_amplificado):
         if tipo == "XP atu":
@@ -125,15 +139,14 @@ class Pokemon:
         GV.adicionar_mensagem(f"{self.nome} recebeu {danoOriginal} de dano, sua vida atual é {self.Vida}")
         if self.Vida == 0:
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
-            player.pokemons.remove(self)
 
     def curar(self,cura):
-        dano_tomado = self.VidaMax - self.Vida
-        self.Vida = round(self.Vida + cura,1)
-        if self.Vida > self.VidaMax:
-            self.Vida = self.VidaMax
-            cura = dano_tomado 
-        GV.adicionar_mensagem(f"{self.nome} curou {round(cura,1)} de vida, sua vida atual é {self.Vida}")
+            dano_tomado = self.VidaMax - self.Vida
+            self.Vida = round(self.Vida + cura,1)
+            if self.Vida > self.VidaMax:
+                self.Vida = self.VidaMax
+                cura = dano_tomado 
+            GV.adicionar_mensagem(f"{self.nome} curou {round(cura,1)} de vida, sua vida atual é {self.Vida}")
 
     def atacar(self,alvo,player,inimigo,tipo):
         
@@ -189,71 +202,33 @@ Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "
 def Gerador(Pokemon):
     Pok = Pokemon
 
-    Var_minuscula = (-5, 5)
-    Var_baixa = (-10, 10)
-    Var_media = (-20, 20)
-    Var_alta = (-30, 30)
+    vida_min = int(Pok["vida"] * 0.9)
+    vida_max = int(Pok["vida"] * 1.1)
+    vida = random.randint(vida_min, vida_max)
 
-    if Pok["vida"] <= 50:
-        Var_V = Var_minuscula
-    elif Pok["vida"] <= 200:
-        Var_V = Var_baixa
-    elif Pok["vida"] <= 400:
-        Var_V = Var_media
-    else:
-        Var_V = Var_alta
-    Variacao = random.randint(*Var_V)
-    vida = Pok["vida"] + Variacao
+    atk_min = int(Pok["atk"] * 0.9)
+    atk_max = int(Pok["atk"] * 1.1)
+    Atk = random.randint(atk_min, atk_max)
 
-    if Pok["atk"] <= 20:
-        Var_A = Var_minuscula
-    elif Pok["atk"] <= 80:
-        Var_A = Var_baixa
-    else:
-        Var_A = Var_media
-    Variacao = random.randint(*Var_A)
-    Atk = Pok["atk"] + Variacao
+    atkSP_min = int(Pok["atk SP"] * 0.9)
+    atkSP_max = int(Pok["atk SP"] * 1.1)
+    Atk_SP = random.randint(atkSP_min, atkSP_max)
 
-    if Pok["atk SP"] <= 20:
-        Var_AS = Var_minuscula
-    elif Pok["atk SP"] <= 80:
-        Var_AS = Var_baixa
-    else:
-        Var_AS = Var_media
-    Variacao = random.randint(*Var_AS)
-    Atk_SP = Pok["atk SP"] + Variacao
+    def_min = int(Pok["def"] * 0.9)
+    def_max = int(Pok["def"] * 1.1)
+    Def = random.randint(def_min, def_max)
 
-    if Pok["def"] <= 20:
-        Var_D = Var_minuscula
-    elif Pok["def"] <= 80:
-        Var_D = Var_baixa
-    else:
-        Var_D = Var_media
-    Variacao = random.randint(*Var_D)
-    Def = Pok["def"] + Variacao
+    defSP_min = int(Pok["def SP"] * 0.9)
+    defSP_max = int(Pok["def SP"] * 1.1)
+    Def_SP = random.randint(defSP_min, defSP_max)
 
-    if Pok["def SP"] <= 20:
-        Var_DS = Var_minuscula
-    elif Pok["def SP"] <= 80:
-        Var_DS = Var_baixa
-    else:
-        Var_DS = Var_media
-    Variacao = random.randint(*Var_DS)
-    Def_SP = Pok["def SP"] + Variacao
-    
-    def calc_iv(base, valor_final, intervalo):
-        min_val, max_val = intervalo
-        if max_val == min_val:
-            return 0
-        return ((valor_final - (base + min_val)) / (max_val - min_val)) * 100
+    IVV = ((vida - vida_min) / (vida_max - vida_min)) * 100
+    IVA = ((Atk - atk_min) / (atk_max - atk_min)) * 100
+    IVAS = ((Atk_SP - atkSP_min) / (atkSP_max - atkSP_min)) * 100
+    IVD = ((Def - def_min) / (def_max - def_min)) * 100
+    IVDS = ((Def_SP - defSP_min) / (defSP_max - defSP_min)) * 100
 
-    IVV = calc_iv(Pok["vida"], vida, Var_V)
-    IVA = calc_iv(Pok["atk"], Atk, Var_A)
-    IVAS = calc_iv(Pok["atk SP"], Atk_SP, Var_AS)
-    IVD = calc_iv(Pok["def"], Def, Var_D)
-    IVDS = calc_iv(Pok["def SP"], Def_SP, Var_DS)
-
-    IV = round((IVV+IVA+IVAS+IVD+IVDS) / 5,2)
+    IV = round((IVV + IVA + IVAS + IVD + IVDS) / 5, 2)
 
     return {
         "nome": Pok["nome"],
@@ -274,6 +249,11 @@ def Gerador(Pokemon):
         "evolução": Pok["evolução"],
         "XP atu": 0,
         "IV": f"{IV}%",
+        "IV vida": f"{round(IVV, 1)}%",
+        "IV atk": f"{round(IVA, 1)}%",
+        "IV atk SP": f"{round(IVAS, 1)}%",
+        "IV def": f"{round(IVD, 1)}%",
+        "IV def SP": f"{round(IVDS, 1)}%",
         "code": Pok["code"]
     }
 
