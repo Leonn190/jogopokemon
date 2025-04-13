@@ -44,6 +44,8 @@ class Jogador:
                         return
                 else:
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")
+    def ganhar_pokemon(self,pokemon):
+        self.pokemons.append(pokemon)
 
 
 def Gerador_player(informaçoes):
@@ -263,14 +265,18 @@ def Gerador_final(code):
 
 def spawn_do_centro(centro):
     global pokemons_possiveis
+
+    if len(centro) < 9: 
+        chance = random.choice(["s","n"])
+        if chance == "s":
+            raridades = []
+            for i in range(len(pokemons_possiveis)):
+                for j in range(10 - pokemons_possiveis[i]["raridade"]):
+                    raridades.append(pokemons_possiveis[i])
+            pokemon_apareceu = random.choice(raridades)
+            centro.append(pokemon_apareceu)
+            GV.adicionar_mensagem(f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
     
-    raridades = []
-    for i in range(len(pokemons_possiveis)):
-        for j in range(10 - pokemons_possiveis[i]["raridade"]):
-            raridades.append(pokemons_possiveis[i])
-    pokemon_apareceu = random.choice(raridades)
-    centro.append(pokemon_apareceu)
-    print (f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
     return centro
 
 def gera_item(tipo,player,custo=0):

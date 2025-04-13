@@ -167,8 +167,8 @@ def TelaPréPartida(eventos,estados):
 
 def Menu(estados):
 
-    Fundo_Menu = GV.Carregar_Imagem("imagens/Fundo2.jpg", (1920,1080),)
-    Logo_Menu = GV.Carregar_Imagem("imagens/logo.png", (800,800),"PNG")
+    Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Fundo2.jpg", (1920,1080),)
+    Logo_Menu = GV.Carregar_Imagem("imagens/fundos/logo.png", (800,800),"PNG")
 
     pygame.mixer.music.load('Musicas/MenuTheme.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -197,12 +197,12 @@ def PréPartida(estados):
     texto2 = ""
     selecionado2 = False
 
-    Fundo_pré = GV.Carregar_Imagem("imagens/Fundo1.jpg", (1920,1080))
-    bulbasaurIMG = GV.Carregar_Imagem("imagens/bulbasaur.png", (235,235),"PNG")
-    charmanderIMG = GV.Carregar_Imagem("imagens/charmander.png", (235,235),"PNG")
-    squirtleIMG = GV.Carregar_Imagem("imagens/squirtle.png", (235,235),"PNG")
-    Loja_pokebolas = GV.Carregar_Imagem("imagens/itens.png", (180,180),"PNG")
-    Loja_itens = GV.Carregar_Imagem("imagens/poke.png", (180,180),"PNG")
+    Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
+    bulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (235,235),"PNG")
+    charmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (235,235),"PNG")
+    squirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (235,235),"PNG")
+    Loja_pokebolas = GV.Carregar_Imagem("imagens/icones/itens.png", (180,180),"PNG")
+    Loja_itens = GV.Carregar_Imagem("imagens/icones/poke.png", (180,180),"PNG")
 
     while estados["Rodando_PréPartida"]:
         tela.blit(Fundo_pré, (0, 0))
