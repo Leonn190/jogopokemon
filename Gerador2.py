@@ -232,24 +232,24 @@ Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "
 def Gerador(Pokemon):
     Pok = Pokemon
 
-    vida_min = int(Pok["vida"] * 0.9)
-    vida_max = int(Pok["vida"] * 1.1)
+    vida_min = int(Pok["vida"] * 0.8)
+    vida_max = int(Pok["vida"] * 1.2)
     vida = random.randint(vida_min, vida_max)
 
-    atk_min = int(Pok["atk"] * 0.9)
-    atk_max = int(Pok["atk"] * 1.1)
+    atk_min = int(Pok["atk"] * 0.8)
+    atk_max = int(Pok["atk"] * 1.2)
     Atk = random.randint(atk_min, atk_max)
 
-    atkSP_min = int(Pok["atk SP"] * 0.9)
-    atkSP_max = int(Pok["atk SP"] * 1.1)
+    atkSP_min = int(Pok["atk SP"] * 0.8)
+    atkSP_max = int(Pok["atk SP"] * 1.2)
     Atk_SP = random.randint(atkSP_min, atkSP_max)
 
-    def_min = int(Pok["def"] * 0.9)
-    def_max = int(Pok["def"] * 1.1)
+    def_min = int(Pok["def"] * 0.8)
+    def_max = int(Pok["def"] * 1.2)
     Def = random.randint(def_min, def_max)
 
-    defSP_min = int(Pok["def SP"] * 0.9)
-    defSP_max = int(Pok["def SP"] * 1.1)
+    defSP_min = int(Pok["def SP"] * 0.8)
+    defSP_max = int(Pok["def SP"] * 1.2)
     Def_SP = random.randint(defSP_min, defSP_max)
 
     IVV = ((vida - vida_min) / (vida_max - vida_min)) * 100
@@ -345,6 +345,7 @@ def caixa():
                         raridades.append(U[i])
         item = random.choice(raridades)
         return item
+
 def coletor():
     energia_sorteada = random.choice(Energias)
     return energia_sorteada

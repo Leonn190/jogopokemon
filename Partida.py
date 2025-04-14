@@ -289,7 +289,7 @@ def PokemonCentro(ID,player):
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Selecione uma pokebola para capturar um pokemon")
 
-def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo,id_pokemon):
+def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, id_pokemon):
     if not hasattr(barra_vida, "vidas_animadas"):
         barra_vida.vidas_animadas = {}
 
@@ -298,15 +298,21 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo,i
 
     # Animação suave
     velocidade = 1.5
-    if vida_animada < vida_atual:
-        vida_animada = min(vida_animada + velocidade, vida_atual)
-    elif vida_animada > vida_atual:
-        vida_animada = max(vida_animada - velocidade, vida_atual)
+    if abs(vida_animada - vida_atual) < velocidade:
+        vida_animada = vida_atual
+    else:
+        if vida_animada < vida_atual:
+            vida_animada = min(vida_animada + velocidade, vida_atual)
+        elif vida_animada > vida_atual:
+            vida_animada = max(vida_animada - velocidade, vida_atual)
+
+    # Garante que a vida animada não ultrapasse a vida máxima
+    vida_animada = min(vida_animada, vida_maxima)
 
     barra_vida.vidas_animadas[id_pokemon] = vida_animada  # Salva valor atualizado
 
     proporcao = vida_animada / vida_maxima
-    largura_vida = int(largura * proporcao)
+    largura_vida = min(int(largura * proporcao), largura)  # Garante que a largura não ultrapasse o máximo
 
     if proporcao > 0.6:
         cor_vida = (0, 200, 0)
@@ -590,23 +596,30 @@ def Partida(tela,estados,relogio):
     global Perdedor
     global Pausa
 
-    Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080),)
-    Carregar_Imagens()
+    Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
-    click_sound = pygame.mixer.Sound("Musicas/Som1.wav")  
+    tela.blit(Carregar,(0,0))
+    fonte = pygame.font.SysFont(None, 70)
+    texto = fonte.render("Carregando partida...", True, PRETO)
+    tela.blit(texto, (tela.get_width() // 2 - 200, tela.get_height() // 2))
+    pygame.display.update()
+
+
+    Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080))
+    Carregar_Imagens()
 
     from PygameAções import informaçoesp1, informaçoesp2
     Jogador1 = G.Gerador_player(informaçoesp1)
     Jogador2 = G.Gerador_player(informaçoesp2)
 
     for item in informaçoesp1[3:]:
-        G.gera_item(item,Jogador1)
+        G.gera_item(item, Jogador1)
     for item in informaçoesp2[3:]:
-        G.gera_item(item,Jogador2)
+        G.gera_item(item, Jogador2)
 
-    for i in range(12):
-        G.gera_item("energia",Jogador1)
-        G.gera_item("energia",Jogador2)
+    for i in range(10):
+        G.gera_item("energia", Jogador1)
+        G.gera_item("energia", Jogador2)
 
     player = Jogador1
     inimigo = Jogador2
@@ -621,6 +634,7 @@ def Partida(tela,estados,relogio):
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
 
+    # 3. Loop principal da partida
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
         tela.blit(Fundo,(0,0))
@@ -640,27 +654,23 @@ def Partida(tela,estados,relogio):
                 pygame.mixer.music.play(-1) 
                 altera_musica = True  
 
-            VidaTotal1 = 0
-            for i in range(len(Jogador1.pokemons)):
-                VidaTotal1 += Jogador1.pokemons[i].Vida
+            VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
             if VidaTotal1 <= 0:
                 Vencedor = Jogador2
                 Perdedor = Jogador1
                 A.Fim_da_partida(estados)
 
-            VidaTotal2 = 0
-            for i in range(len(Jogador2.pokemons)):
-                VidaTotal2 += Jogador2.pokemons[i].Vida
+            VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
             if VidaTotal2 <= 0:
                 Vencedor = Jogador1
                 Perdedor = Jogador2
                 A.Fim_da_partida(estados)
 
             for mensagem in mensagens_passageiras[:]:
-                    mensagem.desenhar(tela)
-                    mensagem.atualizar()
-                    if not mensagem.ativa:
-                        mensagens_passageiras.remove(mensagem)
+                mensagem.desenhar(tela)
+                mensagem.atualizar()
+                if not mensagem.ativa:
+                    mensagens_passageiras.remove(mensagem)
         else:
             Telapausa(tela,eventos,estados)
 
