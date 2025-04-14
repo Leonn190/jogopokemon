@@ -51,6 +51,9 @@ def Voltar(estados):
     if estados["Rodando_PréPartida"] == True:
         estados["Rodando_PréPartida"] = False
         estados["Rodando_Menu"] = True
+    elif estados["Rodando_Partida"] == True:
+        estados["Rodando_Partida"] = False
+        estados["Rodando_Menu"] = True
     elif estados["Rodando_Final"] == True:
         estados["Rodando_Final"] = False
         estados["Rodando_Menu"] = True

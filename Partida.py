@@ -51,12 +51,7 @@ inimigo = None
 Vencedor = None
 Perdedor = None
 
-estado_animacao_status = {
-    "ativo": False,
-    "x_tabela": 2000,
-    "x_botao1": 2000,
-    "x_botao2": 2000
-}
+Pausa = False
 
 class MensagemPassageira:
     def __init__(self, mensagem, cor, fonte, posicao, duracao=150, deslocamento=35):
@@ -109,9 +104,13 @@ def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor
         cronometro.tempo_encerrado = False
         cronometro.turno_anterior = turno_atual
 
-    # Calcula tempo restante
-    tempo_atual = pygame.time.get_ticks()
-    tempo_decorrido = (tempo_atual - cronometro.inicio) // 1000
+    # Pausa: não atualiza o tempo enquanto estiver pausado
+    if hasattr(cronometro, "pausado") and cronometro.pausado:
+        tempo_decorrido = (cronometro.momento_pausa - cronometro.inicio) // 1000
+    else:
+        tempo_atual = pygame.time.get_ticks()
+        tempo_decorrido = (tempo_atual - cronometro.inicio) // 1000
+
     tempo_restante = max(0, duracao_segundos - tempo_decorrido)
 
     # Visual: fundo, barra preenchida, borda
@@ -129,6 +128,21 @@ def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor
     if tempo_restante <= 0 and not cronometro.tempo_encerrado:
         cronometro.tempo_encerrado = True
         ao_terminar()
+
+def pausaEdespausaCronometro():
+    if not hasattr(cronometro, "pausado"):
+        cronometro.pausado = False
+        cronometro.tempo_pausado = 0
+
+    if not cronometro.pausado:
+        # Pausar: salva o momento da pausa
+        cronometro.pausado = True
+        cronometro.momento_pausa = pygame.time.get_ticks()
+    else:
+        # Despausar: ajusta o início somando o tempo pausado
+        tempo_em_pausa = pygame.time.get_ticks() - cronometro.momento_pausa
+        cronometro.inicio += tempo_em_pausa
+        cronometro.pausado = False
 
 def passar_turno():
     global Turno
@@ -312,7 +326,6 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo,i
         img_y = y - img_rect.height + 12
         tela.blit(img, (img_x, img_y))
 
-
 def atacaN(Pokemon,player,inimigo,ID,tela):
     alvo = inimigo.pokemons[ID]
     Pokemon.atacar(alvo,player,inimigo,"N",tela)
@@ -320,6 +333,15 @@ def atacaN(Pokemon,player,inimigo,ID,tela):
 def atacaS(Pokemon,player,inimigo,ID,tela):
     alvo = inimigo.pokemons[ID]
     Pokemon.atacar(alvo,player,inimigo,"S",tela)
+
+def pausarEdespausar():
+    global Pausa
+    if Pausa == True:
+        pausaEdespausaCronometro()
+        Pausa = False
+    else:
+        Pausa = True
+        pausaEdespausaCronometro()
 
 estado = {
     "selecionado_esquerdo": None,
@@ -566,6 +588,7 @@ def Partida(tela,estados,relogio):
     global inimigo
     global Vencedor
     global Perdedor
+    global Pausa
 
     Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080),)
     Carregar_Imagens()
@@ -593,6 +616,8 @@ def Partida(tela,estados,relogio):
     pygame.mixer.music.play(-1)
     altera_musica = False
 
+    Pausa = False
+
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
 
@@ -605,36 +630,39 @@ def Partida(tela,estados,relogio):
                 estados["Rodando_Partida"] = False
                 estados["Rodando_Jogo"] = False
         
-        TelaPokemons(tela,eventos,estados)
-        TelaOpções(tela,eventos,estados)
-        TelaOutros(tela,eventos,estados)
+        if Pausa == False:
+            TelaPokemons(tela,eventos,estados)
+            TelaOpções(tela,eventos,estados)
+            TelaOutros(tela,eventos,estados)
 
-        if Turno > 5 and not altera_musica:
-            pygame.mixer.music.load("Musicas/Partida2theme.ogg")
-            pygame.mixer.music.play(-1) 
-            altera_musica = True  
+            if Turno > 5 and not altera_musica:
+                pygame.mixer.music.load("Musicas/Partida2theme.ogg")
+                pygame.mixer.music.play(-1) 
+                altera_musica = True  
 
-        VidaTotal1 = 0
-        for i in range(len(Jogador1.pokemons)):
-            VidaTotal1 += Jogador1.pokemons[i].Vida
-        if VidaTotal1 <= 0:
-            Vencedor = Jogador2
-            Perdedor = Jogador1
-            A.Fim_da_partida(estados)
+            VidaTotal1 = 0
+            for i in range(len(Jogador1.pokemons)):
+                VidaTotal1 += Jogador1.pokemons[i].Vida
+            if VidaTotal1 <= 0:
+                Vencedor = Jogador2
+                Perdedor = Jogador1
+                A.Fim_da_partida(estados)
 
-        VidaTotal2 = 0
-        for i in range(len(Jogador2.pokemons)):
-            VidaTotal2 += Jogador2.pokemons[i].Vida
-        if VidaTotal2 <= 0:
-            Vencedor = Jogador1
-            Perdedor = Jogador2
-            A.Fim_da_partida(estados)
+            VidaTotal2 = 0
+            for i in range(len(Jogador2.pokemons)):
+                VidaTotal2 += Jogador2.pokemons[i].Vida
+            if VidaTotal2 <= 0:
+                Vencedor = Jogador1
+                Perdedor = Jogador2
+                A.Fim_da_partida(estados)
 
-        for mensagem in mensagens_passageiras[:]:
-                mensagem.desenhar(tela)
-                mensagem.atualizar()
-                if not mensagem.ativa:
-                    mensagens_passageiras.remove(mensagem)
+            for mensagem in mensagens_passageiras[:]:
+                    mensagem.desenhar(tela)
+                    mensagem.atualizar()
+                    if not mensagem.ativa:
+                        mensagens_passageiras.remove(mensagem)
+        else:
+            Telapausa(tela,eventos,estados)
 
         pygame.display.update()
         relogio.tick(60)
@@ -872,11 +900,6 @@ def TelaPokemons(tela,eventos,estados):
             tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
 
     if PokemonS is not None:
-        estado_animacao_status["ativo"] = True
-        estado_animacao_status["x_tabela"] = 2000
-        estado_animacao_status["x_botao1"] = 2000
-        estado_animacao_status["x_botao2"] = 2000
-
         S(PokemonS,tela,eventos,player,inimigo)
    
     if PokemonV is not None:
@@ -953,7 +976,7 @@ def TelaOutros(tela,eventos,estados):
     global player
     global inimigo
 
-    GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)
+    GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: pausarEdespausar(), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)
 
     GV.Botao(tela, "Passar Turno", (1620, 1000, 300, 80), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte50, B7, 3, None, True, eventos)
     
@@ -983,3 +1006,10 @@ def TelaOutros(tela,eventos,estados):
     tela.blit(OutrosIMG[4],(1595,85))
     tela.blit(OutrosIMG[5],(1675,85))
     tela.blit(OutrosIMG[6],(1760,88))
+
+def Telapausa(tela,eventos,estados):
+
+    GV.Botao(tela, "Despausar partida", (600, 200, 720, 130), CINZA, PRETO, AZUL,lambda: pausarEdespausar(),Fonte70, B6, 5, pygame.K_ESCAPE, True, eventos)
+    GV.Botao(tela, "Sair da partida", (600, 425, 720, 130), CINZA, PRETO, AZUL,lambda: A.Voltar(estados),Fonte70, B6, 5, None, True, eventos)
+    GV.Botao(tela, "Sair do jogo", (600, 650, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, B6, 5, None, True, eventos)
+
