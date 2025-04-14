@@ -1,7 +1,7 @@
 import pygame
-import sys
 
 pygame.font.init()
+pygame.mixer.init()
 
 mensagens_terminal = []
 botao_cliques = {} 
@@ -28,6 +28,7 @@ PRATA = (192, 192, 192)
 Fonte70 = pygame.font.SysFont(None, 70)
 Fonte50 = pygame.font.SysFont(None, 50)
 Fonte40 = pygame.font.SysFont(None, 40)
+Fonte35 = pygame.font.SysFont(None, 35)
 Fonte30 = pygame.font.SysFont(None, 30)
 Fonte25 = pygame.font.SysFont(None, 25)
 Fonte28 = pygame.font.SysFont(None, 28)
@@ -39,7 +40,7 @@ Cores = [PRETO,BRANCO,CINZA,AZUL,AZUL_CLARO,AMARELO,VERMELHO,VERDE,VERDE_CLARO,L
 
 def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
            acao, Fonte, estado_clique, grossura=2, tecla_atalho=None,
-           mostrar_na_tela=True, eventos=None):
+           mostrar_na_tela=True, eventos=None, som=None):
 
     x, y, largura, altura = espaço
     mouse = pygame.mouse.get_pos()
@@ -70,6 +71,8 @@ def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
     # Clique do mouse (somente uma vez)
     if mostrar_na_tela and mouse_sobre and clique[0] == 1 and not estado_clique.get("pressionado", False):
         estado_clique["pressionado"] = True
+        if som:
+            som.play()
         if acao:
             acao()
 
@@ -79,6 +82,8 @@ def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
     # Clique pela tecla (evento único)
     if tecla_ativada and not estado_clique.get("pressionado_tecla", False):
         estado_clique["pressionado_tecla"] = True
+        if som:
+            som.play()
         if acao:
             acao()
 
@@ -96,7 +101,8 @@ def Botao_Selecao(
     estado_global=None, eventos=None,
     funcao_esquerdo=None, funcao_direito=None,
     desfazer_esquerdo=None, desfazer_direito=None,
-    tecla_esquerda=None, tecla_direita=None,grossura=5
+    tecla_esquerda=None, tecla_direita=None,
+    grossura=5, som=None  # ← Novo argumento
 ):
 
     x, y, largura, altura = espaço
@@ -109,7 +115,6 @@ def Botao_Selecao(
     if "selecionado_direito" not in estado_global:
         estado_global["selecionado_direito"] = None
 
-    # Tecla de atalho
     ativado_por_tecla_esq = False
     ativado_por_tecla_dir = False
     if eventos:
@@ -120,14 +125,12 @@ def Botao_Selecao(
                 if tecla_direita and evento.key == tecla_direita:
                     ativado_por_tecla_dir = True
 
-    # Verificar seleção atual
     modo_selecionado = None
     if estado_global["selecionado_esquerdo"] == id_botao:
         modo_selecionado = "esquerdo"
     elif estado_global["selecionado_direito"] == id_botao:
         modo_selecionado = "direito"
 
-    # Determinar cor da borda
     cor_borda_atual = cor_borda_normal
     if modo_selecionado == "esquerdo" and cor_borda_esquerda:
         cor_borda_atual = cor_borda_esquerda
@@ -143,7 +146,6 @@ def Botao_Selecao(
     texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
     tela.blit(texto_render, texto_rect)
 
-    # Função auxiliar para aplicar e desfazer
     def aplicar_selecao(modo):
         if modo == "esquerdo":
             if estado_global["selecionado_esquerdo"] == id_botao:
@@ -151,7 +153,6 @@ def Botao_Selecao(
                     desfazer_esquerdo()
                 estado_global["selecionado_esquerdo"] = None
             else:
-                # Desfaz o direito se for o mesmo botão
                 if estado_global["selecionado_direito"] == id_botao:
                     if desfazer_direito:
                         desfazer_direito()
@@ -162,6 +163,8 @@ def Botao_Selecao(
                 estado_global["selecionado_esquerdo"] = id_botao
                 if funcao_esquerdo:
                     funcao_esquerdo()
+                if som:  # ← Som ao selecionar
+                    som.play()
 
         elif modo == "direito":
             if estado_global["selecionado_direito"] == id_botao:
@@ -169,7 +172,6 @@ def Botao_Selecao(
                     desfazer_direito()
                 estado_global["selecionado_direito"] = None
             else:
-                # Desfaz o esquerdo se for o mesmo botão
                 if estado_global["selecionado_esquerdo"] == id_botao:
                     if desfazer_esquerdo:
                         desfazer_esquerdo()
@@ -180,31 +182,29 @@ def Botao_Selecao(
                 estado_global["selecionado_direito"] = id_botao
                 if funcao_direito:
                     funcao_direito()
+                if som:  # ← Som ao selecionar
+                    som.play()
 
-    # Clique do mouse
     if eventos:
         for evento in eventos:
-            if evento.type == pygame.MOUSEBUTTONDOWN:
-                if mouse_sobre:
-                    if evento.button == 1 and cor_borda_esquerda:
-                        if modo_selecionado == "direito" and desfazer_direito:
-                            desfazer_direito()
-                            estado_global["selecionado_direito"] = None
-                        aplicar_selecao("esquerdo")
-                    elif evento.button == 3 and cor_borda_direita:
-                        if modo_selecionado == "esquerdo" and desfazer_esquerdo:
-                            desfazer_esquerdo()
-                            estado_global["selecionado_esquerdo"] = None
-                        aplicar_selecao("direito")
-
-            # Teclas
-            elif evento.type == pygame.KEYDOWN:
-                if tecla_esquerda and evento.key == tecla_esquerda and cor_borda_esquerda:
+            if evento.type == pygame.MOUSEBUTTONDOWN and mouse_sobre:
+                if evento.button == 1 and cor_borda_esquerda:
                     if modo_selecionado == "direito" and desfazer_direito:
                         desfazer_direito()
                         estado_global["selecionado_direito"] = None
                     aplicar_selecao("esquerdo")
-                if tecla_direita and evento.key == tecla_direita and cor_borda_direita:
+                elif evento.button == 3 and cor_borda_direita:
+                    if modo_selecionado == "esquerdo" and desfazer_esquerdo:
+                        desfazer_esquerdo()
+                        estado_global["selecionado_esquerdo"] = None
+                    aplicar_selecao("direito")
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == tecla_esquerda and cor_borda_esquerda:
+                    if modo_selecionado == "direito" and desfazer_direito:
+                        desfazer_direito()
+                        estado_global["selecionado_direito"] = None
+                    aplicar_selecao("esquerdo")
+                elif evento.key == tecla_direita and cor_borda_direita:
                     if modo_selecionado == "esquerdo" and desfazer_esquerdo:
                         desfazer_esquerdo()
                         estado_global["selecionado_esquerdo"] = None
@@ -341,17 +341,7 @@ def Texto(tela, texto, posicao, fonte, cor):
     tela.blit(render, posicao)
 
 def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO, grossura=3):
-    """
-    Desenha um retângulo com texto centralizado e uma borda.
-
-    :param tela: A superfície onde será desenhado.
-    :param texto: Texto a ser exibido.
-    :param espaço: Tupla (x, y, largura, altura) com a posição e tamanho do retângulo.
-    :param fonte: Fonte usada para renderizar o texto.
-    :param cor_fundo: Cor de fundo do retângulo.
-    :param borda: Cor da borda.
-    :param grossura: Espessura da borda (default=2).
-    """
+  
     x, y, largura, altura = espaço
 
     # Desenha o retângulo de fundo
@@ -373,3 +363,10 @@ def Reta_Central(tela, largura_tela, altura_tela, cor=PRETO, espessura=2):
 
 def limpa_terminal():
     mensagens_terminal.clear()
+
+def tocar(som):
+    if som:
+        som.play()
+
+
+

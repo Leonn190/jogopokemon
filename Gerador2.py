@@ -1,8 +1,23 @@
 import random
+import pygame
+import Partida
 import GeradoresVisuais as GV
 from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
 import Funções2
+from GeradoresVisuais import (
+    Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
+    PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
+    AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
+    LARANJA, ROXO, ROSA, DOURADO, PRATA,)
+
+
+pygame.mixer.init()
+clique = pygame.mixer.Sound("Musicas/Som1.wav")
+Compra = pygame.mixer.Sound("Musicas/Compra.wav")
+Usou = pygame.mixer.Sound("Musicas/Usou.wav")
+Bom = pygame.mixer.Sound("Musicas/Bom.wav")
+Bloq = pygame.mixer.Sound("Musicas/Bloq.wav")
 
 class Jogador:
     def __init__(self, informaçoes):
@@ -18,41 +33,49 @@ class Jogador:
     def usar_item(self,indice,Pokemon):
             item = self.inventario[indice] 
             if item["classe"] == "pokebola":
+                GV.tocar(Bloq)
                 GV.adicionar_mensagem("Pokebolas devem ser usadas apenas para capturar pokemons")
             else:
                 if item["classe"] in ["poçao"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
                             cura = item["cura"]
+                            GV.tocar(Usou)
                             self.inventario.remove(item)
                             Pokemon.curar(cura)
                             return
                         else:
+                            GV.tocar(Bloq)
                             GV.adicionar_mensagem("Pokemons nocauteados não podem ser curados")
                 elif item["classe"] in ["amplificador"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
                             tipo = item["aumento"]
+                            GV.tocar(Usou)
                             self.inventario.remove(item)
                             Pokemon.amplificar(tipo,0.15,Pokemon)
                             return
                         else:
+                            GV.tocar(Bloq)
                             GV.adicionar_mensagem("Pokemons nocauteados não podem ser amplificados")
                 elif item["classe"] in ["caixa","coletor"]:
                     compras = item["compra"]
                     if item["classe"] in ["caixa"]:
+                        GV.tocar(Usou)
                         self.inventario.remove(item)
                         for _ in range(compras):
                             self.inventario.append(caixa())
                         return
                     elif item["classe"] in ["coletor"]:
+                        GV.tocar(Usou)
                         self.inventario.remove(item)
                         for _ in range(compras):
                             self.energias[coletor()] += 1
                         return
                 else:
+                    GV.tocar(Bloq)
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")
+    
     def ganhar_pokemon(self,pokemon):
         self.pokemons.append(pokemon)
-
 
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)
@@ -130,13 +153,20 @@ class Pokemon:
             self.Def_sp = self.Def_sp + round((self.Def_sp * amplificador),1)
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
-    def atacado(self,dano,player):
-        danoOriginal = dano
+    def atacado(self,dano,player,tipo,tela):
+        DanoOriginal = dano
         if self.Vida <= dano:
             dano = self.Vida
         
         self.Vida = round(self.Vida - dano,1)
-        GV.adicionar_mensagem(f"{self.nome} recebeu {danoOriginal} de dano, sua vida atual é {self.Vida}")
+
+        if tipo == "N":
+            cor = LARANJA
+        else:
+            cor = ROXO
+        i = player.pokemons.index(self)
+        Partida.adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",cor,Fonte35,((1375 - i * 190),260))
+        GV.adicionar_mensagem(f"{self.nome} recebeu {DanoOriginal} de dano, sua vida atual é {self.Vida}")
         if self.Vida == 0:
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
@@ -148,7 +178,7 @@ class Pokemon:
                 cura = dano_tomado 
             GV.adicionar_mensagem(f"{self.nome} curou {round(cura,1)} de vida, sua vida atual é {self.Vida}")
 
-    def atacar(self,alvo,player,inimigo,tipo):
+    def atacar(self,alvo,player,inimigo,tipo,tela):
         
         if tipo == "N":
             F = self.ataque_normal
@@ -177,6 +207,7 @@ class Pokemon:
                     pagou += 1
         
         if pagou != len(F["custo"]):
+            GV.tocar(Bloq)
             GV.adicionar_mensagem("Sem energias, seu ataque falhou")
             for i in range(len(gastas)):
                 player.energias[gastas[i]] += 1
@@ -189,11 +220,10 @@ class Pokemon:
         Dano_E = Dano_I * Funções2.efetividade(Tipo,alvo.tipo)
         dano_F = round(Dano_E * mitigação,1)
 
-
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
         GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
         self.XP(1)
-        alvo.atacado(dano_F,inimigo)
+        alvo.atacado(dano_F,inimigo,tipo,tela)
         
 Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
 pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
@@ -284,6 +314,8 @@ def gera_item(tipo,player,custo=0):
             player.ouro -= custo
             energia_sorteada = random.choice(Energias)
             player.energias[energia_sorteada] += 1
+            energia_sorteada = random.choice(Energias)
+            player.energias[energia_sorteada] += 1
 
         else:
             if tipo == "item":
@@ -298,9 +330,11 @@ def gera_item(tipo,player,custo=0):
                     raridades.append(U[i])
             player.ouro -= custo
             item = random.choice(raridades)
+            GV.tocar(Compra)
             GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
             player.inventario.append(item)
     else:
+        GV.tocar(Bloq)
         GV.adicionar_mensagem("Você não tem ouro o suficiente")
 
 def caixa():

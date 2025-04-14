@@ -9,11 +9,21 @@ from GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
+pygame.mixer.init()
+
+clique = pygame.mixer.Sound("Musicas/Som1.wav")
+Compra = pygame.mixer.Sound("Musicas/Compra.wav")
+Usou = pygame.mixer.Sound("Musicas/Usou.wav")
+Bom = pygame.mixer.Sound("Musicas/Bom.wav")
+Bloq = pygame.mixer.Sound("Musicas/Bloq.wav")
+
 PokemonS = None
 PokemonV = None
 informacao = None
 Visor = None
 PokebolaSelecionada = None
+
+mensagens_passageiras = []
 
 ImagensPokemon100 = {}
 ImagensPokemon180 = {}
@@ -38,12 +48,49 @@ Jogador2 = None
 player = None
 inimigo = None
 
+Vencedor = None
+Perdedor = None
+
 estado_animacao_status = {
     "ativo": False,
     "x_tabela": 2000,
     "x_botao1": 2000,
     "x_botao2": 2000
 }
+
+class MensagemPassageira:
+    def __init__(self, mensagem, cor, fonte, posicao, duracao=150, deslocamento=35):
+        self.mensagem = mensagem
+        self.cor = cor
+        self.fonte = fonte
+        self.posicao_inicial = posicao
+        self.duracao = duracao
+        self.deslocamento = deslocamento
+        self.frame_atual = 0
+        self.ativa = True
+
+    def atualizar(self):
+        self.frame_atual += 1
+        if self.frame_atual >= self.duracao:
+            self.ativa = False
+
+    def desenhar(self, tela):
+        if not self.ativa:
+            return
+
+        alpha = max(0, 255 - int((self.frame_atual / self.duracao) * 255))
+        y_offset = int((self.frame_atual / self.duracao) * self.deslocamento)
+
+        texto_surface = self.fonte.render(self.mensagem, True, self.cor)
+        texto_surface = texto_surface.convert_alpha()
+        texto_surface.set_alpha(alpha)
+
+        x, y = self.posicao_inicial
+        tela.blit(texto_surface, (x, y - y_offset))
+
+def adicionar_mensagem_passageira(mensagens, texto, cor, fonte, posicao, duracao=60, deslocamento=30):
+    nova_mensagem = MensagemPassageira(texto, cor, fonte, posicao, duracao, deslocamento)
+    mensagens_passageiras.append(nova_mensagem)
 
 def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor_tempo, ao_terminar, turno_atual):
     global tempo_restante
@@ -214,49 +261,65 @@ def PokemonCentro(ID,player):
             if len(player.pokemons) < 7:
                 novo_pokemon = G.Gerador_final(pokemon["code"])
                 player.ganhar_pokemon(novo_pokemon)
-                GV.adicionar_mensagem(f"Parabens, você capturou um {novo_pokemon.nome} utilizando uma {Pokebola_usada['nome']}")
+                GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
+                GV.tocar(Bom)
                 Centro.remove(pokemon)
                 return
             else:
+                GV.tocar(Bloq)
                 GV.adicionar_mensagem("sua lista de pokemon está cheia")
         else:
+            GV.tocar(Bloq)
             GV.adicionar_mensagem("Voce falhou em capturar o pokemon, que pena")
     else:
+        GV.tocar(Bloq)
         GV.adicionar_mensagem("Selecione uma pokebola para capturar um pokemon")
 
-def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo=(100, 100, 100)):
-    proporcao = vida_atual / vida_maxima
+def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo,id_pokemon):
+    if not hasattr(barra_vida, "vidas_animadas"):
+        barra_vida.vidas_animadas = {}
+
+    # Pega a vida anterior ou inicializa
+    vida_animada = barra_vida.vidas_animadas.get(id_pokemon, vida_atual)
+
+    # Animação suave
+    velocidade = 1.5
+    if vida_animada < vida_atual:
+        vida_animada = min(vida_animada + velocidade, vida_atual)
+    elif vida_animada > vida_atual:
+        vida_animada = max(vida_animada - velocidade, vida_atual)
+
+    barra_vida.vidas_animadas[id_pokemon] = vida_animada  # Salva valor atualizado
+
+    proporcao = vida_animada / vida_maxima
     largura_vida = int(largura * proporcao)
 
     if proporcao > 0.6:
-        cor_vida = (0, 200, 0)        # Verde
+        cor_vida = (0, 200, 0)
     elif proporcao > 0.3:
-        cor_vida = (255, 200, 0)      # Amarelo
+        cor_vida = (255, 200, 0)
     else:
-        cor_vida = (200, 0, 0)        # Vermelho
-
-    cor_borda = (0, 0, 0)  
+        cor_vida = (200, 0, 0)
 
     pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
-
     pygame.draw.rect(tela, cor_vida, (x, y, largura_vida, altura))
+    pygame.draw.rect(tela, (0, 0, 0), (x, y, largura, altura), 2)
 
-    pygame.draw.rect(tela, cor_borda, (x, y, largura, altura), 2)
-
-    if vida_atual <= 0:
+    if vida_animada <= 0:
         img = OutrosIMG[8]
         img_rect = img.get_rect()
         img_x = x + (largura - img_rect.width) // 2
         img_y = y - img_rect.height + 12
         tela.blit(img, (img_x, img_y))
 
-def atacaN(Pokemon,player,inimigo,ID):
-    alvo = inimigo.pokemons[ID]
-    Pokemon.atacar(alvo,player,inimigo,"N")
 
-def atacaS(Pokemon,player,inimigo,ID):
+def atacaN(Pokemon,player,inimigo,ID,tela):
     alvo = inimigo.pokemons[ID]
-    Pokemon.atacar(alvo,player,inimigo,"S")
+    Pokemon.atacar(alvo,player,inimigo,"N",tela)
+
+def atacaS(Pokemon,player,inimigo,ID,tela):
+    alvo = inimigo.pokemons[ID]
+    Pokemon.atacar(alvo,player,inimigo,"S",tela)
 
 estado = {
     "selecionado_esquerdo": None,
@@ -317,7 +380,7 @@ def AB(Visor,tela,eventos,player,inimigo):
             GV.Botao(
                 tela, "", (418, (310 + indice_item * 30), 30, 30), CINZA, PRETO, AZUL,
                 lambda i=indice_item: player.usar_item(i, PokemonS),
-                Fonte50, B6, 1, None, True, eventos
+                Fonte50, B6, 1, None, True, eventos,
             )
 
             try:
@@ -394,7 +457,7 @@ def S(PokemonS,tela,eventos,player,inimigo):
     GV.Botao_Selecao(
     tela, (1570, 860, 175, 30),
     f"{PokemonS.ataque_normal["nome"]}", Fonte28,
-    cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
+    cor_fundo=LARANJA, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
     cor_passagem=AMARELO, id_botao="Atk Norm.S",   
     estado_global=estadoInfo, eventos=eventos,
@@ -404,7 +467,7 @@ def S(PokemonS,tela,eventos,player,inimigo):
     GV.Botao_Selecao(
     tela, (1745, 860, 175, 30),
     f"{PokemonS.ataque_especial["nome"]}", Fonte28,
-    cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
+    cor_fundo=ROXO, cor_borda_normal=PRETO,
     cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
     cor_passagem=AMARELO, id_botao="Atk SP.S",   
     estado_global=estadoInfo, eventos=eventos,
@@ -421,9 +484,9 @@ def S(PokemonS,tela,eventos,player,inimigo):
             BJ = BA[i+6]
 
             GV.Botao(tela, "", (1435 - i * 190, 210, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                    lambda: atacaN(PokemonS,player,inimigo,BI["ID"]), Fonte50, BI, 2, None, True, eventos)
+                    lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
             GV.Botao(tela, "", (1335 - i * 190, 210, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                    lambda: atacaS(PokemonS,player,inimigo,BJ["ID"]), Fonte50, BJ, 2, None, True, eventos)
+                    lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
             tela.blit(OutrosIMG[7],((1435 - i * 190),220))
             tela.blit(OutrosIMG[7],((1335 - i * 190),220))   
 
@@ -450,7 +513,7 @@ def V(PokemonV,tela,eventos,inimigo):
         GV.Botao_Selecao(
         tela, (1570, 530, 175, 30),
         f"{PokemonV.ataque_normal["nome"]}", Fonte28,
-        cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
+        cor_fundo=LARANJA, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
         cor_passagem=AMARELO, id_botao="Atk Norm.V",   
         estado_global=estadoInfo, eventos=eventos,
@@ -460,7 +523,7 @@ def V(PokemonV,tela,eventos,inimigo):
         GV.Botao_Selecao(
         tela, (1745, 530, 175, 30),
         f"{PokemonV.ataque_especial["nome"]}", Fonte28,
-        cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
+        cor_fundo=ROXO, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
         cor_passagem=AMARELO, id_botao="Atk SP.V",   
         estado_global=estadoInfo, eventos=eventos,
@@ -501,9 +564,13 @@ def Partida(tela,estados,relogio):
     global Jogador2
     global player
     global inimigo
+    global Vencedor
+    global Perdedor
 
     Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080),)
-    Carregar_imagens()
+    Carregar_Imagens()
+
+    click_sound = pygame.mixer.Sound("Musicas/Som1.wav")  
 
     from PygameAções import informaçoesp1, informaçoesp2
     Jogador1 = G.Gerador_player(informaçoesp1)
@@ -537,7 +604,7 @@ def Partida(tela,estados,relogio):
             if evento.type == pygame.QUIT:
                 estados["Rodando_Partida"] = False
                 estados["Rodando_Jogo"] = False
-
+        
         TelaPokemons(tela,eventos,estados)
         TelaOpções(tela,eventos,estados)
         TelaOutros(tela,eventos,estados)
@@ -547,23 +614,32 @@ def Partida(tela,estados,relogio):
             pygame.mixer.music.play(-1) 
             altera_musica = True  
 
-        # VidaTotal1 =0
-        # for i in range(len(Jogador1.pokemons)):
-        #     VidaTotal1 += Jogador1.pokemons[i].Vida
-        # if VidaTotal1 <= 0:
-        #     A.Fim_da_partida(Jogador2,Jogador1,estados)
+        VidaTotal1 = 0
+        for i in range(len(Jogador1.pokemons)):
+            VidaTotal1 += Jogador1.pokemons[i].Vida
+        if VidaTotal1 <= 0:
+            Vencedor = Jogador2
+            Perdedor = Jogador1
+            A.Fim_da_partida(estados)
 
-        # VidaTotal2 =0
-        # for i in range(len(Jogador2.pokemons)):
-        #     VidaTotal1 += Jogador2.pokemons[i].Vida
-        # if VidaTotal2 <= 0:
-        #     A.Fim_da_partida(Jogador1,Jogador2,estados)
+        VidaTotal2 = 0
+        for i in range(len(Jogador2.pokemons)):
+            VidaTotal2 += Jogador2.pokemons[i].Vida
+        if VidaTotal2 <= 0:
+            Vencedor = Jogador1
+            Perdedor = Jogador2
+            A.Fim_da_partida(estados)
 
+        for mensagem in mensagens_passageiras[:]:
+                mensagem.desenhar(tela)
+                mensagem.atualizar()
+                if not mensagem.ativa:
+                    mensagens_passageiras.remove(mensagem)
 
         pygame.display.update()
         relogio.tick(60)
 
-def Carregar_imagens():
+def Carregar_Imagens():
     global ImagensPokemon100
     global ImagensPokemon180
     global ImagensPokebolas
@@ -778,7 +854,7 @@ def TelaPokemons(tela,eventos,estados):
             funcao_esquerdo=lambda i=i: seleciona(f"Pokemon{i+1}", player, inimigo),
             funcao_direito=lambda i=i: vizualiza(f"Pokemon{i+1}", player, inimigo),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
-            tecla_esquerda=pygame.K_1, tecla_direita=None)
+            tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
 
     for i in range(6):
         x = 1310 - i * 190  # ajusta a posição horizontal
@@ -793,7 +869,7 @@ def TelaPokemons(tela,eventos,estados):
             funcao_esquerdo=lambda i=i: seleciona(f"inimigo{i+1}", player, inimigo),
             funcao_direito=lambda i=i: vizualiza(f"inimigo{i+1}", player, inimigo),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
-            tecla_esquerda=pygame.K_1, tecla_direita=None)
+            tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
 
     if PokemonS is not None:
         estado_animacao_status["ativo"] = True
@@ -807,16 +883,16 @@ def TelaPokemons(tela,eventos,estados):
         V(PokemonV,tela,eventos,inimigo) 
     
     for i in range(len(player.pokemons)):
-        tela.blit(ImagensPokemon180[player.pokemons[i].nome],((430 + i * 190),890))
+        tela.blit(ImagensPokemon180[player.pokemons[i].nome],((425 + i * 190),890))
 
     for i in range(len(inimigo.pokemons)):
-        tela.blit(ImagensPokemon180[inimigo.pokemons[i].nome],((1320 - i * 190),0))
+        tela.blit(ImagensPokemon180[inimigo.pokemons[i].nome],((1315 - i * 190),0))
 
     for i in range(len(player.pokemons)):
-        barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax)
+        barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].nome)
     
     for i in range(len(inimigo.pokemons)):
-        barra_vida(tela, 1310 - i * 190, 190, 190, 20, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax)
+        barra_vida(tela, 1310 - i * 190, 190, 190, 20, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].nome)
 
 def TelaOpções(tela,eventos,estados):
     global PokemonS
