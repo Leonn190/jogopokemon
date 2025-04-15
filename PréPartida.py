@@ -35,8 +35,8 @@ def TelaPréPartida(tela,eventos,estados):
     GV.Texto(tela, "Jogador 2", (1320, 50), Fonte70, PRETO)
     GV.Texto(tela, "Escreva seu Nome:", (190, 485), Fonte40, PRETO)
     GV.Texto(tela, "Escreva seu Nome:", (1170, 485), Fonte40, PRETO)
-    GV.Texto(tela, "Faça 5 compras na loja", (325, 665), Fonte40, PRETO)
-    GV.Texto(tela, "Faça 5 compras na loja", (1285, 665), Fonte40, PRETO)
+    GV.Texto(tela, "Faça 3 compras na loja", (325, 665), Fonte40, PRETO)
+    GV.Texto(tela, "Faça 3 compras na loja", (1285, 665), Fonte40, PRETO)
     GV.Reta_Central(tela, 1920, 1080, PRETO, 4)
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
@@ -136,6 +136,10 @@ def PréPartida(tela,estados,relogio):
 
     texto2 = ""
     selecionado2 = False
+
+    pygame.mixer.music.load('Musicas/PréPartidaTheme.ogg')
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1)
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
     bulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (235,235),"PNG")

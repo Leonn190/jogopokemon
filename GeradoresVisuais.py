@@ -20,7 +20,9 @@ VERMELHO_SUPER_CLARO = (255, 153, 153)
 VERDE = (0, 255, 0)
 VERDE_CLARO = (144, 238, 144)
 LARANJA = (255, 165, 0)
+LARANJA_CLARO = (255, 200, 100) 
 ROXO = (128, 0, 128)
+ROXO_CLARO = (216, 191, 216)     
 ROSA = (255, 192, 203)
 DOURADO = (255, 215, 0)
 PRATA = (192, 192, 192)
@@ -102,7 +104,7 @@ def Botao_Selecao(
     funcao_esquerdo=None, funcao_direito=None,
     desfazer_esquerdo=None, desfazer_direito=None,
     tecla_esquerda=None, tecla_direita=None,
-    grossura=5, som=None  # ← Novo argumento
+    grossura=5, som=None  
 ):
 
     x, y, largura, altura = espaço
@@ -368,5 +370,33 @@ def tocar(som):
     if som:
         som.play()
 
+def tabuleiro(tela, QX, QY, tamanho, cor1=(240, 240, 240), cor2=(180, 180, 180)):
+    largura_tela, altura_tela = tela.get_size()
+
+    # Tamanho total do tabuleiro
+    largura_tabuleiro = QX * tamanho
+    altura_tabuleiro = QY * tamanho
+
+    # Posição para centralizar o tabuleiro
+    inicio_x = (largura_tela - largura_tabuleiro) // 2
+    inicio_y = (altura_tela - altura_tabuleiro) // 2
+
+    for linha in range(QY):
+        for coluna in range(QX):
+            x = inicio_x + coluna * tamanho
+            y = inicio_y + linha * tamanho
+
+            # Alternância de cores tipo tabuleiro de xadrez
+            cor = cor1 if (linha + coluna) % 2 == 0 else cor2
+            pygame.draw.rect(tela, cor, (x, y, tamanho, tamanho))
+
+            # Borda interna (entre as casas)
+            pygame.draw.rect(tela, (0, 0, 0), (x, y, tamanho, tamanho), 1)
+
+    # Borda externa mais grossa
+    pygame.draw.rect(tela, (0, 0, 0), (inicio_x, inicio_y, largura_tabuleiro, altura_tabuleiro), 3)
+
+
+    
 
 

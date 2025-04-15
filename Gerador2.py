@@ -80,6 +80,8 @@ class Jogador:
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)
 
+IDpoke = 0
+
 class Pokemon:
     def __init__(self, pokemon):
         self.nome = pokemon["nome"]
@@ -107,22 +109,28 @@ class Pokemon:
         self.IV_def = pokemon["IV def"]
         self.IV_defSP = pokemon["IV def SP"]
         self.code = pokemon["code"]
+        self.ID = pokemon["ID"]
+        self.local = None
+        self.imagem = None
 
     def evoluir(self):
-        self.nome = self.evolucao["nome"]
-        self.VidaMax = self.VidaMax * self.evolucao["vida"]
-        self.Vida = round(self.Vida * self.evolucao["vida"],1)
-        self.Def = round(self.Def * self.evolucao["def"],1)
-        self.Def_sp = round(self.Def_sp * self.evolucao["def SP"],1)
-        self.Atk = round(self.Atk * self.evolucao["atk"],1)
-        self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"],1)
-        self.vel = self.evolucao["velocidade"]
-        self.custo = self.evolucao["custo"]
-        self.ataque_normal = random.choice(self.evolucao["ataques normais"])
-        self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
-        self.xp_atu = 0
-        self.Estagio = self.evolucao["estagio"]
-        self.evolucao = self.evolucao["evolução"]
+        if self.evolucao is not None:
+            self.nome = self.evolucao["nome"]
+            self.VidaMax = self.VidaMax * self.evolucao["vida"]
+            self.Vida = round(self.Vida * self.evolucao["vida"],1)
+            self.Def = round(self.Def * self.evolucao["def"],1)
+            self.Def_sp = round(self.Def_sp * self.evolucao["def SP"],1)
+            self.Atk = round(self.Atk * self.evolucao["atk"],1)
+            self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"],1)
+            self.vel = self.evolucao["velocidade"]
+            self.custo = self.evolucao["custo"]
+            self.ataque_normal = random.choice(self.evolucao["ataques normais"])
+            self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
+            self.xp_atu = 0
+            self.Estagio = self.evolucao["estagio"]
+            self.evolucao = self.evolucao["evolução"]
+        else:
+            return
 
     def XP(self,quantidade):
         self.xp_atu = self.xp_atu + quantidade
@@ -137,19 +145,19 @@ class Pokemon:
         if tipo == "XP atu":
             pokemon_amplificado.XP(1)
         elif tipo == "atk":
-            J = self.Atk
+            J = round(self.Atk,1)
             self.Atk = round(self.Atk + (self.Atk * amplificador),1)
             GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk}")
         elif tipo == "atk SP":
-            J = self.Atk_sp
+            J = round(self.Atk_sp,1)
             self.Atk_sp = round(self.Atk_sp + (self.Atk_sp * amplificador),1)
             GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
         elif tipo == "def":
-            J = self.Def
+            J = round(self.Def,1)
             self.Def = self.Def + round((self.Def * amplificador),1)
             GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
         elif tipo == "def SP":
-            J = self.Def_sp
+            J = round(self.Def_sp,1)
             self.Def_sp = self.Def_sp + round((self.Def_sp * amplificador),1)
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
@@ -230,6 +238,8 @@ pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterp
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
 def Gerador(Pokemon):
+    global IDpoke
+    IDpoke += 1
     Pok = Pokemon
 
     vida_min = int(Pok["vida"] * 0.8)
@@ -284,7 +294,8 @@ def Gerador(Pokemon):
         "IV atk SP": f"{round(IVAS, 1)}%",
         "IV def": f"{round(IVD, 1)}%",
         "IV def SP": f"{round(IVDS, 1)}%",
-        "code": Pok["code"]
+        "code": Pok["code"],
+        "ID": IDpoke 
     }
 
 def Gerador_final(code):

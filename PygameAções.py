@@ -67,19 +67,19 @@ def Loja_I(ID):
     global Contador1
     global Contador2
 
-    if ID == "PokebolasLojaIp1" and Contador1 < 4:
+    if ID == "PokebolasLojaIp1" and Contador1 < 3:
         GV.tocar(Compra)
         informaçoesp1.append("pokebola")
         Contador1 += 1
-    elif ID == "ItensLojaIp1" and Contador1 < 4:
+    elif ID == "ItensLojaIp1" and Contador1 < 3:
         GV.tocar(Compra)
         informaçoesp1.append("item")
         Contador1 += 1
-    elif ID == "PokebolasLojaIp2" and Contador2 < 4:
+    elif ID == "PokebolasLojaIp2" and Contador2 < 3:
         GV.tocar(Compra)
         informaçoesp2.append("pokebola")
         Contador2 += 1
-    elif ID == "ItensLojaIp2" and Contador2 < 4:
+    elif ID == "ItensLojaIp2" and Contador2 < 3:
         GV.tocar(Compra)
         informaçoesp2.append("item")
         Contador2 += 1

@@ -160,7 +160,7 @@ Dragonair = {
 Raichu = {
     "nome": "raichu",
     "tipo": ["eletrico"],
-    "evolução": 0,
+    "evolução": None,
     "estagio": "estagio 1",
     "vida": 1.2,
     "atk": 1.1,
@@ -177,7 +177,7 @@ Raichu = {
 Zoroark = {
     "nome": "zoroark",
     "tipo": ["sombrio"],
-    "evolução": 0,
+    "evolução": None,
     "estagio": "estagio 1",
     "vida": 1.2,
     "atk": 1.2,
@@ -194,7 +194,7 @@ Zoroark = {
 Gyarados = {
     "nome": "gyarados",
     "tipo": ["agua"],
-    "evolução": 0,
+    "evolução": None,
     "estagio": "estagio 1",
     "vida": 2.6,
     "atk": 4.5,
@@ -211,7 +211,7 @@ Gyarados = {
 Wigglytuff = {
     "nome": "wigglytuff",
     "tipo": ["fada,normal"],
-    "evolução": 0,
+    "evolução": None,
     "estagio": "estagio 1",
     "vida": 1.35,
     "atk": 1.1,
@@ -228,7 +228,7 @@ Wigglytuff = {
 Magneton = {
     "nome": "magneton",
     "tipo": ["eletrico","aço"],
-    "evolução": 0,
+    "evolução": None,
     "estagio": "estagio 1",
     "vida": 1.15,
     "atk": 1.1,
