@@ -1,4 +1,5 @@
 import pygame
+import os
 
 pygame.font.init()
 pygame.mixer.init()
@@ -370,31 +371,132 @@ def tocar(som):
     if som:
         som.play()
 
-def tabuleiro(tela, QX, QY, tamanho, cor1=(240, 240, 240), cor2=(180, 180, 180)):
-    largura_tela, altura_tela = tela.get_size()
+def Status_Pokemon(pos, tela, pokemon, cor, eventos=None, estado_global=None):
+    x, y = pos
+    largura, altura = 360, 330
+    ret = pygame.Rect(x, y, largura, altura)
+    pygame.draw.rect(tela, cor, ret)
+    pygame.draw.rect(tela, (255, 255, 255), ret, 2)
 
-    # Tamanho total do tabuleiro
-    largura_tabuleiro = QX * tamanho
-    altura_tabuleiro = QY * tamanho
+    # Fontes atualizadas
+    fonte_titulo = pygame.font.SysFont("arial", 25, True)
+    fonte_HP = pygame.font.SysFont("arial", 23, True)
+    fonte_Stat = pygame.font.SysFont("arial", 20, True)
+    fonte_normal = pygame.font.SysFont("arial", 20)
+    fonte_pequena = pygame.font.SysFont("arial", 18)
+    fonte_iv_destaque = pygame.font.SysFont("arial", 20, True)
 
-    # Posição para centralizar o tabuleiro
-    inicio_x = (largura_tela - largura_tabuleiro) // 2
-    inicio_y = (altura_tela - altura_tabuleiro) // 2
+    def cor_percentual(pct):
+        if pct < 14:
+            return (255, 0, 0)
+        elif pct < 28:
+            return (255, 128, 0)
+        elif pct < 40:
+            return (255, 255, 0)
+        elif pct < 50:
+            return (192, 255, 0)
+        elif pct < 60:
+            return (0, 200, 0)
+        elif pct < 70:
+            return (0, 200, 128)
+        elif pct < 82:
+            return (0, 128, 255)
+        elif pct < 95:
+            return (0, 0, 180)
+        elif pct <= 100:
+            return (128, 0, 200)
+        else:
+            return (255, 0, 150)
 
-    for linha in range(QY):
-        for coluna in range(QX):
-            x = inicio_x + coluna * tamanho
-            y = inicio_y + linha * tamanho
+    # Seção 1 - Nome e HP
+    nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
+    tela.blit(nome_txt, (x + 10, y + 5))
 
-            # Alternância de cores tipo tabuleiro de xadrez
-            cor = cor1 if (linha + coluna) % 2 == 0 else cor2
-            pygame.draw.rect(tela, cor, (x, y, tamanho, tamanho))
+    vida_pct = pokemon.Vida / pokemon.VidaMax * 100
+    vida_str = f"HP: {pokemon.Vida}/{pokemon.VidaMax}"
+    vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))  # cor fixa branca
+    tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
 
-            # Borda interna (entre as casas)
-            pygame.draw.rect(tela, (0, 0, 0), (x, y, tamanho, tamanho), 1)
+    # Barra de vida corrigida
+    pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 342, 18), 1)  # Barra de fundo
+    pygame.draw.rect(tela, cor_percentual(vida_pct), (x + 10, y + 35, (340 * (pokemon.Vida / pokemon.VidaMax)), 16))
 
-    # Borda externa mais grossa
-    pygame.draw.rect(tela, (0, 0, 0), (inicio_x, inicio_y, largura_tabuleiro, altura_tabuleiro), 3)
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 60), (x + largura, y + 60), 2)
+
+    # Seção 2 - Status, Barras e IVs
+    atributos = [
+        ("HP", pokemon.VidaMax, pokemon.IV_vida, 300),
+        ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
+        ("Defense", pokemon.Def, pokemon.IV_def, 120),
+        ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
+        ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 120),
+        ("Speed", pokemon.vel, pokemon.IV_vel, 120)
+    ]
+
+    for i, (nome, valor, iv_val, valor_max) in enumerate(atributos):
+        top = y + 68 + i * 28
+        label = fonte_normal.render(f"{nome}:", True, (230, 230, 230))
+        tela.blit(label, (x + 10, top))
+
+        val_txt = fonte_Stat.render(f"{valor}", True, (255, 255, 255))
+        tela.blit(val_txt, (x + 85, top))
+
+        # Barra de status corrigida (sem lacunas)
+        largura_barra = int((valor / valor_max) * 140)
+        pygame.draw.rect(tela, cor_percentual(valor / valor_max * 100), (x + 130, top + 4, largura_barra, 16))
+        pygame.draw.rect(tela, (0, 0, 0), (x + 130, top + 4, 140, 16), 1)  # Barra de fundo agora tem a largura ajustada corretamente
+    
+        # Reposicionar os IVs mais à direita
+        iv_txt = fonte_pequena.render(f"IV: {iv_val}%", True, cor_percentual(iv_val))
+        tela.blit(iv_txt, (x + 280, top))  # Ajustando a posição para mais à direita
+
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 238), (x + largura, y + 238), 2)
+
+    # Seção 3 - Tipos / XP / Peso / IV médio
+    for i, tipo in enumerate(pokemon.tipo):
+        tipo_render = fonte_pequena.render(tipo, True, (255, 255, 255))
+        tela.blit(tipo_render, (x + 10, y + 244 + i * 18))
+
+    xp_txt = fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230))
+    peso_txt = fonte_pequena.render(f"Peso: {pokemon.custo}", True, (230, 230, 230))
+    tela.blit(xp_txt, (x + 120, y + 244))
+    tela.blit(peso_txt, (x + 120, y + 262))
+
+    iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
+    tela.blit(iv_txt, (x + 230, y + 250))  # IV médio movido mais para a esquerda
+
+    # Linha separadora ajustada
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)  # Linha 5px mais para baixo
+
+    # Seção 4 - Botões de ataque (reposicionados e reduzidos)
+    botao_rect1 = pygame.Rect(x + 17, y + 292, 156, 30)  # Botões movidos 5px para baixo
+    botao_rect2 = pygame.Rect(x + 187, y + 292, 156, 30)
+
+    Botao_Selecao(
+        tela, botao_rect1, pokemon.ataque_normal["nome"], Fonte20,
+        (255, 200, 120), (255, 255, 255),
+        estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
+    )
+
+    Botao_Selecao(
+        tela, botao_rect2, pokemon.ataque_especial["nome"], Fonte20,
+        (210, 160, 255), (255, 255, 255),
+        estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
+    )
+
+def carregar_frames(pasta):
+    frames = []
+    for nome in sorted(os.listdir(pasta)):
+        if nome.endswith(".png"):
+            caminho = os.path.join(pasta, nome)
+            imagem = pygame.image.load(caminho).convert_alpha()
+            frames.append(imagem)
+    return frames
+
+
+
+
+
 
 
     

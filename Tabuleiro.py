@@ -1,3 +1,5 @@
+
+
 import pygame
 import GeradoresVisuais as GV
 import Gerador2 as G

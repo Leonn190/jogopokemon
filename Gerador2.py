@@ -108,15 +108,16 @@ class Pokemon:
         self.IV_atkSP = pokemon["IV atk SP"]
         self.IV_def = pokemon["IV def"]
         self.IV_defSP = pokemon["IV def SP"]
+        self.IV_vel = pokemon["IV vel"]
         self.code = pokemon["code"]
         self.ID = pokemon["ID"]
         self.local = None
         self.imagem = None
 
-    def evoluir(self):
+    def evoluir(self,player):
         if self.evolucao is not None:
             self.nome = self.evolucao["nome"]
-            self.VidaMax = self.VidaMax * self.evolucao["vida"]
+            self.VidaMax = round(self.VidaMax * self.evolucao["vida"],1)
             self.Vida = round(self.Vida * self.evolucao["vida"],1)
             self.Def = round(self.Def * self.evolucao["def"],1)
             self.Def_sp = round(self.Def_sp * self.evolucao["def SP"],1)
@@ -129,14 +130,15 @@ class Pokemon:
             self.xp_atu = 0
             self.Estagio = self.evolucao["estagio"]
             self.evolucao = self.evolucao["evolução"]
+            Partida.VerificaGIF()
         else:
             return
 
-    def XP(self,quantidade):
+    def XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
         if self.xp_atu >= self.xp_total:
             nome_antigo = self.nome
-            self.evoluir()
+            self.evoluir(player)
             GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
         else:
             GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
@@ -230,7 +232,7 @@ class Pokemon:
 
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
         GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
-        self.XP(1)
+        self.XP(1,player)
         alvo.atacado(dano_F,inimigo,tipo,tela)
         
 Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
@@ -262,13 +264,19 @@ def Gerador(Pokemon):
     defSP_max = int(Pok["def SP"] * 1.2)
     Def_SP = random.randint(defSP_min, defSP_max)
 
+    vel_min = int(Pok["velocidade"] * 0.8)
+    vel_max = int(Pok["velocidade"] * 1.2)
+    vel = random.randint(vel_min, vel_max)
+    vel = vel 
+
     IVV = ((vida - vida_min) / (vida_max - vida_min)) * 100
     IVA = ((Atk - atk_min) / (atk_max - atk_min)) * 100
     IVAS = ((Atk_SP - atkSP_min) / (atkSP_max - atkSP_min)) * 100
     IVD = ((Def - def_min) / (def_max - def_min)) * 100
     IVDS = ((Def_SP - defSP_min) / (defSP_max - defSP_min)) * 100
+    IVVE = ((vel - vel_min) / (vel_max - vel_min)) * 100
 
-    IV = round((IVV + IVA + IVAS + IVD + IVDS) / 5, 2)
+    IV = round((IVV + IVA + IVAS + IVD + IVDS + IVVE) / 6, 2)
 
     return {
         "nome": Pok["nome"],
@@ -281,19 +289,20 @@ def Gerador(Pokemon):
         "atk SP": Atk_SP,
         "def": Def,
         "def SP": Def_SP,
-        "velocidade": Pok["velocidade"],
+        "velocidade": vel,
         "XP": Pok["XP"],
         "custo": Pok["custo"],
         "ataque normal": random.choice(Pok["ataques normais"]),
         "ataque especial": random.choice(Pok["ataques especiais"]),
         "evolução": Pok["evolução"],
         "XP atu": 0,
-        "IV": f"{IV}%",
-        "IV vida": f"{round(IVV, 1)}%",
-        "IV atk": f"{round(IVA, 1)}%",
-        "IV atk SP": f"{round(IVAS, 1)}%",
-        "IV def": f"{round(IVD, 1)}%",
-        "IV def SP": f"{round(IVDS, 1)}%",
+        "IV": IV,
+        "IV vida": round(IVV, 1),
+        "IV atk": round(IVA, 1),
+        "IV atk SP": round(IVAS, 1),
+        "IV def": round(IVD, 1),
+        "IV def SP": round(IVDS, 1),
+        "IV vel": round(IVVE, 1),
         "code": Pok["code"],
         "ID": IDpoke 
     }

@@ -26,9 +26,11 @@ PokebolaSelecionada = None
 
 mensagens_passageiras = []
 
+PokeGifs = {}
+Gifs_ativos = []
+
 ImagensPokemon38 = {}
 ImagensPokemon100 = {}
-ImagensPokemon180 = {}
 ImagensPokebolas = {}
 ImagensItens = {}
 OutrosIMG = []
@@ -201,7 +203,9 @@ def seleciona(ID, player, inimigo,):
         
 def desseleciona():
     global PokemonS
+    global estadoPokemon
     PokemonS = None
+    estadoPokemon["selecionado_esquerdo"] = False
 
 def vizualiza(ID,player,inimigo,):
     global PokemonV
@@ -238,7 +242,7 @@ def oculta():
     global PokemonV
     global estadoInfo
     PokemonV = None
-    estadoInfo["selecionado_esquerdo"] = None
+    estadoInfo["selecionado_direito"] = False
 
 def informa(ID,Pokemon):
     pass
@@ -255,9 +259,11 @@ def Abre(ID,player,inimigo):
 def Fecha():
     global ver_centro
     global Visor
+    global estadoOutros
 
     ver_centro = "n"
     Visor = None
+    estadoOutros["selecionado_esquerdo"] =  False
 
 def seleciona_pokebola(pokebola):
     global PokebolaSelecionada
@@ -270,6 +276,7 @@ def desseleciona_pokebola():
 def PokemonCentro(ID,player):
     global PokebolaSelecionada
     global Centro
+    global estadoOutros
 
     pokemon = Centro[ID]
     
@@ -285,8 +292,10 @@ def PokemonCentro(ID,player):
                 player.ganhar_pokemon(novo_pokemon)
                 AddLocalPokemon(novo_pokemon,player)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
+                VerificaGIF()
                 GV.tocar(Bom)
                 Centro.remove(pokemon)
+                estadoOutros["selecionado_esquerdo"] =  False
                 return
             else:
                 GV.tocar(Bloq)
@@ -294,6 +303,7 @@ def PokemonCentro(ID,player):
         else:
             GV.tocar(Bloq)
             GV.adicionar_mensagem("Voce falhou em capturar o pokemon, que pena")
+        estadoOutros["selecionado_esquerdo"] =  False
     else:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Selecione uma pokebola para capturar um pokemon")
@@ -373,7 +383,36 @@ def AddLocalPokemonINIC(pokemon,jogador):
     else:
         M.Move(pokemon,3,10)
 
-estado = {
+def VerificaGIF():
+    global Gifs_ativos
+
+        # Ao capturar um novo Pokémon (exemplo)
+    for i in range(len(player.pokemons)):
+        nome = player.pokemons[i].nome
+
+        # Verifica se o Pokémon ainda não foi adicionado
+        if nome not in [gif["nome"] for gif in Gifs_ativos]:
+            Gifs_ativos.append({
+                "nome": nome,
+                "frames": PokeGifs[nome],
+                "frame_atual": 0,
+                "tempo_anterior": pygame.time.get_ticks(),
+                "intervalo": 50  # Pode ser ajustado para cada Pokémon se necessário
+            })
+    for i in range(len(inimigo.pokemons)):
+        nome = inimigo.pokemons[i].nome
+
+        # Verifica se o Pokémon ainda não foi adicionado
+        if nome not in [gif["nome"] for gif in Gifs_ativos]:
+            Gifs_ativos.append({
+                "nome": nome,
+                "frames": PokeGifs[nome],
+                "frame_atual": 0,
+                "tempo_anterior": pygame.time.get_ticks(),
+                "intervalo": 50  # Pode ser ajustado para cada Pokémon se necessário
+            })
+
+estadoPokemon = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
@@ -491,45 +530,7 @@ def AB(Visor,tela,eventos,player,inimigo):
                 idx_pokebola += 1 
 
 def S(PokemonS,tela,eventos,player,inimigo):
-    nomeS = f"Status do {PokemonS.nome}"
-
-    colunasS = ["    nome    ", "valor", "IV"]  # 3 colunas: nome, valor, IV
-
-    # Linhas com os atributos e o valor "caju" para IV
-    linhasS = [
-        ["Vida", PokemonS.Vida, PokemonS.IV_vida],
-        ["ATK", PokemonS.Atk, PokemonS.IV_atk],
-        ["Sp ATK", PokemonS.Atk_sp, PokemonS.IV_atkSP],
-        ["DEF", PokemonS.Def, PokemonS.IV_def],
-        ["Sp DEF", PokemonS.Def_sp, PokemonS.IV_defSP],
-        ["VEL", PokemonS.vel, f"IV:{PokemonS.IV}"],
-        ["Custo", PokemonS.custo, PokemonS.tipo[0]],
-        ["XP", PokemonS.xp_atu, PokemonS.tipo[1] if len(PokemonS.tipo) > 1 else ""]
-    ]
-
-    # Chamada da função Tabela
-    GV.Tabela(nomeS, colunasS, linhasS, tela, 1570, 570, 350, Fonte28, Fonte30, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
-
-    GV.Botao_Selecao(
-    tela, (1570, 860, 175, 30),
-    f"{PokemonS.ataque_normal["nome"]}", Fonte28,
-    cor_fundo=LARANJA_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Atk Norm.S",   
-    estado_global=estadoInfo, eventos=eventos,
-    funcao_esquerdo=lambda:informa("Atk Norm",PokemonS), funcao_direito=None,
-    desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
-    tecla_esquerda=None, tecla_direita=None, grossura=1)
-    GV.Botao_Selecao(
-    tela, (1745, 860, 175, 30),
-    f"{PokemonS.ataque_especial["nome"]}", Fonte28,
-    cor_fundo=ROXO_CLARO, cor_borda_normal=PRETO,
-    cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-    cor_passagem=AMARELO, id_botao="Atk SP.S",   
-    estado_global=estadoInfo, eventos=eventos,
-    funcao_esquerdo=lambda:informa("Atk SPS",PokemonS), funcao_direito=None,
-    desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
-    tecla_esquerda=None, tecla_direita=None, grossura=1)
+    GV.Status_Pokemon((1560,570), tela, PokemonS,(30, 30, 30), eventos, estadoInfo)
 
     if PokemonS.Vida <= 0:
         pass
@@ -547,74 +548,17 @@ def S(PokemonS,tela,eventos,player,inimigo):
             tela.blit(OutrosIMG[7],((1335 - i * 190),220))   
 
 def V(PokemonV,tela,eventos,inimigo):
-    nomeV = f"Status do {PokemonV.nome}"
-
-    colunasV = ["    nome    ", "valor", "IV"]  # 3 colunas: nome, valor, IV
-
-    # Linhas com os atributos e o valor "caju" para IV
-    linhasV = [
-        ["Vida", PokemonV.Vida, PokemonV.IV_vida],
-        ["ATK", PokemonV.Atk, PokemonV.IV_atk],
-        ["Sp ATK", PokemonV.Atk_sp, PokemonV.IV_atkSP],
-        ["DEF", PokemonV.Def, PokemonV.IV_def],
-        ["Sp DEF", PokemonV.Def_sp, PokemonV.IV_defSP],
-        ["VEL", PokemonV.vel, f"IV:{PokemonV.IV}"],
-        ["Custo", (PokemonV.custo), PokemonV.tipo[0]],
-        ["XP", (PokemonV.xp_atu), PokemonV.tipo[1] if len(PokemonV.tipo) > 1 else ""]
-    ]
-
-    if PokemonV in inimigo.pokemons:
-        GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 240, 350, Fonte28,Fonte30, VERMELHO_SUPER_CLARO, PRETO, VERMELHO_CLARO)
-
-        GV.Botao_Selecao(
-        tela, (1570, 530, 175, 30),
-        f"{PokemonV.ataque_normal["nome"]}", Fonte28,
-        cor_fundo=LARANJA_CLARO, cor_borda_normal=PRETO,
-        cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-        cor_passagem=AMARELO, id_botao="Atk Norm.V",   
-        estado_global=estadoInfo, eventos=eventos,
-        funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
-        desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
-        tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
-        GV.Botao_Selecao(
-        tela, (1745, 530, 175, 30),
-        f"{PokemonV.ataque_especial["nome"]}", Fonte28,
-        cor_fundo=ROXO_CLARO, cor_borda_normal=PRETO,
-        cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-        cor_passagem=AMARELO, id_botao="Atk SP.V",   
-        estado_global=estadoInfo, eventos=eventos,
-        funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
-        desfazer_esquerdo=lambda:desinforma(), desfazer_direito=None,
-        tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
-
-    else:
-        GV.Tabela(nomeV, colunasV, linhasV, tela, 1570, 240, 350, Fonte28,Fonte30, AZUL_SUPER_CLARO, PRETO,AZUL_CLARO)
-
-        GV.Botao_Selecao(
-        tela, (1570, 530, 175, 30),
-        f"{PokemonV.ataque_normal["nome"]}", Fonte28,
-        cor_fundo=LARANJA_CLARO, cor_borda_normal=PRETO,
-        cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-        cor_passagem=AMARELO, id_botao="Atk Norm.V",   
-        estado_global=estadoInfo, eventos=eventos,
-        funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
-        desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
-        tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
-        GV.Botao_Selecao(
-        tela, (1745, 530, 175, 30),
-        f"{PokemonV.ataque_especial["nome"]}", Fonte28,
-        cor_fundo=ROXO_CLARO, cor_borda_normal=PRETO,
-        cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
-        cor_passagem=AMARELO, id_botao="Atk SP.V",   
-        estado_global=estadoInfo, eventos=eventos,
-        funcao_esquerdo=lambda:informa("Atk Norm.V",PokemonS), funcao_direito=None,
-        desfazer_esquerdo=lambda:desinforma("Atk Norm.V",PokemonS), desfazer_direito=None,
-        tecla_esquerda=pygame.K_1, tecla_direita=None, grossura=1)
     
+    
+    if PokemonV in inimigo.pokemons:
+        GV.Status_Pokemon((1560,220), tela, PokemonV,(75, 15, 15), eventos, estadoInfo)
+    else:
+        GV.Status_Pokemon((1560,220), tela, PokemonV,(30, 30, 30), eventos, estadoInfo)
+
 def Partida(tela,estados,relogio):
     global Turno
     global ImagensPokemon100
-    global ImagensPokemon180
+    global PokeGifs
     global ImagensPokebolas
     global Jogador1
     global Jogador2
@@ -636,8 +580,6 @@ def Partida(tela,estados,relogio):
     pygame.mixer.music.load('Musicas/carregamento.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
-
-    pygame.time.wait(7500)
 
     Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080))
     Carregar_Imagens()
@@ -663,6 +605,8 @@ def Partida(tela,estados,relogio):
 
     player = Jogador1
     inimigo = Jogador2
+
+    VerificaGIF()
 
     pygame.mixer.music.load('Musicas/Partida1Theme.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -724,10 +668,52 @@ def Partida(tela,estados,relogio):
 def Carregar_Imagens():
     global ImagensPokemon38
     global ImagensPokemon100
-    global ImagensPokemon180
+    global PokeGifs
     global ImagensPokebolas
     global ImagensItens
     global OutrosIMG
+
+    Gbulbasaur = GV.carregar_frames('imagens/gifs/bulbasaur_frames')
+    Givysaur = GV.carregar_frames('imagens/gifs/ivysaur_frames')
+    Gvenusaur = GV.carregar_frames('imagens/gifs/venusaur_frames')
+    Gcharmander = GV.carregar_frames('imagens/gifs/charmander_frames')
+    Gcharmeleon = GV.carregar_frames('imagens/gifs/charmeleon_frames')
+    Gcharizard = GV.carregar_frames('imagens/gifs/charizard_frames')
+    Gsquirtle = GV.carregar_frames('imagens/gifs/squirtle_frames')
+    Gwartortle = GV.carregar_frames('imagens/gifs/wartortle_frames')
+    Gblastoise = GV.carregar_frames('imagens/gifs/blastoise_frames')
+    Gmachop = GV.carregar_frames('imagens/gifs/machop_frames')
+    Gmachoke = GV.carregar_frames('imagens/gifs/machoke_frames')
+    Gmachamp = GV.carregar_frames('imagens/gifs/machamp_frames')
+    Ggastly = GV.carregar_frames('imagens/gifs/gastly_frames')
+    Ghaunter = GV.carregar_frames('imagens/gifs/haunter_frames')
+    Ggengar = GV.carregar_frames('imagens/gifs/gengar_frames')
+    Ggeodude = GV.carregar_frames('imagens/gifs/geodude_frames')
+    Ggraveler = GV.carregar_frames('imagens/gifs/graveler_frames')
+    Ggolem = GV.carregar_frames('imagens/gifs/golem_frames')
+    Gcaterpie = GV.carregar_frames('imagens/gifs/caterpie_frames')
+    Gmetapod = GV.carregar_frames('imagens/gifs/metapod_frames')
+    Gbutterfree = GV.carregar_frames('imagens/gifs/butterfree_frames')
+    Gabra = GV.carregar_frames('imagens/gifs/abra_frames')
+    Gkadabra = GV.carregar_frames('imagens/gifs/kadabra_frames')
+    Galakazam = GV.carregar_frames('imagens/gifs/alakazam_frames')
+    Gdratini = GV.carregar_frames('imagens/gifs/dratini_frames')
+    Gdragonair = GV.carregar_frames('imagens/gifs/dragonair_frames')
+    Gdragonite = GV.carregar_frames('imagens/gifs/dragonite_frames')
+    Gzorua = GV.carregar_frames('imagens/gifs/zorua_frames')
+    Gzoroark = GV.carregar_frames('imagens/gifs/zoroark_frames')
+    Gpikachu = GV.carregar_frames('imagens/gifs/pikachu_frames')
+    Graichu = GV.carregar_frames('imagens/gifs/raichu_frames')
+    Gmagikarp = GV.carregar_frames('imagens/gifs/magikarp_frames')
+    Ggyarados = GV.carregar_frames('imagens/gifs/gyarados_frames')
+    Gjigglypuff = GV.carregar_frames('imagens/gifs/jigglypuff_frames')
+    Gwigglytuff = GV.carregar_frames('imagens/gifs/wigglytuff_frames')
+    Gmagnemite = GV.carregar_frames('imagens/gifs/magnemite_frames')
+    Gmagneton = GV.carregar_frames('imagens/gifs/magneton_frames')
+    Gsnorlax = GV.carregar_frames('imagens/gifs/snorlax_frames')
+    Gaerodactyl = GV.carregar_frames('imagens/gifs/aerodactyl_frames')
+    Gjynx = GV.carregar_frames('imagens/gifs/jynx_frames')
+    Gmewtwo = GV.carregar_frames('imagens/gifs/mewtwo_frames')
 
     SbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (38,38),"PNG")
     SivysaurIMG = GV.Carregar_Imagem("imagens/pokemons/ivysaur.png", (38,38),"PNG")
@@ -791,47 +777,7 @@ def Carregar_Imagens():
     MjynxIMG = GV.Carregar_Imagem("imagens/pokemons/jynx.png", (100, 100), "PNG")
     MmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (100, 100), "PNG")
 
-    GbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (180,180),"PNG")
-    GivysaurIMG = GV.Carregar_Imagem("imagens/pokemons/ivysaur.png", (180,180),"PNG")
-    GvenusaurIMG = GV.Carregar_Imagem("imagens/pokemons/venusaur.png", (180,180),"PNG")
-    GcharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (180,180),"PNG")
-    GcharmeleonIMG = GV.Carregar_Imagem("imagens/pokemons/charmeleon.png", (180,180),"PNG")
-    GcharizardIMG = GV.Carregar_Imagem("imagens/pokemons/charizard.png", (180,180),"PNG")
-    GsquirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (180,180),"PNG")
-    GwartortleIMG = GV.Carregar_Imagem("imagens/pokemons/wartortle.png", (180,180),"PNG")
-    GblastoiseIMG = GV.Carregar_Imagem("imagens/pokemons/blastoise.png", (180,180),"PNG")
-    GmachopIMG = GV.Carregar_Imagem("imagens/pokemons/machop.png", (180,180),"PNG")
-    GmachokeIMG = GV.Carregar_Imagem("imagens/pokemons/machoke.png", (180,180),"PNG")
-    GmachampIMG = GV.Carregar_Imagem("imagens/pokemons/machamp.png", (180,180),"PNG")
-    GgastlyIMG = GV.Carregar_Imagem("imagens/pokemons/gastly.png", (180,180),"PNG")
-    GhaunterIMG = GV.Carregar_Imagem("imagens/pokemons/haunter.png", (180,180),"PNG")
-    GgengarIMG = GV.Carregar_Imagem("imagens/pokemons/gengar.png", (180,180),"PNG")
-    GgeodudeIMG = GV.Carregar_Imagem("imagens/pokemons/geodude.png", (180,180),"PNG")
-    GgravelerIMG = GV.Carregar_Imagem("imagens/pokemons/graveler.png", (180,180),"PNG")
-    GgolemIMG = GV.Carregar_Imagem("imagens/pokemons/golem.png", (180,180),"PNG")
-    GcaterpieIMG = GV.Carregar_Imagem("imagens/pokemons/caterpie.png", (180,180),"PNG")
-    GmetapodIMG = GV.Carregar_Imagem("imagens/pokemons/metapod.png", (180,180),"PNG")
-    GbutterfreeIMG = GV.Carregar_Imagem("imagens/pokemons/butterfree.png", (180,180),"PNG")
-    GabraIMG = GV.Carregar_Imagem("imagens/pokemons/abra.png", (180,180),"PNG")
-    GkadabraIMG = GV.Carregar_Imagem("imagens/pokemons/kadabra.png", (180,180),"PNG")
-    GalakazamIMG = GV.Carregar_Imagem("imagens/pokemons/alakazam.png", (180,180),"PNG")
-    GdratiniIMG = GV.Carregar_Imagem("imagens/pokemons/dratini.png", (180,180),"PNG")
-    GdragonairIMG = GV.Carregar_Imagem("imagens/pokemons/dragonair.png", (180,180),"PNG")
-    GdragoniteIMG = GV.Carregar_Imagem("imagens/pokemons/dragonite.png", (180,180),"PNG")
-    GzoruaIMG = GV.Carregar_Imagem("imagens/pokemons/zorua.png", (180,180),"PNG")
-    GzoroarkIMG = GV.Carregar_Imagem("imagens/pokemons/zoroark.png", (180,180),"PNG")
-    GpikachuIMG = GV.Carregar_Imagem("imagens/pokemons/pikachu.png", (180,180),"PNG")
-    GraichuIMG = GV.Carregar_Imagem("imagens/pokemons/raichu.png", (180,180),"PNG")
-    GmagikarpIMG = GV.Carregar_Imagem("imagens/pokemons/magikarp.png", (180,180),"PNG")
-    GyaradosIMG = GV.Carregar_Imagem("imagens/pokemons/gyarados.png", (180,180),"PNG")
-    GjigglypuffIMG = GV.Carregar_Imagem("imagens/pokemons/jigglypuff.png", (180,180),"PNG")
-    GwigglytuffIMG = GV.Carregar_Imagem("imagens/pokemons/wigglytuff.png", (180,180),"PNG")
-    GmagnemiteIMG = GV.Carregar_Imagem("imagens/pokemons/magnemite.png", (180,180),"PNG")
-    GmagnetonIMG = GV.Carregar_Imagem("imagens/pokemons/magneton.png", (180,180),"PNG")
-    GsnorlaxIMG = GV.Carregar_Imagem("imagens/pokemons/snorlax.png", (180,180),"PNG")
-    GaerodactylIMG = GV.Carregar_Imagem("imagens/pokemons/aerodactyl.png", (180,180),"PNG")
-    GjynxIMG = GV.Carregar_Imagem("imagens/pokemons/jynx.png", (180,180),"PNG")
-    GmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (180,180),"PNG")
+
 
     EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (30,30), "PNG")
     CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (30,30), "PNG")
@@ -865,6 +811,50 @@ def Carregar_Imagens():
     LojaEnergiasIMG = GV.Carregar_Imagem("imagens/icones/energias.png", (60,60),"PNG")
     AtaqueIMG = GV.Carregar_Imagem("imagens/icones/atacar.png", (40,40),"PNG")
     NocauteIMG  = GV.Carregar_Imagem("imagens/icones/KO.png", (50,50),"PNG")
+
+    PokeGifs = {
+    "bulbasaur": Gbulbasaur,
+    "ivysaur": Givysaur,
+    "venusaur": Gvenusaur,
+    "charmander": Gcharmander,
+    "charmeleon": Gcharmeleon,
+    "charizard": Gcharizard,
+    "squirtle": Gsquirtle,
+    "wartortle": Gwartortle,
+    "blastoise": Gblastoise,
+    "machop": Gmachop,
+    "machoke": Gmachoke,
+    "machamp": Gmachamp,
+    "gastly": Ggastly,
+    "haunter": Ghaunter,
+    "gengar": Ggengar,
+    "geodude": Ggeodude,
+    "graveler": Ggraveler,
+    "golem": Ggolem,
+    "caterpie": Gcaterpie,
+    "metapod": Gmetapod,
+    "butterfree": Gbutterfree,
+    "abra": Gabra,
+    "kadabra": Gkadabra,
+    "alakazam": Galakazam,
+    "dratini": Gdratini,
+    "dragonair": Gdragonair,
+    "dragonite": Gdragonite,
+    "zorua": Gzorua,
+    "zoroark": Gzoroark,
+    "pikachu": Gpikachu,
+    "raichu": Graichu,
+    "magikarp": Gmagikarp,
+    "gyarados": Ggyarados,
+    "jigglypuff": Gjigglypuff,
+    "wigglytuff": Gwigglytuff,
+    "magnemite": Gmagnemite,
+    "magneton": Gmagneton,
+    "snorlax": Gsnorlax,
+    "aerodactyl": Gaerodactyl,
+    "jynx": Gjynx,
+    "mewtwo": Gmewtwo,
+}
 
     ImagensPokemon38 = {
     "bulbasaur": SbulbasaurIMG,
@@ -930,50 +920,6 @@ def Carregar_Imagens():
     "mewtwo": MmewtwoIMG
     }
 
-    ImagensPokemon180 = {
-    "bulbasaur": GbulbasaurIMG,
-    "ivysaur": GivysaurIMG,
-    "venusaur": GvenusaurIMG,
-    "charmander": GcharmanderIMG,
-    "charmeleon": GcharmeleonIMG,
-    "charizard": GcharizardIMG,
-    "squirtle": GsquirtleIMG,
-    "wartortle": GwartortleIMG,
-    "blastoise": GblastoiseIMG,
-    "machop": GmachopIMG,
-    "machoke": GmachokeIMG,
-    "machamp": GmachampIMG,
-    "gastly": GgastlyIMG,
-    "haunter": GhaunterIMG,
-    "gengar": GgengarIMG,
-    "geodude": GgeodudeIMG,
-    "graveler": GgravelerIMG,
-    "golem": GgolemIMG,
-    "caterpie": GcaterpieIMG,
-    "metapod": GmetapodIMG,
-    "butterfree": GbutterfreeIMG,
-    "abra": GabraIMG,
-    "kadabra": GkadabraIMG,
-    "alakazam": GalakazamIMG,
-    "dratini": GdratiniIMG,
-    "dragonair": GdragonairIMG,
-    "dragonite": GdragoniteIMG,
-    "zorua": GzoruaIMG,
-    "zoroark": GzoroarkIMG,
-    "pikachu": GpikachuIMG,
-    "raichu": GraichuIMG,
-    "magikarp": GmagikarpIMG,
-    "gyarados": GyaradosIMG,
-    "jigglypuff": GjigglypuffIMG,
-    "wigglytuff": GwigglytuffIMG,
-    "magnemite": GmagnemiteIMG,
-    "magneton": GmagnetonIMG,
-    "snorlax": GsnorlaxIMG,
-    "aerodactyl": GaerodactylIMG,
-    "jynx": GjynxIMG,
-    "mewtwo": GmewtwoIMG
-    }
-
     ImagensPokebolas = {
     "pokebola": UPokeballIMG,
     "greatball": UGreatBallIMG,
@@ -1018,7 +964,7 @@ def TelaPokemons(tela,eventos,estados):
             cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
-            estado_global=estado, eventos=eventos,
+            estado_global=estadoPokemon, eventos=eventos,
             funcao_esquerdo=lambda i=i: seleciona(f"Pokemon{i+1}", player, inimigo),
             funcao_direito=lambda i=i: vizualiza(f"Pokemon{i+1}", player, inimigo),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
@@ -1033,7 +979,7 @@ def TelaPokemons(tela,eventos,estados):
             cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
-            estado_global=estado, eventos=eventos,
+            estado_global=estadoPokemon, eventos=eventos,
             funcao_esquerdo=lambda i=i: seleciona(f"inimigo{i+1}", player, inimigo),
             funcao_direito=lambda i=i: vizualiza(f"inimigo{i+1}", player, inimigo),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
@@ -1044,13 +990,52 @@ def TelaPokemons(tela,eventos,estados):
    
     if PokemonV is not None:
         V(PokemonV,tela,eventos,inimigo) 
-    
+
+    agora = pygame.time.get_ticks()
+
+   # Para cada Pokémon no time, atualize e desenhe o GIF
     for i in range(len(player.pokemons)):
-        tela.blit(ImagensPokemon180[player.pokemons[i].nome],((425 + i * 190),890))
+        nome = player.pokemons[i].nome
+        gif = next(g for g in Gifs_ativos if g["nome"] == nome)
 
+        if agora - gif["tempo_anterior"] > gif["intervalo"]:
+            gif["frame_atual"] = (gif["frame_atual"] + 1) % len(gif["frames"])
+            gif["tempo_anterior"] = agora
+
+        frame = gif["frames"][gif["frame_atual"]]
+        
+        # Posição base do quadrado
+        x = 420 + i * 190
+        y = 890
+
+        # Centraliza o frame dentro do quadrado 190x190
+        pos_x = x + (190 - frame.get_width()) // 2
+        pos_y = y + (190 - frame.get_height()) // 2
+
+        tela.blit(frame, (pos_x, pos_y))
+
+
+# Para os Pokémon inimigos, ajustando a posição X dinamicamente
     for i in range(len(inimigo.pokemons)):
-        tela.blit(ImagensPokemon180[inimigo.pokemons[i].nome],((1315 - i * 190),0))
+        nome = inimigo.pokemons[i].nome
+        gif = next(g for g in Gifs_ativos if g["nome"] == nome)
 
+        if agora - gif["tempo_anterior"] > gif["intervalo"]:
+            gif["frame_atual"] = (gif["frame_atual"] + 1) % len(gif["frames"])
+            gif["tempo_anterior"] = agora
+
+        frame = gif["frames"][gif["frame_atual"]]
+
+        # Posição base do quadrado
+        x = 1305 - i * 190
+        y = 5
+
+        # Centraliza o frame dentro do quadrado 190x190
+        pos_x = x + (190 - frame.get_width()) // 2
+        pos_y = y + (190 - frame.get_height()) // 2
+
+
+    tela.blit(frame, (pos_x, pos_y))
     for i in range(len(player.pokemons)):
         barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
     
