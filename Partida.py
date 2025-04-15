@@ -516,7 +516,7 @@ def AB(Visor,tela,eventos,player,inimigo):
                 idx_pokebola += 1 
 
 def S(PokemonS,tela,eventos,player,inimigo):
-    GV.Status_Pokemon((1560,570), tela, PokemonS,(30, 30, 30), eventos, estadoInfo)
+    GV.Status_Pokemon((1560,570), tela, PokemonS,(30, 30, 30), TiposEnergiaIMG, eventos, estadoInfo)
 
     if PokemonS.Vida <= 0:
         pass
@@ -535,9 +535,8 @@ def S(PokemonS,tela,eventos,player,inimigo):
 
 def V(PokemonV,tela,eventos,inimigo):
     
-    
     if PokemonV in inimigo.pokemons:
-        GV.Status_Pokemon((1560,220), tela, PokemonV,(75, 15, 15), eventos, estadoInfo)
+        GV.Status_Pokemon((1560,220), tela, PokemonV,(75, 15, 15),TiposEnergiaIMG, eventos, estadoInfo)
     else:
         GV.Status_Pokemon((1560,220), tela, PokemonV,(30, 30, 30), eventos, estadoInfo)
 

@@ -371,7 +371,7 @@ def tocar(som):
     if som:
         som.play()
 
-def Status_Pokemon(pos, tela, pokemon, cor, eventos=None, estado_global=None):
+def Status_Pokemon(pos, tela, pokemon, cor, imagens_tipos, eventos=None, estado_global=None):
     x, y = pos
     largura, altura = 360, 330
     ret = pygame.Rect(x, y, largura, altura)
@@ -414,11 +414,10 @@ def Status_Pokemon(pos, tela, pokemon, cor, eventos=None, estado_global=None):
 
     vida_pct = pokemon.Vida / pokemon.VidaMax * 100
     vida_str = f"HP: {pokemon.Vida}/{pokemon.VidaMax}"
-    vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))  # cor fixa branca
+    vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))
     tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
 
-    # Barra de vida corrigida
-    pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 342, 18), 1)  # Barra de fundo
+    pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 342, 18), 1)
     pygame.draw.rect(tela, cor_percentual(vida_pct), (x + 10, y + 35, (340 * (pokemon.Vida / pokemon.VidaMax)), 16))
 
     pygame.draw.line(tela, (255, 255, 255), (x, y + 60), (x + largura, y + 60), 2)
@@ -441,35 +440,49 @@ def Status_Pokemon(pos, tela, pokemon, cor, eventos=None, estado_global=None):
         val_txt = fonte_Stat.render(f"{valor}", True, (255, 255, 255))
         tela.blit(val_txt, (x + 85, top))
 
-        # Barra de status corrigida (sem lacunas)
-        largura_barra = int((valor / valor_max) * 140)
-        pygame.draw.rect(tela, cor_percentual(valor / valor_max * 100), (x + 130, top + 4, largura_barra, 16))
-        pygame.draw.rect(tela, (0, 0, 0), (x + 130, top + 4, 140, 16), 1)  # Barra de fundo agora tem a largura ajustada corretamente
-    
-        # Reposicionar os IVs mais à direita
+        # Trava para impedir que a barra ultrapasse
+        percentual = min(valor / valor_max, 1.0)
+        largura_barra = int(percentual * 140)
+
+        pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 130, top + 4, largura_barra, 16))
+        pygame.draw.rect(tela, (0, 0, 0), (x + 130, top + 4, 140, 16), 1)
+
         iv_txt = fonte_pequena.render(f"IV: {iv_val}%", True, cor_percentual(iv_val))
-        tela.blit(iv_txt, (x + 280, top))  # Ajustando a posição para mais à direita
+        tela.blit(iv_txt, (x + 280, top))
 
     pygame.draw.line(tela, (255, 255, 255), (x, y + 238), (x + largura, y + 238), 2)
 
-    # Seção 3 - Tipos / XP / Peso / IV médio
+    # Seção 3 - Tipos (texto) e imagens
     for i, tipo in enumerate(pokemon.tipo):
         tipo_render = fonte_pequena.render(tipo, True, (255, 255, 255))
         tela.blit(tipo_render, (x + 10, y + 244 + i * 18))
 
+    # Círculos e imagens dos tipos
+    for i, tipo in enumerate(pokemon.tipo):
+        pos_x = x + 80 + i * 36
+        pos_y = y + 245
+        centro = (pos_x + 15, pos_y + 15)  # centro do círculo
+        pygame.draw.circle(tela, (255, 255, 255), centro, 15)
+        pygame.draw.circle(tela, (0, 0, 0), centro, 15, 1)  # borda preta
+        if tipo in imagens_tipos:
+            img = imagens_tipos[tipo]
+            img_rect = img.get_rect(center=centro)
+            tela.blit(img, img_rect)
+
+
+    # XP / Peso deslocados mais para a direita
     xp_txt = fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230))
     peso_txt = fonte_pequena.render(f"Peso: {pokemon.custo}", True, (230, 230, 230))
-    tela.blit(xp_txt, (x + 120, y + 244))
-    tela.blit(peso_txt, (x + 120, y + 262))
+    tela.blit(xp_txt, (x + 165, y + 244))
+    tela.blit(peso_txt, (x + 165, y + 262))
 
     iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
-    tela.blit(iv_txt, (x + 230, y + 250))  # IV médio movido mais para a esquerda
+    tela.blit(iv_txt, (x + 235, y + 250))
 
-    # Linha separadora ajustada
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)  # Linha 5px mais para baixo
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)
 
-    # Seção 4 - Botões de ataque (reposicionados e reduzidos)
-    botao_rect1 = pygame.Rect(x + 17, y + 292, 156, 30)  # Botões movidos 5px para baixo
+    # Seção 4 - Botões de ataque
+    botao_rect1 = pygame.Rect(x + 17, y + 292, 156, 30)
     botao_rect2 = pygame.Rect(x + 187, y + 292, 156, 30)
 
     Botao_Selecao(
