@@ -1,5 +1,3 @@
-
-
 A = {
     "nome": "Golpe maneiro",
     "tipo": ["fogo"],

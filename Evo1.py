@@ -4,8 +4,8 @@ from Ataques_S import C,D
 from Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite
 
 Ivysaur = {
-    "nome": "ivysaur",
-    "tipo": ["planta","veneno"],
+    "nome": "Ivysaur",
+    "tipo": ["planta","venenoso"],
     "evolução": Venusaur,
     "estagio": "estagio 1",
     "vida": 1.15,
@@ -21,7 +21,7 @@ Ivysaur = {
 }
 
 Charmeleon = {
-    "nome": "charmeleon",
+    "nome": "Charmeleon",
     "tipo": ["fogo"],
     "evolução": Charizard,
     "estagio": "estagio 1",
@@ -38,7 +38,7 @@ Charmeleon = {
 }
 
 Wartortle = {
-    "nome": "wartortle",
+    "nome": "Wartortle",
     "tipo": ["agua"],
     "evolução": Blastoise,
     "estagio": "estagio 1",
@@ -55,7 +55,6 @@ Wartortle = {
 }
 
 Machoke = {
-
     "nome": "Machoke",
     "tipo": ["lutador"],
     "evolução": Machamp,
@@ -73,8 +72,8 @@ Machoke = {
 }
 
 Haunter = {
-    "nome": "haunter",
-    "tipo": ["fantasma","veneno"],
+    "nome": "Haunter",
+    "tipo": ["fantasma","venenoso"],
     "evolução": Gengar,
     "estagio": "estagio 1",
     "vida": 1.1,
@@ -90,8 +89,8 @@ Haunter = {
 }
 
 Graveler = {
-    "nome": "graveler",
-    "tipo": ["pedra","terra"],
+    "nome": "Graveler",
+    "tipo": ["pedra","terrestre"],
     "evolução": Golem,
     "estagio": "estagio 1",
     "vida": 1.15,
@@ -107,7 +106,7 @@ Graveler = {
 }
 
 Metapod = {
-    "nome": "metapod",
+    "nome": "Metapod",
     "tipo": ["inseto"],
     "evolução": Butterfree,
     "estagio": "estagio 1",
@@ -124,7 +123,7 @@ Metapod = {
 }
 
 Kadabra = {
-    "nome": "kadabra",
+    "nome": "Kadabra",
     "tipo": ["psiquico"],
     "evolução": Alakazam,
     "estagio": "estagio 1",
@@ -141,7 +140,7 @@ Kadabra = {
 }
 
 Dragonair = {
-    "nome": "dragonair",
+    "nome": "Dragonair",
     "tipo": ["dragao"],
     "evolução": Dragonite,
     "estagio": "estagio 1",
@@ -158,7 +157,7 @@ Dragonair = {
 }
 
 Raichu = {
-    "nome": "raichu",
+    "nome": "Raichu",
     "tipo": ["eletrico"],
     "evolução": None,
     "estagio": "estagio 1",
@@ -175,7 +174,7 @@ Raichu = {
 }
 
 Zoroark = {
-    "nome": "zoroark",
+    "nome": "Zoroark",
     "tipo": ["sombrio"],
     "evolução": None,
     "estagio": "estagio 1",
@@ -192,7 +191,7 @@ Zoroark = {
 }
 
 Gyarados = {
-    "nome": "gyarados",
+    "nome": "Gyarados",
     "tipo": ["agua"],
     "evolução": None,
     "estagio": "estagio 1",
@@ -209,7 +208,7 @@ Gyarados = {
 }
 
 Wigglytuff = {
-    "nome": "wigglytuff",
+    "nome": "Wigglytuff",
     "tipo": ["fada,normal"],
     "evolução": None,
     "estagio": "estagio 1",
@@ -226,8 +225,8 @@ Wigglytuff = {
 }
 
 Magneton = {
-    "nome": "magneton",
-    "tipo": ["eletrico","aço"],
+    "nome": "Magneton",
+    "tipo": ["eletrico","metal"],
     "evolução": None,
     "estagio": "estagio 1",
     "vida": 1.15,

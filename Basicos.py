@@ -3,11 +3,11 @@ from Ataques_S import C,D
 from Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton
 
 Bulbasaur = {
-    "nome": "bulbasaur",
+    "nome": "Bulbasaur",
     "raridade": 3,
     "dificuldade": 3,
     "code": 1,
-    "tipo": ["planta","veneno"],
+    "tipo": ["planta","venenoso"],
     "evolução": Ivysaur,
     "vida": 80,
     "atk": 25,
@@ -22,7 +22,7 @@ Bulbasaur = {
 }
 
 Charmander = {
-    "nome": "charmander",
+    "nome": "Charmander",
     "raridade": 3,
     "dificuldade": 3,
     "code": 2,
@@ -41,7 +41,7 @@ Charmander = {
 }
 
 Squirtle = {
-    "nome": "squirtle",
+    "nome": "Squirtle",
     "raridade": 3,
     "dificuldade": 3,
     "code": 3,
@@ -61,7 +61,7 @@ Squirtle = {
 
 Machop = {
 
-    "nome": "machop",
+    "nome": "Machop",
     "raridade": 3,
     "dificuldade": 3,
     "code": 4,
@@ -81,11 +81,11 @@ Machop = {
 
 Gastly = {
 
-    "nome": "gastly",
+    "nome": "Gastly",
     "raridade": 3,
     "dificuldade": 4,
     "code": 5,
-    "tipo": ["fantasma","veneno"],
+    "tipo": ["fantasma","venenoso"],
     "evolução": Haunter,
     "vida": 60,
     "atk": 20,
@@ -101,11 +101,11 @@ Gastly = {
 
 Geodude = {
 
-    "nome": "geodude",
+    "nome": "Geodude",
     "raridade": 2,
     "dificuldade": 2,
     "code": 6,
-    "tipo": ["pedra","terra"],
+    "tipo": ["pedra","terrestre"],
     "evolução": Graveler,
     "vida": 80,
     "atk": 30,
@@ -121,7 +121,7 @@ Geodude = {
 
 Caterpie = {
 
-    "nome": "caterpie",
+    "nome": "Caterpie",
     "raridade": 1,
     "dificuldade": 1,
     "code": 7,
@@ -141,7 +141,7 @@ Caterpie = {
 
 Abra = {
 
-    "nome": "abra",
+    "nome": "Abra",
     "raridade": 4,
     "dificuldade": 4,
     "code": 8,
@@ -161,7 +161,7 @@ Abra = {
 
 Dratini = {
 
-    "nome": "dratini",
+    "nome": "Dratini",
     "raridade": 5,
     "dificuldade": 4,
     "code": 9,
@@ -181,7 +181,7 @@ Dratini = {
 
 Pikachu = {
 
-    "nome": "pikachu",
+    "nome": "Pikachu",
     "raridade": 2,
     "dificuldade": 1,
     "code": 10,
@@ -201,7 +201,7 @@ Pikachu = {
 
 Zorua = {
 
-    "nome": "zorua",
+    "nome": "Zorua",
     "raridade": 4,
     "dificuldade": 2,
     "code": 11,
@@ -221,7 +221,7 @@ Zorua = {
 
 Magikarp = {
 
-    "nome": "magikarp",
+    "nome": "Magikarp",
     "raridade": 1,
     "dificuldade": 2,
     "code": 12,
@@ -241,7 +241,7 @@ Magikarp = {
 
 Jigglypuff = {
 
-    "nome": "jigglypuff",
+    "nome": "Jigglypuff",
     "raridade": 3,
     "dificuldade": 1,
     "code": 13,
@@ -261,11 +261,11 @@ Jigglypuff = {
 
 Magnemite = {
 
-    "nome": "magnemite",
+    "nome": "Magnemite",
     "raridade": 2,
     "dificuldade": 2,
     "code": 14,
-    "tipo": ["eletrico","aço"],
+    "tipo": ["eletrico","metal"],
     "evolução": Magneton,
     "vida": 60,
     "atk": 20,
@@ -281,7 +281,7 @@ Magnemite = {
 
 Snorlax = {
 
-    "nome": "snorlax",
+    "nome": "Snorlax",
     "raridade": 6,
     "dificuldade": 6,
     "code": 15,
@@ -301,7 +301,7 @@ Snorlax = {
 
 Aerodactyl = {
 
-    "nome": "aerodactyl",
+    "nome": "Aerodactyl",
     "raridade": 6,
     "dificuldade": 7,
     "code": 16,
@@ -321,7 +321,7 @@ Aerodactyl = {
 
 Jynx = {
 
-    "nome": "jynx",
+    "nome": "Jynx",
     "raridade": 5,
     "dificuldade": 3,
     "code": 17,
@@ -341,7 +341,7 @@ Jynx = {
 
 Mewtwo = {
 
-    "nome": "mewtwo",
+    "nome": "Mewtwo",
     "raridade": 9,
     "dificuldade": 9,
     "code": 18,

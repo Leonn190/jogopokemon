@@ -493,6 +493,131 @@ def carregar_frames(pasta):
             frames.append(imagem)
     return frames
 
+H = None
+B1 = {"estado": False}
+
+def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
+    x, y = local
+    largura, altura = 380, 265  # Altura aumentada pra descrição
+    cor_borda = (50, 50, 50)
+    global H  # Item selecionado com botão direito
+
+    pygame.draw.rect(tela, cor_borda, (x - 3, y - 3, largura + 4, altura + 4))
+    pygame.draw.rect(tela, (230, 230, 230), (x, y, largura, altura))
+
+    Fonte = pygame.font.SysFont(None, 32)
+
+    # Cabeçalho com fundo levemente mais escuro
+    pygame.draw.rect(tela, CINZA, (x, y, largura, 40))
+    texto_nome = Fonte.render(f"Inventário de {player.nome}", True, (0, 0, 0))
+    tela.blit(texto_nome, (x + largura // 2 - texto_nome.get_width() // 2, y + 10))
+
+    pygame.draw.line(tela, (0, 0, 0), (x, y + 40), (x + largura, y + 40), 2)
+    pygame.draw.line(tela, (0, 0, 0), (x, y + 192), (x + largura, y + 192), 2)
+
+    def TiraDescriçao():
+        global H
+        H = None
+
+    for i, item in enumerate(player.inventario[:10]):
+        col = i % 5
+        row = i // 5
+        bx = x + col * 76
+        by = y + 40 + row * 76
+        espaço_botao = pygame.Rect(bx, by, 76, 76)
+        nome_item = item["nome"]
+        classe_item = item.get("classe", "").lower()
+
+        def Descriçao(item=item):
+            global H
+            H = item  # Guarda o item clicado com o botão direito
+
+        # Cor de fundo conforme a classe
+        if classe_item == "pokebola":
+            cor_fundo = VERMELHO_CLARO
+        elif classe_item == "poçao":
+            cor_fundo = AZUL_CLARO
+        elif classe_item in ["caixa", "coletor"]:
+            cor_fundo = VERDE_CLARO
+        elif classe_item == "amplificador":
+            cor_fundo = LARANJA_CLARO
+        elif classe_item == "fruta":
+            cor_fundo = AMARELO_CLARO
+        else:
+            cor_fundo = ROXO_CLARO
+
+        Botao(
+            tela=tela,
+            texto="",
+            espaço=espaço_botao,
+            cor_normal=(245, 245, 245),
+            cor_borda=(245, 245, 245),
+            cor_passagem=(245, 245, 245),
+            acao=lambda i=i: player.usar_item(i, PokemonS),
+            Fonte=Fonte,
+            estado_clique=B1,
+            grossura=2,
+            tecla_atalho=None,
+            mostrar_na_tela=True,
+            eventos=eventos,
+            som=None)
+
+        Botao_Selecao(
+            tela=tela,
+            espaço=espaço_botao,
+            texto="",
+            Fonte=Fonte,
+            cor_fundo=cor_fundo,
+            cor_borda_normal=(0, 0, 0),
+            cor_borda_esquerda=(0, 0, 0),
+            cor_borda_direita=AZUL,
+            cor_passagem=AMARELO,
+            id_botao=f"item_sel_{i}",
+            estado_global=estado,
+            eventos=eventos,
+            funcao_esquerdo=None,
+            funcao_direito=Descriçao,
+            desfazer_esquerdo=None,
+            desfazer_direito=TiraDescriçao,
+            tecla_esquerda=None,
+            tecla_direita=None,
+            grossura=3,
+            som=None
+        )
+
+        if nome_item in ImagensItens:
+            imagem = ImagensItens[nome_item]
+            iw, ih = imagem.get_size()
+            img_x = bx + (76 - iw) // 2
+            img_y = by + (76 - ih) // 2
+            tela.blit(imagem, (img_x, img_y))
+
+    # Mostrar descrição se H foi definido
+    if H:
+        descricao = H.get("Descrição", "")
+        FonteMenor = pygame.font.SysFont(None, 25)
+
+        # Quebrar descrição em até 2 linhas
+        palavras = descricao.split()
+        linhas = []
+        linha = ""
+        for palavra in palavras:
+            teste = linha + " " + palavra if linha else palavra
+            if FonteMenor.size(teste)[0] > (largura - 20):
+                linhas.append(linha)
+                linha = palavra
+            else:
+                linha = teste
+        linhas.append(linha)
+
+        for i, texto in enumerate(linhas[:2]):
+            render = FonteMenor.render(texto, True, (0, 0, 0))
+            tela.blit(render, (x + 10, y + 198 + i * 20))
+
+
+
+            
+        
 
 
 

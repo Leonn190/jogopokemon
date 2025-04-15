@@ -3,8 +3,8 @@ from Ataques_N import A,B
 from Ataques_S import C,D
 
 Venusaur = {
-    "nome": "venusaur",
-    "tipo": ["planta","veneno"],
+    "nome": "Venusaur",
+    "tipo": ["planta","venenoso"],
     "evolução": 0,
     "estagio": "estagio 2",
     "vida": 1.15,
@@ -20,7 +20,7 @@ Venusaur = {
 }
 
 Charizard = {
-    "nome": "charizard",
+    "nome": "Charizard",
     "tipo": ["fogo,voador"],
     "evolução": 0,
     "estagio": "estagio 2",
@@ -37,7 +37,7 @@ Charizard = {
 }
 
 Blastoise = {
-    "nome": "blastoise",
+    "nome": "Blastoise",
     "tipo": ["agua"],
     "evolução": 0,
     "estagio": "estagio 2",
@@ -71,8 +71,8 @@ Machamp = {
 }
 
 Gengar = {
-    "nome": "gengar",
-    "tipo": ["fantasma","veneno"],
+    "nome": "Gengar",
+    "tipo": ["fantasma","venenoso"],
     "evolução": 0,
     "estagio": "estagio 2",
     "vida": 1.15,
@@ -89,7 +89,7 @@ Gengar = {
 
 Golem = {
     "nome": "Golem",
-    "tipo": ["pedra","terra"],
+    "tipo": ["pedra","terrestre"],
     "evolução": 0,
     "estagio": "estagio 2",
     "vida": 1.2,
@@ -105,7 +105,7 @@ Golem = {
 }
 
 Butterfree = {
-    "nome": "butterfree",
+    "nome": "Butterfree",
     "tipo": ["inseto","voador"],
     "evolução": 0,
     "estagio": "estagio 2",
@@ -122,7 +122,7 @@ Butterfree = {
 }
 
 Alakazam = {
-    "nome": "alakazam",
+    "nome": "Alakazam",
     "tipo": ["psiquico"],
     "evolução": 0,
     "estagio": "estagio 2",
@@ -139,7 +139,7 @@ Alakazam = {
 }
 
 Dragonite = {
-    "nome": "dragonite",
+    "nome": "Dragonite",
     "tipo": ["dragao","voador"],
     "evolução": 0,
     "estagio": "estagio 2",
@@ -154,10 +154,3 @@ Dragonite = {
     "ataques normais":[B],
     "ataques especiais":[C,D]
 }
-
-
-
-
-
-
-

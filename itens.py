@@ -35,25 +35,25 @@ Masterball = {
 Poçao = {
     "nome": "poção",
     "classe": "poçao",
-    "Descrição": "Cura 30 de HP dos pokemon",
+    "Descrição": "Cura 20 de HP dos pokemon",
     "raridade": 1,
-    "cura": 30
+    "cura": 20
 } 
 
 Super_Poçao = {
     "nome": "super poção",
     "classe": "poçao",
-    "Descrição": "Cura 60 de HP dos pokemon",
+    "Descrição": "Cura 50 de HP dos pokemon",
     "raridade": 2,
-    "cura": 60
+    "cura": 50
 } 
 
 Hiper_Poçao = {
     "nome": "hiper poção",
     "classe": "poçao",
-    "Descrição": "Cura 100 de HP dos pokemon",
+    "Descrição": "Cura 90 de HP dos pokemon",
     "raridade": 3,
-    "cura": 100
+    "cura": 90
 } 
 
 Mega_poção = {

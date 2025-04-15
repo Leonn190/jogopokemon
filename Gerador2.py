@@ -51,7 +51,7 @@ class Jogador:
                             tipo = item["aumento"]
                             GV.tocar(Usou)
                             self.inventario.remove(item)
-                            Pokemon.amplificar(tipo,0.15,Pokemon)
+                            Pokemon.amplificar(tipo,0.15,Pokemon,self)
                             return
                         else:
                             GV.tocar(Bloq)
@@ -143,9 +143,9 @@ class Pokemon:
         else:
             GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
     
-    def amplificar(self,tipo,amplificador,pokemon_amplificado):
+    def amplificar(self,tipo,amplificador,pokemon_amplificado,player):
         if tipo == "XP atu":
-            pokemon_amplificado.XP(1)
+            pokemon_amplificado.XP(1,player)
         elif tipo == "atk":
             J = round(self.Atk,1)
             self.Atk = round(self.Atk + (self.Atk * amplificador),1)
@@ -327,35 +327,38 @@ def spawn_do_centro(centro):
     return centro
 
 def gera_item(tipo,player,custo=0):
+    if len(player.inventario) < 10:
+        raridades = []
+        if player.ouro >= custo:
+            if tipo == "energia":
+                player.ouro -= custo
+                energia_sorteada = random.choice(Energias)
+                player.energias[energia_sorteada] += 1
+                energia_sorteada = random.choice(Energias)
+                player.energias[energia_sorteada] += 1
 
-    raridades = []
-    if player.ouro >= custo:
-        if tipo == "energia":
-            player.ouro -= custo
-            energia_sorteada = random.choice(Energias)
-            player.energias[energia_sorteada] += 1
-            energia_sorteada = random.choice(Energias)
-            player.energias[energia_sorteada] += 1
+            else:
+                if tipo == "item":
+                    U = itens_disponiveis
+                elif tipo == "pokebola":
+                    U = pokebolas_disponiveis
+                elif tipo == "amplificador":
+                    U = amplificadores_disponiveis
 
+                for i in range(len(U)):
+                    for j in range(6 - U[i]["raridade"]):
+                        raridades.append(U[i])
+                player.ouro -= custo
+                item = random.choice(raridades)
+                GV.tocar(Compra)
+                GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
+                player.inventario.append(item)
         else:
-            if tipo == "item":
-                U = itens_disponiveis
-            elif tipo == "pokebola":
-                U = pokebolas_disponiveis
-            elif tipo == "amplificador":
-                U = amplificadores_disponiveis
-
-            for i in range(len(U)):
-                for j in range(6 - U[i]["raridade"]):
-                    raridades.append(U[i])
-            player.ouro -= custo
-            item = random.choice(raridades)
-            GV.tocar(Compra)
-            GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
-            player.inventario.append(item)
+            GV.tocar(Bloq)
+            GV.adicionar_mensagem("Você não tem ouro o suficiente")
     else:
         GV.tocar(Bloq)
-        GV.adicionar_mensagem("Você não tem ouro o suficiente")
+        GV.adicionar_mensagem("Seu inventário está cheio")
 
 def caixa():
         raridades = []

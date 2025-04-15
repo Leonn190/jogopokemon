@@ -156,3 +156,39 @@ def usar_item(item,player,inimigo):
     elif item["classe"] == "pokebola":
         print (f"{item["nome"]} deve ser usado apenas para capturar pokemons, item invalido!")
         return
+    
+
+from PIL import Image
+import os
+
+# # Caminho base onde estão as pastas com os frames
+# caminho_base = "imagens/gifs"
+
+# # Fator de escala (ex: 1.5 aumenta em 50%)
+# fator_escala = 1.1
+
+# # Loop pelas pastas dentro da pasta base
+# for nome_pasta in os.listdir(caminho_base):
+#     pasta_completa = os.path.join(caminho_base, nome_pasta)
+
+#     if os.path.isdir(pasta_completa):
+#         print(f"Redimensionando frames em: {nome_pasta}")
+
+#         for nome_arquivo in os.listdir(pasta_completa):
+#             if nome_arquivo.endswith(".png"):
+#                 caminho_imagem = os.path.join(pasta_completa, nome_arquivo)
+
+#                 try:
+#                     imagem = Image.open(caminho_imagem)
+#                     largura_original, altura_original = imagem.size
+
+#                     nova_largura = int(largura_original * fator_escala)
+#                     nova_altura = int(altura_original * fator_escala)
+
+#                     imagem_redimensionada = imagem.resize(
+#                         (nova_largura, nova_altura),
+#                         Image.Resampling.LANCZOS  # substitui o antigo Image.ANTIALIAS
+#                     )
+#                     imagem_redimensionada.save(caminho_imagem)
+#                 except Exception as e:
+#                     print(f"Erro ao redimensionar {caminho_imagem}: {e}")

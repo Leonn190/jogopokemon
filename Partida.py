@@ -29,6 +29,7 @@ mensagens_passageiras = []
 PokeGifs = {}
 Gifs_ativos = []
 
+TiposEnergiaIMG = {}
 ImagensPokemon38 = {}
 ImagensPokemon100 = {}
 ImagensPokebolas = {}
@@ -397,7 +398,7 @@ def VerificaGIF():
                 "frames": PokeGifs[nome],
                 "frame_atual": 0,
                 "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 50  # Pode ser ajustado para cada Pokémon se necessário
+                "intervalo": 40  # Pode ser ajustado para cada Pokémon se necessário
             })
     for i in range(len(inimigo.pokemons)):
         nome = inimigo.pokemons[i].nome
@@ -409,7 +410,7 @@ def VerificaGIF():
                 "frames": PokeGifs[nome],
                 "frame_atual": 0,
                 "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 50  # Pode ser ajustado para cada Pokémon se necessário
+                "intervalo": 40  # Pode ser ajustado para cada Pokémon se necessário
             })
 
 estadoPokemon = {
@@ -429,6 +430,10 @@ estadoPokebola = {
     "selecionado_direito": None}
 
 estadoTabuleiro = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None}
+
+estadoItens = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
@@ -462,26 +467,7 @@ def AB(Visor,tela,eventos,player,inimigo):
     global ver_centro
 
     if Visor == "Inventario":
-        nomeA = f"Inventário de {player.nome}"
-        colunasA = ["Nome", "Descrição"]
-        linhasA = []
-        for item in player.inventario:
-            linhasA.append([item["nome"], item["Descrição"]])
-        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 250, 420, Fonte20, Fonte28, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
-
-        for i in range(len(player.inventario)):
-            indice_item = i  # salvando o índice em uma variável fixa pra capturar no lambda
-
-            GV.Botao(
-                tela, "", (418, (310 + indice_item * 30), 30, 30), CINZA, PRETO, AZUL,
-                lambda i=indice_item: player.usar_item(i, PokemonS),
-                Fonte50, B6, 1, None, True, eventos,
-            )
-
-            try:
-                tela.blit(ImagensItens[player.inventario[indice_item]["nome"]], (418, (310 + indice_item * 30)))
-            except IndexError:
-                pass  # item já foi removido
+        GV.Inventario((0,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
 
     elif Visor == "Energias":
         nomeA = f"Energias de {player.nome}"
@@ -663,7 +649,7 @@ def Partida(tela,estados,relogio):
             Telapausa(tela,eventos,estados)
 
         pygame.display.update()
-        relogio.tick(60)
+        relogio.tick(120)
 
 def Carregar_Imagens():
     global ImagensPokemon38
@@ -672,6 +658,7 @@ def Carregar_Imagens():
     global ImagensPokebolas
     global ImagensItens
     global OutrosIMG
+    global TiposEnergiaIMG
 
     Gbulbasaur = GV.carregar_frames('imagens/gifs/bulbasaur_frames')
     Givysaur = GV.carregar_frames('imagens/gifs/ivysaur_frames')
@@ -779,23 +766,22 @@ def Carregar_Imagens():
 
 
 
-    EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (30,30), "PNG")
-    CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (30,30), "PNG")
-    RubiIMG = GV.Carregar_Imagem("imagens/itens/rubi.png", (30,30), "PNG")
-    SafiraIMG = GV.Carregar_Imagem("imagens/itens/safira.png", (30,30), "PNG")
-    AmetistaIMG = GV.Carregar_Imagem("imagens/itens/ametista.png", (30,30), "PNG")
-    ColetorIMG = GV.Carregar_Imagem("imagens/itens/coletor.png", (30,30), "PNG")
-    CaixaIMG = GV.Carregar_Imagem("imagens/itens/caixa.png", (30,30), "PNG")
-    CaixoteIMG = GV.Carregar_Imagem("imagens/itens/caixote.png", (30,30), "PNG")
-    PocaoIMG = GV.Carregar_Imagem("imagens/itens/poçao.png", (30,30), "PNG")
-    SuperPocaoIMG = GV.Carregar_Imagem("imagens/itens/super_poçao.png", (30,30), "PNG")
-    HiperPocaoIMG = GV.Carregar_Imagem("imagens/itens/hiper_poçao.png", (30,30), "PNG")
-    MegaPocaoIMG = GV.Carregar_Imagem("imagens/itens/mega_poçao.png", (30,30), "PNG")
-    PokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (30,30),"PNG")
-    GreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (30,30),"PNG")
-    UltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (30,30),"PNG")
-    MasterBallIMG = GV.Carregar_Imagem("imagens/itens/MasterBall.png", (30,30),"PNG")
-
+    EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (62, 62), "PNG")
+    CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (62, 62), "PNG")
+    RubiIMG = GV.Carregar_Imagem("imagens/itens/rubi.png", (62, 62), "PNG")
+    SafiraIMG = GV.Carregar_Imagem("imagens/itens/safira.png", (62, 62), "PNG")
+    AmetistaIMG = GV.Carregar_Imagem("imagens/itens/ametista.png", (62, 62), "PNG")
+    ColetorIMG = GV.Carregar_Imagem("imagens/itens/coletor.png", (62, 62), "PNG")
+    CaixaIMG = GV.Carregar_Imagem("imagens/itens/caixa.png", (62, 62), "PNG")
+    CaixoteIMG = GV.Carregar_Imagem("imagens/itens/caixote.png", (62, 62), "PNG")
+    PocaoIMG = GV.Carregar_Imagem("imagens/itens/poçao.png", (62, 62), "PNG")
+    SuperPocaoIMG = GV.Carregar_Imagem("imagens/itens/super_poçao.png", (62, 62), "PNG")
+    HiperPocaoIMG = GV.Carregar_Imagem("imagens/itens/hiper_poçao.png", (62, 62), "PNG")
+    MegaPocaoIMG = GV.Carregar_Imagem("imagens/itens/mega_poçao.png", (62, 62), "PNG")
+    PokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (62, 62), "PNG")
+    GreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (62, 62), "PNG")
+    UltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (62, 62), "PNG")
+    MasterBallIMG = GV.Carregar_Imagem("imagens/itens/MasterBall.png", (62, 62), "PNG")
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
@@ -812,113 +798,156 @@ def Carregar_Imagens():
     AtaqueIMG = GV.Carregar_Imagem("imagens/icones/atacar.png", (40,40),"PNG")
     NocauteIMG  = GV.Carregar_Imagem("imagens/icones/KO.png", (50,50),"PNG")
 
-    PokeGifs = {
-    "bulbasaur": Gbulbasaur,
-    "ivysaur": Givysaur,
-    "venusaur": Gvenusaur,
-    "charmander": Gcharmander,
-    "charmeleon": Gcharmeleon,
-    "charizard": Gcharizard,
-    "squirtle": Gsquirtle,
-    "wartortle": Gwartortle,
-    "blastoise": Gblastoise,
-    "machop": Gmachop,
-    "machoke": Gmachoke,
-    "machamp": Gmachamp,
-    "gastly": Ggastly,
-    "haunter": Ghaunter,
-    "gengar": Ggengar,
-    "geodude": Ggeodude,
-    "graveler": Ggraveler,
-    "golem": Ggolem,
-    "caterpie": Gcaterpie,
-    "metapod": Gmetapod,
-    "butterfree": Gbutterfree,
-    "abra": Gabra,
-    "kadabra": Gkadabra,
-    "alakazam": Galakazam,
-    "dratini": Gdratini,
-    "dragonair": Gdragonair,
-    "dragonite": Gdragonite,
-    "zorua": Gzorua,
-    "zoroark": Gzoroark,
-    "pikachu": Gpikachu,
-    "raichu": Graichu,
-    "magikarp": Gmagikarp,
-    "gyarados": Ggyarados,
-    "jigglypuff": Gjigglypuff,
-    "wigglytuff": Gwigglytuff,
-    "magnemite": Gmagnemite,
-    "magneton": Gmagneton,
-    "snorlax": Gsnorlax,
-    "aerodactyl": Gaerodactyl,
-    "jynx": Gjynx,
-    "mewtwo": Gmewtwo,
+    Efogo = GV.Carregar_Imagem("imagens/icones/fogo.png", (30,30), "PNG")
+    Eagua = GV.Carregar_Imagem("imagens/icones/agua.png", (30,30), "PNG")
+    Eplanta = GV.Carregar_Imagem("imagens/icones/planta.png", (30,30), "PNG")
+    Eeletrico = GV.Carregar_Imagem("imagens/icones/eletrico.png", (30,30), "PNG")
+    Epsiquico = GV.Carregar_Imagem("imagens/icones/psiquico.png", (30,30), "PNG")
+    Efantasma = GV.Carregar_Imagem("imagens/icones/fantasma.png", (30,30), "PNG")
+    Epedra = GV.Carregar_Imagem("imagens/icones/pedra.png", (30,30), "PNG")
+    Eterrestre = GV.Carregar_Imagem("imagens/icones/terrestre.png", (30,30), "PNG")
+    Evoador = GV.Carregar_Imagem("imagens/icones/voador.png", (30,30), "PNG")
+    Enormal = GV.Carregar_Imagem("imagens/icones/normal.png", (30,30), "PNG")
+    Evenenoso = GV.Carregar_Imagem("imagens/icones/venenoso.png", (30,30), "PNG")
+    Einseto = GV.Carregar_Imagem("imagens/icones/inseto.png", (30,30), "PNG")
+    Elutador = GV.Carregar_Imagem("imagens/icones/lutador.png", (30,30), "PNG")
+    Edragao = GV.Carregar_Imagem("imagens/icones/dragao.png", (30,30), "PNG")
+    Egelo = GV.Carregar_Imagem("imagens/icones/gelo.png", (30,30), "PNG")
+    Efada = GV.Carregar_Imagem("imagens/icones/fada.png", (30,30), "PNG")
+    Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
+    Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
+
+    TiposEnergiaIMG = {
+    "fogo": Efogo,
+    "agua": Eagua,
+    "planta": Eplanta,
+    "eletrico": Eeletrico,
+    "psiquico": Epsiquico,
+    "fantasma": Efantasma,
+    "pedra": Epedra,
+    "terrestre": Eterrestre,
+    "voador": Evoador,
+    "normal": Enormal,
+    "venenoso": Evenenoso,
+    "inseto": Einseto,
+    "lutador": Elutador,
+    "dragao": Edragao,
+    "gelo": Egelo,
+    "fada": Efada,
+    "metal": Emetal,
+    "sombrio": Esombrio
 }
 
+    PokeGifs = {
+    "Bulbasaur": Gbulbasaur,
+    "Ivysaur": Givysaur,
+    "Venusaur": Gvenusaur,
+    "Charmander": Gcharmander,
+    "Charmeleon": Gcharmeleon,
+    "Charizard": Gcharizard,
+    "Squirtle": Gsquirtle,
+    "Wartortle": Gwartortle,
+    "Blastoise": Gblastoise,
+    "Machop": Gmachop,
+    "Machoke": Gmachoke,
+    "Machamp": Gmachamp,
+    "Gastly": Ggastly,
+    "Haunter": Ghaunter,
+    "Gengar": Ggengar,
+    "Geodude": Ggeodude,
+    "Graveler": Ggraveler,
+    "Golem": Ggolem,
+    "Caterpie": Gcaterpie,
+    "Metapod": Gmetapod,
+    "Butterfree": Gbutterfree,
+    "Abra": Gabra,
+    "Kadabra": Gkadabra,
+    "Alakazam": Galakazam,
+    "Dratini": Gdratini,
+    "Dragonair": Gdragonair,
+    "Dragonite": Gdragonite,
+    "Zorua": Gzorua,
+    "Zoroark": Gzoroark,
+    "Pikachu": Gpikachu,
+    "Raichu": Graichu,
+    "Magikarp": Gmagikarp,
+    "Gyarados": Ggyarados,
+    "Jigglypuff": Gjigglypuff,
+    "Wigglytuff": Gwigglytuff,
+    "Magnemite": Gmagnemite,
+    "Magneton": Gmagneton,
+    "Snorlax": Gsnorlax,
+    "Aerodactyl": Gaerodactyl,
+    "Jynx": Gjynx,
+    "Mewtwo": Gmewtwo,
+    }
+
+
     ImagensPokemon38 = {
-    "bulbasaur": SbulbasaurIMG,
-    "ivysaur": SivysaurIMG,
-    "venusaur": SvenusaurIMG,
-    "charmander": ScharmanderIMG,
-    "charmeleon": ScharmeleonIMG,
-    "charizard": ScharizardIMG,
-    "squirtle": SsquirtleIMG,
-    "wartortle": SwartortleIMG,
-    "blastoise": SblastoiseIMG,
-    "machop": SmachopIMG,
-    "machoke": SmachokeIMG,
-    "machamp": SmachampIMG,
-    "gastly": SgastlyIMG,
-    "haunter": ShaunterIMG,
-    "gengar": SgengarIMG,
-    "geodude": SgeodudeIMG,
-    "graveler": SgravelerIMG,
-    "golem": SgolemIMG,
-    "caterpie": ScaterpieIMG,
-    "metapod": SmetapodIMG,
-    "butterfree": SbutterfreeIMG,
-    "abra": SabraIMG,
-    "kadabra": SkadabraIMG,
-    "alakazam": SalakazamIMG,
-    "dratini": SdratiniIMG,
-    "dragonair": SdragonairIMG,
-    "dragonite": SdragoniteIMG,
-    "zorua": SzoruaIMG,
-    "zoroark": SzoroarkIMG,
-    "pikachu": SpikachuIMG,
-    "raichu": SraichuIMG,
-    "magikarp": SmagikarpIMG,
-    "gyarados": SgyaradosIMG,
-    "jigglypuff": SjigglypuffIMG,
-    "wigglytuff": SwigglytuffIMG,
-    "magnemite": SmagnemiteIMG,
-    "magneton": SmagnetonIMG,
-    "snorlax": SsnorlaxIMG,
-    "aerodactyl": SaerodactylIMG,
-    "jynx": SjynxIMG,
-    "mewtwo": SmewtwoIMG}
+    "Bulbasaur": SbulbasaurIMG,
+    "Ivysaur": SivysaurIMG,
+    "Venusaur": SvenusaurIMG,
+    "Charmander": ScharmanderIMG,
+    "Charmeleon": ScharmeleonIMG,
+    "Charizard": ScharizardIMG,
+    "Squirtle": SsquirtleIMG,
+    "Wartortle": SwartortleIMG,
+    "Blastoise": SblastoiseIMG,
+    "Machop": SmachopIMG,
+    "Machoke": SmachokeIMG,
+    "Machamp": SmachampIMG,
+    "Gastly": SgastlyIMG,
+    "Haunter": ShaunterIMG,
+    "Gengar": SgengarIMG,
+    "Geodude": SgeodudeIMG,
+    "Graveler": SgravelerIMG,
+    "Golem": SgolemIMG,
+    "Caterpie": ScaterpieIMG,
+    "Metapod": SmetapodIMG,
+    "Butterfree": SbutterfreeIMG,
+    "Abra": SabraIMG,
+    "Kadabra": SkadabraIMG,
+    "Alakazam": SalakazamIMG,
+    "Dratini": SdratiniIMG,
+    "Dragonair": SdragonairIMG,
+    "Dragonite": SdragoniteIMG,
+    "Zorua": SzoruaIMG,
+    "Zoroark": SzoroarkIMG,
+    "Pikachu": SpikachuIMG,
+    "Raichu": SraichuIMG,
+    "Magikarp": SmagikarpIMG,
+    "Gyarados": SgyaradosIMG,
+    "Jigglypuff": SjigglypuffIMG,
+    "Wigglytuff": SwigglytuffIMG,
+    "Magnemite": SmagnemiteIMG,
+    "Magneton": SmagnetonIMG,
+    "Snorlax": SsnorlaxIMG,
+    "Aerodactyl": SaerodactylIMG,
+    "Jynx": SjynxIMG,
+    "Mewtwo": SmewtwoIMG
+    }
 
     ImagensPokemon100 = {
-    "bulbasaur": MbulbasaurIMG,
-    "charmander": McharmanderIMG,
-    "squirtle": MsquirtleIMG,
-    "machop": MmachopIMG,
-    "gastly": MgastlyIMG,
-    "geodude": MgeodudeIMG,
-    "caterpie": McaterpieIMG,
-    "abra": MabreIMG,
-    "dratini": MdratiniIMG,
-    "zorua": MzoruaIMG,
-    "pikachu": MpikachuIMG,
-    "magikarp": MmagikarpIMG,
-    "jigglypuff": MjigglypuffIMG,
-    "magnemite": MMagnemiteIMG,
-    "snorlax": MsnorlaxIMG,
-    "aerodactyl": MaerodactylIMG,
-    "jynx": MjynxIMG,
-    "mewtwo": MmewtwoIMG
+    "Bulbasaur": MbulbasaurIMG,
+    "Charmander": McharmanderIMG,
+    "Squirtle": MsquirtleIMG,
+    "Machop": MmachopIMG,
+    "Gastly": MgastlyIMG,
+    "Geodude": MgeodudeIMG,
+    "Caterpie": McaterpieIMG,
+    "Abra": MabreIMG,
+    "Dratini": MdratiniIMG,
+    "Zorua": MzoruaIMG,
+    "Pikachu": MpikachuIMG,
+    "Magikarp": MmagikarpIMG,
+    "Jigglypuff": MjigglypuffIMG,
+    "Magnemite": MMagnemiteIMG,
+    "Snorlax": MsnorlaxIMG,
+    "Aerodactyl": MaerodactylIMG,
+    "Jynx": MjynxIMG,
+    "Mewtwo": MmewtwoIMG
     }
+
 
     ImagensPokebolas = {
     "pokebola": UPokeballIMG,
