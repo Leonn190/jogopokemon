@@ -630,8 +630,6 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
             render = FonteMenor.render(texto, True, (255, 255, 255))  # Texto branco
             tela.blit(render, (x + 10, y + 198 + i * 20))  # Descrição em branco
 
-
-
 def Tabela_Energias(tela, local, player):
     import pygame
     pygame.draw.rect(tela, (30, 30, 30), (*local, 380, 320))  # fundo escuro

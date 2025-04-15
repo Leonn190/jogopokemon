@@ -18,6 +18,7 @@ Usou = pygame.mixer.Sound("Musicas/Usou.wav")
 Bom = pygame.mixer.Sound("Musicas/Bom.wav")
 Bloq = pygame.mixer.Sound("Musicas/Bloq.wav")
 
+Mute = False
 PokemonS = None
 PokemonV = None
 informacao = None
@@ -244,6 +245,7 @@ def oculta():
     global estadoInfo
     PokemonV = None
     estadoInfo["selecionado_direito"] = False
+    estadoPokemon["selecionado_direito"] = False
 
 def informa(ID,Pokemon):
     pass
@@ -412,6 +414,16 @@ def VerificaGIF():
                 "tempo_anterior": pygame.time.get_ticks(),
                 "intervalo": 40  # Pode ser ajustado para cada Pokémon se necessário
             })
+
+def Muter():
+    global Mute
+
+    if Mute is False:
+        pygame.mixer.music.set_volume(0.0)
+        Mute = True
+    else:
+        pygame.mixer.music.set_volume(0.3)
+        Mute = False
 
 estadoPokemon = {
     "selecionado_esquerdo": None,
@@ -1122,6 +1134,8 @@ def TelaOutros(tela,eventos,estados):
     global inimigo
 
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: pausarEdespausar(), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)
+
+    GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: Muter(), Fonte50, B1, 3, pygame.K_m, False, eventos)
 
     GV.Botao(tela, "Passar Turno", (1620, 1000, 300, 80), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte50, B7, 3, None, True, eventos)
     
