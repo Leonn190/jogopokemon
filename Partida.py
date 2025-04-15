@@ -1035,7 +1035,8 @@ def TelaPokemons(tela,eventos,estados):
         pos_y = y + (190 - frame.get_height()) // 2
 
 
-    tela.blit(frame, (pos_x, pos_y))
+        tela.blit(frame, (pos_x, pos_y))
+        
     for i in range(len(player.pokemons)):
         barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
     
