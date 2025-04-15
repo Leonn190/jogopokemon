@@ -512,21 +512,22 @@ B1 = {"estado": False}
 def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
     x, y = local
     largura, altura = 380, 265  # Altura aumentada pra descrição
-    cor_borda = (50, 50, 50)
+    cor_borda = (255, 255, 255)  # Borda branca
     global H  # Item selecionado com botão direito
 
-    pygame.draw.rect(tela, cor_borda, (x - 3, y - 3, largura + 4, altura + 4))
-    pygame.draw.rect(tela, (230, 230, 230), (x, y, largura, altura))
+    # Fundo escuro com borda branca
+    pygame.draw.rect(tela, cor_borda, (x - 3, y - 3, largura + 4, altura + 4))  # Borda branca
+    pygame.draw.rect(tela, (30, 30, 30), (x, y, largura, altura))  # Fundo escuro
 
     Fonte = pygame.font.SysFont(None, 32)
 
-    # Cabeçalho com fundo levemente mais escuro
-    pygame.draw.rect(tela, CINZA, (x, y, largura, 40))
-    texto_nome = Fonte.render(f"Inventário de {player.nome}", True, (0, 0, 0))
+    # Cabeçalho com fundo escuro e texto branco
+    pygame.draw.rect(tela, (30, 30, 30), (x, y, largura, 40))  # Escuro para o cabeçalho
+    texto_nome = Fonte.render(f"Inventário de {player.nome}", True, (255, 255, 255))  # Texto branco
     tela.blit(texto_nome, (x + largura // 2 - texto_nome.get_width() // 2, y + 10))
 
-    pygame.draw.line(tela, (0, 0, 0), (x, y + 40), (x + largura, y + 40), 2)
-    pygame.draw.line(tela, (0, 0, 0), (x, y + 192), (x + largura, y + 192), 2)
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 40), (x + largura, y + 40), 2)  # Linha branca
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 192), (x + largura, y + 192), 2)  # Linha branca
 
     def TiraDescriçao():
         global H
@@ -547,25 +548,26 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
 
         # Cor de fundo conforme a classe
         if classe_item == "pokebola":
-            cor_fundo = VERMELHO_CLARO
+            cor_fundo = (255, 100, 100)  # Vermelho claro
         elif classe_item == "poçao":
-            cor_fundo = AZUL_CLARO
+            cor_fundo = (100, 150, 255)  # Azul claro
         elif classe_item in ["caixa", "coletor"]:
-            cor_fundo = VERDE_CLARO
+            cor_fundo = (100, 200, 100)  # Verde claro
         elif classe_item == "amplificador":
-            cor_fundo = LARANJA_CLARO
+            cor_fundo = (255, 150, 50)   # Laranja claro
         elif classe_item == "fruta":
-            cor_fundo = AMARELO_CLARO
+            cor_fundo = (255, 255, 100)  # Amarelo claro
         else:
-            cor_fundo = ROXO_CLARO
+            cor_fundo = (150, 100, 255)  # Roxo claro
 
+        # Botão de item
         Botao(
             tela=tela,
             texto="",
             espaço=espaço_botao,
-            cor_normal=(245, 245, 245),
-            cor_borda=(245, 245, 245),
-            cor_passagem=(245, 245, 245),
+            cor_normal=(40, 40, 40),  # Fundo escuro para o botão
+            cor_borda=(50, 50, 50),   # Borda discreta
+            cor_passagem=(70, 70, 70), # Cor ao passar o mouse
             acao=lambda i=i: player.usar_item(i, PokemonS),
             Fonte=Fonte,
             estado_clique=B1,
@@ -575,16 +577,17 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
             eventos=eventos,
             som=None)
 
+        # Botão de seleção
         Botao_Selecao(
             tela=tela,
             espaço=espaço_botao,
             texto="",
             Fonte=Fonte,
             cor_fundo=cor_fundo,
-            cor_borda_normal=(0, 0, 0),
-            cor_borda_esquerda=(0, 0, 0),
-            cor_borda_direita=AZUL,
-            cor_passagem=AMARELO,
+            cor_borda_normal=(255, 255, 255),  # Borda branca
+            cor_borda_esquerda=(255, 255, 255),  # Borda branca
+            cor_borda_direita=(0, 0, 255),
+            cor_passagem=(255, 255, 0),
             id_botao=f"item_sel_{i}",
             estado_global=estado,
             eventos=eventos,
@@ -624,8 +627,97 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
         linhas.append(linha)
 
         for i, texto in enumerate(linhas[:2]):
-            render = FonteMenor.render(texto, True, (0, 0, 0))
-            tela.blit(render, (x + 10, y + 198 + i * 20))
+            render = FonteMenor.render(texto, True, (255, 255, 255))  # Texto branco
+            tela.blit(render, (x + 10, y + 198 + i * 20))  # Descrição em branco
+
+
+
+def Tabela_Energias(tela, local, player):
+    import pygame
+    pygame.draw.rect(tela, (30, 30, 30), (*local, 380, 320))  # fundo escuro
+    pygame.draw.rect(tela, (255, 255, 255), (*local, 380, 320), 3)  # borda branca
+
+    fonte = pygame.font.SysFont(None, 24)
+    fonte_titulo = pygame.font.SysFont(None, 28)  # título sem negrito
+
+    energia_cores = {
+        "vermelha": (255, 0, 0), "azul": (0, 0, 255),
+        "amarela": (255, 255, 0), "verde": (0, 200, 0),
+        "roxa": (128, 0, 128), "rosa": (255, 105, 180),
+        "laranja": (255, 140, 0), "marrom": (139, 69, 19),
+        "preta": (30, 30, 30), "cinza": (160, 160, 160)
+    }
+
+    # Cabeçalho
+    titulo = fonte_titulo.render(f"Energias de {player.nome}", True, (255, 255, 255))
+    tela.blit(titulo, (local[0] + 190 - titulo.get_width() // 2, local[1] + 10))
+    pygame.draw.line(tela, (0, 0, 0), (local[0], local[1] + 34), (local[0] + 380, local[1] + 34), 2)
+
+    # Linhas de energias em 4 colunas: nome1 | valor1 | nome2 | valor2
+    chaves = list(player.energias.keys())
+    for i in range(5):
+        nome1 = chaves[i].capitalize()
+        valor1 = str(player.energias[chaves[i]])
+        nome2 = chaves[i+5].capitalize()
+        valor2 = str(player.energias[chaves[i+5]])
+
+        y = local[1] + 37 + i * 22
+
+        # Colunas ajustadas
+        texto_nome1 = fonte.render(nome1 + ":", True, (255, 255, 255))
+        texto_valor1 = fonte.render(valor1, True, (255, 255, 255))
+        texto_nome2 = fonte.render(nome2 + ":", True, (255, 255, 255))
+        texto_valor2 = fonte.render(valor2, True, (255, 255, 255))
+
+        x1 = local[0] + 10
+        x2 = local[0] + 130
+        x3 = local[0] + 200
+        x4 = local[0] + 320
+
+        tela.blit(texto_nome1, (x1, y))
+        tela.blit(texto_valor1, (x2, y))
+        tela.blit(texto_nome2, (x3, y))
+        tela.blit(texto_valor2, (x4, y))
+
+    # Linhas divisoras
+    for i in range(6):
+        y = local[1] + 34 + i * 22
+        # Alteração aqui: primeira e última linha serão brancas
+        if i == 0 or i == 5:  # Primeira e última linha
+            pygame.draw.line(tela, (255, 255, 255), (local[0] + 2, y), (local[0] + 380 - 2, y), 2)
+        else:
+            pygame.draw.line(tela, (0, 0, 0), (local[0] + 2, y), (local[0] + 380 - 2, y), 1)
+
+    # Parte inferior: barras verticais (sem alteração)
+    base_y = local[1] + 310
+    barra_topo = local[1] + 150
+    largura_barra = 20
+    espaco_total = 360
+    margem_x = 10
+    espaco_entre = espaco_total // 10
+
+    for i, chave in enumerate(chaves):
+        cor = energia_cores[chave]
+        valor = min(player.energias[chave], 20)
+        altura = int((valor / 20) * (base_y - barra_topo))
+
+        x_centro = local[0] + margem_x + espaco_entre * i + espaco_entre // 2
+
+        # Barra vertical
+        pygame.draw.rect(tela, cor, (x_centro - largura_barra//2, base_y - altura, largura_barra, altura))
+        pygame.draw.rect(tela, (255, 255, 255), (x_centro - largura_barra//2, barra_topo, largura_barra, base_y - barra_topo), 1)
+
+        # Círculo com número
+        pygame.draw.circle(tela, cor, (x_centro, base_y + 3), 12)
+        pygame.draw.circle(tela, (255, 255, 255), (x_centro, base_y + 3), 12, 1)
+        cor_texto = (255, 255, 255) if sum(cor) < 300 else (0, 0, 0)
+        num = fonte.render(str(player.energias[chave]), True, cor_texto)
+        tela.blit(num, (x_centro - num.get_width() // 2, base_y - num.get_height() // 2 + 3))
+
+
+
+
+
 
 
 

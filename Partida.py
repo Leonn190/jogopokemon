@@ -470,16 +470,7 @@ def AB(Visor,tela,eventos,player,inimigo):
         GV.Inventario((0,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
 
     elif Visor == "Energias":
-        nomeA = f"Energias de {player.nome}"
-        colunasA = ["tipo", "N", "Tipo", "N"]
-        linhasA = [
-        ["Vermelha",player.energias["vermelha"], "Laranja",player.energias["laranja"]],
-        ["Azul", player.energias["azul"], "Marrom",player.energias["marrom"]],
-        ["Amarela", player.energias["amarela"], "Rosa",player.energias["rosa"]],
-        ["Verde", player.energias["verde"], "Roxa",player.energias["roxa"]],
-        ["Cinza", player.energias["cinza"], "Preta",player.energias["preta"]],
-        ]
-        GV.Tabela(nomeA, colunasA, linhasA, tela, 0, 300, 420, Fonte28, Fonte30, AZUL_SUPER_CLARO, PRETO, AZUL_CLARO)
+        GV.Tabela_Energias(tela,(0,300),player)
     
     elif Visor == "Centro":
         ver_centro = "s"
@@ -538,7 +529,7 @@ def V(PokemonV,tela,eventos,inimigo):
     if PokemonV in inimigo.pokemons:
         GV.Status_Pokemon((1560,220), tela, PokemonV,(75, 15, 15),TiposEnergiaIMG, eventos, estadoInfo)
     else:
-        GV.Status_Pokemon((1560,220), tela, PokemonV,(30, 30, 30), eventos, estadoInfo)
+        GV.Status_Pokemon((1560,220), tela, PokemonV,(30, 30, 30),TiposEnergiaIMG, eventos, estadoInfo)
 
 def Partida(tela,estados,relogio):
     global Turno
