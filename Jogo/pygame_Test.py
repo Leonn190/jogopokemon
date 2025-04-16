@@ -28,7 +28,7 @@ info = pygame.display.Info()
 largura_tela = info.current_w
 altura_tela = info.current_h
 
-clique = pygame.mixer.Sound("Musicas/Som1.wav")
+clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
 
 relogio = pygame.time.Clock()
 
@@ -56,7 +56,7 @@ def Menu(estados):
     Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Fundo2.jpg", (1920,1080),)
     Logo_Menu = GV.Carregar_Imagem("imagens/fundos/logo.png", (800,800),"PNG")
 
-    pygame.mixer.music.load('Musicas/MenuTheme.ogg')  
+    pygame.mixer.music.load('Jogo/Audio/Musicas/Menu.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
@@ -70,7 +70,6 @@ def Menu(estados):
                 estados["Rodando_Jogo"] = False
 
         TelaMenu(eventos, estados)
-
 
         pygame.display.update()
         relogio.tick(60)

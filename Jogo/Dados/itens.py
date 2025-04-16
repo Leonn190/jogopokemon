@@ -1,5 +1,3 @@
-import random
-
 Pokebola = {
     "nome": "pokebola",
     "classe": "pokebola",
@@ -153,7 +151,7 @@ Shivre_city = {
 }
 
 Auroma_park = {
-    "nome": "Estádio Mer",
+    "nome": "Parque Auroma",
     "classe": "estadio",
     "Descrição": "Leve a luta ao parque Auroma",
     "raridade": 3,
@@ -176,10 +174,10 @@ Skyloft = {
     "ST Code": 5
 }
 
-Porto_Molge = {
-    "nome": "Porto Molge",
+Porto_Molgera = {
+    "nome": "Porto Molgera",
     "classe": "estadio",
-    "Descrição": "Leve a luta ao Porto Molge",
+    "Descrição": "Leve a luta ao Porto Molgera",
     "raridade": 3,
     "ST Code": 6
 }
@@ -187,5 +185,5 @@ Porto_Molge = {
 itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
 pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball]
 amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
-Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molge]
+Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
         

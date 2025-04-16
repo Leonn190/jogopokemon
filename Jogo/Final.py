@@ -8,7 +8,7 @@ from GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
-clique = pygame.mixer.Sound("Musicas/Som1.wav")
+clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
 
 B1 = {"estado": False}
 
@@ -24,13 +24,13 @@ def Final(tela,estados,relogio):
     tela.blit(texto, (tela.get_width() // 2 - 200, tela.get_height() // 2))
     pygame.display.update()
 
-    pygame.mixer.music.load('Musicas/pos.ogg')  
+    pygame.mixer.music.load('Jogo/Audio/Musicas/pos.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
     pygame.time.wait(9000)
 
-    pygame.mixer.music.load('Musicas/resultados.ogg')  
+    pygame.mixer.music.load('Jogo/Audio/Musicas/resultados.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)

@@ -1,6 +1,6 @@
-from Ataques_N import A,B
-from Ataques_S import C,D
-from Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton
+from Dados.Ataques_N import A,B
+from Dados.Ataques_S import C,D
+from Dados.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton
 
 Bulbasaur = {
     "nome": "Bulbasaur",
@@ -312,7 +312,7 @@ Aerodactyl = {
     "atk SP": 30,
     "def": 30,
     "def SP": 35,
-    "velocidade": 6,
+    "velocidade": 65,
     "XP": 3,
     "custo": 2,
     "ataques normais": [B,A],

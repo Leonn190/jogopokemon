@@ -2,8 +2,8 @@ import random
 import pygame
 import Partida
 import GeradoresVisuais as GV
-from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
-from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
+from Dados.Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
+from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
 import Funções2
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
@@ -13,11 +13,11 @@ from GeradoresVisuais import (
 
 
 pygame.mixer.init()
-clique = pygame.mixer.Sound("Musicas/Som1.wav")
-Compra = pygame.mixer.Sound("Musicas/Compra.wav")
-Usou = pygame.mixer.Sound("Musicas/Usou.wav")
-Bom = pygame.mixer.Sound("Musicas/Bom.wav")
-Bloq = pygame.mixer.Sound("Musicas/Bloq.wav")
+clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
+Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
+Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
+Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
+Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
 class Jogador:
     def __init__(self, informaçoes):
@@ -71,7 +71,9 @@ class Jogador:
                             self.energias[coletor()] += 1
                         return
                 elif item["classe"] == "estadio":
+                    GV.tocar(Usou)
                     Partida.Mudar_estadio(item["ST Code"])
+                    self.inventario.remove(item)
                     return
                 else:
                     GV.tocar(Bloq)

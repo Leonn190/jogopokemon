@@ -6,8 +6,8 @@ import random
 pygame.font.init()
 pygame.mixer.init()
 
-Compra = pygame.mixer.Sound("Musicas/Compra.wav")
-Bloq = pygame.mixer.Sound("Musicas/Bloq.wav")
+Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
+Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
 
 informaçoesp1 = [random.choice(["Jogador Legal","Jogador Bacanudo","Jogador Estratégico","Jogador Habilidoso"]),random.randint(1,3)]

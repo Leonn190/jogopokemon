@@ -2,7 +2,6 @@ import pygame
 import os
 
 pygame.font.init()
-pygame.mixer.init()
 
 mensagens_terminal = []
 botao_cliques = {} 
@@ -565,9 +564,9 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
             tela=tela,
             texto="",
             espaço=espaço_botao,
-            cor_normal=(40, 40, 40),  # Fundo escuro para o botão
-            cor_borda=(50, 50, 50),   # Borda discreta
-            cor_passagem=(70, 70, 70), # Cor ao passar o mouse
+            cor_normal=(0,0,0),  # Fundo escuro para o botão
+            cor_borda=(0,0,0),   # Borda discreta
+            cor_passagem=(0,0,0), # Cor ao passar o mouse
             acao=lambda i=i: player.usar_item(i, PokemonS),
             Fonte=Fonte,
             estado_clique=B1,

@@ -1,7 +1,6 @@
-import random
-from Ataques_N import A,B
-from Ataques_S import C,D
-from Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite
+from Dados.Ataques_N import A,B
+from Dados.Ataques_S import C,D
+from Dados.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite
 
 Ivysaur = {
     "nome": "Ivysaur",

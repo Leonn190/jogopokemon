@@ -12,11 +12,11 @@ from GeradoresVisuais import (
 
 pygame.mixer.init()
 
-clique = pygame.mixer.Sound("Musicas/Som1.wav")
-Compra = pygame.mixer.Sound("Musicas/Compra.wav")
-Usou = pygame.mixer.Sound("Musicas/Usou.wav")
-Bom = pygame.mixer.Sound("Musicas/Bom.wav")
-Bloq = pygame.mixer.Sound("Musicas/Bloq.wav")
+clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
+Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
+Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
+Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
+Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
 Mute = False
 PokemonS = None
@@ -443,19 +443,19 @@ def tocar_musica_do_estadio():
         pygame.mixer.music.stop()
         
         if Estadio == 0:
-            pygame.mixer.music.load("Musicas/PartidaTheme.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Partida.ogg")
         elif Estadio == 1:
-            pygame.mixer.music.load("Musicas/Mer.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Mer.ogg")
         elif Estadio == 2:
-            pygame.mixer.music.load("Musicas/Shivre.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Shivre.ogg")
         elif Estadio == 3:
-            pygame.mixer.music.load("Musicas/Auroma.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Auroma.ogg")
         elif Estadio == 4:
-            pygame.mixer.music.load("Musicas/Kalos.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Kalos.ogg")
         elif Estadio == 5:
-            pygame.mixer.music.load("Musicas/Skyloft.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Skyloft.ogg")
         elif Estadio == 6:
-            pygame.mixer.music.load("Musicas/porto.ogg")
+            pygame.mixer.music.load("Jogo/Audio/Musicas/Molgera.ogg")
 
         pygame.mixer.music.play(-1)  # -1 = loop infinito
         Estadio_atual = Estadio
@@ -598,7 +598,7 @@ def Partida(tela,estados,relogio):
     tela.blit(texto, (tela.get_width() // 2 - 200, tela.get_height() // 2))
     pygame.display.update()
 
-    pygame.mixer.music.load('Musicas/carregamento.ogg')  
+    pygame.mixer.music.load('Jogo/Audio/Musicas/Carregamento.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
@@ -628,7 +628,7 @@ def Partida(tela,estados,relogio):
 
     VerificaGIF()
 
-    pygame.mixer.music.load('Musicas/PartidaTheme.ogg')  
+    pygame.mixer.music.load('Jogo/Audio/Musicas/Partida.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
@@ -640,7 +640,6 @@ def Partida(tela,estados,relogio):
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
 
-    # 3. Loop principal da partida
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
         eventos = pygame.event.get()
@@ -675,9 +674,8 @@ def Partida(tela,estados,relogio):
                 if not mensagem.ativa:
                     mensagens_passageiras.remove(mensagem)
         else:
+            tela.blit(FundosIMG[0],(0,0))
             Telapausa(tela,eventos,estados)
-
-        
 
         pygame.display.update()
         relogio.tick(120)
@@ -1202,13 +1200,12 @@ def TelaOutros(tela,eventos,estados):
 
         GV.Botao(tela, "", (x, 80, 80, 80),CINZA, PRETO, VERDE_CLARO,lambda botao_dict=botao_dict, valor=valor: G.gera_item(botao_dict["ID"], player, valor),
             Fonte50, botao_dict, 3, None, True, eventos)
-        
     
     tela.blit(OutrosIMG[3],(1515,85))
     tela.blit(OutrosIMG[4],(1595,85))
     tela.blit(OutrosIMG[5],(1675,85))
     tela.blit(OutrosIMG[6],(1760,88))
-    tela.blit(OutrosIMG[9],(1840,88))
+    tela.blit(OutrosIMG[9],(1835,88))
 
 def Telapausa(tela,eventos,estados):
 

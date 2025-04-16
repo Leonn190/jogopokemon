@@ -1,6 +1,5 @@
-import random
-from Ataques_N import A,B
-from Ataques_S import C,D
+from Dados.Ataques_N import A,B
+from Dados.Ataques_S import C,D
 
 Venusaur = {
     "nome": "Venusaur",
