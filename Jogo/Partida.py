@@ -577,6 +577,52 @@ def V(PokemonV,tela,eventos,inimigo):
         GV.Status_Pokemon((1560,220), tela, PokemonV,(30, 30, 30),TiposEnergiaIMG, eventos, estadoInfo)
 
 def Partida(tela,estados,relogio):
+    global Vencedor
+    global Perdedor
+
+    Inicia(tela)
+
+    while estados["Rodando_Partida"]:
+        tela.fill(BRANCO)
+        eventos = pygame.event.get()
+        for evento in eventos:
+            if evento.type == pygame.QUIT:
+                estados["Rodando_Partida"] = False
+                estados["Rodando_Jogo"] = False
+        
+        tocar_musica_do_estadio()
+
+        if Pausa == False:
+            TelaTabuleiro(tela,eventos,estados)
+            TelaPokemons(tela,eventos,estados)
+            TelaOpções(tela,eventos,estados)
+            TelaOutros(tela,eventos,estados)
+
+            VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
+            if VidaTotal1 <= 0:
+                Vencedor = Jogador2
+                Perdedor = Jogador1
+                A.Fim_da_partida(estados)
+
+            VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
+            if VidaTotal2 <= 0:
+                Vencedor = Jogador1
+                Perdedor = Jogador2
+                A.Fim_da_partida(estados)
+
+            for mensagem in mensagens_passageiras[:]:
+                mensagem.desenhar(tela)
+                mensagem.atualizar()
+                if not mensagem.ativa:
+                    mensagens_passageiras.remove(mensagem)
+        else:
+            tela.blit(FundosIMG[0],(0,0))
+            Telapausa(tela,eventos,estados)
+
+        pygame.display.update()
+        relogio.tick(120)
+
+def Inicia(tela):
     global Turno
     global ImagensPokemon100
     global PokeGifs
@@ -589,6 +635,7 @@ def Partida(tela,estados,relogio):
     global Perdedor
     global Pausa
     global Centro
+
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
@@ -639,46 +686,6 @@ def Partida(tela,estados,relogio):
     Resetar_Cronometro()
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
-
-    while estados["Rodando_Partida"]:
-        tela.fill(BRANCO)
-        eventos = pygame.event.get()
-        for evento in eventos:
-            if evento.type == pygame.QUIT:
-                estados["Rodando_Partida"] = False
-                estados["Rodando_Jogo"] = False
-        
-        tocar_musica_do_estadio()
-
-        if Pausa == False:
-            TelaTabuleiro(tela,eventos,estados)
-            TelaPokemons(tela,eventos,estados)
-            TelaOpções(tela,eventos,estados)
-            TelaOutros(tela,eventos,estados)
-
-            VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
-            if VidaTotal1 <= 0:
-                Vencedor = Jogador2
-                Perdedor = Jogador1
-                A.Fim_da_partida(estados)
-
-            VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
-            if VidaTotal2 <= 0:
-                Vencedor = Jogador1
-                Perdedor = Jogador2
-                A.Fim_da_partida(estados)
-
-            for mensagem in mensagens_passageiras[:]:
-                mensagem.desenhar(tela)
-                mensagem.atualizar()
-                if not mensagem.ativa:
-                    mensagens_passageiras.remove(mensagem)
-        else:
-            tela.blit(FundosIMG[0],(0,0))
-            Telapausa(tela,eventos,estados)
-
-        pygame.display.update()
-        relogio.tick(120)
 
 def Carregar_Imagens():
     global ImagensPokemon38

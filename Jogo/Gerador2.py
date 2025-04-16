@@ -101,6 +101,11 @@ class Pokemon:
         self.Def = pokemon["def"]
         self.Def_sp = pokemon["def SP"]
         self.vel = pokemon["velocidade"]
+        self.AtkB = pokemon["atk"]
+        self.Atk_spB = pokemon["atk SP"]
+        self.DefB = pokemon["def"]
+        self.Def_spB = pokemon["def SP"] 
+        self.velB = pokemon["velocidade"]
         self.xp_total = pokemon["XP"]
         self.custo = pokemon["custo"]
         self.ataque_normal = pokemon["ataque normal"]
@@ -153,19 +158,19 @@ class Pokemon:
             pokemon_amplificado.XP(1,player)
         elif tipo == "atk":
             J = round(self.Atk)
-            self.Atk = round(self.Atk + (self.Atk * amplificador))
+            self.Atk = round(self.Atk + (self.AtkB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk}")
         elif tipo == "atk SP":
             J = round(self.Atk_sp)
-            self.Atk_sp = round(self.Atk_sp + (self.Atk_sp * amplificador))
+            self.Atk_sp = round(self.Atk_sp + (self.Atk_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
         elif tipo == "def":
             J = round(self.Def)
-            self.Def = self.Def + round((self.Def * amplificador))
+            self.Def = self.Def + round((self.DefB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
         elif tipo == "def SP":
             J = round(self.Def_sp)
-            self.Def_sp = self.Def_sp + round((self.Def_sp * amplificador))
+            self.Def_sp = self.Def_sp + round((self.Def_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
     def atacado(self,dano,player,tipo,tela):
