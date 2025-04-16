@@ -179,7 +179,6 @@ def passar_turno():
     desseleciona()
     oculta()
     GV.adicionar_mensagem(f"Novo turno de {player.nome}!")
-    return player, inimigo
 
 def seleciona(ID, player, inimigo,):
     global PokemonS
@@ -463,20 +462,19 @@ def tocar_musica_do_estadio():
 estadoPokemon = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-
 estadoInfo = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-
 estadoOutros = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-
 estadoPokebola = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-
 estadoItens = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None}
+estadoEnergias = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
@@ -515,7 +513,8 @@ def AB(Visor,tela,eventos,player,inimigo):
         GV.Inventario((0,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
 
     elif Visor == "Energias":
-        GV.Tabela_Energias(tela,(0,300),player)
+        GV.Tabela_Energias(tela,(0,300),player,estadoEnergias,eventos)
+
     
     elif Visor == "Centro":
         ver_centro = "s"
@@ -619,6 +618,7 @@ def Partida(tela,estados,relogio):
             tela.blit(FundosIMG[0],(0,0))
             Telapausa(tela,eventos,estados)
 
+        print (player.energiasDesc)
         pygame.display.update()
         relogio.tick(120)
 
@@ -635,7 +635,7 @@ def Inicia(tela):
     global Perdedor
     global Pausa
     global Centro
-
+    global Estadio
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
@@ -649,6 +649,7 @@ def Inicia(tela):
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
+    Estadio = 0
     Carregar_Imagens()
     M.Gerar_Mapa()
 

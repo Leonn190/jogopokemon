@@ -25,6 +25,7 @@ class Jogador:
         self.pokemons = [Gerador_final(informaçoes[1])]
         self.inventario = []
         self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
+        self.energiasDesc = []
         self.ouro = 10
     
     def ganhar_item(self,item):
@@ -81,6 +82,12 @@ class Jogador:
     
     def ganhar_pokemon(self,pokemon):
         self.pokemons.append(pokemon)
+
+    def muda_descarte(self,energia):
+        if energia in self.energiasDesc:
+            self.energiasDesc.remove(energia)
+        else:
+            self.energiasDesc.append(energia)
 
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)
@@ -213,11 +220,10 @@ class Pokemon:
         gastas = []
         for i in range(len(F["custo"])):
             if F["custo"][i] == "normal":
-                for j in range(30):
-                    j = random.randint(0,9)
-                    if player.energias[Energias[j]] >= 1:
-                        player.energias[Energias[j]] -= 1
-                        gastas.append(Energias[j])
+                for cor in player.energiasDesc:
+                    if player.energias[cor] >= 1:
+                        player.energias[cor] -= 1
+                        gastas.append(cor)
                         pagou += 1
                         break
             else:

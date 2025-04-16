@@ -342,7 +342,7 @@ def Texto(tela, texto, posicao, fonte, cor):
     render = fonte.render(texto, True, cor)
     tela.blit(render, posicao)
 
-def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO, grossura=3):
+def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO,cor_texto=PRETO, grossura=3):
   
     x, y, largura, altura = espaço
 
@@ -353,7 +353,7 @@ def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO, grossura=3)
     pygame.draw.rect(tela, borda, (x, y, largura, altura), grossura)
 
     # Renderiza o texto
-    texto_render = fonte.render(texto, True, (0, 0, 0))  # Texto preto
+    texto_render = fonte.render(texto, True, cor_texto)  # Texto preto
     texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
 
     # Desenha o texto na tela
@@ -629,7 +629,19 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
             render = FonteMenor.render(texto, True, (255, 255, 255))  # Texto branco
             tela.blit(render, (x + 10, y + 198 + i * 20))  # Descrição em branco
 
-def Tabela_Energias(tela, local, player):
+B2 = {"estado": False}
+B3 = {"estado": False}
+B4 = {"estado": False}
+B5 = {"estado": False}
+B6 = {"estado": False}
+B7 = {"estado": False}
+B8 = {"estado": False}
+B9 = {"estado": False}
+B10 = {"estado": False}
+B11 = {"estado": False}
+BB = [B2,B3,B4,B5,B6,B7,B8,B9,B10,B11]
+
+def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
     import pygame
     pygame.draw.rect(tela, (30, 30, 30), (*local, 380, 320))  # fundo escuro
     pygame.draw.rect(tela, (255, 255, 255), (*local, 380, 320), 3)  # borda branca
@@ -702,7 +714,17 @@ def Tabela_Energias(tela, local, player):
 
         # Barra vertical
         pygame.draw.rect(tela, cor, (x_centro - largura_barra//2, base_y - altura, largura_barra, altura))
-        pygame.draw.rect(tela, (255, 255, 255), (x_centro - largura_barra//2, barra_topo, largura_barra, base_y - barra_topo), 1)
+        pygame.draw.rect(tela, (0, 0, 0), (x_centro - largura_barra//2, barra_topo, largura_barra, base_y - barra_topo), 1)
+
+        # BOTÃO DE SELEÇÃO NA BASE
+        largura_botao = largura_barra + 8
+        altura_botao = 18
+        x_botao = x_centro - largura_botao // 2
+        y_botao = base_y + 7
+        
+        Botao(tela, "",(x_botao, y_botao, largura_botao, altura_botao), (35,35,35), BRANCO, (35,35,35),
+           lambda:player.muda_descarte(chave), Fonte15, BB[i], grossura=2, tecla_atalho=None,
+           mostrar_na_tela=True, eventos=None, som=None)
 
         # Círculo com número
         pygame.draw.circle(tela, cor, (x_centro, base_y + 3), 12)
@@ -711,10 +733,39 @@ def Tabela_Energias(tela, local, player):
         num = fonte.render(str(player.energias[chave]), True, cor_texto)
         tela.blit(num, (x_centro - num.get_width() // 2, base_y - num.get_height() // 2 + 3))
 
+        if chave in player.energiasDesc:
+            Texto_caixa(tela,f"D{player.energiasDesc.index(chave)}",(x_botao,( base_y - 150), largura_botao, 20),Fonte25,(30,30,30),(30,30,30),BRANCO) 
 
 
+        # # BOTÃO DE SELEÇÃO NA BASE
+        # largura_botao = largura_barra + 8
+        # altura_botao = 25
+        # x_botao = x_centro - largura_botao // 2
+        # y_botao = base_y
 
-
+        # # Chamada do botão de seleção
+        # Botao_Selecao(
+        #     tela=tela,
+        #     espaço=(x_botao, y_botao, largura_botao, altura_botao),
+        #     texto=str(player.energias[chave]),
+        #     Fonte=fonte,
+        #     cor_fundo=cor,
+        #     cor_borda_normal=(255, 255, 255),
+        #     cor_borda_esquerda=VERMELHO,
+        #     cor_borda_direita=AZUL,
+        #     cor_passagem=AMARELO,
+        #     id_botao=f"energia_{chave}",
+        #     estado_global=estadoEnergias,
+        #     eventos=eventos,
+        #     funcao_esquerdo=None,
+        #     funcao_direito=None,
+        #     desfazer_esquerdo=None,
+        #     desfazer_direito=None,
+        #     tecla_esquerda=None,
+        #     tecla_direita=None,
+        #     grossura=3,
+        #     som=None
+        # )
 
 
 
