@@ -3,7 +3,7 @@ import pygame
 import Partida
 import GeradoresVisuais as GV
 from Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
-from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis
+from itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
 import Funções2
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
@@ -70,6 +70,9 @@ class Jogador:
                         for _ in range(compras):
                             self.energias[coletor()] += 1
                         return
+                elif item["classe"] == "estadio":
+                    Partida.Mudar_estadio(item["ST Code"])
+                    return
                 else:
                     GV.tocar(Bloq)
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")
@@ -344,6 +347,8 @@ def gera_item(tipo,player,custo=0):
                     U = pokebolas_disponiveis
                 elif tipo == "amplificador":
                     U = amplificadores_disponiveis
+                elif tipo == "estadio":
+                    U = Estadios_disponiveis
 
                 for i in range(len(U)):
                     for j in range(6 - U[i]["raridade"]):

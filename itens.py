@@ -128,7 +128,64 @@ Esmeralda = {
     "aumento": "XP atu"
 }
 
+Removedor_de_estadio = {
+    "nome": "Removedor",
+    "classe": "estadio",
+    "Descrição": "Leve a luta de volta ao basico e remova um estádio",
+    "raridade": 2,
+    "ST Code": 0
+}
+
+Mer_stadium = {
+    "nome": "Estádio Mer",
+    "classe": "estadio",
+    "Descrição": "Leve a luta ao Estádio Mer",
+    "raridade": 2,
+    "ST Code": 1
+}
+
+Shivre_city = {
+    "nome": "Cidade Shivre",
+    "classe": "estadio",
+    "Descrição": "Leve a luta para a cidade Shivre",
+    "raridade": 3,
+    "ST Code": 2
+}
+
+Auroma_park = {
+    "nome": "Estádio Mer",
+    "classe": "estadio",
+    "Descrição": "Leve a luta ao parque Auroma",
+    "raridade": 3,
+    "ST Code": 3
+}
+
+Kalos_Stadium = {
+    "nome": "Estádio Kalos",
+    "classe": "estadio",
+    "Descrição": "Leve a luta ao Estádio Kalos",
+    "raridade": 4,
+    "ST Code": 4
+}
+
+Skyloft = {
+    "nome": "Skyloft",
+    "classe": "estadio",
+    "Descrição": "Leve a luta aos céus de Skyloft",
+    "raridade": 3,
+    "ST Code": 5
+}
+
+Porto_Molge = {
+    "nome": "Porto Molge",
+    "classe": "estadio",
+    "Descrição": "Leve a luta ao Porto Molge",
+    "raridade": 3,
+    "ST Code": 6
+}
+
 itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
 pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball]
 amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
+Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molge]
         
