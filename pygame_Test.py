@@ -86,4 +86,4 @@ while estados["Rodando_Jogo"]:
         Final.Final(tela,estados,relogio)
 
 pygame.quit()
-sys.exit()
+sys.exit()  

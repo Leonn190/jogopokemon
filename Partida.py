@@ -441,10 +441,6 @@ estadoPokebola = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
-estadoTabuleiro = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
-
 estadoItens = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -519,7 +515,7 @@ def AB(Visor,tela,eventos,player,inimigo):
                 idx_pokebola += 1 
 
 def S(PokemonS,tela,eventos,player,inimigo):
-    GV.Status_Pokemon((1560,570), tela, PokemonS,(30, 30, 30), TiposEnergiaIMG, eventos, estadoInfo)
+    GV.Status_Pokemon((1560,550), tela, PokemonS,(30, 30, 30), TiposEnergiaIMG, eventos, estadoInfo)
 
     if PokemonS.Vida <= 0:
         pass
@@ -623,7 +619,7 @@ def Partida(tela,estados,relogio):
             TelaPokemons(tela,eventos,estados)
             TelaOpções(tela,eventos,estados)
             TelaOutros(tela,eventos,estados)
-            # TelaTabuleiro(tela,eventos,estados)
+            TelaTabuleiro(tela,eventos,estados)
 
             if Turno > 5 and not altera_musica:
                 pygame.mixer.music.load("Musicas/Partida2theme.ogg")
@@ -649,6 +645,8 @@ def Partida(tela,estados,relogio):
                     mensagens_passageiras.remove(mensagem)
         else:
             Telapausa(tela,eventos,estados)
+
+        
 
         pygame.display.update()
         relogio.tick(120)
@@ -1017,6 +1015,7 @@ def TelaPokemons(tela,eventos,estados):
             tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
 
     if PokemonS is not None:
+        print (PokemonS.local)
         S(PokemonS,tela,eventos,player,inimigo)
    
     if PokemonV is not None:
@@ -1137,7 +1136,7 @@ def TelaOutros(tela,eventos,estados):
 
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: Muter(), Fonte50, B1, 3, pygame.K_m, False, eventos)
 
-    GV.Botao(tela, "Passar Turno", (1620, 1000, 300, 80), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte50, B7, 3, None, True, eventos)
+    GV.Botao(tela, "Passar Turno", (150, 60, 210, 80), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
     
     cronometro(tela, (0, 60, 150, 40), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
 
@@ -1184,5 +1183,5 @@ def TelaTabuleiro(tela,eventos,estados):
     (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16),
     (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16),
     (11, 8), (11, 9), (11, 10), (11, 11), (11, 12), (11, 13), (11, 14), (11, 15), (11, 16)
-],player,inimigo,Fonte20,estadoTabuleiro,eventos)
+],player,inimigo,Fonte20,eventos)
 
