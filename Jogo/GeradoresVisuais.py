@@ -370,131 +370,136 @@ def tocar(som):
     if som:
         som.play()
 
-def Status_Pokemon(pos, tela, pokemon, cor, imagens_tipos, eventos=None, estado_global=None):
-    x, y = pos
+def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, x_final=None, anima=None, tempo=900):
+    x_inicial, y = pos
     largura, altura = 360, 330
+
+    if pokemon in player.pokemons:
+        cor = (35,35,35)
+    else:
+        cor = (80,35,35)
+
+
+    # Controle de animação
+    if x_final is not None: 
+        if anima is None:
+            anima = pygame.time.get_ticks()
+        tempo_passado = pygame.time.get_ticks() - anima
+        progresso = min(tempo_passado / tempo, 1.0)
+
+        x = int(x_inicial + (x_final - x_inicial) * progresso)
+    else:
+        x = x_inicial
+
+    # Rect principal
     ret = pygame.Rect(x, y, largura, altura)
     pygame.draw.rect(tela, cor, ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 2)
 
-    # Fontes atualizadas
-    fonte_titulo = pygame.font.SysFont("arial", 25, True)
-    fonte_HP = pygame.font.SysFont("arial", 23, True)
-    fonte_Stat = pygame.font.SysFont("arial", 20, True)
-    fonte_normal = pygame.font.SysFont("arial", 20)
-    fonte_pequena = pygame.font.SysFont("arial", 18)
-    fonte_iv_destaque = pygame.font.SysFont("arial", 20, True)
+    if pokemon is not None:
+        # Fontes
+        fonte_titulo = pygame.font.SysFont("arial", 25, True)
+        fonte_HP = pygame.font.SysFont("arial", 23, True)
+        fonte_Stat = pygame.font.SysFont("arial", 20, True)
+        fonte_normal = pygame.font.SysFont("arial", 20)
+        fonte_pequena = pygame.font.SysFont("arial", 18)
+        fonte_iv_destaque = pygame.font.SysFont("arial", 20, True)
 
-    def cor_percentual(pct):
-        if pct < 14:
-            return (255, 0, 0)
-        elif pct < 28:
-            return (255, 128, 0)
-        elif pct < 40:
-            return (255, 255, 0)
-        elif pct < 50:
-            return (192, 255, 0)
-        elif pct < 60:
-            return (0, 200, 0)
-        elif pct < 70:
-            return (0, 200, 128)
-        elif pct < 82:
-            return (0, 128, 255)
-        elif pct < 95:
-            return (0, 0, 180)
-        elif pct <= 100:
-            return (128, 0, 200)
-        else:
-            return (255, 0, 150)
+        def cor_percentual(pct):
+            if pct < 14: return (255, 0, 0)
+            elif pct < 28: return (255, 128, 0)
+            elif pct < 40: return (255, 255, 0)
+            elif pct < 50: return (192, 255, 0)
+            elif pct < 60: return (0, 200, 0)
+            elif pct < 70: return (0, 200, 128)
+            elif pct < 82: return (0, 128, 255)
+            elif pct < 95: return (0, 0, 180)
+            elif pct <= 100: return (128, 0, 200)
+            else: return (255, 0, 150)
 
-    # Seção 1 - Nome e HP
-    nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
-    tela.blit(nome_txt, (x + 10, y + 5))
+        # Nome e HP
+        nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
+        tela.blit(nome_txt, (x + 10, y + 5))
 
-    vida_pct = pokemon.Vida / pokemon.VidaMax * 100
-    vida_str = f"HP: {pokemon.Vida}/{pokemon.VidaMax}"
-    vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))
-    tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
+        vida_pct = pokemon.Vida / pokemon.VidaMax * 100
+        vida_str = f"HP: {pokemon.Vida}/{pokemon.VidaMax}"
+        vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))
+        tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
 
-    pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 342, 18), 1)
-    pygame.draw.rect(tela, cor_percentual(vida_pct), (x + 10, y + 35, (340 * (pokemon.Vida / pokemon.VidaMax)), 16))
+        pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 342, 18), 1)
+        pygame.draw.rect(tela, cor_percentual(vida_pct), (x + 10, y + 35, (340 * (pokemon.Vida / pokemon.VidaMax)), 16))
 
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 60), (x + largura, y + 60), 2)
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 60), (x + largura, y + 60), 2)
 
-    # Seção 2 - Status, Barras e IVs
-    atributos = [
-        ("HP", pokemon.VidaMax, pokemon.IV_vida, 300),
-        ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
-        ("Defense", pokemon.Def, pokemon.IV_def, 120),
-        ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
-        ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 120),
-        ("Speed", pokemon.vel, pokemon.IV_vel, 120)
-    ]
+        atributos = [
+            ("HP", pokemon.VidaMax, pokemon.IV_vida, 300),
+            ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
+            ("Defense", pokemon.Def, pokemon.IV_def, 120),
+            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
+            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 120),
+            ("Speed", pokemon.vel, pokemon.IV_vel, 120)
+        ]
 
-    for i, (nome, valor, iv_val, valor_max) in enumerate(atributos):
-        top = y + 68 + i * 28
-        label = fonte_normal.render(f"{nome}:", True, (230, 230, 230))
-        tela.blit(label, (x + 10, top))
+        for i, (nome, valor, iv_val, valor_max) in enumerate(atributos):
+            top = y + 68 + i * 28
+            label = fonte_normal.render(f"{nome}:", True, (230, 230, 230))
+            tela.blit(label, (x + 10, top))
 
-        val_txt = fonte_Stat.render(f"{valor}", True, (255, 255, 255))
-        tela.blit(val_txt, (x + 85, top))
+            val_txt = fonte_Stat.render(f"{valor}", True, (255, 255, 255))
+            tela.blit(val_txt, (x + 85, top))
 
-        # Trava para impedir que a barra ultrapasse
-        percentual = min(valor / valor_max, 1.0)
-        largura_barra = int(percentual * 140)
+            percentual = min(valor / valor_max, 1.0)
+            largura_barra = int(percentual * 140)
 
-        pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 130, top + 4, largura_barra, 16))
-        pygame.draw.rect(tela, (0, 0, 0), (x + 130, top + 4, 140, 16), 1)
+            pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 130, top + 4, largura_barra, 16))
+            pygame.draw.rect(tela, (0, 0, 0), (x + 130, top + 4, 140, 16), 1)
 
-        iv_txt = fonte_pequena.render(f"IV: {iv_val}%", True, cor_percentual(iv_val))
-        tela.blit(iv_txt, (x + 280, top))
+            iv_txt = fonte_pequena.render(f"IV: {iv_val}%", True, cor_percentual(iv_val))
+            tela.blit(iv_txt, (x + 280, top))
 
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 238), (x + largura, y + 238), 2)
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 238), (x + largura, y + 238), 2)
 
-    # Seção 3 - Tipos (texto) e imagens
-    for i, tipo in enumerate(pokemon.tipo):
-        tipo_render = fonte_pequena.render(tipo, True, (255, 255, 255))
-        tela.blit(tipo_render, (x + 10, y + 244 + i * 18))
+        for i, tipo in enumerate(pokemon.tipo):
+            tipo_render = fonte_pequena.render(tipo, True, (255, 255, 255))
+            tela.blit(tipo_render, (x + 10, y + 244 + i * 18))
 
-    # Círculos e imagens dos tipos
-    for i, tipo in enumerate(pokemon.tipo):
-        pos_x = x + 80 + i * 36
-        pos_y = y + 245
-        centro = (pos_x + 15, pos_y + 15)  # centro do círculo
-        pygame.draw.circle(tela, (255, 255, 255), centro, 15)
-        pygame.draw.circle(tela, (0, 0, 0), centro, 15, 1)  # borda preta
-        if tipo in imagens_tipos:
-            img = imagens_tipos[tipo]
-            img_rect = img.get_rect(center=centro)
-            tela.blit(img, img_rect)
+        for i, tipo in enumerate(pokemon.tipo):
+            pos_x = x + 80 + i * 36
+            pos_y = y + 245
+            centro = (pos_x + 15, pos_y + 15)
+            pygame.draw.circle(tela, (255, 255, 255), centro, 15)
+            pygame.draw.circle(tela, (0, 0, 0), centro, 15, 1)
+            if tipo in imagens_tipos:
+                img = imagens_tipos[tipo]
+                img_rect = img.get_rect(center=centro)
+                tela.blit(img, img_rect)
 
+        xp_txt = fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230))
+        peso_txt = fonte_pequena.render(f"Peso: {pokemon.custo}", True, (230, 230, 230))
+        tela.blit(xp_txt, (x + 165, y + 244))
+        tela.blit(peso_txt, (x + 165, y + 262))
 
-    # XP / Peso deslocados mais para a direita
-    xp_txt = fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230))
-    peso_txt = fonte_pequena.render(f"Peso: {pokemon.custo}", True, (230, 230, 230))
-    tela.blit(xp_txt, (x + 165, y + 244))
-    tela.blit(peso_txt, (x + 165, y + 262))
+        iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
+        tela.blit(iv_txt, (x + 235, y + 250))
 
-    iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
-    tela.blit(iv_txt, (x + 235, y + 250))
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)
 
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)
+        # Botões
+        botao_rect1 = pygame.Rect(x + 17, y + 292, 156, 30)
+        botao_rect2 = pygame.Rect(x + 187, y + 292, 156, 30)
 
-    # Seção 4 - Botões de ataque
-    botao_rect1 = pygame.Rect(x + 17, y + 292, 156, 30)
-    botao_rect2 = pygame.Rect(x + 187, y + 292, 156, 30)
+        Botao_Selecao(
+            tela, botao_rect1, pokemon.ataque_normal["nome"], Fonte20,
+            (255, 200, 120), (255, 255, 255),
+            estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
+        )
 
-    Botao_Selecao(
-        tela, botao_rect1, pokemon.ataque_normal["nome"], Fonte20,
-        (255, 200, 120), (255, 255, 255),
-        estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
-    )
+        Botao_Selecao(
+            tela, botao_rect2, pokemon.ataque_especial["nome"], Fonte20,
+            (210, 160, 255), (255, 255, 255),
+            estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
+        )
 
-    Botao_Selecao(
-        tela, botao_rect2, pokemon.ataque_especial["nome"], Fonte20,
-        (210, 160, 255), (255, 255, 255),
-        estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
-    )
 
 def carregar_frames(pasta):
     frames = []
@@ -508,9 +513,20 @@ def carregar_frames(pasta):
 H = None
 B1 = {"estado": False}
 
-def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
-    x, y = local
+def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_final=None, anima=None, tempo=900):
+    x_inicial, y = local
     largura, altura = 380, 265  # Altura aumentada pra descrição
+
+    # Controle de animação (exatamente igual ao Status_Pokemon)
+    if x_final is not None:
+        if anima is None:
+            anima = pygame.time.get_ticks()
+        tempo_passado = pygame.time.get_ticks() - anima
+        progresso = min(tempo_passado / tempo, 1.0)
+        x = int(x_inicial + (x_final - x_inicial) * progresso)
+    else:
+        x = x_inicial
+
     cor_borda = (255, 255, 255)  # Borda branca
     global H  # Item selecionado com botão direito
 
@@ -629,6 +645,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
             render = FonteMenor.render(texto, True, (255, 255, 255))  # Texto branco
             tela.blit(render, (x + 10, y + 198 + i * 20))  # Descrição em branco
 
+
 B2 = {"estado": False}
 B3 = {"estado": False}
 B4 = {"estado": False}
@@ -641,13 +658,28 @@ B10 = {"estado": False}
 B11 = {"estado": False}
 BB = [B2,B3,B4,B5,B6,B7,B8,B9,B10,B11]
 
-def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
-    import pygame
-    pygame.draw.rect(tela, (30, 30, 30), (*local, 380, 320))  # fundo escuro
-    pygame.draw.rect(tela, (255, 255, 255), (*local, 380, 320), 3)  # borda branca
+def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, anima=None, tempo=900):
+
+    x_inicial, y = local
+    largura, altura = 380, 320
+
+    # Controle de animação
+    if x_final is not None: 
+        if anima is None:
+            anima = pygame.time.get_ticks()
+        tempo_passado = pygame.time.get_ticks() - anima
+        progresso = min(tempo_passado / tempo, 1.0)
+        x = int(x_inicial + (x_final - x_inicial) * progresso)
+    else:
+        x = x_inicial
+
+    # Rect principal
+    ret = pygame.Rect(x, y, largura, altura)
+    pygame.draw.rect(tela, (30, 30, 30), ret)  # fundo escuro
+    pygame.draw.rect(tela, (255, 255, 255), ret, 3)  # borda branca
 
     fonte = pygame.font.SysFont(None, 24)
-    fonte_titulo = pygame.font.SysFont(None, 28)  # título sem negrito
+    fonte_titulo = pygame.font.SysFont(None, 28)
 
     energia_cores = {
         "vermelha": (255, 0, 0), "azul": (0, 0, 255),
@@ -659,8 +691,8 @@ def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
 
     # Cabeçalho
     titulo = fonte_titulo.render(f"Energias de {player.nome}", True, (255, 255, 255))
-    tela.blit(titulo, (local[0] + 190 - titulo.get_width() // 2, local[1] + 10))
-    pygame.draw.line(tela, (0, 0, 0), (local[0], local[1] + 34), (local[0] + 380, local[1] + 34), 2)
+    tela.blit(titulo, (x + 190 - titulo.get_width() // 2, y + 10))
+    pygame.draw.line(tela, (0, 0, 0), (x, y + 34), (x + largura, y + 34), 2)
 
     # Linhas de energias em 4 colunas: nome1 | valor1 | nome2 | valor2
     chaves = list(player.energias.keys())
@@ -670,7 +702,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
         nome2 = chaves[i+5].capitalize()
         valor2 = str(player.energias[chaves[i+5]])
 
-        y = local[1] + 37 + i * 22
+        y_pos = y + 37 + i * 22
 
         # Colunas ajustadas
         texto_nome1 = fonte.render(nome1 + ":", True, (255, 255, 255))
@@ -678,28 +710,28 @@ def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
         texto_nome2 = fonte.render(nome2 + ":", True, (255, 255, 255))
         texto_valor2 = fonte.render(valor2, True, (255, 255, 255))
 
-        x1 = local[0] + 10
-        x2 = local[0] + 130
-        x3 = local[0] + 200
-        x4 = local[0] + 320
+        x1 = x + 10
+        x2 = x + 130
+        x3 = x + 200
+        x4 = x + 320
 
-        tela.blit(texto_nome1, (x1, y))
-        tela.blit(texto_valor1, (x2, y))
-        tela.blit(texto_nome2, (x3, y))
-        tela.blit(texto_valor2, (x4, y))
+        tela.blit(texto_nome1, (x1, y_pos))
+        tela.blit(texto_valor1, (x2, y_pos))
+        tela.blit(texto_nome2, (x3, y_pos))
+        tela.blit(texto_valor2, (x4, y_pos))
 
     # Linhas divisoras
     for i in range(6):
-        y = local[1] + 34 + i * 22
+        y_pos = y + 34 + i * 22
         # Alteração aqui: primeira e última linha serão brancas
         if i == 0 or i == 5:  # Primeira e última linha
-            pygame.draw.line(tela, (255, 255, 255), (local[0] + 2, y), (local[0] + 380 - 2, y), 2)
+            pygame.draw.line(tela, (255, 255, 255), (x + 2, y_pos), (x + largura - 2, y_pos), 2)
         else:
-            pygame.draw.line(tela, (0, 0, 0), (local[0] + 2, y), (local[0] + 380 - 2, y), 1)
+            pygame.draw.line(tela, (0, 0, 0), (x + 2, y_pos), (x + largura - 2, y_pos), 1)
 
-    # Parte inferior: barras verticais (sem alteração)
-    base_y = local[1] + 310
-    barra_topo = local[1] + 150
+    # Parte inferior: barras verticais
+    base_y = y + 310
+    barra_topo = y + 150
     largura_barra = 20
     espaco_total = 360
     margem_x = 10
@@ -710,13 +742,13 @@ def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
         valor = min(player.energias[chave], 20)
         altura = int((valor / 20) * (base_y - barra_topo))
 
-        x_centro = local[0] + margem_x + espaco_entre * i + espaco_entre // 2
+        x_centro = x + margem_x + espaco_entre * i + espaco_entre // 2
 
         # Barra vertical
-        pygame.draw.rect(tela, cor, (x_centro - largura_barra//2, base_y - altura, largura_barra, altura))
-        pygame.draw.rect(tela, (0, 0, 0), (x_centro - largura_barra//2, barra_topo, largura_barra, base_y - barra_topo), 1)
+        pygame.draw.rect(tela, cor, (x_centro - largura_barra // 2, base_y - altura, largura_barra, altura))
+        pygame.draw.rect(tela, (0, 0, 0), (x_centro - largura_barra // 2, barra_topo, largura_barra, base_y - barra_topo), 1)
 
-        # BOTÃO DE SELEÇÃO NA BASE
+        # Botão de seleção na base
         largura_botao = largura_barra + 8
         altura_botao = 18
         x_botao = x_centro - largura_botao // 2
@@ -734,39 +766,8 @@ def Tabela_Energias(tela, local, player, estadoEnergias,eventos):
         tela.blit(num, (x_centro - num.get_width() // 2, base_y - num.get_height() // 2 + 3))
 
         if chave in player.energiasDesc:
-            Texto_caixa(tela,f"D{player.energiasDesc.index(chave)}",(x_botao,( base_y - 150), largura_botao, 20),Fonte25,(30,30,30),(30,30,30),BRANCO) 
-
-
-        # # BOTÃO DE SELEÇÃO NA BASE
-        # largura_botao = largura_barra + 8
-        # altura_botao = 25
-        # x_botao = x_centro - largura_botao // 2
-        # y_botao = base_y
-
-        # # Chamada do botão de seleção
-        # Botao_Selecao(
-        #     tela=tela,
-        #     espaço=(x_botao, y_botao, largura_botao, altura_botao),
-        #     texto=str(player.energias[chave]),
-        #     Fonte=fonte,
-        #     cor_fundo=cor,
-        #     cor_borda_normal=(255, 255, 255),
-        #     cor_borda_esquerda=VERMELHO,
-        #     cor_borda_direita=AZUL,
-        #     cor_passagem=AMARELO,
-        #     id_botao=f"energia_{chave}",
-        #     estado_global=estadoEnergias,
-        #     eventos=eventos,
-        #     funcao_esquerdo=None,
-        #     funcao_direito=None,
-        #     desfazer_esquerdo=None,
-        #     desfazer_direito=None,
-        #     tecla_esquerda=None,
-        #     tecla_direita=None,
-        #     grossura=3,
-        #     som=None
-        # )
-
+            Texto_caixa(tela,f"D{player.energiasDesc.index(chave)}",(x_botao,( base_y - 150), largura_botao, 20),Fonte25,(30,30,30),(30,30,30),BRANCO)
+            
 
 
             

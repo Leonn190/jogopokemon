@@ -11,6 +11,9 @@ from GeradoresVisuais import (
 Mapa = []
 PeçaS = None
 
+pygame.mixer.init()
+Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
+
 estadoTabuleiro = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -29,9 +32,27 @@ def Gerar_Mapa():
             linha.append(casa)
         Mapa.append(linha)
 
-def seleciona_peça(p,dono):
+def seleciona_peça(p,dono,player):
     global PeçaS
     if dono == "player":
+        pagou = 0
+        gastas = []
+        for i in range(p.custo):
+            for cor in player.energiasDesc:
+                if player.energias[cor] >= 1:
+                    player.energias[cor] -= 1
+                    gastas.append(cor)
+                    pagou += 1
+                    break
+        
+        if pagou != p.custo:
+            GV.tocar(Bloq)
+            GV.adicionar_mensagem("Sem energias, não pode se mover")
+            for i in range(len(gastas)):
+                player.energias[gastas[i]] += 1
+            desseleciona_peça()
+            return 
+
         PeçaS = p
     else:
         GV.adicionar_mensagem("Não pode selecionar pokemon inimigo")
@@ -90,7 +111,7 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
                     cor_borda_normal=PRETO,
                     cor_passagem=AMARELO,
                     cor_borda_esquerda=VERMELHO,
-                    funcao_esquerdo=lambda p=pokemon_encontrado: seleciona_peça(p,dono),
+                    funcao_esquerdo=lambda p=pokemon_encontrado: seleciona_peça(p,dono,player),
                     desfazer_esquerdo=lambda: desseleciona_peça(),
                     estado_global=estadoTabuleiro,
                     eventos=eventos,
@@ -108,22 +129,19 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
             pygame.draw.rect(tela, (0, 0, 0), espaco, 2)
    
     if PeçaS is not None:
-        Mover_casas(tela,eventos,PeçaS,casas_disponiveis)
+        Mover_casas(tela,eventos,PeçaS,casas_disponiveis,player)
 
-def Move(peça, L, C):
-    if Mapa[L][C]["ocupado"] is None:
-        # Se o Pokémon já estava em alguma casa, libera ela
-        if peça.local is not None:
-            linha_antiga, coluna_antiga = peça.local["id"]
-            Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+def Move(peça, L, C,player):
+    if peça.local is not None:
+
+        linha_antiga, coluna_antiga = peça.local["id"]
+        Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
 
         # Atualizar a nova posição
-        peça.local = Mapa[L][C]
-        Mapa[L][C]["ocupado"] = peça.ID
+    peça.local = Mapa[L][C]
+    Mapa[L][C]["ocupado"] = peça.ID
 
-        desseleciona_peça()
-    else:
-        GV.adicionar_mensagem("Essa posição já está ocupada")
+    desseleciona_peça()
 
 def Inverter_Tabuleiro(player, inimigo):
     global Mapa
@@ -151,7 +169,7 @@ def Inverter_Tabuleiro(player, inimigo):
     # Substitui o mapa original
     Mapa = novo_mapa
 
-def Mover_casas(tela, eventos, PeçaS, casas_disponiveis):
+def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player):
     tamanho_casa = 40
     x_inicial = (1920 - 25 * tamanho_casa) // 2
     y_inicial = (1080 - 15 * tamanho_casa) // 2
@@ -187,9 +205,9 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis):
             cor_normal=(100, 255, 100),
             cor_borda=BRANCO,
             cor_passagem=(150, 255, 150),
-            acao=lambda linha=linha, coluna=coluna: Move(PeçaS, linha, coluna),
+            acao=lambda linha=linha, coluna=coluna: Move(PeçaS, linha, coluna, player),
             Fonte=pygame.font.SysFont("arial", 16),
-            estado_clique={},
+            estado_clique={"estado": False},
             grossura=2,
             eventos=eventos
         )
