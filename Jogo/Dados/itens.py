@@ -1,5 +1,5 @@
 Pokebola = {
-    "nome": "pokebola",
+    "nome": "Pokebola",
     "classe": "pokebola",
     "Descrição": "serve para capturar pokemons",
     "raridade": 1,
@@ -7,7 +7,7 @@ Pokebola = {
 }
 
 Gratball = {
-    "nome": "greatball",
+    "nome": "Greatball",
     "classe": "pokebola",
     "Descrição": "serve para capturar pokemons",
     "raridade": 2,
@@ -15,7 +15,7 @@ Gratball = {
 }
 
 Ultraball = {
-    "nome": "ultraball",
+    "nome": "Ultraball",
     "classe": "pokebola",
     "Descrição": "serve para capturar pokemons",
     "raridade": 3,
@@ -23,7 +23,7 @@ Ultraball = {
 }
 
 Masterball = {
-    "nome": "masterball",
+    "nome": "Masterball",
     "classe": "pokebola",
     "Descrição": "serve para capturar pokemons",
     "raridade": 5,
@@ -31,7 +31,7 @@ Masterball = {
 }
 
 Poçao = {
-    "nome": "poção",
+    "nome": "Poção",
     "classe": "poçao",
     "Descrição": "Cura 20 de HP dos pokemon",
     "raridade": 1,
@@ -39,7 +39,7 @@ Poçao = {
 } 
 
 Super_Poçao = {
-    "nome": "super poção",
+    "nome": "Super Poção",
     "classe": "poçao",
     "Descrição": "Cura 50 de HP dos pokemon",
     "raridade": 2,
@@ -47,7 +47,7 @@ Super_Poçao = {
 } 
 
 Hiper_Poçao = {
-    "nome": "hiper poção",
+    "nome": "Hiper Poção",
     "classe": "poçao",
     "Descrição": "Cura 90 de HP dos pokemon",
     "raridade": 3,
@@ -55,7 +55,7 @@ Hiper_Poçao = {
 } 
 
 Mega_poção = {
-    "nome": "mega poção",
+    "nome": "Mega Poção",
     "classe": "poçao",
     "Descrição": "Cura 150 de HP dos pokemon",
     "raridade": 4,
@@ -64,14 +64,14 @@ Mega_poção = {
 
 Caixa = {
     "nome": "caixa",
-    "classe": "caixa",
+    "classe": "Caixa",
     "Descrição": "serve para fazer 3 compras",
     "raridade": 2,
     "compra": 3
 }
 
 Caixote = {
-    "nome": "caixote",
+    "nome": "Caixote",
     "classe": "caixa",
     "Descrição": "serve para fazer 5 compras",
     "raridade": 4,
@@ -79,7 +79,7 @@ Caixote = {
 }
 
 Coletor = {
-    "nome": "coletor",
+    "nome": "Coletor",
     "classe": "coletor",
     "Descrição": "serve para ganhar 3 energias",
     "raridade": 1,
@@ -119,7 +119,7 @@ Fruta_caxi_prateada = {
 }
 
 Citrino = {
-    "nome": "citrino",
+    "nome": "Citrino",
     "classe": "amplificador",
     "Descrição": "aumenta a defesa dos pokemons",
     "raridade": 3,
@@ -127,7 +127,7 @@ Citrino = {
 }
 
 Safira = {
-    "nome": "safira",
+    "nome": "Safira",
     "classe": "amplificador",
     "Descrição": "aumenta a defesa especial dos pokemons",
     "raridade": 3,
@@ -135,7 +135,7 @@ Safira = {
 }
 
 Rubi = {
-    "nome": "rubi",
+    "nome": "Rubi",
     "classe": "amplificador",
     "Descrição": "aumenta a ataque dos pokemons",
     "raridade": 3,
@@ -143,7 +143,7 @@ Rubi = {
 }
 
 Ametista = {
-    "nome": "ametista",
+    "nome": "Ametista",
     "classe": "amplificador",
     "Descrição": "aumenta a ataque especial dos pokemons",
     "raridade": 3,
@@ -151,7 +151,7 @@ Ametista = {
 }
 
 Esmeralda = {
-    "nome": "esmeralda",
+    "nome": "Esmeralda",
     "classe": "amplificador",
     "Descrição": "aumenta 1 de XP dos pokemon",
     "raridade": 4,

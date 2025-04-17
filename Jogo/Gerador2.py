@@ -263,45 +263,39 @@ def Gerador(Pokemon,P):
 
     vida_min = int(Pok["vida"] * 0.8)
     vida_max = int(Pok["vida"] * 1.2)
-    vida_max_real = vida_max * P
+    vida_max_real = int(vida_max * P)
     vida = random.randint(vida_min, vida_max_real)
-    if vida > (Pok["vida"] * 1.2):
-        vida = (Pok["vida"] * 1.2)
+    vida = min(vida, int(Pok["vida"] * 1.2))
 
     atk_min = int(Pok["atk"] * 0.8)
     atk_max = int(Pok["atk"] * 1.2)
-    atk_max_real = atk_max * P
+    atk_max_real = int(atk_max * P)
     Atk = random.randint(atk_min, atk_max_real)
-    if Atk > (Pok["atk"] * 1.2):
-        Atk = (Pok["atk"] * 1.2)
+    Atk = min(Atk, int(Pok["atk"] * 1.2))
 
     atkSP_min = int(Pok["atk SP"] * 0.8)
     atkSP_max = int(Pok["atk SP"] * 1.2)
-    atkSP_max_real = atkSP_max * P
+    atkSP_max_real = int(atkSP_max * P)
     Atk_SP = random.randint(atkSP_min, atkSP_max_real)
-    if Atk_SP > (Pok["atk SP"] * 1.2):
-        Atk_SP = (Pok["atk SP"] * 1.2)
+    Atk_SP = min(Atk_SP, int(Pok["atk SP"] * 1.2))
 
     def_min = int(Pok["def"] * 0.8)
     def_max = int(Pok["def"] * 1.2)
-    def_max_real = def_max * P
-    Def = random.randint(def_min, def_max)
-    if Def > (Pok["def"] * 1.2):
-        Def = (Pok["def"] * 1.2)
+    def_max_real = int(def_max * P)
+    Def = random.randint(def_min, def_max_real)
+    Def = min(Def, int(Pok["def"] * 1.2))
 
     defSP_min = int(Pok["def SP"] * 0.8)
     defSP_max = int(Pok["def SP"] * 1.2)
-    defSp_max_real = defSP_max * P
-    Def_SP = random.randint(defSP_min, defSp_max_real)
-    if Def_SP > (Pok["def SP"] * 1.2):
-        Def_SP = (Pok["def SP"] * 1.2)
+    defSP_max_real = int(defSP_max * P)
+    Def_SP = random.randint(defSP_min, defSP_max_real)
+    Def_SP = min(Def_SP, int(Pok["def SP"] * 1.2))
 
     vel_min = int(Pok["velocidade"] * 0.8)
-    vel_max = int(Pok["velocidade"] * 1.2 )
-    vel_max_real = vel_max * P
+    vel_max = int(Pok["velocidade"] * 1.2)
+    vel_max_real = int(vel_max * P)
     vel = random.randint(vel_min, vel_max_real)
-    if vel > (Pok["velocidade"] * 1.2):
-        vel = (Pok["velocidade"] * 1.2)
+    vel = min(vel, int(Pok["velocidade"] * 1.2))
 
     IVV = ((vida - vida_min) / (vida_max - vida_min)) * 100
     IVA = ((Atk - atk_min) / (atk_max - atk_min)) * 100

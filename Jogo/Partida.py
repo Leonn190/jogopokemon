@@ -185,6 +185,8 @@ S1 = 1920
 S2 = 1920
 V1 = 1920
 V2 = 1920
+AT1 = -60
+AT2 = -60
 
 def seleciona(ID, player, inimigo,):
     global PokemonS
@@ -206,10 +208,14 @@ def seleciona(ID, player, inimigo,):
     if idx < len(player.pokemons):
         if ID in ["Pokemon1","Pokemon2","Pokemon3","Pokemon4","Pokemon5","Pokemon6"]:
             PokemonS = player.pokemons[idx]
-            global S1, S2, anima1
+            global S1, S2, animaS
+            global AT1, AT2, animaA
             S1 = 1920
             S2 = 1560
-            anima1 = pygame.time.get_ticks()
+            AT1 = -60
+            AT2 = 210
+            animaS = pygame.time.get_ticks()
+            animaA = pygame.time.get_ticks()
         else:
             PokemonS = None
             GV.adicionar_mensagem("Esse Pokémon não pode ser selecionado.")
@@ -221,18 +227,22 @@ def desseleciona():
     global PokemonS
     global estadoPokemon
     global estadoInfo
-    global S1, S2, anima1
+    global S1, S2, animaS
+    global AT1, AT2, animaA
     if PokemonS is not None:
         S1 = 1560
         S2 = 1920
-        anima1 = pygame.time.get_ticks()
+        AT1 = 210
+        AT2 = -60
+        animaS = pygame.time.get_ticks()
+        animaA = pygame.time.get_ticks()
         PokemonS = None
     estadoPokemon["selecionado_esquerdo"] = False
     estadoInfo["inicio_animacao"] = None
 
 def vizualiza(ID,player,inimigo,):
     global PokemonV
-    global V1, V2, anima5
+    global V1, V2, animaV
     index_map = {
         "Pokemon1": 0,
         "Pokemon2": 1,
@@ -253,7 +263,7 @@ def vizualiza(ID,player,inimigo,):
                 PokemonV = player.pokemons[idx]
                 V1 = 1920
                 V2 = 1560
-                anima5 = pygame.time.get_ticks()
+                animaV = pygame.time.get_ticks()
         else:
             PokemonV = None
             GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")      
@@ -263,7 +273,7 @@ def vizualiza(ID,player,inimigo,):
                 PokemonV = inimigo.pokemons[idx]
                 V1 = 1920
                 V2 = 1560
-                anima5 = pygame.time.get_ticks()
+                animaV = pygame.time.get_ticks()
         else:
             PokemonV = None
             GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")     
@@ -271,11 +281,11 @@ def vizualiza(ID,player,inimigo,):
 def oculta():
     global PokemonV
     global estadoInfo
-    global V1, V2, anima5
+    global V1, V2, animaV
     if PokemonV is not None:
         V1 = 1560
         V2 = 1920
-        anima5 = pygame.time.get_ticks()
+        animaV = pygame.time.get_ticks()
         PokemonV = None
     estadoInfo["selecionado_direito"] = False
     estadoPokemon["selecionado_direito"] = False
@@ -297,38 +307,38 @@ def desinforma():
 
 def Abre(ID,player,inimigo):
     if ID == "Inventario":
-        global A1, A2, anima2
+        global A1, A2, animaAI
         A1 = -382
         A2 = 0
-        anima2 = pygame.time.get_ticks()
+        animaAI = pygame.time.get_ticks()
     elif ID == "Energias":
-        global A3, A4, anima3
+        global A3, A4, animaAE
         A3 = -382
         A4 = 0
-        anima3 = pygame.time.get_ticks()
+        animaAE = pygame.time.get_ticks()
     elif ID == "Centro":
-        global A5, A6, anima4
+        global A5, A6, animaAC
         A5 = -400
         A6 = 0
-        anima4 = pygame.time.get_ticks()
+        animaAC = pygame.time.get_ticks()
     
 def Fecha():
-    global A1, A2, anima2
-    global A3, A4, anima3
-    global A5, A6, anima4
+    global A1, A2, animaAI
+    global A3, A4, animaAE
+    global A5, A6, animaAC
     global estadoOutros
     if A2 == 0:
         A1 = 0
         A2 = -382
-        anima2 = pygame.time.get_ticks()
+        animaAI = pygame.time.get_ticks()
     elif A4 == 0:
         A3 = 0
         A4 = -382
-        anima3 = pygame.time.get_ticks()
+        animaAE = pygame.time.get_ticks()
     elif A6 == 0:
         A5 = 0
         A6 = -400
-        anima4 = pygame.time.get_ticks()
+        animaAC = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
 def seleciona_pokebola(pokebola):
@@ -473,12 +483,20 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, 
         tela.blit(img, (img_x, img_y))
 
 def atacaN(Pokemon,player,inimigo,ID,tela):
-    alvo = inimigo.pokemons[ID]
-    Pokemon.atacar(alvo,player,inimigo,"N",tela)
+    if Pokemon is not None and Pokemon.Vida > 0:
+        alvo = inimigo.pokemons[ID]
+        Pokemon.atacar(alvo,player,inimigo,"N",tela)
+    else:
+        GV.tocar(Bloq)
+        GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
 
 def atacaS(Pokemon,player,inimigo,ID,tela):
-    alvo = inimigo.pokemons[ID]
-    Pokemon.atacar(alvo,player,inimigo,"S",tela)
+    if Pokemon is not None and Pokemon.Vida > 0:
+        alvo = inimigo.pokemons[ID]
+        Pokemon.atacar(alvo,player,inimigo,"S",tela)
+    else:
+        GV.tocar(Bloq)
+        GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
 
 def pausarEdespausar():
     global Pausa
@@ -573,7 +591,7 @@ def tocar_musica_do_estadio():
         pygame.mixer.music.play(-1)  # -1 = loop infinito
         Estadio_atual = Estadio
 
-def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos, x_final=None, anima=None, tempo=900):
+def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos, x_final=None, anima=None, tempo=200):
     # Tamanhos fixos e corretos
     tamanho_pokemon = 100
     tamanho_pokebola = 60
@@ -674,7 +692,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
                 tela.blit(ImagensPokebolas[item["nome"]], (x + 2, y + 2))
 
             idx_fruta += 1
-
+            
 estadoPokemon = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -697,12 +715,12 @@ estadoFruta = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
-anima1 = 0
-anima2 = 0
-anima3 = 0
-anima4 = 0
-anima5 = 0
-anima6 = 0
+animaS = 0
+animaAI = 0
+animaAE = 0
+animaAC = 0
+animaV = 0
+animaA = 0
 
 B1 = {"estado": False}
 B2 = {"estado": False, "ID": "item"}
@@ -729,22 +747,6 @@ B20 = {"estado": False, "ID": "estadio"}
 
 BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 #botoes de clique unico = B6
-
-def S(PokemonS,tela,eventos,player,inimigo):
-    if PokemonS.Vida <= 0:
-        pass
-
-    else:
-        for i in range(len(inimigo.pokemons)):
-            BI = BA[i]
-            BJ = BA[i+6]
-
-            GV.Botao(tela, "", (1435 - i * 190, 210, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                    lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
-            GV.Botao(tela, "", (1335 - i * 190, 210, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                    lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
-            tela.blit(OutrosIMG[7],((1435 - i * 190),220))
-            tela.blit(OutrosIMG[7],((1335 - i * 190),220))   
 
 def Partida(tela,estados,relogio):
     global Vencedor
@@ -790,7 +792,7 @@ def Partida(tela,estados,relogio):
             Telapausa(tela,eventos,estados)
 
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(110)
 
 def Inicia(tela):
     global Turno
@@ -1175,38 +1177,39 @@ def Carregar_Imagens():
 
 
     ImagensPokebolas = {
-    "pokebola": UPokeballIMG,
-    "greatball": UGreatBallIMG,
-    "ultraball": UUltraBallIMG,
-    "masterball": UMasterBallIMG,
+    "Pokebola": UPokeballIMG,
+    "Greatball": UGreatBallIMG,
+    "Ultraball": UUltraBallIMG,
+    "Masterball": UMasterBallIMG,
     "Fruta Frambo": UFramboIMG,
     "Fruta Frambo Dourada": UFramboDouradaIMG,
     "Fruta Caxi": UCaxiIMG,
     "Fruta Caxi Prateada": UCaxiPrateadaIMG
     }
 
+
     ImagensItens = {
-    "esmeralda": EsmeraldaIMG,
-    "citrino": CitrinoIMG,
-    "rubi": RubiIMG,
-    "safira": SafiraIMG,
-    "ametista": AmetistaIMG,
-    "coletor": ColetorIMG,
-    "caixa": CaixaIMG,
-    "caixote": CaixoteIMG,
-    "poção": PocaoIMG,
-    "super poção": SuperPocaoIMG,
-    "hiper poção": HiperPocaoIMG,
-    "mega poção": MegaPocaoIMG,
-    "pokebola": PokeballIMG,
-    "greatball": GreatBallIMG,
-    "ultraball": UltraBallIMG,
-    "masterball": MasterBallIMG,
+    "Esmeralda": EsmeraldaIMG,
+    "Citrino": CitrinoIMG,
+    "Rubi": RubiIMG,
+    "Safira": SafiraIMG,
+    "Ametista": AmetistaIMG,
+    "Coletor": ColetorIMG,
+    "Caixa": CaixaIMG,
+    "Caixote": CaixoteIMG,
+    "Poção": PocaoIMG,
+    "Super Poção": SuperPocaoIMG,
+    "Hiper Poção": HiperPocaoIMG,
+    "Mega Poção": MegaPocaoIMG,
+    "Pokebola": PokeballIMG,
+    "Greatball": GreatBallIMG,
+    "Ultraball": UltraBallIMG,
+    "Masterball": MasterBallIMG,
     "Fruta Frambo": FramboIMG,
     "Fruta Frambo Dourada": FramboDouradaIMG,
     "Fruta Caxi": CaxiIMG,
     "Fruta Caxi Prateada": CaxiPrateadaIMG
-}
+    }
 
     OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG]
 
@@ -1220,6 +1223,21 @@ def TelaPokemons(tela,eventos,estados):
     global informacao
     global player
     global inimigo
+
+
+    YA = GV.animar(AT1,AT2,animaA,tempo=250)
+
+    for i in range(len(inimigo.pokemons)):
+        BI = BA[i]
+        BJ = BA[i+6]
+
+        GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
+                        lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
+        GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
+                        lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
+        tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
+        tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))  
+
 
     for i in range(6):
         x = 420 + i * 190  # ajusta a posição horizontal
@@ -1257,12 +1275,9 @@ def TelaPokemons(tela,eventos,estados):
     if PokemonV is not None:
         PokemonVV = PokemonV
 
-    if PokemonS is not None:
-        S(PokemonS,tela,eventos,player,inimigo)
+    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoInfo,S2,animaS)
 
-    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoInfo,S2,anima1)
-
-    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoInfo,V2,anima5)
+    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoInfo,V2,animaV)
 
 
     agora = pygame.time.get_ticks()
@@ -1340,11 +1355,11 @@ def TelaOpções(tela,eventos,estados):
             desfazer_esquerdo=lambda: Fecha(), desfazer_direito=None,
             tecla_esquerda=pygame.K_1, tecla_direita=None)
         
-        GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,anima2)
+        GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,animaAI)
 
-        GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,anima3)
+        GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,animaAE)
 
-        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,anima4)
+        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,animaAC)
         
         tela.blit(OutrosIMG[0],(5,740))
         tela.blit(OutrosIMG[1],(80,745))

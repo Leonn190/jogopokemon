@@ -43,8 +43,9 @@ Cores = [PRETO,BRANCO,CINZA,AZUL,AZUL_CLARO,AMARELO,VERMELHO,VERDE,VERDE_CLARO,L
 def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
            acao, Fonte, estado_clique, grossura=2, tecla_atalho=None,
            mostrar_na_tela=True, eventos=None, som=None):
-
+    
     x, y, largura, altura = espaço
+
     mouse = pygame.mouse.get_pos()
     clique = pygame.mouse.get_pressed()
 
@@ -342,9 +343,17 @@ def Texto(tela, texto, posicao, fonte, cor):
     render = fonte.render(texto, True, cor)
     tela.blit(render, posicao)
 
-def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO,cor_texto=PRETO, grossura=3):
-  
-    x, y, largura, altura = espaço
+def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO,cor_texto=PRETO, grossura=3, y_final=None, anima=None, tempo=200):
+    x, y_inicial, largura, altura = espaço
+   
+    if y_final is not None:
+        if anima is None:
+            anima = pygame.time.get_ticks()
+        tempo_passado = pygame.time.get_ticks() - anima
+        progresso = min(tempo_passado / tempo, 1.0)
+        y = int(y_inicial + (y_final - y_inicial) * progresso)
+    else:
+        y = y_inicial
 
     # Desenha o retângulo de fundo
     pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
@@ -386,7 +395,6 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
             anima = pygame.time.get_ticks()
         tempo_passado = pygame.time.get_ticks() - anima
         progresso = min(tempo_passado / tempo, 1.0)
-
         x = int(x_inicial + (x_final - x_inicial) * progresso)
     else:
         x = x_inicial
@@ -654,7 +662,6 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_f
             render = FonteMenor.render(texto, True, (255, 255, 255))  # Texto branco
             tela.blit(render, (x + 10, y + 218 + i * 20))  # ⬅️ Descrição rebaixada 20px
 
-
 B2 = {"estado": False}
 B3 = {"estado": False}
 B4 = {"estado": False}
@@ -776,8 +783,16 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, 
 
         if chave in player.energiasDesc:
             Texto_caixa(tela,f"D{player.energiasDesc.index(chave)}",(x_botao,( base_y - 150), largura_botao, 20),Fonte25,(30,30,30),(30,30,30),BRANCO)
-            
 
+def animar(D_inicial,D_final,anima,tempo=200):
+    
+    if anima is None:
+        anima = pygame.time.get_ticks()
+    tempo_passado = pygame.time.get_ticks() - anima
+    progresso = min(tempo_passado / tempo, 1.0)
+    D = int(D_inicial + (D_final - D_inicial) * progresso)
+
+    return D
 
             
         
