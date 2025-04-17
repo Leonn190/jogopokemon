@@ -256,43 +256,50 @@ pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterp
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
 def Gerador(Pokemon,P):
+    print (P)
     global IDpoke
     IDpoke += 1
     Pok = Pokemon
 
     vida_min = int(Pok["vida"] * 0.8)
-    vida_max = int(Pok["vida"] * 1.2 * P)
-    vida = random.randint(vida_min, vida_max)
+    vida_max = int(Pok["vida"] * 1.2)
+    vida_max_real = vida_max * P
+    vida = random.randint(vida_min, vida_max_real)
     if vida > (Pok["vida"] * 1.2):
         vida = (Pok["vida"] * 1.2)
 
     atk_min = int(Pok["atk"] * 0.8)
-    atk_max = int(Pok["atk"] * 1.2 * P)
-    Atk = random.randint(atk_min, atk_max)
+    atk_max = int(Pok["atk"] * 1.2)
+    atk_max_real = atk_max * P
+    Atk = random.randint(atk_min, atk_max_real)
     if Atk > (Pok["atk"] * 1.2):
         Atk = (Pok["atk"] * 1.2)
 
     atkSP_min = int(Pok["atk SP"] * 0.8)
-    atkSP_max = int(Pok["atk SP"] * 1.2 * P)
-    Atk_SP = random.randint(atkSP_min, atkSP_max)
+    atkSP_max = int(Pok["atk SP"] * 1.2)
+    atkSP_max_real = atkSP_max * P
+    Atk_SP = random.randint(atkSP_min, atkSP_max_real)
     if Atk_SP > (Pok["atk SP"] * 1.2):
         Atk_SP = (Pok["atk SP"] * 1.2)
 
     def_min = int(Pok["def"] * 0.8)
-    def_max = int(Pok["def"] * 1.2 * P)
+    def_max = int(Pok["def"] * 1.2)
+    def_max_real = def_max * P
     Def = random.randint(def_min, def_max)
     if Def > (Pok["def"] * 1.2):
         Def = (Pok["def"] * 1.2)
 
     defSP_min = int(Pok["def SP"] * 0.8)
-    defSP_max = int(Pok["def SP"] * 1.2 * P)
-    Def_SP = random.randint(defSP_min, defSP_max )
+    defSP_max = int(Pok["def SP"] * 1.2)
+    defSp_max_real = defSP_max * P
+    Def_SP = random.randint(defSP_min, defSp_max_real)
     if Def_SP > (Pok["def SP"] * 1.2):
         Def_SP = (Pok["def SP"] * 1.2)
 
     vel_min = int(Pok["velocidade"] * 0.8)
-    vel_max = int(Pok["velocidade"] * 1.2 * P)
-    vel = random.randint(vel_min, vel_max)
+    vel_max = int(Pok["velocidade"] * 1.2 )
+    vel_max_real = vel_max * P
+    vel = random.randint(vel_min, vel_max_real)
     if vel > (Pok["velocidade"] * 1.2):
         vel = (Pok["velocidade"] * 1.2)
 

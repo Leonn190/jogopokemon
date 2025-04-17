@@ -353,6 +353,8 @@ def fechar_tudo():
     global estadoOutros
     global estadoPokebola
     global estadoItens
+    global estadoFruta
+    global S1, S2, V1, V2, A1, A2, A3, A4, A5, A6 
 
     estadoPokemon = {
         "selecionado_esquerdo": None,
@@ -369,11 +371,27 @@ def fechar_tudo():
     estadoItens = {
         "selecionado_esquerdo": None,
         "selecionado_direito": None}
+    estadoFruta = {
+        "selecionado_esquerdo": None,
+        "selecionado_direito": None}
+    
+    S1 = 1920
+    S2 = 1920
+    V1 = 1920
+    V2 = 1920
+
+    A1 = -382
+    A2 = -382
+    A3 = -382
+    A4 = -382
+    A5 = -400
+    A6 = -400
 
 def PokemonCentro(ID,player):
     global Centro
     global estadoOutros
 
+    AIV = 0
     pokemon = Centro[ID]
     
     if PokebolaSelecionada is not None:
@@ -381,13 +399,13 @@ def PokemonCentro(ID,player):
         Pokebola_usada = PokebolaSelecionada
         desseleciona_pokebola()
         maestria = random.randint(0,Pokebola_usada["poder"] * 2)
-        if FrutaSelecionada["nome"] in ["Fruta Frambo","Fruta Frambo Dourada"]:
-            pokemon["dificuldade"] -= FrutaSelecionada["poder"]
-            AIV = 1
-        elif FrutaSelecionada["nome"] in ["Fruta Caxi","Fruta Caxi Prateada"]:
-            AIV = FrutaSelecionada["poder"]
-        else:
-            AIV = 1
+        if FrutaSelecionada is not None:
+            player.inventario.remove(FrutaSelecionada)
+            if FrutaSelecionada["nome"] in ["Fruta Frambo","Fruta Frambo Dourada"]:
+                pokemon["dificuldade"] -= FrutaSelecionada["poder"]
+                AIV = 1
+            elif FrutaSelecionada["nome"] in ["Fruta Caxi","Fruta Caxi Prateada"]:
+                AIV = FrutaSelecionada["poder"]
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
                 novo_pokemon = G.Gerador_final(pokemon["code"],AIV)
@@ -596,6 +614,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             lambda i=i: PokemonCentro(i, player),
             Fonte50, B6, 2, None, True, eventos
         )
+    # precisa de for diferentes pois centro perde um pokemon no botao acima
+    for i in range(len(Centro)):
+        coluna = i % 3        
+        linha = i // 3        
+        x = x_inicial_animado + coluna * 99
+        y = y_inicial + linha * 99
         tela.blit(ImagensPokemon100[Centro[i]["nome"]], (x, y))
 
     # --- Pokébolas (lado direito) ---
@@ -617,7 +641,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
                 funcao_direito=None,
                 desfazer_esquerdo=lambda: desseleciona_pokebola(),
                 desfazer_direito=None,
-                tecla_esquerda=None, tecla_direita=None, grossura=1
+                tecla_esquerda=None, tecla_direita=None, grossura=3
             )
 
             tela.blit(ImagensPokebolas[item["nome"]], (x + 2, y + 2))
@@ -642,7 +666,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
                 funcao_direito=None,
                 desfazer_esquerdo=lambda: desseleciona_fruta(),
                 desfazer_direito=None,
-                tecla_esquerda=None, tecla_direita=None, grossura=1
+                tecla_esquerda=None, tecla_direita=None, grossura=3
             )
 
             # Desenha imagem da fruta (centralizada com leve padding)
@@ -1236,9 +1260,9 @@ def TelaPokemons(tela,eventos,estados):
     if PokemonS is not None:
         S(PokemonS,tela,eventos,player,inimigo)
 
-    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoInfo,S2,anima1,400)
+    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoInfo,S2,anima1)
 
-    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoInfo,V2,anima5,400)
+    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoInfo,V2,anima5)
 
 
     agora = pygame.time.get_ticks()
@@ -1316,11 +1340,11 @@ def TelaOpções(tela,eventos,estados):
             desfazer_esquerdo=lambda: Fecha(), desfazer_direito=None,
             tecla_esquerda=pygame.K_1, tecla_direita=None)
         
-        GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,anima2,500)
+        GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,anima2)
 
-        GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,anima3,500)
+        GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,anima3)
 
-        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,anima4,500)
+        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,anima4)
         
         tela.blit(OutrosIMG[0],(5,740))
         tela.blit(OutrosIMG[1],(80,745))

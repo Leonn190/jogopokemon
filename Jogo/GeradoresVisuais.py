@@ -370,7 +370,7 @@ def tocar(som):
     if som:
         som.play()
 
-def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, x_final=None, anima=None, tempo=900):
+def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, x_final=None, anima=None, tempo=200):
     x_inicial, y = pos
     largura, altura = 360, 330
 
@@ -512,9 +512,9 @@ def carregar_frames(pasta):
 H = None
 B1 = {"estado": False}
 
-def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_final=None, anima=None, tempo=900):
+def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_final=None, anima=None, tempo=200):
     x_inicial, y = local
-    largura, altura = 380, 265  # Altura aumentada pra descrição
+    largura, altura = 380, 285  # ⬅️ Aumentado para 285
 
     # Controle de animação (exatamente igual ao Status_Pokemon)
     if x_final is not None:
@@ -574,6 +574,9 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_f
         else:
             cor_fundo = (150, 100, 255)  # Roxo claro
 
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 40), (x + largura, y + 40), 2)
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 192), (x + largura, y + 192), 2)
+
         # Botão de item
         Botao(
             tela=tela,
@@ -622,6 +625,13 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_f
             img_y = by + (76 - ih) // 2
             tela.blit(imagem, (img_x, img_y))
 
+        # Mostrar nome do item clicado com botão direito (nova seção)
+    if H:
+        nome = H.get("nome", "")
+        FonteNome = pygame.font.SysFont(None, 28)
+        render_nome = FonteNome.render(nome, True, (255, 255, 255))  # Texto branco
+        tela.blit(render_nome, (x + largura // 2 - render_nome.get_width() // 2, y + 195))  # ⬅️ Acima da descrição
+
     # Mostrar descrição se H foi definido
     if H:
         descricao = H.get("Descrição", "")
@@ -642,7 +652,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_f
 
         for i, texto in enumerate(linhas[:2]):
             render = FonteMenor.render(texto, True, (255, 255, 255))  # Texto branco
-            tela.blit(render, (x + 10, y + 198 + i * 20))  # Descrição em branco
+            tela.blit(render, (x + 10, y + 218 + i * 20))  # ⬅️ Descrição rebaixada 20px
 
 
 B2 = {"estado": False}
@@ -657,7 +667,7 @@ B10 = {"estado": False}
 B11 = {"estado": False}
 BB = [B2,B3,B4,B5,B6,B7,B8,B9,B10,B11]
 
-def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, anima=None, tempo=900):
+def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, anima=None, tempo=200):
 
     x_inicial, y = local
     largura, altura = 380, 320

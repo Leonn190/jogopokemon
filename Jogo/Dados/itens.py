@@ -103,19 +103,19 @@ Fruta_frambo_dourada = {
 }
 
 Fruta_Caxi = {
-    "nome": "Fruta Frambo Dourada",
+    "nome": "Fruta Caxi",
     "classe": "Fruta",
     "Descrição": "Aumenta o IV do pokemon",
     "raridade": 2,
-    "poder": 1.25
+    "poder": 1.5
 }
 
 Fruta_caxi_prateada = {
-    "nome": "Fruta Frambo Dourada",
+    "nome": "Fruta Caxi Prateada",
     "classe": "Fruta",
     "Descrição": "Aumenta o IV do pokemon",
     "raridade": 4,
-    "poder": 1.5
+    "poder": 2
 }
 
 Citrino = {
