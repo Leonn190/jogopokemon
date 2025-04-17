@@ -500,7 +500,6 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
             estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
         )
 
-
 def carregar_frames(pasta):
     frames = []
     for nome in sorted(os.listdir(pasta)):

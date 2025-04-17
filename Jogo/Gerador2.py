@@ -22,7 +22,7 @@ Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
-        self.pokemons = [Gerador_final(informaçoes[1])]
+        self.pokemons = [Gerador_final(informaçoes[1],1)]
         self.inventario = []
         self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
         self.energiasDesc = []
@@ -33,9 +33,9 @@ class Jogador:
     
     def usar_item(self,indice,Pokemon):
             item = self.inventario[indice] 
-            if item["classe"] == "pokebola":
+            if item["classe"] in ["pokebola", "fruta"]:
                 GV.tocar(Bloq)
-                GV.adicionar_mensagem("Pokebolas devem ser usadas apenas para capturar pokemons")
+                GV.adicionar_mensagem("Pokebolas e frutas são usadas no centro")
             else:
                 if item["classe"] in ["poçao"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
@@ -255,35 +255,46 @@ Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,D
 pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
-def Gerador(Pokemon):
+def Gerador(Pokemon,P):
     global IDpoke
     IDpoke += 1
     Pok = Pokemon
 
     vida_min = int(Pok["vida"] * 0.8)
-    vida_max = int(Pok["vida"] * 1.2)
+    vida_max = int(Pok["vida"] * 1.2 * P)
     vida = random.randint(vida_min, vida_max)
+    if vida > (Pok["vida"] * 1.2):
+        vida = (Pok["vida"] * 1.2)
 
     atk_min = int(Pok["atk"] * 0.8)
-    atk_max = int(Pok["atk"] * 1.2)
+    atk_max = int(Pok["atk"] * 1.2 * P)
     Atk = random.randint(atk_min, atk_max)
+    if Atk > (Pok["atk"] * 1.2):
+        Atk = (Pok["atk"] * 1.2)
 
     atkSP_min = int(Pok["atk SP"] * 0.8)
-    atkSP_max = int(Pok["atk SP"] * 1.2)
+    atkSP_max = int(Pok["atk SP"] * 1.2 * P)
     Atk_SP = random.randint(atkSP_min, atkSP_max)
+    if Atk_SP > (Pok["atk SP"] * 1.2):
+        Atk_SP = (Pok["atk SP"] * 1.2)
 
     def_min = int(Pok["def"] * 0.8)
-    def_max = int(Pok["def"] * 1.2)
+    def_max = int(Pok["def"] * 1.2 * P)
     Def = random.randint(def_min, def_max)
+    if Def > (Pok["def"] * 1.2):
+        Def = (Pok["def"] * 1.2)
 
     defSP_min = int(Pok["def SP"] * 0.8)
-    defSP_max = int(Pok["def SP"] * 1.2)
-    Def_SP = random.randint(defSP_min, defSP_max)
+    defSP_max = int(Pok["def SP"] * 1.2 * P)
+    Def_SP = random.randint(defSP_min, defSP_max )
+    if Def_SP > (Pok["def SP"] * 1.2):
+        Def_SP = (Pok["def SP"] * 1.2)
 
     vel_min = int(Pok["velocidade"] * 0.8)
-    vel_max = int(Pok["velocidade"] * 1.2)
+    vel_max = int(Pok["velocidade"] * 1.2 * P)
     vel = random.randint(vel_min, vel_max)
-    vel = vel 
+    if vel > (Pok["velocidade"] * 1.2):
+        vel = (Pok["velocidade"] * 1.2)
 
     IVV = ((vida - vida_min) / (vida_max - vida_min)) * 100
     IVA = ((Atk - atk_min) / (atk_max - atk_min)) * 100
@@ -323,8 +334,8 @@ def Gerador(Pokemon):
         "ID": IDpoke 
     }
 
-def Gerador_final(code):
-    return Pokemon(Gerador(Pokedex[code]))
+def Gerador_final(code,P):
+    return Pokemon(Gerador(Pokedex[code],P))
 
 def spawn_do_centro(centro):
     global pokemons_possiveis

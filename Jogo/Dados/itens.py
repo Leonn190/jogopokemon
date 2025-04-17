@@ -86,6 +86,38 @@ Coletor = {
     "compra": 3
 }
 
+Fruta_frambo = {
+    "nome": "Fruta Frambo",
+    "classe": "Fruta",
+    "Descrição": "Facilita a captura de um pokemon",
+    "raridade": 1,
+    "poder": 1
+}
+
+Fruta_frambo_dourada = {
+    "nome": "Fruta Frambo Dourada",
+    "classe": "Fruta",
+    "Descrição": "Facilita a captura de um pokemon",
+    "raridade": 3,
+    "poder": 3
+}
+
+Fruta_Caxi = {
+    "nome": "Fruta Frambo Dourada",
+    "classe": "Fruta",
+    "Descrição": "Aumenta o IV do pokemon",
+    "raridade": 2,
+    "poder": 1.25
+}
+
+Fruta_caxi_prateada = {
+    "nome": "Fruta Frambo Dourada",
+    "classe": "Fruta",
+    "Descrição": "Aumenta o IV do pokemon",
+    "raridade": 4,
+    "poder": 1.5
+}
+
 Citrino = {
     "nome": "citrino",
     "classe": "amplificador",
@@ -182,7 +214,7 @@ Porto_Molgera = {
     "ST Code": 6
 }
 
-itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
+itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
 pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball]
 amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
 Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]

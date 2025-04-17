@@ -26,6 +26,7 @@ PokemonVV = None
 informacao = None
 Visor = None
 PokebolaSelecionada = None
+FrutaSelecionada = None
 
 mensagens_passageiras = []
 
@@ -311,23 +312,23 @@ def Abre(ID,player,inimigo):
         A6 = 0
         anima4 = pygame.time.get_ticks()
     
-def Fecha(ID):
-    if ID == "Inventario":
-        global A1, A2, anima2
+def Fecha():
+    global A1, A2, anima2
+    global A3, A4, anima3
+    global A5, A6, anima4
+    global estadoOutros
+    if A2 == 0:
         A1 = 0
         A2 = -382
         anima2 = pygame.time.get_ticks()
-    elif ID == "Energias":
-        global A3, A4, anima3
+    elif A4 == 0:
         A3 = 0
         A4 = -382
         anima3 = pygame.time.get_ticks()
-    elif ID == "Centro":
-        global A5, A6, anima4
+    elif A6 == 0:
         A5 = 0
         A6 = -400
         anima4 = pygame.time.get_ticks()
-    global estadoOutros
     estadoOutros["selecionado_esquerdo"] =  False
 
 def seleciona_pokebola(pokebola):
@@ -337,6 +338,14 @@ def seleciona_pokebola(pokebola):
 def desseleciona_pokebola():
     global PokebolaSelecionada
     PokebolaSelecionada = None
+
+def seleciona_fruta(fruta):
+    global FrutaSelecionada
+    FrutaSelecionada = fruta
+
+def desseleciona_fruta():
+    global FrutaSelecionada
+    FrutaSelecionada = None
 
 def fechar_tudo():
     global estadoPokemon
@@ -362,7 +371,6 @@ def fechar_tudo():
         "selecionado_direito": None}
 
 def PokemonCentro(ID,player):
-    global PokebolaSelecionada
     global Centro
     global estadoOutros
 
@@ -373,9 +381,16 @@ def PokemonCentro(ID,player):
         Pokebola_usada = PokebolaSelecionada
         desseleciona_pokebola()
         maestria = random.randint(0,Pokebola_usada["poder"] * 2)
+        if FrutaSelecionada["nome"] in ["Fruta Frambo","Fruta Frambo Dourada"]:
+            pokemon["dificuldade"] -= FrutaSelecionada["poder"]
+            AIV = 1
+        elif FrutaSelecionada["nome"] in ["Fruta Caxi","Fruta Caxi Prateada"]:
+            AIV = FrutaSelecionada["poder"]
+        else:
+            AIV = 1
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
-                novo_pokemon = G.Gerador_final(pokemon["code"])
+                novo_pokemon = G.Gerador_final(pokemon["code"],AIV)
                 AddIMGpokemon(novo_pokemon) 
                 player.ganhar_pokemon(novo_pokemon)
                 AddLocalPokemon(novo_pokemon,player)
@@ -540,12 +555,16 @@ def tocar_musica_do_estadio():
         pygame.mixer.music.play(-1)  # -1 = loop infinito
         Estadio_atual = Estadio
 
-def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, eventos, x_final=None, anima=None, tempo=900):
-    tamanho = 110
-    largura_total = 400
-    altura_total = 330
+def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos, x_final=None, anima=None, tempo=900):
+    # Tamanhos fixos e corretos
+    tamanho_pokemon = 100
+    tamanho_pokebola = 60
+    tamanho_fruta = 50
 
-    # Controle de animação
+    largura_total = 360
+    altura_total = 360
+
+    # Animação deslizante
     if x_final is not None:
         if anima is None:
             anima = pygame.time.get_ticks()
@@ -555,37 +574,43 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
     else:
         x_inicial_animado = x_inicial
 
-    # Fundo da caixa
+    # Retângulo de fundo da área principal
     ret = pygame.Rect(x_inicial_animado, y_inicial, largura_total, altura_total)
     pygame.draw.rect(tela, (30, 30, 30), ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 3)
 
-    # Desenhar os Pokémon do Centro (em grade 3x3)
-    for i in range(len(Centro)):
-        coluna = i % 3        
-        linha = i // 3        
+    # # --- TÍTULO "CENTRO" ---
+    # texto = Fonte30.render("CENTRO", True, BRANCO)
+    # texto_rect = texto.get_rect(center=(x_inicial_animado + 150, y_inicial + 5))  # Centralizado nos 10px do topo
+    # tela.blit(texto, texto_rect)
 
-        x = x_inicial_animado + coluna * tamanho
-        y = y_inicial + linha * tamanho
+    # --- Grade 3x3 de Pokémon ---
+    for i in range(len(Centro)):
+        coluna = i % 3
+        linha = i // 3
+        x = x_inicial_animado + coluna * tamanho_pokemon
+        y = y_inicial + 10 + linha * tamanho_pokemon  # 10px de título
 
         GV.Botao(
-            tela, "", (x, y, tamanho, tamanho), CINZA, PRETO, AZUL,
+            tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), CINZA, PRETO, AZUL,
             lambda i=i: PokemonCentro(i, player),
             Fonte50, B6, 2, None, True, eventos
         )
+        tela.blit(ImagensPokemon100[Centro[i]["nome"]], (x, y))
 
-    # Desenhar Pokébolas do inventário
-    idx_pokebola = 0  
+    # --- Pokébolas (lado direito) ---
+    idx_pokebola = 0
     for i, item in enumerate(player.inventario):
         if item.get("classe") == "pokebola":
-            x = x_inicial_animado + 330
-            y = y_inicial + idx_pokebola * 60
+            x = x_inicial_animado + 300  # Começam logo ao lado da grade
+            y = y_inicial + idx_pokebola * tamanho_pokebola  # Já está alinhado com o topo da área
 
             GV.Botao_Selecao(
-                tela, (x, y, 60, 60),
-                f"", Fonte28,
+                tela, (x, y, tamanho_pokebola, tamanho_pokebola),
+                "", Fonte28,
                 cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
-                cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
+                cor_borda_esquerda=VERMELHO,
+                cor_borda_direita=None,
                 cor_passagem=AMARELO, id_botao=i,
                 estado_global=estadoPokebola, eventos=eventos,
                 funcao_esquerdo=lambda item=item: seleciona_pokebola(item),
@@ -594,24 +619,37 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
                 desfazer_direito=None,
                 tecla_esquerda=None, tecla_direita=None, grossura=1
             )
+
+            tela.blit(ImagensPokebolas[item["nome"]], (x + 2, y + 2))
             idx_pokebola += 1
 
-    # Desenhar imagens das pokébolas
-    idx_pokebola = 0  
+    # --- Frutas (parte inferior, 6 espaços) ---
+    idx_fruta = 0
     for i, item in enumerate(player.inventario):
-        if item.get("classe") == "pokebola":
-            x = x_inicial_animado + 332
-            y = y_inicial + 2 + idx_pokebola * 60 
-            tela.blit(ImagensPokebolas[item["nome"]], (x, y))
-            idx_pokebola += 1 
+        if item.get("classe") == "Fruta":
+            x = x_inicial_animado + idx_fruta * tamanho_fruta
+            y = y_inicial + 310  # 10 (título) + 300 (grade)
 
-    # Imagens dos Pokémon
-    for i in range(len(Centro)):
-        coluna = i % 3        
-        linha = i // 3        
-        x = x_inicial_animado + coluna * 109
-        y = y_inicial + linha * 109
-        tela.blit(ImagensPokemon100[Centro[i]["nome"]], (x, y))
+            GV.Botao_Selecao(
+                tela, (x, y, tamanho_fruta, tamanho_fruta),
+                "", Fonte28,
+                cor_fundo=(150, 100, 100), cor_borda_normal=PRETO,
+                cor_borda_esquerda=VERDE,
+                cor_borda_direita=None,
+                cor_passagem=AMARELO, id_botao=i,
+                estado_global=estadoFruta, eventos=eventos,
+                funcao_esquerdo=lambda item=item: seleciona_fruta(item),
+                funcao_direito=None,
+                desfazer_esquerdo=lambda: desseleciona_fruta(),
+                desfazer_direito=None,
+                tecla_esquerda=None, tecla_direita=None, grossura=1
+            )
+
+            # Desenha imagem da fruta (centralizada com leve padding)
+            if item["nome"] in ImagensPokebolas:
+                tela.blit(ImagensPokebolas[item["nome"]], (x + 2, y + 2))
+
+            idx_fruta += 1
 
 estadoPokemon = {
     "selecionado_esquerdo": None,
@@ -629,6 +667,9 @@ estadoItens = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 estadoEnergias = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None}
+estadoFruta = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
@@ -933,11 +974,20 @@ def Carregar_Imagens():
     GreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (62, 62), "PNG")
     UltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (62, 62), "PNG")
     MasterBallIMG = GV.Carregar_Imagem("imagens/itens/MasterBall.png", (62, 62), "PNG")
+    FramboIMG = GV.Carregar_Imagem("imagens/itens/frambo.png", (62, 62), "PNG")
+    FramboDouradaIMG = GV.Carregar_Imagem("imagens/itens/frambo_dourada.png", (62, 62), "PNG")
+    CaxiIMG = GV.Carregar_Imagem("imagens/itens/caxi.png", (62, 62), "PNG")
+    CaxiPrateadaIMG = GV.Carregar_Imagem("imagens/itens/caxi_prateada.png", (62, 62), "PNG")
+
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
     UUltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (55,55),"PNG")
     UMasterBallIMG = GV.Carregar_Imagem("imagens/itens/MasterBall.png", (55,55),"PNG")
+    UFramboIMG = GV.Carregar_Imagem("imagens/itens/frambo.png", (48, 48), "PNG")
+    UFramboDouradaIMG = GV.Carregar_Imagem("imagens/itens/frambo_dourada.png", (48, 48), "PNG")
+    UCaxiIMG = GV.Carregar_Imagem("imagens/itens/caxi.png", (48, 48), "PNG")
+    UCaxiPrateadaIMG = GV.Carregar_Imagem("imagens/itens/caxi_prateada.png", (48, 48), "PNG")
 
     InventárioIMG = GV.Carregar_Imagem("imagens/icones/inventario.png", (60,60),"PNG")
     energiasIMG = GV.Carregar_Imagem("imagens/icones/energias.png", (50,50),"PNG")
@@ -1104,7 +1154,11 @@ def Carregar_Imagens():
     "pokebola": UPokeballIMG,
     "greatball": UGreatBallIMG,
     "ultraball": UUltraBallIMG,
-    "masterball": UMasterBallIMG
+    "masterball": UMasterBallIMG,
+    "Fruta Frambo": UFramboIMG,
+    "Fruta Frambo Dourada": UFramboDouradaIMG,
+    "Fruta Caxi": UCaxiIMG,
+    "Fruta Caxi Prateada": UCaxiPrateadaIMG
     }
 
     ImagensItens = {
@@ -1123,7 +1177,11 @@ def Carregar_Imagens():
     "pokebola": PokeballIMG,
     "greatball": GreatBallIMG,
     "ultraball": UltraBallIMG,
-    "masterball": MasterBallIMG
+    "masterball": MasterBallIMG,
+    "Fruta Frambo": FramboIMG,
+    "Fruta Frambo Dourada": FramboDouradaIMG,
+    "Fruta Caxi": CaxiIMG,
+    "Fruta Caxi Prateada": CaxiPrateadaIMG
 }
 
     OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG]
@@ -1255,14 +1313,14 @@ def TelaOpções(tela,eventos,estados):
             estado_global=estadoOutros, eventos=eventos,
             funcao_esquerdo=lambda nome=nome: Abre(nome, player, inimigo), 
             funcao_direito=None,
-            desfazer_esquerdo=lambda: Fecha(nome), desfazer_direito=None,
+            desfazer_esquerdo=lambda: Fecha(), desfazer_direito=None,
             tecla_esquerda=pygame.K_1, tecla_direita=None)
         
         GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,anima2,500)
 
         GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,anima3,500)
 
-        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, eventos,A6,anima4,500)
+        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,anima4,500)
         
         tela.blit(OutrosIMG[0],(5,740))
         tela.blit(OutrosIMG[1],(80,745))
