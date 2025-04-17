@@ -536,7 +536,7 @@ def VerificaGIF():
                 "frames": PokeGifs[nome],
                 "frame_atual": 0,
                 "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 40  # Pode ser ajustado para cada Pokémon se necessário
+                "intervalo": 30  # Pode ser ajustado para cada Pokémon se necessário
             })
     for i in range(len(inimigo.pokemons)):
         nome = inimigo.pokemons[i].nome
@@ -792,7 +792,7 @@ def Partida(tela,estados,relogio):
             Telapausa(tela,eventos,estados)
 
         pygame.display.update()
-        relogio.tick(110)
+        relogio.tick(120)
 
 def Inicia(tela):
     global Turno
@@ -1023,6 +1023,7 @@ def Carregar_Imagens():
     LojaAmplificadoresIMG = GV.Carregar_Imagem("imagens/icones/amplificadores.png", (70,70),"PNG")
     LojaEnergiasIMG = GV.Carregar_Imagem("imagens/icones/energias.png", (60,60),"PNG")
     LojaEstTreIMG = GV.Carregar_Imagem("imagens/icones/EstTre.png", (70,70),"PNG")
+    LojaBloqIMG = GV.Carregar_Imagem("imagens/icones/cadeado.png", (68,68),"PNG")
     AtaqueIMG = GV.Carregar_Imagem("imagens/icones/atacar.png", (40,40),"PNG")
     NocauteIMG  = GV.Carregar_Imagem("imagens/icones/KO.png", (50,50),"PNG")
 
@@ -1211,7 +1212,7 @@ def Carregar_Imagens():
     "Fruta Caxi Prateada": CaxiPrateadaIMG
     }
 
-    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG]
+    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG]
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
@@ -1398,9 +1399,9 @@ def TelaOutros(tela,eventos,estados):
 
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: Muter(), Fonte50, B1, 3, pygame.K_m, False, eventos)
 
-    GV.Botao(tela, "Passar Turno", (150, 60, 210, 80), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
+    GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
     
-    cronometro(tela, (0, 60, 150, 40), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
+    cronometro(tela, (0, 60, 360, 30), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
 
     GV.Texto_caixa(tela,f"Turno: {Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO) 
     GV.Texto_caixa(tela,player.nome,(0, 800, 420, 50),Fonte50,AZUL,PRETO) 
@@ -1412,21 +1413,29 @@ def TelaOutros(tela,eventos,estados):
     itens_loja = [
         (LojaItensP, B2, 1510),
         (LojaPokeP, B3, 1590),
-        (LojaAmpliP, B4, 1670),
-        (LojaEnerP, B5, 1750),
+        (LojaEnerP, B5, 1670),
+        (LojaAmpliP, B4, 1750),
         (LojaEstTreP,B20,1830)]
 
     for i, (valor, botao_dict, x) in enumerate(itens_loja):
-        GV.Texto_caixa(tela, str(valor), (x + 15, 158, 50, 20), Fonte20, CINZA, PRETO, 2)
+        GV.Texto_caixa(tela, str(valor), (x + 15, 159, 50, 20), Fonte20, CINZA, PRETO, 2)
 
-        GV.Botao(tela, "", (x, 80, 80, 80),CINZA, PRETO, VERDE_CLARO,lambda botao_dict=botao_dict, valor=valor: G.gera_item(botao_dict["ID"], player, valor),
+        GV.Botao(tela, "", (x, 80, 80, 80),CINZA, PRETO, VERDE_CLARO,lambda botao_dict=botao_dict, valor=valor: G.gera_item(botao_dict["ID"], player, valor, Turno),
             Fonte50, botao_dict, 3, None, True, eventos)
     
     tela.blit(OutrosIMG[3],(1515,85))
     tela.blit(OutrosIMG[4],(1595,85))
-    tela.blit(OutrosIMG[5],(1675,85))
-    tela.blit(OutrosIMG[6],(1760,88))
-    tela.blit(OutrosIMG[9],(1835,88))
+    tela.blit(OutrosIMG[6],(1681,88))
+
+    if Turno > 3:
+        tela.blit(OutrosIMG[5],(1756,85))
+        if Turno > 5:
+            tela.blit(OutrosIMG[9],(1834,88))
+        else:
+            tela.blit(OutrosIMG[10],(1835,85))
+    else:
+        tela.blit(OutrosIMG[10],(1755,85))
+        tela.blit(OutrosIMG[10],(1835,85))
 
 def Telapausa(tela,eventos,estados):
 

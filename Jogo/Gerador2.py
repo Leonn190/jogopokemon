@@ -354,7 +354,8 @@ def spawn_do_centro(centro):
     
     return centro
 
-def gera_item(tipo,player,custo=0):
+def gera_item(tipo,player,custo=0,Turno=10):
+    U = None
     if len(player.inventario) < 10:
         raridades = []
         if player.ouro >= custo:
@@ -371,18 +372,23 @@ def gera_item(tipo,player,custo=0):
                 elif tipo == "pokebola":
                     U = pokebolas_disponiveis
                 elif tipo == "amplificador":
-                    U = amplificadores_disponiveis
+                    if Turno > 3:
+                        U = amplificadores_disponiveis
                 elif tipo == "estadio":
-                    U = Estadios_disponiveis
-
-                for i in range(len(U)):
-                    for j in range(6 - U[i]["raridade"]):
-                        raridades.append(U[i])
-                player.ouro -= custo
-                item = random.choice(raridades)
-                GV.tocar(Compra)
-                GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
-                player.inventario.append(item)
+                    if Turno > 5:
+                        U = Estadios_disponiveis
+    
+                if U is not None:
+                    for i in range(len(U)):
+                        for j in range(6 - U[i]["raridade"]):
+                            raridades.append(U[i])
+                    player.ouro -= custo
+                    item = random.choice(raridades)
+                    GV.tocar(Compra)
+                    GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
+                    player.inventario.append(item)
+                else:
+                        GV.tocar(Bloq)
         else:
             GV.tocar(Bloq)
             GV.adicionar_mensagem("Você não tem ouro o suficiente")
