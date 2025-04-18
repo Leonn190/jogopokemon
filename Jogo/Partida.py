@@ -18,6 +18,8 @@ Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
 Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
 Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
+Mapa = None
+
 Mute = False
 PokemonS = None
 PokemonSV = None
@@ -44,12 +46,6 @@ FundosIMG = []
 Centro = []
 ver_centro = "n"
 
-LojaItensP = 3
-LojaPokeP = 4
-LojaAmpliP = 3
-LojaEnerP = 1
-LojaEstTreP = 5
-
 Turno = 1
 tempo_restante = 0
 
@@ -62,10 +58,20 @@ inimigo = None
 Vencedor = None
 Perdedor = None
 
-Estadio = 0
-Estadio_atual = 0
+
 
 Pausa = False
+
+# variaveis do mapa
+
+LojaItensP = None
+LojaPokeP = None
+LojaAmpliP = None
+LojaEnerP = None
+LojaEstTreP = None
+Musica_Estadio_atual = None
+
+
 
 class MensagemPassageira:
     def __init__(self, mensagem, cor, fonte, posicao, duracao=150, deslocamento=35):
@@ -187,6 +193,8 @@ V1 = 1920
 V2 = 1920
 AT1 = -60
 AT2 = -60
+T1 = 800
+T2 = 800
 
 def seleciona(ID, player, inimigo,):
     global PokemonS
@@ -401,7 +409,7 @@ def PokemonCentro(ID,player):
     global Centro
     global estadoOutros
 
-    AIV = 0
+    AIV = 1
     pokemon = Centro[ID]
     
     if PokebolaSelecionada is not None:
@@ -562,34 +570,33 @@ def Muter():
         Mute = False
 
 def Mudar_estadio(i):
-    global Estadio
-    Estadio = i
+    global Mapa
+    Mapa = G.Gera_Mapa(i)
 
 def tocar_musica_do_estadio():
-    global Estadio_atual
-    global Estadio
+    global Musica_Estadio_atual
 
-    if Estadio != Estadio_atual:
+    if Mapa.Musica != Musica_Estadio_atual:
         # Trocar a música
         pygame.mixer.music.stop()
         
-        if Estadio == 0:
+        if Mapa.Musica == 0:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Partida.ogg")
-        elif Estadio == 1:
+        elif Mapa.Musica == 1:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Mer.ogg")
-        elif Estadio == 2:
+        elif Mapa.Musica == 2:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Shivre.ogg")
-        elif Estadio == 3:
+        elif Mapa.Musica == 3:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Auroma.ogg")
-        elif Estadio == 4:
+        elif Mapa.Musica == 4:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Kalos.ogg")
-        elif Estadio == 5:
+        elif Mapa.Musica == 5:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Skyloft.ogg")
-        elif Estadio == 6:
+        elif Mapa.Musica == 6:
             pygame.mixer.music.load("Jogo/Audio/Musicas/Molgera.ogg")
 
         pygame.mixer.music.play(-1)  # -1 = loop infinito
-        Estadio_atual = Estadio
+        Musica_Estadio_atual = Estadio
 
 def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos, x_final=None, anima=None, tempo=200):
     # Tamanhos fixos e corretos
@@ -692,7 +699,18 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
                 tela.blit(ImagensPokebolas[item["nome"]], (x + 2, y + 2))
 
             idx_fruta += 1
-            
+
+def Troca_Terminal():
+    global animaT, T1, T2
+    if T2 == 800:
+        T1 = 800
+        T2 = 1030
+        animaT = pygame.time.get_ticks()
+    else:
+        T1 = 1030
+        T2 = 800
+        animaT = pygame.time.get_ticks()
+
 estadoPokemon = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -721,6 +739,7 @@ animaAE = 0
 animaAC = 0
 animaV = 0
 animaA = 0
+animaT = 0
 
 B1 = {"estado": False}
 B2 = {"estado": False, "ID": "item"}
@@ -744,6 +763,7 @@ B18 = {"estado": False, "ID": 4}
 B19 = {"estado": False, "ID": 5}
 
 B20 = {"estado": False, "ID": "estadio"}
+B21 = {"estado": False}
 
 BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 #botoes de clique unico = B6
@@ -791,6 +811,10 @@ def Partida(tela,estados,relogio):
             tela.blit(FundosIMG[0],(0,0))
             Telapausa(tela,eventos,estados)
 
+
+        if PokemonS is not None:
+            print (PokemonS.local)
+
         pygame.display.update()
         relogio.tick(120)
 
@@ -808,6 +832,13 @@ def Inicia(tela):
     global Pausa
     global Centro
     global Estadio
+    global Mapa
+    global Musica_Estadio_atual
+    global LojaItensP
+    global LojaPokeP
+    global LojaEnerP
+    global LojaAmpliP
+    global LojaEstTreP
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
@@ -820,6 +851,16 @@ def Inicia(tela):
     pygame.mixer.music.load('Jogo/Audio/Musicas/Carregamento.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
+
+    Mapa = G.Gera_Mapa(0)
+
+    Musica_Estadio_atual = 0
+    LojaItensP = Mapa.PlojaI
+    LojaPokeP = Mapa.PlojaP
+    LojaAmpliP = Mapa.PlojaA
+    LojaEnerP = Mapa.PlojaE
+    LojaEstTreP = Mapa.pLojaT
+
 
     Estadio = 0
     Carregar_Imagens()
@@ -1341,11 +1382,18 @@ def TelaOpções(tela,eventos,estados):
     global ver_centro
     global Centro
 
+    YT = GV.animar(T1,T2,animaT,300)
+
+    GV.Botao(tela, "", (0, YT, 420, 50), PRETO, PRETO, PRETO,lambda: Troca_Terminal(),Fonte40, B20, 3, None, True, eventos)
+    GV.Texto_caixa(tela,f"Seu ouro: {player.ouro}",(210, (YT - 60), 210, 60),Fonte40,LARANJA,PRETO)
+    GV.Texto_caixa(tela,player.nome,(0, YT, 420, 50),Fonte50,AZUL,PRETO) 
+    GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte20, AZUL_CLARO, PRETO)
+
     nomes_botoes_outros = ["Inventario", "Energias", "Centro"]
 
     for i, nome in enumerate(nomes_botoes_outros):
         GV.Botao_Selecao(
-            tela, (i * 70, 740, 70, 60),
+            tela, (i * 70, (YT - 60), 70, 60),
             "", Fonte30,
             cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERDE, cor_borda_direita=None,
@@ -1356,15 +1404,16 @@ def TelaOpções(tela,eventos,estados):
             desfazer_esquerdo=lambda: Fecha(), desfazer_direito=None,
             tecla_esquerda=pygame.K_1, tecla_direita=None)
         
+        tela.blit(OutrosIMG[0],(5,(YT - 60)))
+        tela.blit(OutrosIMG[1],(80,(YT - 55)))
+        tela.blit(OutrosIMG[2],(140,(YT - 65)))
+
+
         GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,animaAI)
 
         GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,animaAE)
 
         Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,animaAC)
-        
-        tela.blit(OutrosIMG[0],(5,740))
-        tela.blit(OutrosIMG[1],(80,745))
-        tela.blit(OutrosIMG[2],(140,735))
 
         if ver_centro == "s":
             idx_pokebola = 0  
@@ -1401,14 +1450,10 @@ def TelaOutros(tela,eventos,estados):
 
     GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
     
-    cronometro(tela, (0, 60, 360, 30), 200, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
+    cronometro(tela, (0, 60, 360, 30), Mapa.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
 
     GV.Texto_caixa(tela,f"Turno: {Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO) 
-    GV.Texto_caixa(tela,player.nome,(0, 800, 420, 50),Fonte50,AZUL,PRETO) 
     GV.Texto_caixa(tela,inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
-    GV.Texto_caixa(tela,f"Seu ouro: {player.ouro}",(210, 740, 210, 60),Fonte40,LARANJA,PRETO)
-
-    GV.Terminal(tela, (0, 850, 420, 230), Fonte20, AZUL_CLARO, PRETO)
 
     itens_loja = [
         (LojaItensP, B2, 1510),
@@ -1444,7 +1489,21 @@ def Telapausa(tela,eventos,estados):
     GV.Botao(tela, "Sair do jogo", (600, 650, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, B6, 5, None, True, eventos)
 
 def TelaTabuleiro(tela, eventos, estados):
-    Ze = [
+    global Musica_Estadio_atual
+    global LojaItensP
+    global LojaPokeP
+    global LojaEnerP
+    global LojaAmpliP
+    global LojaEstTreP
+
+    LojaItensP = Mapa.PlojaI
+    LojaPokeP = Mapa.PlojaP
+    LojaAmpliP = Mapa.PlojaA
+    LojaEnerP = Mapa.PlojaE
+    LojaEstTreP = Mapa.pLojaT
+
+    tela.blit(FundosIMG[Mapa.Fundo],(0,0))
+    M.Desenhar_Casas_Disponiveis(tela, [
         (3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16),
         (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15), (4, 16),
         (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15), (5, 16),
@@ -1454,26 +1513,4 @@ def TelaTabuleiro(tela, eventos, estados):
         (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16),
         (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16),
         (11, 8), (11, 9), (11, 10), (11, 11), (11, 12), (11, 13), (11, 14), (11, 15), (11, 16)
-    ]
-
-    if Estadio == 0:
-        tela.blit(FundosIMG[0],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
-    elif Estadio == 1:
-        tela.blit(FundosIMG[1],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
-    elif Estadio == 2:
-        tela.blit(FundosIMG[2],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
-    elif Estadio == 3:
-        tela.blit(FundosIMG[3],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
-    elif Estadio == 4:
-        tela.blit(FundosIMG[4],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
-    elif Estadio == 5:
-        tela.blit(FundosIMG[5],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
-    elif Estadio == 6:
-        tela.blit(FundosIMG[6],(0,0))
-        M.Desenhar_Casas_Disponiveis(tela, Ze, player, inimigo, Fonte20, eventos)
+    ], player, inimigo, Fonte20, eventos, Mapa.cores)

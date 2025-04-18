@@ -63,8 +63,7 @@ def desseleciona_peça():
     PeçaS = None
     estadoTabuleiro["selecionado_esquerdo"] =  False
 
-def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos):
-    cor_casa_disponivel = (150, 150, 150)
+def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem):
     tamanho_casa = 40
     tamanho_imagem = 38
     x_inicial = (1920 - 25 * tamanho_casa) // 2
@@ -101,7 +100,6 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
             if pokemon_encontrado:
                 cor_fundo = (0, 0, 255) if dono == "player" else (255, 0, 0)
 
-                # Desenha o botão
                 GV.Botao_Selecao(
                     tela=tela,
                     espaço=espaco,
@@ -111,7 +109,7 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
                     cor_borda_normal=PRETO,
                     cor_passagem=AMARELO,
                     cor_borda_esquerda=VERMELHO,
-                    funcao_esquerdo=lambda p=pokemon_encontrado: seleciona_peça(p,dono,player),
+                    funcao_esquerdo=lambda p=pokemon_encontrado: seleciona_peça(p, dono, player),
                     desfazer_esquerdo=lambda: desseleciona_peça(),
                     estado_global=estadoTabuleiro,
                     eventos=eventos,
@@ -119,17 +117,17 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
                     grossura=2
                 )
 
-                # Centraliza e desenha a imagem do Pokémon por cima
                 x_img = x + (tamanho_casa - tamanho_imagem) // 2
                 y_img = y + (tamanho_casa - tamanho_imagem) // 2
                 tela.blit(pokemon_encontrado.imagem, (x_img, y_img))
 
         else:
+            cor_casa_disponivel = cores_zebragem[(linha + coluna) % 2]
             pygame.draw.rect(tela, cor_casa_disponivel, espaco)
             pygame.draw.rect(tela, (0, 0, 0), espaco, 2)
-   
+
     if PeçaS is not None:
-        Mover_casas(tela,eventos,PeçaS,casas_disponiveis,player)
+        Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player)
 
 def Move(peça, L, C,player):
     if peça.local is not None:

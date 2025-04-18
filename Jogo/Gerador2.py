@@ -4,6 +4,7 @@ import Partida
 import GeradoresVisuais as GV
 from Dados.Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
 from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
+from Dados.Estadios import Estadios
 import Funções2
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
@@ -408,3 +409,21 @@ def caixa():
 def coletor():
     energia_sorteada = random.choice(Energias)
     return energia_sorteada
+
+def Gera_Mapa(i):
+    return Mapa(Estadios[i])
+
+
+class Mapa:
+    def __init__(self, Info):
+        self.tempo = Info["Tempo"]
+        self.area = Info["zona"]
+        self.cores = Info["cores"]
+        self.PlojaI = Info["LojaItens"]
+        self.PlojaP = Info["LojaPokebolas"]
+        self.PlojaE = Info["LojaEnergias"]
+        self.PlojaA = Info["LojaAmplificadores"]
+        self.pLojaT = Info["LojaTreEst"]
+        self.Musica = Info["Code Musica"]
+        self.Fundo = Info["Code Tela"]
+
