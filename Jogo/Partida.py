@@ -6,7 +6,7 @@ import Gerador2 as G
 import PygameAções as A
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50,Fonte70,
-    PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
+    PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA,)
 
@@ -57,8 +57,6 @@ inimigo = None
 
 Vencedor = None
 Perdedor = None
-
-
 
 Pausa = False
 
@@ -179,6 +177,10 @@ def passar_turno():
     GV.limpa_terminal()
     M.Inverter_Tabuleiro(player, inimigo)
 
+    for pokemon in player.pokemons:
+        if pokemon.guardado != 0 and pokemon.guardado < 3:
+            pokemon.guardado += 1
+
     player, inimigo = inimigo, player
 
     Centro = G.spawn_do_centro(Centro)
@@ -195,6 +197,8 @@ AT1 = -60
 AT2 = -60
 T1 = 800
 T2 = 800
+OP1 = 1080
+OP2 = 1080
 
 def seleciona(ID, player, inimigo,):
     global PokemonS
@@ -215,15 +219,23 @@ def seleciona(ID, player, inimigo,):
     idx = index_map[ID]
     if idx < len(player.pokemons):
         if ID in ["Pokemon1","Pokemon2","Pokemon3","Pokemon4","Pokemon5","Pokemon6"]:
-            PokemonS = player.pokemons[idx]
-            global S1, S2, animaS
-            global AT1, AT2, animaA
-            S1 = 1920
-            S2 = 1560
-            AT1 = -60
-            AT2 = 210
-            animaS = pygame.time.get_ticks()
-            animaA = pygame.time.get_ticks()
+            if player.pokemons[idx].Vida > 0:
+                PokemonS = player.pokemons[idx]
+                global S1, S2, animaS
+                global AT1, AT2, animaA
+                global OP1, OP2, animaOP
+                S1 = 1920
+                S2 = 1560
+                AT1 = -60
+                AT2 = 210
+                OP1 = 1080
+                OP2 = 980
+                animaS = pygame.time.get_ticks()
+                animaA = pygame.time.get_ticks()
+                animaOP = pygame.time.get_ticks()
+            else:
+                PokemonS = None
+                GV.adicionar_mensagem("Esse Pokémon não pode ser selecionado.")
         else:
             PokemonS = None
             GV.adicionar_mensagem("Esse Pokémon não pode ser selecionado.")
@@ -237,13 +249,17 @@ def desseleciona():
     global estadoInfo
     global S1, S2, animaS
     global AT1, AT2, animaA
+    global OP1, OP2, animaOP
     if PokemonS is not None:
         S1 = 1560
         S2 = 1920
         AT1 = 210
         AT2 = -60
+        OP1 = 980
+        OP2 = 1080
         animaS = pygame.time.get_ticks()
         animaA = pygame.time.get_ticks()
+        animaOP = pygame.time.get_ticks()
         PokemonS = None
     estadoPokemon["selecionado_esquerdo"] = False
     estadoInfo["inicio_animacao"] = None
@@ -372,7 +388,7 @@ def fechar_tudo():
     global estadoPokebola
     global estadoItens
     global estadoFruta
-    global S1, S2, V1, V2, A1, A2, A3, A4, A5, A6 
+    global S1, S2, V1, V2,AT1,AT2,T1,T2,OP1,OP2,A1, A2, A3, A4, A5, A6 
 
     estadoPokemon = {
         "selecionado_esquerdo": None,
@@ -397,6 +413,12 @@ def fechar_tudo():
     S2 = 1920
     V1 = 1920
     V2 = 1920
+    AT1 = -60
+    AT2 = -60
+    T1 = 800
+    T2 = 800
+    OP1 = 1080
+    OP2 = 1080
 
     A1 = -382
     A2 = -382
@@ -577,6 +599,7 @@ def tocar_musica_do_estadio():
     global Musica_Estadio_atual
 
     if Mapa.Musica != Musica_Estadio_atual:
+        Z = Mapa.Musica 
         # Trocar a música
         pygame.mixer.music.stop()
         
@@ -596,7 +619,7 @@ def tocar_musica_do_estadio():
             pygame.mixer.music.load("Jogo/Audio/Musicas/Molgera.ogg")
 
         pygame.mixer.music.play(-1)  # -1 = loop infinito
-        Musica_Estadio_atual = Estadio
+        Musica_Estadio_atual = Z
 
 def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos, x_final=None, anima=None, tempo=200):
     # Tamanhos fixos e corretos
@@ -711,6 +734,7 @@ def Troca_Terminal():
         T2 = 800
         animaT = pygame.time.get_ticks()
 
+
 estadoPokemon = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -740,6 +764,7 @@ animaAC = 0
 animaV = 0
 animaA = 0
 animaT = 0
+animaOP = 0
 
 B1 = {"estado": False}
 B2 = {"estado": False, "ID": "item"}
@@ -764,6 +789,9 @@ B19 = {"estado": False, "ID": 5}
 
 B20 = {"estado": False, "ID": "estadio"}
 B21 = {"estado": False}
+
+B22 = {"estado": False}
+B23 = {"estado": False}
 
 BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 #botoes de clique unico = B6
@@ -816,7 +844,7 @@ def Partida(tela,estados,relogio):
             print (PokemonS.local)
 
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(175)
 
 def Inicia(tela):
     global Turno
@@ -831,7 +859,6 @@ def Inicia(tela):
     global Perdedor
     global Pausa
     global Centro
-    global Estadio
     global Mapa
     global Musica_Estadio_atual
     global LojaItensP
@@ -861,8 +888,6 @@ def Inicia(tela):
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
 
-
-    Estadio = 0
     Carregar_Imagens()
     M.Gerar_Mapa()
 
@@ -1045,6 +1070,7 @@ def Carregar_Imagens():
     FramboDouradaIMG = GV.Carregar_Imagem("imagens/itens/frambo_dourada.png", (62, 62), "PNG")
     CaxiIMG = GV.Carregar_Imagem("imagens/itens/caxi.png", (62, 62), "PNG")
     CaxiPrateadaIMG = GV.Carregar_Imagem("imagens/itens/caxi_prateada.png", (62, 62), "PNG")
+    EstadioIMG = GV.Carregar_Imagem("imagens/itens/TP.png", (62, 62), "PNG")
 
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
@@ -1067,6 +1093,7 @@ def Carregar_Imagens():
     LojaBloqIMG = GV.Carregar_Imagem("imagens/icones/cadeado.png", (68,68),"PNG")
     AtaqueIMG = GV.Carregar_Imagem("imagens/icones/atacar.png", (40,40),"PNG")
     NocauteIMG  = GV.Carregar_Imagem("imagens/icones/KO.png", (50,50),"PNG")
+    GuardadoIMG = GV.Carregar_Imagem("imagens/icones/guardado.png", (40,40),"PNG") 
 
     Efogo = GV.Carregar_Imagem("imagens/icones/fogo.png", (30,30), "PNG")
     Eagua = GV.Carregar_Imagem("imagens/icones/agua.png", (30,30), "PNG")
@@ -1250,10 +1277,11 @@ def Carregar_Imagens():
     "Fruta Frambo": FramboIMG,
     "Fruta Frambo Dourada": FramboDouradaIMG,
     "Fruta Caxi": CaxiIMG,
-    "Fruta Caxi Prateada": CaxiPrateadaIMG
+    "Fruta Caxi Prateada": CaxiPrateadaIMG,
+    "estadio": EstadioIMG
     }
 
-    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG]
+    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG]
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
@@ -1278,7 +1306,28 @@ def TelaPokemons(tela,eventos,estados):
         GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
                         lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
         tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
-        tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))  
+        tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
+    
+
+
+
+    YO = GV.animar(OP1,OP2,animaOP,tempo=250)
+
+    GV.Botao(tela, "Evoluir", (1620, YO, 300, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
+
+    try:
+        if PokemonS.local is not None:
+            
+            GV.Botao(tela, "Guardar", (1620, YO + 50, 300, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+
+        else:
+            if PokemonS.guardado < 3:
+                GV.Botao(tela, f"Posicionar em {3 - PokemonS.guardado}", (1620, YO + 50, 300, 50), CINZA_ESCURO, PRETO, AZUL,lambda: GV.tocar(Bloq),Fonte40, B23, 3, None, True, eventos)
+            else:
+                GV.Botao(tela, "Posicionar", (1620, YO + 50, 300, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+
+    except AttributeError:
+        pass
 
 
     for i in range(6):
@@ -1321,7 +1370,6 @@ def TelaPokemons(tela,eventos,estados):
 
     GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoInfo,V2,animaV)
 
-
     agora = pygame.time.get_ticks()
 
    # Para cada Pokémon no time, atualize e desenhe o GIF
@@ -1345,6 +1393,9 @@ def TelaPokemons(tela,eventos,estados):
 
         tela.blit(frame, (pos_x, pos_y))
 
+        if player.pokemons[i].local is None:
+            tela.blit(OutrosIMG[11], ((pos_x - 45), (pos_y - 42)))
+    
 
 # Para os Pokémon inimigos, ajustando a posição X dinamicamente
     for i in range(len(inimigo.pokemons)):
@@ -1367,6 +1418,9 @@ def TelaPokemons(tela,eventos,estados):
 
 
         tela.blit(frame, (pos_x, pos_y))
+
+        if inimigo.pokemons[i].local is None:
+            tela.blit(OutrosIMG[11], ((pos_x - 42), (pos_y - 45)))
         
     for i in range(len(player.pokemons)):
         barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
@@ -1503,14 +1557,4 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaEstTreP = Mapa.pLojaT
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, [
-        (3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16),
-        (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15), (4, 16),
-        (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15), (5, 16),
-        (6, 8), (6, 9), (6, 10), (6, 11), (6, 12), (6, 13), (6, 14), (6, 15), (6, 16),
-        (7, 8), (7, 9), (7, 10), (7, 11), (7, 12), (7, 13), (7, 14), (7, 15), (7, 16),
-        (8, 8), (8, 9), (8, 10), (8, 11), (8, 12), (8, 13), (8, 14), (8, 15), (8, 16),
-        (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16),
-        (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16),
-        (11, 8), (11, 9), (11, 10), (11, 11), (11, 12), (11, 13), (11, 14), (11, 15), (11, 16)
-    ], player, inimigo, Fonte20, eventos, Mapa.cores)
+    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores)

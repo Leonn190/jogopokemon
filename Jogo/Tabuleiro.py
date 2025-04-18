@@ -1,4 +1,5 @@
 import pygame
+import random 
 import GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
@@ -9,6 +10,7 @@ from GeradoresVisuais import (
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
 Mapa = []
+Area = []
 PeçaS = None
 
 pygame.mixer.init()
@@ -64,8 +66,10 @@ def desseleciona_peça():
     estadoTabuleiro["selecionado_esquerdo"] =  False
 
 def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem):
+    global Area
     tamanho_casa = 40
     tamanho_imagem = 38
+    Area = casas_disponiveis
     x_inicial = (1920 - 25 * tamanho_casa) // 2
     y_inicial = (1080 - 15 * tamanho_casa) // 2
 
@@ -158,11 +162,12 @@ def Inverter_Tabuleiro(player, inimigo):
 
     # Reposiciona todos os pokémons no novo mapa invertido
     for poke in player.pokemons + inimigo.pokemons:
-        antiga_linha, coluna = poke.local["id"]
-        nova_linha = 14 - antiga_linha  # espelhamento vertical
-        novo_local = novo_mapa[nova_linha][coluna]
-        poke.local = novo_local
-        novo_local["ocupado"] = poke.ID  # Corrigido para 'ID'
+        if poke.local is not None:
+            antiga_linha, coluna = poke.local["id"]
+            nova_linha = 14 - antiga_linha  # espelhamento vertical
+            novo_local = novo_mapa[nova_linha][coluna]
+            poke.local = novo_local
+            novo_local["ocupado"] = poke.ID  # Corrigido para 'ID'
 
     # Substitui o mapa original
     Mapa = novo_mapa
@@ -210,7 +215,25 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player):
             eventos=eventos
         )
 
-
+def GuardarPosicionar(pokemon,player):
+    if pokemon.local is not None:
+        if len(player.pokemons) > 1:
+            linha_antiga, coluna_antiga = pokemon.local["id"]
+            Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+            pokemon.local = None
+            pokemon.guardado = 1
+        else:
+            GV.tocar(Bloq)
+            GV.adicionar_mensagem("Você não deve guardar seu unico pokemon")
+    else:
+        for i in range(len(Mapa)):
+            for tentativa in range(30):
+                j = random.randint(0, 24)
+                if Mapa[14 - i][j]["ocupado"] is None:
+                    if Mapa[14 - i][j]["id"] in Area:
+                        pokemon.local = Mapa[14 - i][j]
+                        Mapa[14 - i][j]["ocupado"] = pokemon.ID
+                        return
 
 
 

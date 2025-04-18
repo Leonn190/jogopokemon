@@ -129,37 +129,37 @@ class Pokemon:
         self.IV_vel = pokemon["IV vel"]
         self.code = pokemon["code"]
         self.ID = pokemon["ID"]
+        self.guardado = 0
         self.local = None
         self.imagem = None
 
     def evoluir(self,player):
-        if self.evolucao is not None:
-            self.nome = self.evolucao["nome"]
-            self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
-            self.Vida = round(self.Vida * self.evolucao["vida"])
-            self.Def = round(self.Def * self.evolucao["def"])
-            self.Def_sp = round(self.Def_sp * self.evolucao["def SP"])
-            self.Atk = round(self.Atk * self.evolucao["atk"])
-            self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"])
-            self.vel = self.evolucao["velocidade"]
-            self.custo = self.evolucao["custo"]
-            self.ataque_normal = random.choice(self.evolucao["ataques normais"])
-            self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
-            self.xp_atu = 0
-            self.Estagio = self.evolucao["estagio"]
-            self.evolucao = self.evolucao["evolução"]
-            Partida.VerificaGIF()
-        else:
-            return
+        if self.xp_atu >= self.xp_total:
+            if self.evolucao is not None:
+                nome_antigo = self.nome
+                self.nome = self.evolucao["nome"]
+                self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
+                self.Vida = round(self.Vida * self.evolucao["vida"])
+                self.Def = round(self.Def * self.evolucao["def"])
+                self.Def_sp = round(self.Def_sp * self.evolucao["def SP"])
+                self.Atk = round(self.Atk * self.evolucao["atk"])
+                self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"])
+                self.vel = round(self.vel * self.evolucao["velocidade"])
+                self.custo = self.evolucao["custo"]
+                self.ataque_normal = random.choice(self.evolucao["ataques normais"])
+                self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
+                self.xp_atu = 0
+                self.Estagio = self.evolucao["estagio"]
+                self.evolucao = self.evolucao["evolução"]
+                Partida.VerificaGIF()
+                GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
+                return
+        GV.tocar(Bloq)
+        GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
     def XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
-        if self.xp_atu >= self.xp_total:
-            nome_antigo = self.nome
-            self.evoluir(player)
-            GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
-        else:
-            GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
+        GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
     
     def amplificar(self,tipo,amplificador,pokemon_amplificado,player):
         if tipo == "XP atu":

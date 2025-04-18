@@ -9,6 +9,7 @@ botao_cliques = {}
 PRETO = (0, 0, 0)
 BRANCO = (255, 255, 255)
 CINZA = (200, 200, 200)
+CINZA_ESCURO = (100, 100, 100)
 AZUL = (100, 100, 255)
 AZUL_CLARO = (173, 216, 230)
 AZUL_SUPER_CLARO = (220, 235, 255)
@@ -414,16 +415,20 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
         fonte_iv_destaque = pygame.font.SysFont("arial", 20, True)
 
         def cor_percentual(pct):
-            if pct < 14: return (255, 0, 0)
-            elif pct < 28: return (255, 128, 0)
-            elif pct < 40: return (255, 255, 0)
-            elif pct < 50: return (192, 255, 0)
-            elif pct < 60: return (0, 200, 0)
-            elif pct < 70: return (0, 200, 128)
-            elif pct < 82: return (0, 128, 255)
-            elif pct < 95: return (0, 0, 180)
-            elif pct <= 100: return (128, 0, 200)
-            else: return (255, 0, 150)
+            if pct < 15:
+                return (255, 0, 0)  # Vermelho
+            elif pct < 30:
+                return (255, 165, 0)  # Laranja
+            elif pct < 50:
+                return (255, 255, 0)  # Amarelo
+            elif pct < 70:
+                return (0, 255, 0)  # Verde
+            elif pct < 90:
+                return (0, 0, 255)  # Azul
+            elif pct < 100:
+                return (75, 0, 130)  # Roxo
+            elif pct == 100:
+                return (255, 0, 255)  # Rosa
 
         # Nome e HP
         nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
@@ -441,11 +446,11 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
 
         atributos = [
             ("HP", pokemon.VidaMax, pokemon.IV_vida, 300),
-            ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
-            ("Defense", pokemon.Def, pokemon.IV_def, 120),
-            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
-            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 120),
-            ("Speed", pokemon.vel, pokemon.IV_vel, 120)
+            ("Attack", pokemon.Atk, pokemon.IV_atk, 100),
+            ("Defense", pokemon.Def, pokemon.IV_def, 100),
+            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 100),
+            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 100),
+            ("Speed", pokemon.vel, pokemon.IV_vel, 100)
         ]
 
         for i, (nome, valor, iv_val, valor_max) in enumerate(atributos):
@@ -628,6 +633,12 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_f
 
         if nome_item in ImagensItens:
             imagem = ImagensItens[nome_item]
+            iw, ih = imagem.get_size()
+            img_x = bx + (76 - iw) // 2
+            img_y = by + (76 - ih) // 2
+            tela.blit(imagem, (img_x, img_y))
+        else:
+            imagem = ImagensItens[classe_item]
             iw, ih = imagem.get_size()
             img_x = bx + (76 - iw) // 2
             img_y = by + (76 - ih) // 2
