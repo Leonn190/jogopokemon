@@ -5,7 +5,7 @@ import GeradoresVisuais as GV
 from Dados.Basicos import Pokedex
 from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
 from Dados.Estadios import Estadios
-import Funções2
+import Funções2 as FU
 from GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
@@ -128,7 +128,7 @@ class Pokemon:
         self.IV_defSP = pokemon["IV def SP"]
         self.IV_vel = pokemon["IV vel"]
         self.code = pokemon["code"]
-        self.ID = pokemon["ID"]
+        self.ID = pokemon["ID"] #unico
         self.guardado = 0
         self.local = None
         self.imagem = None
@@ -137,6 +137,7 @@ class Pokemon:
         if self.xp_atu >= self.xp_total:
             if self.evolucao is not None:
                 nome_antigo = self.nome
+                Partida.AddIMGpokemon(self)
                 self.nome = self.evolucao["nome"]
                 self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
                 self.Vida = round(self.Vida * self.evolucao["vida"])
@@ -206,7 +207,7 @@ class Pokemon:
                 cura = dano_tomado 
             GV.adicionar_mensagem(f"{self.nome} curou {round(cura,1)} de vida, sua vida atual é {self.Vida}")
 
-    def atacar(self,alvo,player,inimigo,tipo,tela):
+    def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
         
         if tipo == "N":
             F = self.ataque_normal
@@ -232,6 +233,8 @@ class Pokemon:
                     player.energias[F["custo"][i]] -= 1
                     gastas.append(F["custo"][i])
                     pagou += 1
+
+        
         
         if pagou != len(F["custo"]):
             GV.tocar(Bloq)
@@ -240,11 +243,23 @@ class Pokemon:
                 player.energias[gastas[i]] += 1
             return None
 
+        distancia = FU.distancia_entre_pokemons(self,alvo,Mapa.Metros)
+        Over = F["alcance"] - distancia
+        if Over < 0:
+            assertividade = F["precisão"] + Over
+        else:
+            assertividade = F["precisão"]
+        desfoco = random.randint(0,100)
+        if desfoco > assertividade:
+            GV.adicionar_mensagem("Você errou o ataque")
+            return
+
+
 
         Dano_I = U * F["dano"]
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
-        Dano_E = Dano_I * Funções2.efetividade(Tipo,alvo.tipo)
+        Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo)
         dano_F = round(Dano_E * mitigação,1)
 
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
@@ -430,4 +445,4 @@ class Mapa:
         self.pLojaT = Info["LojaTreEst"]
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
-
+        self.Metros = Info["Metros"]

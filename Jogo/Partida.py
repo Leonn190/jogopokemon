@@ -446,6 +446,7 @@ def PokemonCentro(ID,player):
                 AIV = 1
             elif FrutaSelecionada["nome"] in ["Fruta Caxi","Fruta Caxi Prateada"]:
                 AIV = FrutaSelecionada["poder"]
+            desseleciona_fruta()
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
                 novo_pokemon = G.Gerador_final(pokemon["code"],AIV)
@@ -457,7 +458,6 @@ def PokemonCentro(ID,player):
                 GV.tocar(Bom)
                 Centro.remove(pokemon)
                 estadoOutros["selecionado_esquerdo"] =  False
-                desseleciona_fruta()
                 return
             else:
                 GV.tocar(Bloq)
@@ -516,7 +516,7 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, 
 def atacaN(Pokemon,player,inimigo,ID,tela):
     alvo = inimigo.pokemons[ID]
     if Pokemon is not None and alvo.Vida >= 0:
-        Pokemon.atacar(alvo,player,inimigo,"N",tela)
+        Pokemon.atacar(alvo,player,inimigo,"N",tela,Mapa)
     else:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
@@ -524,7 +524,7 @@ def atacaN(Pokemon,player,inimigo,ID,tela):
 def atacaS(Pokemon,player,inimigo,ID,tela):
     alvo = inimigo.pokemons[ID]
     if Pokemon is not None and alvo.Vida >= 0:
-        Pokemon.atacar(alvo,player,inimigo,"S",tela)
+        Pokemon.atacar(alvo,player,inimigo,"S",tela,Mapa)
     else:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
@@ -567,7 +567,7 @@ def VerificaGIF():
                 "frames": PokeGifs[nome],
                 "frame_atual": 0,
                 "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 30  # Pode ser ajustado para cada Pokémon se necessário
+                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
             })
     for i in range(len(inimigo.pokemons)):
         nome = inimigo.pokemons[i].nome
@@ -579,7 +579,7 @@ def VerificaGIF():
                 "frames": PokeGifs[nome],
                 "frame_atual": 0,
                 "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 30  # Pode ser ajustado para cada Pokémon se necessário
+                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
             })
 
 def Muter():
@@ -757,6 +757,14 @@ estadoEnergias = {
 estadoFruta = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
+estadoMostraAtaqueS = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+    }
+estadoMostraAtaqueV = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+    }
 
 animaS = 0
 animaAI = 0
@@ -841,9 +849,9 @@ def Partida(tela,estados,relogio):
             Telapausa(tela,eventos,estados)
 
 
-        if PokemonS is not None:
-            print (PokemonS.xp_atu)
-            print (PokemonS.xp_total)
+        if FrutaSelecionada is not None:
+            print(FrutaSelecionada)
+            
 
         pygame.display.update()
         relogio.tick(175)
@@ -995,8 +1003,8 @@ def Carregar_Imagens():
     Gbeedrill_mega = GV.carregar_frames('imagens/gifs/beedrill-mega_frames')
     Gblastoise_gigantamax = GV.carregar_frames('imagens/gifs/blastoise-gigantamax_frames')
     Gblastoise_mega = GV.carregar_frames('imagens/gifs/blastoise-mega_frames')
-    Gbutterfree_gmax = GV.carregar_frames('imagens/gifs/butterfree-gmax_frames')
-    Gcharizard_gmax = GV.carregar_frames('imagens/gifs/charizard-gmax_frames')
+    Gbutterfree_gmax = GV.carregar_frames('imagens/gifs/butterfree-gigantamax_frames')
+    Gcharizard_gmax = GV.carregar_frames('imagens/gifs/charizard-gigantamax_frames')
     Gcharizard_megax = GV.carregar_frames('imagens/gifs/charizard-megax_frames')
     Gcharizard_megay = GV.carregar_frames('imagens/gifs/charizard-megay_frames')
     Gclefable = GV.carregar_frames('imagens/gifs/clefable_frames')
@@ -1005,8 +1013,9 @@ def Carregar_Imagens():
     Gcubone = GV.carregar_frames('imagens/gifs/cubone_frames')
     Ggengar_gigantamax = GV.carregar_frames('imagens/gifs/gengar-gigantamax_frames')
     Ggengar_mega = GV.carregar_frames('imagens/gifs/gengar-mega_frames')
-    Ggolem_alola = GV.carregar_frames('imagens/gifs/golem-alola_frames')
+    Ggolem_alola = GV.carregar_frames('imagens/gifs/golem-mega_frames')
     Ggyarados_mega = GV.carregar_frames('imagens/gifs/gyarados-mega_frames')
+    Gweedle = GV.carregar_frames('imagens/gifs/weedle_frames')
     Gkakuna = GV.carregar_frames('imagens/gifs/kakuna_frames')
     Gmachamp_gigantamax = GV.carregar_frames('imagens/gifs/machamp-gigantamax_frames')
     Gmarowak = GV.carregar_frames('imagens/gifs/marowak_frames')
@@ -1015,6 +1024,7 @@ def Carregar_Imagens():
     Gmewtwo_megax = GV.carregar_frames('imagens/gifs/mewtwo-megax_frames')
     Gmewtwo_megay = GV.carregar_frames('imagens/gifs/mewtwo-megay_frames')
     Gmoltres = GV.carregar_frames('imagens/gifs/moltres_frames')
+    Gzapdos = GV.carregar_frames('imagens/gifs/zapdos_frames')
     Gpersian = GV.carregar_frames('imagens/gifs/persian_frames')
     Gpikachu_gigantamax = GV.carregar_frames('imagens/gifs/pikachu-gigantamax_frames')
     Gpinsir = GV.carregar_frames('imagens/gifs/pinsir_frames')
@@ -1025,50 +1035,87 @@ def Carregar_Imagens():
     Gsnorlax_gigantamax = GV.carregar_frames('imagens/gifs/snorlax-gigantamax_frames')
     Gvenusaur_gigantamax = GV.carregar_frames('imagens/gifs/venusaur-gigantamax_frames')
 
+    SbulbasaurIMG = GV.Carregar_Imagem("imagens/pokeicons/bulbasaur.png", (38,38),"PNG")
+    SivysaurIMG = GV.Carregar_Imagem("imagens/pokeicons/ivysaur.png", (38,38),"PNG")
+    SvenusaurIMG = GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (38,38),"PNG")
+    ScharmanderIMG = GV.Carregar_Imagem("imagens/pokeicons/charmander.png", (38,38),"PNG")
+    ScharmeleonIMG = GV.Carregar_Imagem("imagens/pokeicons/charmeleon.png", (38,38),"PNG")
+    ScharizardIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (38,38),"PNG")
+    SsquirtleIMG = GV.Carregar_Imagem("imagens/pokeicons/squirtle.png", (38,38),"PNG")
+    SwartortleIMG = GV.Carregar_Imagem("imagens/pokeicons/wartortle.png", (38,38),"PNG")
+    SblastoiseIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (38,38),"PNG")
+    SmachopIMG = GV.Carregar_Imagem("imagens/pokeicons/machop.png", (38,38),"PNG")
+    SmachokeIMG = GV.Carregar_Imagem("imagens/pokeicons/machoke.png", (38,38),"PNG")
+    SmachampIMG = GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (38,38),"PNG")
+    SgastlyIMG = GV.Carregar_Imagem("imagens/pokeicons/gastly.png", (38,38),"PNG")
+    ShaunterIMG = GV.Carregar_Imagem("imagens/pokeicons/haunter.png", (38,38),"PNG")
+    SgengarIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (38,38),"PNG")
+    SgeodudeIMG = GV.Carregar_Imagem("imagens/pokeicons/geodude.png", (38,38),"PNG")
+    SgravelerIMG = GV.Carregar_Imagem("imagens/pokeicons/graveler.png", (38,38),"PNG")
+    SgolemIMG = GV.Carregar_Imagem("imagens/pokeicons/golem.png", (38,38),"PNG")
+    ScaterpieIMG = GV.Carregar_Imagem("imagens/pokeicons/caterpie.png", (38,38),"PNG")
+    SmetapodIMG = GV.Carregar_Imagem("imagens/pokeicons/metapod.png", (38,38),"PNG")
+    SbutterfreeIMG = GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (38,38),"PNG")
+    SabraIMG = GV.Carregar_Imagem("imagens/pokeicons/abra.png", (38,38),"PNG")
+    SkadabraIMG = GV.Carregar_Imagem("imagens/pokeicons/kadabra.png", (38,38),"PNG")
+    SalakazamIMG = GV.Carregar_Imagem("imagens/pokeicons/alakazam.png", (38,38),"PNG")
+    SdratiniIMG = GV.Carregar_Imagem("imagens/pokeicons/dratini.png", (38,38),"PNG")
+    SdragonairIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonair.png", (38,38),"PNG")
+    SdragoniteIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonite.png", (38,38),"PNG")
+    SzoruaIMG = GV.Carregar_Imagem("imagens/pokeicons/zorua.png", (38,38),"PNG")
+    SzoroarkIMG = GV.Carregar_Imagem("imagens/pokeicons/zoroark.png", (38,38),"PNG")
+    SpikachuIMG = GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (38,38),"PNG")
+    SraichuIMG = GV.Carregar_Imagem("imagens/pokeicons/raichu.png", (38,38),"PNG")
+    SmagikarpIMG = GV.Carregar_Imagem("imagens/pokeicons/magikarp.png", (38,38),"PNG")
+    SgyaradosIMG = GV.Carregar_Imagem("imagens/pokeicons/gyarados.png", (38,38),"PNG")
+    SjigglypuffIMG = GV.Carregar_Imagem("imagens/pokeicons/jigglypuff.png", (38,38),"PNG")
+    SwigglytuffIMG = GV.Carregar_Imagem("imagens/pokeicons/wigglytuff.png", (38,38),"PNG")
+    SmagnemiteIMG = GV.Carregar_Imagem("imagens/pokeicons/magnemite.png", (38,38),"PNG")
+    SmagnetonIMG = GV.Carregar_Imagem("imagens/pokeicons/magneton.png", (38,38),"PNG")
+    SsnorlaxIMG = GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (38,38),"PNG")
+    SaerodactylIMG = GV.Carregar_Imagem("imagens/pokeicons/aerodactyl.png", (38,38),"PNG")
+    SjynxIMG = GV.Carregar_Imagem("imagens/pokeicons/jynx.png", (38,38),"PNG")
+    SmewtwoIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (38,38),"PNG")
+    Saerodactyl_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/aerodactyl-mega.png", (38, 38), "PNG")
+    Salakazam_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/alakazam-mega.png", (38, 38), "PNG")
+    SarticunoIMG = GV.Carregar_Imagem("imagens/pokeicons/articuno.png", (38, 38), "PNG")
+    SbeedrillIMG = GV.Carregar_Imagem("imagens/pokeicons/beedrill.png", (38, 38), "PNG")
+    Sbeedrill_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/beedrill-mega.png", (38, 38), "PNG")
+    Sblastoise_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise-gigantamax.png", (38, 38), "PNG")
+    Sblastoise_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise-mega.png", (38, 38), "PNG")
+    Sbutterfree_gmaxIMG = GV.Carregar_Imagem("imagens/pokeicons/butterfree-gigantamax.png", (38, 38), "PNG")
+    Scharizard_gmaxIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard-gigantamax.png", (38, 38), "PNG")
+    Scharizard_megaxIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard-mega-x.png", (38, 38), "PNG")
+    Scharizard_megayIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard-mega-y.png", (38, 38), "PNG")
+    SclefableIMG = GV.Carregar_Imagem("imagens/pokeicons/clefable.png", (38, 38), "PNG")
+    SclefairyIMG = GV.Carregar_Imagem("imagens/pokeicons/clefairy.png", (38, 38), "PNG")
+    ScloysterIMG = GV.Carregar_Imagem("imagens/pokeicons/cloyster.png", (38, 38), "PNG")
+    ScuboneIMG = GV.Carregar_Imagem("imagens/pokeicons/cubone.png", (38, 38), "PNG")
+    Sgengar_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar-gigantamax.png", (38, 38), "PNG")
+    Sgengar_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar-mega.png", (38, 38), "PNG")
+    Sgolem_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/golem-mega.png", (38, 38), "PNG")
+    Sgyarados_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/gyarados-mega.png", (38, 38), "PNG")
+    SkakunaIMG = GV.Carregar_Imagem("imagens/pokeicons/kakuna.png", (38, 38), "PNG")
+    Smachamp_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/machamp-gigantamax.png", (38, 38), "PNG")
+    SmarowakIMG = GV.Carregar_Imagem("imagens/pokeicons/marowak.png", (38, 38), "PNG")
+    SmeowthIMG = GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (38, 38), "PNG")
+    Smeowth_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/meowth-gigantamax.png", (38, 38), "PNG")
+    Smewtwo_megaxIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo-mega-x.png", (38, 38), "PNG")
+    Smewtwo_megayIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo-mega-y.png", (38, 38), "PNG")
+    SmoltresIMG = GV.Carregar_Imagem("imagens/pokeicons/moltres.png", (38, 38), "PNG")
+    SpersianIMG = GV.Carregar_Imagem("imagens/pokeicons/persian.png", (38, 38), "PNG")
+    Spikachu_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/pikachu-gigantamax.png", (38, 38), "PNG")
+    SpinsirIMG = GV.Carregar_Imagem("imagens/pokeicons/pinsir.png", (38, 38), "PNG")
+    Spinsir_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/pinsir-mega.png", (38, 38), "PNG")
+    SraticateIMG = GV.Carregar_Imagem("imagens/pokeicons/raticate.png", (38, 38), "PNG")
+    SrattataIMG = GV.Carregar_Imagem("imagens/pokeicons/rattata.png", (38, 38), "PNG")
+    SshellderIMG = GV.Carregar_Imagem("imagens/pokeicons/shellder.png", (38, 38), "PNG")
+    Ssnorlax_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/snorlax-gigantamax.png", (38, 38), "PNG")
+    Svenusaur_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/venusaur-gigantamax.png", (38, 38), "PNG")
+    SzapdosIMG = GV.Carregar_Imagem("imagens/pokeicons/zapdos.png", (38, 38), "PNG")
+    SweedleIMG = GV.Carregar_Imagem("imagens/pokeicons/weedle.png", (38, 38), "PNG")
 
 
-
-    SbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (38,38),"PNG")
-    SivysaurIMG = GV.Carregar_Imagem("imagens/pokemons/ivysaur.png", (38,38),"PNG")
-    SvenusaurIMG = GV.Carregar_Imagem("imagens/pokemons/venusaur.png", (38,38),"PNG")
-    ScharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (38,38),"PNG")
-    ScharmeleonIMG = GV.Carregar_Imagem("imagens/pokemons/charmeleon.png", (38,38),"PNG")
-    ScharizardIMG = GV.Carregar_Imagem("imagens/pokemons/charizard.png", (38,38),"PNG")
-    SsquirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (38,38),"PNG")
-    SwartortleIMG = GV.Carregar_Imagem("imagens/pokemons/wartortle.png", (38,38),"PNG")
-    SblastoiseIMG = GV.Carregar_Imagem("imagens/pokemons/blastoise.png", (38,38),"PNG")
-    SmachopIMG = GV.Carregar_Imagem("imagens/pokemons/machop.png", (38,38),"PNG")
-    SmachokeIMG = GV.Carregar_Imagem("imagens/pokemons/machoke.png", (38,38),"PNG")
-    SmachampIMG = GV.Carregar_Imagem("imagens/pokemons/machamp.png", (38,38),"PNG")
-    SgastlyIMG = GV.Carregar_Imagem("imagens/pokemons/gastly.png", (38,38),"PNG")
-    ShaunterIMG = GV.Carregar_Imagem("imagens/pokemons/haunter.png", (38,38),"PNG")
-    SgengarIMG = GV.Carregar_Imagem("imagens/pokemons/gengar.png", (38,38),"PNG")
-    SgeodudeIMG = GV.Carregar_Imagem("imagens/pokemons/geodude.png", (38,38),"PNG")
-    SgravelerIMG = GV.Carregar_Imagem("imagens/pokemons/graveler.png", (38,38),"PNG")
-    SgolemIMG = GV.Carregar_Imagem("imagens/pokemons/golem.png", (38,38),"PNG")
-    ScaterpieIMG = GV.Carregar_Imagem("imagens/pokemons/caterpie.png", (38,38),"PNG")
-    SmetapodIMG = GV.Carregar_Imagem("imagens/pokemons/metapod.png", (38,38),"PNG")
-    SbutterfreeIMG = GV.Carregar_Imagem("imagens/pokemons/butterfree.png", (38,38),"PNG")
-    SabraIMG = GV.Carregar_Imagem("imagens/pokemons/abra.png", (38,38),"PNG")
-    SkadabraIMG = GV.Carregar_Imagem("imagens/pokemons/kadabra.png", (38,38),"PNG")
-    SalakazamIMG = GV.Carregar_Imagem("imagens/pokemons/alakazam.png", (38,38),"PNG")
-    SdratiniIMG = GV.Carregar_Imagem("imagens/pokemons/dratini.png", (38,38),"PNG")
-    SdragonairIMG = GV.Carregar_Imagem("imagens/pokemons/dragonair.png", (38,38),"PNG")
-    SdragoniteIMG = GV.Carregar_Imagem("imagens/pokemons/dragonite.png", (38,38),"PNG")
-    SzoruaIMG = GV.Carregar_Imagem("imagens/pokemons/zorua.png", (38,38),"PNG")
-    SzoroarkIMG = GV.Carregar_Imagem("imagens/pokemons/zoroark.png", (38,38),"PNG")
-    SpikachuIMG = GV.Carregar_Imagem("imagens/pokemons/pikachu.png", (38,38),"PNG")
-    SraichuIMG = GV.Carregar_Imagem("imagens/pokemons/raichu.png", (38,38),"PNG")
-    SmagikarpIMG = GV.Carregar_Imagem("imagens/pokemons/magikarp.png", (38,38),"PNG")
-    SgyaradosIMG = GV.Carregar_Imagem("imagens/pokemons/gyarados.png", (38,38),"PNG")
-    SjigglypuffIMG = GV.Carregar_Imagem("imagens/pokemons/jigglypuff.png", (38,38),"PNG")
-    SwigglytuffIMG = GV.Carregar_Imagem("imagens/pokemons/wigglytuff.png", (38,38),"PNG")
-    SmagnemiteIMG = GV.Carregar_Imagem("imagens/pokemons/magnemite.png", (38,38),"PNG")
-    SmagnetonIMG = GV.Carregar_Imagem("imagens/pokemons/magneton.png", (38,38),"PNG")
-    SsnorlaxIMG = GV.Carregar_Imagem("imagens/pokemons/snorlax.png", (38,38),"PNG")
-    SaerodactylIMG = GV.Carregar_Imagem("imagens/pokemons/aerodactyl.png", (38,38),"PNG")
-    SjynxIMG = GV.Carregar_Imagem("imagens/pokemons/jynx.png", (38,38),"PNG")
-    SmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (38,38),"PNG")
 
 
     MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (88, 88), "PNG")
@@ -1236,8 +1283,8 @@ def Carregar_Imagens():
     "Beedrill-Mega": Gbeedrill_mega,
     "Blastoise-Gigantamax": Gblastoise_gigantamax,
     "Blastoise-Mega": Gblastoise_mega,
-    "Butterfree-Gmax": Gbutterfree_gmax,
-    "Charizard-Gmax": Gcharizard_gmax,
+    "Butterfree-gigantamax": Gbutterfree_gmax,
+    "Charizard-gigantamax": Gcharizard_gmax,
     "Charizard-MegaX": Gcharizard_megax,
     "Charizard-MegaY": Gcharizard_megay,
     "Clefable": Gclefable,
@@ -1265,6 +1312,8 @@ def Carregar_Imagens():
     "Shellder": Gshellder,
     "Snorlax-Gigantamax": Gsnorlax_gigantamax,
     "Venusaur-Gigantamax": Gvenusaur_gigantamax,
+    "Zapdos": Gzapdos,
+    "Weedle": Gweedle
     }
 
     ImagensPokemon38 = {
@@ -1308,8 +1357,47 @@ def Carregar_Imagens():
     "Snorlax": SsnorlaxIMG,
     "Aerodactyl": SaerodactylIMG,
     "Jynx": SjynxIMG,
-    "Mewtwo": SmewtwoIMG
-    }
+    "Mewtwo": SmewtwoIMG,
+    "Aerodactyl-mega": Saerodactyl_megaIMG,
+    "Alakazam-mega": Salakazam_megaIMG,
+    "Articuno": SarticunoIMG,
+    "Beedrill": SbeedrillIMG,
+    "Beedrill-mega": Sbeedrill_megaIMG,
+    "Blastoise-gigantamax": Sblastoise_gigantamaxIMG,
+    "Blastoise-mega": Sblastoise_megaIMG,
+    "Butterfree-gigantamax": Sbutterfree_gmaxIMG,
+    "Charizard-gigantamax": Scharizard_gmaxIMG,
+    "Charizard-mega-x": Scharizard_megaxIMG,
+    "Charizard-mega-y": Scharizard_megayIMG,
+    "Clefable": SclefableIMG,
+    "Clefairy": SclefairyIMG,
+    "Cloyster": ScloysterIMG,
+    "Cubone": ScuboneIMG,
+    "Gengar-gigantamax": Sgengar_gigantamaxIMG,
+    "Gengar-mega": Sgengar_megaIMG,
+    "Golem-alola": Sgolem_megaIMG,
+    "Gyarados-mega": Sgyarados_megaIMG,
+    "Kakuna": SkakunaIMG,
+    "Machamp-gigantamax": Smachamp_gigantamaxIMG,
+    "Marowak": SmarowakIMG,
+    "Meowth": SmeowthIMG,
+    "Meowth-gigantamax": Smeowth_gigantamaxIMG,
+    "Mewtwo-mega-x": Smewtwo_megaxIMG,
+    "Mewtwo-mega-y": Smewtwo_megayIMG,
+    "Moltres": SmoltresIMG,
+    "Persian": SpersianIMG,
+    "Pikachu-gigantamax": Spikachu_gigantamaxIMG,
+    "Pinsir": SpinsirIMG,
+    "Pinsir-mega": Spinsir_megaIMG,
+    "Raticate": SraticateIMG,
+    "Rattata": SrattataIMG,
+    "Shellder": SshellderIMG,
+    "Snorlax-gigantamax": Ssnorlax_gigantamaxIMG,
+    "Venusaur-gigantamax": Svenusaur_gigantamaxIMG,
+    "Zapdos": SzapdosIMG,
+    "Weedle": SweedleIMG
+}
+
 
     ImagensPokemon100 = {
     "Bulbasaur": MbulbasaurIMG,
@@ -1397,16 +1485,17 @@ def TelaPokemons(tela,eventos,estados):
     YA = GV.animar(AT1,AT2,animaA,tempo=250)
 
     for i in range(len(inimigo.pokemons)):
-        BI = BA[i]
-        BJ = BA[i+6]
+        if inimigo.pokemons[i].Vida > 0 and inimigo.pokemons[i].local is not None:
+            BI = BA[i]
+            BJ = BA[i+6]
 
-        GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                        lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
-        GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                        lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
-        tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
-        tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
-    
+            GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
+                            lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
+            GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
+                            lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
+            tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
+            tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
+        
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
@@ -1463,9 +1552,9 @@ def TelaPokemons(tela,eventos,estados):
     if PokemonV is not None:
         PokemonVV = PokemonV
 
-    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoInfo,S2,animaS)
+    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,S2,animaS,200,"S")
 
-    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoInfo,V2,animaV)
+    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,V2,animaV,200,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1654,4 +1743,4 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaEstTreP = Mapa.pLojaT
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores)
+    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros)

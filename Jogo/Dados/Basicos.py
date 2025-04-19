@@ -511,8 +511,8 @@ Rattata = {
     "velocidade": 26,
     "XP": 1,
     "custo": 0,
-    "ataques normais": "",
-    "ataques especiais": ""
+    "ataques normais": [B],
+    "ataques especiais": [C, D]
 }
 Weedle = {
     "nome": "Weedle",
@@ -529,8 +529,8 @@ Weedle = {
     "velocidade": 16,
     "XP": 1,
     "custo": 1,
-    "ataques normais": "",
-    "ataques especiais": ""
+    "ataques normais": [B],
+    "ataques especiais": [C, D]
 }
 
 

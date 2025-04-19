@@ -18,7 +18,8 @@ Normal = {
     "LojaTreEst": 5,
     "cores": [(200, 200, 200),(150, 150, 150)],
     "Code Musica": 0,
-    "Code Tela": 0
+    "Code Tela": 0,
+    "Metros": 10
 }
 
 Mer = {
@@ -58,7 +59,8 @@ Mer = {
     "LojaTreEst": 6,
     "cores": [(180, 145, 255),(255, 200, 130)],
     "Code Musica": 1,
-    "Code Tela": 1
+    "Code Tela": 1,
+    "Metros": 10
 }
 
 Shivre = {
@@ -104,7 +106,8 @@ Shivre = {
     "LojaTreEst": 5,
     "cores": [(170, 210, 255),(200, 235, 255)],
     "Code Musica": 2,
-    "Code Tela": 2
+    "Code Tela": 2,
+    "Metros": 10
 }
 
 Auroma = {
@@ -151,7 +154,8 @@ Auroma = {
     "LojaTreEst": 5,
     "cores": [(150, 220, 150),(170, 240, 170)],
     "Code Musica": 3,
-    "Code Tela": 3
+    "Code Tela": 3,
+    "Metros": 10
 }
 
 Kalos = {
@@ -172,7 +176,8 @@ Kalos = {
     "LojaTreEst": 5,
     "cores": [(130, 180, 255),(180, 145, 255)],
     "Code Musica": 4,
-    "Code Tela": 4
+    "Code Tela": 4,
+    "Metros": 10
 }
 
 Skyloft = {
@@ -224,7 +229,8 @@ Skyloft = {
     "LojaTreEst": 5,
     "cores": [(240, 240, 240),(170, 170, 170)],
     "Code Musica": 5,
-    "Code Tela": 5
+    "Code Tela": 5,
+    "Metros": 10
 }
 
 Molgera = {
@@ -247,7 +253,8 @@ Molgera = {
     "LojaTreEst": 5,
     "cores": [(200, 170, 120),(255, 200, 130)],
     "Code Musica": 6,
-    "Code Tela": 6
+    "Code Tela": 6,
+    "Metros": 10
 }
 
 

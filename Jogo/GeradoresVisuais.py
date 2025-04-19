@@ -380,9 +380,28 @@ def tocar(som):
     if som:
         som.play()
 
-def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, x_final=None, anima=None, tempo=200):
+
+AtaqueS = None
+AtaqueSV = None
+
+def seleciona_ataque(ataque,SoV):
+    global AtaqueS,AtaqueSV
+    if SoV == "S":
+        AtaqueS = ataque
+    else:
+        AtaqueSV = ataque
+
+def desseleciona_ataque(SoV):
+    global AtaqueS,AtaqueSV
+    if SoV == "S":
+        AtaqueS = None
+    else:
+        AtaqueSV = None
+
+def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, x_final=None, anima=None, tempo=200, SoV=None):
     x_inicial, y = pos
     largura, altura = 360, 330
+    global AtaqueSV
 
     if pokemon in player.pokemons:
         cor = (35,35,35)
@@ -406,6 +425,7 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
     pygame.draw.rect(tela, (255, 255, 255), ret, 2)
 
     if pokemon is not None:
+
         # Fontes
         fonte_titulo = pygame.font.SysFont("arial", 25, True)
         fonte_HP = pygame.font.SysFont("arial", 23, True)
@@ -503,15 +523,183 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
 
         Botao_Selecao(
             tela, botao_rect1, pokemon.ataque_normal["nome"], Fonte20,
-            (255, 200, 120), (255, 255, 255),
+            (255, 200, 120), (255, 255, 255),funcao_esquerdo=lambda:seleciona_ataque(pokemon.ataque_normal,SoV),
+            desfazer_esquerdo=lambda:desseleciona_ataque(SoV),id_botao=f"{pokemon.ID}{pokemon.ataque_normal["nome"]}",
+            cor_borda_esquerda=VERMELHO,
             estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
         )
 
         Botao_Selecao(
             tela, botao_rect2, pokemon.ataque_especial["nome"], Fonte20,
-            (210, 160, 255), (255, 255, 255),
+            (210, 160, 255), (255, 255, 255),funcao_esquerdo=lambda:seleciona_ataque(pokemon.ataque_especial,SoV),
+            desfazer_esquerdo=lambda:desseleciona_ataque(SoV),id_botao=f"{pokemon.ID}{pokemon.ataque_especial["nome"]}",
+            cor_borda_esquerda=VERMELHO,
             estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
         )
+
+        if x > 1600:
+            desseleciona_ataque(SoV)
+
+        if SoV == "S":
+            if AtaqueS is not None:
+                Mostrar_Ataque(tela,AtaqueS,(1228,y),imagens_tipos)
+        else:
+            if AtaqueSV is not None:
+                Mostrar_Ataque(tela,AtaqueSV,(1228,y),imagens_tipos)
+       
+
+def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
+    # Cores
+    FUNDO = (30, 30, 30)
+    BORDA = (255, 255, 255)
+    TEXTO = (255, 255, 255)
+    LINHA = (200, 200, 200)
+    BRANCO = (255, 255, 255)
+
+    energia_cores = {
+        "vermelha": (255, 0, 0), "azul": (0, 0, 255),
+        "amarela": (255, 255, 0), "verde": (0, 200, 0),
+        "roxa": (128, 0, 128), "rosa": (255, 105, 180),
+        "laranja": (255, 140, 0), "marrom": (139, 69, 19),
+        "preta": (30, 30, 30), "cinza": (160, 160, 160)
+    }
+
+    # Fontes
+    fonte_titulo = pygame.font.SysFont("arial", 28, bold=True)
+    fonte_desc = pygame.font.SysFont("arial", 18)
+    fonte_info = pygame.font.SysFont("arial", 18)
+    fonte_infoStat = pygame.font.SysFont("arial", 18, bold=True)
+
+    # Tamanho da ficha
+    largura_total = 330
+    altura_total = 330
+    x, y = posicao
+
+    # Fundo principal da ficha
+    fundo = pygame.Rect(x, y, largura_total, altura_total)
+    pygame.draw.rect(tela, FUNDO, fundo)
+    pygame.draw.rect(tela, BORDA, fundo, 2)
+
+    if ataque is not None:
+        # 1. Cabeçalho - Nome
+        nome_render = fonte_titulo.render(ataque["nome"], True, TEXTO)
+        nome_rect = nome_render.get_rect(center=(x + largura_total // 2, y + 25))
+        tela.blit(nome_render, nome_rect)
+
+    # Tipos com borda branca e preta centralizados
+    if imagens_tipos and "tipo" in ataque:
+        tipos = ataque["tipo"]
+        raio = 15
+        tamanho_icon = 30
+
+        def desenhar_tipo(tipo, centro):
+            pygame.draw.circle(tela, (255, 255, 255), centro, raio)  # Fundo branco
+            pygame.draw.circle(tela, (0, 0, 0), centro, raio, 1)     # Borda preta
+
+            if tipo in imagens_tipos:
+                img = pygame.transform.scale(imagens_tipos[tipo], (tamanho_icon, tamanho_icon))
+                img_rect = img.get_rect(center=centro)
+                tela.blit(img, img_rect)
+
+        if len(tipos) == 1:
+            centro_esq = (x + 8 + raio, y + 8 + raio)
+            centro_dir = (x + largura_total - 8 - raio, y + 8 + raio)
+            desenhar_tipo(tipos[0], centro_esq)
+            desenhar_tipo(tipos[0], centro_dir)
+        elif len(tipos) >= 2:
+            centro_esq = (x + 8 + raio, y + 8 + raio)
+            centro_dir = (x + largura_total - 8 - raio, y + 8 + raio)
+            desenhar_tipo(tipos[0], centro_esq)
+            desenhar_tipo(tipos[1], centro_dir)
+
+        pygame.draw.line(tela, LINHA, (x + 10, y + 50), (x + largura_total - 10, y + 50), 2)
+
+        # 2. Descrição (até 8 linhas)
+        palavras = ataque["descrição"].split(" ")
+        linhas = []
+        linha = ""
+        max_largura = largura_total - 20
+        for palavra in palavras:
+            if fonte_desc.size(linha + palavra)[0] > max_largura:
+                linhas.append(linha)
+                linha = palavra + " "
+            else:
+                linha += palavra + " "
+        if linha:
+            linhas.append(linha)
+
+        y_desc_inicio = y + 60
+        for i, linha in enumerate(linhas[:9]):
+            texto_linha = fonte_desc.render(linha.strip(), True, TEXTO)
+            tela.blit(texto_linha, (x + 10, y_desc_inicio + i * 22))
+
+        # Ajustar a linha de separação para não ultrapassar os limites da ficha
+        y_divisoria = y + altura_total - 80
+        pygame.draw.line(tela, LINHA, (x + 10, y_divisoria), (x + largura_total - 10, y_divisoria), 2)
+
+        # 3. Status
+        infos = [
+            f"Dano: {ataque['dano']}",
+            f"Alcance: {ataque['alcance']}m",
+            f"Precisão: {ataque['precisão']}%"
+        ]
+        
+        # Função para definir a cor do status
+        def obter_cor_status(status, tipo):
+            if tipo == "dano":
+                if status < 0.8:
+                    return (255, 0, 0)  # Vermelho
+                elif status < 1.2:
+                    return (255, 255, 0)  # Amarelo
+                elif status < 1.6:
+                    return (0, 200, 0)  # Verde
+                else:
+                    return (180, 90, 255)  # Roxo claro
+            elif tipo == "alcance":
+                if status < 20:
+                    return (255, 0, 0)  # Vermelho
+                elif status < 50:
+                    return (255, 255, 0)  # Amarelo
+                elif status < 90:
+                    return (0, 200, 0)  # Verde
+                else:
+                    return (180, 90, 255)  # Roxo claro
+            elif tipo == "precisão":
+                if status < 35:
+                    return (255, 0, 0)  # Vermelho
+                elif status < 70:
+                    return (255, 255, 0)  # Amarelo
+                elif status < 101:
+                    return (0, 200, 0)  # Verde
+                else:
+                    return (180, 90, 255)  # Roxo claro
+
+        espacamento = largura_total // len(infos)
+        for i, info in enumerate(infos):
+            texto_info = fonte_info.render(info.split(":")[0], True, TEXTO)
+            texto_valor = fonte_infoStat.render(info.split(":")[1], True, obter_cor_status(float(info.split(":")[1].replace("m", "").replace("%", "")), infos[i].split(":")[0].lower()))
+            
+            rect_info = texto_info.get_rect(center=(x + espacamento * i + espacamento // 2, y + altura_total - 68))
+            rect_valor = texto_valor.get_rect(center=(x + espacamento * i + espacamento // 2, y + altura_total - 48))
+
+            tela.blit(texto_info, rect_info)
+            tela.blit(texto_valor, rect_valor)
+
+        pygame.draw.line(tela, LINHA, (x + 10, y + altura_total - 35), (x + largura_total - 10, y + altura_total - 35), 2)
+
+        # 4. Custo
+        custo_label = fonte_info.render("Custo:", True, TEXTO)
+        tela.blit(custo_label, (x + 10, y + altura_total - 28))
+
+        if "custo" in ataque:
+            for i, energia in enumerate(ataque["custo"]):
+                cor = energia_cores.get(energia, BRANCO)
+                cx = x + 70 + i * 28
+                cy = y + altura_total - 18
+                pygame.draw.circle(tela, cor, (cx, cy), 10)
+                pygame.draw.circle(tela, BORDA, (cx, cy), 10, 1)
+
+
 
 def carregar_frames(pasta):
     frames = []
@@ -805,7 +993,7 @@ def animar(D_inicial,D_final,anima,tempo=200):
 
     return D
 
-            
+
         
 
 

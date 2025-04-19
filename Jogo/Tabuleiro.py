@@ -65,7 +65,7 @@ def desseleciona_peça():
     PeçaS = None
     estadoTabuleiro["selecionado_esquerdo"] =  False
 
-def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem):
+def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem, metros):
     global Area
     tamanho_casa = 40
     tamanho_imagem = 38
@@ -131,7 +131,7 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
             pygame.draw.rect(tela, (0, 0, 0), espaco, 2)
 
     if PeçaS is not None:
-        Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player)
+        Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros)
 
 def Move(peça, L, C,player):
     peça.Ganhar_XP(1,player)
@@ -173,29 +173,61 @@ def Inverter_Tabuleiro(player, inimigo):
     # Substitui o mapa original
     Mapa = novo_mapa
 
-def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player):
+def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
     tamanho_casa = 40
     x_inicial = (1920 - 25 * tamanho_casa) // 2
     y_inicial = (1080 - 15 * tamanho_casa) // 2
 
+    # Calcular alcance com base na velocidade
     vel = PeçaS.vel
-    linha_atual, coluna_atual = PeçaS.local["id"]
-    alcance = (vel + 10) // 20  # conforme padrão da imagem
+    if vel <= 0:
+        return  # Pokémon imóvel
 
+    alcance = int(vel / metros)
+    if vel > 0 and alcance < 1:
+        alcance = 1  # Pelo menos 1 movimento lateral garantido
+
+    # Definir limites de movimento lateral e diagonal conforme escala personalizada
+    if alcance == 1:
+        alcance_lateral = 1
+        alcance_diagonal = 1
+    elif alcance == 2:
+        alcance_lateral = 2
+        alcance_diagonal = 1
+    elif alcance == 3:
+        alcance_lateral = 2
+        alcance_diagonal = 2
+    elif alcance == 4:
+        alcance_lateral = 3
+        alcance_diagonal = 2
+    elif alcance == 5:
+        alcance_lateral = 3
+        alcance_diagonal = 3
+    elif alcance == 6:
+        alcance_lateral = 4
+        alcance_diagonal = 3
+    else:
+        alcance_lateral = min(4 + (alcance - 6), 10)  # opcional: limitar para evitar exageros
+        alcance_diagonal = min(3 + (alcance - 5), 10)
+
+    linha_atual, coluna_atual = PeçaS.local["id"]
     movimentos_possiveis = []
 
-    for dx in range(-alcance, alcance + 1):
-        for dy in range(-alcance, alcance + 1):
-            if abs(dx) + abs(dy) <= alcance:
-                nova_linha = linha_atual + dy
-                nova_coluna = coluna_atual + dx
+    for dx in range(-alcance_lateral, alcance_lateral + 1):
+        for dy in range(-alcance_lateral, alcance_lateral + 1):
+            nova_linha = linha_atual + dy
+            nova_coluna = coluna_atual + dx
 
-                if (0 <= nova_linha < 15 and 0 <= nova_coluna < 25 and
-                    (nova_linha, nova_coluna) in casas_disponiveis):
+            if (0 <= nova_linha < 15 and 0 <= nova_coluna < 25 and
+                (nova_linha, nova_coluna) in casas_disponiveis and
+                Mapa[nova_linha][nova_coluna]["ocupado"] is None):
 
-                    casa = Mapa[nova_linha][nova_coluna]
-                    if casa["ocupado"] is None:
+                # Verifica se é diagonal
+                if dx != 0 and dy != 0:
+                    if abs(dx) <= alcance_diagonal and abs(dy) <= alcance_diagonal:
                         movimentos_possiveis.append((nova_linha, nova_coluna))
+                else:
+                    movimentos_possiveis.append((nova_linha, nova_coluna))
 
     for linha, coluna in movimentos_possiveis:
         x = x_inicial + coluna * tamanho_casa

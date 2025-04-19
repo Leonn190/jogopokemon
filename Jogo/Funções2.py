@@ -1,45 +1,9 @@
 import random
+import math
 from prettytable import PrettyTable
 import Gerador2
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
-
-def comprar(player,compras):
-    for i in range(compras):
-        while True:
-            loja = input(f"{player[0]}, você deseja comprar em qual loja? loja de pokebolas, de itens ou de amplificadores ?").lower()
-            if loja in ["loja de pokebolas", "pokebolas","1"]:
-                tipo = "pokebola"
-                break
-            elif loja in ["loja de itens", "itens","2"]:
-                tipo = "item"
-                break
-            elif loja in ["loja de amplificadores","amplificadores","3"]:
-                tipo = "amplificador"
-                break
-            else:
-                print("loja invalida, tente novamente")
-        ganho = Gerador2.ganhar_item(tipo)
-        print (f"Você ganhou: {ganho['nome']}!")
-        player[2].append(ganho)
-    
-    print (f"A compra foi realizada! seu inventário atual é:")
-    tabela = PrettyTable()
-
-    U = player[2]
-
-    tabela.title = f"Inventario de {player[0]}"
-    tabela.field_names = ["Num", " Nome do item ", "Classe", "Descrição"]
-    for i in range(len(U)-1):
-        tabela.add_row ([i+1,U[i+1]["nome"],U[i+1]["classe"],U[i+1]["Descrição"]]) 
-    print (tabela) 
-
-def ganhar_energia(player,numero):
-    global Energias
-    for i in range(numero):
-        j = random.choice(Energias)
-        player[3][j] = player[3][j] + 1
-        print (f"{player[0]} ganhou 1 energia de {j}")
 
 def efetividade(Tipo_do_ataque,Tipo_do_atacado):
     
@@ -123,36 +87,14 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado):
 
     return multiplicador
 
-def usar_item(item,player,inimigo):
-    if item["classe"] in ["poçao","amplificador"]:
-        tabela = PrettyTable()
-        for i in range(len(player[1]) - 1):
-            U = player[1][i + 1]
-            tabela.title = f"Status dos pokemons de {player[0]}"
-            tabela.field_names = ["num","nome","Vida", "ATK", "Sp ATK", "DEF", "Sp DEF", "VEL", "custo", "ataque normal", "ataque especial", "XP", "IV"]
-            tabela.add_row([i+1,U.nome,U.Vida, U.Atk, U.Atk_sp, U.Def, U.Def_sp, U.vel, U.custo, U.ataque_normal["nome"], U.ataque_especial["nome"], U.xp_atu, U.IV])
-            print (tabela)
-            escolha = int(input(f"Escolha o numero do pokemon que voce vai utilizar o item {item['nome']}"))
-            if item["classe"] in ["poçao"]:
-                cura = item["cura"]
-                player[2].remove(item)
-                player[1][escolha].curar(cura)
-                return
-            elif item["classe"] in ["amplificador"]:
-                tipo = item["aumento"]
-                player[2].remove(item)
-                player[1][escolha].amplificar(tipo,0.15,player[1][escolha])
-                return
-    elif item["classe"] in ["caixa","coletor"]:
-        compras = item["compra"]
-        if item["classe"] in ["caixa"]:
-            player[2].remove(item)
-            comprar(player,compras)
-            return
-        elif item["classe"] in ["coletor"]:
-            player[2].remove(item)
-            ganhar_energia(player,compras)
-            return
-    elif item["classe"] == "pokebola":
-        print (f"{item["nome"]} deve ser usado apenas para capturar pokemons, item invalido!")
-        return
+def distancia_entre_pokemons(poke1, poke2, tamanho_casa=1.5):
+    if poke1.local is None or poke2.local is None:
+        return None
+
+    linha1, coluna1 = map(int, poke1.local["id"])
+    linha2, coluna2 = map(int, poke2.local["id"])
+
+    dx = (linha1 - linha2) * tamanho_casa
+    dy = (coluna1 - coluna2) * tamanho_casa
+
+    return math.hypot(dx, dy)
