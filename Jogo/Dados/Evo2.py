@@ -1,5 +1,5 @@
 from Dados.Ataques_N import A,B
-from Dados.Ataques_S import C,D
+from Dados.Ataques_S import Tiro_Quente,Destruição
 
 Venusaur = {
     "nome": "Venusaur",
@@ -15,7 +15,7 @@ Venusaur = {
     "XP": 90,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Charizard = {
@@ -32,7 +32,7 @@ Charizard = {
     "XP": 90,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 Blastoise = {
     "nome": "Blastoise",
@@ -48,7 +48,7 @@ Blastoise = {
     "XP": 90,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Machamp = {
@@ -65,7 +65,7 @@ Machamp = {
     "XP": 90,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Gengar = {
@@ -82,7 +82,7 @@ Gengar = {
     "XP": 90,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Golem = {
@@ -99,7 +99,7 @@ Golem = {
     "XP": 90,
     "custo": 5,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Butterfree = {
@@ -116,7 +116,7 @@ Butterfree = {
     "XP": 95,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 Alakazam = {
     "nome": "Alakazam",
@@ -132,7 +132,7 @@ Alakazam = {
     "XP": 95,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Dragonite = {
@@ -149,7 +149,7 @@ Dragonite = {
     "XP": 100,
     "custo": 4,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 Beedrill = {
     "nome": "Beedrill",
@@ -165,5 +165,5 @@ Beedrill = {
     "XP": 85,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }

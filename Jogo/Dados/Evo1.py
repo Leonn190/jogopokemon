@@ -1,5 +1,5 @@
 from Dados.Ataques_N import A,B
-from Dados.Ataques_S import C,D
+from Dados.Ataques_S import Tiro_Quente,Destruição
 from Dados.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite
 
 Ivysaur = {
@@ -16,7 +16,7 @@ Ivysaur = {
     "XP": 50,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Charmeleon = {
@@ -33,7 +33,7 @@ Charmeleon = {
     "XP": 50,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Wartortle = {
@@ -50,7 +50,7 @@ Wartortle = {
     "XP": 50,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Machoke = {
@@ -67,7 +67,7 @@ Machoke = {
     "XP": 50,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Haunter = {
@@ -84,7 +84,7 @@ Haunter = {
     "XP": 55,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Graveler = {
@@ -101,7 +101,7 @@ Graveler = {
     "XP": 50,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Metapod = {
@@ -118,7 +118,7 @@ Metapod = {
     "XP": 50,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Kadabra = {
@@ -135,7 +135,7 @@ Kadabra = {
     "XP": 55,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Dragonair = {
@@ -152,7 +152,7 @@ Dragonair = {
     "XP": 65,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Raichu = {
@@ -169,7 +169,7 @@ Raichu = {
     "XP": 0,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Zoroark = {
@@ -186,7 +186,7 @@ Zoroark = {
     "XP": 0,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 Gyarados = {
     "nome": "Gyarados",
@@ -202,7 +202,7 @@ Gyarados = {
     "XP": 85,
     "custo": 4,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Wigglytuff = {
@@ -219,7 +219,7 @@ Wigglytuff = {
     "XP": 0,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Clefable = {
@@ -236,7 +236,7 @@ Clefable = {
     "XP": 0,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Persian = {
@@ -253,7 +253,7 @@ Persian = {
     "XP": 0,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Marowak = {
@@ -270,7 +270,7 @@ Marowak = {
     "XP": 0,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Cloyster = {
@@ -287,7 +287,7 @@ Cloyster = {
     "XP": 0,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Magneton = {
@@ -304,7 +304,7 @@ Magneton = {
     "XP": 0,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Raticate = {
@@ -321,7 +321,7 @@ Raticate = {
     "XP": 0,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Kakuna = {
@@ -338,6 +338,6 @@ Kakuna = {
     "XP": 55,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 

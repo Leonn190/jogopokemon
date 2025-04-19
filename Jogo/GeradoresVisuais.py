@@ -408,7 +408,6 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
     else:
         cor = (80,35,35)
 
-
     # Controle de animação
     if x_final is not None: 
         if anima is None:

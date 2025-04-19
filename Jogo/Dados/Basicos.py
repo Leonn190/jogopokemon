@@ -1,5 +1,5 @@
 from Dados.Ataques_N import A,B
-from Dados.Ataques_S import C,D
+from Dados.Ataques_S import Tiro_Quente,Destruição
 from Dados.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
 
 Bulbasaur = {
@@ -18,7 +18,7 @@ Bulbasaur = {
     "XP": 20,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Charmander = {
@@ -37,7 +37,7 @@ Charmander = {
     "XP": 20,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Squirtle = {
@@ -56,7 +56,7 @@ Squirtle = {
     "XP": 20,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Machop = {
@@ -75,7 +75,7 @@ Machop = {
     "XP": 20,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Gastly = {
@@ -94,7 +94,7 @@ Gastly = {
     "XP": 20,
     "custo": 0,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Geodude = {
@@ -113,7 +113,7 @@ Geodude = {
     "XP": 25,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Caterpie = {
@@ -132,7 +132,7 @@ Caterpie = {
     "XP": 15,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Abra = {
@@ -151,7 +151,7 @@ Abra = {
     "XP": 25,
     "custo": 0,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Dratini = {
@@ -170,7 +170,7 @@ Dratini = {
     "XP": 30,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 Pikachu = {
@@ -189,7 +189,7 @@ Pikachu = {
     "XP": 35,
     "custo": 0,
     "ataques normais": [B],
-    "ataques especiais": [C, D],
+    "ataques especiais": [Tiro_Quente,Destruição],
 }
 
 
@@ -209,7 +209,7 @@ Zorua = {
     "XP": 6,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Magikarp = {
@@ -228,7 +228,7 @@ Magikarp = {
     "XP": 3,
     "custo": 0,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Jigglypuff = {
@@ -247,7 +247,7 @@ Jigglypuff = {
     "XP": 2,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Clefairy = {
@@ -266,7 +266,7 @@ Clefairy = {
     "XP": 3,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Meowth = {
@@ -285,7 +285,7 @@ Meowth = {
     "XP": 2,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Cubone = {
@@ -304,7 +304,7 @@ Cubone = {
     "XP": 3,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Shellder = {
@@ -323,7 +323,7 @@ Shellder = {
     "XP": 3,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Magnemite = {
@@ -342,7 +342,7 @@ Magnemite = {
     "XP": 3,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Snorlax = {
@@ -361,7 +361,7 @@ Snorlax = {
     "XP": 8,
     "custo": 4,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Aerodactyl = {
@@ -380,7 +380,7 @@ Aerodactyl = {
     "XP": 8,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Jynx = {
@@ -399,7 +399,7 @@ Jynx = {
     "XP": 6,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Pinsir = {
@@ -418,7 +418,7 @@ Pinsir = {
     "XP": 7,
     "custo": 2,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Mewtwo = {
@@ -437,7 +437,7 @@ Mewtwo = {
     "XP": 10,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Articuno = {
@@ -456,7 +456,7 @@ Articuno = {
     "XP": 10,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Moltres = {
@@ -475,7 +475,7 @@ Moltres = {
     "XP": 10,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 Zapdos = {
@@ -494,7 +494,7 @@ Zapdos = {
     "XP": 10,
     "custo": 3,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 Rattata = {
     "nome": "Rattata",
@@ -512,7 +512,7 @@ Rattata = {
     "XP": 1,
     "custo": 0,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 Weedle = {
     "nome": "Weedle",
@@ -530,10 +530,14 @@ Weedle = {
     "XP": 1,
     "custo": 1,
     "ataques normais": [B],
-    "ataques especiais": [C, D]
+    "ataques especiais": [Tiro_Quente,Destruição]
 }
 
 
 Pokedex = [0,
     Bulbasaur, Charmander, Squirtle, Machop, Gastly, Geodude, Caterpie, Abra, Dratini, Pikachu,
     Zorua, Magikarp, Jigglypuff, Clefairy, Meowth, Cubone, Shellder, Magnemite, Snorlax, Aerodactyl, Jynx, Pinsir, Mewtwo, Articuno,Moltres,Zapdos,Rattata,Weedle]
+d
+def
+def
+def

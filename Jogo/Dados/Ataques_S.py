@@ -1,19 +1,21 @@
-C = {
-    "nome": "Ataque legal",
+Tiro_Quente = {
+    "nome": "Tiro Quente",
     "tipo": ["fogo"],   
-    "custo": ["normal","vermelha","vermelha"],
-    "dano": 1.2,
-    "alcance": 50,
+    "custo": ["vermelha"],
+    "dano": 0.9,
+    "alcance": 40,
     "precisão": 100,
-    "descrição": "trallaleiro tralala, porco dio e porco ala, bombardiro crocodilo, chipanzine bananini uauaua, oh meu deus é o lirili larila, o elefenate do deserto que caminha, morcegos 3 causam dano pesado 2 e cura 6666, tsung sahurrr"
+    "Função": None,
+    "descrição": "Um disparo flamejante"
 }
 
-D = {
-    "nome": "Ataque maneiro",
-    "tipo": ["fogo"],   
-    "custo": ["normal","vermelha","vermelha"],
-    "dano": 1.2,
-    "alcance": 50,
-    "precisão": 100,
-    "descrição": "trallaleiro tralala, porco minha, morcegos 3 causam dano pesado 2 e cura 6666, tsung sahurrr"
+Destruição = {
+    "nome": "Destruição",
+    "tipo": ["dragao"],   
+    "custo": ["amarela"],
+    "dano": 1.5,
+    "alcance": 30,
+    "precisão": 99,
+    "Função": None,
+    "descrição": "cause uma destruição"
 }
