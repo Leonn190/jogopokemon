@@ -87,7 +87,7 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado):
 
     return multiplicador
 
-def distancia_entre_pokemons(poke1, poke2, tamanho_casa=1.5):
+def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
     if poke1.local is None or poke2.local is None:
         return None
 

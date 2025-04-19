@@ -135,6 +135,8 @@ class Pokemon:
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
+            if isinstance(self.evolucao,list):
+                self.evolucao = random.randint(self.evolucao)
             if self.evolucao is not None:
                 nome_antigo = self.nome
                 Partida.AddIMGpokemon(self)

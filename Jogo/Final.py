@@ -46,7 +46,7 @@ def Final(tela,estados,relogio):
                 estados["Rodando_Jogo"] = False
         
             elif evento.type == pygame.USEREVENT:
-                pygame.mixer.music.load('Musicas/Menu.ogg')
+                pygame.mixer.music.load('Jogo/Audio/Musicas/Menu.ogg')
                 pygame.mixer.music.play()
         
         GV.Texto_caixa(tela,f"{Vencedor.nome} Venceu, Parabens!", (450,200,1020,260),Fonte70, DOURADO,PRETO,4)

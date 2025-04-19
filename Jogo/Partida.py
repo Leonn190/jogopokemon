@@ -69,8 +69,6 @@ LojaEnerP = None
 LojaEstTreP = None
 Musica_Estadio_atual = None
 
-
-
 class MensagemPassageira:
     def __init__(self, mensagem, cor, fonte, posicao, duracao=150, deslocamento=35):
         self.mensagem = mensagem
@@ -220,7 +218,7 @@ def seleciona(ID, player, inimigo,):
     if idx < len(player.pokemons):
         if ID in ["Pokemon1","Pokemon2","Pokemon3","Pokemon4","Pokemon5","Pokemon6"]:
             if player.pokemons[idx].Vida > 0:
-                PokemonS = player.pokemons[idx]
+                PokemonS = player.pokemons[idx] 
                 global S1, S2, animaS
                 global AT1, AT2, animaA
                 global OP1, OP2, animaOP
@@ -457,7 +455,6 @@ def PokemonCentro(ID,player):
                 VerificaGIF()
                 GV.tocar(Bom)
                 Centro.remove(pokemon)
-                estadoOutros["selecionado_esquerdo"] =  False
                 return
             else:
                 GV.tocar(Bloq)
@@ -891,6 +888,8 @@ def Inicia(tela):
 
     Mapa = G.Gera_Mapa(0)
 
+    fechar_tudo()
+
     Musica_Estadio_atual = 0
     LojaItensP = Mapa.PlojaI
     LojaPokeP = Mapa.PlojaP
@@ -1170,6 +1169,9 @@ def Carregar_Imagens():
     CaxiIMG = GV.Carregar_Imagem("imagens/itens/caxi.png", (62, 62), "PNG")
     CaxiPrateadaIMG = GV.Carregar_Imagem("imagens/itens/caxi_prateada.png", (62, 62), "PNG")
     EstadioIMG = GV.Carregar_Imagem("imagens/itens/TP.png", (62, 62), "PNG")
+    MegaIMG = GV.Carregar_Imagem("imagens/itens/mega.png", (62, 62), "PNG")
+    VMaxIMG = GV.Carregar_Imagem("imagens/itens/Vstar.png", (62, 62), "PNG")
+    VStarIMG = GV.Carregar_Imagem("imagens/itens/Vmax.png", (62, 62), "PNG")
 
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
@@ -1481,25 +1483,30 @@ def TelaPokemons(tela,eventos,estados):
     global player
     global inimigo
 
+    try:
+        if PokemonS.local is not None:
+            YA = GV.animar(AT1,AT2,animaA,tempo=250)
 
-    YA = GV.animar(AT1,AT2,animaA,tempo=250)
+    
+            for i in range(len(inimigo.pokemons)):
+                if inimigo.pokemons[i].Vida > 0 and inimigo.pokemons[i].local is not None:
+                    BI = BA[i]
+                    BJ = BA[i+6]
 
-    for i in range(len(inimigo.pokemons)):
-        if inimigo.pokemons[i].Vida > 0 and inimigo.pokemons[i].local is not None:
-            BI = BA[i]
-            BJ = BA[i+6]
+                    GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
+                                    lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
+                    GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
+                                    lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
+                    tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
+                    tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
 
-            GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                            lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
-            GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                            lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
-            tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
-            tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
-        
+    except AttributeError:
+        pass
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
     GV.Botao(tela, "Evoluir", (1620, YO, 300, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
+
 
     try:
         if PokemonS.local is not None:
