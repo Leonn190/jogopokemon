@@ -457,6 +457,7 @@ def PokemonCentro(ID,player):
                 GV.tocar(Bom)
                 Centro.remove(pokemon)
                 estadoOutros["selecionado_esquerdo"] =  False
+                desseleciona_fruta()
                 return
             else:
                 GV.tocar(Bloq)
@@ -513,16 +514,16 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, 
         tela.blit(img, (img_x, img_y))
 
 def atacaN(Pokemon,player,inimigo,ID,tela):
-    if Pokemon is not None and Pokemon.Vida > 0:
-        alvo = inimigo.pokemons[ID]
+    alvo = inimigo.pokemons[ID]
+    if Pokemon is not None and alvo.Vida >= 0:
         Pokemon.atacar(alvo,player,inimigo,"N",tela)
     else:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
 
 def atacaS(Pokemon,player,inimigo,ID,tela):
-    if Pokemon is not None and Pokemon.Vida > 0:
-        alvo = inimigo.pokemons[ID]
+    alvo = inimigo.pokemons[ID]
+    if Pokemon is not None and alvo.Vida >= 0:
         Pokemon.atacar(alvo,player,inimigo,"S",tela)
     else:
         GV.tocar(Bloq)
@@ -578,7 +579,7 @@ def VerificaGIF():
                 "frames": PokeGifs[nome],
                 "frame_atual": 0,
                 "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 40  # Pode ser ajustado para cada Pokémon se necessário
+                "intervalo": 30  # Pode ser ajustado para cada Pokémon se necessário
             })
 
 def Muter():
@@ -841,7 +842,8 @@ def Partida(tela,estados,relogio):
 
 
         if PokemonS is not None:
-            print (PokemonS.local)
+            print (PokemonS.xp_atu)
+            print (PokemonS.xp_total)
 
         pygame.display.update()
         relogio.tick(175)
@@ -985,6 +987,46 @@ def Carregar_Imagens():
     Gaerodactyl = GV.carregar_frames('imagens/gifs/aerodactyl_frames')
     Gjynx = GV.carregar_frames('imagens/gifs/jynx_frames')
     Gmewtwo = GV.carregar_frames('imagens/gifs/mewtwo_frames')
+    Gmewtwo = GV.carregar_frames('imagens/gifs/mewtwo_frames')
+    Gaerodactyl_mega = GV.carregar_frames('imagens/gifs/aerodactyl-mega_frames')
+    Galakazam_mega = GV.carregar_frames('imagens/gifs/alakazam-mega_frames')
+    Garticuno = GV.carregar_frames('imagens/gifs/articuno_frames')
+    Gbeedrill = GV.carregar_frames('imagens/gifs/beedrill_frames')
+    Gbeedrill_mega = GV.carregar_frames('imagens/gifs/beedrill-mega_frames')
+    Gblastoise_gigantamax = GV.carregar_frames('imagens/gifs/blastoise-gigantamax_frames')
+    Gblastoise_mega = GV.carregar_frames('imagens/gifs/blastoise-mega_frames')
+    Gbutterfree_gmax = GV.carregar_frames('imagens/gifs/butterfree-gmax_frames')
+    Gcharizard_gmax = GV.carregar_frames('imagens/gifs/charizard-gmax_frames')
+    Gcharizard_megax = GV.carregar_frames('imagens/gifs/charizard-megax_frames')
+    Gcharizard_megay = GV.carregar_frames('imagens/gifs/charizard-megay_frames')
+    Gclefable = GV.carregar_frames('imagens/gifs/clefable_frames')
+    Gclefairy = GV.carregar_frames('imagens/gifs/clefairy_frames')
+    Gcloyster = GV.carregar_frames('imagens/gifs/cloyster_frames')
+    Gcubone = GV.carregar_frames('imagens/gifs/cubone_frames')
+    Ggengar_gigantamax = GV.carregar_frames('imagens/gifs/gengar-gigantamax_frames')
+    Ggengar_mega = GV.carregar_frames('imagens/gifs/gengar-mega_frames')
+    Ggolem_alola = GV.carregar_frames('imagens/gifs/golem-alola_frames')
+    Ggyarados_mega = GV.carregar_frames('imagens/gifs/gyarados-mega_frames')
+    Gkakuna = GV.carregar_frames('imagens/gifs/kakuna_frames')
+    Gmachamp_gigantamax = GV.carregar_frames('imagens/gifs/machamp-gigantamax_frames')
+    Gmarowak = GV.carregar_frames('imagens/gifs/marowak_frames')
+    Gmeowth = GV.carregar_frames('imagens/gifs/meowth_frames')
+    Gmeowth_gigantamax = GV.carregar_frames('imagens/gifs/meowth-gigantamax_frames')
+    Gmewtwo_megax = GV.carregar_frames('imagens/gifs/mewtwo-megax_frames')
+    Gmewtwo_megay = GV.carregar_frames('imagens/gifs/mewtwo-megay_frames')
+    Gmoltres = GV.carregar_frames('imagens/gifs/moltres_frames')
+    Gpersian = GV.carregar_frames('imagens/gifs/persian_frames')
+    Gpikachu_gigantamax = GV.carregar_frames('imagens/gifs/pikachu-gigantamax_frames')
+    Gpinsir = GV.carregar_frames('imagens/gifs/pinsir_frames')
+    Gpinsir_mega = GV.carregar_frames('imagens/gifs/pinsir-mega_frames')
+    Graticate = GV.carregar_frames('imagens/gifs/raticate_frames')
+    Grattata = GV.carregar_frames('imagens/gifs/rattata_frames')
+    Gshellder = GV.carregar_frames('imagens/gifs/shellder_frames')
+    Gsnorlax_gigantamax = GV.carregar_frames('imagens/gifs/snorlax-gigantamax_frames')
+    Gvenusaur_gigantamax = GV.carregar_frames('imagens/gifs/venusaur-gigantamax_frames')
+
+
+
 
     SbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (38,38),"PNG")
     SivysaurIMG = GV.Carregar_Imagem("imagens/pokemons/ivysaur.png", (38,38),"PNG")
@@ -1029,24 +1071,34 @@ def Carregar_Imagens():
     SmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (38,38),"PNG")
 
 
-    MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (100, 100), "PNG")
-    McharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (100, 100), "PNG")
-    MsquirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (100, 100), "PNG")
-    MmachopIMG = GV.Carregar_Imagem("imagens/pokemons/machop.png", (100, 100), "PNG")
-    MgastlyIMG = GV.Carregar_Imagem("imagens/pokemons/gastly.png", (100, 100), "PNG")
-    MgeodudeIMG = GV.Carregar_Imagem("imagens/pokemons/geodude.png", (100, 100), "PNG")
-    McaterpieIMG = GV.Carregar_Imagem("imagens/pokemons/caterpie.png", (100, 100), "PNG")
-    MabreIMG = GV.Carregar_Imagem("imagens/pokemons/abra.png", (100, 100), "PNG")
-    MdratiniIMG = GV.Carregar_Imagem("imagens/pokemons/dratini.png", (100, 100), "PNG")
-    MzoruaIMG = GV.Carregar_Imagem("imagens/pokemons/zorua.png", (100, 100), "PNG")
-    MpikachuIMG = GV.Carregar_Imagem("imagens/pokemons/pikachu.png", (100, 100), "PNG")
-    MmagikarpIMG = GV.Carregar_Imagem("imagens/pokemons/magikarp.png", (100, 100), "PNG")
-    MjigglypuffIMG = GV.Carregar_Imagem("imagens/pokemons/jigglypuff.png", (100, 100), "PNG")
-    MMagnemiteIMG = GV.Carregar_Imagem("imagens/pokemons/magnemite.png", (100, 100), "PNG")
-    MsnorlaxIMG = GV.Carregar_Imagem("imagens/pokemons/snorlax.png", (100, 100), "PNG")
-    MaerodactylIMG = GV.Carregar_Imagem("imagens/pokemons/aerodactyl.png", (100, 100), "PNG")
-    MjynxIMG = GV.Carregar_Imagem("imagens/pokemons/jynx.png", (100, 100), "PNG")
-    MmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (100, 100), "PNG")
+    MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (88, 88), "PNG")
+    McharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (88, 88), "PNG")
+    MsquirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (88, 88), "PNG")
+    MmachopIMG = GV.Carregar_Imagem("imagens/pokemons/machop.png", (88, 88), "PNG")
+    MgastlyIMG = GV.Carregar_Imagem("imagens/pokemons/gastly.png", (88, 88), "PNG")
+    MgeodudeIMG = GV.Carregar_Imagem("imagens/pokemons/geodude.png", (88, 88), "PNG")
+    McaterpieIMG = GV.Carregar_Imagem("imagens/pokemons/caterpie.png", (88, 88), "PNG")
+    MabreIMG = GV.Carregar_Imagem("imagens/pokemons/abra.png", (88, 88), "PNG")
+    MdratiniIMG = GV.Carregar_Imagem("imagens/pokemons/dratini.png", (88, 88), "PNG")
+    MzoruaIMG = GV.Carregar_Imagem("imagens/pokemons/zorua.png", (88, 88), "PNG")
+    MpikachuIMG = GV.Carregar_Imagem("imagens/pokemons/pikachu.png", (88, 88), "PNG")
+    MmagikarpIMG = GV.Carregar_Imagem("imagens/pokemons/magikarp.png", (88, 88), "PNG")
+    MjigglypuffIMG = GV.Carregar_Imagem("imagens/pokemons/jigglypuff.png", (88, 88), "PNG")
+    MmagnemiteIMG = GV.Carregar_Imagem("imagens/pokemons/magnemite.png", (88, 88), "PNG")
+    MsnorlaxIMG = GV.Carregar_Imagem("imagens/pokemons/snorlax.png", (88, 88), "PNG")
+    MaerodactylIMG = GV.Carregar_Imagem("imagens/pokemons/aerodactyl.png", (88, 88), "PNG")
+    MjynxIMG = GV.Carregar_Imagem("imagens/pokemons/jynx.png", (88, 88), "PNG")
+    MmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (88, 88), "PNG")
+    MmeowthIMG = GV.Carregar_Imagem("imagens/pokemons/meowth.png", (88, 88), "PNG")
+    McuboneIMG = GV.Carregar_Imagem("imagens/pokemons/cubone.png", (88, 88), "PNG")
+    MshellderIMG = GV.Carregar_Imagem("imagens/pokemons/shellder.png", (88, 88), "PNG")
+    MarticunoIMG = GV.Carregar_Imagem("imagens/pokemons/articuno.png", (88, 88), "PNG")
+    MmoltresIMG = GV.Carregar_Imagem("imagens/pokemons/moltres.png", (88, 88), "PNG")
+    MzapdosIMG = GV.Carregar_Imagem("imagens/pokemons/zapdos.png", (88, 88), "PNG")
+    MclefairyIMG = GV.Carregar_Imagem("imagens/pokemons/clefairy.png", (88, 88), "PNG")
+    MrattataIMG = GV.Carregar_Imagem("imagens/pokemons/rattata.png", (88, 88), "PNG")
+    MweedleIMG = GV.Carregar_Imagem("imagens/pokemons/weedle.png", (88, 88), "PNG")
+    MpinsirIMG = GV.Carregar_Imagem("imagens/pokemons/pinsir.png", (88, 88), "PNG")
 
 
 
@@ -1177,6 +1229,42 @@ def Carregar_Imagens():
     "Aerodactyl": Gaerodactyl,
     "Jynx": Gjynx,
     "Mewtwo": Gmewtwo,
+    "Aerodactyl-Mega": Gaerodactyl_mega,
+    "Alakazam-Mega": Galakazam_mega,
+    "Articuno": Garticuno,
+    "Beedrill": Gbeedrill,
+    "Beedrill-Mega": Gbeedrill_mega,
+    "Blastoise-Gigantamax": Gblastoise_gigantamax,
+    "Blastoise-Mega": Gblastoise_mega,
+    "Butterfree-Gmax": Gbutterfree_gmax,
+    "Charizard-Gmax": Gcharizard_gmax,
+    "Charizard-MegaX": Gcharizard_megax,
+    "Charizard-MegaY": Gcharizard_megay,
+    "Clefable": Gclefable,
+    "Clefairy": Gclefairy,
+    "Cloyster": Gcloyster,
+    "Cubone": Gcubone,
+    "Gengar-Gigantamax": Ggengar_gigantamax,
+    "Gengar-Mega": Ggengar_mega,
+    "Golem-Alola": Ggolem_alola,
+    "Gyarados-Mega": Ggyarados_mega,
+    "Kakuna": Gkakuna,
+    "Machamp-Gigantamax": Gmachamp_gigantamax,
+    "Marowak": Gmarowak,
+    "Meowth": Gmeowth,
+    "Meowth-Gigantamax": Gmeowth_gigantamax,
+    "Mewtwo-MegaX": Gmewtwo_megax,
+    "Mewtwo-MegaY": Gmewtwo_megay,
+    "Moltres": Gmoltres,
+    "Persian": Gpersian,
+    "Pikachu-Gigantamax": Gpikachu_gigantamax,
+    "Pinsir": Gpinsir,
+    "Pinsir-Mega": Gpinsir_mega,
+    "Raticate": Graticate,
+    "Rattata": Grattata,
+    "Shellder": Gshellder,
+    "Snorlax-Gigantamax": Gsnorlax_gigantamax,
+    "Venusaur-Gigantamax": Gvenusaur_gigantamax,
     }
 
     ImagensPokemon38 = {
@@ -1237,12 +1325,23 @@ def Carregar_Imagens():
     "Pikachu": MpikachuIMG,
     "Magikarp": MmagikarpIMG,
     "Jigglypuff": MjigglypuffIMG,
-    "Magnemite": MMagnemiteIMG,
+    "Magnemite": MmagnemiteIMG,
     "Snorlax": MsnorlaxIMG,
     "Aerodactyl": MaerodactylIMG,
     "Jynx": MjynxIMG,
-    "Mewtwo": MmewtwoIMG
-    }
+    "Mewtwo": MmewtwoIMG,
+    "Meowth": MmeowthIMG,
+    "Cubone": McuboneIMG,
+    "Shellder": MshellderIMG,
+    "Articuno": MarticunoIMG,
+    "Moltres": MmoltresIMG,
+    "Zapdos": MzapdosIMG,
+    "Clefairy": MclefairyIMG,
+    "Rattata": MrattataIMG,
+    "Weedle": MweedleIMG,
+    "Pinsir": MpinsirIMG
+}
+
 
 
     ImagensPokebolas = {
@@ -1308,8 +1407,6 @@ def TelaPokemons(tela,eventos,estados):
         tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
         tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
     
-
-
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
@@ -1394,7 +1491,7 @@ def TelaPokemons(tela,eventos,estados):
         tela.blit(frame, (pos_x, pos_y))
 
         if player.pokemons[i].local is None:
-            tela.blit(OutrosIMG[11], ((pos_x - 45), (pos_y - 42)))
+            tela.blit(OutrosIMG[11], ((x+10), (y+10)))
     
 
 # Para os Pokémon inimigos, ajustando a posição X dinamicamente
@@ -1420,7 +1517,7 @@ def TelaPokemons(tela,eventos,estados):
         tela.blit(frame, (pos_x, pos_y))
 
         if inimigo.pokemons[i].local is None:
-            tela.blit(OutrosIMG[11], ((pos_x - 42), (pos_y - 45)))
+            tela.blit(OutrosIMG[11], ((x+15), (y+10)))
         
     for i in range(len(player.pokemons)):
         barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)

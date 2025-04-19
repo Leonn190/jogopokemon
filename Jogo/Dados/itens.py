@@ -27,7 +27,7 @@ Masterball = {
     "classe": "pokebola",
     "Descrição": "serve para capturar pokemons",
     "raridade": 5,
-    "poder": 9
+    "poder": 10
 }
 
 Poçao = {
@@ -63,8 +63,8 @@ Mega_poção = {
 } 
 
 Caixa = {
-    "nome": "caixa",
-    "classe": "Caixa",
+    "nome": "Caixa",
+    "classe": "caixa",
     "Descrição": "serve para fazer 3 compras",
     "raridade": 2,
     "compra": 3

@@ -134,6 +134,7 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
         Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player)
 
 def Move(peça, L, C,player):
+    peça.Ganhar_XP(1,player)
     if peça.local is not None:
 
         linha_antiga, coluna_antiga = peça.local["id"]

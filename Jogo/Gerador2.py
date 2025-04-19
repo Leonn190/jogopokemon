@@ -2,7 +2,7 @@ import random
 import pygame
 import Partida
 import GeradoresVisuais as GV
-from Dados.Basicos import Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo
+from Dados.Basicos import Pokedex
 from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
 from Dados.Estadios import Estadios
 import Funções2
@@ -53,7 +53,7 @@ class Jogador:
                             tipo = item["aumento"]
                             GV.tocar(Usou)
                             self.inventario.remove(item)
-                            Pokemon.amplificar(tipo,0.15,Pokemon,self)
+                            Pokemon.amplificar(tipo,0.1,self)
                             return
                         else:
                             GV.tocar(Bloq)
@@ -148,8 +148,8 @@ class Pokemon:
                 self.custo = self.evolucao["custo"]
                 self.ataque_normal = random.choice(self.evolucao["ataques normais"])
                 self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
-                self.xp_atu = 0
                 self.Estagio = self.evolucao["estagio"]
+                self.xp_total = self.evolucao["XP"]
                 self.evolucao = self.evolucao["evolução"]
                 Partida.VerificaGIF()
                 GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
@@ -157,13 +157,13 @@ class Pokemon:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
-    def XP(self,quantidade,player):
+    def Ganhar_XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
         GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
     
-    def amplificar(self,tipo,amplificador,pokemon_amplificado,player):
+    def amplificar(self,tipo,amplificador,player):
         if tipo == "XP atu":
-            pokemon_amplificado.XP(1,player)
+            self.Ganhar_XP(5,player)
         elif tipo == "atk":
             J = round(self.Atk)
             self.Atk = round(self.Atk + (self.AtkB * amplificador))
@@ -249,11 +249,10 @@ class Pokemon:
 
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
         GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
-        self.XP(1,player)
+        XP_ATK = random.randint(3,5)
+        self.Ganhar_XP(XP_ATK,player)
         alvo.atacado(dano_F,inimigo,tipo,tela)
         
-Pokedex = [0,Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
-pokemons_possiveis = [Bulbasaur,Charmander,Squirtle,Machop,Gastly,Geodude,Caterpie,Abra,Dratini,Pikachu,Zorua,Magikarp,Jigglypuff,Magnemite,Snorlax,Aerodactyl,Jynx,Mewtwo]
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
 def Gerador(Pokemon,P):
@@ -340,19 +339,24 @@ def Gerador_final(code,P):
     return Pokemon(Gerador(Pokedex[code],P))
 
 def spawn_do_centro(centro):
-    global pokemons_possiveis
+    pokemons_possiveis = Pokedex.copy()
+    if 0 in pokemons_possiveis:
+        pokemons_possiveis.remove(0)
 
-    if len(centro) < 9: 
-        chance = random.choice(["s","n"])
-        if chance == "s":
+
+    if len(centro) < 9:
+        if random.choice(["s", "n"]) == "s":
+            # Cria uma lista ponderada com base na raridade (quanto menor a raridade, mais comum)
             raridades = []
-            for i in range(len(pokemons_possiveis)):
-                for j in range(10 - pokemons_possiveis[i]["raridade"]):
-                    raridades.append(pokemons_possiveis[i])
+            for pokemon in pokemons_possiveis:
+                raridades.extend([pokemon] * (11 - pokemon["raridade"]))
+
+            # Seleciona um Pokémon aleatório com base na raridade
             pokemon_apareceu = random.choice(raridades)
             centro.append(pokemon_apareceu)
+
             GV.adicionar_mensagem(f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
-    
+
     return centro
 
 def gera_item(tipo,player,custo=0,Turno=10):
