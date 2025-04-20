@@ -106,7 +106,6 @@ def atualizar_efeitos(tela):
                 gif.ao_terminar()
             efeitos_ativos.remove(gif)
 
-
 class MensagemPassageira:
     def __init__(self, mensagem, cor, fonte, posicao, duracao=350, deslocamento=50):
         self.mensagem = mensagem
