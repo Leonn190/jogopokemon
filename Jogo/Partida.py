@@ -35,6 +35,7 @@ mensagens_passageiras = []
 
 PokeGifs = {}
 Gifs_ativos = []
+efeitos_ativos = []
 
 TiposEnergiaIMG = {}
 ImagensPokemon38 = {}
@@ -70,8 +71,44 @@ LojaEnerP = None
 LojaEstTreP = None
 Musica_Estadio_atual = None
 
+class GifAtivo:
+    def __init__(self, frames, posicao, velocidade, duracao, ao_terminar=None):
+        self.frames = frames
+        self.posicao = posicao
+        self.velocidade = velocidade  # ms por frame
+        self.duracao = duracao        # duração total em ms
+        self.ao_terminar = ao_terminar
+
+        self.inicio = pygame.time.get_ticks()
+        self.tempo_ultimo_frame = self.inicio
+        self.frame_atual = 0
+
+    def desenhar(self, tela):
+        agora = pygame.time.get_ticks()
+        if agora - self.tempo_ultimo_frame >= self.velocidade:
+            self.frame_atual += 1
+            self.tempo_ultimo_frame = agora
+
+        if self.frame_atual < len(self.frames):
+            tela.blit(self.frames[self.frame_atual], self.posicao)
+
+    def finalizado(self):
+        return pygame.time.get_ticks() - self.inicio >= self.duracao
+
+def adicionar_efeito(frames, posicao, velocidade=95, duracao=2600,ao_terminar=None):
+    efeitos_ativos.append(GifAtivo(frames, posicao, velocidade, duracao, ao_terminar))
+
+def atualizar_efeitos(tela):
+    for gif in efeitos_ativos[:]:
+        gif.desenhar(tela)
+        if gif.finalizado():
+            if gif.ao_terminar:
+                gif.ao_terminar()
+            efeitos_ativos.remove(gif)
+
+
 class MensagemPassageira:
-    def __init__(self, mensagem, cor, fonte, posicao, duracao=150, deslocamento=35):
+    def __init__(self, mensagem, cor, fonte, posicao, duracao=350, deslocamento=50):
         self.mensagem = mensagem
         self.cor = cor
         self.fonte = fonte
@@ -98,9 +135,26 @@ class MensagemPassageira:
         texto_surface.set_alpha(alpha)
 
         x, y = self.posicao_inicial
-        tela.blit(texto_surface, (x, y - y_offset))
+        x_texto = x
+        y_texto = y - y_offset
 
-def adicionar_mensagem_passageira(mensagens, texto, cor, fonte, posicao, duracao=60, deslocamento=30):
+        largura = texto_surface.get_width() + 20
+        altura = texto_surface.get_height() + 10
+
+        # Cria a superfície com canal alpha
+        fundo = pygame.Surface((largura, altura), pygame.SRCALPHA)
+        
+        # Cor branca com transparência proporcional
+        cor_fundo = (255, 255, 255, min(200, alpha))  # branco semi-transparente
+
+        # Desenha retângulo arredondado
+        pygame.draw.rect(fundo, cor_fundo, fundo.get_rect(), border_radius=10)
+
+        # Posiciona retângulo levemente centralizado em relação ao texto
+        tela.blit(fundo, (x_texto - 10, y_texto - 5))
+        tela.blit(texto_surface, (x_texto, y_texto))
+
+def adicionar_mensagem_passageira(mensagens, texto, cor, fonte, posicao, duracao=200, deslocamento=90):
     nova_mensagem = MensagemPassageira(texto, cor, fonte, posicao, duracao, deslocamento)
     mensagens_passageiras.append(nova_mensagem)
 
@@ -452,9 +506,8 @@ def PokemonCentro(ID,player):
             desseleciona_fruta()
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
-                novo_pokemon = G.Gerador_final(pokemon["code"],AIV)
+                novo_pokemon = G.Gerador_final(pokemon["code"],AIV,player)
                 AddIMGpokemon(novo_pokemon) 
-                player.ganhar_pokemon(novo_pokemon)
                 M.GuardarPosicionar(novo_pokemon,player)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
                 VerificaGIF()
@@ -526,7 +579,7 @@ def atacaN(Pokemon,player,inimigo,ID,tela):
 def atacaS(Pokemon,player,inimigo,ID,tela):
     alvo = inimigo.pokemons[ID]
     if Pokemon is not None and alvo.Vida >= 0:
-        Pokemon.atacar(alvo,player,inimigo,"S",tela,Mapa)
+        Pokemon.atacar(alvo,player,inimigo,"E",tela,Mapa)
     else:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
@@ -547,9 +600,9 @@ def AddIMGpokemon(pokemon):
 
 def AddLocalPokemonINIC(pokemon,jogador):
     if jogador == Jogador1:
-        M.Move(pokemon,11,10,player)
+        M.Move(pokemon,11,12,player)
     else:
-        M.Move(pokemon,3,10,player)
+        M.Move(pokemon,3,12,player)
 
 def VerificaGIF():
     global Gifs_ativos
@@ -643,11 +696,6 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
     ret = pygame.Rect(x_inicial_animado, y_inicial, largura_total, altura_total)
     pygame.draw.rect(tela, (30, 30, 30), ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 3)
-
-    # # --- TÍTULO "CENTRO" ---
-    # texto = Fonte30.render("CENTRO", True, BRANCO)
-    # texto_rect = texto.get_rect(center=(x_inicial_animado + 150, y_inicial + 5))  # Centralizado nos 10px do topo
-    # tela.blit(texto, texto_rect)
 
     # --- Grade 3x3 de Pokémon ---
     for i in range(len(Centro)):
@@ -749,8 +797,7 @@ def Passar_contadores():
                 pokemon.efeitosNega[efeito] -= 1
         for efeito, contador in pokemon.efeitosPosi.items():
             if contador > 0:
-                pokemon.efeitosPosi[efeito] -= 1
-    
+                pokemon.efeitosPosi[efeito] -= 1    
 
 estadoPokemon = {
     "selecionado_esquerdo": None,
@@ -904,7 +951,7 @@ def Inicia(tela):
 
     pygame.mixer.music.load('Jogo/Audio/Musicas/Carregamento.ogg')  
     pygame.mixer.music.set_volume(0.3)
-    pygame.mixer.music.Splay(-1)
+    pygame.mixer.music.play(-1)
 
     Tela = tela
     Mapa = G.Gera_Mapa(0)
@@ -926,6 +973,9 @@ def Inicia(tela):
     from PygameAções import informaçoesp1, informaçoesp2
     Jogador1 = G.Gerador_player(informaçoesp1)
     Jogador2 = G.Gerador_player(informaçoesp2)
+
+    Jogador1.pokemons[0].pos = 0
+    Jogador2.pokemons[0].pos = 0
 
     for item in informaçoesp1[3:]:
         G.gera_item(item, Jogador1)
@@ -1643,6 +1693,8 @@ def TelaPokemons(tela,eventos,estados):
     
     for i in range(len(inimigo.pokemons)):
         barra_vida(tela, 1310 - i * 190, 190, 190, 20, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].ID)
+
+    atualizar_efeitos(tela)
 
 def TelaOpções(tela,eventos,estados):
     global PokemonS

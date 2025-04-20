@@ -1,6 +1,6 @@
 import random
 import pygame
-import Partida
+import Partida as P
 import GeradoresVisuais as GV
 from Dados.Basicos import Pokedex
 from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
@@ -12,13 +12,15 @@ from GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
-
+pygame.init()
 pygame.mixer.init()
 clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
 Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
 Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
 Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
 Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
+
+evoluirEFE = GV.carregar_frames('imagens/Efeitos/Evoluindo_frames')
 
 efeitosPositivos = {
     "Confuso": 0,
@@ -55,7 +57,7 @@ EfeitosNegativos = {
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
-        self.pokemons = [Gerador_final(informaçoes[1],1)]
+        self.pokemons = [Gerador_final(informaçoes[1],1,self)]
         self.inventario = []
         self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
         self.energiasDesc = []
@@ -64,7 +66,7 @@ class Jogador:
     def ganhar_item(self,item):
         self.inventario.append(item)
     
-    def usar_item(self,indice,Pokemon):
+    def usar_item(self,indice,Pokemon,tela):
             item = self.inventario[indice] 
             if item["classe"] in ["pokebola", "fruta"]:
                 GV.tocar(Bloq)
@@ -75,7 +77,7 @@ class Jogador:
                             cura = item["cura"]
                             GV.tocar(Usou)
                             self.inventario.remove(item)
-                            Pokemon.curar(cura)
+                            Pokemon.curar(cura,self,tela)
                             return
                         else:
                             GV.tocar(Bloq)
@@ -106,7 +108,7 @@ class Jogador:
                         return
                 elif item["classe"] == "estadio":
                     GV.tocar(Usou)
-                    Partida.Mudar_estadio(item["ST Code"])
+                    P.Mudar_estadio(item["ST Code"])
                     self.inventario.remove(item)
                     return
                 else:
@@ -128,7 +130,7 @@ def Gerador_player(informaçoes):
 IDpoke = 0
 
 class Pokemon:
-    def __init__(self, pokemon):
+    def __init__(self, pokemon, player):
         self.nome = pokemon["nome"]
         self.tipo = pokemon["tipo"]
         self.raridade = pokemon["raridade"]
@@ -166,34 +168,42 @@ class Pokemon:
         self.imagem = None
         self.efeitosPosi = efeitosPositivos
         self.efeitosNega = EfeitosNegativos
-
+        try:
+            player.pokemons.append(self)
+            self.pos = player.pokemons.index(self)
+        except AttributeError:
+            self.pos = None
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
             if isinstance(self.evolucao,list):
                 self.evolucao = random.randint(self.evolucao)
             if self.evolucao is not None:
-                nome_antigo = self.nome
-                self.nome = self.evolucao["nome"]
-                self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
-                self.Vida = round(self.Vida * self.evolucao["vida"])
-                self.Def = round(self.Def * self.evolucao["def"])
-                self.Def_sp = round(self.Def_sp * self.evolucao["def SP"])
-                self.Atk = round(self.Atk * self.evolucao["atk"])
-                self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"])
-                self.vel = round(self.vel * self.evolucao["velocidade"])
-                self.custo = self.evolucao["custo"]
-                self.ataque_normal = random.choice(self.evolucao["ataques normais"])
-                self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
-                self.Estagio = self.evolucao["estagio"]
-                self.xp_total = self.evolucao["XP"]
-                self.evolucao = self.evolucao["evolução"]
-                Partida.VerificaGIF()
-                Partida.AddIMGpokemon(self)
-                GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
-                return
+                i = self.pos
+                P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
+
+    def Evoluir_de_fato(self):
+        nome_antigo = self.nome
+        self.nome = self.evolucao["nome"]
+        self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
+        self.Vida = round(self.Vida * self.evolucao["vida"])
+        self.Def = round(self.Def * self.evolucao["def"])
+        self.Def_sp = round(self.Def_sp * self.evolucao["def SP"])
+        self.Atk = round(self.Atk * self.evolucao["atk"])
+        self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"])
+        self.vel = round(self.vel * self.evolucao["velocidade"])
+        self.custo = self.evolucao["custo"]
+        self.ataque_normal = random.choice(self.evolucao["ataques normais"])
+        self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
+        self.Estagio = self.evolucao["estagio"]
+        self.xp_total = self.evolucao["XP"]
+        self.evolucao = self.evolucao["evolução"]
+        P.VerificaGIF()
+        P.AddIMGpokemon(self)
+        GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
+
 
     def Ganhar_XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
@@ -219,7 +229,7 @@ class Pokemon:
             self.Def_sp = self.Def_sp + round((self.Def_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
-    def atacado(self,dano,player,tipo,tela):
+    def atacado(self,dano,player,inimigo,tipo,tela):
         DanoOriginal = dano
         if self.Vida <= dano:
             dano = self.Vida
@@ -228,21 +238,32 @@ class Pokemon:
 
         if tipo == "N":
             cor = LARANJA
-        else:
+        elif tipo == "E":
             cor = ROXO
-        i = player.pokemons.index(self)
-        Partida.adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",cor,Fonte35,((1375 - i * 190),260))
-        GV.adicionar_mensagem(f"{self.nome} recebeu {DanoOriginal} de dano, sua vida atual é {self.Vida}")
+        else:
+            cor = PRETO
+        
+        i = self.pos
+        if self in inimigo.pokemons:
+            P.adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",cor,Fonte35,((1400 - i * 190),190))
+        else:
+            P.adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",cor,Fonte35,((425 + i * 190),975))
+
         if self.Vida == 0:
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
-    def curar(self,cura):
+    def curar(self,cura,player,tela):
             dano_tomado = self.VidaMax - self.Vida
             self.Vida = round(self.Vida + cura,1)
             if self.Vida > self.VidaMax:
                 self.Vida = self.VidaMax
                 cura = dano_tomado 
-            GV.adicionar_mensagem(f"{self.nome} curou {round(cura,1)} de vida, sua vida atual é {self.Vida}")
+            
+            i = self.pos
+            if self in player.pokemons:
+                P.adicionar_mensagem_passageira(tela,f"-{round(cura,1)}",VERDE_CLARO,Fonte35,((425 + i * 190),975))
+            else:
+                P.adicionar_mensagem_passageira(tela,f"-{round(cura,1)}",VERDE_CLARO,Fonte35,((1400 - i * 190),190))
 
     def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
         
@@ -296,14 +317,14 @@ class Pokemon:
         Dano_I = U * F["dano"]
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
-        Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo)
+        Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo,tela)
         dano_F = round(Dano_E * mitigação,1)
 
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
         GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
         XP_ATK = random.randint(3,5)
         self.Ganhar_XP(XP_ATK,player)
-        alvo.atacado(dano_F,inimigo,tipo,tela)
+        alvo.atacado(dano_F,player,inimigo,tipo,tela)
         
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
@@ -387,8 +408,8 @@ def Gerador(Pokemon,P):
         "ID": IDpoke 
     }
 
-def Gerador_final(code,P):
-    return Pokemon(Gerador(Pokedex[code],P))
+def Gerador_final(code,P,player):
+    return Pokemon(Gerador(Pokedex[code],P),player)
 
 def spawn_do_centro(centro):
     pokemons_possiveis = Pokedex.copy()

@@ -1,3 +1,5 @@
+import Gerador2
+
 Tiro_Quente = {
     "nome": "Semente afiada",
     "tipo": ["planta"],   

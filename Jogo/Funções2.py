@@ -1,11 +1,10 @@
-import random
+import Partida as P
 import math
-from prettytable import PrettyTable
-import Gerador2
+import pygame
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
 
-def efetividade(Tipo_do_ataque,Tipo_do_atacado):
+def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela):
     
     tabela_tipos = {
     "normal":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0.5, "venenoso": 0, "terrestre": 0,
@@ -84,6 +83,24 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado):
     for i in range(len(Tipo_do_ataque)):
         for j in range(len(Tipo_do_atacado)):
             multiplicador = multiplicador + tabela_tipos[Tipo_do_ataque[i]][Tipo_do_atacado[j]]
+    if multiplicador < 0:
+        multiplicador = 0
+    
+    
+    if multiplicador > 1.5:
+        texto = "Super Efetivo"
+    elif multiplicador > 1:
+        texto = "Efetivo"
+    elif multiplicador == 1:
+        return multiplicador
+    elif multiplicador > 0.5:
+        texto = "Pouco Efetivo"
+    elif multiplicador > 0:
+        texto = "Não Efetivo"
+    else:
+        texto = "Não Afeta"
+    Fonte = pygame.font.SysFont(None, 30)
+    P.adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,((1365 - i * 190),220))
 
     return multiplicador
 
