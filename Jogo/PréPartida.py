@@ -12,6 +12,7 @@ pygame.mixer.init()
 
 clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
 Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
+Escolha = pygame.mixer.Sound("Jogo/Audio/Sons/EscolhaPoke.wav")
 
 estado1 = {
     "selecionado_esquerdo": None,
@@ -53,7 +54,7 @@ def TelaPréPartida(tela,eventos,estados):
     estado_global=estado1, eventos=eventos,
     funcao_esquerdo=lambda :A.Pokemon_inicial("BulbasaurP1"), funcao_direito=None,
     desfazer_esquerdo=lambda:A.Remover_inicial("BulbasaurP1"), desfazer_direito=None,
-    tecla_esquerda=pygame.K_1, tecla_direita=None)
+    tecla_esquerda=pygame.K_1, tecla_direita=None,som=Escolha)
 
     GV.Botao_Selecao(
     tela, (350, 150, 240, 240),
@@ -64,7 +65,7 @@ def TelaPréPartida(tela,eventos,estados):
     estado_global=estado1, eventos=eventos,
     funcao_esquerdo=lambda:A.Pokemon_inicial("CharmanderP1"), funcao_direito=None,
     desfazer_esquerdo=lambda:A.Remover_inicial("CharmanderP1"), desfazer_direito=None,
-    tecla_esquerda=pygame.K_2, tecla_direita=None)
+    tecla_esquerda=pygame.K_2, tecla_direita=None,som=Escolha)
         
     GV.Botao_Selecao(
     tela, (620, 150, 240, 240),
@@ -75,7 +76,7 @@ def TelaPréPartida(tela,eventos,estados):
     estado_global=estado1, eventos=eventos,
     funcao_esquerdo=lambda:A.Pokemon_inicial("SquirtleP1"), funcao_direito=None,
     desfazer_esquerdo=lambda:A.Remover_inicial("SquirtleP1"), desfazer_direito=None,
-    tecla_esquerda=pygame.K_3, tecla_direita=None)
+    tecla_esquerda=pygame.K_3, tecla_direita=None,som=Escolha)
 
     GV.Botao_Selecao(
     tela, (1600, 150, 240, 240),
@@ -86,7 +87,7 @@ def TelaPréPartida(tela,eventos,estados):
     estado_global=estado2, eventos=eventos,
     funcao_esquerdo=lambda:A.Pokemon_inicial("Squirtlep2"), funcao_direito=None,
     desfazer_esquerdo=lambda:A.Remover_inicial("Squirtlep2"), desfazer_direito=None,
-    tecla_esquerda=pygame.K_9, tecla_direita=None)
+    tecla_esquerda=pygame.K_9, tecla_direita=None,som=Escolha)
 
     GV.Botao_Selecao(
     tela, (1330, 150, 240, 240),
@@ -97,7 +98,7 @@ def TelaPréPartida(tela,eventos,estados):
     estado_global=estado2, eventos=eventos,
     funcao_esquerdo=lambda:A.Pokemon_inicial("CharmanderP2"), funcao_direito=None,
     desfazer_esquerdo=lambda:A.Remover_inicial("CharmanderP2"), desfazer_direito=None,
-    tecla_esquerda=pygame.K_8, tecla_direita=None)
+    tecla_esquerda=pygame.K_8, tecla_direita=None,som=Escolha)
         
     GV.Botao_Selecao(
     tela, (1060, 150, 240, 240),
@@ -108,7 +109,7 @@ def TelaPréPartida(tela,eventos,estados):
     estado_global=estado2,eventos=eventos, 
     funcao_esquerdo=lambda:A.Pokemon_inicial("BulbasaurP2"), funcao_direito=None, 
     desfazer_esquerdo=lambda:A.Remover_inicial("BulbasaurP2"), desfazer_direito=None,
-    tecla_esquerda=pygame.K_7, tecla_direita=None)
+    tecla_esquerda=pygame.K_7, tecla_direita=None,som=Escolha)
     
     #itensp1
     GV.Botao(tela, "", (250, 700, 200, 200), CINZA, PRETO, DOURADO,
