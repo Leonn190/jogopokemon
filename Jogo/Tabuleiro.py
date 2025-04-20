@@ -10,7 +10,15 @@ from GeradoresVisuais import (
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
 Mapa = []
-Area = []
+Area = [(3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16),
+        (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15), (4, 16),
+        (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15), (5, 16),
+        (6, 8), (6, 9), (6, 10), (6, 11), (6, 12), (6, 13), (6, 14), (6, 15), (6, 16),
+        (7, 8), (7, 9), (7, 10), (7, 11), (7, 12), (7, 13), (7, 14), (7, 15), (7, 16),
+        (8, 8), (8, 9), (8, 10), (8, 11), (8, 12), (8, 13), (8, 14), (8, 15), (8, 16),
+        (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16),
+        (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16),
+        (11, 8), (11, 9), (11, 10), (11, 11), (11, 12), (11, 13), (11, 14), (11, 15), (11, 16)]
 PeçaS = None
 
 pygame.mixer.init()
@@ -77,6 +85,21 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
     if not casas_disponiveis:
         casas_disponiveis = [(linha, coluna) for linha in range(15) for coluna in range(25)]
 
+    for pokemon in player.pokemons:
+        if pokemon.local is not None:
+            if pokemon.local["id"] not in casas_disponiveis:
+                linha_antiga, coluna_antiga = pokemon.local["id"]
+                Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+                pokemon.local = None
+                pokemon.guardado = 3
+    for pokemon in inimigo.pokemons:
+        if pokemon.local is not None:
+            if pokemon.local["id"] not in casas_disponiveis:
+                linha_antiga, coluna_antiga = pokemon.local["id"]
+                Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+                pokemon.local = None
+                pokemon.guardado = 3
+
     for (linha, coluna) in casas_disponiveis:
         casa = Mapa[linha][coluna]
         x = x_inicial + coluna * tamanho_casa
@@ -94,12 +117,14 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
                     dono = "player"
                     break
 
+
             if not pokemon_encontrado:
                 for poke in inimigo.pokemons:
                     if poke.ID == id_ocupado:
                         pokemon_encontrado = poke
                         dono = "inimigo"
                         break
+
 
             if pokemon_encontrado:
                 cor_fundo = (0, 0, 255) if dono == "player" else (255, 0, 0)
@@ -260,7 +285,7 @@ def GuardarPosicionar(pokemon,player):
             GV.adicionar_mensagem("Você não deve guardar seu unico pokemon")
     else:
         for i in range(len(Mapa)):
-            for tentativa in range(30):
+            for tentativa in range(40):
                 j = random.randint(0, 24)
                 if Mapa[14 - i][j]["ocupado"] is None:
                     if Mapa[14 - i][j]["id"] in Area:

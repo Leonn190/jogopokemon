@@ -20,6 +20,38 @@ Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
 Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
 Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
+efeitosPositivos = {
+    "Confuso": 0,
+    "Bloqueado": 0,
+    "Envenenado": 0,
+    "Tóxico": 0,
+    "Fragilizado": 0,
+    "Quebrado": 0,
+    "Congelado": 0,
+    "Queimado": 0,
+    "Paralisado": 0,
+    "Encharcado": 0,
+    "Vampirico": 0,
+    "Descarregado": 0,
+    "Enfraquecido": 0
+    }
+
+EfeitosNegativos = {
+    "Regeneração": 0,
+    "Imune": 0,
+    "Preparado": 0,
+    "Provocando": 0,
+    "Furtivo": 0,
+    "Voando": 0,
+    "Ofensivo": 0,
+    "Reforçado": 0,
+    "Imortal": 0,
+    "Refletir": 0,
+    "Focado": 0,
+    "velocista": 0,
+    "Energizado": 0,
+    }
+
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
@@ -132,6 +164,9 @@ class Pokemon:
         self.guardado = 0
         self.local = None
         self.imagem = None
+        self.efeitosPosi = efeitosPositivos
+        self.efeitosNega = EfeitosNegativos
+
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
@@ -139,7 +174,6 @@ class Pokemon:
                 self.evolucao = random.randint(self.evolucao)
             if self.evolucao is not None:
                 nome_antigo = self.nome
-                Partida.AddIMGpokemon(self)
                 self.nome = self.evolucao["nome"]
                 self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
                 self.Vida = round(self.Vida * self.evolucao["vida"])
@@ -155,6 +189,7 @@ class Pokemon:
                 self.xp_total = self.evolucao["XP"]
                 self.evolucao = self.evolucao["evolução"]
                 Partida.VerificaGIF()
+                Partida.AddIMGpokemon(self)
                 GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
                 return
         GV.tocar(Bloq)

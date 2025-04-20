@@ -1,12 +1,13 @@
 import pygame
 import sys
 import Menu
+import ctypes
 import PréPartida
 import Partida
 import Final
 
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
-import ctypes
+
 try:
     ctypes.windll.user32.SetProcessDPIAware()
 except:
@@ -17,6 +18,10 @@ pygame.mixer.init()
 
 tela = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 pygame.display.set_caption("Jogo Pokémon")
+
+# Ícone da janela (comum)
+icone_surface = pygame.image.load("imagens/icones/Icone.png")
+pygame.display.set_icon(icone_surface)
 
 relogio = pygame.time.Clock()
 

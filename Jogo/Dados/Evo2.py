@@ -1,5 +1,5 @@
-from Dados.Ataques_N import A,B
-from Dados.Ataques_S import Tiro_Quente,Destruição
+from Dados.AtaquesNormais.ANplanta import Semente_afiada,Chicote_de_vinha
+from Dados.AtaquesEspeciais.AEplanta import Tiro_Quente,Destruição
 
 Venusaur = {
     "nome": "Venusaur",
@@ -14,7 +14,7 @@ Venusaur = {
     "velocidade": 1.25,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -31,7 +31,7 @@ Charizard = {
     "velocidade": 1.428571429,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 Blastoise = {
@@ -47,7 +47,7 @@ Blastoise = {
     "velocidade": 1.083333333,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -64,7 +64,7 @@ Machamp = {
     "velocidade": 1.333333333,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -81,7 +81,7 @@ Gengar = {
     "velocidade": 1.1875,
     "XP": 90,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -98,7 +98,7 @@ Golem = {
     "velocidade": 1.166666667,
     "XP": 90,
     "custo": 5,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -115,7 +115,7 @@ Butterfree = {
     "velocidade": 3.5,
     "XP": 95,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 Alakazam = {
@@ -131,7 +131,7 @@ Alakazam = {
     "velocidade": 1.172413793,
     "XP": 95,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -148,7 +148,7 @@ Dragonite = {
     "velocidade": 1.107142857,
     "XP": 100,
     "custo": 4,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 Beedrill = {
@@ -164,6 +164,6 @@ Beedrill = {
     "velocidade": 2.833333333,
     "XP": 85,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }

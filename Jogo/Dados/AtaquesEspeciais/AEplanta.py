@@ -1,7 +1,7 @@
 Tiro_Quente = {
-    "nome": "Tiro Quente",
-    "tipo": ["fogo"],   
-    "custo": ["vermelha"],
+    "nome": "Semente afiada",
+    "tipo": ["planta"],   
+    "custo": ["verde"],
     "dano": 0.9,
     "alcance": 40,
     "precisão": 100,

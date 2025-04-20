@@ -1,5 +1,5 @@
-from Dados.Ataques_N import A,B
-from Dados.Ataques_S import Tiro_Quente,Destruição
+from Dados.AtaquesNormais.ANplanta import Semente_afiada,Chicote_de_vinha
+from Dados.AtaquesEspeciais.AEplanta import Tiro_Quente,Destruição
 from Dados.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
 
 Bulbasaur = {
@@ -17,7 +17,7 @@ Bulbasaur = {
     "velocidade": 19,
     "XP": 20,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -36,7 +36,7 @@ Charmander = {
     "velocidade": 23,
     "XP": 20,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -55,7 +55,7 @@ Squirtle = {
     "velocidade": 21,
     "XP": 20,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -74,7 +74,7 @@ Machop = {
     "velocidade": 19,
     "XP": 20,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -93,7 +93,7 @@ Gastly = {
     "velocidade": 28,
     "XP": 20,
     "custo": 0,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -112,7 +112,7 @@ Geodude = {
     "velocidade": 17,
     "XP": 25,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -131,7 +131,7 @@ Caterpie = {
     "velocidade": 16,
     "XP": 15,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -150,7 +150,7 @@ Abra = {
     "velocidade": 26,
     "XP": 25,
     "custo": 0,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -169,7 +169,7 @@ Dratini = {
     "velocidade": 22,
     "XP": 30,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -188,7 +188,7 @@ Pikachu = {
     "velocidade": 35,
     "XP": 35,
     "custo": 0,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição],
 }
 
@@ -208,7 +208,7 @@ Zorua = {
     "velocidade": 25,
     "XP": 6,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -227,7 +227,7 @@ Magikarp = {
     "velocidade": 20,
     "XP": 3,
     "custo": 0,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -246,7 +246,7 @@ Jigglypuff = {
     "velocidade": 18,
     "XP": 2,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -265,7 +265,7 @@ Clefairy = {
     "velocidade": 21,
     "XP": 3,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -284,7 +284,7 @@ Meowth = {
     "velocidade": 31,
     "XP": 2,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -303,7 +303,7 @@ Cubone = {
     "velocidade": 18,
     "XP": 3,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -322,7 +322,7 @@ Shellder = {
     "velocidade": 22,
     "XP": 3,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -341,7 +341,7 @@ Magnemite = {
     "velocidade": 22,
     "XP": 3,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -360,7 +360,7 @@ Snorlax = {
     "velocidade": 14,
     "XP": 8,
     "custo": 4,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -379,7 +379,7 @@ Aerodactyl = {
     "velocidade": 43,
     "XP": 8,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -398,7 +398,7 @@ Jynx = {
     "velocidade": 22,
     "XP": 6,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -417,7 +417,7 @@ Pinsir = {
     "velocidade": 22,
     "XP": 7,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -436,7 +436,7 @@ Mewtwo = {
     "velocidade": 40,
     "XP": 10,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -455,7 +455,7 @@ Articuno = {
     "velocidade": 41,
     "XP": 10,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -474,7 +474,7 @@ Moltres = {
     "velocidade": 42,
     "XP": 10,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -493,7 +493,7 @@ Zapdos = {
     "velocidade": 44,
     "XP": 10,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 Rattata = {
@@ -511,7 +511,7 @@ Rattata = {
     "velocidade": 26,
     "XP": 1,
     "custo": 0,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 Weedle = {
@@ -529,7 +529,7 @@ Weedle = {
     "velocidade": 16,
     "XP": 1,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 

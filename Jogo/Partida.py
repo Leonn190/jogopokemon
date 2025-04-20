@@ -18,6 +18,7 @@ Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
 Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
 Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
+Tela = None
 Mapa = None
 
 Mute = False
@@ -180,6 +181,10 @@ def passar_turno():
             pokemon.guardado += 1
 
     player, inimigo = inimigo, player
+
+    for pokemon in player.pokemons:
+        if pokemon.local is not None:
+            pokemon.Ganhar_XP(1,player)
 
     Centro = G.spawn_do_centro(Centro)
     Centro = G.spawn_do_centro(Centro)
@@ -450,7 +455,7 @@ def PokemonCentro(ID,player):
                 novo_pokemon = G.Gerador_final(pokemon["code"],AIV)
                 AddIMGpokemon(novo_pokemon) 
                 player.ganhar_pokemon(novo_pokemon)
-                AddLocalPokemon(novo_pokemon,player)
+                M.GuardarPosicionar(novo_pokemon,player)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
                 VerificaGIF()
                 GV.tocar(Bom)
@@ -462,7 +467,7 @@ def PokemonCentro(ID,player):
         else:
             GV.tocar(Bloq)
             GV.adicionar_mensagem("Voce falhou em capturar o pokemon, que pena")
-        estadoOutros["selecionado_esquerdo"] =  False
+        estadoPokebola["selecionado_esquerdo"] =  False
     else:
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Selecione uma pokebola para capturar um pokemon")
@@ -539,10 +544,6 @@ def AddIMGpokemon(pokemon):
     imagem = ImagensPokemon38[pokemon.nome]
     pokemon.imagem = imagem
     # para tabuleiro
-
-def AddLocalPokemon(pokemon,player):
-    C = player.pokemons.index(pokemon) 
-    M.Move(pokemon,11,(C+10),player)
 
 def AddLocalPokemonINIC(pokemon,jogador):
     if jogador == Jogador1:
@@ -732,6 +733,24 @@ def Troca_Terminal():
         T2 = 800
         animaT = pygame.time.get_ticks()
 
+def Passar_contadores():
+    for pokemon in player.pokemons:
+        if pokemon.efeitoNega["envenenado"] > 0:
+            pokemon.atacado(10,player,"O",Tela)
+        if pokemon.efeitoNega["intoxicado"] > 0:
+            pokemon.atacado(20,player,"O",Tela)
+            pokemon.velocidade -= 1
+        if pokemon.efeitoNega["queimado"] > 0:
+            pokemon.atacado(15,player,"O",Tela)
+                
+
+        for efeito, contador in pokemon.efeitosNega.items():
+            if contador > 0:
+                pokemon.efeitosNega[efeito] -= 1
+        for efeito, contador in pokemon.efeitosPosi.items():
+            if contador > 0:
+                pokemon.efeitosPosi[efeito] -= 1
+    
 
 estadoPokemon = {
     "selecionado_esquerdo": None,
@@ -873,6 +892,7 @@ def Inicia(tela):
     global LojaEnerP
     global LojaAmpliP
     global LojaEstTreP
+    global Tela
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
@@ -884,11 +904,14 @@ def Inicia(tela):
 
     pygame.mixer.music.load('Jogo/Audio/Musicas/Carregamento.ogg')  
     pygame.mixer.music.set_volume(0.3)
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.Splay(-1)
 
+    Tela = tela
     Mapa = G.Gera_Mapa(0)
 
     fechar_tudo()
+
+    GV.limpa_terminal()
 
     Musica_Estadio_atual = 0
     LojaItensP = Mapa.PlojaI
@@ -1505,19 +1528,19 @@ def TelaPokemons(tela,eventos,estados):
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
-    GV.Botao(tela, "Evoluir", (1620, YO, 300, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
+    GV.Botao(tela, "Evoluir", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
 
 
     try:
         if PokemonS.local is not None:
             
-            GV.Botao(tela, "Guardar", (1620, YO + 50, 300, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 50, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
 
         else:
             if PokemonS.guardado < 3:
-                GV.Botao(tela, f"Posicionar em {3 - PokemonS.guardado}", (1620, YO + 50, 300, 50), CINZA_ESCURO, PRETO, AZUL,lambda: GV.tocar(Bloq),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, f"Posicionar em {3 - PokemonS.guardado}", (1570, YO + 50, 340, 50), CINZA_ESCURO, PRETO, AZUL,lambda: GV.tocar(Bloq),Fonte40, B23, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1620, YO + 50, 300, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, "Posicionar", (1570, YO + 50, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
 
     except AttributeError:
         pass
@@ -1529,7 +1552,7 @@ def TelaPokemons(tela,eventos,estados):
         GV.Botao_Selecao(
             tela, (x, 890, 190, 190),
             "", Fonte30,
-            cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
+            cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
             estado_global=estadoPokemon, eventos=eventos,
@@ -1544,7 +1567,7 @@ def TelaPokemons(tela,eventos,estados):
         GV.Botao_Selecao(
             tela, (x, 0, 190, 190),
             "", Fonte30,
-            cor_fundo=AMARELO_CLARO, cor_borda_normal=PRETO,
+            cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
             estado_global=estadoPokemon, eventos=eventos,
@@ -1695,7 +1718,7 @@ def TelaOutros(tela,eventos,estados):
 
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: Muter(), Fonte50, B1, 3, pygame.K_m, False, eventos)
 
-    GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), CINZA, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
+    GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
     
     cronometro(tela, (0, 60, 360, 30), Mapa.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
 

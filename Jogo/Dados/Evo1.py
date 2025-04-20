@@ -1,5 +1,5 @@
-from Dados.Ataques_N import A,B
-from Dados.Ataques_S import Tiro_Quente,Destruição
+from Dados.AtaquesNormais.ANplanta import Chicote_de_vinha,Semente_afiada
+from Dados.AtaquesEspeciais.AEplanta import Tiro_Quente,Destruição
 from Dados.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite
 
 Ivysaur = {
@@ -15,7 +15,7 @@ Ivysaur = {
     "velocidade": 1.263157895,
     "XP": 50,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -32,7 +32,7 @@ Charmeleon = {
     "velocidade": 1.217391304,
     "XP": 50,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -49,7 +49,7 @@ Wartortle = {
     "velocidade": 1.142857143,
     "XP": 50,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -66,7 +66,7 @@ Machoke = {
     "velocidade": 1.105263158,
     "XP": 50,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -83,7 +83,7 @@ Haunter = {
     "velocidade": 1.142857143,
     "XP": 55,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -100,7 +100,7 @@ Graveler = {
     "velocidade": 1.058823529,
     "XP": 50,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -117,7 +117,7 @@ Metapod = {
     "velocidade": 0.625,
     "XP": 50,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -134,7 +134,7 @@ Kadabra = {
     "velocidade": 1.115384615,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -151,7 +151,7 @@ Dragonair = {
     "velocidade": 1.272727273,
     "XP": 65,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -168,7 +168,7 @@ Raichu = {
     "velocidade": 1.085714286,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -185,7 +185,7 @@ Zoroark = {
     "velocidade": 1.68,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 Gyarados = {
@@ -201,7 +201,7 @@ Gyarados = {
     "velocidade": 1.6,
     "XP": 85,
     "custo": 4,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -218,7 +218,7 @@ Wigglytuff = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -235,7 +235,7 @@ Clefable = {
     "velocidade": 1.19047619,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -252,7 +252,7 @@ Persian = {
     "velocidade": 1.290322581,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -269,7 +269,7 @@ Marowak = {
     "velocidade": 1.166666667,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -286,7 +286,7 @@ Cloyster = {
     "velocidade": 1.227272727,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -303,7 +303,7 @@ Magneton = {
     "velocidade": 1.090909091,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -320,7 +320,7 @@ Raticate = {
     "velocidade": 1.076923077,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
@@ -337,7 +337,7 @@ Kakuna = {
     "velocidade": 0.75,
     "XP": 55,
     "custo": 3,
-    "ataques normais": [B],
+    "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
 
