@@ -148,7 +148,7 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
 
                 x_img = x + (tamanho_casa - tamanho_imagem) // 2
                 y_img = y + (tamanho_casa - tamanho_imagem) // 2
-                tela.blit(pokemon_encontrado.imagem, (x_img, y_img))
+                tela.blit(pokemon_encontrado.imagem, (x_img - 2, y_img - 3))
 
         else:
             cor_casa_disponivel = cores_zebragem[(linha + coluna) % 2]

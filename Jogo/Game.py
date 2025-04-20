@@ -2,6 +2,7 @@ import pygame
 import sys
 import ctypes
 
+
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
 
 try:

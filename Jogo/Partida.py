@@ -44,6 +44,7 @@ ImagensPokebolas = {}
 ImagensItens = {}
 OutrosIMG = []
 FundosIMG = []
+EfeitosIMG = {}
 
 Centro = []
 ver_centro = "n"
@@ -230,6 +231,7 @@ def passar_turno():
     M.Inverter_Tabuleiro(player, inimigo)
 
     for pokemon in player.pokemons:
+        pokemon.atacou = False
         if pokemon.guardado != 0 and pokemon.guardado < 3:
             pokemon.guardado += 1
 
@@ -238,6 +240,7 @@ def passar_turno():
     for pokemon in player.pokemons:
         if pokemon.local is not None:
             pokemon.Ganhar_XP(1,player)
+    Passar_contadores()
 
     Centro = G.spawn_do_centro(Centro)
     Centro = G.spawn_do_centro(Centro)
@@ -256,42 +259,23 @@ T2 = 800
 OP1 = 1080
 OP2 = 1080
 
-def seleciona(ID, player, inimigo,):
+def seleciona(Pokemon):
     global PokemonS
-    index_map = {
-        "Pokemon1": 0,
-        "Pokemon2": 1,
-        "Pokemon3": 2,
-        "Pokemon4": 3,
-        "Pokemon5": 4,
-        "Pokemon6": 5,
-        "inimigo1": 0,
-        "inimigo2": 1,
-        "inimigo3": 2,
-        "inimigo4": 3,
-        "inimigo5": 4,
-        "inimigo6": 5
-    }
-    idx = index_map[ID]
-    if idx < len(player.pokemons):
-        if ID in ["Pokemon1","Pokemon2","Pokemon3","Pokemon4","Pokemon5","Pokemon6"]:
-            if player.pokemons[idx].Vida > 0:
-                PokemonS = player.pokemons[idx] 
-                global S1, S2, animaS
-                global AT1, AT2, animaA
-                global OP1, OP2, animaOP
-                S1 = 1920
-                S2 = 1560
-                AT1 = -60
-                AT2 = 210
-                OP1 = 1080
-                OP2 = 980
-                animaS = pygame.time.get_ticks()
-                animaA = pygame.time.get_ticks()
-                animaOP = pygame.time.get_ticks()
-            else:
-                PokemonS = None
-                GV.adicionar_mensagem("Esse Pokémon não pode ser selecionado.")
+    if not isinstance(Pokemon,str):
+        if Pokemon.Vida > 0:
+            PokemonS = Pokemon
+            global S1, S2, animaS
+            global AT1, AT2, animaA
+            global OP1, OP2, animaOP
+            S1 = 1920
+            S2 = 1560
+            AT1 = -60
+            AT2 = 210
+            OP1 = 1080
+            OP2 = 980
+            animaS = pygame.time.get_ticks()
+            animaA = pygame.time.get_ticks()
+            animaOP = pygame.time.get_ticks()
         else:
             PokemonS = None
             GV.adicionar_mensagem("Esse Pokémon não pode ser selecionado.")
@@ -320,43 +304,17 @@ def desseleciona():
     estadoPokemon["selecionado_esquerdo"] = False
     estadoInfo["inicio_animacao"] = None
 
-def vizualiza(ID,player,inimigo,):
+def vizualiza(Pokemon):
     global PokemonV
     global V1, V2, animaV
-    index_map = {
-        "Pokemon1": 0,
-        "Pokemon2": 1,
-        "Pokemon3": 2,
-        "Pokemon4": 3,
-        "Pokemon5": 4,
-        "Pokemon6": 5,
-        "inimigo1": 0,
-        "inimigo2": 1,
-        "inimigo3": 2,
-        "inimigo4": 3,
-        "inimigo5": 4,
-        "inimigo6": 5
-    }
-    if ID in ["Pokemon1","Pokemon2","Pokemon3","Pokemon4","Pokemon5","Pokemon6"]:
-        idx = index_map[ID]
-        if idx < len(player.pokemons):
-                PokemonV = player.pokemons[idx]
-                V1 = 1920
-                V2 = 1560
-                animaV = pygame.time.get_ticks()
-        else:
-            PokemonV = None
-            GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")      
+    if not isinstance(Pokemon,str):
+        PokemonV = Pokemon
+        V1 = 1920
+        V2 = 1560
+        animaV = pygame.time.get_ticks()
     else:
-        idx = index_map[ID]
-        if idx < len(inimigo.pokemons):
-                PokemonV = inimigo.pokemons[idx]
-                V1 = 1920
-                V2 = 1560
-                animaV = pygame.time.get_ticks()
-        else:
-            PokemonV = None
-            GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")     
+        PokemonV = None
+        GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")     
 
 def oculta():
     global PokemonV
@@ -782,14 +740,15 @@ def Troca_Terminal():
 
 def Passar_contadores():
     for pokemon in player.pokemons:
-        if pokemon.efeitoNega["envenenado"] > 0:
+        if pokemon.efeitosNega["Envenenado"] > 0:
             pokemon.atacado(10,player,"O",Tela)
-        if pokemon.efeitoNega["intoxicado"] > 0:
+        if pokemon.efeitosNega["Tóxico"] > 0:
             pokemon.atacado(20,player,"O",Tela)
-            pokemon.velocidade -= 1
-        if pokemon.efeitoNega["queimado"] > 0:
+            pokemon.vel -= 1
+        if pokemon.efeitosNega["Queimado"] > 0:
             pokemon.atacado(15,player,"O",Tela)
-                
+        if pokemon.efeitosPosi["Regeneração"]:
+            pokemon.curar(15,player,Tela)
 
         for efeito, contador in pokemon.efeitosNega.items():
             if contador > 0:
@@ -911,8 +870,8 @@ def Partida(tela,estados,relogio):
             Telapausa(tela,eventos,estados)
 
 
-        if FrutaSelecionada is not None:
-            print(FrutaSelecionada)
+        if PokemonS is not None:
+            print (PokemonS.efeitosPosi["Imune"])
             
 
         pygame.display.update()
@@ -1016,6 +975,37 @@ def Carregar_Imagens():
     global OutrosIMG
     global FundosIMG
     global TiposEnergiaIMG
+    global EfeitosIMG
+
+    RegeneraçãoIMG = GV.Carregar_Imagem("imagens/icones/regeneraçao.png", (24, 24), "PNG")
+    ConfusoIMG = GV.Carregar_Imagem("imagens/icones/confuso.png", (24, 24), "PNG")
+    BloqueadoIMG = GV.Carregar_Imagem("imagens/icones/bloqueado.png", (24, 24), "PNG")
+    EnvenenadoIMG = GV.Carregar_Imagem("imagens/icones/envenenado.png", (24, 24), "PNG")
+    TóxicoIMG = GV.Carregar_Imagem("imagens/icones/toxico.png", (24, 24), "PNG")
+    FragilizadoIMG = GV.Carregar_Imagem("imagens/icones/fragilizado.png", (24, 24), "PNG")
+    QuebradoIMG = GV.Carregar_Imagem("imagens/icones/quebrado.png", (24, 24), "PNG")
+    CongeladoIMG = GV.Carregar_Imagem("imagens/icones/congelado.png", (24, 24), "PNG")
+    QueimadoIMG = GV.Carregar_Imagem("imagens/icones/queimado.png", (24, 24), "PNG")
+    ParalisadoIMG = GV.Carregar_Imagem("imagens/icones/paralisado.png", (24, 24), "PNG")
+    EncharcadoIMG = GV.Carregar_Imagem("imagens/icones/encharcado.png", (24, 24), "PNG")
+    VampiricoIMG = GV.Carregar_Imagem("imagens/icones/vampirico.png", (24, 24), "PNG")
+    DescarregadoIMG = GV.Carregar_Imagem("imagens/icones/descarregado.png", (24, 24), "PNG")
+    EnfraquecidoIMG = GV.Carregar_Imagem("imagens/icones/enfraquecido.png", (24, 24), "PNG")
+    IncapacitadoIMG = GV.Carregar_Imagem("imagens/icones/incapacitado.png", (24, 24), "PNG")
+    ImuneIMG = GV.Carregar_Imagem("imagens/icones/imune.png", (24, 24), "PNG")
+    PreparadoIMG = GV.Carregar_Imagem("imagens/icones/preparado.png", (24, 24), "PNG")
+    ProvocandoIMG = GV.Carregar_Imagem("imagens/icones/provocando.png", (24, 24), "PNG")
+    FurtivoIMG = GV.Carregar_Imagem("imagens/icones/furtivo.png", (24, 24), "PNG")
+    VoandoIMG = GV.Carregar_Imagem("imagens/icones/voando.png", (24, 24), "PNG")
+    OfensivoIMG = GV.Carregar_Imagem("imagens/icones/ofensivo.png", (24, 24), "PNG")
+    ReforçadoIMG = GV.Carregar_Imagem("imagens/icones/reforçado.png", (24, 24), "PNG")
+    ImortalIMG = GV.Carregar_Imagem("imagens/icones/imortal.png", (24, 24), "PNG")
+    RefletirIMG = GV.Carregar_Imagem("imagens/icones/refletir.png", (24, 24), "PNG")
+    FocadoIMG = GV.Carregar_Imagem("imagens/icones/focado.png", (24, 24), "PNG")
+    VelocistaIMG = GV.Carregar_Imagem("imagens/icones/velocista.png", (24, 24), "PNG")
+    EnergizadoIMG = GV.Carregar_Imagem("imagens/icones/energizado.png", (24, 24), "PNG")
+    AbençoadoIMG = GV.Carregar_Imagem("imagens/icones/abençoado.png", (24, 24), "PNG")
+
 
     Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080))
     MerFundo = GV.Carregar_Imagem("imagens/fundos/Mer.jpg", (1920, 1080))
@@ -1106,87 +1096,64 @@ def Carregar_Imagens():
     Gsnorlax_gigantamax = GV.carregar_frames('imagens/gifs/snorlax-gigantamax_frames')
     Gvenusaur_gigantamax = GV.carregar_frames('imagens/gifs/venusaur-gigantamax_frames')
 
-    SbulbasaurIMG = GV.Carregar_Imagem("imagens/pokeicons/bulbasaur.png", (38,38),"PNG")
-    SivysaurIMG = GV.Carregar_Imagem("imagens/pokeicons/ivysaur.png", (38,38),"PNG")
-    SvenusaurIMG = GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (38,38),"PNG")
-    ScharmanderIMG = GV.Carregar_Imagem("imagens/pokeicons/charmander.png", (38,38),"PNG")
-    ScharmeleonIMG = GV.Carregar_Imagem("imagens/pokeicons/charmeleon.png", (38,38),"PNG")
-    ScharizardIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (38,38),"PNG")
-    SsquirtleIMG = GV.Carregar_Imagem("imagens/pokeicons/squirtle.png", (38,38),"PNG")
-    SwartortleIMG = GV.Carregar_Imagem("imagens/pokeicons/wartortle.png", (38,38),"PNG")
-    SblastoiseIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (38,38),"PNG")
-    SmachopIMG = GV.Carregar_Imagem("imagens/pokeicons/machop.png", (38,38),"PNG")
-    SmachokeIMG = GV.Carregar_Imagem("imagens/pokeicons/machoke.png", (38,38),"PNG")
-    SmachampIMG = GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (38,38),"PNG")
-    SgastlyIMG = GV.Carregar_Imagem("imagens/pokeicons/gastly.png", (38,38),"PNG")
-    ShaunterIMG = GV.Carregar_Imagem("imagens/pokeicons/haunter.png", (38,38),"PNG")
-    SgengarIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (38,38),"PNG")
-    SgeodudeIMG = GV.Carregar_Imagem("imagens/pokeicons/geodude.png", (38,38),"PNG")
-    SgravelerIMG = GV.Carregar_Imagem("imagens/pokeicons/graveler.png", (38,38),"PNG")
-    SgolemIMG = GV.Carregar_Imagem("imagens/pokeicons/golem.png", (38,38),"PNG")
-    ScaterpieIMG = GV.Carregar_Imagem("imagens/pokeicons/caterpie.png", (38,38),"PNG")
-    SmetapodIMG = GV.Carregar_Imagem("imagens/pokeicons/metapod.png", (38,38),"PNG")
-    SbutterfreeIMG = GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (38,38),"PNG")
-    SabraIMG = GV.Carregar_Imagem("imagens/pokeicons/abra.png", (38,38),"PNG")
-    SkadabraIMG = GV.Carregar_Imagem("imagens/pokeicons/kadabra.png", (38,38),"PNG")
-    SalakazamIMG = GV.Carregar_Imagem("imagens/pokeicons/alakazam.png", (38,38),"PNG")
-    SdratiniIMG = GV.Carregar_Imagem("imagens/pokeicons/dratini.png", (38,38),"PNG")
-    SdragonairIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonair.png", (38,38),"PNG")
-    SdragoniteIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonite.png", (38,38),"PNG")
-    SzoruaIMG = GV.Carregar_Imagem("imagens/pokeicons/zorua.png", (38,38),"PNG")
-    SzoroarkIMG = GV.Carregar_Imagem("imagens/pokeicons/zoroark.png", (38,38),"PNG")
-    SpikachuIMG = GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (38,38),"PNG")
-    SraichuIMG = GV.Carregar_Imagem("imagens/pokeicons/raichu.png", (38,38),"PNG")
-    SmagikarpIMG = GV.Carregar_Imagem("imagens/pokeicons/magikarp.png", (38,38),"PNG")
-    SgyaradosIMG = GV.Carregar_Imagem("imagens/pokeicons/gyarados.png", (38,38),"PNG")
-    SjigglypuffIMG = GV.Carregar_Imagem("imagens/pokeicons/jigglypuff.png", (38,38),"PNG")
-    SwigglytuffIMG = GV.Carregar_Imagem("imagens/pokeicons/wigglytuff.png", (38,38),"PNG")
-    SmagnemiteIMG = GV.Carregar_Imagem("imagens/pokeicons/magnemite.png", (38,38),"PNG")
-    SmagnetonIMG = GV.Carregar_Imagem("imagens/pokeicons/magneton.png", (38,38),"PNG")
-    SsnorlaxIMG = GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (38,38),"PNG")
-    SaerodactylIMG = GV.Carregar_Imagem("imagens/pokeicons/aerodactyl.png", (38,38),"PNG")
-    SjynxIMG = GV.Carregar_Imagem("imagens/pokeicons/jynx.png", (38,38),"PNG")
-    SmewtwoIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (38,38),"PNG")
-    Saerodactyl_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/aerodactyl-mega.png", (38, 38), "PNG")
-    Salakazam_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/alakazam-mega.png", (38, 38), "PNG")
-    SarticunoIMG = GV.Carregar_Imagem("imagens/pokeicons/articuno.png", (38, 38), "PNG")
-    SbeedrillIMG = GV.Carregar_Imagem("imagens/pokeicons/beedrill.png", (38, 38), "PNG")
-    Sbeedrill_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/beedrill-mega.png", (38, 38), "PNG")
-    Sblastoise_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise-gigantamax.png", (38, 38), "PNG")
-    Sblastoise_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise-mega.png", (38, 38), "PNG")
-    Sbutterfree_gmaxIMG = GV.Carregar_Imagem("imagens/pokeicons/butterfree-gigantamax.png", (38, 38), "PNG")
-    Scharizard_gmaxIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard-gigantamax.png", (38, 38), "PNG")
-    Scharizard_megaxIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard-mega-x.png", (38, 38), "PNG")
-    Scharizard_megayIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard-mega-y.png", (38, 38), "PNG")
-    SclefableIMG = GV.Carregar_Imagem("imagens/pokeicons/clefable.png", (38, 38), "PNG")
-    SclefairyIMG = GV.Carregar_Imagem("imagens/pokeicons/clefairy.png", (38, 38), "PNG")
-    ScloysterIMG = GV.Carregar_Imagem("imagens/pokeicons/cloyster.png", (38, 38), "PNG")
-    ScuboneIMG = GV.Carregar_Imagem("imagens/pokeicons/cubone.png", (38, 38), "PNG")
-    Sgengar_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar-gigantamax.png", (38, 38), "PNG")
-    Sgengar_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar-mega.png", (38, 38), "PNG")
-    Sgolem_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/golem-mega.png", (38, 38), "PNG")
-    Sgyarados_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/gyarados-mega.png", (38, 38), "PNG")
-    SkakunaIMG = GV.Carregar_Imagem("imagens/pokeicons/kakuna.png", (38, 38), "PNG")
-    Smachamp_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/machamp-gigantamax.png", (38, 38), "PNG")
-    SmarowakIMG = GV.Carregar_Imagem("imagens/pokeicons/marowak.png", (38, 38), "PNG")
-    SmeowthIMG = GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (38, 38), "PNG")
-    Smeowth_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/meowth-gigantamax.png", (38, 38), "PNG")
-    Smewtwo_megaxIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo-mega-x.png", (38, 38), "PNG")
-    Smewtwo_megayIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo-mega-y.png", (38, 38), "PNG")
-    SmoltresIMG = GV.Carregar_Imagem("imagens/pokeicons/moltres.png", (38, 38), "PNG")
-    SpersianIMG = GV.Carregar_Imagem("imagens/pokeicons/persian.png", (38, 38), "PNG")
-    Spikachu_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/pikachu-gigantamax.png", (38, 38), "PNG")
-    SpinsirIMG = GV.Carregar_Imagem("imagens/pokeicons/pinsir.png", (38, 38), "PNG")
-    Spinsir_megaIMG = GV.Carregar_Imagem("imagens/pokeicons/pinsir-mega.png", (38, 38), "PNG")
-    SraticateIMG = GV.Carregar_Imagem("imagens/pokeicons/raticate.png", (38, 38), "PNG")
-    SrattataIMG = GV.Carregar_Imagem("imagens/pokeicons/rattata.png", (38, 38), "PNG")
-    SshellderIMG = GV.Carregar_Imagem("imagens/pokeicons/shellder.png", (38, 38), "PNG")
-    Ssnorlax_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/snorlax-gigantamax.png", (38, 38), "PNG")
-    Svenusaur_gigantamaxIMG = GV.Carregar_Imagem("imagens/pokeicons/venusaur-gigantamax.png", (38, 38), "PNG")
-    SzapdosIMG = GV.Carregar_Imagem("imagens/pokeicons/zapdos.png", (38, 38), "PNG")
-    SweedleIMG = GV.Carregar_Imagem("imagens/pokeicons/weedle.png", (38, 38), "PNG")
-
-
+    IbulbasaurIMG = GV.Carregar_Imagem("imagens/pokeicons/bulbasaur.png", (41,41), "PNG")
+    IivysaurIMG = GV.Carregar_Imagem("imagens/pokeicons/ivysaur.png", (41,41), "PNG")
+    IvenusaurIMG = GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (41,41), "PNG")
+    IcharmanderIMG = GV.Carregar_Imagem("imagens/pokeicons/charmander.png", (41,41), "PNG")
+    IcharmeleonIMG = GV.Carregar_Imagem("imagens/pokeicons/charmeleon.png", (41,41), "PNG")
+    IcharizardIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41,41), "PNG")
+    IsquirtleIMG = GV.Carregar_Imagem("imagens/pokeicons/squirtle.png", (41,41), "PNG")
+    IwartortleIMG = GV.Carregar_Imagem("imagens/pokeicons/wartortle.png", (41,41), "PNG")
+    IblastoiseIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (41,41), "PNG")
+    ImachopIMG = GV.Carregar_Imagem("imagens/pokeicons/machop.png", (41,41), "PNG")
+    ImachokeIMG = GV.Carregar_Imagem("imagens/pokeicons/machoke.png", (41,41), "PNG")
+    ImachampIMG = GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (41,41), "PNG")
+    IgastlyIMG = GV.Carregar_Imagem("imagens/pokeicons/gastly.png", (41,41), "PNG")
+    IhaunterIMG = GV.Carregar_Imagem("imagens/pokeicons/haunter.png", (41,41), "PNG")
+    IgengarIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (41,41), "PNG")
+    IgeodudeIMG = GV.Carregar_Imagem("imagens/pokeicons/geodude.png", (41,41), "PNG")
+    IgravelerIMG = GV.Carregar_Imagem("imagens/pokeicons/graveler.png", (41,41), "PNG")
+    IgolemIMG = GV.Carregar_Imagem("imagens/pokeicons/golem.png", (41,41), "PNG")
+    IcaterpieIMG = GV.Carregar_Imagem("imagens/pokeicons/caterpie.png", (41,41), "PNG")
+    ImetapodIMG = GV.Carregar_Imagem("imagens/pokeicons/metapod.png", (41,41), "PNG")
+    IbutterfreeIMG = GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (41,41), "PNG")
+    IabraIMG = GV.Carregar_Imagem("imagens/pokeicons/abra.png", (41,41), "PNG")
+    IkadabraIMG = GV.Carregar_Imagem("imagens/pokeicons/kadabra.png", (41,41), "PNG")
+    IalakazamIMG = GV.Carregar_Imagem("imagens/pokeicons/alakazam.png", (41,41), "PNG")
+    IdratiniIMG = GV.Carregar_Imagem("imagens/pokeicons/dratini.png", (41,41), "PNG")
+    IdragonairIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonair.png", (41,41), "PNG")
+    IdragoniteIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonite.png", (41,41), "PNG")
+    IzoruaIMG = GV.Carregar_Imagem("imagens/pokeicons/zorua.png", (41,41), "PNG")
+    IzoroarkIMG = GV.Carregar_Imagem("imagens/pokeicons/zoroark.png", (41,41), "PNG")
+    IpikachuIMG = GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (41,41), "PNG")
+    IraichuIMG = GV.Carregar_Imagem("imagens/pokeicons/raichu.png", (41,41), "PNG")
+    ImagikarpIMG = GV.Carregar_Imagem("imagens/pokeicons/magikarp.png", (41,41), "PNG")
+    IgyaradosIMG = GV.Carregar_Imagem("imagens/pokeicons/gyarados.png", (41,41), "PNG")
+    IjigglypuffIMG = GV.Carregar_Imagem("imagens/pokeicons/jigglypuff.png", (41,41), "PNG")
+    IwigglytuffIMG = GV.Carregar_Imagem("imagens/pokeicons/wigglytuff.png", (41,41), "PNG")
+    ImagnemiteIMG = GV.Carregar_Imagem("imagens/pokeicons/magnemite.png", (41,41), "PNG")
+    ImagnetonIMG = GV.Carregar_Imagem("imagens/pokeicons/magneton.png", (41,41), "PNG")
+    IsnorlaxIMG = GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (41,41), "PNG")
+    IaerodactylIMG = GV.Carregar_Imagem("imagens/pokeicons/aerodactyl.png", (41,41), "PNG")
+    IjynxIMG = GV.Carregar_Imagem("imagens/pokeicons/jynx.png", (41,41), "PNG")
+    ImewtwoIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (41,41), "PNG")
+    IarticunoIMG = GV.Carregar_Imagem("imagens/pokeicons/articuno.png", (41,41), "PNG")
+    IbeedrillIMG = GV.Carregar_Imagem("imagens/pokeicons/beedrill.png", (41,41), "PNG")
+    IclefableIMG = GV.Carregar_Imagem("imagens/pokeicons/clefable.png", (41,41), "PNG")
+    IclefairyIMG = GV.Carregar_Imagem("imagens/pokeicons/clefairy.png", (41,41), "PNG")
+    IcloysterIMG = GV.Carregar_Imagem("imagens/pokeicons/cloyster.png", (41,41), "PNG")
+    IcuboneIMG = GV.Carregar_Imagem("imagens/pokeicons/cubone.png", (41,41), "PNG")
+    IkakunaIMG = GV.Carregar_Imagem("imagens/pokeicons/kakuna.png", (41,41), "PNG")
+    ImarowakIMG = GV.Carregar_Imagem("imagens/pokeicons/marowak.png", (41,41), "PNG")
+    ImeowthIMG = GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (41,41), "PNG")
+    ImoltresIMG = GV.Carregar_Imagem("imagens/pokeicons/moltres.png", (41,41), "PNG")
+    IpersianIMG = GV.Carregar_Imagem("imagens/pokeicons/persian.png", (41,41), "PNG")
+    IpinsirIMG = GV.Carregar_Imagem("imagens/pokeicons/pinsir.png", (41,41), "PNG")
+    IraticateIMG = GV.Carregar_Imagem("imagens/pokeicons/raticate.png", (41,41), "PNG")
+    IrattataIMG = GV.Carregar_Imagem("imagens/pokeicons/rattata.png", (41,41), "PNG")
+    IshellderIMG = GV.Carregar_Imagem("imagens/pokeicons/shellder.png", (41,41), "PNG")
+    IzapdosIMG = GV.Carregar_Imagem("imagens/pokeicons/zapdos.png", (41,41), "PNG")
+    IweedleIMG = GV.Carregar_Imagem("imagens/pokeicons/weedle.png", (41,41), "PNG")
 
 
     MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (88, 88), "PNG")
@@ -1286,6 +1253,38 @@ def Carregar_Imagens():
     Efada = GV.Carregar_Imagem("imagens/icones/fada.png", (30,30), "PNG")
     Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
     Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
+
+
+    EfeitosIMG = {
+    "Confuso": ConfusoIMG,
+    "Bloqueado": BloqueadoIMG,
+    "Envenenado": EnvenenadoIMG,
+    "Tóxico": TóxicoIMG,
+    "Fragilizado": FragilizadoIMG,
+    "Quebrado": QuebradoIMG,
+    "Congelado": CongeladoIMG,
+    "Queimado": QueimadoIMG,
+    "Paralisado": ParalisadoIMG,
+    "Encharcado": EncharcadoIMG,
+    "Vampirico": VampiricoIMG,
+    "Descarregado": DescarregadoIMG,
+    "Enfraquecido": EnfraquecidoIMG,
+    "Incapacitado": IncapacitadoIMG,
+    "Regeneração": RegeneraçãoIMG,
+    "Abençoado": AbençoadoIMG,
+    "Imune": ImuneIMG,
+    "Preparado": PreparadoIMG,
+    "Provocando": ProvocandoIMG,
+    "Furtivo": FurtivoIMG,
+    "Voando": VoandoIMG,
+    "Ofensivo": OfensivoIMG,
+    "Reforçado": ReforçadoIMG,
+    "Imortal": ImortalIMG,
+    "Refletir": RefletirIMG,
+    "Focado": FocadoIMG,
+    "velocista": VelocistaIMG,
+    "Energizado": EnergizadoIMG
+    }
 
     TiposEnergiaIMG = {
     "fogo": Efogo,
@@ -1391,86 +1390,87 @@ def Carregar_Imagens():
     }
 
     ImagensPokemon38 = {
-    "Bulbasaur": SbulbasaurIMG,
-    "Ivysaur": SivysaurIMG,
-    "Venusaur": SvenusaurIMG,
-    "Charmander": ScharmanderIMG,
-    "Charmeleon": ScharmeleonIMG,
-    "Charizard": ScharizardIMG,
-    "Squirtle": SsquirtleIMG,
-    "Wartortle": SwartortleIMG,
-    "Blastoise": SblastoiseIMG,
-    "Machop": SmachopIMG,
-    "Machoke": SmachokeIMG,
-    "Machamp": SmachampIMG,
-    "Gastly": SgastlyIMG,
-    "Haunter": ShaunterIMG,
-    "Gengar": SgengarIMG,
-    "Geodude": SgeodudeIMG,
-    "Graveler": SgravelerIMG,
-    "Golem": SgolemIMG,
-    "Caterpie": ScaterpieIMG,
-    "Metapod": SmetapodIMG,
-    "Butterfree": SbutterfreeIMG,
-    "Abra": SabraIMG,
-    "Kadabra": SkadabraIMG,
-    "Alakazam": SalakazamIMG,
-    "Dratini": SdratiniIMG,
-    "Dragonair": SdragonairIMG,
-    "Dragonite": SdragoniteIMG,
-    "Zorua": SzoruaIMG,
-    "Zoroark": SzoroarkIMG,
-    "Pikachu": SpikachuIMG,
-    "Raichu": SraichuIMG,
-    "Magikarp": SmagikarpIMG,
-    "Gyarados": SgyaradosIMG,
-    "Jigglypuff": SjigglypuffIMG,
-    "Wigglytuff": SwigglytuffIMG,
-    "Magnemite": SmagnemiteIMG,
-    "Magneton": SmagnetonIMG,
-    "Snorlax": SsnorlaxIMG,
-    "Aerodactyl": SaerodactylIMG,
-    "Jynx": SjynxIMG,
-    "Mewtwo": SmewtwoIMG,
-    "Aerodactyl-mega": Saerodactyl_megaIMG,
-    "Alakazam-mega": Salakazam_megaIMG,
-    "Articuno": SarticunoIMG,
-    "Beedrill": SbeedrillIMG,
-    "Beedrill-mega": Sbeedrill_megaIMG,
-    "Blastoise-gigantamax": Sblastoise_gigantamaxIMG,
-    "Blastoise-mega": Sblastoise_megaIMG,
-    "Butterfree-gigantamax": Sbutterfree_gmaxIMG,
-    "Charizard-gigantamax": Scharizard_gmaxIMG,
-    "Charizard-mega-x": Scharizard_megaxIMG,
-    "Charizard-mega-y": Scharizard_megayIMG,
-    "Clefable": SclefableIMG,
-    "Clefairy": SclefairyIMG,
-    "Cloyster": ScloysterIMG,
-    "Cubone": ScuboneIMG,
-    "Gengar-gigantamax": Sgengar_gigantamaxIMG,
-    "Gengar-mega": Sgengar_megaIMG,
-    "Golem-alola": Sgolem_megaIMG,
-    "Gyarados-mega": Sgyarados_megaIMG,
-    "Kakuna": SkakunaIMG,
-    "Machamp-gigantamax": Smachamp_gigantamaxIMG,
-    "Marowak": SmarowakIMG,
-    "Meowth": SmeowthIMG,
-    "Meowth-gigantamax": Smeowth_gigantamaxIMG,
-    "Mewtwo-mega-x": Smewtwo_megaxIMG,
-    "Mewtwo-mega-y": Smewtwo_megayIMG,
-    "Moltres": SmoltresIMG,
-    "Persian": SpersianIMG,
-    "Pikachu-gigantamax": Spikachu_gigantamaxIMG,
-    "Pinsir": SpinsirIMG,
-    "Pinsir-mega": Spinsir_megaIMG,
-    "Raticate": SraticateIMG,
-    "Rattata": SrattataIMG,
-    "Shellder": SshellderIMG,
-    "Snorlax-gigantamax": Ssnorlax_gigantamaxIMG,
-    "Venusaur-gigantamax": Svenusaur_gigantamaxIMG,
-    "Zapdos": SzapdosIMG,
-    "Weedle": SweedleIMG
+    "Bulbasaur": IbulbasaurIMG,
+    "Ivysaur": IivysaurIMG,
+    "Venusaur": IvenusaurIMG,
+    "Charmander": IcharmanderIMG,
+    "Charmeleon": IcharmeleonIMG,
+    "Charizard": IcharizardIMG,
+    "Squirtle": IsquirtleIMG,
+    "Wartortle": IwartortleIMG,
+    "Blastoise": IblastoiseIMG,
+    "Machop": ImachopIMG,
+    "Machoke": ImachokeIMG,
+    "Machamp": ImachampIMG,
+    "Gastly": IgastlyIMG,
+    "Haunter": IhaunterIMG,
+    "Gengar": IgengarIMG,
+    "Geodude": IgeodudeIMG,
+    "Graveler": IgravelerIMG,
+    "Golem": IgolemIMG,
+    "Caterpie": IcaterpieIMG,
+    "Metapod": ImetapodIMG,
+    "Butterfree": IbutterfreeIMG,
+    "Abra": IabraIMG,
+    "Kadabra": IkadabraIMG,
+    "Alakazam": IalakazamIMG,
+    "Dratini": IdratiniIMG,
+    "Dragonair": IdragonairIMG,
+    "Dragonite": IdragoniteIMG,
+    "Zorua": IzoruaIMG,
+    "Zoroark": IzoroarkIMG,
+    "Pikachu": IpikachuIMG,
+    "Raichu": IraichuIMG,
+    "Magikarp": ImagikarpIMG,
+    "Gyarados": IgyaradosIMG,
+    "Jigglypuff": IjigglypuffIMG,
+    "Wigglytuff": IwigglytuffIMG,
+    "Magnemite": ImagnemiteIMG,
+    "Magneton": ImagnetonIMG,
+    "Snorlax": IsnorlaxIMG,
+    "Aerodactyl": IaerodactylIMG,
+    "Jynx": IjynxIMG,
+    "Mewtwo": ImewtwoIMG,
+    "Aerodactyl-mega": IaerodactylIMG,
+    "Alakazam-mega": IalakazamIMG,
+    "Articuno": IarticunoIMG,
+    "Beedrill": IbeedrillIMG,
+    "Beedrill-mega": IbeedrillIMG,
+    "Blastoise-gigantamax": IblastoiseIMG,
+    "Blastoise-mega": IblastoiseIMG,
+    "Butterfree-gigantamax": IbutterfreeIMG,
+    "Charizard-gigantamax": IcharizardIMG,
+    "Charizard-mega-x": IcharizardIMG,
+    "Charizard-mega-y": IcharizardIMG,
+    "Clefable": IclefableIMG,
+    "Clefairy": IclefairyIMG,
+    "Cloyster": IcloysterIMG,
+    "Cubone": IcuboneIMG,
+    "Gengar-gigantamax": IgengarIMG,
+    "Gengar-mega": IgengarIMG,
+    "Golem-alola": IgolemIMG,
+    "Gyarados-mega": IgyaradosIMG,
+    "Kakuna": IkakunaIMG,
+    "Machamp-gigantamax": ImachampIMG,
+    "Marowak": ImarowakIMG,
+    "Meowth": ImeowthIMG,
+    "Meowth-gigantamax": ImeowthIMG,
+    "Mewtwo-mega-x": ImewtwoIMG,
+    "Mewtwo-mega-y": ImewtwoIMG,
+    "Moltres": ImoltresIMG,
+    "Persian": IpersianIMG,
+    "Pikachu-gigantamax": IpikachuIMG,
+    "Pinsir": IpinsirIMG,
+    "Pinsir-mega": IpinsirIMG,
+    "Raticate": IraticateIMG,
+    "Rattata": IrattataIMG,
+    "Shellder": IshellderIMG,
+    "Snorlax-gigantamax": IsnorlaxIMG,
+    "Venusaur-gigantamax": IvenusaurIMG,
+    "Zapdos": IzapdosIMG,
+    "Weedle": IweedleIMG
 }
+
 
 
     ImagensPokemon100 = {
@@ -1556,7 +1556,7 @@ def TelaPokemons(tela,eventos,estados):
     global inimigo
 
     try:
-        if PokemonS.local is not None:
+        if PokemonS.local is not None and PokemonS.atacou == False and PokemonS.efeitosNega["Incapacitado"] == 0:
             YA = GV.animar(AT1,AT2,animaA,tempo=250)
 
     
@@ -1593,26 +1593,50 @@ def TelaPokemons(tela,eventos,estados):
 
     except AttributeError:
         pass
+    
+    
 
 
     for i in range(6):
-        x = 420 + i * 190  # ajusta a posição horizontal
-        id_poke = f"Pokemon{i+1}"
+        x = 420 + i * 190
+        if len(player.pokemons) > i:
+            id_poke = player.pokemons[i]
+        else:
+            id_poke = f"A{i}"
+
+        if not isinstance(id_poke,str):
+            if id_poke.atacou == True:
+                cor_do_fundo_pokemon = (123, 138, 148)
+            else:
+                cor_do_fundo_pokemon = AZUL_SUPER_CLARO
+        else:
+            cor_do_fundo_pokemon = AZUL_SUPER_CLARO
+
         GV.Botao_Selecao(
             tela, (x, 890, 190, 190),
             "", Fonte30,
-            cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
+            cor_fundo=cor_do_fundo_pokemon, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
             estado_global=estadoPokemon, eventos=eventos,
-            funcao_esquerdo=lambda i=i: seleciona(f"Pokemon{i+1}", player, inimigo),
-            funcao_direito=lambda i=i: vizualiza(f"Pokemon{i+1}", player, inimigo),
+            funcao_esquerdo=lambda i=i: seleciona(id_poke),
+            funcao_direito=lambda i=i: vizualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
             tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
+        
+        if not isinstance(id_poke,str):
+            j = 0
+            for efeito,valor in id_poke.efeitosPosi.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERDE,valor)
+                    j +=1
 
     for i in range(6):
         x = 1310 - i * 190  # ajusta a posição horizontal
-        id_poke = f"inimigo{i+1}"
+        if len(inimigo.pokemons) > i:
+            id_poke = inimigo.pokemons[i]
+        else:
+            id_poke = f"I{i}"
         GV.Botao_Selecao(
             tela, (x, 0, 190, 190),
             "", Fonte30,
@@ -1620,10 +1644,17 @@ def TelaPokemons(tela,eventos,estados):
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
             estado_global=estadoPokemon, eventos=eventos,
-            funcao_esquerdo=lambda i=i: seleciona(f"inimigo{i+1}", player, inimigo),
-            funcao_direito=lambda i=i: vizualiza(f"inimigo{i+1}", player, inimigo),
+            funcao_esquerdo=lambda i=i: seleciona(id_poke),
+            funcao_direito=lambda i=i: vizualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
             tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
+        
+        if not isinstance(id_poke,str):
+            j = 0
+            for efeito,valor in id_poke.efeitosPosi.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 160, 30 + j * 30),EfeitosIMG[efeito],VERDE,valor)
+                    j +=1
 
     if PokemonS is not None:
         PokemonSV = PokemonS
@@ -1631,9 +1662,9 @@ def TelaPokemons(tela,eventos,estados):
     if PokemonV is not None:
         PokemonVV = PokemonV
 
-    GV.Status_Pokemon((S1,555), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,S2,animaS,200,"S")
+    GV.Status_Pokemon((S1,542), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,S2,animaS,200,"S")
 
-    GV.Status_Pokemon((V1,220), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,V2,animaV,200,"V")
+    GV.Status_Pokemon((V1,209), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,V2,animaV,200,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1688,10 +1719,10 @@ def TelaPokemons(tela,eventos,estados):
             tela.blit(OutrosIMG[11], ((x+15), (y+10)))
         
     for i in range(len(player.pokemons)):
-        barra_vida(tela, 420 + i * 190, 870, 190, 20, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
+        barra_vida(tela, 425 + i * 190, 875, 180, 15, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
     
     for i in range(len(inimigo.pokemons)):
-        barra_vida(tela, 1310 - i * 190, 190, 190, 20, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].ID)
+        barra_vida(tela, 1315 - i * 190, 190, 180, 15, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].ID)
 
     atualizar_efeitos(tela)
 

@@ -22,32 +22,34 @@ Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
 evoluirEFE = GV.carregar_frames('imagens/Efeitos/Evoluindo_frames')
 
-efeitosPositivos = {
-    "Confuso": 0,
-    "Bloqueado": 0,
-    "Envenenado": 0,
-    "Tóxico": 0,
+EfeitosNegativos = {
+    "Confuso": 0,#C
+    "Bloqueado": 0,#C
+    "Envenenado": 0,#C
+    "Tóxico": 0,#C
     "Fragilizado": 0,
     "Quebrado": 0,
     "Congelado": 0,
-    "Queimado": 0,
+    "Queimado": 0,#C
     "Paralisado": 0,
     "Encharcado": 0,
     "Vampirico": 0,
     "Descarregado": 0,
-    "Enfraquecido": 0
+    "Enfraquecido": 0,
+    "Incapacitado": 0 #C
     }
 
-EfeitosNegativos = {
-    "Regeneração": 0,
-    "Imune": 0,
+EfeitosPositivos = {
+    "Regeneração": 0,#C
+    "Abençoado": 0,#C
+    "Imune": 0, #C
     "Preparado": 0,
     "Provocando": 0,
     "Furtivo": 0,
-    "Voando": 0,
+    "Voando": 0,#C
     "Ofensivo": 0,
     "Reforçado": 0,
-    "Imortal": 0,
+    "Imortal": 0,#C
     "Refletir": 0,
     "Focado": 0,
     "velocista": 0,
@@ -166,13 +168,15 @@ class Pokemon:
         self.guardado = 0
         self.local = None
         self.imagem = None
-        self.efeitosPosi = efeitosPositivos
-        self.efeitosNega = EfeitosNegativos
+        self.efeitosPosi = EfeitosPositivos.copy()
+        self.efeitosNega = EfeitosNegativos.copy()
         try:
             player.pokemons.append(self)
             self.pos = player.pokemons.index(self)
         except AttributeError:
             self.pos = None
+        
+        self.atacou = False
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
@@ -181,6 +185,7 @@ class Pokemon:
             if self.evolucao is not None:
                 i = self.pos
                 P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
+                return
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
@@ -207,7 +212,6 @@ class Pokemon:
 
     def Ganhar_XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
-        GV.adicionar_mensagem(f"{self.nome} ganhou {quantidade} de XP, seu XP atual é {self.xp_atu}")
     
     def amplificar(self,tipo,amplificador,player):
         if tipo == "XP atu":
@@ -232,7 +236,11 @@ class Pokemon:
     def atacado(self,dano,player,inimigo,tipo,tela):
         DanoOriginal = dano
         if self.Vida <= dano:
-            dano = self.Vida
+            if self.efeitosPosi["Imortal"]:
+                dano = self.Vida - 0.1
+                self.efeitosPosi["Imortal"] = 0
+            else:
+                dano = self.Vida
         
         self.Vida = round(self.Vida - dano,1)
 
@@ -253,6 +261,11 @@ class Pokemon:
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
     def curar(self,cura,player,tela):
+            if self.efeitosPosi["Abençoado"] != 0:
+                cura = cura * 1.3
+            if self.efeitosNega["Queimado"] != 0:
+                cura = cura * 0.7
+
             dano_tomado = self.VidaMax - self.Vida
             self.Vida = round(self.Vida + cura,1)
             if self.Vida > self.VidaMax:
@@ -292,8 +305,6 @@ class Pokemon:
                     gastas.append(F["custo"][i])
                     pagou += 1
 
-        
-        
         if pagou != len(F["custo"]):
             GV.tocar(Bloq)
             GV.adicionar_mensagem("Sem energias, seu ataque falhou")
@@ -303,17 +314,22 @@ class Pokemon:
 
         distancia = FU.distancia_entre_pokemons(self,alvo,Mapa.Metros)
         Over = F["alcance"] - distancia
+        if alvo.efeitosPosi["Voando"] != 0:
+            Over = Over - 45
         if Over < 0:
             assertividade = F["precisão"] + Over
         else:
             assertividade = F["precisão"]
+        if self.efeitosNega["Confuso"] != 0:
+            assertividade = assertividade - 45
         desfoco = random.randint(0,100)
         if desfoco > assertividade:
             GV.adicionar_mensagem("Você errou o ataque")
             return
 
+        self.efeitosPosi["Regeneração"] = 2
 
-
+        self.atacou = True
         Dano_I = U * F["dano"]
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
@@ -325,6 +341,15 @@ class Pokemon:
         XP_ATK = random.randint(3,5)
         self.Ganhar_XP(XP_ATK,player)
         alvo.atacado(dano_F,player,inimigo,tipo,tela)
+    
+    def Adiciona_efeito(self,efeito,turnos,tipo):
+        if tipo == "Positivo":
+            if self.efeitosNega["Bloqueado"] == 0:
+                self.efeitosPosi[efeito] += turnos
+        if tipo == "Negativo":
+            if self.efeitosNega["Imune"] == 0:
+                self.efeitosNega[efeito] += turnos
+
         
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 

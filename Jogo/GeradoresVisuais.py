@@ -992,6 +992,33 @@ def animar(D_inicial,D_final,anima,tempo=200):
 
     return D
 
+def Efeito(tela, posicao, imagem, cor, numero):
+    x, y = posicao
+    raio = 14  # Tamanho do círculo
+    fonte = pygame.font.SysFont(None, 15)
+
+    # Círculo com borda preta
+    pygame.draw.circle(tela, (0, 0, 0), (x, y), raio + 2)  # Borda preta
+    pygame.draw.circle(tela, cor, (x, y), raio)           # Cor do efeito
+
+    # Centralizar a imagem dentro do círculo
+    if imagem:
+        imagem_rect = imagem.get_rect(center=(x, y))
+        tela.blit(imagem, imagem_rect)
+
+    # Retângulo pequeno com o número
+    texto = fonte.render(str(numero), True, (255, 255, 255))  # Número branco
+    texto_rect = texto.get_rect()
+    largura_ret = texto_rect.width + 6
+    altura_ret = texto_rect.height + 4
+
+    # Posição do retângulo à direita do círculo
+    rect_x = x + raio + 4
+    rect_y = y - altura_ret // 2
+    retangulo = pygame.Rect(rect_x, rect_y, largura_ret, altura_ret)
+
+    pygame.draw.rect(tela, (0, 0, 0), retangulo, border_radius=3)  # Fundo preto
+    tela.blit(texto, (rect_x + 3, rect_y + 2))
 
         
 
