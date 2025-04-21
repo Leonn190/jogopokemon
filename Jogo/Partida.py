@@ -262,7 +262,7 @@ OP2 = 1080
 def seleciona(Pokemon):
     global PokemonS
     if not isinstance(Pokemon,str):
-        if Pokemon.Vida > 0:
+        if Pokemon.Vida > 0 and Pokemon.efeitosNega["Congelado"] <= 0 and Pokemon not in inimigo.pokemons:
             PokemonS = Pokemon
             global S1, S2, animaS
             global AT1, AT2, animaA
@@ -740,15 +740,18 @@ def Troca_Terminal():
 
 def Passar_contadores():
     for pokemon in player.pokemons:
+        dano_dos_efeitos = 0
         if pokemon.efeitosNega["Envenenado"] > 0:
-            pokemon.atacado(10,player,"O",Tela)
+            dano_dos_efeitos += 10
         if pokemon.efeitosNega["Tóxico"] > 0:
-            pokemon.atacado(20,player,"O",Tela)
+            dano_dos_efeitos += 20
             pokemon.vel -= 1
         if pokemon.efeitosNega["Queimado"] > 0:
-            pokemon.atacado(15,player,"O",Tela)
+            dano_dos_efeitos += 15
         if pokemon.efeitosPosi["Regeneração"]:
             pokemon.curar(15,player,Tela)
+        if dano_dos_efeitos > 0:
+            pokemon.atacado(dano_dos_efeitos,player,inimigo,"O",Tela)
 
         for efeito, contador in pokemon.efeitosNega.items():
             if contador > 0:
@@ -1555,22 +1558,50 @@ def TelaPokemons(tela,eventos,estados):
     global player
     global inimigo
 
+    Todos_furtivos = False
+    Provocando = False
+    contador = 0
+    for pokemon in inimigo.pokemons:
+        if pokemon.efeitosPosi["Furtivo"] > 0:
+            contador = 1
+        if pokemon.efeitosPosi["Provocando"] > 0:
+            Provocando = True
+    if contador == len(inimigo.pokemons):
+        Todos_furtivos = True 
+        
+
     try:
         if PokemonS.local is not None and PokemonS.atacou == False and PokemonS.efeitosNega["Incapacitado"] == 0:
             YA = GV.animar(AT1,AT2,animaA,tempo=250)
 
     
             for i in range(len(inimigo.pokemons)):
-                if inimigo.pokemons[i].Vida > 0 and inimigo.pokemons[i].local is not None:
-                    BI = BA[i]
-                    BJ = BA[i+6]
+                if Todos_furtivos is False:
+                    Furtividade = inimigo.pokemons[i].efeitosPosi["Furtivo"]
+                else:
+                    Furtividade = 0
+                if inimigo.pokemons[i].Vida > 0 and inimigo.pokemons[i].local is not None and Furtividade <= 0:
+                    if Provocando is False:
+                        BI = BA[i]
+                        BJ = BA[i+6]
 
-                    GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                                    lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
-                    GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                                    lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
-                    tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
-                    tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
+                        GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
+                                        lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
+                        GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
+                                        lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
+                        tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
+                        tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
+                    else:
+                        if inimigo.pokemons[i].efeitosPosi["Provocando"] > 0:
+                            BI = BA[i]
+                            BJ = BA[i+6]
+
+                            GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
+                                            lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
+                            GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
+                                            lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
+                            tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
+                            tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
 
     except AttributeError:
         pass
@@ -1630,6 +1661,10 @@ def TelaPokemons(tela,eventos,estados):
                 if valor > 0:
                     GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERDE,valor)
                     j +=1
+            for efeito,valor in id_poke.efeitosNega.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
+                    j +=1
 
     for i in range(6):
         x = 1310 - i * 190  # ajusta a posição horizontal
@@ -1653,7 +1688,11 @@ def TelaPokemons(tela,eventos,estados):
             j = 0
             for efeito,valor in id_poke.efeitosPosi.items():
                 if valor > 0:
-                    GV.Efeito(tela,(x + 160, 30 + j * 30),EfeitosIMG[efeito],VERDE,valor)
+                    GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERDE,valor)
+                    j +=1
+            for efeito,valor in id_poke.efeitosNega.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
                     j +=1
 
     if PokemonS is not None:

@@ -16,9 +16,15 @@ informaçoesp2 = [random.choice(["Jogador Astuto","Jogador Habil","Jogador Feliz
 Contador1 = 0
 Contador2 = 0 
 
+
 def iniciar_prépartida(estados):
+    global informaçoesp1, informaçoesp2,Contador1,Contador2
     estados["Rodando_Menu"] = False
     estados["Rodando_PréPartida"] = True
+    informaçoesp1 = [random.choice(["Jogador Legal","Jogador Bacanudo","Jogador Estratégico","Jogador Habilidoso"]),random.randint(1,3)]
+    informaçoesp2 = [random.choice(["Jogador Astuto","Jogador Habil","Jogador Feliz","Jogador Irado"]),random.randint(1,3)]
+    Contador1 = 0
+    Contador2 = 0
 
 def fechar_jogo(estados):
     estados["Rodando_Menu"] = False

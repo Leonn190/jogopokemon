@@ -2,7 +2,6 @@ import pygame
 import sys
 import ctypes
 
-
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
 
 try:
@@ -19,7 +18,6 @@ pygame.display.set_caption("Jogo Pokémon")
 # Ícone da janela (comum)
 icone_surface = pygame.image.load("imagens/icones/Icone.png")
 pygame.display.set_icon(icone_surface)
-
 
 import Menu
 import PréPartida

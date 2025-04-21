@@ -45,25 +45,31 @@ def Gerar_Mapa():
 def seleciona_peça(p,dono,player):
     global PeçaS
     if dono == "player":
-        pagou = 0
-        gastas = []
-        for i in range(p.custo):
-            for cor in player.energiasDesc:
-                if player.energias[cor] >= 1:
-                    player.energias[cor] -= 1
-                    gastas.append(cor)
-                    pagou += 1
-                    break
-        
-        if pagou != p.custo:
-            GV.tocar(Bloq)
-            GV.adicionar_mensagem("Sem energias, não pode se mover")
-            for i in range(len(gastas)):
-                player.energias[gastas[i]] += 1
-            desseleciona_peça()
-            return 
+        if p.efeitosNega["Congelado"] == 0 or p.efeitosNega["Paralisado"] == 0:
+            pagou = 0
+            gastas = []
+            Custo = p.custo
+            if p.efeitosNega["Encharcado"]:
+                Custo += 2
+            for i in range(Custo):
+                for cor in player.energiasDesc:
+                    if player.energias[cor] >= 1:
+                        player.energias[cor] -= 1
+                        gastas.append(cor)
+                        pagou += 1
+                        break
+            
+            if pagou != Custo:
+                GV.tocar(Bloq)
+                GV.adicionar_mensagem("Sem energias, não pode se mover")
+                for i in range(len(gastas)):
+                    player.energias[gastas[i]] += 1
+                desseleciona_peça()
+                return 
 
-        PeçaS = p
+            PeçaS = p
+        else:
+            GV.adicionar_mensagem("Esse pokemon está congelado ou paralisado")
     else:
         GV.adicionar_mensagem("Não pode selecionar pokemon inimigo")
 
@@ -203,8 +209,10 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
     x_inicial = (1920 - 25 * tamanho_casa) // 2
     y_inicial = (1080 - 15 * tamanho_casa) // 2
 
-    # Calcular alcance com base na velocidade
     vel = PeçaS.vel
+    if PeçaS.efeitosPosi["Velocista"]:
+        vel = vel * 1.5
+
     if vel <= 0:
         return  # Pokémon imóvel
 

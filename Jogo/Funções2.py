@@ -4,7 +4,7 @@ import pygame
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
 
-def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela):
+def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,atacado):
     
     tabela_tipos = {
     "normal":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0.5, "venenoso": 0, "terrestre": 0,
@@ -100,7 +100,7 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela):
     else:
         texto = "Não Afeta"
     Fonte = pygame.font.SysFont(None, 30)
-    P.adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,((1365 - i * 190),220))
+    P.adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,((1365 - atacado.pos * 190),220))
 
     return multiplicador
 

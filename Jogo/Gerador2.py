@@ -23,36 +23,36 @@ Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 evoluirEFE = GV.carregar_frames('imagens/Efeitos/Evoluindo_frames')
 
 EfeitosNegativos = {
-    "Confuso": 0,#C
-    "Bloqueado": 0,#C
-    "Envenenado": 0,#C
-    "Tóxico": 0,#C
+    "Confuso": 0,
+    "Bloqueado": 0,
+    "Envenenado": 0,
+    "Tóxico": 0,
     "Fragilizado": 0,
     "Quebrado": 0,
     "Congelado": 0,
-    "Queimado": 0,#C
+    "Queimado": 0,
     "Paralisado": 0,
     "Encharcado": 0,
     "Vampirico": 0,
     "Descarregado": 0,
     "Enfraquecido": 0,
-    "Incapacitado": 0 #C
+    "Incapacitado": 0 
     }
 
 EfeitosPositivos = {
-    "Regeneração": 0,#C
-    "Abençoado": 0,#C
-    "Imune": 0, #C
+    "Regeneração": 0,
+    "Abençoado": 0,
+    "Imune": 0, 
     "Preparado": 0,
     "Provocando": 0,
     "Furtivo": 0,
-    "Voando": 0,#C
+    "Voando": 0,
     "Ofensivo": 0,
     "Reforçado": 0,
-    "Imortal": 0,#C
+    "Imortal": 0,
     "Refletir": 0,
     "Focado": 0,
-    "velocista": 0,
+    "Velocista": 0,
     "Energizado": 0,
     }
 
@@ -274,25 +274,46 @@ class Pokemon:
             
             i = self.pos
             if self in player.pokemons:
-                P.adicionar_mensagem_passageira(tela,f"-{round(cura,1)}",VERDE_CLARO,Fonte35,((425 + i * 190),975))
+                P.adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((425 + i * 190),975))
             else:
-                P.adicionar_mensagem_passageira(tela,f"-{round(cura,1)}",VERDE_CLARO,Fonte35,((1400 - i * 190),190))
+                P.adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1400 - i * 190),190))
 
     def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
         
+        self.efeitosNega["Envenenado"] = 2
+        self.efeitosNega["Queimado"] = 54
+
         if tipo == "N":
             F = self.ataque_normal
             U = self.Atk
             V = alvo.Def
+            if alvo.efeitosNega["Quebrado"] > 0:
+                V = V * 0.5
         else:
             F = self.ataque_especial
             U = self.Atk_sp
             V = alvo.Def_sp
+            if alvo.efeitosNega["Fragilizado"] > 0:
+                V = V * 0.5
+
+        if alvo.efeitosPosi["Reforçado"] > 0:
+            V = V * 1.5
+        if self.efeitosNega["Enfraquecido"] > 0:
+            U = U * 0.5
+        if self.efeitosPosi["Ofensivo"] > 0:
+            U = U * 1.5
         
+        Custo = F["custo"].copy()
+        if self.efeitosNega["Descarregado"] > 0:
+            for i in range(len(F["custo"])):
+                Custo.append(F["custo"][i]) 
+        if self.efeitosPosi["Energizado"] > 0:
+            Custo = ["normal"]
+
         pagou = 0
         gastas = []
-        for i in range(len(F["custo"])):
-            if F["custo"][i] == "normal":
+        for i in range(len(Custo)):
+            if Custo[i] == "normal":
                 for cor in player.energiasDesc:
                     if player.energias[cor] >= 1:
                         player.energias[cor] -= 1
@@ -300,12 +321,12 @@ class Pokemon:
                         pagou += 1
                         break
             else:
-                if player.energias[F["custo"][i]] >= 1:
-                    player.energias[F["custo"][i]] -= 1
-                    gastas.append(F["custo"][i])
+                if player.energias[Custo[i]] >= 1:
+                    player.energias[Custo[i]] -= 1
+                    gastas.append(Custo[i])
                     pagou += 1
 
-        if pagou != len(F["custo"]):
+        if pagou != len(Custo):
             GV.tocar(Bloq)
             GV.adicionar_mensagem("Sem energias, seu ataque falhou")
             for i in range(len(gastas)):
@@ -314,27 +335,41 @@ class Pokemon:
 
         distancia = FU.distancia_entre_pokemons(self,alvo,Mapa.Metros)
         Over = F["alcance"] - distancia
-        if alvo.efeitosPosi["Voando"] != 0:
+        if alvo.efeitosPosi["Voando"] > 0:
             Over = Over - 45
         if Over < 0:
             assertividade = F["precisão"] + Over
         else:
             assertividade = F["precisão"]
-        if self.efeitosNega["Confuso"] != 0:
-            assertividade = assertividade - 45
+        if self.efeitosNega["Confuso"] > 0:
+            assertividade = assertividade * 0.5
+        if self.efeitosPosi["Focado"] > 0:
+            assertividade = assertividade * 1.5
+
+
         desfoco = random.randint(0,100)
         if desfoco > assertividade:
             GV.adicionar_mensagem("Você errou o ataque")
             return
 
-        self.efeitosPosi["Regeneração"] = 2
-
         self.atacou = True
         Dano_I = U * F["dano"]
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
-        Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo,tela)
+        Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo,tela,alvo)
         dano_F = round(Dano_E * mitigação,1)
+
+        if alvo.efeitosNega["Vampirico"] > 0:
+            vampirismo = dano_F * 0.3
+            self.curar(vampirismo,player,tela)
+        if alvo.efeitosPosi["Preparado"] > 0:
+            preparo = round((alvo.vel / 3),1)
+            dano_F = dano_F - preparo
+            self.atacado(preparo,player,inimigo,tipo,tela)
+        if alvo.efeitosPosi["Refletir"] > 0:
+            reflexão = dano_F * 0.8
+            self.atacado(reflexão,player,inimigo,tipo,tela)
+            dano_F = dano_F * 0.2
 
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
         GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
@@ -354,7 +389,6 @@ class Pokemon:
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 
 def Gerador(Pokemon,P):
-    print (P)
     global IDpoke
     IDpoke += 1
     Pok = Pokemon

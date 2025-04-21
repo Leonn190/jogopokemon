@@ -994,31 +994,24 @@ def animar(D_inicial,D_final,anima,tempo=200):
 
 def Efeito(tela, posicao, imagem, cor, numero):
     x, y = posicao
-    raio = 14  # Tamanho do círculo
+    raio = 14
+    borda = 5  # Espessura da borda
+
     fonte = pygame.font.SysFont(None, 15)
 
-    # Círculo com borda preta
-    pygame.draw.circle(tela, (0, 0, 0), (x, y), raio + 2)  # Borda preta
-    pygame.draw.circle(tela, cor, (x, y), raio)           # Cor do efeito
+    # Círculo com borda colorida e fundo branco
+    pygame.draw.circle(tela, cor, (x, y), raio)  # Desenha a borda
+    pygame.draw.circle(tela, (255, 255, 255), (x, y), raio - borda)  # Desenha o centro branco
 
-    # Centralizar a imagem dentro do círculo
+    # Desenha imagem centralizada no círculo, se houver
     if imagem:
         imagem_rect = imagem.get_rect(center=(x, y))
         tela.blit(imagem, imagem_rect)
 
-    # Retângulo pequeno com o número
-    texto = fonte.render(str(numero), True, (255, 255, 255))  # Número branco
-    texto_rect = texto.get_rect()
-    largura_ret = texto_rect.width + 6
-    altura_ret = texto_rect.height + 4
-
-    # Posição do retângulo à direita do círculo
-    rect_x = x + raio + 4
-    rect_y = y - altura_ret // 2
-    retangulo = pygame.Rect(rect_x, rect_y, largura_ret, altura_ret)
-
-    pygame.draw.rect(tela, (0, 0, 0), retangulo, border_radius=3)  # Fundo preto
-    tela.blit(texto, (rect_x + 3, rect_y + 2))
+    # Desenha o número ao lado direito do círculo
+    texto = fonte.render(str(numero), True, (0, 0, 0))  # Preto
+    texto_rect = texto.get_rect(midleft=(x + raio + 4, y))
+    tela.blit(texto, texto_rect)
 
         
 

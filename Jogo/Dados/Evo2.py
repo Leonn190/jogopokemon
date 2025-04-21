@@ -167,3 +167,4 @@ Beedrill = {
     "ataques normais": [Chicote_de_vinha,Semente_afiada],
     "ataques especiais": [Tiro_Quente,Destruição]
 }
+
