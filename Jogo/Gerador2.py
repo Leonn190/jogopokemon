@@ -61,6 +61,7 @@ class Jogador:
         self.nome = informaçoes[0]
         self.pokemons = [Gerador_final(informaçoes[1],1,self)]
         self.inventario = []
+        self.Captura = []
         self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
         self.energiasDesc = []
         self.ouro = 10
@@ -100,7 +101,11 @@ class Jogador:
                         GV.tocar(Usou)
                         self.inventario.remove(item)
                         for _ in range(compras):
-                            self.inventario.append(caixa())
+                            item = caixa()
+                            if item in pokebolas_disponiveis:
+                                self.Captura.append(item)
+                            else:
+                                self.inventario.append(item)
                         return
                     elif item["classe"] in ["coletor"]:
                         GV.tocar(Usou)
@@ -523,7 +528,10 @@ def gera_item(tipo,player,custo=0,Turno=10):
                     item = random.choice(raridades)
                     GV.tocar(Compra)
                     GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
-                    player.inventario.append(item)
+                    if tipo == "pokebola":
+                        player.Captura.append(item)
+                    else:
+                        player.inventario.append(item)
                 else:
                         GV.tocar(Bloq)
         else:
@@ -534,12 +542,16 @@ def gera_item(tipo,player,custo=0,Turno=10):
         GV.adicionar_mensagem("Seu inventário está cheio")
 
 def caixa():
-        raridades = []
-        U = itens_disponiveis + pokebolas_disponiveis + amplificadores_disponiveis
-        for i in range(len(U)):
-                    for j in range(6 - U[i]["raridade"]):
-                        raridades.append(U[i])
-        item = random.choice(raridades)
+        while True:
+            raridades = []
+            U = itens_disponiveis + pokebolas_disponiveis + amplificadores_disponiveis
+            for i in range(len(U)):
+                        for j in range(6 - U[i]["raridade"]):
+                            raridades.append(U[i])
+            item = random.choice(raridades)
+            if item["classe"] != "caixa":
+                break
+        
         return item
 
 def coletor():
@@ -548,7 +560,6 @@ def coletor():
 
 def Gera_Mapa(i):
     return Mapa(Estadios[i])
-
 
 class Mapa:
     def __init__(self, Info):

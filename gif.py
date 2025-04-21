@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 
-def extrair_gifs_para_frames(pasta_gifs, multiplicador=0.6):
+def extrair_gifs_para_frames(pasta_gifs, multiplicador=1):
     # Garante que a pasta existe
     if not os.path.exists(pasta_gifs):
         print(f"Pasta '{pasta_gifs}' não encontrada.")

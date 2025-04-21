@@ -65,17 +65,17 @@ Mega_poção = {
 Caixa = {
     "nome": "Caixa",
     "classe": "caixa",
-    "Descrição": "serve para fazer 3 compras",
+    "Descrição": "serve para fazer 2 compras sortidas",
     "raridade": 2,
-    "compra": 3
+    "compra": 2
 }
 
 Caixote = {
     "nome": "Caixote",
     "classe": "caixa",
-    "Descrição": "serve para fazer 5 compras",
+    "Descrição": "serve para fazer 3 compras sortidas",
     "raridade": 4,
-    "compra": 5
+    "compra": 3
 }
 
 Coletor = {
@@ -214,8 +214,8 @@ Porto_Molgera = {
     "ST Code": 6
 }
 
-itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
-pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball]
+itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
+pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
 amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
 Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
         

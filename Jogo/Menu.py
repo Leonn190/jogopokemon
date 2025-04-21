@@ -26,8 +26,9 @@ def TelaMenu(tela,eventos,estados):
 
 def Menu(tela,estados,relogio):
 
-    Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Fundo2.jpg", (1920,1080),)
+    Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Menu.png", (1920,1080))
     Logo_Menu = GV.Carregar_Imagem("imagens/fundos/logo.png", (800,800),"PNG")
+
 
     pygame.mixer.music.load('Jogo/Audio/Musicas/Menu.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -44,6 +45,7 @@ def Menu(tela,estados,relogio):
 
         TelaMenu(tela,eventos, estados)
 
+
         pygame.display.update()
-        relogio.tick(60)
+        relogio.tick(30)
 
