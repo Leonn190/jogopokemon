@@ -498,48 +498,53 @@ def spawn_do_centro(centro):
 
 def gera_item(tipo,player,custo=0,Turno=10):
     U = None
-    if len(player.inventario) < 10:
-        raridades = []
-        if player.ouro >= custo:
-            if tipo == "energia":
-                player.ouro -= custo
-                energia_sorteada = random.choice(Energias)
-                player.energias[energia_sorteada] += 1
-                energia_sorteada = random.choice(Energias)
-                player.energias[energia_sorteada] += 1
-
-            else:
-                if tipo == "item":
-                    U = itens_disponiveis
-                elif tipo == "pokebola":
-                    U = pokebolas_disponiveis
-                elif tipo == "amplificador":
-                    if Turno > 3:
-                        U = amplificadores_disponiveis
-                elif tipo == "estadio":
-                    if Turno > 5:
-                        U = Estadios_disponiveis
-    
-                if U is not None:
-                    for i in range(len(U)):
-                        for j in range(6 - U[i]["raridade"]):
-                            raridades.append(U[i])
-                    player.ouro -= custo
-                    item = random.choice(raridades)
-                    GV.tocar(Compra)
-                    GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
-                    if tipo == "pokebola":
-                        player.Captura.append(item)
-                    else:
-                        player.inventario.append(item)
-                else:
-                        GV.tocar(Bloq)
+    if player.ouro >= custo:
+        if tipo == "energia":
+            player.ouro -= custo
+            energia_sorteada = random.choice(Energias)
+            player.energias[energia_sorteada] += 1
+            energia_sorteada = random.choice(Energias)
+            player.energias[energia_sorteada] += 1
+        
         else:
-            GV.tocar(Bloq)
-            GV.adicionar_mensagem("Você não tem ouro o suficiente")
+            raridades = []
+            if tipo == "pokebola":
+                if len(player.Captura) < 9:
+                    U = pokebolas_disponiveis
+                else:
+                    GV.tocar(Bloq)
+                    GV.adicionar_mensagem("Seu inventário está cheio")
+            else:
+                if len(player.inventario) < 10:
+                    if tipo == "item":
+                        U = itens_disponiveis
+                    elif tipo == "amplificador":
+                        if Turno > 3:
+                            U = amplificadores_disponiveis
+                    elif tipo == "estadio":
+                        if Turno > 5:
+                            U = Estadios_disponiveis
+                else:
+                    GV.tocar(Bloq)
+                    GV.adicionar_mensagem("Seu inventário está cheio")
+    
+            if U is not None:
+                for i in range(len(U)):
+                    for j in range(6 - U[i]["raridade"]):
+                        raridades.append(U[i])
+                player.ouro -= custo
+                item = random.choice(raridades)
+                GV.tocar(Compra)
+                GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
+                if tipo == "pokebola":
+                    player.Captura.append(item)
+                else:
+                    player.inventario.append(item)
+            else:
+                GV.tocar(Bloq)
     else:
         GV.tocar(Bloq)
-        GV.adicionar_mensagem("Seu inventário está cheio")
+        GV.adicionar_mensagem("Você não tem ouro o suficiente")
 
 def caixa():
         while True:

@@ -741,18 +741,19 @@ def Troca_Terminal():
 
 def Passar_contadores():
     for pokemon in player.pokemons:
-        dano_dos_efeitos = 0
-        if pokemon.efeitosNega["Envenenado"] > 0:
-            dano_dos_efeitos += 10
-        if pokemon.efeitosNega["Tóxico"] > 0:
-            dano_dos_efeitos += 20
-            pokemon.vel -= 1
-        if pokemon.efeitosNega["Queimado"] > 0:
-            dano_dos_efeitos += 15
-        if pokemon.efeitosPosi["Regeneração"]:
-            pokemon.curar(15,player,Tela)
-        if dano_dos_efeitos > 0:
-            pokemon.atacado(dano_dos_efeitos,player,inimigo,"O",Tela)
+        if pokemon.Vida > 0:
+            dano_dos_efeitos = 0
+            if pokemon.efeitosNega["Envenenado"] > 0:
+                dano_dos_efeitos += 10
+            if pokemon.efeitosNega["Tóxico"] > 0:
+                dano_dos_efeitos += 20
+                pokemon.vel -= 1
+            if pokemon.efeitosNega["Queimado"] > 0:
+                dano_dos_efeitos += 15
+            if pokemon.efeitosPosi["Regeneração"]:
+                pokemon.curar(15,player,Tela)
+            if dano_dos_efeitos > 0:
+                pokemon.atacado(dano_dos_efeitos,player,inimigo,"O",Tela)
 
         for efeito, contador in pokemon.efeitosNega.items():
             if contador > 0:
