@@ -249,6 +249,145 @@ def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,
         elif valor == "DanoBaseDistancia":
             distancia = distancia_entre_pokemons(pokemon,alvo,mapa.Metros)
             dano = ataque["dano"] * distancia
+        
+        elif valor == "DanoBaseXP":
+            dano = ataque["dano"] * pokemon.xp_atu
 
         elif valor == "Vampirismo":
             pokemon.vampirismo = valores[i]
+
+        elif valor == "AdicionaEfeitoPosi":
+            alvo.efeitosPosi[valores[i][0]] = valores[i][1]
+        
+        elif valor == "AdicionaEfeitoNega":
+            alvo.efeitosNega[valores[i][0]] = valores[i][1]
+        
+        elif valor == "AutoAdicionarEfeitoPosi":
+            pokemon.efeitosPosi[valores[i][0]] = valores[i][1]
+
+        elif valor == "AutoAdicionaEfeitoNega":
+            pokemon.efeitosNega[valores[i][0]] = valores[i][1]
+        
+        elif valor == "AutoDano":
+            if valores[i] > 1:
+                pokemon.Vida -= valores[i]
+            else:
+                pokemon.Vida = dano * valores[i]
+        
+        elif valor == "GanharOuro":
+            player.ouro += valores[i]
+
+        elif valor == "GanharOuroAleatorio":
+            Min, Max = valores[i]
+            player.ouro += random.randint(Min,Max)
+        
+        elif valor == "PerderOuro":
+            player.ouro -= valores[i]
+
+        elif valor == "TirarOuro":
+            inimigo.ouro -= valores[i]
+
+        elif valor == "RoubarOuro":
+            inimigo.ouro -= valores[i]
+            player.ouro += valores[i]
+
+        elif valor == "GanharEnergia":
+            pass
+        
+        elif valor == "Executar":
+            Tipo = ataque["tipo"]
+            mitigação = 100 / (100 + defesa) 
+            dano_E = dano * efetividade(Tipo,alvo.tipo,tela,alvo)
+            dano_F = round(dano_E * mitigação,1)
+            if alvo.Vida - dano_F < alvo.VidaMax / valores[i]:
+                dano = alvo.Vida
+        
+        elif valor == "AumentoDanoBaseVelocidade":
+            aumento = pokemon.Vel * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseVelocidadeInimiga":
+            aumento = alvo.Vel * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseVida":
+            aumento = pokemon.VidaMax * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseVidaInimiga":
+            aumento = alvo.VidaMax * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseDefesa":
+            aumento = pokemon.Def * valores[i]
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseDefesaSP":
+            aumento = pokemon.Def_sp * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseOuro":
+            aumento = player.ouro * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseOuroInimigo":
+            aumento = inimigo.ouro * valores[i]
+            dano = dano + aumento
+
+        elif valor == "AumentoDanoBaseItens":
+            aumento = len(player.inventario) * valores[i]
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseItensInimigo":
+            aumento = len(inimigo.inventario) * valores[i]
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseEnergias":
+            aumento = len(player.energias.values()) * valores[i]
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseEnergiasInimigo":
+            aumento = len(inimigo.energias.values()) * valores[i]
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseSorte50%":
+            aumento = random.choice(0,valores[i])
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseSorte":
+            Min, Max = valores[i]
+            aumento = random.randint(Min,Max)
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseDistancia":
+            distancia = distancia_entre_pokemons(pokemon,alvo,mapa.Metros)
+            aumento = distancia * valores[i]
+            dano = dano + aumento
+        
+        elif valor == "AumentoDanoBaseEfeitoPosiEspecifico":
+            if alvo.efeitosPosi[valores[i][0]]:
+                if valores[i][1] < 1:
+                    dano = dano * valores[i][1]
+                else:
+                    dano = dano + valores[i][1]
+        
+        elif valor == "AumentoDanoBaseEfeitoNegaEspecifico":
+            if alvo.efeitosNega[valores[i][0]]:
+                if valores[i][1] < 1:
+                    dano = dano * valores[i][1]
+                else:
+                    dano = dano + valores[i][1]
+        
+        elif valor == "AutoAumentoDanoBaseEfeitoPosiEspecifico":
+            if pokemon.efeitosPosi[valores[i][0]]:
+                if valores[i][1] < 1:
+                    dano = dano * valores[i][1]
+                else:
+                    dano = dano + valores[i][1]
+        
+        elif valor == "AutoAumentoDanoBaseEfeitoNegaEspecifico":
+            if pokemon.efeitosNega[valores[i][0]]:
+                if valores[i][1] < 1:
+                    dano = dano * valores[i][1]
+                else:
+                    dano = dano + valores[i][1]

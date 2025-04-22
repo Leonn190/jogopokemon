@@ -995,7 +995,7 @@ def animar(D_inicial,D_final,anima,tempo=200):
 def Efeito(tela, posicao, imagem, cor, numero):
     x, y = posicao
     raio = 14
-    borda = 5  # Espessura da borda
+    borda = 3  # Espessura da borda
 
     fonte = pygame.font.SysFont(None, 15)
 
