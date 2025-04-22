@@ -880,7 +880,7 @@ def Partida(tela,estados,relogio):
             
 
         pygame.display.update()
-        relogio.tick(175)
+        relogio.tick(120)
 
 def Inicia(tela):
     global Turno
@@ -1053,9 +1053,6 @@ def TelaPokemons(tela,eventos,estados):
 
     except AttributeError:
         pass
-    
-    
-
 
     for i in range(6):
         x = 420 + i * 190
@@ -1323,4 +1320,4 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaEstTreP = Mapa.pLojaT
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros)
+    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros)   

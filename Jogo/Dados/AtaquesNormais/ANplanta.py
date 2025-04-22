@@ -5,7 +5,10 @@ Semente_afiada = {
     "dano": 1,
     "alcance": 40,
     "precisão": 100,
-    "descrição": ""}
+    "descrição": "",
+    "função": None,
+    "valores": None
+    }
 
 Chicote_de_vinha = {
     "nome": "Chicote de vinha",
@@ -14,6 +17,8 @@ Chicote_de_vinha = {
     "dano": 1.2,
     "alcance": 25,
     "precisão": 100,
-    "descrição": ""
+    "descrição": "",
+    "função": None,
+    "valores": None
 }
 

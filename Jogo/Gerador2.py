@@ -182,6 +182,7 @@ class Pokemon:
             self.pos = None
         
         self.atacou = False
+        self.vampirismo = 0
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
@@ -359,6 +360,10 @@ class Pokemon:
 
         self.atacou = True
         Dano_I = U * F["dano"]
+        
+        if F["funçao"] is not None:
+            FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V,tipo)
+
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
         Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo,tela,alvo)
@@ -375,6 +380,10 @@ class Pokemon:
             reflexão = dano_F * 0.8
             self.atacado(reflexão,player,inimigo,tipo,tela)
             dano_F = dano_F * 0.2
+
+        if self.vampirismo > 0:
+            self.curar(dano_F * self.vampirismo,player,tela)
+            self.vampirismo = 0
 
         GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
         GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")

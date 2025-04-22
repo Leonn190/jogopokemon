@@ -1,4 +1,6 @@
 import Partida as P
+import random
+import FunçõesDeAtaques as FA
 import math
 import pygame
 
@@ -105,6 +107,7 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,atacado):
     return multiplicador
 
 def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
+
     if poke1.local is None or poke2.local is None:
         return None
 
@@ -115,3 +118,137 @@ def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
     dy = (coluna1 - coluna2) * tamanho_casa
 
     return math.hypot(dx, dy)
+
+def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,tipo):
+
+    funçao = ataque["função"]
+    valores = ataque["valores"]
+
+    for i,valor in enumerate(funçao):
+
+
+        if valor == "AutoCura":
+            if isinstance(valores[i],list):
+                if valores[i][1] == "Atk":
+                    pokemon.curar(pokemon,valores[i][0] * pokemon.Atk,player,tela)
+                elif valores[i][1] == "Atk sp":
+                    pokemon.curar(pokemon,valores[i][0] * pokemon.Atk_sp,player,tela)
+                elif valores[i][1] == "Vida":
+                    pokemon.curar(pokemon,valores[i][0] * pokemon.Vida,player,tela)
+            else:
+                pokemon.curar(pokemon,valores[i],player,tela)
+
+
+        elif valor == "CuraAliadoAleatorio":
+            opçoes = []
+            for pokemon in player.pokemons:
+                if pokemon.Vida > 0:
+                    opçoes.append(pokemon)
+            if isinstance(valores[i],list):
+                if valores[i][1] == "Atk":
+                    pokemon.curar(random.choice(opçoes),valores[i][0] * pokemon.Atk,player,tela)
+                elif valores[i][1] == "Atk sp":
+                    pokemon.curar(random.choice(opçoes),valores[i][0] * pokemon.Atk_sp,player,tela)
+                elif valores[i][1] == "Vida":
+                    pokemon.curar(random.choice(opçoes),valores[i][0] * pokemon.Vida,player,tela)
+            else:
+                pokemon.curar(random.choice(opçoes),valores[i],player,tela)
+
+
+        elif valor == "CuraAliadoMenosVida":
+            menos_vida = None
+            for aliado in player.pokemons:
+                if aliado.Vida > 0:
+                    if aliado != pokemon:
+                        if menos_vida is None or aliado.Vida < menos_vida.Vida:
+                            menos_vida = aliado
+            if menos_vida:
+                if isinstance(valores[i],list):
+                    if valores[i][1] == "Atk":
+                        pokemon.curar(menos_vida,valores[i][0] * pokemon.Atk,player,tela)
+                    elif valores[i][1] == "Atk sp":
+                        pokemon.curar(menos_vida,valores[i][0] * pokemon.Atk_sp,player,tela)
+                    elif valores[i][1] == "Vida":
+                        pokemon.curar(menos_vida,valores[i][0] * pokemon.Vida,player,tela)
+                else:
+                    pokemon.curar(menos_vida,valores[i],player,tela)
+
+
+        elif valor == "CuraAliadoMaisProximo":
+            mais_proximo = None
+            distancia_mais_proximo = None
+            for aliado in player.pokemons:
+                distancia = distancia_entre_pokemons(pokemon,aliado,mapa.Metros)
+                if aliado.Vida > 0:
+                    if aliado != pokemon:
+                        if mais_proximo is None or distancia < distancia_mais_proximo:
+                            mais_proximo = aliado
+                            distancia_mais_proximo = distancia
+            if isinstance(valores[i],list):
+                if valores[i][1] == "Atk":
+                    pokemon.curar(mais_proximo,valores[i][0] * pokemon.Atk,player,tela)
+                elif valores[i][1] == "Atk sp":
+                    pokemon.curar(mais_proximo,valores[i][0] * pokemon.Atk_sp,player,tela)
+                elif valores[i][1] == "Vida":
+                    pokemon.curar(mais_proximo,valores[i][0] * pokemon.Vida,player,tela)
+            else:
+                pokemon.curar(mais_proximo,valores[i],player,tela)
+
+
+        elif valor == "CuraAliadoMaisLonge":
+            mais_longe = None
+            distancia_mais_longe = None
+            for aliado in player.pokemons:
+                distancia = distancia_entre_pokemons(pokemon,aliado,mapa.Metros)
+                if aliado.Vida > 0:
+                    if aliado != pokemon:
+                        if mais_longe is None or distancia > distancia_mais_longe:
+                            mais_longe = aliado
+                            distancia_mais_longe = distancia
+            if isinstance(valores[i],list):
+                if valores[i][1] == "Atk":
+                    pokemon.curar(mais_longe,valores[i][0] * pokemon.Atk,player,tela)
+                elif valores[i][1] == "Atk sp":
+                    pokemon.curar(mais_longe,valores[i][0] * pokemon.Atk_sp,player,tela)
+                elif valores[i][1] == "Vida":
+                    pokemon.curar(mais_longe,valores[i][0] * pokemon.Vida,player,tela)
+                elif valores[i][1] == "Distancia":
+                    pokemon.curar(mais_longe,valores[i][0] * distancia_mais_longe,player,tela)
+            else:
+                pokemon.curar(mais_longe,valores[i],player,tela)
+
+
+        elif valor == "DanoPerfuraçao":
+            if isinstance(valores[i],list):
+                if valores[i][1] == "Atk":
+                    perfuraçao = valores[i][0] * pokemon.Atk
+                elif valores[i][1] == "Atk sp":
+                    perfuraçao = valores[i][0] * pokemon.Atk_sp
+                elif valores[i][1] == "Vel":
+                    perfuraçao = valores[i][0] * pokemon.Vel
+                perfuraçaoFinal = 1 - perfuraçao
+                defesa = defesa * perfuraçaoFinal
+            else:
+                perfuraçao = 1 - valores[i]
+                defesa = defesa * perfuraçao
+        
+
+        elif valor == "DanoCorrosão":
+            defesa = 0
+            dano = dano * alvo.Vida
+
+        elif valor == "DanoBaseVelocidade":
+            dano = ataque["dano"] * pokemon.Vel
+        
+        elif valor == "DanoBaseOuro":
+            dano = ataque["dano"] * player.ouro
+
+        elif valor == "DanoBaseOuroInimigo":
+            dano = ataque["dano"] * inimigo.ouro
+        
+        elif valor == "DanoBaseDistancia":
+            distancia = distancia_entre_pokemons(pokemon,alvo,mapa.Metros)
+            dano = ataque["dano"] * distancia
+
+        elif valor == "Vampirismo":
+            pokemon.vampirismo = valores[i]
