@@ -286,8 +286,6 @@ class Pokemon:
 
     def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
         
-        self.efeitosNega["Envenenado"] = 2
-        self.efeitosNega["Queimado"] = 54
 
         if tipo == "N":
             F = self.ataque_normal
@@ -362,7 +360,7 @@ class Pokemon:
         Dano_I = U * F["dano"]
         
         if F["funçao"] is not None:
-            FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V,tipo)
+            V, Dano_I = FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V,tipo)
 
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
@@ -380,7 +378,6 @@ class Pokemon:
             reflexão = dano_F * 0.8
             self.atacado(reflexão,player,inimigo,tipo,tela)
             dano_F = dano_F * 0.2
-
         if self.vampirismo > 0:
             self.curar(dano_F * self.vampirismo,player,tela)
             self.vampirismo = 0
@@ -390,14 +387,6 @@ class Pokemon:
         XP_ATK = random.randint(3,5)
         self.Ganhar_XP(XP_ATK,player)
         alvo.atacado(dano_F,player,inimigo,tipo,tela)
-    
-    def Adiciona_efeito(self,efeito,turnos,tipo):
-        if tipo == "Positivo":
-            if self.efeitosNega["Bloqueado"] == 0:
-                self.efeitosPosi[efeito] += turnos
-        if tipo == "Negativo":
-            if self.efeitosNega["Imune"] == 0:
-                self.efeitosNega[efeito] += turnos
 
         
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
@@ -458,7 +447,7 @@ def Gerador(Pokemon,P):
         "raridade": Pok["raridade"],
         "dificuldade": Pok["dificuldade"],
         "vida": vida,
-        "estagio": "basico",
+        "estagio": 1,
         "atk": Atk,
         "atk SP": Atk_SP,
         "def": Def,

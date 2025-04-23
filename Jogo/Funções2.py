@@ -119,275 +119,224 @@ def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
 
     return math.hypot(dx, dy)
 
-def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,tipo):
-
-    funçao = ataque["função"]
-    valores = ataque["valores"]
-
-    for i,valor in enumerate(funçao):
 
 
-        if valor == "AutoCura":
-            if isinstance(valores[i],list):
-                if valores[i][1] == "Atk":
-                    pokemon.curar(pokemon,valores[i][0] * pokemon.Atk,player,tela)
-                elif valores[i][1] == "Atk sp":
-                    pokemon.curar(pokemon,valores[i][0] * pokemon.Atk_sp,player,tela)
-                elif valores[i][1] == "Vida":
-                    pokemon.curar(pokemon,valores[i][0] * pokemon.Vida,player,tela)
-            else:
-                pokemon.curar(pokemon,valores[i],player,tela)
-
-
-        elif valor == "CuraAliadoAleatorio":
-            opçoes = []
-            for pokemon in player.pokemons:
-                if pokemon.Vida > 0:
-                    opçoes.append(pokemon)
-            if isinstance(valores[i],list):
-                if valores[i][1] == "Atk":
-                    pokemon.curar(random.choice(opçoes),valores[i][0] * pokemon.Atk,player,tela)
-                elif valores[i][1] == "Atk sp":
-                    pokemon.curar(random.choice(opçoes),valores[i][0] * pokemon.Atk_sp,player,tela)
-                elif valores[i][1] == "Vida":
-                    pokemon.curar(random.choice(opçoes),valores[i][0] * pokemon.Vida,player,tela)
-            else:
-                pokemon.curar(random.choice(opçoes),valores[i],player,tela)
-
-
-        elif valor == "CuraAliadoMenosVida":
-            menos_vida = None
-            for aliado in player.pokemons:
-                if aliado.Vida > 0:
-                    if aliado != pokemon:
+def Aliado_menos_vida(pokemon,player,numero=1):
+    selecionados = []
+    for _ in range(numero):
+        menos_vida = None
+        for aliado in player.pokemons:
+            if aliado.Vida > 0:
+                if aliado != pokemon:
+                    if aliado not in selecionados:
                         if menos_vida is None or aliado.Vida < menos_vida.Vida:
                             menos_vida = aliado
-            if menos_vida:
-                if isinstance(valores[i],list):
-                    if valores[i][1] == "Atk":
-                        pokemon.curar(menos_vida,valores[i][0] * pokemon.Atk,player,tela)
-                    elif valores[i][1] == "Atk sp":
-                        pokemon.curar(menos_vida,valores[i][0] * pokemon.Atk_sp,player,tela)
-                    elif valores[i][1] == "Vida":
-                        pokemon.curar(menos_vida,valores[i][0] * pokemon.Vida,player,tela)
-                else:
-                    pokemon.curar(menos_vida,valores[i],player,tela)
+        if menos_vida is None:
+            return selecionados
+
+        selecionados.append(menos_vida)
+    return selecionados    
+
+def Inimigo_menos_vida(playerinimigo, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        menos_vida = None
+        for inimigo in playerinimigo.pokemons:
+            if inimigo.Vida > 0 and inimigo not in selecionados:
+                if menos_vida is None or inimigo.Vida < menos_vida.Vida:
+                    menos_vida = inimigo
+        if menos_vida is None:
+            return selecionados
+        selecionados.append(menos_vida)
+    return selecionados
+
+def aliado_aleatorio(pokemon, player, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        opcoes = []
+        for aliado in player.pokemons:
+            if aliado.Vida > 0 and aliado != pokemon and aliado not in selecionados:
+                opcoes.append(aliado)
+        if not opcoes:
+            return selecionados
+        escolhido = random.choice(opcoes)
+        selecionados.append(escolhido)
+    return selecionados
+
+def inimigo_aleatorio(playerinimigo, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        opcoes = []
+        for inimigo in playerinimigo.pokemons:
+            if inimigo.Vida > 0 and inimigo not in selecionados:
+                opcoes.append(inimigo)
+        if not opcoes:
+            return selecionados
+        escolhido = random.choice(opcoes)
+        selecionados.append(escolhido)
+    return selecionados
+
+def aliado_mais_proximo(pokemon, player, mapa, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        mais_proximo = None
+        distancia_mp = None
+        for aliado in player.pokemons:
+            if aliado.local is not None and aliado.Vida > 0 and aliado != pokemon and aliado not in selecionados:
+                d = distancia_entre_pokemons(pokemon, aliado, mapa.Metros)
+                if mais_proximo is None or d < distancia_mp:
+                    mais_proximo = aliado
+                    distancia_mp = d
+        if mais_proximo is None:
+            return selecionados
+        selecionados.append(mais_proximo)
+    return selecionados
+
+def aliado_mais_longe(pokemon, player, mapa, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        mais_longe = None
+        distancia_ml = None
+        for aliado in player.pokemons:
+            if aliado.local is not None and aliado.Vida > 0 and aliado != pokemon and aliado not in selecionados:
+                d = distancia_entre_pokemons(pokemon, aliado, mapa.Metros)
+                if mais_longe is None or d > distancia_ml:
+                    mais_longe = aliado
+                    distancia_ml = d
+        if mais_longe is None:
+            return selecionados
+        selecionados.append(mais_longe)
+    return selecionados
+
+def inimigo_mais_proximo(pokemon, playerinimigo, mapa, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        mais_proximo = None
+        distancia_mp = None
+        for inimigo in playerinimigo.pokemons:
+            if inimigo.local is not None and inimigo.Vida > 0 and inimigo not in selecionados:
+                d = distancia_entre_pokemons(pokemon, inimigo, mapa.Metros)
+                if mais_proximo is None or d < distancia_mp:
+                    mais_proximo = inimigo
+                    distancia_mp = d
+        if mais_proximo is None:
+            return selecionados
+        selecionados.append(mais_proximo)
+    return selecionados
+
+def inimigo_mais_longe(pokemon, playerinimigo, mapa, numero=1):
+    selecionados = []
+    for _ in range(numero):
+        mais_longe = None
+        distancia_ml = None
+        for inimigo in playerinimigo.pokemons:
+            if inimigo.local is not None and inimigo.Vida > 0 and inimigo not in selecionados:
+                d = distancia_entre_pokemons(pokemon, inimigo, mapa.Metros)
+                if mais_longe is None or d > distancia_ml:
+                    mais_longe = inimigo
+                    distancia_ml = d
+        if mais_longe is None:
+            return selecionados
+        selecionados.append(mais_longe)
+    return selecionados
+
+def pokemons_nos_arredores(pokemon, player, inimigo, arredores, Mapa):
+    if pokemon.local is None:
+        return [], []
+
+    linha, coluna = map(int, pokemon.local["id"])
+    aliados_encontrados = []
+    inimigos_encontrados = []
+
+    for dx in range(-arredores, arredores + 1):
+        for dy in range(-arredores, arredores + 1):
+            nova_linha = linha + dx
+            nova_coluna = coluna + dy
+
+            # Ignora a própria posição
+            if dx == 0 and dy == 0:
+                continue
+
+            # Verifica se está dentro dos limites do mapa
+            if 0 <= nova_linha < len(Mapa) and 0 <= nova_coluna < len(Mapa[0]):
+                ocupante = Mapa[nova_linha][nova_coluna]["ocupado"]
+                if ocupante is not None:
+                    # Procura nos aliados
+                    for p in player:
+                        if p.ID == ocupante:
+                            aliados_encontrados.append(p)
+                            break
+                    # Procura nos inimigos
+                    for p in inimigo:
+                        if p.ID == ocupante:
+                            inimigos_encontrados.append(p)
+                            break
+
+    return aliados_encontrados, inimigos_encontrados
+
+def seleciona_alvo(pokemon, alvo_str, player, inimigo, mapa, alvo, Valor_alvo=1):
+    if alvo_str == "self":
+        return pokemon
+    elif alvo_str == "alvo":
+        return alvo
+    elif alvo_str == "AliadoMenosVida":
+        return Aliado_menos_vida(pokemon, player)
+    elif alvo_str == "AliadoMaisLonge":
+        return aliado_mais_longe(pokemon, player, mapa)
+    elif alvo_str == "AliadoMaisProximo":
+        return aliado_mais_proximo(pokemon, player, mapa)
+    elif alvo_str == "AliadoAleatorio":
+        return aliado_aleatorio(pokemon, player)
+    elif alvo_str == "InimigoMenosVida":
+        return Inimigo_menos_vida(inimigo)
+    elif alvo_str == "InimigoMaisLonge":
+        return inimigo_mais_longe(pokemon, inimigo, mapa)
+    elif alvo_str == "InimigoMaisProximo":
+        return inimigo_mais_proximo(pokemon, inimigo, mapa)
+    elif alvo_str == "InimigoAleatorio":
+        return inimigo_aleatorio(inimigo)
+
+    # NOVOS MODOS DE ÁREA
+    elif alvo_str == "AliadosArredores":
+        aliados, _ = pokemons_nos_arredores(pokemon, player, inimigo, Valor_alvo, mapa)
+        return aliados
+
+    elif alvo_str == "InimigosArredores":
+        _, inimigos = pokemons_nos_arredores(pokemon, player, inimigo, Valor_alvo, mapa)
+        return inimigos
+
+    return None
 
 
-        elif valor == "CuraAliadoMaisProximo":
-            mais_proximo = None
-            distancia_mais_proximo = None
-            for aliado in player.pokemons:
-                distancia = distancia_entre_pokemons(pokemon,aliado,mapa.Metros)
-                if aliado.Vida > 0:
-                    if aliado != pokemon:
-                        if mais_proximo is None or distancia < distancia_mais_proximo:
-                            mais_proximo = aliado
-                            distancia_mais_proximo = distancia
-            if isinstance(valores[i],list):
-                if valores[i][1] == "Atk":
-                    pokemon.curar(mais_proximo,valores[i][0] * pokemon.Atk,player,tela)
-                elif valores[i][1] == "Atk sp":
-                    pokemon.curar(mais_proximo,valores[i][0] * pokemon.Atk_sp,player,tela)
-                elif valores[i][1] == "Vida":
-                    pokemon.curar(mais_proximo,valores[i][0] * pokemon.Vida,player,tela)
+
+def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa):
+
+    FunçoesComAlvo = {
+        "Curar": FA.Curar,
+        "Efeito": FA.Efeito,
+        "Status": FA.Status,
+        "DanoExtra": FA.DanoExtra,
+        }
+    
+    FunçoesDeStatus = {
+        "DanoEscalar": FA.DanoEscalar,
+        "AumentoCondicional": FA.AumentoCondicional,
+        "RemoverGanhar": FA.RemoverGanhar,
+        "Perfurar": FA.Perfurar,
+        "Corroer": FA.Corroer,
+        "Executar": FA.Executar
+    }
+
+    for i,funçao in enumerate(ataque["função"]):
+        if funçao in FunçoesComAlvo:
+            if ataque["valorAlvo"][i] is not None:
+                Valor_alvo = ataque["valorAlvo"][i]
+                alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo, Valor_alvo)
             else:
-                pokemon.curar(mais_proximo,valores[i],player,tela)
-
-
-        elif valor == "CuraAliadoMaisLonge":
-            mais_longe = None
-            distancia_mais_longe = None
-            for aliado in player.pokemons:
-                distancia = distancia_entre_pokemons(pokemon,aliado,mapa.Metros)
-                if aliado.Vida > 0:
-                    if aliado != pokemon:
-                        if mais_longe is None or distancia > distancia_mais_longe:
-                            mais_longe = aliado
-                            distancia_mais_longe = distancia
-            if isinstance(valores[i],list):
-                if valores[i][1] == "Atk":
-                    pokemon.curar(mais_longe,valores[i][0] * pokemon.Atk,player,tela)
-                elif valores[i][1] == "Atk sp":
-                    pokemon.curar(mais_longe,valores[i][0] * pokemon.Atk_sp,player,tela)
-                elif valores[i][1] == "Vida":
-                    pokemon.curar(mais_longe,valores[i][0] * pokemon.Vida,player,tela)
-                elif valores[i][1] == "Distancia":
-                    pokemon.curar(mais_longe,valores[i][0] * distancia_mais_longe,player,tela)
-            else:
-                pokemon.curar(mais_longe,valores[i],player,tela)
-
-
-        elif valor == "DanoPerfuraçao":
-            if isinstance(valores[i],list):
-                if valores[i][1] == "Atk":
-                    perfuraçao = valores[i][0] * pokemon.Atk
-                elif valores[i][1] == "Atk sp":
-                    perfuraçao = valores[i][0] * pokemon.Atk_sp
-                elif valores[i][1] == "Vel":
-                    perfuraçao = valores[i][0] * pokemon.Vel
-                perfuraçaoFinal = 1 - perfuraçao
-                defesa = defesa * perfuraçaoFinal
-            else:
-                perfuraçao = 1 - valores[i]
-                defesa = defesa * perfuraçao
+                alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo,)
+            FunçoesComAlvo[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i,alvosAdicionais)
+        else:
+            defesa, dano = FunçoesDeStatus[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i)
+    
+    return defesa, dano
         
-
-        elif valor == "DanoCorrosão":
-            defesa = 0
-            dano = dano * alvo.Vida
-
-        elif valor == "DanoBaseVelocidade":
-            dano = ataque["dano"] * pokemon.Vel
-        
-        elif valor == "DanoBaseOuro":
-            dano = ataque["dano"] * player.ouro
-
-        elif valor == "DanoBaseOuroInimigo":
-            dano = ataque["dano"] * inimigo.ouro
-        
-        elif valor == "DanoBaseDistancia":
-            distancia = distancia_entre_pokemons(pokemon,alvo,mapa.Metros)
-            dano = ataque["dano"] * distancia
-        
-        elif valor == "DanoBaseXP":
-            dano = ataque["dano"] * pokemon.xp_atu
-
-        elif valor == "Vampirismo":
-            pokemon.vampirismo = valores[i]
-
-        elif valor == "AdicionaEfeitoPosi":
-            alvo.efeitosPosi[valores[i][0]] = valores[i][1]
-        
-        elif valor == "AdicionaEfeitoNega":
-            alvo.efeitosNega[valores[i][0]] = valores[i][1]
-        
-        elif valor == "AutoAdicionarEfeitoPosi":
-            pokemon.efeitosPosi[valores[i][0]] = valores[i][1]
-
-        elif valor == "AutoAdicionaEfeitoNega":
-            pokemon.efeitosNega[valores[i][0]] = valores[i][1]
-        
-        elif valor == "AutoDano":
-            if valores[i] > 1:
-                pokemon.Vida -= valores[i]
-            else:
-                pokemon.Vida = dano * valores[i]
-        
-        elif valor == "GanharOuro":
-            player.ouro += valores[i]
-
-        elif valor == "GanharOuroAleatorio":
-            Min, Max = valores[i]
-            player.ouro += random.randint(Min,Max)
-        
-        elif valor == "PerderOuro":
-            player.ouro -= valores[i]
-
-        elif valor == "TirarOuro":
-            inimigo.ouro -= valores[i]
-
-        elif valor == "RoubarOuro":
-            inimigo.ouro -= valores[i]
-            player.ouro += valores[i]
-
-        elif valor == "GanharEnergia":
-            pass
-        
-        elif valor == "Executar":
-            Tipo = ataque["tipo"]
-            mitigação = 100 / (100 + defesa) 
-            dano_E = dano * efetividade(Tipo,alvo.tipo,tela,alvo)
-            dano_F = round(dano_E * mitigação,1)
-            if alvo.Vida - dano_F < alvo.VidaMax / valores[i]:
-                dano = alvo.Vida
-        
-        elif valor == "AumentoDanoBaseVelocidade":
-            aumento = pokemon.Vel * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseVelocidadeInimiga":
-            aumento = alvo.Vel * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseVida":
-            aumento = pokemon.VidaMax * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseVidaInimiga":
-            aumento = alvo.VidaMax * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseDefesa":
-            aumento = pokemon.Def * valores[i]
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseDefesaSP":
-            aumento = pokemon.Def_sp * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseOuro":
-            aumento = player.ouro * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseOuroInimigo":
-            aumento = inimigo.ouro * valores[i]
-            dano = dano + aumento
-
-        elif valor == "AumentoDanoBaseItens":
-            aumento = len(player.inventario) * valores[i]
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseItensInimigo":
-            aumento = len(inimigo.inventario) * valores[i]
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseEnergias":
-            aumento = len(player.energias.values()) * valores[i]
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseEnergiasInimigo":
-            aumento = len(inimigo.energias.values()) * valores[i]
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseSorte50%":
-            aumento = random.choice(0,valores[i])
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseSorte":
-            Min, Max = valores[i]
-            aumento = random.randint(Min,Max)
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseDistancia":
-            distancia = distancia_entre_pokemons(pokemon,alvo,mapa.Metros)
-            aumento = distancia * valores[i]
-            dano = dano + aumento
-        
-        elif valor == "AumentoDanoBaseEfeitoPosiEspecifico":
-            if alvo.efeitosPosi[valores[i][0]]:
-                if valores[i][1] < 1:
-                    dano = dano * valores[i][1]
-                else:
-                    dano = dano + valores[i][1]
-        
-        elif valor == "AumentoDanoBaseEfeitoNegaEspecifico":
-            if alvo.efeitosNega[valores[i][0]]:
-                if valores[i][1] < 1:
-                    dano = dano * valores[i][1]
-                else:
-                    dano = dano + valores[i][1]
-        
-        elif valor == "AutoAumentoDanoBaseEfeitoPosiEspecifico":
-            if pokemon.efeitosPosi[valores[i][0]]:
-                if valores[i][1] < 1:
-                    dano = dano * valores[i][1]
-                else:
-                    dano = dano + valores[i][1]
-        
-        elif valor == "AutoAumentoDanoBaseEfeitoNegaEspecifico":
-            if pokemon.efeitosNega[valores[i][0]]:
-                if valores[i][1] < 1:
-                    dano = dano * valores[i][1]
-                else:
-                    dano = dano + valores[i][1]

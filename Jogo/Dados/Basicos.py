@@ -1,5 +1,5 @@
-from Dados.AtaquesNormais.ANplanta import Semente_afiada,Chicote_de_vinha
-from Dados.AtaquesEspeciais.AEplanta import Tiro_Quente,Destruição
+import Dados.AtaquesNormais.ANplanta as N
+import Dados.AtaquesEspeciais.AEplanta as S
 from Dados.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
 
 Bulbasaur = {
@@ -17,8 +17,8 @@ Bulbasaur = {
     "velocidade": 19,
     "XP": 20,
     "custo": 1,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": [S.Dreno]
 }
 
 Charmander = {

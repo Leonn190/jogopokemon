@@ -32,3 +32,7 @@ def extrair_frames_video(caminho_video, multiplicador=1):
 
 # Exemplo de uso:
 extrair_frames_video("imagens/FundosAnimados/test2.mp4", multiplicador=1)
+
+
+
+

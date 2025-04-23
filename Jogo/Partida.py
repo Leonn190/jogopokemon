@@ -107,6 +107,21 @@ def atualizar_efeitos(tela):
             if gif.ao_terminar:
                 gif.ao_terminar()
             efeitos_ativos.remove(gif)
+def musicas_por_genero(genero, artista, titulos):
+    novo = {}
+    for i in range(len(genero)):
+        lista = []
+        cada = {}
+        if genero[i] in novo:
+            cada['artista'] = artista[i]
+            cada['titulo'] = titulos[i]
+            novo[genero[i]].append(cada)
+        else:
+            cada['artista'] = artista[i]
+            cada['titulo'] = titulos[i]
+            novo[genero[i]] = lista.append(cada)
+            novo[genero[i]] = lista
+    return novo
 
 class MensagemPassageira:
     def __init__(self, mensagem, cor, fonte, posicao, duracao=350, deslocamento=50):
