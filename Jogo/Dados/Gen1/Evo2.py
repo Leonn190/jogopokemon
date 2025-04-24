@@ -5,7 +5,7 @@ import AllAtaques
 Venusaur = {
     "nome": "Venusaur",
     "tipo": ["planta", "veneneno"],
-    "evolução": None,
+    "evolução": Venusaur_V,
     "FF": Mega_Venusaur,
     "estagio": 3,
     "vida": 1.302158273,
@@ -23,8 +23,8 @@ Venusaur = {
 Charizard = {
     "nome": "Charizard",
     "tipo": ["fogo", "voador"],
-    "evolução": None,
-    "FF": ["Mega_Charizard_X", "Mega_Charizard_Y"],
+    "evolução": Charizard_V,
+    "FF": [Mega_Charizard_X, Mega_Charizard_Y],
     "estagio": 3,
     "vida": 1.288888889,
     "atk": 1.620689655,
@@ -41,7 +41,7 @@ Charizard = {
 Blastoise = {
     "nome": "Blastoise",
     "tipo": ["agua"],
-    "evolução": None,
+    "evolução": Blastoise_V,
     "FF": Mega_Blastoise,
     "estagio": 3,
     "vida": 1.275362319,
@@ -59,7 +59,7 @@ Blastoise = {
 Machamp = {
     "nome": "Machamp",
     "tipo": ["lutador"],
-    "evolução": None,
+    "evolução": Machamp_V,
     "FF": None,
     "estagio": 3,
     "vida": 1.286666667,
@@ -77,7 +77,7 @@ Machamp = {
 Gengar = {
     "nome": "Gengar",
     "tipo": ["fantasma", "venenoso"],
-    "evolução": None,
+    "evolução": Gengar_V,
     "FF": Mega_Gengar,
     "estagio": 3,
     "vida": 1.210526316,
@@ -113,7 +113,7 @@ Golem = {
 Butterfree = {
     "nome": "Butterfree",
     "tipo": ["inseto", "voador"],
-    "evolução": None,
+    "evolução": Butterfree_V,
     "FF": None,
     "estagio": 3,
     "vida": 1.362831858,
