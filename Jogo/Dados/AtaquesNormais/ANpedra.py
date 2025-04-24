@@ -40,14 +40,14 @@ Bola_de_Rocha = {
     "valores": []
 }
 
-Lança_de_Pedra = {
+Pedra_Especial = {
     "nome": "Lança de Pedra",
     "tipo": ["pedra"],
     "custo": ["normal", "marrom", "marrom", "marrom"],
     "dano": 1.7,
     "alcance": 30,
     "precisão": 100,
-    "descrição": "Uma lança afiada feita de pedra, disparada com grande precisão",
+    "descrição": " disparada de forma especial, uma pedra diferente das outras",
     "função": [],
     "alvo": [],
     "valorAlvo": [],

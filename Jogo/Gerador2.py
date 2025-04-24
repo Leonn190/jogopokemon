@@ -88,10 +88,13 @@ class Jogador:
                 elif item["classe"] in ["amplificador"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
                             tipo = item["aumento"]
-                            GV.tocar(Usou)
-                            self.inventario.remove(item)
-                            Pokemon.amplificar(tipo,0.1,self)
-                            return
+                            if tipo == "evolucional":
+                                Pokemon.FF(item["nome"])
+                            else:
+                                GV.tocar(Usou)
+                                self.inventario.remove(item)
+                                Pokemon.amplificar(tipo,0.1,self)
+                                return
                         else:
                             GV.tocar(Bloq)
                             GV.adicionar_mensagem("Pokemons nocauteados não podem ser amplificados")
@@ -183,6 +186,11 @@ class Pokemon:
         
         self.atacou = False
         self.vampirismo = 0
+        self.FF = None  #forma final
+
+    def FormaFinal(self):
+        if self.FF["FF"] == "Mega":
+            P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
