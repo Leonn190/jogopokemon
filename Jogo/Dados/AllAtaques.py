@@ -16,6 +16,7 @@ import Dados.AtaquesNormais.ANpsiquico  as ANpsiquico
 import Dados.AtaquesNormais.ANfantasma  as ANfantasma
 import Dados.AtaquesNormais.ANpedra     as ANpedra
 import Dados.AtaquesNormais.ANvenenoso  as ANvenenoso
+import Dados.AtaquesNormais.ANnormal    as ANnormal
 
 # Ataques Especiais
 import Dados.AtaquesEspeciais.ASplanta    as ASplanta
@@ -35,4 +36,5 @@ import Dados.AtaquesEspeciais.ASpsiquico  as ASpsiquico
 import Dados.AtaquesEspeciais.ASfantasma  as ASfantasma
 import Dados.AtaquesEspeciais.ASpedra     as ASpedra
 import Dados.AtaquesEspeciais.ASvenenoso  as ASvenenoso
+import Dados.AtaquesEspeciais.ASnormal    as ASnormal
 

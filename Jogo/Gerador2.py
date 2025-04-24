@@ -2,7 +2,7 @@ import random
 import pygame
 import Partida as P
 import GeradoresVisuais as GV
-from Jogo.Dados.Gen1.Basicos import Pokedex
+from Dados.Gen1.Basicos import Pokedex
 from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
 from Dados.Estadios import Estadios
 import Funções2 as FU
@@ -88,8 +88,8 @@ class Jogador:
                 elif item["classe"] in ["amplificador"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
                             tipo = item["aumento"]
-                            if tipo == "evolucional":
-                                Pokemon.FF(item,self)
+                            if tipo == "Evolucional":
+                                Pokemon.FormaFinal(item,self)
                             else:
                                 GV.tocar(Usou)
                                 self.inventario.remove(item)
@@ -421,7 +421,7 @@ class Pokemon:
         self.atacou = True
         Dano_I = U * F["dano"]
         
-        if F["funçao"] != []:
+        if F["função"] != []:
             V, Dano_I = FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V,tipo)
 
         Tipo = F["tipo"]

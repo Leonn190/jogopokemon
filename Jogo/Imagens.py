@@ -412,7 +412,16 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Snorlax-Gigantamax": Gsnorlax_gigantamax,
     "Venusaur-Gigantamax": Gvenusaur_gigantamax,
     "Zapdos": Gzapdos,
-    "Weedle": Gweedle
+    "Weedle": Gweedle,
+    "Charizard V": Gcharizard,
+    "Blastoise V": Gblastoise,
+    "Venusaur V": Gvenusaur,
+    "Machamp V": Gmachamp,
+    "Gengar V": Gmachoke,
+    "Butterfree V": Gbutterfree,
+    "Pikachu V": Gpikachu,
+    "Meowth V": Gmeowth,
+    "Snorlax V": Gsnorlax
     }
 
     ImagensPokemonIcons = {
@@ -494,7 +503,17 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Snorlax-gigantamax": IsnorlaxIMG,
     "Venusaur-gigantamax": IvenusaurIMG,
     "Zapdos": IzapdosIMG,
-    "Weedle": IweedleIMG
+    "Weedle": IweedleIMG,
+    "Charizard V": IcharizardIMG,
+    "Blastoise V": IblastoiseIMG,
+    "Venusaur V": IvenusaurIMG,
+    "Machamp V": ImachampIMG,
+    "Gengar V": ImachokeIMG,
+    "Butterfree V": IbutterfreeIMG,
+    "Pikachu V": IpikachuIMG,
+    "Meowth V": ImeowthIMG,
+    "Snorlax V": IsnorlaxIMG
+
 }
 
 
@@ -568,7 +587,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "estadio": EstadioIMG,
     "Energia Mega": MegaIMG,
     "Energia Vstar": VStarIMG,
-    "Energia Vmax": VMaxIMG
+    "Energia GigantaMax": VMaxIMG
     
     }
 

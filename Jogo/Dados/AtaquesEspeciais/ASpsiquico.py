@@ -12,8 +12,8 @@ Explosão_Cerebral = {
     "valores": []
 }
 
-Bola_Energetica_Psi = {
-    "nome": "Bola Energética Psi",
+Bola_Psiquica = {
+    "nome": "Bola Psiquica",
     "tipo": ["psíquico"],
     "custo": ["rosa", "rosa", "rosa"],
     "dano": 1.5,

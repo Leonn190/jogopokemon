@@ -174,7 +174,7 @@ Energia_Vstar = {
     "aumento": "Evolucional"
 }
 
-Energia_Vstar = {
+Energia_Vmax = {
     "nome": "Energia GigantaMax",
     "classe": "amplificador",
     "Descrição": "A bençao de eternatus para transformar o pokemon em um colosso destruidor",
@@ -241,6 +241,6 @@ Porto_Molgera = {
 
 itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
 pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
-amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda]
+amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda,Energia_Mega,Energia_Vstar,Energia_Vmax]
 Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
         

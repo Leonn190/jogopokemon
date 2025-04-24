@@ -12,6 +12,21 @@ Tiro_de_semente = {
     "valores": []
 }
 
+Dreno = {
+    "nome": "Dreno",
+    "tipo": ["planta"],   
+    "custo": ["verde"],
+    "dano": 0.6,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
+    "função": ["Cura"],
+    "chance": [100],
+    "alvo": ["Self"],
+    "valorAlvo": [1],
+    "valores": [10]
+}
+
 Bola_de_planta = {
     "nome": "Bola de planta",
     "tipo": ["planta"],   

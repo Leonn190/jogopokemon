@@ -1,9 +1,10 @@
 import Dados.AllAtaques as A
-from Jogo.Dados.Gen1.V import Snorlax_V,Meowth_V,Pikachu_V
-from Jogo.Dados.Gen1.Mega import Mega_Aerodactyl,Mega_Pinsir,Mega_Mewtwo_X,Mega_Mewtwo_Y
-from Jogo.Dados.Gen1.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
+from Dados.Gen1.V import Snorlax_V,Meowth_V,Pikachu_V
+from Dados.Gen1.Mega import Mega_Aerodactyl,Mega_Pinsir,Mega_Mewtwo_X,Mega_Mewtwo_Y
+from Dados.Gen1.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
 
 Bulbasaur = {
+    "nome": "Bulbasaur",
     "raridade": 4,
     "dificuldade": 3,
     "code": 1,
@@ -18,11 +19,12 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANplanta.Golpe_Tropical],
+    "ataques especiais": [A.ASplanta.Tiro_de_semente, A.ASplanta.Dreno]
 }
 
 Charmander = {
+    "nome": "Charmander",
     "raridade": 4,
     "dificuldade": 3,
     "code": 2,
@@ -37,11 +39,12 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANfogo.Labareda_Turbulenta],
+    "ataques especiais": [A.ASfogo.Chama]
 }
 
 Squirtle = {
+    "nome": "Squirtle",
     "raridade": 4,
     "dificuldade": 3,
     "code": 3,
@@ -56,11 +59,12 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANagua.Jato_de_Agua],
+    "ataques especiais": [A.ASnormal.Energia]
 }
 
 Machop = {
+    "nome": "Machop",
     "raridade": 3,
     "dificuldade": 3,
     "code": 4,
@@ -75,11 +79,12 @@ Machop = {
     "velocidade": 20,
     "XP": 25,
     "custo": 2,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANlutador.Soco],
+    "ataques especiais": [A.ASnormal.Vasculhar]
 }
 
 Gastly = {
+    "nome": "Gastly",
     "raridade": 3,
     "dificuldade": 3,
     "code": 5,
@@ -94,11 +99,12 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANfantasma.Toque_Espiritual],
+    "ataques especiais": [A.ASvenenoso.Gás]
 }
 
 Geodude = {
+    "nome": "Geodude",
     "raridade": 2,
     "dificuldade": 3,
     "code": 6,
@@ -113,11 +119,12 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANpedra.Pedregulho],
+    "ataques especiais": [A.ASterrestre.Desmoronamento]
 }
 
 Caterpie = {
+    "nome": "Caterpie",
     "raridade": 1,
     "dificuldade": 1,
     "code": 7,
@@ -132,11 +139,12 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANinseto.Mordida],
+    "ataques especiais": [A.ASinseto.Danza_Larval]
 }
 
 Abra = {
+    "nome": "Abra",
     "raridade": 4,
     "dificuldade": 4,
     "code": 8,
@@ -151,11 +159,12 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANpsiquico.Toque_Mental],
+    "ataques especiais": [A.ASnormal.Energia]
 }
 
 Dratini = {
+    "nome": "Dratini",
     "raridade": 5,
     "dificuldade": 3,
     "code": 9,
@@ -170,16 +179,17 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANnormal.Cabeçada],
+    "ataques especiais": [A.ASdragao.Sopro_Dragão]
 }
 
 Pikachu = {
+    "nome": "Pikachu",
     "raridade": 3,
     "dificuldade": 2,
     "code": 10,
     "tipo": ["eletrico"],
-    "evolução": [Raichu,Pikachu_V],
+    "evolução": [Raichu, Pikachu_V],
     "FF": None,
     "vida": 92,
     "atk": 20,
@@ -189,11 +199,12 @@ Pikachu = {
     "velocidade": 34,
     "XP": 40,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANeletrico.Faísca],
+    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
 }
 
 Zorua = {
+    "nome": "Zorua",
     "raridade": 5,
     "dificuldade": 4,
     "code": 11,
@@ -208,11 +219,12 @@ Zorua = {
     "velocidade": 30,
     "XP": 40,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANsombrio.Garras_Nebulosas],
+    "ataques especiais": [A.ASsombrio.Sombra_Lisga]
 }
 
 Magikarp = {
+    "nome": "Magikarp",
     "raridade": 2,
     "dificuldade": 2,
     "code": 12,
@@ -227,16 +239,17 @@ Magikarp = {
     "velocidade": 26,
     "XP": 50,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANagua.Jato_de_Agua],
+    "ataques especiais": [A.ASnormal.Vasculhar]
 }
 
 Jigglypuff = {
+    "nome": "Jigglypuff",
     "raridade": 3,
     "dificuldade": 1,
     "code": 13,
     "tipo": ["fada", "normal"],
-    "evolução": Wigglytuff,
+    "evolução": "Wigglytuff",
     "FF": None,
     "vida": 140,
     "atk": 23,
@@ -246,16 +259,17 @@ Jigglypuff = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANfada.Brilho"],
+    "ataques especiais": ["A.ASfada.Encanto_Cintilante"]
 }
 
 Clefairy = {
+    "nome": "Clefairy",
     "raridade": 3,
     "dificuldade": 1,
     "code": 14,
     "tipo": ["fada"],
-    "evolução": Clefable,
+    "evolução": "Clefable",
     "FF": None,
     "vida": 107,
     "atk": 17,
@@ -265,16 +279,17 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANfada.Brilho"],
+    "ataques especiais": ["A.ASfada.Encanto_Cintilante"]
 }
 
 Meowth = {
+    "nome": "Meowth",
     "raridade": 2,
     "dificuldade": 2,
     "code": 15,
     "tipo": ["normal"],
-    "evolução": [Persian,Meowth_V],
+    "evolução": ["Persian", "Meowth_V"],
     "FF": None,
     "vida": 81,
     "atk": 22,
@@ -284,16 +299,17 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANnormal.Tapa"],
+    "ataques especiais": ["A.ASnormal.Vasculhar"]
 }
 
 Cubone = {
+    "nome": "Cubone",
     "raridade": 2,
     "dificuldade": 4,
     "code": 16,
     "tipo": ["terrestre"],
-    "evolução": Marowak,
+    "evolução": "Marowak",
     "FF": None,
     "vida": 77,
     "atk": 19,
@@ -303,16 +319,17 @@ Cubone = {
     "velocidade": 19,
     "XP": 30,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANterrestre.Terra"],
+    "ataques especiais": ["A.ASterrestre.Desmoronamento"]
 }
 
 Shellder = {
+    "nome": "Shellder",
     "raridade": 3,
     "dificuldade": 2,
     "code": 17,
     "tipo": ["agua"],
-    "evolução": Cloyster,
+    "evolução": "Cloyster",
     "FF": None,
     "vida": 65,
     "atk": 25,
@@ -322,16 +339,17 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANagua.Jato_de_Agua"],
+    "ataques especiais": ["A.ASnormal.Energia"]
 }
 
 Magnemite = {
+    "nome": "Magnemite",
     "raridade": 2,
     "dificuldade": 2,
     "code": 18,
     "tipo": ["eletrico", "metal"],
-    "evolução": Magneton,
+    "evolução": "Magneton",
     "FF": None,
     "vida": 51,
     "atk": 19,
@@ -341,16 +359,17 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANmetal.Impacto"],
+    "ataques especiais": ["A.ASeletrico.Bola_de_Eletricidade"]
 }
 
 Rattata = {
+    "nome": "Rattata",
     "raridade": 1,
     "dificuldade": 1,
     "code": 19,
     "tipo": ["normal"],
-    "evolução": Raticate,
+    "evolução": "Raticate",
     "FF": None,
     "vida": 67,
     "atk": 22,
@@ -360,16 +379,17 @@ Rattata = {
     "velocidade": 28,
     "XP": 30,
     "custo": 0,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANnormal.Tapa"],
+    "ataques especiais": ["A.ASnormal.Vasculhar"]
 }
 
 Weedle = {
+    "nome": "Weedle",
     "raridade": 1,
     "dificuldade": 1,
     "code": 20,
     "tipo": ["inseto"],
-    "evolução": Kakuna,
+    "evolução": "Kakuna",
     "FF": None,
     "vida": 58,
     "atk": 20,
@@ -379,16 +399,17 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANinseto.Mordida"],
+    "ataques especiais": ["A.ASinseto.Danza_Larval"]
 }
 
 Snorlax = {
+    "nome": "Snorlax",
     "raridade": 7,
     "dificuldade": 5,
     "code": 21,
     "tipo": ["normal"],
-    "evolução": Snorlax_V,
+    "evolução": "Snorlax_V",
     "FF": None,
     "vida": 243,
     "atk": 39,
@@ -398,17 +419,18 @@ Snorlax = {
     "velocidade": 14,
     "XP": 45,
     "custo": 4,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANnormal.Tapa"],
+    "ataques especiais": ["A.ASnormal.Energia"]
 }
 
 Aerodactyl = {
+    "nome": "Aerodactyl",
     "raridade": 7,
     "dificuldade": 6,
     "code": 22,
     "tipo": ["pedra", "voador"],
     "evolução": None,
-    "FF": Mega_Aerodactyl,
+    "FF": "Mega_Aerodactyl",
     "vida": 151,
     "atk": 44,
     "atk SP": 32,
@@ -417,11 +439,12 @@ Aerodactyl = {
     "velocidade": 50,
     "XP": 50,
     "custo": 3,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANpedra.Pancada_Rocha"],
+    "ataques especiais": ["A.ASvoador.Rajada"]
 }
 
 Jynx = {
+    "nome": "Jynx",
     "raridade": 6,
     "dificuldade": 4,
     "code": 23,
@@ -436,17 +459,18 @@ Jynx = {
     "velocidade": 24,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANgelo.Caco_de_Gelo"],
+    "ataques especiais": ["A.ASpsiquico.Ondas_Mentais"]
 }
 
 Pinsir = {
+    "nome": "Pinsir",
     "raridade": 6,
     "dificuldade": 4,
     "code": 24,
     "tipo": ["inseto"],
     "evolução": None,
-    "FF": Mega_Pinsir,
+    "FF": "Mega_Pinsir",
     "vida": 124,
     "atk": 50,
     "atk SP": 20,
@@ -455,17 +479,18 @@ Pinsir = {
     "velocidade": 25,
     "XP": 45,
     "custo": 2,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANinseto.Mandíbula_Vingativa"],
+    "ataques especiais": ["A.ASinseto.Bola_de_Insetos"]
 }
 
 Mewtwo = {
+    "nome": "Mewtwo",
     "raridade": 10,
     "dificuldade": 9,
     "code": 25,
     "tipo": ["psiquico"],
     "evolução": None,
-    "FF": [Mega_Mewtwo_X,Mega_Mewtwo_Y],
+    "FF": ["Mega_Mewtwo_X", "Mega_Mewtwo_Y"],
     "vida": 196,
     "atk": 64,
     "atk SP": 76,
@@ -474,11 +499,12 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": ["A.ANpsiquico.Colapso_Psiquico"],
+    "ataques especiais": ["A.ASpsiquico.Bola_Psiquica"]
 }
 
 Articuno = {
+    "nome": "Articuno",
     "raridade": 10,
     "dificuldade": 8,
     "code": 26,
@@ -490,14 +516,15 @@ Articuno = {
     "atk SP": 62,
     "def": 56,
     "def SP": 70,
-    "velocidade": 52,
-    "XP": 0,
-    "custo": 3,
-    "ataques normais": [],
-    "ataques especiais": []
+    "velocidade": 60,
+    "XP": 55,
+    "custo": 4,
+    "ataques normais": ["A.ANgelo.Bola_de_Gelo"],
+    "ataques especiais": ["A.ASvoador.Furacão_Gelado"]
 }
 
 Moltres = {
+    "nome": "Moltres",
     "raridade": 10,
     "dificuldade": 8,
     "code": 27,
@@ -512,11 +539,12 @@ Moltres = {
     "velocidade": 53,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANvoador.Lâmina_Aérea],
+    "ataques especiais": [A.ASfogo.Bola_de_Fogo]
 }
 
 Zapdos = {
+    "nome": "Zapdos",
     "raridade": 10,
     "dificuldade": 8,
     "code": 28,
@@ -531,8 +559,8 @@ Zapdos = {
     "velocidade": 57,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [],
-    "ataques especiais": []
+    "ataques normais": [A.ANvoador.Lâmina_Aérea],
+    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
 }
 
 Pokedex = [0,

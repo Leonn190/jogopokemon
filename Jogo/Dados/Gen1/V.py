@@ -1,5 +1,5 @@
-from Jogo.Dados.Gen1.Vmax import Venusaur_Vmax,Charizard_Vmax,Blastoise_Vmax,Machamp_Vmax,Gengar_Vmax,Butterfree_Vmax,Snorlax_Vmax,Meowth_Vmax,Pikachu_Vmax
-from Jogo.Dados.Gen1.Vstar import Venusaur_Vstar,Charizard_Vstar,Blastoise_Vstar,Machamp_Vstar,Gengar_Vstar,Butterfree_Vstar,Snorlax_Vstar,Meowth_Vstar,Pikachu_Vstar
+from Dados.Gen1.Vmax import Venusaur_Vmax,Charizard_Vmax,Blastoise_Vmax,Machamp_Vmax,Gengar_Vmax,Butterfree_Vmax,Snorlax_Vmax,Meowth_Vmax,Pikachu_Vmax
+from Dados.Gen1.Vstar import Venusaur_Vstar,Charizard_Vstar,Blastoise_Vstar,Machamp_Vstar,Gengar_Vstar,Butterfree_Vstar,Snorlax_Vstar,Meowth_Vstar,Pikachu_Vstar
 
 Venusaur_V = { 
     "nome": "Venusaur V", 
