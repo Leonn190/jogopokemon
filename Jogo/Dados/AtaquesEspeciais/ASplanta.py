@@ -1,95 +1,41 @@
-Semente_afiada = {
-    "nome": "Semente afiada",
+Tiro_de_semente = {
+    "nome": "Tiro de Semente",
     "tipo": ["planta"],   
     "custo": ["verde"],
     "dano": 1,
-    "alcance": 40,
-    "precisão": 100,
-    "descrição": "",
-    "função": None,
-    "valores": None
-    }
-
-Chicote_de_vinha = {
-    "nome": "Chicote de vinha",
-    "tipo": ["planta"],   
-    "custo": ["verde","verde"],
-    "dano": 1.2,
-    "alcance": 25,
-    "precisão": 100,
-    "descrição": "",
-    "função": None,
-    "valores": None
+    "alcance": 30,
+    "precisão": 100, 
+    "descrição": "Atire uma semente no inimigo",
+    "função": [],
+    "alvo": [],
+    "valorAlvo": [],
+    "valores": []
 }
 
-Lamina_Solar = {
-    "nome": "Lamina Solar",
-    "tipo": ["planta"],   
-    "custo": ["verde","verde"],
-    "dano": 1.2,
-    "alcance": 25,
-    "precisão": 100,
-    "descrição": "",
-    "função": None,
-    "valores": None
-}
-
-Bomba_de_sementes = {
-    "nome": "Bomba de sementes",
-    "tipo": ["planta"],   
-    "custo": ["verde","verde"],
-    "dano": 1.2,
-    "alcance": 25,
-    "precisão": 100,
-    "descrição": "",
-    "função": None,
-    "valores": None
-}
-
-Folha_Navalha = {
-    "nome": "Folha Navalha",
-    "tipo": ["planta"],   
-    "custo": ["verde","verde"],
-    "dano": 1.2,
-    "alcance": 25,
-    "precisão": 100,
-    "descrição": "",
-    "função": None,
-    "valores": None
-}
-
-Folhagem = {
-    "nome": "Folhagem",
+Bola_de_planta = {
+    "nome": "Bola de planta",
     "tipo": ["planta"],   
     "custo": ["verde","verde","verde"],
     "dano": 1.5,
     "alcance": 30,
-    "precisão": 99,
-    "descrição": "cause uma destruição",
-    "função": None,
-    "valores": None
+    "precisão": 100, 
+    "descrição": "Energia planta concentrada",
+    "função": [],
+    "alvo": [],
+    "valorAlvo": [],
+    "valores": []
 }
 
-Cura_da_Selva= {
-    "nome": "Cura_da_Selva",
+Raio_Solar = {
+    "nome": "Raio Solar",
     "tipo": ["planta"],   
-    "custo": ["verde","verde","verde"],
-    "dano": 1.5,
+    "custo": ["normal","verde","verde","verde","verde"],
+    "dano": 2,
     "alcance": 30,
-    "precisão": 99,
-    "descrição": "cause uma destruição",
-    "função": None,
-    "valores": None
-}
-
-Chicote_de_Poder = {
-    "nome": "Chicote_de_Poder",
-    "tipo": ["planta"],   
-    "custo": ["verde","verde","verde"],
-    "dano": 1.5,
-    "alcance": 30,
-    "precisão": 99,
-    "descrição": "cause uma destruição",
-    "função": None,
-    "valores": None
+    "precisão": 100, 
+    "descrição": "Um poderoso raio canalisado pelo sol",
+    "função": [],
+    "alvo": [],
+    "valorAlvo": [],
+    "valores": []
 }

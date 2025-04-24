@@ -154,14 +154,39 @@ Esmeralda = {
     "nome": "Esmeralda",
     "classe": "amplificador",
     "Descrição": "aumenta 1 de XP dos pokemon",
-    "raridade": 4,
+    "raridade": 2,
     "aumento": "XP atu"
 }
+
+Energia_Mega = {
+    "nome": "Energia Mega",
+    "classe": "amplificador",
+    "Descrição": "Um poder incomum, cuja a origem é desconhecida mas fornece extremo poder a um pokemon qualificado ",
+    "raridade": 5,
+    "aumento": "Evolucional"
+}
+
+Energia_Vstar = {
+    "nome": "Energia Vstar",
+    "classe": "amplificador",
+    "Descrição": "A bençao do próprio Arceus para criar a versão mais poderosa do pokemon",
+    "raridade": 5,
+    "aumento": "Evolucional"
+}
+
+Energia_Vstar = {
+    "nome": "Energia GigantaMax",
+    "classe": "amplificador",
+    "Descrição": "A bençao de eternatus para transformar o pokemon em um colosso destruidor",
+    "raridade": 5,
+    "aumento": "Evolucional"
+}
+
 
 Removedor_de_estadio = {
     "nome": "Removedor",
     "classe": "estadio",
-    "Descrição": "Leve a luta de volta ao basico e remova um estádio",
+    "Descrição": "Remova o estágio e leve o jogo devolta ao básico",
     "raridade": 2,
     "ST Code": 0
 }

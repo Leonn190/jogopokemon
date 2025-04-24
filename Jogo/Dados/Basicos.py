@@ -1,9 +1,7 @@
-import Dados.AtaquesNormais.ANplanta as N
-import Dados.AtaquesEspeciais.AEplanta as S
+import Dados.AllAtaques as A
 from Dados.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
 
 Bulbasaur = {
-    "nome": "Bulbasaur",
     "raridade": 4,
     "dificuldade": 3,
     "code": 1,
@@ -18,7 +16,7 @@ Bulbasaur = {
     "XP": 20,
     "custo": 1,
     "ataques normais": [],
-    "ataques especiais": [S.Dreno]
+    "ataques especiais": []
 }
 
 Charmander = {

@@ -26,34 +26,6 @@ Pancada_Rocha = {
     "valores": []
 }
 
-Bola_de_Rocha = {
-    "nome": "Bola de Rocha",
-    "tipo": ["pedra"],
-    "custo": ["marrom", "marrom", "marrom"],
-    "dano": 1.5,
-    "alcance": 30,
-    "precisão": 100,
-    "descrição": "Uma esfera de pedra massiva lançada com grande força",
-    "função": [],
-    "alvo": [],
-    "valorAlvo": [],
-    "valores": []
-}
-
-Pedra_Especial = {
-    "nome": "Lança de Pedra",
-    "tipo": ["pedra"],
-    "custo": ["normal", "marrom", "marrom", "marrom"],
-    "dano": 1.7,
-    "alcance": 30,
-    "precisão": 100,
-    "descrição": " disparada de forma especial, uma pedra diferente das outras",
-    "função": [],
-    "alvo": [],
-    "valorAlvo": [],
-    "valores": []
-}
-
 Pedra_Colossal = {
     "nome": "Pedra Colossal",
     "tipo": ["pedra"],

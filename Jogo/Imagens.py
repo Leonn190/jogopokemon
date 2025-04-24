@@ -565,7 +565,11 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Fruta Frambo Dourada": FramboDouradaIMG,
     "Fruta Caxi": CaxiIMG,
     "Fruta Caxi Prateada": CaxiPrateadaIMG,
-    "estadio": EstadioIMG
+    "estadio": EstadioIMG,
+    "Energia Mega": MegaIMG,
+    "Energia Vstar": VStarIMG,
+    "Energia Vmax": VMaxIMG
+    
     }
 
     OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG]

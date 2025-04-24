@@ -89,7 +89,7 @@ class Jogador:
                         if Pokemon.Vida > 0:
                             tipo = item["aumento"]
                             if tipo == "evolucional":
-                                Pokemon.FF(item["nome"])
+                                Pokemon.FF(item,self)
                             else:
                                 GV.tocar(Usou)
                                 self.inventario.remove(item)
@@ -188,9 +188,61 @@ class Pokemon:
         self.vampirismo = 0
         self.FF = None  #forma final
 
-    def FormaFinal(self):
-        if self.FF["FF"] == "Mega":
-            P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
+    def FormaFinal(self,item,player):
+        if self.xp_atu >= self.xp_total:
+            i = self.local
+            if self.FF["FF"] == "Mega":
+                if item["nome"] == "Energia Mega":
+                    player.inventario.remove(item)
+                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+
+            elif self.FF["FF"] == "Vstar":
+                if item["nome"] == "Energia Vstar":
+                    player.inventario.remove(item)
+                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+
+            elif self.FF["FF"] == "Vmax":
+                if item["nome"] == "Energia Gigantamax":
+                    player.inventario.remove(item)
+                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+
+            elif self.FF["FF"] == ["Vstar","Vmax"]:
+                if item["nome"] == "Energia Vstar":
+                    player.inventario.remove(item)
+                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+                
+                elif item["nome"] == "Energia Gigantamax":
+                    player.inventario.remove(item)
+                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+
+            else:
+                GV.adicionar_mensagem("Esse pokemon não tem forma final")
+                return
+            
+            GV.adicionar_mensagem("Energia não condiz com a forma final")
+            return
+
+        else:
+            GV.adicionar_mensagem("Xp insuficiente")
+            return
+        
+    def Evoluir_Final(self):
+        nome_antigo = self.nome
+        self.nome = self.FF["nome"]
+        self.VidaMax = round(self.VidaMax * self.FF["vida"])
+        self.Vida = round(self.Vida * self.FF["vida"])
+        self.Def = round(self.Def * self.FF["def"])
+        self.Def_sp = round(self.Def_sp * self.FF["def SP"])
+        self.Atk = round(self.Atk * self.FF["atk"])
+        self.Atk_sp = round(self.Atk_sp * self.FF["atk SP"])
+        self.vel = round(self.vel * self.FF["velocidade"])
+        self.custo = self.FF["custo"]
+        self.ataque_normal = random.choice(self.FF["ataques normais"])
+        self.ataque_especial = random.choice(self.FF["ataques especiais"])
+        self.Estagio = self.FF["estagio"]
+        self.xp_total = self.FF["XP"]
+        P.VerificaGIF()
+        GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
