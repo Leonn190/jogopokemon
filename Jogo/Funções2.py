@@ -328,15 +328,18 @@ def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,
     }
 
     for i,funçao in enumerate(ataque["função"]):
-        if funçao in FunçoesComAlvo:
-            if ataque["valorAlvo"][i] is not None:
-                Valor_alvo = ataque["valorAlvo"][i]
-                alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo, Valor_alvo)
+        chance = ataque["chance"][i]
+        Erro = random.randint(0,100)
+        if chance > Erro:
+            if funçao in FunçoesComAlvo:
+                if ataque["valorAlvo"][i] is not None:
+                    Valor_alvo = ataque["valorAlvo"][i]
+                    alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo, Valor_alvo)
+                else:
+                    alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo,)
+                FunçoesComAlvo[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i,alvosAdicionais)
             else:
-                alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo,)
-            FunçoesComAlvo[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i,alvosAdicionais)
-        else:
-            defesa, dano = FunçoesDeStatus[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i)
-    
-    return defesa, dano
+                defesa, dano = FunçoesDeStatus[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i)
+        
+        return defesa, dano
         

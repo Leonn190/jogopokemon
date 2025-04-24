@@ -2,7 +2,7 @@ import random
 import pygame
 import Partida as P
 import GeradoresVisuais as GV
-from Dados.Basicos import Pokedex
+from Jogo.Dados.Gen1.Basicos import Pokedex
 from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
 from Dados.Estadios import Estadios
 import Funções2 as FU
@@ -421,7 +421,7 @@ class Pokemon:
         self.atacou = True
         Dano_I = U * F["dano"]
         
-        if F["funçao"] is not None:
+        if F["funçao"] != []:
             V, Dano_I = FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V,tipo)
 
         Tipo = F["tipo"]

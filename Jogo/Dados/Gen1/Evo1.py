@@ -1,6 +1,6 @@
 import AllAtaques
-from Mega import Mega_Gyarados
-from Dados.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite,Beedrill
+from Jogo.Dados.Gen1.Mega import Mega_Gyarados
+from Jogo.Dados.Gen1.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite,Beedrill
 
 Ivysaur = {
     "nome": "Ivysaur",
