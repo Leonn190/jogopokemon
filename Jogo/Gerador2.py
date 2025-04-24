@@ -241,6 +241,7 @@ class Pokemon:
         self.ataque_especial = random.choice(self.FF["ataques especiais"])
         self.Estagio = self.FF["estagio"]
         self.xp_total = self.FF["XP"]
+        self.evolucao = self.FF["evolução"]
         P.VerificaGIF()
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
@@ -266,8 +267,9 @@ class Pokemon:
         self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"])
         self.vel = round(self.vel * self.evolucao["velocidade"])
         self.custo = self.evolucao["custo"]
-        self.ataque_normal = random.choice(self.evolucao["ataques normais"])
-        self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
+        if self.evolucao["estagio"] < 4:
+            self.ataque_normal = random.choice(self.evolucao["ataques normais"])
+            self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
         self.Estagio = self.evolucao["estagio"]
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]

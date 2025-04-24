@@ -1,343 +1,365 @@
-from Dados.AtaquesNormais.ANplanta import Chicote_de_vinha,Semente_afiada
-from Dados.AtaquesEspeciais.AEplanta import Tiro_Quente,Destruição
-from Dados.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite
+import AllAtaques
+from Mega import Mega_Gyarados
+from Dados.Evo2 import Venusaur,Charizard,Blastoise,Machamp,Gengar,Golem,Butterfree,Alakazam,Dragonite,Beedrill
 
 Ivysaur = {
     "nome": "Ivysaur",
     "tipo": ["planta", "venenoso"],
     "evolução": Venusaur,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.62195122,
-    "atk": 1.2,
-    "atk SP": 1.269230769,
-    "def": 1.25,
-    "def SP": 1.333333333,
-    "velocidade": 1.263157895,
-    "XP": 50,
+    "vida": 1.7375,
+    "atk": 1.352941176,
+    "atk SP": 1.416666667,
+    "def": 1.666666667,
+    "def SP": 1.5,
+    "velocidade": 1.217391304,
+    "XP": 55,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Charmeleon = {
     "nome": "Charmeleon",
     "tipo": ["fogo"],
     "evolução": Charizard,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.631578947,
-    "atk": 1.217391304,
-    "atk SP": 1.28,
-    "def": 1.263157895,
-    "def SP": 1.388888889,
-    "velocidade": 1.217391304,
-    "XP": 50,
+    "vida": 1.8,
+    "atk": 1.380952381,
+    "atk SP": 1.434782609,
+    "def": 1.411764706,
+    "def SP": 1.5,
+    "velocidade": 1.375,
+    "XP": 55,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Wartortle = {
     "nome": "Wartortle",
     "tipo": ["agua"],
     "evolução": Blastoise,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.64556962,
-    "atk": 1.35,
-    "atk SP": 1.210526316,
-    "def": 1.333333333,
-    "def SP": 1.260869565,
-    "velocidade": 1.142857143,
-    "XP": 50,
+    "vida": 1.792207792,
+    "atk": 1.368421053,
+    "atk SP": 1.470588235,
+    "def": 1.52173913,
+    "def SP": 1.454545455,
+    "velocidade": 1.2,
+    "XP": 55,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Machoke = {
     "nome": "Machoke",
     "tipo": ["lutador"],
     "evolução": Machamp,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.647727273,
-    "atk": 1.259259259,
-    "atk SP": 1.375,
-    "def": 1.304347826,
-    "def SP": 1.210526316,
-    "velocidade": 1.105263158,
-    "XP": 50,
+    "vida": 1.595744681,
+    "atk": 1.5,
+    "atk SP": 1.6,
+    "def": 1.391304348,
+    "def SP": 1.2,
+    "velocidade": 1.3,
+    "XP": 55,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Haunter = {
     "nome": "Haunter",
     "tipo": ["fantasma", "venenoso"],
     "evolução": Gengar,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.603174603,
-    "atk": 1.375,
-    "atk SP": 1.233333333,
-    "def": 1.176470588,
-    "def SP": 0.9565217391,
-    "velocidade": 1.142857143,
+    "vida": 2.14516129,
+    "atk": 1.5625,
+    "atk SP": 1.444444444,
+    "def": 1.333333333,
+    "def SP": 1.5,
+    "velocidade": 1.48,
     "XP": 55,
     "custo": 1,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Graveler = {
     "nome": "Graveler",
     "tipo": ["pedra", "terrestre"],
     "evolução": Golem,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.61627907,
-    "atk": 1.04,
-    "atk SP": 1.428571429,
-    "def": 1.346153846,
-    "def SP": 1.333333333,
-    "velocidade": 1.058823529,
-    "XP": 50,
+    "vida": 1.717647059,
+    "atk": 1.363636364,
+    "atk SP": 1.176470588,
+    "def": 1.461538462,
+    "def SP": 1.363636364,
+    "velocidade": 1.176470588,
+    "XP": 60,
     "custo": 3,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Metapod = {
     "nome": "Metapod",
     "tipo": ["inseto"],
     "evolução": Butterfree,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.507246377,
-    "atk": 1.05,
-    "atk SP": 1.166666667,
-    "def": 1.578947368,
-    "def SP": 1.315789474,
-    "velocidade": 0.625,
-    "XP": 50,
-    "custo": 3,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "vida": 1.661764706,
+    "atk": 1.111111111,
+    "atk SP": 1.210526316,
+    "def": 1.882352941,
+    "def SP": 1.333333333,
+    "velocidade": 0.5555555556,
+    "XP": 45,
+    "custo": 2,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Kadabra = {
     "nome": "Kadabra",
     "tipo": ["psiquico"],
     "evolução": Alakazam,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.561403509,
-    "atk": 1.266666667,
-    "atk SP": 1.322580645,
-    "def": 1.461538462,
-    "def SP": 1.142857143,
-    "velocidade": 1.115384615,
+    "vida": 2.245614035,
+    "atk": 1.428571429,
+    "atk SP": 1.448275862,
+    "def": 1.384615385,
+    "def SP": 1.473684211,
+    "velocidade": 1.416666667,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Dragonair = {
     "nome": "Dragonair",
     "tipo": ["dragao"],
     "evolução": Dragonite,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.64,
-    "atk": 1.259259259,
-    "atk SP": 1.3,
-    "def": 1.285714286,
-    "def SP": 1.2,
-    "velocidade": 1.272727273,
+    "vida": 1.768292683,
+    "atk": 1.454545455,
+    "atk SP": 1.444444444,
+    "def": 1.333333333,
+    "def SP": 1.380952381,
+    "velocidade": 1.428571429,
     "XP": 65,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Raichu = {
     "nome": "Raichu",
     "tipo": ["eletrico"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.626506024,
-    "atk": 1.217391304,
-    "atk SP": 1.259259259,
-    "def": 1.19047619,
-    "def SP": 1.086956522,
-    "velocidade": 1.085714286,
+    "vida": 1.608695652,
+    "atk": 1.45,
+    "atk SP": 1.321428571,
+    "def": 1.136363636,
+    "def SP": 1.35,
+    "velocidade": 1.294117647,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Zoroark = {
     "nome": "Zoroark",
     "tipo": ["sombrio"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.855263158,
-    "atk": 1.304347826,
-    "atk SP": 1.25,
-    "def": 1.277777778,
-    "def SP": 1.210526316,
-    "velocidade": 1.68,
+    "vida": 1.802325581,
+    "atk": 1.652173913,
+    "atk SP": 1.555555556,
+    "def": 1.315789474,
+    "def SP": 1.263157895,
+    "velocidade": 1.633333333,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
+
 Gyarados = {
     "nome": "Gyarados",
     "tipo": ["agua", "voador"],
     "evolução": None,
+    "FF": ["MegaGyarados"],
     "estagio": 2,
-    "vida": 2.75,
-    "atk": 4,
-    "atk SP": 2,
-    "def": 1.296296296,
-    "def SP": 2.375,
-    "velocidade": 1.6,
-    "XP": 85,
-    "custo": 4,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "vida": 2.575757576,
+    "atk": 5.545454545,
+    "atk SP": 2.538461538,
+    "def": 1.56,
+    "def SP": 3,
+    "velocidade": 1.653846154,
+    "XP": 90,
+    "custo": 3,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Wigglytuff = {
     "nome": "Wigglytuff",
     "tipo": ["fada", "normal"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.549180328,
-    "atk": 1.285714286,
-    "atk SP": 1.25,
-    "def": 1.333333333,
-    "def SP": 1.4375,
+    "vida": 1.378571429,
+    "atk": 1.347826087,
+    "atk SP": 1.5,
+    "def": 1.3,
+    "def SP": 1.333333333,
     "velocidade": 1.5,
     "XP": 0,
-    "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "custo": 1,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Clefable = {
     "nome": "Clefable",
     "tipo": ["fada"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.306930693,
-    "atk": 1.25,
-    "atk SP": 1.272727273,
-    "def": 1.36,
-    "def SP": 1.36,
-    "velocidade": 1.19047619,
+    "vida": 1.457943925,
+    "atk": 1.529411765,
+    "atk SP": 1.681818182,
+    "def": 1.6,
+    "def SP": 1.884615385,
+    "velocidade": 1.5,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Persian = {
     "nome": "Persian",
     "tipo": ["normal"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 2.106060606,
-    "atk": 1.368421053,
-    "atk SP": 1.277777778,
-    "def": 1.222222222,
-    "def SP": 1.235294118,
-    "velocidade": 1.290322581,
+    "vida": 1.75308642,
+    "atk": 1.545454545,
+    "atk SP": 1.421052632,
+    "def": 1.5,
+    "def SP": 1.444444444,
+    "velocidade": 1.482758621,
     "XP": 0,
-    "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "custo": 1,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Marowak = {
     "nome": "Marowak",
     "tipo": ["terrestre"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.518518519,
-    "atk": 1.173913043,
-    "atk SP": 1.1,
-    "def": 1.423076923,
-    "def SP": 1.285714286,
-    "velocidade": 1.166666667,
+    "vida": 1.74025974,
+    "atk": 1.684210526,
+    "atk SP": 1.277777778,
+    "def": 1.555555556,
+    "def SP": 1.476190476,
+    "velocidade": 1.368421053,
     "XP": 0,
-    "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "custo": 1,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Cloyster = {
     "nome": "Cloyster",
     "tipo": ["agua", "gelo"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 2,
-    "atk": 1.208333333,
-    "atk SP": 1.555555556,
-    "def": 1.851851852,
-    "def SP": 1.083333333,
-    "velocidade": 1.227272727,
+    "vida": 1.969230769,
+    "atk": 1.48,
+    "atk SP": 1.388888889,
+    "def": 2.24137931,
+    "def SP": 1.526315789,
+    "velocidade": 1.523809524,
     "XP": 0,
-    "custo": 3,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "custo": 2,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Magneton = {
     "nome": "Magneton",
     "tipo": ["eletrico", "metal"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.767857143,
-    "atk": 1.210526316,
-    "atk SP": 1.24137931,
-    "def": 1.214285714,
-    "def SP": 1.25,
-    "velocidade": 1.090909091,
+    "vida": 2.333333333,
+    "atk": 1.421052632,
+    "atk SP": 1.730769231,
+    "def": 1.52,
+    "def SP": 1.434782609,
+    "velocidade": 1.55,
     "XP": 0,
-    "custo": 2,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "custo": 1,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Raticate = {
     "nome": "Raticate",
     "tipo": ["normal"],
     "evolução": None,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.73015873,
-    "atk": 1.2,
-    "atk SP": 1.25,
-    "def": 1.277777778,
-    "def SP": 1.105263158,
-    "velocidade": 1.076923077,
+    "vida": 2.328358209,
+    "atk": 1.454545455,
+    "atk SP": 2.0,
+    "def": 1.473684211,
+    "def SP": 2.266666667,
+    "velocidade": 1.321428571,
     "XP": 0,
-    "custo": 1,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "custo": 3,
+    "ataques normais": [],
+    "ataques especiais": []
 }
 
 Kakuna = {
     "nome": "Kakuna",
     "tipo": ["inseto", "venenoso"],
-    "evolução": "Beedrill",
+    "evolução": Beedrill,
+    "FF": None,
     "estagio": 2,
-    "vida": 1.849056604,
-    "atk": 1.090909091,
-    "atk SP": 1.166666667,
-    "def": 1.333333333,
-    "def SP": 1.411764706,
-    "velocidade": 0.75,
-    "XP": 55,
-    "custo": 3,
-    "ataques normais": [Chicote_de_vinha,Semente_afiada],
-    "ataques especiais": [Tiro_Quente,Destruição]
+    "vida": 1.568965517,
+    "atk": 1.3,
+    "atk SP": 1.157894737,
+    "def": 1.555555556,
+    "def SP": 1.315789474,
+    "velocidade": 0.7647058824,
+    "XP": 45,
+    "custo": 2,
+    "ataques normais": [],
+    "ataques especiais": []
 }
+
 
