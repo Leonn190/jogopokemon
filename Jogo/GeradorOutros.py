@@ -1,15 +1,5 @@
 import random
-import pygame
-from Sonoridade import tocar
-from GeradorPokemon import Gerador_final
-from GeradorPlayer import Gerador_player
-import GeradoresVisuais as GV
-from Dados.Gen1.Basicos import Pokedex
-from Dados.itens import pokebolas_disponiveis,itens_disponiveis,amplificadores_disponiveis,Estadios_disponiveis
-from Dados.Estadios import Estadios
-
-pygame.init()
-pygame.mixer.init()
+from Ge
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 

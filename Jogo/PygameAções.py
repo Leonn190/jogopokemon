@@ -1,6 +1,7 @@
 import pygame
 import GeradoresVisuais as GV
 import Gerador2 as G
+from Sonoridade import tocar
 import random
 
 pygame.font.init()
@@ -74,23 +75,23 @@ def Loja_I(ID):
     global Contador2
 
     if ID == "PokebolasLojaIp1" and Contador1 < 3:
-        GV.tocar(Compra)
+        tocar("Compra")
         informaçoesp1.append("pokebola")
         Contador1 += 1
     elif ID == "ItensLojaIp1" and Contador1 < 3:
-        GV.tocar(Compra)
+        tocar("Compra")
         informaçoesp1.append("item")
         Contador1 += 1
     elif ID == "PokebolasLojaIp2" and Contador2 < 3:
-        GV.tocar(Compra)
+        tocar("Compra")
         informaçoesp2.append("pokebola")
         Contador2 += 1
     elif ID == "ItensLojaIp2" and Contador2 < 3:
-        GV.tocar(Compra)
+        tocar("Compra")
         informaçoesp2.append("item")
         Contador2 += 1
     else:
-        GV.tocar(Bloq)
+        tocar("Bloq")
 
 def Iniciar_partida(estados):
     estados["Rodando_PréPartida"] = False

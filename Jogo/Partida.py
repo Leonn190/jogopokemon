@@ -1,7 +1,7 @@
 import pygame
 import random
-import Imagens
-from PokeGifs import VerificaGIF, Gifs_ativos
+from Imagens import Carregar_Imagens, Carrega_Gif_pokemon
+from Mensagens import mensagens_passageiras
 from Efeitos import atualizar_efeitos
 from Sonoridade import tocar
 import Tabuleiro as M
@@ -15,15 +15,12 @@ from GeradoresVisuais import (
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA,)
 
 pygame.mixer.init()
-
-clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
-Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
-Usou = pygame.mixer.Sound("Jogo/Audio/Sons/Usou.wav")
-Bom = pygame.mixer.Sound("Jogo/Audio/Sons/Bom.wav")
-Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
+selecionaSOM = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
 
 Tela = None
 Mapa = None
+
+Gifs_ativos = []
 
 Mute = False
 PokemonS = None
@@ -34,8 +31,6 @@ informacao = None
 Visor = None
 PokebolaSelecionada = None
 FrutaSelecionada = None
-
-mensagens_passageiras = []
 
 PokeGifs = {}
 TiposEnergiaIMG = {}
@@ -72,57 +67,6 @@ LojaAmpliP = None
 LojaEnerP = None
 LojaEstTreP = None
 Musica_Estadio_atual = None
-
-class MensagemPassageira:
-    def __init__(self, mensagem, cor, fonte, posicao, duracao=350, deslocamento=50):
-        self.mensagem = mensagem
-        self.cor = cor
-        self.fonte = fonte
-        self.posicao_inicial = posicao
-        self.duracao = duracao
-        self.deslocamento = deslocamento
-        self.frame_atual = 0
-        self.ativa = True
-
-    def atualizar(self):
-        self.frame_atual += 1
-        if self.frame_atual >= self.duracao:
-            self.ativa = False
-
-    def desenhar(self, tela):
-        if not self.ativa:
-            return
-
-        alpha = max(0, 255 - int((self.frame_atual / self.duracao) * 255))
-        y_offset = int((self.frame_atual / self.duracao) * self.deslocamento)
-
-        texto_surface = self.fonte.render(self.mensagem, True, self.cor)
-        texto_surface = texto_surface.convert_alpha()
-        texto_surface.set_alpha(alpha)
-
-        x, y = self.posicao_inicial
-        x_texto = x
-        y_texto = y - y_offset
-
-        largura = texto_surface.get_width() + 20
-        altura = texto_surface.get_height() + 10
-
-        # Cria a superfície com canal alpha
-        fundo = pygame.Surface((largura, altura), pygame.SRCALPHA)
-        
-        # Cor branca com transparência proporcional
-        cor_fundo = (255, 255, 255, min(200, alpha))  # branco semi-transparente
-
-        # Desenha retângulo arredondado
-        pygame.draw.rect(fundo, cor_fundo, fundo.get_rect(), border_radius=10)
-
-        # Posiciona retângulo levemente centralizado em relação ao texto
-        tela.blit(fundo, (x_texto - 10, y_texto - 5))
-        tela.blit(texto_surface, (x_texto, y_texto))
-
-def adicionar_mensagem_passageira(mensagens, texto, cor, fonte, posicao, duracao=200, deslocamento=90):
-    nova_mensagem = MensagemPassageira(texto, cor, fonte, posicao, duracao, deslocamento)
-    mensagens_passageiras.append(nova_mensagem)
 
 def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor_tempo, ao_terminar, turno_atual):
     global tempo_restante
@@ -430,10 +374,9 @@ def PokemonCentro(ID,player):
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
                 novo_pokemon = G.Gerador_final(pokemon["code"],AIV,player)
-                AddIMGpokemon(novo_pokemon) 
                 M.GuardarPosicionar(novo_pokemon,player)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
-                VerificaGIF(PokeGifs,player,inimigo)
+                VerificaGIF()
                 tocar("Bom")
                 Centro.remove(pokemon)
                 return
@@ -515,11 +458,6 @@ def pausarEdespausar():
     else:
         Pausa = True
         pausaEdespausaCronometro()
-
-def AddIMGpokemon(pokemon):
-    imagem = ImagensPokemonIcons[pokemon.nome]
-    pokemon.imagem = imagem
-    # para tabuleiro
 
 def AddLocalPokemonINIC(pokemon,jogador):
     if jogador == Jogador1:
@@ -698,6 +636,36 @@ def Passar_contadores():
             if contador > 0:
                 pokemon.efeitosPosi[efeito] -= 1    
 
+def VerificaGIF():
+    global Gifs_ativos
+
+        # Ao capturar um novo Pokémon (exemplo)
+    for i in range(len(player.pokemons)):
+        nome = player.pokemons[i].nome
+
+        # Verifica se o Pokémon ainda não foi adicionado
+        if nome not in [gif["nome"] for gif in Gifs_ativos]:
+            Gifs_ativos.append({
+                "nome": nome,
+                "frames": Carrega_Gif_pokemon(nome),
+                "frame_atual": 0,
+                "tempo_anterior": pygame.time.get_ticks(),
+                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
+            })
+    for i in range(len(inimigo.pokemons)):
+        nome = inimigo.pokemons[i].nome
+
+        # Verifica se o Pokémon ainda não foi adicionado
+        if nome not in [gif["nome"] for gif in Gifs_ativos]:
+            Gifs_ativos.append({
+                "nome": nome,
+                "frames": Carrega_Gif_pokemon(nome),
+                "frame_atual": 0,
+                "tempo_anterior": pygame.time.get_ticks(),
+                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
+            })
+
+
 estadoPokemon = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -813,7 +781,7 @@ def Partida(tela,estados,relogio):
         print (relogio.get_fps())
 
         pygame.display.update()
-        relogio.tick(80)
+        relogio.tick(120)
 
 def Inicia(tela):
     global Turno
@@ -869,7 +837,7 @@ def Inicia(tela):
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
 
-    ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG = Imagens.Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG)
+    ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG = Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG)
     M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
@@ -888,15 +856,13 @@ def Inicia(tela):
         G.gera_item("energia", Jogador1)
         G.gera_item("energia", Jogador2)
 
-    AddIMGpokemon(Jogador1.pokemons[0])
-    AddIMGpokemon(Jogador2.pokemons[0])
     AddLocalPokemonINIC(Jogador2.pokemons[0],Jogador2)
     AddLocalPokemonINIC(Jogador1.pokemons[0],Jogador1)
 
     player = Jogador1
     inimigo = Jogador2
 
-    VerificaGIF(PokeGifs,player,inimigo)
+    VerificaGIF()
 
     pygame.mixer.music.load('Jogo/Audio/Musicas/Partida.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -1011,7 +977,7 @@ def TelaPokemons(tela,eventos,estados):
             funcao_esquerdo=lambda i=i: seleciona(id_poke),
             funcao_direito=lambda i=i: vizualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
-            tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
+            tecla_esquerda=pygame.K_1, tecla_direita=None, som=selecionaSOM)
         
         if not isinstance(id_poke,str):
             j = 0
@@ -1040,7 +1006,7 @@ def TelaPokemons(tela,eventos,estados):
             funcao_esquerdo=lambda i=i: seleciona(id_poke),
             funcao_direito=lambda i=i: vizualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
-            tecla_esquerda=pygame.K_1, tecla_direita=None, som=clique)
+            tecla_esquerda=pygame.K_1, tecla_direita=None, som=selecionaSOM)
         
         if not isinstance(id_poke,str):
             j = 0

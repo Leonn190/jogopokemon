@@ -93,7 +93,6 @@ def DanoExtra(ataque, pokemon, alvo, player, inimigo, mapa, tela, dano, defesa, 
         # Aplica o dano extra ao alvo
         alvo_final.atacado(dano_extra)
 
-
 def DanoEscalar(ataque, pokemon, alvo, player, inimigo, mapa, tela, dano, defesa, i):
     atributo = ataque["valores"][i]
 

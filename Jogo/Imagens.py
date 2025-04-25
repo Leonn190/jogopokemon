@@ -1,7 +1,207 @@
 import GeradoresVisuais as GV
 
-def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG):
+PokeIcons = {
 
+    "Bulbasaur": lambda: GV.Carregar_Imagem("imagens/pokeicons/bulbasaur.png", (41, 41), "PNG"),
+    "Ivysaur": lambda: GV.Carregar_Imagem("imagens/pokeicons/ivysaur.png", (41, 41), "PNG"),
+    "Venusaur": lambda: GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (41, 41), "PNG"),
+    "Charmander": lambda: GV.Carregar_Imagem("imagens/pokeicons/charmander.png", (41, 41), "PNG"),
+    "Charmeleon": lambda: GV.Carregar_Imagem("imagens/pokeicons/charmeleon.png", (41, 41), "PNG"),
+    "Charizard": lambda: GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41, 41), "PNG"),
+    "Squirtle": lambda: GV.Carregar_Imagem("imagens/pokeicons/squirtle.png", (41, 41), "PNG"),
+    "Wartortle": lambda: GV.Carregar_Imagem("imagens/pokeicons/wartortle.png", (41, 41), "PNG"),
+    "Blastoise": lambda: GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (41, 41), "PNG"),
+    "Machop": lambda: GV.Carregar_Imagem("imagens/pokeicons/machop.png", (41, 41), "PNG"),
+    "Machoke": lambda: GV.Carregar_Imagem("imagens/pokeicons/machoke.png", (41, 41), "PNG"),
+    "Machamp": lambda: GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (41, 41), "PNG"),
+    "Gastly": lambda: GV.Carregar_Imagem("imagens/pokeicons/gastly.png", (41, 41), "PNG"),
+    "Haunter": lambda: GV.Carregar_Imagem("imagens/pokeicons/haunter.png", (41, 41), "PNG"),
+    "Gengar": lambda: GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (41, 41), "PNG"),
+    "Geodude": lambda: GV.Carregar_Imagem("imagens/pokeicons/geodude.png", (41, 41), "PNG"),
+    "Graveler": lambda: GV.Carregar_Imagem("imagens/pokeicons/graveler.png", (41, 41), "PNG"),
+    "Golem": lambda: GV.Carregar_Imagem("imagens/pokeicons/golem.png", (41, 41), "PNG"),
+    "Caterpie": lambda: GV.Carregar_Imagem("imagens/pokeicons/caterpie.png", (41, 41), "PNG"),
+    "Metapod": lambda: GV.Carregar_Imagem("imagens/pokeicons/metapod.png", (41, 41), "PNG"),
+    "Butterfree": lambda: GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (41, 41), "PNG"),
+    "Abra": lambda: GV.Carregar_Imagem("imagens/pokeicons/abra.png", (41, 41), "PNG"),
+    "Kadabra": lambda: GV.Carregar_Imagem("imagens/pokeicons/kadabra.png", (41, 41), "PNG"),
+    "Alakazam": lambda: GV.Carregar_Imagem("imagens/pokeicons/alakazam.png", (41, 41), "PNG"),
+    "Dratini": lambda: GV.Carregar_Imagem("imagens/pokeicons/dratini.png", (41, 41), "PNG"),
+    "Dragonair": lambda: GV.Carregar_Imagem("imagens/pokeicons/dragonair.png", (41, 41), "PNG"),
+    "Dragonite": lambda: GV.Carregar_Imagem("imagens/pokeicons/dragonite.png", (41, 41), "PNG"),
+    "Zorua": lambda: GV.Carregar_Imagem("imagens/pokeicons/zorua.png", (41, 41), "PNG"),
+    "Zoroark": lambda: GV.Carregar_Imagem("imagens/pokeicons/zoroark.png", (41, 41), "PNG"),
+    "Pikachu": lambda: GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (41, 41), "PNG"),
+    "Raichu": lambda: GV.Carregar_Imagem("imagens/pokeicons/raichu.png", (41, 41), "PNG"),
+    "Magikarp": lambda: GV.Carregar_Imagem("imagens/pokeicons/magikarp.png", (41, 41), "PNG"),
+    "Gyarados": lambda: GV.Carregar_Imagem("imagens/pokeicons/gyarados.png", (41, 41), "PNG"),
+    "Jigglypuff": lambda: GV.Carregar_Imagem("imagens/pokeicons/jigglypuff.png", (41, 41), "PNG"),
+    "Wigglytuff": lambda: GV.Carregar_Imagem("imagens/pokeicons/wigglytuff.png", (41, 41), "PNG"),
+    "Magnemite": lambda: GV.Carregar_Imagem("imagens/pokeicons/magnemite.png", (41, 41), "PNG"),
+    "Magneton": lambda: GV.Carregar_Imagem("imagens/pokeicons/magneton.png", (41, 41), "PNG"),
+    "Snorlax": lambda: GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (41, 41), "PNG"),
+    "Aerodactyl": lambda: GV.Carregar_Imagem("imagens/pokeicons/aerodactyl.png", (41, 41), "PNG"),
+    "Jynx": lambda: GV.Carregar_Imagem("imagens/pokeicons/jynx.png", (41, 41), "PNG"),
+    "Mewtwo": lambda: GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (41, 41), "PNG"),
+    "Mega Aerodactyl": lambda: GV.Carregar_Imagem("imagens/pokeicons/aerodactyl.png", (41, 41), "PNG"),
+    "Mega Alakazam": lambda: GV.Carregar_Imagem("imagens/pokeicons/alakazam.png", (41, 41), "PNG"),
+    "Articuno": lambda: GV.Carregar_Imagem("imagens/pokeicons/articuno.png", (41, 41), "PNG"),
+    "Beedrill": lambda: GV.Carregar_Imagem("imagens/pokeicons/beedrill.png", (41, 41), "PNG"),
+    "Mega Beedrill": lambda: GV.Carregar_Imagem("imagens/pokeicons/beedrill.png", (41, 41), "PNG"),
+    "Blastoise Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (41, 41), "PNG"),
+    "Mega Blastoise": lambda: GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (41, 41), "PNG"),
+    "Butterfree Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (41, 41), "PNG"),
+    "Charizard Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41, 41), "PNG"),
+    "Mega Charizard X": lambda: GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41, 41), "PNG"),
+    "Mega Charizard Y": lambda: GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41, 41), "PNG"),
+    "Clefable": lambda: GV.Carregar_Imagem("imagens/pokeicons/clefable.png", (41, 41), "PNG"),
+    "Clefairy": lambda: GV.Carregar_Imagem("imagens/pokeicons/clefairy.png", (41, 41), "PNG"),
+    "Cloyster": lambda: GV.Carregar_Imagem("imagens/pokeicons/cloyster.png", (41, 41), "PNG"),
+    "Cubone": lambda: GV.Carregar_Imagem("imagens/pokeicons/cubone.png", (41, 41), "PNG"),
+    "Gengar Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (41, 41), "PNG"),
+    "Mega Gengar": lambda: GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (41, 41), "PNG"),
+    "Golem-alola": lambda: GV.Carregar_Imagem("imagens/pokeicons/golem.png", (41, 41), "PNG"),
+    "Mega Gyarados": lambda: GV.Carregar_Imagem("imagens/pokeicons/gyarados.png", (41, 41), "PNG"),
+    "Kakuna": lambda: GV.Carregar_Imagem("imagens/pokeicons/kakuna.png", (41, 41), "PNG"),
+    "Machamp Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (41, 41), "PNG"),
+    "Marowak": lambda: GV.Carregar_Imagem("imagens/pokeicons/marowak.png", (41, 41), "PNG"),
+    "Meowth": lambda: GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (41, 41), "PNG"),
+    "Meowth Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (41, 41), "PNG"),
+    "Mega Mewtwo X": lambda: GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (41, 41), "PNG"),
+    "Mega Mewtwo Y": lambda: GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (41, 41), "PNG"),
+    "Moltres": lambda: GV.Carregar_Imagem("imagens/pokeicons/moltres.png", (41, 41), "PNG"),
+    "Persian": lambda: GV.Carregar_Imagem("imagens/pokeicons/persian.png", (41, 41), "PNG"),
+    "Pikachu Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (41, 41), "PNG"),
+    "Pinsir": lambda: GV.Carregar_Imagem("imagens/pokeicons/pinsir.png", (41, 41), "PNG"),
+    "Mega Pinsir": lambda: GV.Carregar_Imagem("imagens/pokeicons/pinsir.png", (41, 41), "PNG"),
+    "Raticate": lambda: GV.Carregar_Imagem("imagens/pokeicons/raticate.png", (41, 41), "PNG"),
+    "Rattata": lambda: GV.Carregar_Imagem("imagens/pokeicons/rattata.png", (41, 41), "PNG"),
+    "Shellder": lambda: GV.Carregar_Imagem("imagens/pokeicons/shellder.png", (41, 41), "PNG"),
+    "Snorlax Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (41, 41), "PNG"),
+    "Venusaur Vmax": lambda: GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (41, 41), "PNG"),
+    "Zapdos": lambda: GV.Carregar_Imagem("imagens/pokeicons/zapdos.png", (41, 41), "PNG"),
+    "Weedle": lambda: GV.Carregar_Imagem("imagens/pokeicons/weedle.png", (41, 41), "PNG"),
+    "Charizard V": lambda: GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41, 41), "PNG"),
+    "Blastoise V": lambda: GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (41, 41), "PNG"),
+    "Venusaur V": lambda: GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (41, 41), "PNG"),
+    "Machamp V": lambda: GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (41, 41), "PNG"),
+    "Gengar V": lambda: GV.Carregar_Imagem("imagens/pokeicons/machoke.png", (41, 41), "PNG"),
+    "Butterfree V": lambda: GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (41, 41), "PNG"),
+    "Pikachu V": lambda: GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (41, 41), "PNG"),
+    "Meowth V": lambda: GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (41, 41), "PNG"),
+    "Snorlax V": lambda: GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (41, 41), "PNG")
+}
+
+PokeGifs = {
+    "Bulbasaur": lambda: GV.carregar_frames('imagens/gifs/bulbasaur_frames'),
+    "Ivysaur": lambda: GV.carregar_frames('imagens/gifs/ivysaur_frames'),
+    "Venusaur": lambda: GV.carregar_frames('imagens/gifs/venusaur_frames'),
+    "Charmander": lambda: GV.carregar_frames('imagens/gifs/charmander_frames'),
+    "Charmeleon": lambda: GV.carregar_frames('imagens/gifs/charmeleon_frames'),
+    "Charizard": lambda: GV.carregar_frames('imagens/gifs/charizard_frames'),
+    "Squirtle": lambda: GV.carregar_frames('imagens/gifs/squirtle_frames'),
+    "Wartortle": lambda: GV.carregar_frames('imagens/gifs/wartortle_frames'),
+    "Blastoise": lambda: GV.carregar_frames('imagens/gifs/blastoise_frames'),
+    "Machop": lambda: GV.carregar_frames('imagens/gifs/machop_frames'),
+    "Machoke": lambda: GV.carregar_frames('imagens/gifs/machoke_frames'),
+    "Machamp": lambda: GV.carregar_frames('imagens/gifs/machamp_frames'),
+    "Gastly": lambda: GV.carregar_frames('imagens/gifs/gastly_frames'),
+    "Haunter": lambda: GV.carregar_frames('imagens/gifs/haunter_frames'),
+    "Gengar": lambda: GV.carregar_frames('imagens/gifs/gengar_frames'),
+    "Geodude": lambda: GV.carregar_frames('imagens/gifs/geodude_frames'),
+    "Graveler": lambda: GV.carregar_frames('imagens/gifs/graveler_frames'),
+    "Golem": lambda: GV.carregar_frames('imagens/gifs/golem_frames'),
+    "Caterpie": lambda: GV.carregar_frames('imagens/gifs/caterpie_frames'),
+    "Metapod": lambda: GV.carregar_frames('imagens/gifs/metapod_frames'),
+    "Butterfree": lambda: GV.carregar_frames('imagens/gifs/butterfree_frames'),
+    "Abra": lambda: GV.carregar_frames('imagens/gifs/abra_frames'),
+    "Kadabra": lambda: GV.carregar_frames('imagens/gifs/kadabra_frames'),
+    "Alakazam": lambda: GV.carregar_frames('imagens/gifs/alakazam_frames'),
+    "Dratini": lambda: GV.carregar_frames('imagens/gifs/dratini_frames'),
+    "Dragonair": lambda: GV.carregar_frames('imagens/gifs/dragonair_frames'),
+    "Dragonite": lambda: GV.carregar_frames('imagens/gifs/dragonite_frames'),
+    "Zorua": lambda: GV.carregar_frames('imagens/gifs/zorua_frames'),
+    "Zoroark": lambda: GV.carregar_frames('imagens/gifs/zoroark_frames'),
+    "Pikachu": lambda: GV.carregar_frames('imagens/gifs/pikachu_frames'),
+    "Raichu": lambda: GV.carregar_frames('imagens/gifs/raichu_frames'),
+    "Magikarp": lambda: GV.carregar_frames('imagens/gifs/magikarp_frames'),
+    "Gyarados": lambda: GV.carregar_frames('imagens/gifs/gyarados_frames'),
+    "Jigglypuff": lambda: GV.carregar_frames('imagens/gifs/jigglypuff_frames'),
+    "Wigglytuff": lambda: GV.carregar_frames('imagens/gifs/wigglytuff_frames'),
+    "Magnemite": lambda: GV.carregar_frames('imagens/gifs/magnemite_frames'),
+    "Magneton": lambda: GV.carregar_frames('imagens/gifs/magneton_frames'),
+    "Snorlax": lambda: GV.carregar_frames('imagens/gifs/snorlax_frames'),
+    "Aerodactyl": lambda: GV.carregar_frames('imagens/gifs/aerodactyl_frames'),
+    "Jynx": lambda: GV.carregar_frames('imagens/gifs/jynx_frames'),
+    "Mewtwo": lambda: GV.carregar_frames('imagens/gifs/mewtwo_frames'),
+    "Mega Aerodactyl": lambda: GV.carregar_frames('imagens/gifs/aerodactyl-mega_frames'),
+    "Mega Alakazam": lambda: GV.carregar_frames('imagens/gifs/alakazam-mega_frames'),
+    "Articuno": lambda: GV.carregar_frames('imagens/gifs/articuno_frames'),
+    "Beedrill": lambda: GV.carregar_frames('imagens/gifs/beedrill_frames'),
+    "Mega Beedrill": lambda: GV.carregar_frames('imagens/gifs/beedrill-mega_frames'),
+    "Blastoise Vmax": lambda: GV.carregar_frames('imagens/gifs/blastoise-gigantamax_frames'),
+    "Mega Blastoise": lambda: GV.carregar_frames('imagens/gifs/blastoise-mega_frames'),
+    "Butterfree Vmax": lambda: GV.carregar_frames('imagens/gifs/butterfree-gigantamax_frames'),
+    "Charizard Vmax": lambda: GV.carregar_frames('imagens/gifs/charizard-gigantamax_frames'),
+    "Mega Charizard X": lambda: GV.carregar_frames('imagens/gifs/charizard-megax_frames'),
+    "Mega Charizard Y": lambda: GV.carregar_frames('imagens/gifs/charizard-megay_frames'),
+    "Clefable": lambda: GV.carregar_frames('imagens/gifs/clefable_frames'),
+    "Clefairy": lambda: GV.carregar_frames('imagens/gifs/clefairy_frames'),
+    "Cloyster": lambda: GV.carregar_frames('imagens/gifs/cloyster_frames'),
+    "Cubone": lambda: GV.carregar_frames('imagens/gifs/cubone_frames'),
+    "Gengar Vmax": lambda: GV.carregar_frames('imagens/gifs/gengar-gigantamax_frames'),
+    "Mega Gengar": lambda: GV.carregar_frames('imagens/gifs/gengar-mega_frames'),
+    "Golem-Alola": lambda: GV.carregar_frames('imagens/gifs/golem-alola_frames'),
+    "Mega Gyarados": lambda: GV.carregar_frames('imagens/gifs/gyarados-mega_frames'),
+    "Kakuna": lambda: GV.carregar_frames('imagens/gifs/kakuna_frames'),
+    "Machamp Vmax": lambda: GV.carregar_frames('imagens/gifs/machamp-gigantamax_frames'),
+    "Marowak": lambda: GV.carregar_frames('imagens/gifs/marowak_frames'),
+    "Meowth": lambda: GV.carregar_frames('imagens/gifs/meowth_frames'),
+    "Meowth Vmax": lambda: GV.carregar_frames('imagens/gifs/meowth-gigantamax_frames'),
+    "Mega Mewtwo X": lambda: GV.carregar_frames('imagens/gifs/mewtwo-megax_frames'),
+    "Mega Mewtwo Y": lambda: GV.carregar_frames('imagens/gifs/mewtwo-megay_frames'),
+    "Moltres": lambda: GV.carregar_frames('imagens/gifs/moltres_frames'),
+    "Persian": lambda: GV.carregar_frames('imagens/gifs/persian_frames'),
+    "Pikachu Vmax": lambda: GV.carregar_frames('imagens/gifs/pikachu-gigantamax_frames'),
+    "Pinsir": lambda: GV.carregar_frames('imagens/gifs/pinsir_frames'),
+    "Mega Pinsir": lambda: GV.carregar_frames('imagens/gifs/pinsir-mega_frames'),
+    "Raticate": lambda: GV.carregar_frames('imagens/gifs/raticate_frames'),
+    "Rattata": lambda: GV.carregar_frames('imagens/gifs/rattata_frames'),
+    "Shellder": lambda: GV.carregar_frames('imagens/gifs/shellder_frames'),
+    "Snorlax Vmax": lambda: GV.carregar_frames('imagens/gifs/snorlax-gigantamax_frames'),
+    "Venusaur Vmax": lambda: GV.carregar_frames('imagens/gifs/venusaur-gigantamax_frames'),
+    "Zapdos": lambda: GV.carregar_frames('imagens/gifs/zapdos_frames'),
+    "Weedle": lambda: GV.carregar_frames('imagens/gifs/weedle_frames'),
+    "Charizard V": lambda: GV.carregar_frames('imagens/gifs/charizard_frames'),
+    "Blastoise V": lambda: GV.carregar_frames('imagens/gifs/blastoise_frames'),
+    "Venusaur V": lambda: GV.carregar_frames('imagens/gifs/venusaur_frames'),
+    "Machamp V": lambda: GV.carregar_frames('imagens/gifs/machamp_frames'),
+    "Gengar V": lambda: GV.carregar_frames('imagens/gifs/machoke_frames'),
+    "Butterfree V": lambda: GV.carregar_frames('imagens/gifs/butterfree_frames'),
+    "Pikachu V": lambda: GV.carregar_frames('imagens/gifs/pikachu_frames'),
+    "Meowth V": lambda: GV.carregar_frames('imagens/gifs/meowth_frames'),
+    "Snorlax V": lambda: GV.carregar_frames('imagens/gifs/snorlax_frames'),
+    "Charizard Vstar": lambda: GV.carregar_frames('imagens/gifs/charizard_frames'),
+    "Blastoise Vstar": lambda: GV.carregar_frames('imagens/gifs/blastoise_frames'),
+    "Venusaur Vstar": lambda: GV.carregar_frames('imagens/gifs/venusaur_frames'),
+    "Machamp Vstar": lambda: GV.carregar_frames('imagens/gifs/machamp_frames'),
+    "Gengar Vstar": lambda: GV.carregar_frames('imagens/gifs/machoke_frames'),
+    "Butterfree Vstar": lambda: GV.carregar_frames('imagens/gifs/butterfree_frames'),
+    "Pikachu Vstar": lambda: GV.carregar_frames('imagens/gifs/pikachu_frames'),
+    "Meowth Vstar": lambda: GV.carregar_frames('imagens/gifs/meowth_frames'),
+    "Snorlax Vstar": lambda: GV.carregar_frames('imagens/gifs/snorlax_frames')
+}
+
+
+def Carrega_Icone_pokemon(nome):
+    imagem = PokeIcons[nome]()
+    return imagem
+
+def Carrega_Gif_pokemon(nome):
+    frames = PokeGifs[nome]()
+    return frames
+
+def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG):
 
     RegeneraçãoIMG = GV.Carregar_Imagem("imagens/icones/regeneraçao.png", (24, 24), "PNG")
     ConfusoIMG = GV.Carregar_Imagem("imagens/icones/confuso.png", (24, 24), "PNG")
@@ -40,147 +240,6 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     PortoFundo = GV.Carregar_Imagem("imagens/fundos/Porto.jpg", (1920, 1080))
     SkyloftFundo = GV.Carregar_Imagem("imagens/fundos/Skyloft.jpg", (1920, 1080))
     AuromaFundo = GV.Carregar_Imagem("imagens/fundos/Auroma.jpg", (1920, 1080))
-
-    Gbulbasaur = GV.carregar_frames('imagens/gifs/bulbasaur_frames')
-    Givysaur = GV.carregar_frames('imagens/gifs/ivysaur_frames')
-    Gvenusaur = GV.carregar_frames('imagens/gifs/venusaur_frames')
-    Gcharmander = GV.carregar_frames('imagens/gifs/charmander_frames')
-    Gcharmeleon = GV.carregar_frames('imagens/gifs/charmeleon_frames')
-    Gcharizard = GV.carregar_frames('imagens/gifs/charizard_frames')
-    Gsquirtle = GV.carregar_frames('imagens/gifs/squirtle_frames')
-    Gwartortle = GV.carregar_frames('imagens/gifs/wartortle_frames')
-    Gblastoise = GV.carregar_frames('imagens/gifs/blastoise_frames')
-    Gmachop = GV.carregar_frames('imagens/gifs/machop_frames')
-    Gmachoke = GV.carregar_frames('imagens/gifs/machoke_frames')
-    Gmachamp = GV.carregar_frames('imagens/gifs/machamp_frames')
-    Ggastly = GV.carregar_frames('imagens/gifs/gastly_frames')
-    Ghaunter = GV.carregar_frames('imagens/gifs/haunter_frames')
-    Ggengar = GV.carregar_frames('imagens/gifs/gengar_frames')
-    Ggeodude = GV.carregar_frames('imagens/gifs/geodude_frames')
-    Ggraveler = GV.carregar_frames('imagens/gifs/graveler_frames')
-    Ggolem = GV.carregar_frames('imagens/gifs/golem_frames')
-    Gcaterpie = GV.carregar_frames('imagens/gifs/caterpie_frames')
-    Gmetapod = GV.carregar_frames('imagens/gifs/metapod_frames')
-    Gbutterfree = GV.carregar_frames('imagens/gifs/butterfree_frames')
-    Gabra = GV.carregar_frames('imagens/gifs/abra_frames')
-    Gkadabra = GV.carregar_frames('imagens/gifs/kadabra_frames')
-    Galakazam = GV.carregar_frames('imagens/gifs/alakazam_frames')
-    Gdratini = GV.carregar_frames('imagens/gifs/dratini_frames')
-    Gdragonair = GV.carregar_frames('imagens/gifs/dragonair_frames')
-    Gdragonite = GV.carregar_frames('imagens/gifs/dragonite_frames')
-    Gzorua = GV.carregar_frames('imagens/gifs/zorua_frames')
-    Gzoroark = GV.carregar_frames('imagens/gifs/zoroark_frames')
-    Gpikachu = GV.carregar_frames('imagens/gifs/pikachu_frames')
-    Graichu = GV.carregar_frames('imagens/gifs/raichu_frames')
-    Gmagikarp = GV.carregar_frames('imagens/gifs/magikarp_frames')
-    Ggyarados = GV.carregar_frames('imagens/gifs/gyarados_frames')
-    Gjigglypuff = GV.carregar_frames('imagens/gifs/jigglypuff_frames')
-    Gwigglytuff = GV.carregar_frames('imagens/gifs/wigglytuff_frames')
-    Gmagnemite = GV.carregar_frames('imagens/gifs/magnemite_frames')
-    Gmagneton = GV.carregar_frames('imagens/gifs/magneton_frames')
-    Gsnorlax = GV.carregar_frames('imagens/gifs/snorlax_frames')
-    Gaerodactyl = GV.carregar_frames('imagens/gifs/aerodactyl_frames')
-    Gjynx = GV.carregar_frames('imagens/gifs/jynx_frames')
-    Gmewtwo = GV.carregar_frames('imagens/gifs/mewtwo_frames')
-    Gmewtwo = GV.carregar_frames('imagens/gifs/mewtwo_frames')
-    Gaerodactyl_mega = GV.carregar_frames('imagens/gifs/aerodactyl-mega_frames')
-    Galakazam_mega = GV.carregar_frames('imagens/gifs/alakazam-mega_frames')
-    Garticuno = GV.carregar_frames('imagens/gifs/articuno_frames')
-    Gbeedrill = GV.carregar_frames('imagens/gifs/beedrill_frames')
-    Gbeedrill_mega = GV.carregar_frames('imagens/gifs/beedrill-mega_frames')
-    Gblastoise_gigantamax = GV.carregar_frames('imagens/gifs/blastoise-gigantamax_frames')
-    Gblastoise_mega = GV.carregar_frames('imagens/gifs/blastoise-mega_frames')
-    Gbutterfree_gmax = GV.carregar_frames('imagens/gifs/butterfree-gigantamax_frames')
-    Gcharizard_gmax = GV.carregar_frames('imagens/gifs/charizard-gigantamax_frames')
-    Gcharizard_megax = GV.carregar_frames('imagens/gifs/charizard-megax_frames')
-    Gcharizard_megay = GV.carregar_frames('imagens/gifs/charizard-megay_frames')
-    Gclefable = GV.carregar_frames('imagens/gifs/clefable_frames')
-    Gclefairy = GV.carregar_frames('imagens/gifs/clefairy_frames')
-    Gcloyster = GV.carregar_frames('imagens/gifs/cloyster_frames')
-    Gcubone = GV.carregar_frames('imagens/gifs/cubone_frames')
-    Ggengar_gigantamax = GV.carregar_frames('imagens/gifs/gengar-gigantamax_frames')
-    Ggengar_mega = GV.carregar_frames('imagens/gifs/gengar-mega_frames')
-    Ggolem_alola = GV.carregar_frames('imagens/gifs/golem-mega_frames')
-    Ggyarados_mega = GV.carregar_frames('imagens/gifs/gyarados-mega_frames')
-    Gweedle = GV.carregar_frames('imagens/gifs/weedle_frames')
-    Gkakuna = GV.carregar_frames('imagens/gifs/kakuna_frames')
-    Gmachamp_gigantamax = GV.carregar_frames('imagens/gifs/machamp-gigantamax_frames')
-    Gmarowak = GV.carregar_frames('imagens/gifs/marowak_frames')
-    Gmeowth = GV.carregar_frames('imagens/gifs/meowth_frames')
-    Gmeowth_gigantamax = GV.carregar_frames('imagens/gifs/meowth-gigantamax_frames')
-    Gmewtwo_megax = GV.carregar_frames('imagens/gifs/mewtwo-megax_frames')
-    Gmewtwo_megay = GV.carregar_frames('imagens/gifs/mewtwo-megay_frames')
-    Gmoltres = GV.carregar_frames('imagens/gifs/moltres_frames')
-    Gzapdos = GV.carregar_frames('imagens/gifs/zapdos_frames')
-    Gpersian = GV.carregar_frames('imagens/gifs/persian_frames')
-    Gpikachu_gigantamax = GV.carregar_frames('imagens/gifs/pikachu-gigantamax_frames')
-    Gpinsir = GV.carregar_frames('imagens/gifs/pinsir_frames')
-    Gpinsir_mega = GV.carregar_frames('imagens/gifs/pinsir-mega_frames')
-    Graticate = GV.carregar_frames('imagens/gifs/raticate_frames')
-    Grattata = GV.carregar_frames('imagens/gifs/rattata_frames')
-    Gshellder = GV.carregar_frames('imagens/gifs/shellder_frames')
-    Gsnorlax_gigantamax = GV.carregar_frames('imagens/gifs/snorlax-gigantamax_frames')
-    Gvenusaur_gigantamax = GV.carregar_frames('imagens/gifs/venusaur-gigantamax_frames')
-
-    IbulbasaurIMG = GV.Carregar_Imagem("imagens/pokeicons/bulbasaur.png", (41,41), "PNG")
-    IivysaurIMG = GV.Carregar_Imagem("imagens/pokeicons/ivysaur.png", (41,41), "PNG")
-    IvenusaurIMG = GV.Carregar_Imagem("imagens/pokeicons/venusaur.png", (41,41), "PNG")
-    IcharmanderIMG = GV.Carregar_Imagem("imagens/pokeicons/charmander.png", (41,41), "PNG")
-    IcharmeleonIMG = GV.Carregar_Imagem("imagens/pokeicons/charmeleon.png", (41,41), "PNG")
-    IcharizardIMG = GV.Carregar_Imagem("imagens/pokeicons/charizard.png", (41,41), "PNG")
-    IsquirtleIMG = GV.Carregar_Imagem("imagens/pokeicons/squirtle.png", (41,41), "PNG")
-    IwartortleIMG = GV.Carregar_Imagem("imagens/pokeicons/wartortle.png", (41,41), "PNG")
-    IblastoiseIMG = GV.Carregar_Imagem("imagens/pokeicons/blastoise.png", (41,41), "PNG")
-    ImachopIMG = GV.Carregar_Imagem("imagens/pokeicons/machop.png", (41,41), "PNG")
-    ImachokeIMG = GV.Carregar_Imagem("imagens/pokeicons/machoke.png", (41,41), "PNG")
-    ImachampIMG = GV.Carregar_Imagem("imagens/pokeicons/machamp.png", (41,41), "PNG")
-    IgastlyIMG = GV.Carregar_Imagem("imagens/pokeicons/gastly.png", (41,41), "PNG")
-    IhaunterIMG = GV.Carregar_Imagem("imagens/pokeicons/haunter.png", (41,41), "PNG")
-    IgengarIMG = GV.Carregar_Imagem("imagens/pokeicons/gengar.png", (41,41), "PNG")
-    IgeodudeIMG = GV.Carregar_Imagem("imagens/pokeicons/geodude.png", (41,41), "PNG")
-    IgravelerIMG = GV.Carregar_Imagem("imagens/pokeicons/graveler.png", (41,41), "PNG")
-    IgolemIMG = GV.Carregar_Imagem("imagens/pokeicons/golem.png", (41,41), "PNG")
-    IcaterpieIMG = GV.Carregar_Imagem("imagens/pokeicons/caterpie.png", (41,41), "PNG")
-    ImetapodIMG = GV.Carregar_Imagem("imagens/pokeicons/metapod.png", (41,41), "PNG")
-    IbutterfreeIMG = GV.Carregar_Imagem("imagens/pokeicons/butterfree.png", (41,41), "PNG")
-    IabraIMG = GV.Carregar_Imagem("imagens/pokeicons/abra.png", (41,41), "PNG")
-    IkadabraIMG = GV.Carregar_Imagem("imagens/pokeicons/kadabra.png", (41,41), "PNG")
-    IalakazamIMG = GV.Carregar_Imagem("imagens/pokeicons/alakazam.png", (41,41), "PNG")
-    IdratiniIMG = GV.Carregar_Imagem("imagens/pokeicons/dratini.png", (41,41), "PNG")
-    IdragonairIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonair.png", (41,41), "PNG")
-    IdragoniteIMG = GV.Carregar_Imagem("imagens/pokeicons/dragonite.png", (41,41), "PNG")
-    IzoruaIMG = GV.Carregar_Imagem("imagens/pokeicons/zorua.png", (41,41), "PNG")
-    IzoroarkIMG = GV.Carregar_Imagem("imagens/pokeicons/zoroark.png", (41,41), "PNG")
-    IpikachuIMG = GV.Carregar_Imagem("imagens/pokeicons/pikachu.png", (41,41), "PNG")
-    IraichuIMG = GV.Carregar_Imagem("imagens/pokeicons/raichu.png", (41,41), "PNG")
-    ImagikarpIMG = GV.Carregar_Imagem("imagens/pokeicons/magikarp.png", (41,41), "PNG")
-    IgyaradosIMG = GV.Carregar_Imagem("imagens/pokeicons/gyarados.png", (41,41), "PNG")
-    IjigglypuffIMG = GV.Carregar_Imagem("imagens/pokeicons/jigglypuff.png", (41,41), "PNG")
-    IwigglytuffIMG = GV.Carregar_Imagem("imagens/pokeicons/wigglytuff.png", (41,41), "PNG")
-    ImagnemiteIMG = GV.Carregar_Imagem("imagens/pokeicons/magnemite.png", (41,41), "PNG")
-    ImagnetonIMG = GV.Carregar_Imagem("imagens/pokeicons/magneton.png", (41,41), "PNG")
-    IsnorlaxIMG = GV.Carregar_Imagem("imagens/pokeicons/snorlax.png", (41,41), "PNG")
-    IaerodactylIMG = GV.Carregar_Imagem("imagens/pokeicons/aerodactyl.png", (41,41), "PNG")
-    IjynxIMG = GV.Carregar_Imagem("imagens/pokeicons/jynx.png", (41,41), "PNG")
-    ImewtwoIMG = GV.Carregar_Imagem("imagens/pokeicons/mewtwo.png", (41,41), "PNG")
-    IarticunoIMG = GV.Carregar_Imagem("imagens/pokeicons/articuno.png", (41,41), "PNG")
-    IbeedrillIMG = GV.Carregar_Imagem("imagens/pokeicons/beedrill.png", (41,41), "PNG")
-    IclefableIMG = GV.Carregar_Imagem("imagens/pokeicons/clefable.png", (41,41), "PNG")
-    IclefairyIMG = GV.Carregar_Imagem("imagens/pokeicons/clefairy.png", (41,41), "PNG")
-    IcloysterIMG = GV.Carregar_Imagem("imagens/pokeicons/cloyster.png", (41,41), "PNG")
-    IcuboneIMG = GV.Carregar_Imagem("imagens/pokeicons/cubone.png", (41,41), "PNG")
-    IkakunaIMG = GV.Carregar_Imagem("imagens/pokeicons/kakuna.png", (41,41), "PNG")
-    ImarowakIMG = GV.Carregar_Imagem("imagens/pokeicons/marowak.png", (41,41), "PNG")
-    ImeowthIMG = GV.Carregar_Imagem("imagens/pokeicons/meowth.png", (41,41), "PNG")
-    ImoltresIMG = GV.Carregar_Imagem("imagens/pokeicons/moltres.png", (41,41), "PNG")
-    IpersianIMG = GV.Carregar_Imagem("imagens/pokeicons/persian.png", (41,41), "PNG")
-    IpinsirIMG = GV.Carregar_Imagem("imagens/pokeicons/pinsir.png", (41,41), "PNG")
-    IraticateIMG = GV.Carregar_Imagem("imagens/pokeicons/raticate.png", (41,41), "PNG")
-    IrattataIMG = GV.Carregar_Imagem("imagens/pokeicons/rattata.png", (41,41), "PNG")
-    IshellderIMG = GV.Carregar_Imagem("imagens/pokeicons/shellder.png", (41,41), "PNG")
-    IzapdosIMG = GV.Carregar_Imagem("imagens/pokeicons/zapdos.png", (41,41), "PNG")
-    IweedleIMG = GV.Carregar_Imagem("imagens/pokeicons/weedle.png", (41,41), "PNG")
-
 
     MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (88, 88), "PNG")
     McharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (88, 88), "PNG")
@@ -332,199 +391,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "metal": Emetal,
     "sombrio": Esombrio
 }
-
-    PokeGifs = {
-    "Bulbasaur": Gbulbasaur,
-    "Ivysaur": Givysaur,
-    "Venusaur": Gvenusaur,
-    "Charmander": Gcharmander,
-    "Charmeleon": Gcharmeleon,
-    "Charizard": Gcharizard,
-    "Squirtle": Gsquirtle,
-    "Wartortle": Gwartortle,
-    "Blastoise": Gblastoise,
-    "Machop": Gmachop,
-    "Machoke": Gmachoke,
-    "Machamp": Gmachamp,
-    "Gastly": Ggastly,
-    "Haunter": Ghaunter,
-    "Gengar": Ggengar,
-    "Geodude": Ggeodude,
-    "Graveler": Ggraveler,
-    "Golem": Ggolem,
-    "Caterpie": Gcaterpie,
-    "Metapod": Gmetapod,
-    "Butterfree": Gbutterfree,
-    "Abra": Gabra,
-    "Kadabra": Gkadabra,
-    "Alakazam": Galakazam,
-    "Dratini": Gdratini,
-    "Dragonair": Gdragonair,
-    "Dragonite": Gdragonite,
-    "Zorua": Gzorua,
-    "Zoroark": Gzoroark,
-    "Pikachu": Gpikachu,
-    "Raichu": Graichu,
-    "Magikarp": Gmagikarp,
-    "Gyarados": Ggyarados,
-    "Jigglypuff": Gjigglypuff,
-    "Wigglytuff": Gwigglytuff,
-    "Magnemite": Gmagnemite,
-    "Magneton": Gmagneton,
-    "Snorlax": Gsnorlax,
-    "Aerodactyl": Gaerodactyl,
-    "Jynx": Gjynx,
-    "Mewtwo": Gmewtwo,
-    "Mega Aerodactyl": Gaerodactyl_mega,
-    "Mega Alakazam": Galakazam_mega,
-    "Articuno": Garticuno,
-    "Beedrill": Gbeedrill,
-    "Mega Beedrill": Gbeedrill_mega,
-    "Blastoise Vmax": Gblastoise_gigantamax,
-    "Mega Blastoise": Gblastoise_mega,
-    "Butterfree Vmax": Gbutterfree_gmax,
-    "Charizard Vmax": Gcharizard_gmax,
-    "Mega Charizard X": Gcharizard_megax,
-    "Mega Charizard Y": Gcharizard_megay,
-    "Clefable": Gclefable,
-    "Clefairy": Gclefairy,
-    "Cloyster": Gcloyster,
-    "Cubone": Gcubone,
-    "Gengar Vmax": Ggengar_gigantamax,
-    "Mega Gengar": Ggengar_mega,
-    "Golem-Alola": Ggolem_alola,
-    "Mega Gyarados": Ggyarados_mega,
-    "Kakuna": Gkakuna,
-    "Machamp Vmax": Gmachamp_gigantamax,
-    "Marowak": Gmarowak,
-    "Meowth": Gmeowth,
-    "Meowth Vmax": Gmeowth_gigantamax,
-    "Mega Mewtwo X": Gmewtwo_megax,
-    "Mega Mewtwo Y": Gmewtwo_megay,
-    "Moltres": Gmoltres,
-    "Persian": Gpersian,
-    "Pikachu Vmax": Gpikachu_gigantamax,
-    "Pinsir": Gpinsir,
-    "Mega Pinsir": Gpinsir_mega,
-    "Raticate": Graticate,
-    "Rattata": Grattata,
-    "Shellder": Gshellder,
-    "Snorlax Vmax": Gsnorlax_gigantamax,
-    "Venusaur Vmax": Gvenusaur_gigantamax,
-    "Zapdos": Gzapdos,
-    "Weedle": Gweedle,
-    "Charizard V": Gcharizard,
-    "Blastoise V": Gblastoise,
-    "Venusaur V": Gvenusaur,
-    "Machamp V": Gmachamp,
-    "Gengar V": Gmachoke,
-    "Butterfree V": Gbutterfree,
-    "Pikachu V": Gpikachu,
-    "Meowth V": Gmeowth,
-    "Snorlax V": Gsnorlax,
-    "Charizard Vstar": Gcharizard,
-    "Blastoise Vstar": Gblastoise,
-    "Venusaur Vstar": Gvenusaur,
-    "Machamp Vstar": Gmachamp,
-    "Gengar Vstar": Gmachoke,
-    "Butterfree Vstar": Gbutterfree,
-    "Pikachu Vstar": Gpikachu,
-    "Meowth Vstar": Gmeowth,
-    "Snorlax Vstar": Gsnorlax
-    }
-
-    ImagensPokemonIcons = {
-    "Bulbasaur": IbulbasaurIMG,
-    "Ivysaur": IivysaurIMG,
-    "Venusaur": IvenusaurIMG,
-    "Charmander": IcharmanderIMG,
-    "Charmeleon": IcharmeleonIMG,
-    "Charizard": IcharizardIMG,
-    "Squirtle": IsquirtleIMG,
-    "Wartortle": IwartortleIMG,
-    "Blastoise": IblastoiseIMG,
-    "Machop": ImachopIMG,
-    "Machoke": ImachokeIMG,
-    "Machamp": ImachampIMG,
-    "Gastly": IgastlyIMG,
-    "Haunter": IhaunterIMG,
-    "Gengar": IgengarIMG,
-    "Geodude": IgeodudeIMG,
-    "Graveler": IgravelerIMG,
-    "Golem": IgolemIMG,
-    "Caterpie": IcaterpieIMG,
-    "Metapod": ImetapodIMG,
-    "Butterfree": IbutterfreeIMG,
-    "Abra": IabraIMG,
-    "Kadabra": IkadabraIMG,
-    "Alakazam": IalakazamIMG,
-    "Dratini": IdratiniIMG,
-    "Dragonair": IdragonairIMG,
-    "Dragonite": IdragoniteIMG,
-    "Zorua": IzoruaIMG,
-    "Zoroark": IzoroarkIMG,
-    "Pikachu": IpikachuIMG,
-    "Raichu": IraichuIMG,
-    "Magikarp": ImagikarpIMG,
-    "Gyarados": IgyaradosIMG,
-    "Jigglypuff": IjigglypuffIMG,
-    "Wigglytuff": IwigglytuffIMG,
-    "Magnemite": ImagnemiteIMG,
-    "Magneton": ImagnetonIMG,
-    "Snorlax": IsnorlaxIMG,
-    "Aerodactyl": IaerodactylIMG,
-    "Jynx": IjynxIMG,
-    "Mewtwo": ImewtwoIMG,
-    "Mega Aerodactyl": IaerodactylIMG,
-    "Mega Alakazam": IalakazamIMG,
-    "Articuno": IarticunoIMG,
-    "Beedrill": IbeedrillIMG,
-    "Mega Beedrill": IbeedrillIMG,
-    "Blastoise Vmax": IblastoiseIMG,
-    "Mega Blastoise": IblastoiseIMG,
-    "Butterfree Vmax": IbutterfreeIMG,
-    "Charizard Vmax": IcharizardIMG,
-    "Mega Charizard X": IcharizardIMG,
-    "Mega Charizard Y": IcharizardIMG,
-    "Clefable": IclefableIMG,
-    "Clefairy": IclefairyIMG,
-    "Cloyster": IcloysterIMG,
-    "Cubone": IcuboneIMG,
-    "Gengar Vmax": IgengarIMG,
-    "Mega Gengar": IgengarIMG,
-    "Golem-alola": IgolemIMG,
-    "Mega Gyarados": IgyaradosIMG,
-    "Kakuna": IkakunaIMG,
-    "Machamp Vmax": ImachampIMG,
-    "Marowak": ImarowakIMG,
-    "Meowth": ImeowthIMG,
-    "Meowth Vmax": ImeowthIMG,
-    "Mega Mewtwo X": ImewtwoIMG,
-    "Mega Mewtwo Y": ImewtwoIMG,
-    "Moltres": ImoltresIMG,
-    "Persian": IpersianIMG,
-    "Pikachu Vmax": IpikachuIMG,
-    "Pinsir": IpinsirIMG,
-    "Mega Pinsir": IpinsirIMG,
-    "Raticate": IraticateIMG,
-    "Rattata": IrattataIMG,
-    "Shellder": IshellderIMG,
-    "Snorlax Vmax": IsnorlaxIMG,
-    "Venusaur Vmax": IvenusaurIMG,
-    "Zapdos": IzapdosIMG,
-    "Weedle": IweedleIMG,
-    "Charizard V": IcharizardIMG,
-    "Blastoise V": IblastoiseIMG,
-    "Venusaur V": IvenusaurIMG,
-    "Machamp V": ImachampIMG,
-    "Gengar V": ImachokeIMG,
-    "Butterfree V": IbutterfreeIMG,
-    "Pikachu V": IpikachuIMG,
-    "Meowth V": ImeowthIMG,
-    "Snorlax V": IsnorlaxIMG
-
-}
-
+    
     ImagensPokemonCentro = {
     "Bulbasaur": MbulbasaurIMG,
     "Charmander": McharmanderIMG,
@@ -603,3 +470,4 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
     return ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
+
