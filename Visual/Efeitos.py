@@ -1,5 +1,5 @@
 import pygame
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 
 efeitos_ativos = []
 

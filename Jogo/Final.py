@@ -1,14 +1,14 @@
 import pygame
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
-from GeradoresVisuais import (
+from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
-clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
+clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 
 B1 = {"estado": False}
 
@@ -24,13 +24,13 @@ def Final(tela,estados,relogio):
     tela.blit(texto, (tela.get_width() // 2 - 200, tela.get_height() // 2))
     pygame.display.update()
 
-    pygame.mixer.music.load('Jogo/Audio/Musicas/pos.ogg')  
+    pygame.mixer.music.load('Audio/Musicas/pos.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
     pygame.time.wait(9000)
 
-    pygame.mixer.music.load('Jogo/Audio/Musicas/resultados.ogg')  
+    pygame.mixer.music.load('Audio/Musicas/resultados.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)
@@ -46,7 +46,7 @@ def Final(tela,estados,relogio):
                 estados["Rodando_Jogo"] = False
         
             elif evento.type == pygame.USEREVENT:
-                pygame.mixer.music.load('Jogo/Audio/Musicas/Menu.ogg')
+                pygame.mixer.music.load('Audio/Musicas/Menu.ogg')
                 pygame.mixer.music.play()
         
         GV.Texto_caixa(tela,f"{Vencedor.nome} Venceu, Parabens!", (450,200,1020,260),Fonte70, DOURADO,PRETO,4)

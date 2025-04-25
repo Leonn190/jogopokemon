@@ -1,4 +1,4 @@
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 
 PokeIcons = {
 

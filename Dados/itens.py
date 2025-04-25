@@ -238,8 +238,8 @@ Porto_Molgera = {
     "ST Code": 6
 }
 
-itens_disponiveis = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
-pokebolas_disponiveis = [Pokebola,Gratball,Ultraball,Masterball,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
-amplificadores_disponiveis = [Citrino,Safira,Rubi,Ametista,Esmeralda,Energia_Mega,Energia_Vstar,Energia_Vmax]
-Estadios_disponiveis = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
+itens_Todos = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
+pokebolas_Todas = [Pokebola,Gratball,Ultraball,Masterball,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
+amplificadores_Todos = [Citrino,Safira,Rubi,Ametista,Esmeralda,Energia_Mega,Energia_Vstar,Energia_Vmax]
+Estadios_Todos = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
         

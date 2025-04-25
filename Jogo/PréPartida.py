@@ -1,8 +1,8 @@
 import pygame
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
-from GeradoresVisuais import (
+from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
@@ -10,9 +10,9 @@ from GeradoresVisuais import (
 
 pygame.mixer.init()
 
-clique = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
-Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
-Escolha = pygame.mixer.Sound("Jogo/Audio/Sons/EscolhaPoke.wav")
+clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
+Compra = pygame.mixer.Sound("Audio/Sons/Compra.wav")
+Escolha = pygame.mixer.Sound("Audio/Sons/EscolhaPoke.wav")
 
 estado1 = {
     "selecionado_esquerdo": None,
@@ -138,7 +138,7 @@ def PréPartida(tela,estados,relogio):
     texto2 = ""
     selecionado2 = False
 
-    pygame.mixer.music.load('Jogo/Audio/Musicas/PréPartida.ogg')
+    pygame.mixer.music.load('Audio/Musicas/PréPartida.ogg')
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 

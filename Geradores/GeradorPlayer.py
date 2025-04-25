@@ -1,7 +1,8 @@
-from Gerador2 import Gerador_final, caixa, coletor, pokebolas_disponiveis
-from Sonoridade import tocar
-from Partida import Mudar_estadio
-import GeradoresVisuais as GV
+from Geradores.GeradorPokemon import Gerador_final
+from Visual.Sonoridade import tocar
+from Jogo.Partida import Mudar_estadio
+from Geradores.GeradorOutros import pokebolas_disponiveis,caixa,coletor
+import Visual.GeradoresVisuais as GV
 
 
 class Jogador:

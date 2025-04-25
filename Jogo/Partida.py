@@ -1,21 +1,21 @@
 import pygame
 import random
-from Imagens import Carregar_Imagens, Carrega_Gif_pokemon
-from Mensagens import mensagens_passageiras
-from Efeitos import atualizar_efeitos
-from Sonoridade import tocar
+from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
+from Visual.Mensagens import mensagens_passageiras
+from Visual.Efeitos import atualizar_efeitos
+from Visual.Sonoridade import tocar
 import Tabuleiro as M
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
-from GeradoresVisuais import (
+from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA,)
 
 pygame.mixer.init()
-selecionaSOM = pygame.mixer.Sound("Jogo/Audio/Sons/Som1.wav")
+selecionaSOM = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 
 Tela = None
 Mapa = None
@@ -488,19 +488,19 @@ def tocar_musica_do_estadio():
         pygame.mixer.music.stop()
         
         if Mapa.Musica == 0:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Partida.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Partida.ogg")
         elif Mapa.Musica == 1:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Mer.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Mer.ogg")
         elif Mapa.Musica == 2:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Shivre.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Shivre.ogg")
         elif Mapa.Musica == 3:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Auroma.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Auroma.ogg")
         elif Mapa.Musica == 4:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Kalos.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Kalos.ogg")
         elif Mapa.Musica == 5:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Skyloft.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Skyloft.ogg")
         elif Mapa.Musica == 6:
-            pygame.mixer.music.load("Jogo/Audio/Musicas/Molgera.ogg")
+            pygame.mixer.music.load("Audio/Musicas/Molgera.ogg")
 
         pygame.mixer.music.play(-1)  # -1 = loop infinito
         Musica_Estadio_atual = Z
@@ -819,7 +819,7 @@ def Inicia(tela):
     tela.blit(texto, (tela.get_width() // 2 - 200, tela.get_height() // 2))
     pygame.display.update()
 
-    pygame.mixer.music.load('Jogo/Audio/Musicas/Carregamento.ogg')  
+    pygame.mixer.music.load('Audio/Musicas/Carregamento.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
@@ -864,7 +864,7 @@ def Inicia(tela):
 
     VerificaGIF()
 
-    pygame.mixer.music.load('Jogo/Audio/Musicas/Partida.ogg')  
+    pygame.mixer.music.load('Audio/Musicas/Partida.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 

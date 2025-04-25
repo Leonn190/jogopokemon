@@ -1,10 +1,10 @@
 import pygame
 import random
-from Sonoridade import tocar
-import GeradoresVisuais as GV
+from Visual.Sonoridade import tocar
+import Visual.GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
-from GeradoresVisuais import (
+from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
@@ -21,9 +21,6 @@ Area = [(3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3
         (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16),
         (11, 8), (11, 9), (11, 10), (11, 11), (11, 12), (11, 13), (11, 14), (11, 15), (11, 16)]
 PeçaS = None
-
-pygame.mixer.init()
-Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
 
 estadoTabuleiro = {
     "selecionado_esquerdo": None,

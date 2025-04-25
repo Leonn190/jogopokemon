@@ -1,13 +1,13 @@
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 import random
-import Funções2 as FU
+import Jogo.Funções2 as FU
 from Dados.Gen1.Basicos import Pokedex
-from Mensagens import adicionar_mensagem_passageira
-from Imagens import Carrega_Icone_pokemon
-from Sonoridade import tocar
-from Efeitos import adicionar_efeito
-from Partida import VerificaGIF
-from GeradoresVisuais import (
+from Visual.Mensagens import adicionar_mensagem_passageira
+from Visual.Imagens import Carrega_Icone_pokemon
+from Visual.Sonoridade import tocar
+from Visual.Efeitos import adicionar_efeito
+from Jogo.Partida import VerificaGIF
+from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,

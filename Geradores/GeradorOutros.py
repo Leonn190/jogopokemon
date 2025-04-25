@@ -1,5 +1,16 @@
 import random
-from Ge
+from Visual.Sonoridade import tocar
+import Visual.GeradoresVisuais as GV
+from Geradores.GeradorPokemon import Pokedex
+from Dados.itens import pokebolas_Todas,Estadios_Todos,amplificadores_Todos,itens_Todos
+from Dados.Estadios import Estadios
+
+
+pokebolas_disponiveis = pokebolas_Todas
+Estadios_disponiveis = Estadios_Todos
+amplificadores_disponiveis = amplificadores_Todos
+itens_disponiveis = itens_Todos
+
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
 

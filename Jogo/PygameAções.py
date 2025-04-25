@@ -1,14 +1,14 @@
 import pygame
-import GeradoresVisuais as GV
+import Visual.GeradoresVisuais as GV
 import Gerador2 as G
-from Sonoridade import tocar
+from Visual.Sonoridade import tocar
 import random
 
 pygame.font.init()
 pygame.mixer.init()
 
-Compra = pygame.mixer.Sound("Jogo/Audio/Sons/Compra.wav")
-Bloq = pygame.mixer.Sound("Jogo/Audio/Sons/Bloq.wav")
+Compra = pygame.mixer.Sound("Audio/Sons/Compra.wav")
+Bloq = pygame.mixer.Sound("Audio/Sons/Bloq.wav")
 
 
 informaçoesp1 = [random.choice(["Jogador Legal","Jogador Bacanudo","Jogador Estratégico","Jogador Habilidoso"]),random.randint(1,3)]
