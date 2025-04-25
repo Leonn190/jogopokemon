@@ -1,6 +1,6 @@
 Asa_de_Ferro = {
     "nome": "Asa de Ferro",
-    "tipo": ["dragão"],
+    "tipo": ["dragao"],
     "custo": ["marrom", "marrom"],
     "dano": 1.2,
     "alcance": 30,
@@ -14,7 +14,7 @@ Asa_de_Ferro = {
 
 Garras_Ferinas = {
     "nome": "Garras Ferinas",
-    "tipo": ["dragão"],
+    "tipo": ["dragao"],
     "custo": ["normal", "marrom", "marrom", "marrom"],
     "dano": 1.7,
     "alcance": 30,
@@ -28,7 +28,7 @@ Garras_Ferinas = {
 
 Fúria_Draconica = {
     "nome": "Fúria Dracônica",
-    "tipo": ["dragão"],
+    "tipo": ["dragao"],
     "custo": ["normal", "marrom", "marrom", "marrom", "marrom"],
     "dano": 2.0,
     "alcance": 30,

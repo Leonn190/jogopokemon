@@ -1,6 +1,6 @@
 Jato_de_Agua = {
     "nome": "Jato de Água",
-    "tipo": ["água"],
+    "tipo": ["agua"],
     "custo": ["azul"],
     "dano": 1.0,
     "alcance": 30,
@@ -14,7 +14,7 @@ Jato_de_Agua = {
 
 Onda_Aquatica = {
     "nome": "Onda Aquática",
-    "tipo": ["água"],
+    "tipo": ["agua"],
     "custo": ["azul", "azul"],
     "dano": 1.2,
     "alcance": 30,
@@ -28,7 +28,7 @@ Onda_Aquatica = {
 
 Lamina_Aquatica = {
     "nome": "Lâmina Aquática",
-    "tipo": ["água"],
+    "tipo": ["agua"],
     "custo": ["normal", "azul", "azul", "azul"],
     "dano": 1.7,
     "alcance": 30,

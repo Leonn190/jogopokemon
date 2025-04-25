@@ -1,6 +1,6 @@
 Explosão_Cerebral = {
     "nome": "Explosão Cerebral",
-    "tipo": ["psíquico"],
+    "tipo": ["psiquico"],
     "custo": ["rosa", "rosa"],
     "dano": 1.2,
     "alcance": 30,
@@ -14,7 +14,7 @@ Explosão_Cerebral = {
 
 Bola_Psiquica = {
     "nome": "Bola Psiquica",
-    "tipo": ["psíquico"],
+    "tipo": ["psiquico"],
     "custo": ["rosa", "rosa", "rosa"],
     "dano": 1.5,
     "alcance": 30,
@@ -28,7 +28,7 @@ Bola_Psiquica = {
 
 Ondas_Mentais = {
     "nome": "Ondas Mentais",
-    "tipo": ["psíquico"],
+    "tipo": ["psiquico"],
     "custo": ["normal", "rosa", "rosa", "rosa"],
     "dano": 1.7,
     "alcance": 30,

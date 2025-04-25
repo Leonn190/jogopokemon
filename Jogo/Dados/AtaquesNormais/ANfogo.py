@@ -1,7 +1,7 @@
 Labareda_Turbulenta = {
     "nome": "Labareda Turbulenta",
     "tipo": ["fogo"],
-    "custo": ["vermelho", "vermelho"],
+    "custo": ["vermelha", "vermelha"],
     "dano": 1.2,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Labareda_Turbulenta = {
 Lâmina_Ígnea = {
     "nome": "Lâmina Ígnea",
     "tipo": ["fogo"],
-    "custo": ["normal", "vermelho", "vermelho", "vermelho"],
+    "custo": ["normal", "vermelha", "vermelha", "vermelha"],
     "dano": 1.7,
     "alcance": 30,
     "precisão": 100,
@@ -29,7 +29,7 @@ Lâmina_Ígnea = {
 Erupção_Pyroclástica = {
     "nome": "Erupção Pyroclástica",
     "tipo": ["fogo"],
-    "custo": ["normal", "vermelho", "vermelho", "vermelho", "vermelho"],
+    "custo": ["normal", "vermelha", "vermelha", "vermelha", "vermelha"],
     "dano": 2.0,
     "alcance": 30,
     "precisão": 100,

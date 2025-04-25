@@ -1,7 +1,7 @@
 Gás = {
     "nome": "Gás",
     "tipo": ["venenoso"],
-    "custo": ["roxo"],
+    "custo": ["roxa"],
     "dano": 1.0,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Gás = {
 Bola_de_veneno = {
     "nome": "Bola de Pó Venenoso",
     "tipo": ["venenoso"],
-    "custo": ["roxo", "roxo", "roxo"],
+    "custo": ["roxa", "roxa", "roxa"],
     "dano": 1.5,
     "alcance": 30,
     "precisão": 100,
@@ -29,7 +29,7 @@ Bola_de_veneno = {
 Gás_Nocivo = {
     "nome": "Gás Nocivo",
     "tipo": ["venenoso"],
-    "custo": ["normal", "roxo", "roxo", "roxo"],
+    "custo": ["normal", "roxa", "roxa", "roxa"],
     "dano": 1.7,
     "alcance": 30,
     "precisão": 100,

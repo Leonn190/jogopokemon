@@ -1,7 +1,7 @@
 Chama = {
     "nome": "Chama ",
     "tipo": ["fogo"],
-    "custo": ["vermelho"],
+    "custo": ["vermelha"],
     "dano": 1.0,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Chama = {
 Bola_de_Fogo = {
     "nome": "Bola de Fogo",
     "tipo": ["fogo"],
-    "custo": ["vermelho", "vermelho", "vermelho"],
+    "custo": ["vermelha", "vermelha", "vermelha"],
     "dano": 1.5,
     "alcance": 30,
     "precisão": 100,

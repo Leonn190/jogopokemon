@@ -1,7 +1,7 @@
 Sussurro_Nevoento = {
     "nome": "Sussurro Nevoento",
     "tipo": ["fantasma"],
-    "custo": ["roxo", "roxo"],
+    "custo": ["roxa", "roxa"],
     "dano": 1.2,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Sussurro_Nevoento = {
 Bola_Fantasma = {
     "nome": "Bola Fantasma",
     "tipo": ["fantasma"],
-    "custo": ["roxo", "roxo", "roxo"],
+    "custo": ["roxa", "roxa", "roxa"],
     "dano": 1.5,
     "alcance": 30,
     "precisão": 100,
@@ -28,7 +28,7 @@ Bola_Fantasma = {
 Vórtice_Espiritual = {
     "nome": "Vórtice Espiritual",
     "tipo": ["fantasma"],
-    "custo": ["normal", "roxo", "roxo", "roxo", "roxo"],
+    "custo": ["normal", "roxa", "roxa", "roxa", "roxa"],
     "dano": 2.0,
     "alcance": 30,
     "precisão": 100,

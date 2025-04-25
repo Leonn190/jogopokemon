@@ -163,6 +163,7 @@ class Pokemon:
         self.ataque_normal = pokemon["ataque normal"]
         self.ataque_especial = pokemon["ataque especial"]
         self.evolucao = pokemon["evolução"]
+        self.FF = pokemon["FF"]
         self.xp_atu = pokemon["XP atu"]
         self.IV = pokemon["IV"]
         self.IV_vida = pokemon["IV vida"]
@@ -186,34 +187,27 @@ class Pokemon:
         
         self.atacou = False
         self.vampirismo = 0
-        self.FF = None  #forma final
+        self.PodeEvoluir = True
 
     def FormaFinal(self,item,player):
         if self.xp_atu >= self.xp_total:
-            i = self.local
-            if self.FF["FF"] == "Mega":
-                if item["nome"] == "Energia Mega":
-                    player.inventario.remove(item)
-                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+            pos = self.pos
+            if self.FF is not None:
+                for i in range(len(self.FF)):
+                    if item["nome"] == "Energia Mega":
+                        if self.FF[i]["FF"] == "Mega":
+                            player.inventario.remove(item)
+                            P.adicionar_efeito(evoluirEFE,(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i))
 
-            elif self.FF["FF"] == "Vstar":
-                if item["nome"] == "Energia Vstar":
-                    player.inventario.remove(item)
-                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+                    elif item["nome"] == "Energia Vstar":
+                        if self.FF[i]["FF"] == "Vstar":
+                            player.inventario.remove(item)
+                            P.adicionar_efeito(evoluirEFE,(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1))
 
-            elif self.FF["FF"] == "Vmax":
-                if item["nome"] == "Energia Gigantamax":
-                    player.inventario.remove(item)
-                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
-
-            elif self.FF["FF"] == ["Vstar","Vmax"]:
-                if item["nome"] == "Energia Vstar":
-                    player.inventario.remove(item)
-                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
-                
-                elif item["nome"] == "Energia Gigantamax":
-                    player.inventario.remove(item)
-                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_Final())
+                    elif item["nome"] == "Energia GigantaMax":
+                        if self.FF[i]["FF"] == "Vmax":
+                            player.inventario.remove(item)
+                            P.adicionar_efeito(evoluirEFE,(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0))
 
             else:
                 GV.adicionar_mensagem("Esse pokemon não tem forma final")
@@ -226,33 +220,39 @@ class Pokemon:
             GV.adicionar_mensagem("Xp insuficiente")
             return
         
-    def Evoluir_Final(self):
+    def Evoluir_Final(self,i):
         nome_antigo = self.nome
-        self.nome = self.FF["nome"]
-        self.VidaMax = round(self.VidaMax * self.FF["vida"])
-        self.Vida = round(self.Vida * self.FF["vida"])
-        self.Def = round(self.Def * self.FF["def"])
-        self.Def_sp = round(self.Def_sp * self.FF["def SP"])
-        self.Atk = round(self.Atk * self.FF["atk"])
-        self.Atk_sp = round(self.Atk_sp * self.FF["atk SP"])
-        self.vel = round(self.vel * self.FF["velocidade"])
-        self.custo = self.FF["custo"]
-        self.ataque_normal = random.choice(self.FF["ataques normais"])
-        self.ataque_especial = random.choice(self.FF["ataques especiais"])
-        self.Estagio = self.FF["estagio"]
-        self.xp_total = self.FF["XP"]
-        self.evolucao = self.FF["evolução"]
+        self.nome = self.FF[i]["nome"]
+        self.VidaMax = round(self.VidaMax * self.FF[i]["vida"])
+        self.Vida = round(self.Vida * self.FF[i]["vida"])
+        self.Def = round(self.Def * self.FF[i]["def"])
+        self.Def_sp = round(self.Def_sp * self.FF[i]["def SP"])
+        self.Atk = round(self.Atk * self.FF[i]["atk"])
+        self.Atk_sp = round(self.Atk_sp * self.FF[i]["atk SP"])
+        self.vel = round(self.velB * self.FF[i]["velocidade"])
+        self.custo = self.FF[i]["custo"]
+        self.ataque_normal = random.choice(self.FF[i]["ataques normais"])
+        self.ataque_especial = random.choice(self.FF[i]["ataques especiais"])
+        self.Estagio = self.FF[i]["estagio"]
+        self.xp_total = self.FF[i]["XP"]
+        self.evolucao = self.FF[i]["evolução"]
         P.VerificaGIF()
+        self.PodeEvoluir = True
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
     def evoluir(self,player):
         if self.xp_atu >= self.xp_total:
-            if isinstance(self.evolucao,list):
-                self.evolucao = random.randint(self.evolucao)
-            if self.evolucao is not None:
-                i = self.pos
-                P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
-                return
+            if self.PodeEvoluir is True:
+                if isinstance(self.evolucao,list):
+                    self.evolucao = random.randint(self.evolucao)
+                if self.evolucao is not None:
+                    i = self.pos
+                    self.PodeEvoluir = False
+                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
+                    return
+            else:
+                GV.tocar(Bloq)
+                GV.adicionar_mensagem("Evoluindo...")
         GV.tocar(Bloq)
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
@@ -271,8 +271,10 @@ class Pokemon:
             self.ataque_normal = random.choice(self.evolucao["ataques normais"])
             self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
         self.Estagio = self.evolucao["estagio"]
+        self.FF = self.evolucao["FF"]
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]
+        self.PodeEvoluir = True
         P.VerificaGIF()
         P.AddIMGpokemon(self)
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
@@ -422,7 +424,7 @@ class Pokemon:
         Dano_I = U * F["dano"]
         
         if F["função"] != []:
-            V, Dano_I = FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V,tipo)
+            V, Dano_I = FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V)
 
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
@@ -520,6 +522,7 @@ def Gerador(Pokemon,P):
         "ataque normal": random.choice(Pok["ataques normais"]),
         "ataque especial": random.choice(Pok["ataques especiais"]),
         "evolução": Pok["evolução"],
+        "FF": Pok["FF"],
         "XP atu": 0,
         "IV": IV,
         "IV vida": round(IVV, 1),

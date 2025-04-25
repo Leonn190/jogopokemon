@@ -1,7 +1,7 @@
 
 Bola_de_Agua = {
     "nome": "Bola de Água",
-    "tipo": ["água"],
+    "tipo": ["agua"],
     "custo": ["azul", "azul", "azul"],
     "dano": 1.5,
     "alcance": 30,
@@ -15,7 +15,7 @@ Bola_de_Agua = {
 
 Tsunami = {
     "nome": "Tsunami",
-    "tipo": ["água"],
+    "tipo": ["agua"],
     "custo": ["normal", "azul", "azul", "azul", "azul"],
     "dano": 2.0,
     "alcance": 30,

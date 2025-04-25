@@ -1,7 +1,7 @@
 Acido = {
     "nome": "Mordida Tóxica",
     "tipo": ["venenoso"],
-    "custo": ["roxo", "roxo"],
+    "custo": ["roxa", "roxa"],
     "dano": 1.2,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Acido = {
 Vórtice_Venenoso = {
     "nome": "Vórtice Venenoso",
     "tipo": ["venenoso"],
-    "custo": ["normal", "roxo", "roxo", "roxo", "roxo"],
+    "custo": ["normal", "roxa", "roxa", "roxa", "roxa"],
     "dano": 2.0,
     "alcance": 30,
     "precisão": 100,

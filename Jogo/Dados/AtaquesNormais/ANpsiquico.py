@@ -1,6 +1,6 @@
 Toque_Mental = {
     "nome": "Toque Mental",
-    "tipo": ["psíquico"],
+    "tipo": ["psiquico"],
     "custo": ["rosa"],
     "dano": 1.0,
     "alcance": 30,
@@ -14,7 +14,7 @@ Toque_Mental = {
 
 Colapso_Psiquico = {
     "nome": "Colapso Psíquico",
-    "tipo": ["psíquico"],
+    "tipo": ["psiquico"],
     "custo": ["normal", "rosa", "rosa", "rosa", "rosa"],
     "dano": 2.0,
     "alcance": 30,

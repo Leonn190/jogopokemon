@@ -1,7 +1,7 @@
 Faísca = {
     "nome": "Faísca",
-    "tipo": ["elétrico"],
-    "custo": ["amarelo"],
+    "tipo": ["eletrico"],
+    "custo": ["amarela"],
     "dano": 1.0,
     "alcance": 30,
     "precisão": 100,
@@ -14,8 +14,8 @@ Faísca = {
 
 Jato_Elétrico = {
     "nome": "Jato Elétrico",
-    "tipo": ["elétrico"],
-    "custo": ["amarelo", "amarelo"],
+    "tipo": ["eletrico"],
+    "custo": ["amarela", "amarela"],
     "dano": 1.2,
     "alcance": 30,
     "precisão": 100,
@@ -28,8 +28,8 @@ Jato_Elétrico = {
 
 Lâmina_Volt = {
     "nome": "Lâmina Volt",
-    "tipo": ["elétrico"],
-    "custo": ["normal", "amarelo", "amarelo", "amarelo"],
+    "tipo": ["eletrico"],
+    "custo": ["normal", "amarela", "amarela", "amarela"],
     "dano": 1.7,
     "alcance": 30,
     "precisão": 100,

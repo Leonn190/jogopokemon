@@ -1,7 +1,7 @@
 Desmoronamento = {
     "nome": "Desmoronamento",
     "tipo": ["terrestre"],
-    "custo": ["amarelo", "amarelo"],
+    "custo": ["amarela", "amarela"],
     "dano": 1.2,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Desmoronamento = {
 Bola_de_Terra = {
     "nome": "Bola de Terra",
     "tipo": ["terrestre"],
-    "custo": ["amarelo", "amarelo", "amarelo"],
+    "custo": ["amarela", "amarela", "amarela"],
     "dano": 1.5,
     "alcance": 30,
     "precisão": 100,

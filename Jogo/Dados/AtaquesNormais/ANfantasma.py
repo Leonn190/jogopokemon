@@ -1,7 +1,7 @@
 Toque_Espiritual = {
     "nome": "Toque Espiritual",
     "tipo": ["fantasma"],
-    "custo": ["roxo"],
+    "custo": ["roxa"],
     "dano": 1.0,
     "alcance": 30,
     "precisão": 100,
@@ -14,7 +14,7 @@ Toque_Espiritual = {
 Garras_Sombrias = {
     "nome": "Garras Sombrias",
     "tipo": ["fantasma"],
-    "custo": ["normal", "roxo", "roxo", "roxo"],
+    "custo": ["normal", "roxa", "roxa", "roxa"],
     "dano": 1.7,
     "alcance": 30,
     "precisão": 100,

@@ -1,7 +1,7 @@
 Terra = {
     "nome": "Terra",
     "tipo": ["terrestre"],
-    "custo": ["amarelo"],
+    "custo": ["amarela"],
     "dano": 1.0,
     "alcance": 30,
     "precisão": 100,
@@ -15,7 +15,7 @@ Terra = {
 Impacto_Seísmo = {
     "nome": "Impacto Seísmo",
     "tipo": ["terrestre"],
-    "custo": ["normal", "amarelo", "amarelo", "amarelo"],
+    "custo": ["normal", "amarela", "amarela", "amarela"],
     "dano": 1.7,
     "alcance": 30,
     "precisão": 100,
@@ -29,7 +29,7 @@ Impacto_Seísmo = {
 Tornado_Planalto = {
     "nome": "Tornado Planalto",
     "tipo": ["terrestre"],
-    "custo": ["normal", "amarelo", "amarelo", "amarelo", "amarelo"],
+    "custo": ["normal", "amarela", "amarela", "amarela", "amarela"],
     "dano": 2.0,
     "alcance": 30,
     "precisão": 100,

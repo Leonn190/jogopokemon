@@ -1,8 +1,8 @@
 
 Bola_de_Eletricidade = {
     "nome": "Bola de Eletricidade",
-    "tipo": ["elétrico"],
-    "custo": ["amarelo", "amarelo", "amarelo"],
+    "tipo": ["eletrico"],
+    "custo": ["amarela", "amarela", "amarela"],
     "dano": 1.5,
     "alcance": 30,
     "precisão": 100,
@@ -15,8 +15,8 @@ Bola_de_Eletricidade = {
 
 Tempestade_Elétrica = {
     "nome": "Tempestade Elétrica",
-    "tipo": ["elétrico"],
-    "custo": ["normal", "amarelo", "amarelo", "amarelo", "amarelo"],
+    "tipo": ["eletrico"],
+    "custo": ["normal", "amarela", "amarela", "amarela", "amarela"],
     "dano": 2.0,
     "alcance": 30,
     "precisão": 100,

@@ -1,3 +1,4 @@
+import random
 from Dados.Gen1.Mega import Mega_Alakazam,Mega_Charizard_X,Mega_Charizard_Y,Mega_Gengar,Mega_Beedrill,Mega_Blastoise,Mega_Venusaur
 from Dados.Gen1.V import Venusaur_V,Blastoise_V,Charizard_V,Gengar_V,Machamp_V,Butterfree_V
 import Dados.AllAtaques as A
@@ -6,7 +7,7 @@ Venusaur = {
     "nome": "Venusaur",
     "tipo": ["planta", "veneneno"],
     "evolução": Venusaur_V,
-    "FF": Mega_Venusaur,
+    "FF": [Mega_Venusaur],
     "estagio": 3,
     "vida": 1.302158273,
     "atk": 1.565217391,
@@ -24,7 +25,7 @@ Charizard = {
     "nome": "Charizard",
     "tipo": ["fogo", "voador"],
     "evolução": Charizard_V,
-    "FF": [Mega_Charizard_X, Mega_Charizard_Y],
+    "FF": random.choice([Mega_Charizard_X, Mega_Charizard_Y]),
     "estagio": 3,
     "vida": 1.288888889,
     "atk": 1.620689655,
@@ -42,7 +43,7 @@ Blastoise = {
     "nome": "Blastoise",
     "tipo": ["agua"],
     "evolução": Blastoise_V,
-    "FF": Mega_Blastoise,
+    "FF": [Mega_Blastoise],
     "estagio": 3,
     "vida": 1.275362319,
     "atk": 1.5,
@@ -78,7 +79,7 @@ Gengar = {
     "nome": "Gengar",
     "tipo": ["fantasma", "venenoso"],
     "evolução": Gengar_V,
-    "FF": Mega_Gengar,
+    "FF": [Mega_Gengar],
     "estagio": 3,
     "vida": 1.210526316,
     "atk": 1.36,
@@ -113,7 +114,7 @@ Golem = {
 Butterfree = {
     "nome": "Butterfree",
     "tipo": ["inseto", "voador"],
-    "evolução": Butterfree_V,
+    "evolução": [Butterfree_V],
     "FF": None,
     "estagio": 3,
     "vida": 1.362831858,
@@ -132,7 +133,7 @@ Alakazam = {
     "nome": "Alakazam",
     "tipo": ["psiquico"],
     "evolução": None,
-    "FF": Mega_Alakazam,
+    "FF": [Mega_Alakazam],
     "estagio": 3,
     "vida": 1.2421875,
     "atk": 1.55,
@@ -168,7 +169,7 @@ Beedrill = {
     "nome": "Beedrill",
     "tipo": ["inseto", "venenoso"],
     "evolução": None,
-    "FF": Mega_Beedrill,
+    "FF": [Mega_Beedrill],
     "estagio": 3,
     "vida": 1.604395604,
     "atk": 2.192307692,

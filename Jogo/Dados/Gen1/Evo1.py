@@ -204,7 +204,7 @@ Gyarados = {
     "nome": "Gyarados",
     "tipo": ["agua", "voador"],
     "evolução": Mega_Gyarados,
-    "FF": ["MegaGyarados"],
+    "FF": [Mega_Gyarados],
     "estagio": 2,
     "vida": 2.575757576,
     "atk": 5.545454545,

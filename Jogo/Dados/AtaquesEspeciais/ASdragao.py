@@ -1,6 +1,6 @@
 Sopro_Dragão = {
     "nome": "Sopro Dragão",
-    "tipo": ["dragão"],
+    "tipo": ["dragao"],
     "custo": ["marrom"],
     "dano": 1.0,
     "alcance": 30,
@@ -14,7 +14,7 @@ Sopro_Dragão = {
 
 Bola_Dragonica = {
     "nome": "Bola Dracônica",
-    "tipo": ["dragão"],
+    "tipo": ["dragao"],
     "custo": ["marrom", "marrom", "marrom"],
     "dano": 1.5,
     "alcance": 30,
