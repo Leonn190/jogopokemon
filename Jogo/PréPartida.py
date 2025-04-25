@@ -182,5 +182,5 @@ def PréPartida(tela,estados,relogio):
     A.Nome_p2, AZUL,selecionado2)
 
         pygame.display.update()
-        relogio.tick(50)
+        relogio.tick(60)
 

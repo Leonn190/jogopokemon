@@ -1,6 +1,9 @@
 import pygame
 import random
 import Imagens
+from PokeGifs import VerificaGIF, Gifs_ativos
+from Efeitos import atualizar_efeitos
+from Sonoridade import tocar
 import Tabuleiro as M
 import GeradoresVisuais as GV
 import Gerador2 as G
@@ -35,9 +38,6 @@ FrutaSelecionada = None
 mensagens_passageiras = []
 
 PokeGifs = {}
-Gifs_ativos = []
-efeitos_ativos = []
-
 TiposEnergiaIMG = {}
 ImagensPokemonIcons = {}
 ImagensPokemonCentro = {}
@@ -72,41 +72,6 @@ LojaAmpliP = None
 LojaEnerP = None
 LojaEstTreP = None
 Musica_Estadio_atual = None
-
-class GifAtivo:
-    def __init__(self, frames, posicao, velocidade, duracao, ao_terminar=None):
-        self.frames = frames
-        self.posicao = posicao
-        self.velocidade = velocidade  # ms por frame
-        self.duracao = duracao        # duração total em ms
-        self.ao_terminar = ao_terminar
-
-        self.inicio = pygame.time.get_ticks()
-        self.tempo_ultimo_frame = self.inicio
-        self.frame_atual = 0
-
-    def desenhar(self, tela):
-        agora = pygame.time.get_ticks()
-        if agora - self.tempo_ultimo_frame >= self.velocidade:
-            self.frame_atual += 1
-            self.tempo_ultimo_frame = agora
-
-        if self.frame_atual < len(self.frames):
-            tela.blit(self.frames[self.frame_atual], self.posicao)
-
-    def finalizado(self):
-        return pygame.time.get_ticks() - self.inicio >= self.duracao
-
-def adicionar_efeito(frames, posicao, velocidade=95, duracao=2600,ao_terminar=None):
-    efeitos_ativos.append(GifAtivo(frames, posicao, velocidade, duracao, ao_terminar))
-
-def atualizar_efeitos(tela):
-    for gif in efeitos_ativos[:]:
-        gif.desenhar(tela)
-        if gif.finalizado():
-            if gif.ao_terminar:
-                gif.ao_terminar()
-            efeitos_ativos.remove(gif)
 
 class MensagemPassageira:
     def __init__(self, mensagem, cor, fonte, posicao, duracao=350, deslocamento=50):
@@ -468,19 +433,19 @@ def PokemonCentro(ID,player):
                 AddIMGpokemon(novo_pokemon) 
                 M.GuardarPosicionar(novo_pokemon,player)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
-                VerificaGIF()
-                GV.tocar(Bom)
+                VerificaGIF(PokeGifs,player,inimigo)
+                tocar("Bom")
                 Centro.remove(pokemon)
                 return
             else:
-                GV.tocar(Bloq)
+                tocar("Bloq")
                 GV.adicionar_mensagem("sua lista de pokemon está cheia")
         else:
-            GV.tocar(Bloq)
+            tocar("Bloq")
             GV.adicionar_mensagem("Voce falhou em capturar o pokemon, que pena")
         estadoPokebola["selecionado_esquerdo"] =  False
     else:
-        GV.tocar(Bloq)
+        tocar("Bloq")
         GV.adicionar_mensagem("Selecione uma pokebola para capturar um pokemon")
 
 def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, id_pokemon):
@@ -531,7 +496,7 @@ def atacaN(Pokemon,player,inimigo,ID,tela):
     if Pokemon is not None and alvo.Vida >= 0:
         Pokemon.atacar(alvo,player,inimigo,"N",tela,Mapa)
     else:
-        GV.tocar(Bloq)
+        tocar("Bloq")
         GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
 
 def atacaS(Pokemon,player,inimigo,ID,tela):
@@ -539,7 +504,7 @@ def atacaS(Pokemon,player,inimigo,ID,tela):
     if Pokemon is not None and alvo.Vida >= 0:
         Pokemon.atacar(alvo,player,inimigo,"E",tela,Mapa)
     else:
-        GV.tocar(Bloq)
+        tocar("Bloq")
         GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
 
 def pausarEdespausar():
@@ -561,35 +526,6 @@ def AddLocalPokemonINIC(pokemon,jogador):
         M.Move(pokemon,11,12,player)
     else:
         M.Move(pokemon,3,12,player)
-
-def VerificaGIF():
-    global Gifs_ativos
-
-        # Ao capturar um novo Pokémon (exemplo)
-    for i in range(len(player.pokemons)):
-        nome = player.pokemons[i].nome
-
-        # Verifica se o Pokémon ainda não foi adicionado
-        if nome not in [gif["nome"] for gif in Gifs_ativos]:
-            Gifs_ativos.append({
-                "nome": nome,
-                "frames": PokeGifs[nome],
-                "frame_atual": 0,
-                "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
-            })
-    for i in range(len(inimigo.pokemons)):
-        nome = inimigo.pokemons[i].nome
-
-        # Verifica se o Pokémon ainda não foi adicionado
-        if nome not in [gif["nome"] for gif in Gifs_ativos]:
-            Gifs_ativos.append({
-                "nome": nome,
-                "frames": PokeGifs[nome],
-                "frame_atual": 0,
-                "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
-            })
 
 def Muter():
     global Mute
@@ -873,14 +809,11 @@ def Partida(tela,estados,relogio):
         else:
             tela.blit(FundosIMG[0],(0,0))
             Telapausa(tela,eventos,estados)
-
-
-        if PokemonS is not None:
-            print (PokemonS.efeitosPosi["Imune"])
             
+        print (relogio.get_fps())
 
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(80)
 
 def Inicia(tela):
     global Turno
@@ -963,7 +896,7 @@ def Inicia(tela):
     player = Jogador1
     inimigo = Jogador2
 
-    VerificaGIF()
+    VerificaGIF(PokeGifs,player,inimigo)
 
     pygame.mixer.music.load('Jogo/Audio/Musicas/Partida.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -976,7 +909,6 @@ def Inicia(tela):
     Resetar_Cronometro()
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
-
 
 def TelaPokemons(tela,eventos,estados):
     global PokemonS
@@ -1047,7 +979,7 @@ def TelaPokemons(tela,eventos,estados):
 
         else:
             if PokemonS.guardado < 3:
-                GV.Botao(tela, f"Posicionar em {3 - PokemonS.guardado}", (1570, YO + 50, 340, 50), CINZA_ESCURO, PRETO, AZUL,lambda: GV.tocar(Bloq),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, f"Posicionar em {3 - PokemonS.guardado}", (1570, YO + 50, 340, 50), CINZA_ESCURO, PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
             else:
                 GV.Botao(tela, "Posicionar", (1570, YO + 50, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
 

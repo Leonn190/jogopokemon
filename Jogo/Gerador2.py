@@ -1,5 +1,7 @@
 import random
 import pygame
+import Efeitos as E
+from Sonoridade import tocar
 import Partida as P
 import GeradoresVisuais as GV
 from Dados.Gen1.Basicos import Pokedex
@@ -72,18 +74,18 @@ class Jogador:
     def usar_item(self,indice,Pokemon,tela):
             item = self.inventario[indice] 
             if item["classe"] in ["pokebola", "fruta"]:
-                GV.tocar(Bloq)
+                tocar("Bloq")
                 GV.adicionar_mensagem("Pokebolas e frutas são usadas no centro")
             else:
                 if item["classe"] in ["poçao"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
                             cura = item["cura"]
-                            GV.tocar(Usou)
+                            tocar("Usou")
                             self.inventario.remove(item)
                             Pokemon.curar(cura,self,tela)
                             return
                         else:
-                            GV.tocar(Bloq)
+                            tocar("Bloq")
                             GV.adicionar_mensagem("Pokemons nocauteados não podem ser curados")
                 elif item["classe"] in ["amplificador"] and Pokemon is not None:
                         if Pokemon.Vida > 0:
@@ -91,17 +93,17 @@ class Jogador:
                             if tipo == "Evolucional":
                                 Pokemon.FormaFinal(item,self)
                             else:
-                                GV.tocar(Usou)
+                                tocar("Usou")
                                 self.inventario.remove(item)
                                 Pokemon.amplificar(tipo,0.1,self)
                                 return
                         else:
-                            GV.tocar(Bloq)
+                            tocar("Bloq")
                             GV.adicionar_mensagem("Pokemons nocauteados não podem ser amplificados")
                 elif item["classe"] in ["caixa","coletor"]:
                     compras = item["compra"]
                     if item["classe"] in ["caixa"]:
-                        GV.tocar(Usou)
+                        tocar("Usou")
                         self.inventario.remove(item)
                         for _ in range(compras):
                             item = caixa()
@@ -111,18 +113,18 @@ class Jogador:
                                 self.inventario.append(item)
                         return
                     elif item["classe"] in ["coletor"]:
-                        GV.tocar(Usou)
+                        tocar("Usou")
                         self.inventario.remove(item)
                         for _ in range(compras):
                             self.energias[coletor()] += 1
                         return
                 elif item["classe"] == "estadio":
-                    GV.tocar(Usou)
+                    tocar("Usou")
                     P.Mudar_estadio(item["ST Code"])
                     self.inventario.remove(item)
                     return
                 else:
-                    GV.tocar(Bloq)
+                    tocar("Bloq")
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")
     
     def ganhar_pokemon(self,pokemon):
@@ -197,17 +199,17 @@ class Pokemon:
                     if item["nome"] == "Energia Mega":
                         if self.FF[i]["FF"] == "Mega":
                             player.inventario.remove(item)
-                            P.adicionar_efeito(evoluirEFE,(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i))
+                            E.adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i))
 
                     elif item["nome"] == "Energia Vstar":
                         if self.FF[i]["FF"] == "Vstar":
                             player.inventario.remove(item)
-                            P.adicionar_efeito(evoluirEFE,(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1))
+                            E.adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1))
 
                     elif item["nome"] == "Energia GigantaMax":
                         if self.FF[i]["FF"] == "Vmax":
                             player.inventario.remove(item)
-                            P.adicionar_efeito(evoluirEFE,(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0))
+                            E.adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0))
 
             else:
                 GV.adicionar_mensagem("Esse pokemon não tem forma final")
@@ -248,12 +250,12 @@ class Pokemon:
                 if self.evolucao is not None:
                     i = self.pos
                     self.PodeEvoluir = False
-                    P.adicionar_efeito(evoluirEFE,(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
+                    E.adicionar_efeito("Evoluir",(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
                     return
             else:
-                GV.tocar(Bloq)
+                tocar("Bloq")
                 GV.adicionar_mensagem("Evoluindo...")
-        GV.tocar(Bloq)
+        tocar("Bloq")
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
     def Evoluir_de_fato(self):
@@ -395,7 +397,7 @@ class Pokemon:
                     pagou += 1
 
         if pagou != len(Custo):
-            GV.tocar(Bloq)
+            tocar("Bloq")
             GV.adicionar_mensagem("Sem energias, seu ataque falhou")
             for i in range(len(gastas)):
                 player.energias[gastas[i]] += 1
@@ -575,7 +577,7 @@ def gera_item(tipo,player,custo=0,Turno=10):
                 if len(player.Captura) < 9:
                     U = pokebolas_disponiveis
                 else:
-                    GV.tocar(Bloq)
+                    tocar("Bloq")
                     GV.adicionar_mensagem("Seu inventário está cheio")
             else:
                 if len(player.inventario) < 10:
@@ -588,7 +590,7 @@ def gera_item(tipo,player,custo=0,Turno=10):
                         if Turno > 5:
                             U = Estadios_disponiveis
                 else:
-                    GV.tocar(Bloq)
+                    tocar("Bloq")
                     GV.adicionar_mensagem("Seu inventário está cheio")
     
             if U is not None:
@@ -597,16 +599,16 @@ def gera_item(tipo,player,custo=0,Turno=10):
                         raridades.append(U[i])
                 player.ouro -= custo
                 item = random.choice(raridades)
-                GV.tocar(Compra)
+                tocar("Compra")
                 GV.adicionar_mensagem(f"Você comprou um item: {item["nome"]}")
                 if tipo == "pokebola":
                     player.Captura.append(item)
                 else:
                     player.inventario.append(item)
             else:
-                GV.tocar(Bloq)
+                tocar("Bloq")
     else:
-        GV.tocar(Bloq)
+        tocar("Bloq")
         GV.adicionar_mensagem("Você não tem ouro o suficiente")
 
 def caixa():

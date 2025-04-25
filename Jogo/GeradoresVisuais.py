@@ -376,11 +376,6 @@ def Reta_Central(tela, largura_tela, altura_tela, cor=PRETO, espessura=2):
 def limpa_terminal():
     mensagens_terminal.clear()
 
-def tocar(som):
-    if som:
-        som.play()
-
-
 AtaqueS = None
 AtaqueSV = None
 
@@ -546,7 +541,6 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
             if AtaqueSV is not None:
                 Mostrar_Ataque(tela,AtaqueSV,(1228,y),imagens_tipos)
        
-
 def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
     # Cores
     FUNDO = (30, 30, 30)
@@ -697,8 +691,6 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
                 cy = y + altura_total - 18
                 pygame.draw.circle(tela, cor, (cx, cy), 10)
                 pygame.draw.circle(tela, BORDA, (cx, cy), 10, 1)
-
-
 
 def carregar_frames(pasta):
     frames = []

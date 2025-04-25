@@ -35,6 +35,7 @@ estados = {
 }
 
 while estados["Rodando_Jogo"]:
+
     if estados["Rodando_Menu"]:
         Menu.Menu(tela,estados,relogio)
     elif estados["Rodando_PréPartida"]:

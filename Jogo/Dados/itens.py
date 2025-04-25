@@ -182,7 +182,6 @@ Energia_Vmax = {
     "aumento": "Evolucional"
 }
 
-
 Removedor_de_estadio = {
     "nome": "Removedor",
     "classe": "estadio",

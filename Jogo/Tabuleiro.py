@@ -1,5 +1,6 @@
 import pygame
-import random 
+import random
+from Sonoridade import tocar
 import GeradoresVisuais as GV
 import Gerador2 as G
 import PygameAções as A
@@ -60,7 +61,7 @@ def seleciona_peça(p,dono,player):
                         break
             
             if pagou != Custo:
-                GV.tocar(Bloq)
+                tocar("Bloq")
                 GV.adicionar_mensagem("Sem energias, não pode se mover")
                 for i in range(len(gastas)):
                     player.energias[gastas[i]] += 1
@@ -289,7 +290,7 @@ def GuardarPosicionar(pokemon,player):
             pokemon.local = None
             pokemon.guardado = 1
         else:
-            GV.tocar(Bloq)
+            tocar("Bloq")
             GV.adicionar_mensagem("Você não deve guardar seu unico pokemon")
     else:
         for i in range(len(Mapa)):
