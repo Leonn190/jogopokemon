@@ -321,6 +321,7 @@ def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,
     FunçoesDeStatus = {
         "DanoEscalar": FA.DanoEscalar,
         "AumentoCondicional": FA.AumentoCondicional,
+        "DanoExtra": FA.DanoExtra,
         "RemoverGanhar": FA.RemoverGanhar,
         "Perfurar": FA.Perfurar,
         "Corroer": FA.Corroer,

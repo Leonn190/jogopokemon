@@ -4,6 +4,7 @@ from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import atualizar_efeitos
 from Visual.Sonoridade import tocar
+import Abas as AB
 import Tabuleiro as M
 import Visual.GeradoresVisuais as GV
 import Gerador2 as G
@@ -27,6 +28,8 @@ PokemonS = None
 PokemonSV = None
 PokemonV = None
 PokemonVV = None
+PokemonA = None
+PokemonAV = None
 informacao = None
 Visor = None
 PokebolaSelecionada = None
@@ -182,7 +185,7 @@ def seleciona(Pokemon):
             AT1 = -60
             AT2 = 210
             OP1 = 1080
-            OP2 = 980
+            OP2 = 930
             animaS = pygame.time.get_ticks()
             animaA = pygame.time.get_ticks()
             animaOP = pygame.time.get_ticks()
@@ -192,6 +195,16 @@ def seleciona(Pokemon):
     else:
         PokemonS = None
         GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")
+
+def selecionaAlvo(Pokemon):
+    global PokemonA
+    if not isinstance(Pokemon,str):
+        PokemonA = Pokemon
+
+def desselecionaAlvo():
+    global PokemonA
+    PokemonA = None
+    estadoAlvo["selecionado_esquerdo"] = False
 
 def desseleciona():
     global PokemonS
@@ -205,14 +218,13 @@ def desseleciona():
         S2 = 1920
         AT1 = 210
         AT2 = -60
-        OP1 = 980
+        OP1 = 930
         OP2 = 1080
         animaS = pygame.time.get_ticks()
         animaA = pygame.time.get_ticks()
         animaOP = pygame.time.get_ticks()
         PokemonS = None
     estadoPokemon["selecionado_esquerdo"] = False
-    estadoInfo["inicio_animacao"] = None
 
 def vizualiza(Pokemon):
     global PokemonV
@@ -235,8 +247,7 @@ def oculta():
         V2 = 1920
         animaV = pygame.time.get_ticks()
         PokemonV = None
-    estadoInfo["selecionado_direito"] = False
-    estadoPokemon["selecionado_direito"] = False
+    estadoVizualiza["selecionado_direito"] = False
 
 A1 = -382
 A2 = -382
@@ -665,10 +676,12 @@ def VerificaGIF():
                 "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
             })
 
+estadoPokemon = {"selecionado_esquerdo": None}
 
-estadoPokemon = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+estadoAlvo = {"selecionado_esquerdo": None}
+
+estadoVizualiza ={"selecionado_direito": None}
+
 estadoInfo = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -777,8 +790,6 @@ def Partida(tela,estados,relogio):
         else:
             tela.blit(FundosIMG[0],(0,0))
             Telapausa(tela,eventos,estados)
-            
-        print (relogio.get_fps())
 
         pygame.display.update()
         relogio.tick(175)
@@ -885,63 +896,17 @@ def TelaPokemons(tela,eventos,estados):
     global player
     global inimigo
 
-    Todos_furtivos = False
-    Provocando = False
-    contador = 0
-    for pokemon in inimigo.pokemons:
-        if pokemon.efeitosPosi["Furtivo"] > 0:
-            contador = 1
-        if pokemon.efeitosPosi["Provocando"] > 0:
-            Provocando = True
-    if contador == len(inimigo.pokemons):
-        Todos_furtivos = True 
-        
-
-    try:
-        if PokemonS.local is not None and PokemonS.atacou == False and PokemonS.efeitosNega["Incapacitado"] == 0:
-            YA = GV.animar(AT1,AT2,animaA,tempo=250)
-
-    
-            for i in range(len(inimigo.pokemons)):
-                if Todos_furtivos is False:
-                    Furtividade = inimigo.pokemons[i].efeitosPosi["Furtivo"]
-                else:
-                    Furtividade = 0
-                if inimigo.pokemons[i].Vida > 0 and inimigo.pokemons[i].local is not None and Furtividade <= 0:
-                    if Provocando is False:
-                        BI = BA[i]
-                        BJ = BA[i+6]
-
-                        GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                                        lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
-                        GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                                        lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
-                        tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
-                        tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
-                    else:
-                        if inimigo.pokemons[i].efeitosPosi["Provocando"] > 0:
-                            BI = BA[i]
-                            BJ = BA[i+6]
-
-                            GV.Botao(tela, "", (1435 - i * 190, YA, 40, 55), LARANJA, PRETO, VERDE_CLARO,
-                                            lambda: atacaN(PokemonS,player,inimigo,BI["ID"],tela), Fonte50, BI, 2, None, True, eventos)
-                            GV.Botao(tela, "", (1335 - i * 190, YA, 40, 55), ROXO, PRETO, VERDE_CLARO,
-                                            lambda: atacaS(PokemonS,player,inimigo,BJ["ID"],tela), Fonte50, BJ, 2, None, True, eventos)
-                            tela.blit(OutrosIMG[7],((1435 - i * 190),(YA + 10)))
-                            tela.blit(OutrosIMG[7],((1335 - i * 190),(YA + 10)))
-
-    except AttributeError:
-        pass
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
-    GV.Botao(tela, "Evoluir", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
+    GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: AB.Atacar(PokemonS,PokemonV,PokemonA,player,inimigo),Fonte40, B22, 3, None, True, eventos)
 
+    GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
 
     try:
         if PokemonS.local is not None:
             
-            GV.Botao(tela, "Guardar", (1570, YO + 50, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
 
         else:
             if PokemonS.guardado < 3:
@@ -967,13 +932,13 @@ def TelaPokemons(tela,eventos,estados):
         else:
             cor_do_fundo_pokemon = AZUL_SUPER_CLARO
 
-        GV.Botao_Selecao(
+        GV.Botao_Selecao2(
             tela, (x, 890, 190, 190),
             "", Fonte30,
             cor_fundo=cor_do_fundo_pokemon, cor_borda_normal=PRETO,
-            cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
+            cor_borda_esquerda=VERDE_CLARO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
-            estado_global=estadoPokemon, eventos=eventos,
+            estado_global_esquerdo=estadoPokemon, estado_global_direito=estadoVizualiza, eventos=eventos,
             funcao_esquerdo=lambda i=i: seleciona(id_poke),
             funcao_direito=lambda i=i: vizualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
@@ -996,16 +961,16 @@ def TelaPokemons(tela,eventos,estados):
             id_poke = inimigo.pokemons[i]
         else:
             id_poke = f"I{i}"
-        GV.Botao_Selecao(
+        GV.Botao_Selecao2(
             tela, (x, 0, 190, 190),
             "", Fonte30,
             cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
-            estado_global=estadoPokemon, eventos=eventos,
-            funcao_esquerdo=lambda i=i: seleciona(id_poke),
+            estado_global_esquerdo=estadoAlvo ,estado_global_direito=estadoVizualiza, eventos=eventos,
+            funcao_esquerdo=lambda i=i: selecionaAlvo(id_poke),
             funcao_direito=lambda i=i: vizualiza(id_poke),
-            desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
+            desfazer_esquerdo=lambda: desselecionaAlvo(), desfazer_direito=lambda: oculta(),
             tecla_esquerda=pygame.K_1, tecla_direita=None, som=selecionaSOM)
         
         if not isinstance(id_poke,str):
@@ -1025,9 +990,9 @@ def TelaPokemons(tela,eventos,estados):
     if PokemonV is not None:
         PokemonVV = PokemonV
 
-    GV.Status_Pokemon((S1,542), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,S2,animaS,200,"S")
+    AB.Status_Pokemon((S1,542), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,S2,animaS,200,"S")
 
-    GV.Status_Pokemon((V1,209), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,V2,animaV,200,"V")
+    AB.Status_Pokemon((V1,209), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,V2,animaV,200,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1124,9 +1089,9 @@ def TelaOpções(tela,eventos,estados):
         tela.blit(OutrosIMG[2],(140,(YT - 65)))
 
 
-        GV.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,animaAI)
+        AB.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,animaAI)
 
-        GV.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,animaAE)
+        AB.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,animaAE)
 
         Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,animaAC)
 

@@ -32,7 +32,7 @@ Mega_Charizard_X = {
     "velocidade": 1.058823529,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANdragao.Fúria_Draconica],
+    "ataques normais": [A.ANdragao.Fúria_do_Dragão],
     "ataques especiais": [A.ASfogo.Bola_de_Fogo]
 }
 

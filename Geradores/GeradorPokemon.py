@@ -49,30 +49,39 @@ EfeitosPositivos = {
 
 class Pokemon:
     def __init__(self, pokemon, player):
+
         self.nome = pokemon["nome"]
         self.tipo = pokemon["tipo"]
         self.raridade = pokemon["raridade"]
         self.dificuldade = pokemon["dificuldade"]
-        self.VidaMax = pokemon["vida"]
-        self.Vida = pokemon["vida"]
         self.Estagio = pokemon["estagio"]
+
+        self.Vida = pokemon["vida"]
         self.Atk = pokemon["atk"]
         self.Atk_sp = pokemon["atk SP"]
         self.Def = pokemon["def"]
         self.Def_sp = pokemon["def SP"]
         self.vel = pokemon["velocidade"]
+
+        self.VidaMax = pokemon["vida"]
         self.AtkB = pokemon["atk"]
         self.Atk_spB = pokemon["atk SP"]
         self.DefB = pokemon["def"]
         self.Def_spB = pokemon["def SP"] 
         self.velB = pokemon["velocidade"]
-        self.xp_total = pokemon["XP"]
+
+        self.VarAtk = 0
+        self.VarAtk_sp = 0
+        self.VarDef = 0
+        self.VarDef_sp = 0
+        self.Varvel = 0
+
         self.custo = pokemon["custo"]
-        self.ataque_normal = pokemon["ataque normal"]
-        self.ataque_especial = pokemon["ataque especial"]
         self.evolucao = pokemon["evolução"]
         self.FF = pokemon["FF"]
         self.xp_atu = pokemon["XP atu"]
+        self.xp_total = pokemon["XP"]
+
         self.IV = pokemon["IV"]
         self.IV_vida = pokemon["IV vida"]
         self.IV_atk = pokemon["IV atk"]
@@ -80,13 +89,24 @@ class Pokemon:
         self.IV_def = pokemon["IV def"]
         self.IV_defSP = pokemon["IV def SP"]
         self.IV_vel = pokemon["IV vel"]
+
+        self.ataque_normal = pokemon ["ataque normal"]
+        self.ataque_especial = pokemon["ataque especial"]
+
+        # self.Movimento1 
+        # self.Movimento2
+        # self.Movimento3
+        # self.Movimento4
+
         self.code = pokemon["code"]
         self.ID = pokemon["ID"] #unico
+
         self.guardado = 0
         self.local = None
         self.icone = Carrega_Icone_pokemon(self.nome)
         self.efeitosPosi = EfeitosPositivos.copy()
         self.efeitosNega = EfeitosNegativos.copy()
+        
         try:
             player.pokemons.append(self)
             self.pos = player.pokemons.index(self)
@@ -96,6 +116,8 @@ class Pokemon:
         self.atacou = False
         self.vampirismo = 0
         self.PodeEvoluir = True
+        self.PodeAtacar = True
+        self.PodeSerAtacado = True
 
     def FormaFinal(self,item,player):
         if self.xp_atu >= self.xp_total:
@@ -445,3 +467,11 @@ def Gerador(Pokemon,P):
 
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokedex[code],P),player)
+
+def VerificaSituaçãoPokemon(player,inimigo):
+    for pokemon in player.pokemons:
+        if pokemon.atacou == True or pokemon.efeitosNega["Incapacitado"] > 0 or pokemon.local is None:
+            pokemon.PodeAtacar = False
+        else:
+            pokemon.PodeAtacar = True
+

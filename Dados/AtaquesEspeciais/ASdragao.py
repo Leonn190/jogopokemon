@@ -10,7 +10,7 @@ Sopro_Dragão = {
     "alvo": [],
     "valorAlvo": [],
     "valores": []
-}
+} 
 
 Bola_Dragonica = {
     "nome": "Bola Dracônica",
@@ -18,7 +18,7 @@ Bola_Dragonica = {
     "custo": ["marrom", "marrom", "marrom"],
     "dano": 1.5,
     "alcance": 30,
-    "precisão": 100,
+    "precisão": 100, 
     "descrição": "Lança uma bola com poder dracônico concentrado no inimigo",
     "função": [],
     "alvo": [],
