@@ -781,7 +781,7 @@ def Partida(tela,estados,relogio):
         print (relogio.get_fps())
 
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(175)
 
 def Inicia(tela):
     global Turno
