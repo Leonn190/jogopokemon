@@ -281,7 +281,6 @@ class Pokemon:
 
     def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
         
-
         if tipo == "N":
             F = self.ataque_normal
             U = self.Atk

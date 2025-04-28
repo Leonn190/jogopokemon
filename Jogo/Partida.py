@@ -407,7 +407,7 @@ def PokemonCentro(ID,player):
                 tocar("Bloq")
                 GV.adicionar_mensagem("sua lista de pokemon está cheia")
         else:
-            tocar("Bloq")
+            tocar("Falhou")
             GV.adicionar_mensagem("Voce falhou em capturar o pokemon, que pena")
         estadoPokebola["selecionado_esquerdo"] =  False
     else:
@@ -528,7 +528,7 @@ def tocar_musica_do_estadio():
         pygame.mixer.music.play(-1)  # -1 = loop infinito
         Musica_Estadio_atual = Z
 
-def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos, x_final=None, anima=None, tempo=200):
+def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos):
     # Tamanhos fixos e corretos
     tamanho_pokemon = 100
     tamanho_pokebola = 60
@@ -537,15 +537,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
     largura_total = 360
     altura_total = 360
 
-    # Animação deslizante
-    if x_final is not None:
-        if anima is None:
-            anima = pygame.time.get_ticks()
-        tempo_passado = pygame.time.get_ticks() - anima
-        progresso = min(tempo_passado / tempo, 1.0)
-        x_inicial_animado = int(x_inicial + (x_final - x_inicial) * progresso)
-    else:
-        x_inicial_animado = x_inicial
+    x_inicial_animado = x_inicial
 
     # Retângulo de fundo da área principal
     ret = pygame.Rect(x_inicial_animado, y_inicial, largura_total, altura_total)
@@ -804,8 +796,10 @@ def Partida(tela,estados,relogio):
             tela.blit(FundosIMG[0],(0,0))
             Telapausa(tela,eventos,estados)
 
+        tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
+
         pygame.display.update()
-        relogio.tick(100)
+        relogio.tick(120)
 
 def Inicia(tela):
     global Turno
@@ -1003,9 +997,15 @@ def TelaPokemons(tela,eventos,estados):
     if PokemonV is not None:
         PokemonVV = PokemonV
 
-    AB.Status_Pokemon((S1,542), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,S2,animaS,200,"S")
+    XstatusS = GV.animar(S1,S2,animaS)
 
-    AB.Status_Pokemon((V1,209), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,V2,animaV,200,"V")
+    if XstatusS != 1920:
+        AB.Status_Pokemon((XstatusS,542), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
+
+    XstatusV = GV.animar(V1,V2,animaV)
+
+    if XstatusV != 1920:
+        AB.Status_Pokemon((XstatusV,209), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1103,12 +1103,20 @@ def TelaOpções(tela,eventos,estados):
         tela.blit(OutrosIMG[12],(220,(YT - 55)))
         tela.blit(OutrosIMG[13],(290,(YT - 55)))
 
+        XInvetario = GV.animar(A1,A2,animaAI)
 
-        AB.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,animaAI)
+        if XInvetario != -382:
+            AB.Inventario((XInvetario,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
 
-        AB.Tabela_Energias(tela,(A3,300),player,estadoEnergias,eventos,A4,animaAE)
+        XEnergias = GV.animar(A3,A4,animaAE)
 
-        Centroo(tela, A5, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos,A6,animaAC)
+        if XEnergias != -382:
+            AB.Tabela_Energias(tela,(XEnergias,300),player,estadoEnergias,eventos)
+
+        XCentro = GV.animar(A5,A6,animaAC)
+
+        if XCentro != 400:
+            Centroo(tela, XCentro, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos)
 
         if ver_centro == "s":
             idx_pokebola = 0  

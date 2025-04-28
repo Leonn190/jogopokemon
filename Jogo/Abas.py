@@ -20,8 +20,8 @@ def desseleciona_ataque(SoV):
     else:
         AtaqueSV = None
 
-def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, x_final=None, anima=None, tempo=200, SoV=None):
-    x_inicial, y = pos
+def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, SoV=None):
+    x, y = pos
     largura, altura = 360, 330
     global AtaqueSV
 
@@ -29,16 +29,6 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
         cor = (35,35,35)
     else:
         cor = (80,35,35)
-
-    # Controle de animação
-    if x_final is not None: 
-        if anima is None:
-            anima = pygame.time.get_ticks()
-        tempo_passado = pygame.time.get_ticks() - anima
-        progresso = min(tempo_passado / tempo, 1.0)
-        x = int(x_inicial + (x_final - x_inicial) * progresso)
-    else:
-        x = x_inicial
 
     # Rect principal
     ret = pygame.Rect(x, y, largura, altura)
@@ -322,19 +312,9 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
 H = None
 B1 = {"estado": False}
 
-def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, x_final=None, anima=None, tempo=200):
-    x_inicial, y = local
+def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
+    x, y = local
     largura, altura = 380, 285  # ⬅️ Aumentado para 285
-
-    # Controle de animação (exatamente igual ao Status_Pokemon)
-    if x_final is not None:
-        if anima is None:
-            anima = pygame.time.get_ticks()
-        tempo_passado = pygame.time.get_ticks() - anima
-        progresso = min(tempo_passado / tempo, 1.0)
-        x = int(x_inicial + (x_final - x_inicial) * progresso)
-    else:
-        x = x_inicial
 
     cor_borda = (255, 255, 255)  # Borda branca
     global H  # Item selecionado com botão direito
@@ -482,20 +462,10 @@ B10 = {"estado": False}
 B11 = {"estado": False}
 BB = [B2,B3,B4,B5,B6,B7,B8,B9,B10,B11]
 
-def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, anima=None, tempo=200):
+def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
 
-    x_inicial, y = local
+    x, y = local
     largura, altura = 380, 320
-
-    # Controle de animação
-    if x_final is not None: 
-        if anima is None:
-            anima = pygame.time.get_ticks()
-        tempo_passado = pygame.time.get_ticks() - anima
-        progresso = min(tempo_passado / tempo, 1.0)
-        x = int(x_inicial + (x_final - x_inicial) * progresso)
-    else:
-        x = x_inicial
 
     # Rect principal
     ret = pygame.Rect(x, y, largura, altura)
@@ -518,7 +488,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, 
     tela.blit(titulo, (x + 190 - titulo.get_width() // 2, y + 10))
     pygame.draw.line(tela, (0, 0, 0), (x, y + 34), (x + largura, y + 34), 2)
 
-    # Linhas de energias em 4 colunas: nome1 | valor1 | nome2 | valor2
+    
     chaves = list(player.energias.keys())
     for i in range(5):
         nome1 = chaves[i].capitalize()
@@ -528,7 +498,6 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, 
 
         y_pos = y + 37 + i * 22
 
-        # Colunas ajustadas
         texto_nome1 = fonte.render(nome1 + ":", True, (255, 255, 255))
         texto_valor1 = fonte.render(valor1, True, (255, 255, 255))
         texto_nome2 = fonte.render(nome2 + ":", True, (255, 255, 255))
@@ -568,11 +537,9 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, 
 
         x_centro = x + margem_x + espaco_entre * i + espaco_entre // 2
 
-        # Barra vertical
         pygame.draw.rect(tela, cor, (x_centro - largura_barra // 2, base_y - altura, largura_barra, altura))
         pygame.draw.rect(tela, (0, 0, 0), (x_centro - largura_barra // 2, barra_topo, largura_barra, base_y - barra_topo), 1)
 
-        # Botão de seleção na base
         largura_botao = largura_barra + 8
         altura_botao = 18
         x_botao = x_centro - largura_botao // 2
@@ -582,7 +549,6 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, 
            lambda:player.muda_descarte(chave), Fonte15, BB[i], grossura=2, tecla_atalho=None,
            mostrar_na_tela=True, eventos=None, som=None)
 
-        # Círculo com número
         pygame.draw.circle(tela, cor, (x_centro, base_y + 3), 12)
         pygame.draw.circle(tela, (255, 255, 255), (x_centro, base_y + 3), 12, 1)
         cor_texto = (255, 255, 255) if sum(cor) < 300 else (0, 0, 0)

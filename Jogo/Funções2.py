@@ -1,6 +1,8 @@
 import Partida as P
 import random
 import FunçõesDeAtaques as FA
+import Visual.GeradoresVisuais as GV
+from Visual.Sonoridade import tocar
 import math
 import pygame
 
@@ -344,3 +346,63 @@ def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,
         
         return defesa, dano
         
+
+
+def VCusto(player,pokemon,ataque):
+    
+    Custo = ataque["custo"].copy()
+    if pokemon.efeitosNega["Descarregado"] > 0:
+        for i in range(len(ataque["custo"])):
+            Custo.append(ataque["custo"][i]) 
+    if pokemon.efeitosPosi["Energizado"] > 0:
+        Custo = ["normal"]
+
+    pagou = 0
+    gastas = []
+    for i in range(len(Custo)):
+        if Custo[i] == "normal":
+            for cor in player.energiasDesc:
+                if player.energias[cor] >= 1:
+                    player.energias[cor] -= 1
+                    gastas.append(cor)
+                    pagou += 1
+                    break
+        else:
+            if player.energias[Custo[i]] >= 1:
+                player.energias[Custo[i]] -= 1
+                gastas.append(Custo[i])
+                pagou += 1
+
+    if pagou != len(Custo):
+        tocar("Bloq")
+        GV.adicionar_mensagem("Sem energias, seu ataque falhou")
+        for i in range(len(gastas)):
+            player.energias[gastas[i]] += 1
+        return False
+    else:
+        return True
+
+def VAcerta(pokemon,alvo,ataque,Mapa):
+    
+    distancia = distancia_entre_pokemons(pokemon,alvo,Mapa.Metros)
+    Over = ataque["alcance"] - distancia
+    if alvo.efeitosPosi["Voando"] > 0:
+        Over = Over - 45
+    if Over < 0:
+        assertividade = ataque["precisão"] + Over
+    else:
+        assertividade = ataque["precisão"]
+    if pokemon.efeitosNega["Confuso"] > 0:
+        assertividade = assertividade * 0.5
+    if pokemon.efeitosPosi["Focado"] > 0:
+        assertividade = assertividade * 1.5
+
+
+    desfoco = random.randint(0,100)
+    if desfoco > assertividade:
+        GV.adicionar_mensagem("Você errou o ataque")
+        tocar("Falhou")
+        return False
+    else:
+        return True
+    

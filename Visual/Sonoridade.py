@@ -7,7 +7,8 @@ Sons = {
     "Compra": lambda: pygame.mixer.Sound("Audio/Sons/Compra.wav"),
     "Usou": lambda: pygame.mixer.Sound("Audio/Sons/Usou.wav"),
     "Bom": lambda: pygame.mixer.Sound("Audio/Sons/Bom.wav"),
-    "Bloq": lambda: pygame.mixer.Sound("Audio/Sons/Bloq.wav")
+    "Bloq": lambda: pygame.mixer.Sound("Audio/Sons/Bloq.wav"),
+    "Falhou": lambda: pygame.mixer.Sound("Audio/Sons/Falhou.wav")
 }
 
 def tocar(som):
