@@ -3,6 +3,7 @@ import random
 import FunçõesDeAtaques as FA
 import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
+from Visual.Mensagens import adicionar_mensagem_passageira
 import math
 import pygame
 
@@ -104,7 +105,7 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,atacado):
     else:
         texto = "Não Afeta"
     Fonte = pygame.font.SysFont(None, 30)
-    P.adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,((1365 - atacado.pos * 190),220))
+    adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,((1365 - atacado.pos * 190),220))
 
     return multiplicador
 
@@ -405,4 +406,8 @@ def VAcerta(pokemon,alvo,ataque,Mapa):
         return False
     else:
         return True
+    
+
+
+
     

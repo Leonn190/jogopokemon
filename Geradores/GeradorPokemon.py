@@ -57,11 +57,11 @@ class Pokemon:
         self.Estagio = pokemon["estagio"]
 
         self.Vida = pokemon["vida"]
-        self.Atk = pokemon["atk"]
-        self.Atk_sp = pokemon["atk SP"]
-        self.Def = pokemon["def"]
-        self.Def_sp = pokemon["def SP"]
-        self.vel = pokemon["velocidade"]
+        self.Atk = 0
+        self.Atk_sp = 0
+        self.Def = 0
+        self.Def_sp = 0
+        self.vel = 0 
 
         self.VidaMax = pokemon["vida"]
         self.AtkB = pokemon["atk"]
@@ -70,11 +70,17 @@ class Pokemon:
         self.Def_spB = pokemon["def SP"] 
         self.velB = pokemon["velocidade"]
 
-        self.VarAtk = 0
-        self.VarAtk_sp = 0
-        self.VarDef = 0
-        self.VarDef_sp = 0
-        self.Varvel = 0
+        self.VarAtk_temp = 0
+        self.VarAtk_sp_temp = 0
+        self.VarDef_temp = 0
+        self.VarDef_sp_temp = 0
+        self.Varvel_temp = 0
+
+        self.VarAtk_perm = 0
+        self.VarAtk_sp_perm = 0
+        self.VarDef_perm = 0
+        self.VarDef_sp_perm = 0
+        self.Varvel_perm = 0
 
         self.custo = pokemon["custo"]
         self.evolucao = pokemon["evolução"]
@@ -127,17 +133,17 @@ class Pokemon:
                     if item["nome"] == "Energia Mega":
                         if self.FF[i]["FF"] == "Mega":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i))
+                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i,player))
 
                     elif item["nome"] == "Energia Vstar":
                         if self.FF[i]["FF"] == "Vstar":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1))
+                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1,player))
 
                     elif item["nome"] == "Energia GigantaMax":
                         if self.FF[i]["FF"] == "Vmax":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0))
+                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0,player))
             else:
                 GV.adicionar_mensagem("Esse pokemon não tem forma final")
                 return
@@ -150,23 +156,23 @@ class Pokemon:
             GV.adicionar_mensagem("Xp insuficiente")
             return
         
-    def Evoluir_Final(self,i):
+    def Evoluir_Final(self,i,player):
         nome_antigo = self.nome
         self.nome = self.FF[i]["nome"]
         self.VidaMax = round(self.VidaMax * self.FF[i]["vida"])
         self.Vida = round(self.Vida * self.FF[i]["vida"])
-        self.Def = round(self.Def * self.FF[i]["def"])
-        self.Def_sp = round(self.Def_sp * self.FF[i]["def SP"])
-        self.Atk = round(self.Atk * self.FF[i]["atk"])
-        self.Atk_sp = round(self.Atk_sp * self.FF[i]["atk SP"])
-        self.vel = round(self.velB * self.FF[i]["velocidade"])
+        self.DefB = round(self.DefB * self.FF[i]["def"])
+        self.Def_spB = round(self.Def_spB * self.FF[i]["def SP"])
+        self.AtkB = round(self.AtkB * self.FF[i]["atk"])
+        self.Atk_spB = round(self.Atk_spB * self.FF[i]["atk SP"])
+        self.velB = round(self.velB * self.FF[i]["velocidade"])
         self.custo = self.FF[i]["custo"]
         self.ataque_normal = random.choice(self.FF[i]["ataques normais"])
         self.ataque_especial = random.choice(self.FF[i]["ataques especiais"])
         self.Estagio = self.FF[i]["estagio"]
         self.xp_total = self.FF[i]["XP"]
         self.evolucao = self.FF[i]["evolução"]
-        VerificaGIF()
+        VerificaGIF(player)
         self.PodeEvoluir = True
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
@@ -178,7 +184,7 @@ class Pokemon:
                 if self.evolucao is not None:
                     i = self.pos
                     self.PodeEvoluir = False
-                    adicionar_efeito("Evoluir",(360 + i * 190,870),ao_terminar=lambda:self.Evoluir_de_fato())
+                    adicionar_efeito("Evoluindo", (360 + i * 190, 870), ao_terminar=lambda: self.Evoluir_de_fato(player))
                     return
             else:
                 tocar("Bloq")
@@ -187,27 +193,24 @@ class Pokemon:
         tocar("Bloq")
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
-    def Evoluir_de_fato(self):
+    def Evoluir_de_fato(self,player):
         nome_antigo = self.nome
         self.nome = self.evolucao["nome"]
         self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
         self.Vida = round(self.Vida * self.evolucao["vida"])
-        self.Def = round(self.Def * self.evolucao["def"])
-        self.Def_sp = round(self.Def_sp * self.evolucao["def SP"])
-        self.Atk = round(self.Atk * self.evolucao["atk"])
-        self.Atk_sp = round(self.Atk_sp * self.evolucao["atk SP"])
-        self.vel = round(self.vel * self.evolucao["velocidade"])
+        self.DefB = round(self.DefB * self.evolucao["def"])
+        self.Def_spB = round(self.Def_spB * self.evolucao["def SP"])
+        self.AtkB = round(self.AtkB * self.evolucao["atk"])
+        self.Atk_spB = round(self.Atk_spB * self.evolucao["atk SP"])
+        self.velB = round(self.velB * self.evolucao["velocidade"])
         self.custo = self.evolucao["custo"]
-        if self.evolucao["estagio"] < 4:
-            self.ataque_normal = random.choice(self.evolucao["ataques normais"])
-            self.ataque_especial = random.choice(self.evolucao["ataques especiais"])
         self.Estagio = self.evolucao["estagio"]
         self.FF = self.evolucao["FF"]
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]
         self.icone = Carrega_Icone_pokemon(self.nome)
         self.PodeEvoluir = True
-        VerificaGIF()
+        VerificaGIF(player)
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
 
 
@@ -280,7 +283,7 @@ class Pokemon:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1400 - i * 190),190))
 
     def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
-        
+
         if tipo == "N":
             F = self.ataque_normal
             U = self.Atk
@@ -352,9 +355,6 @@ class Pokemon:
 
         self.atacou = True
         Dano_I = U * F["dano"]
-        
-        if F["função"] != []:
-            V, Dano_I = FU.seleciona_função_ataque(F,self,alvo,player,inimigo,Mapa,tela,Dano_I,V)
 
         Tipo = F["tipo"]
         mitigação = 100 / (100 + V) 
@@ -467,24 +467,57 @@ def Gerador(Pokemon,P):
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokedex[code],P),player)
 
-def VerificaSituaçãoPokemon(player,inimigo):
+def VerificaSituaçãoPokemon(player, inimigo):
     for pokemon in player.pokemons:
-        if pokemon.atacou == True or pokemon.efeitosNega["Incapacitado"] > 0 or pokemon.local is None:
+        if pokemon.atacou == True or pokemon.efeitosNega["Incapacitado"] > 0 or pokemon.efeitosNega["Congelado"] > 0 or pokemon.local is None:
             pokemon.PodeAtacar = False
         else:
             pokemon.PodeAtacar = True
+
+    for pokemon in player.pokemons + inimigo.pokemons:
+        # --- Resetar apenas os modificadores TEMPORÁRIOS ---
+        pokemon.VarAtk_temp = 0
+        pokemon.VarAtk_sp_temp = 0
+        pokemon.VarDef_temp = 0
+        pokemon.VarDef_sp_temp = 0
+        pokemon.Varvel_temp = 0
+
+        # --- Aplicar efeitos negativos/positivos TEMPORÁRIOS ---
+        if pokemon.efeitosNega["Quebrado"] > 0:
+            pokemon.VarDef_temp += -pokemon.DefB * 0.5
+        if pokemon.efeitosNega["Fragilizado"] > 0:
+            pokemon.VarDef_sp_temp += -pokemon.Def_spB * 0.5
+        if pokemon.efeitosPosi["Reforçado"] > 0:
+            pokemon.VarDef_temp += pokemon.DefB * 0.3
+            pokemon.VarDef_sp_temp += pokemon.Def_spB * 0.3
+        if pokemon.efeitosNega["Enfraquecido"] > 0:
+            pokemon.VarAtk_temp += -pokemon.AtkB * 0.3
+            pokemon.VarAtk_sp_temp += -pokemon.Atk_spB * 0.3
+        if pokemon.efeitosPosi["Ofensivo"] > 0:
+            pokemon.VarAtk_temp += pokemon.AtkB * 0.3
+            pokemon.VarAtk_sp_temp += pokemon.Atk_spB * 0.3
+        if pokemon.efeitosNega["Paralisado"] > 0:
+            pokemon.Varvel_temp += -pokemon.velB
+        if pokemon.efeitosNega["Congelado"] > 0:
+            pokemon.Varvel_temp += -pokemon.velB
+
+        # --- Atualizar status finais (Base + Permanente + Temporário) ---
+        pokemon.Atk = pokemon.AtkB + pokemon.VarAtk_perm + pokemon.VarAtk_temp
+        pokemon.Atk_sp = pokemon.Atk_spB + pokemon.VarAtk_sp_perm + pokemon.VarAtk_sp_temp
+        pokemon.Def = pokemon.DefB + pokemon.VarDef_perm + pokemon.VarDef_temp
+        pokemon.Def_sp = pokemon.Def_spB + pokemon.VarDef_sp_perm + pokemon.VarDef_sp_temp
+        pokemon.vel = pokemon.velB + pokemon.Varvel_perm + pokemon.Varvel_temp
+
+
+
+
 
 Dreno = {
     "nome": "Dreno",
     "tipo": ["planta"],   
     "custo": ["verde"],
     "dano": 0.6,
-    "alcance": 20,
+    "alcance": 200,
     "precisão": 100, 
     "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
-    "função": ["Cura"],
-    "chance": [100],
-    "alvo": ["Self"],
-    "valorAlvo": [1],
-    "valores": [10]
 }

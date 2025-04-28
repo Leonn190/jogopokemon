@@ -399,7 +399,7 @@ def PokemonCentro(ID,player):
                 novo_pokemon = G.Gerador_final(pokemon["code"],AIV,player)
                 M.GuardarPosicionar(novo_pokemon,player)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
-                VerificaGIF()
+                VerificaGIF(player,inimigo)
                 tocar("Bom")
                 Centro.remove(pokemon)
                 return
@@ -651,7 +651,7 @@ def Passar_contadores():
             if contador > 0:
                 pokemon.efeitosPosi[efeito] -= 1    
 
-def VerificaGIF():
+def VerificaGIF(player,inimigo=None):
     global Gifs_ativos
 
         # Ao capturar um novo Pokémon (exemplo)
@@ -667,18 +667,19 @@ def VerificaGIF():
                 "tempo_anterior": pygame.time.get_ticks(),
                 "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
             })
-    for i in range(len(inimigo.pokemons)):
-        nome = inimigo.pokemons[i].nome
+    if inimigo is not None:
+        for i in range(len(inimigo.pokemons)):
+            nome = inimigo.pokemons[i].nome
 
-        # Verifica se o Pokémon ainda não foi adicionado
-        if nome not in [gif["nome"] for gif in Gifs_ativos]:
-            Gifs_ativos.append({
-                "nome": nome,
-                "frames": Carrega_Gif_pokemon(nome),
-                "frame_atual": 0,
-                "tempo_anterior": pygame.time.get_ticks(),
-                "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
-            })
+            # Verifica se o Pokémon ainda não foi adicionado
+            if nome not in [gif["nome"] for gif in Gifs_ativos]:
+                Gifs_ativos.append({
+                    "nome": nome,
+                    "frames": Carrega_Gif_pokemon(nome),
+                    "frame_atual": 0,
+                    "tempo_anterior": pygame.time.get_ticks(),
+                    "intervalo": 25  # Pode ser ajustado para cada Pokémon se necessário
+                })
 
 estadoPokemon = {"selecionado_esquerdo": None}
 
@@ -798,6 +799,8 @@ def Partida(tela,estados,relogio):
 
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
+        print(player)
+
         pygame.display.update()
         relogio.tick(120)
 
@@ -880,7 +883,7 @@ def Inicia(tela):
     player = Jogador1
     inimigo = Jogador2
 
-    VerificaGIF()
+    VerificaGIF(player,inimigo)
 
     pygame.mixer.music.load('Audio/Musicas/Partida.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -902,11 +905,13 @@ def TelaPokemons(tela,eventos,estados):
     global informacao
     global player
     global inimigo
-
+    
+    VerificaGIF(player,inimigo)
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
-    GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: AB.Atacar(PokemonS,PokemonV,PokemonA,player,inimigo),Fonte40, B22, 3, None, True, eventos)
+    # GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: AB.Atacar(PokemonS,PokemonV,PokemonA,player,inimigo),Fonte40, B22, 3, None, True, eventos)
+    GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.atacar(PokemonA,player,inimigo,"S",tela,Mapa),Fonte40, B22, 3, None, True, eventos)
 
     GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
 
@@ -1066,6 +1071,7 @@ def TelaPokemons(tela,eventos,estados):
         barra_vida(tela, 1315 - i * 190, 190, 180, 15, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].ID)
 
     atualizar_efeitos(tela)
+    G.VerificaSituaçãoPokemon(player,inimigo)
 
 def TelaOpções(tela,eventos,estados):
     global PokemonS

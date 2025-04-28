@@ -566,7 +566,6 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo):
             tocar("Bloq")
             return
         
-        
     else:
         GV.adicionar_mensagem("Esse pokemon não pode realizar ataques")
         tocar("Bloq")
