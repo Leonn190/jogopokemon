@@ -1,6 +1,6 @@
 import pygame
 import Visual.GeradoresVisuais as GV
-import Gerador2 as G
+import Jogo.Gerador as G
 import PygameAções as A
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,

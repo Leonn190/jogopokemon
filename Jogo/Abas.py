@@ -1,5 +1,6 @@
 import pygame
 import Visual.GeradoresVisuais as GV
+from Visual.Sonoridade import tocar
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,Fonte20,Fonte15,Fonte25
 
 AtaqueS = None
@@ -592,7 +593,16 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, x_final=None, 
             GV.Texto_caixa(tela,f"D{player.energiasDesc.index(chave)}",(x_botao,( base_y - 150), largura_botao, 20),Fonte25,(30,30,30),(30,30,30),BRANCO)
 
 def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo):
-    if PokemonS is None or PokemonA is None or AtaqueS is None:
-        print (PokemonS,PokemonA,AtaqueS)
-        GV.adicionar_mensagem("Selecione um alvo, um ataque, e um atacante")
+    if PokemonS.PodeAtacar == True:
+        if PokemonS is None or PokemonA is None or AtaqueS is None:
+            print (PokemonS,PokemonA,AtaqueS)
+            GV.adicionar_mensagem("Selecione um alvo, um ataque, e um atacante")
+            tocar("Bloq")
+            return
+        
+        
+    else:
+        GV.adicionar_mensagem("Esse pokemon não pode realizar ataques")
+        tocar("Bloq")
         return
+    

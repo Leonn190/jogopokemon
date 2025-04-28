@@ -14,8 +14,6 @@ Venusaur_Vmax = {
     "velocidade": 0.4473684211,
     "XP": 0,
     "custo": 6,
-    "ataques normais": [A.ANvenenoso.Vórtice_Venenoso],
-    "ataques especiais": [A.ASplanta.Raio_Solar]
 }
 
 Charizard_Vmax = { 
@@ -32,8 +30,6 @@ Charizard_Vmax = {
     "velocidade": 0.2692307692,
     "XP": 0,
     "custo": 7,
-    "ataques normais": [A.ANfogo.Erupção_Pyroclástica],
-    "ataques especiais": [A.ASvoador.Furacão_Celeste]
 }
 
 Blastoise_Vmax = { 
@@ -50,8 +46,7 @@ Blastoise_Vmax = {
     "velocidade": 0.303030303,
     "XP": 0,
     "custo": 7,
-    "ataques normais": [A.ANagua.Onda_Aquatica],
-    "ataques especiais": [A.ASagua.Tsunami]
+
 }
 
 Machamp_Vmax = { 
@@ -68,8 +63,7 @@ Machamp_Vmax = {
     "velocidade": 0.3243243243,
     "XP": 0,
     "custo": 6,
-    "ataques normais": [A.ANlutador.Chave_de_Impulso],
-    "ataques especiais": [A.ASlutador.Punho_Tornado]
+
 }
 
 Gengar_Vmax = { 
@@ -86,8 +80,7 @@ Gengar_Vmax = {
     "velocidade": 0.4,
     "XP": 0,
     "custo": 6,
-    "ataques normais": [A.ANvenenoso.Vórtice_Venenoso],
-    "ataques especiais": [A.ASfantasma.Vórtice_Espiritual]
+
 }
 
 Butterfree_Vmax = { 
@@ -104,8 +97,7 @@ Butterfree_Vmax = {
     "velocidade": 0.7441860465,
     "XP": 0,
     "custo": 5,
-    "ataques normais": [A.ANvoador.Vórtice_Sussurrante],
-    "ataques especiais": [A.ASinseto.Explosão_Criatura]
+
 }
 
 Snorlax_Vmax = { 
@@ -122,8 +114,7 @@ Snorlax_Vmax = {
     "velocidade": 0,
     "XP": 0,
     "custo": 0,
-    "ataques normais": [A.ANnormal.Tapa],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Meowth_Vmax = { 
@@ -140,8 +131,7 @@ Meowth_Vmax = {
     "velocidade": 0.7666666667,
     "XP": 0,
     "custo": 4,
-    "ataques normais": [A.ANnormal.Cabeçada],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Pikachu_Vmax = { 
@@ -158,6 +148,5 @@ Pikachu_Vmax = {
     "velocidade": 0.4857142857,
     "XP": 0,
     "custo": 4,
-    "ataques normais": [A.ANeletrico.Jato_Elétrico],
-    "ataques especiais": [A.ASeletrico.Tempestade_Elétrica]
+
 }

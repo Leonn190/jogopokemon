@@ -1,6 +1,6 @@
 import Funções2 as FU
 import random
-import Gerador2 as G
+import Jogo.Gerador as G
 
 def Curar(ataque, pokemon, alvo, player, inimigo, mapa, tela, dano, defesa, i, alvos_selecionados):
     valores = ataque["valores"][i]

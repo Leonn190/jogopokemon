@@ -7,7 +7,7 @@ from Visual.Sonoridade import tocar
 import Abas as AB
 import Tabuleiro as M
 import Visual.GeradoresVisuais as GV
-import Gerador2 as G
+import Jogo.Gerador as G
 import PygameAções as A
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50,Fonte70,
@@ -255,6 +255,8 @@ A3 = -382
 A4 = -382
 A5 = -400
 A6 = -400
+A7 = -400
+A8 = -400
 
 def informa(ID,Pokemon):
     pass
@@ -280,11 +282,17 @@ def Abre(ID,player,inimigo):
         A5 = -400
         A6 = 0
         animaAC = pygame.time.get_ticks()
+    elif ID == "Lojas":
+        global A7, A8, animaAL
+        A7 = -400
+        A8 = 0
+        animaAL = pygame.time.get_ticks()
     
 def Fecha():
     global A1, A2, animaAI
     global A3, A4, animaAE
     global A5, A6, animaAC
+    global A7, A8, animaAL
     global estadoOutros
     if A2 == 0:
         A1 = 0
@@ -298,6 +306,10 @@ def Fecha():
         A5 = 0
         A6 = -400
         animaAC = pygame.time.get_ticks()
+    elif A8 == 0:
+        A7 = 0
+        A8 = -400
+        animaAL = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
 def seleciona_pokebola(pokebola):
@@ -717,6 +729,7 @@ animaV = 0
 animaA = 0
 animaT = 0
 animaOP = 0
+animaAL = 0
 
 B1 = {"estado": False}
 B2 = {"estado": False, "ID": "item"}
@@ -792,7 +805,7 @@ def Partida(tela,estados,relogio):
             Telapausa(tela,eventos,estados)
 
         pygame.display.update()
-        relogio.tick(175)
+        relogio.tick(100)
 
 def Inicia(tela):
     global Turno
@@ -1065,11 +1078,11 @@ def TelaOpções(tela,eventos,estados):
     YT = GV.animar(T1,T2,animaT,300)
 
     GV.Botao(tela, "", (0, YT, 420, 50), PRETO, PRETO, PRETO,lambda: Troca_Terminal(),Fonte40, B20, 3, None, True, eventos)
-    GV.Texto_caixa(tela,f"Seu ouro: {player.ouro}",(210, (YT - 60), 210, 60),Fonte40,LARANJA,PRETO)
+    GV.Texto_caixa(tela,f"{player.ouro}",(350, (YT - 60), 70, 60),Fonte40,LARANJA,PRETO)
     GV.Texto_caixa(tela,player.nome,(0, YT, 420, 50),Fonte50,AZUL,PRETO) 
     GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte20, AZUL_CLARO, PRETO)
 
-    nomes_botoes_outros = ["Inventario", "Energias", "Centro"]
+    nomes_botoes_outros = ["Inventario", "Energias", "Centro", "Lojas", "Treinador"]
 
     for i, nome in enumerate(nomes_botoes_outros):
         GV.Botao_Selecao(
@@ -1087,6 +1100,8 @@ def TelaOpções(tela,eventos,estados):
         tela.blit(OutrosIMG[0],(5,(YT - 60)))
         tela.blit(OutrosIMG[1],(80,(YT - 55)))
         tela.blit(OutrosIMG[2],(140,(YT - 65)))
+        tela.blit(OutrosIMG[12],(220,(YT - 55)))
+        tela.blit(OutrosIMG[13],(290,(YT - 55)))
 
 
         AB.Inventario((A1,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS,A2,animaAI)
@@ -1135,32 +1150,34 @@ def TelaOutros(tela,eventos,estados):
     GV.Texto_caixa(tela,f"Turno: {Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO) 
     GV.Texto_caixa(tela,inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
 
+    XL = GV.animar(A7,A8,animaAL)
+
     itens_loja = [
-        (LojaItensP, B2, 1510),
-        (LojaPokeP, B3, 1590),
-        (LojaEnerP, B5, 1670),
-        (LojaAmpliP, B4, 1750),
-        (LojaEstTreP,B20,1830)]
+        (LojaItensP, B2, XL),
+        (LojaPokeP, B3, XL + 80),
+        (LojaEnerP, B5, XL + 160),
+        (LojaAmpliP, B4, XL + 240),
+        (LojaEstTreP,B20, XL + 320)] 
 
     for i, (valor, botao_dict, x) in enumerate(itens_loja):
-        GV.Texto_caixa(tela, str(valor), (x + 15, 159, 50, 20), Fonte20, CINZA, PRETO, 2)
+        GV.Texto_caixa(tela, str(valor), (x + 15, 289, 50, 20), Fonte20, CINZA, PRETO, 2)
 
-        GV.Botao(tela, "", (x, 80, 80, 80),CINZA, PRETO, VERDE_CLARO,lambda botao_dict=botao_dict, valor=valor: G.gera_item(botao_dict["ID"], player, valor, Turno),
+        GV.Botao(tela, "", (x, 210, 80, 80),CINZA, PRETO, VERDE_CLARO,lambda botao_dict=botao_dict, valor=valor: G.gera_item(botao_dict["ID"], player, valor, Turno),
             Fonte50, botao_dict, 3, None, True, eventos)
     
-    tela.blit(OutrosIMG[3],(1515,85))
-    tela.blit(OutrosIMG[4],(1595,85))
-    tela.blit(OutrosIMG[6],(1681,88))
+    tela.blit(OutrosIMG[3],(XL + 5,215))
+    tela.blit(OutrosIMG[4],(XL + 85,215))
+    tela.blit(OutrosIMG[6],(XL + 171,218))
 
     if Turno > 3:
-        tela.blit(OutrosIMG[5],(1756,85))
+        tela.blit(OutrosIMG[5],(XL + 246,215))
         if Turno > 5:
-            tela.blit(OutrosIMG[9],(1834,88))
+            tela.blit(OutrosIMG[9],(XL + 324,218))
         else:
-            tela.blit(OutrosIMG[10],(1835,85))
+            tela.blit(OutrosIMG[10],(XL + 325,215))
     else:
-        tela.blit(OutrosIMG[10],(1755,85))
-        tela.blit(OutrosIMG[10],(1835,85))
+        tela.blit(OutrosIMG[10],(XL + 245,215))
+        tela.blit(OutrosIMG[10],(XL + 325,215))
 
 def Telapausa(tela,eventos,estados):
 

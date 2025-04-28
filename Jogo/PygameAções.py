@@ -1,6 +1,6 @@
 import pygame
 import Visual.GeradoresVisuais as GV
-import Gerador2 as G
+import Jogo.Gerador as G
 from Visual.Sonoridade import tocar
 import random
 

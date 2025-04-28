@@ -270,8 +270,6 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     MweedleIMG = GV.Carregar_Imagem("imagens/pokemons/weedle.png", (88, 88), "PNG")
     MpinsirIMG = GV.Carregar_Imagem("imagens/pokemons/pinsir.png", (88, 88), "PNG")
 
-
-
     EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (62, 62), "PNG")
     CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (62, 62), "PNG")
     RubiIMG = GV.Carregar_Imagem("imagens/itens/rubi.png", (62, 62), "PNG")
@@ -297,7 +295,6 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     VMaxIMG = GV.Carregar_Imagem("imagens/itens/Vmax.png", (62, 62), "PNG")
     VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (62, 62), "PNG")
 
-
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
     UUltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (55,55),"PNG")
@@ -310,6 +307,8 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     InventárioIMG = GV.Carregar_Imagem("imagens/icones/inventario.png", (60,60),"PNG")
     energiasIMG = GV.Carregar_Imagem("imagens/icones/energias.png", (50,50),"PNG")
     CentroIMG = GV.Carregar_Imagem("imagens/icones/centro.png", (70,70),"PNG")
+    LojasIMG = GV.Carregar_Imagem("imagens/icones/Loja.png", (50,50),"PNG")
+    TreinadorIMG = GV.Carregar_Imagem("imagens/icones/Treinador.png", (50,50),"PNG")
     LojaPokebolasIMG = GV.Carregar_Imagem("imagens/icones/Poke.png", (70,70),"PNG")
     LojaItensIMG = GV.Carregar_Imagem("imagens/icones/itens.png", (70,70),"PNG")
     LojaAmplificadoresIMG = GV.Carregar_Imagem("imagens/icones/amplificadores.png", (70,70),"PNG")
@@ -465,7 +464,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     
     }
 
-    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG]
+    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG,LojasIMG,TreinadorIMG]
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 

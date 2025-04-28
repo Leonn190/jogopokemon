@@ -14,8 +14,7 @@ Mega_Venusaur = {
     "velocidade": 1.135135135,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANvenenoso.Vórtice_Venenoso],
-    "ataques especiais": [A.ASplanta.Raio_Solar]
+
 }
 
 Mega_Charizard_X = {
@@ -32,8 +31,7 @@ Mega_Charizard_X = {
     "velocidade": 1.058823529,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANdragao.Fúria_do_Dragão],
-    "ataques especiais": [A.ASfogo.Bola_de_Fogo]
+
 }
 
 Mega_Charizard_Y = {
@@ -50,8 +48,7 @@ Mega_Charizard_Y = {
     "velocidade": 1.215686275,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANfogo.Erupção_Pyroclástica],
-    "ataques especiais": [A.ASvoador.Furacão_Celeste]
+
 }
 
 Mega_Blastoise = {
@@ -68,8 +65,7 @@ Mega_Blastoise = {
     "velocidade": 1.125,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANagua.Lamina_Aquatica],
-    "ataques especiais": [A.ASagua.Tsunami]
+
 }
 
 Mega_Gengar = {
@@ -86,8 +82,6 @@ Mega_Gengar = {
     "velocidade": 1.183673469,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANfantasma.Garras_Sombrias],
-    "ataques especiais": [A.ASvenenoso.Gás_Nocivo]
 }
 
 Mega_Alakazam = {
@@ -104,8 +98,6 @@ Mega_Alakazam = {
     "velocidade": 1.170212766,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANpsiquico.Colapso_Psiquico],
-    "ataques especiais": [A.ASpsiquico.Explosão_Cerebral]
 }
 
 Mega_Gyarados = {
@@ -122,8 +114,7 @@ Mega_Gyarados = {
     "velocidade": 1.162790698,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANagua.Lamina_Aquatica],
-    "ataques especiais": [A.ASagua.Tsunami]
+
 }
 
 Mega_Mewtwo_X = {
@@ -140,8 +131,7 @@ Mega_Mewtwo_X = {
     "velocidade": 1.0,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANlutador.Golpe_Antigo],
-    "ataques especiais": [A.ASpsiquico.Ondas_Mentais]
+
 }
 
 Mega_Mewtwo_Y = {
@@ -158,8 +148,7 @@ Mega_Mewtwo_Y = {
     "velocidade": 1.147058824,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANpsiquico.Colapso_Psiquico],
-    "ataques especiais": [A.ASpsiquico.Explosão_Cerebral]
+
 }
 
 Mega_Aerodactyl = {
@@ -176,8 +165,7 @@ Mega_Aerodactyl = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANpedra.Pedra_Colossal],
-    "ataques especiais": [A.ASvoador.Bola_de_Vento]
+
 }
 
 Mega_Pinsir = {
@@ -194,8 +182,7 @@ Mega_Pinsir = {
     "velocidade": 1.44,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANvoador.Lâmina_Aérea],
-    "ataques especiais": [A.ASinseto.Bola_de_Insetos]
+
 }
 
 Mega_Beedrill = {
@@ -212,6 +199,5 @@ Mega_Beedrill = {
     "velocidade": 1.545454545,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANinseto.Mandíbula_Vingativa],
-    "ataques especiais": [A.ASvoador.Furacão_Celeste]
+
 }

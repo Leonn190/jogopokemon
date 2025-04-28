@@ -20,8 +20,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "ataques normais": [A.ANplanta.Golpe_Tropical],
-    "ataques especiais": [A.ASplanta.Tiro_de_semente, A.ASplanta.Dreno]
+
 }
 
 Charmander = {
@@ -40,8 +39,7 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
-    "ataques normais": [A.ANfogo.Labareda_Turbulenta],
-    "ataques especiais": [A.ASfogo.Chama]
+
 }
 
 Squirtle = {
@@ -60,8 +58,7 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "ataques normais": [A.ANagua.Jato_de_Agua],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Machop = {
@@ -80,8 +77,7 @@ Machop = {
     "velocidade": 20,
     "XP": 25,
     "custo": 2,
-    "ataques normais": [A.ANlutador.Soco],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Gastly = {
@@ -100,8 +96,7 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
-    "ataques normais": [A.ANfantasma.Toque_Espiritual],
-    "ataques especiais": [A.ASvenenoso.Gás]
+
 }
 
 Geodude = {
@@ -120,8 +115,7 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
-    "ataques normais": [A.ANpedra.Pedregulho],
-    "ataques especiais": [A.ASterrestre.Desmoronamento]
+
 }
 
 Caterpie = {
@@ -140,8 +134,7 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
-    "ataques normais": [A.ANinseto.Mordida],
-    "ataques especiais": [A.ASinseto.Danza_Larval]
+
 }
 
 Abra = {
@@ -160,8 +153,7 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
-    "ataques normais": [A.ANpsiquico.Toque_Mental],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Dratini = {
@@ -180,8 +172,7 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
-    "ataques normais": [A.ANnormal.Cabeçada],
-    "ataques especiais": [A.ASdragao.Sopro_Dragão]
+
 }
 
 Pikachu = {
@@ -200,8 +191,7 @@ Pikachu = {
     "velocidade": 34,
     "XP": 40,
     "custo": 1,
-    "ataques normais": [A.ANeletrico.Faísca],
-    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
+
 }
 
 Zorua = {
@@ -220,8 +210,7 @@ Zorua = {
     "velocidade": 30,
     "XP": 40,
     "custo": 1,
-    "ataques normais": [A.ANsombrio.Garras_Nebulosas],
-    "ataques especiais": [A.ASsombrio.Sombra_Lisga]
+
 }
 
 Magikarp = {
@@ -240,8 +229,7 @@ Magikarp = {
     "velocidade": 26,
     "XP": 50,
     "custo": 1,
-    "ataques normais": [A.ANagua.Jato_de_Agua],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Jigglypuff = {
@@ -260,8 +248,7 @@ Jigglypuff = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "ataques normais": [A.ANfada.Brilho],
-    "ataques especiais": [A.ASfada.Encanto_Cintilante]
+
 }
 
 Clefairy = {
@@ -280,8 +267,7 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
-    "ataques normais": [A.ANfada.Brilho],
-    "ataques especiais": [A.ASfada.Encanto_Cintilante]
+
 }
 
 Meowth = {
@@ -300,8 +286,7 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
-    "ataques normais": [A.ANnormal.Tapa],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Cubone = {
@@ -320,8 +305,7 @@ Cubone = {
     "velocidade": 19,
     "XP": 30,
     "custo": 1,
-    "ataques normais": [A.ANterrestre.Terra],
-    "ataques especiais": [A.ASterrestre.Desmoronamento]
+
 }
 
 Shellder = {
@@ -340,8 +324,7 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
-    "ataques normais": [A.ANagua.Jato_de_Agua],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Magnemite = {
@@ -360,8 +343,7 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "ataques normais": [A.ANmetal.Impacto],
-    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
+
 }
 
 Rattata = {
@@ -380,8 +362,7 @@ Rattata = {
     "velocidade": 28,
     "XP": 30,
     "custo": 0,
-    "ataques normais": [A.ANnormal.Tapa],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Weedle = {
@@ -400,8 +381,7 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
-    "ataques normais": [A.ANinseto.Mordida],
-    "ataques especiais": [A.ASinseto.Danza_Larval]
+
 }
 
 Snorlax = {
@@ -420,8 +400,7 @@ Snorlax = {
     "velocidade": 14,
     "XP": 45,
     "custo": 4,
-    "ataques normais": [A.ANnormal.Tapa],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Aerodactyl = {
@@ -440,8 +419,7 @@ Aerodactyl = {
     "velocidade": 50,
     "XP": 50,
     "custo": 3,
-    "ataques normais": [A.ANpedra.Pancada_Rocha],
-    "ataques especiais": [A.ASvoador.Rajada]
+
 }
 
 Jynx = {
@@ -460,8 +438,7 @@ Jynx = {
     "velocidade": 24,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANgelo.Caco_de_Gelo],
-    "ataques especiais": [A.ASpsiquico.Ondas_Mentais]
+
 }
 
 Pinsir = {
@@ -480,8 +457,7 @@ Pinsir = {
     "velocidade": 25,
     "XP": 45,
     "custo": 2,
-    "ataques normais": [A.ANinseto.Mandíbula_Vingativa],
-    "ataques especiais": [A.ASinseto.Bola_de_Insetos]
+
 }
 
 Mewtwo = {
@@ -500,8 +476,7 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
-    "ataques normais": [A.ANpsiquico.Colapso_Psiquico],
-    "ataques especiais": [A.ASpsiquico.Bola_Psiquica]
+
 }
 
 Articuno = {
@@ -520,8 +495,7 @@ Articuno = {
     "velocidade": 60,
     "XP": 55,
     "custo": 4,
-    "ataques normais": [A.ANgelo.Lâmina_Esplendidora],
-    "ataques especiais": [A.ASvoador.Furacão_Celeste]
+
 }
 
 Moltres = {
@@ -540,8 +514,7 @@ Moltres = {
     "velocidade": 53,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANvoador.Lâmina_Aérea],
-    "ataques especiais": [A.ASfogo.Bola_de_Fogo]
+
 }
 
 Zapdos = {
@@ -560,8 +533,7 @@ Zapdos = {
     "velocidade": 57,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANvoador.Lâmina_Aérea],
-    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
+
 }
 
 Pokedex = [0,

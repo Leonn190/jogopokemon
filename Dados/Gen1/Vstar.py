@@ -14,8 +14,7 @@ Venusaur_Vstar = {
     "velocidade": 1.342105263,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANplanta.Folha_Navalha],
-    "ataques especiais": [A.ASvenenoso.Bola_de_veneno]
+
 }
 
 Charizard_Vstar = { 
@@ -32,8 +31,7 @@ Charizard_Vstar = {
     "velocidade": 1.25,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANfogo.Erupção_Pyroclástica],
-    "ataques especiais": [A.ASvoador.Bola_de_Vento]
+
 }
 
 Blastoise_Vstar = { 
@@ -50,8 +48,7 @@ Blastoise_Vstar = {
     "velocidade": 1.393939394,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANagua.Onda_Aquatica],
-    "ataques especiais": [A.ASagua.Bola_de_Agua]
+
 }
 
 Machamp_Vstar = { 
@@ -68,8 +65,7 @@ Machamp_Vstar = {
     "velocidade": 1.351351351,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANlutador.Golpe_Antigo],
-    "ataques especiais": [A.ASlutador.Bola_de_Impacto]
+
 }
 
 Gengar_Vstar = { 
@@ -86,8 +82,7 @@ Gengar_Vstar = {
     "velocidade": 1.26,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANvenenoso.Vórtice_Venenoso],
-    "ataques especiais": [A.ASfantasma.Bola_Fantasma]
+
 }
 
 Butterfree_Vstar = { 
@@ -104,8 +99,7 @@ Butterfree_Vstar = {
     "velocidade": 1.302325581,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANfada.Lâmina_de_Pétalas],
-    "ataques especiais": [A.ASinseto.Danza_Larval]
+
 }
 
 Snorlax_Vstar = { 
@@ -122,8 +116,7 @@ Snorlax_Vstar = {
     "velocidade": 1.866666667,
     "XP": 0,
     "custo": 4,
-    "ataques normais": [A.ANnormal.Cabeçada],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Meowth_Vstar = { 
@@ -140,8 +133,7 @@ Meowth_Vstar = {
     "velocidade": 1.433333333,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANnormal.Tapa],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Pikachu_Vstar = { 
@@ -158,6 +150,4 @@ Pikachu_Vstar = {
     "velocidade": 1.371428571,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANeletrico.Lâmina_Volt],
-    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
 }

@@ -16,8 +16,7 @@ Ivysaur = {
     "velocidade": 1.217391304,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [A.ANvenenoso.Acido],
-    "ataques especiais": [A.ASplanta.Dreno]
+
 }
 
 Charmeleon = {
@@ -34,8 +33,7 @@ Charmeleon = {
     "velocidade": 1.375,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [A.ANfogo.Labareda_Turbulenta],
-    "ataques especiais": [A.ASfogo.Bola_de_Fogo]
+
 }
 
 Wartortle = {
@@ -52,8 +50,7 @@ Wartortle = {
     "velocidade": 1.2,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [A.ANagua.Onda_Aquatica],
-    "ataques especiais": [A.ASagua.Bola_de_Agua]
+
 }
 
 Machoke = {
@@ -70,8 +67,7 @@ Machoke = {
     "velocidade": 1.3,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [A.ANlutador.Chave_de_Impulso],
-    "ataques especiais": [A.ASlutador.Bola_de_Impacto]
+
 }
 
 Haunter = {
@@ -88,8 +84,7 @@ Haunter = {
     "velocidade": 1.48,
     "XP": 55,
     "custo": 1,
-    "ataques normais": [A.ANvenenoso.Acido],
-    "ataques especiais": [A.ASfantasma.Bola_Fantasma]
+
 }
 
 Graveler = {
@@ -106,8 +101,7 @@ Graveler = {
     "velocidade": 1.176470588,
     "XP": 60,
     "custo": 3,
-    "ataques normais": [A.ANterrestre.Impacto_Seísmo],
-    "ataques especiais": [A.ASpedra.Bola_de_Rocha]
+
 }
 
 Metapod = {
@@ -124,8 +118,7 @@ Metapod = {
     "velocidade": 0.5555555556,
     "XP": 45,
     "custo": 2,
-    "ataques normais": [A.ANinseto.Mordida],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Kadabra = {
@@ -142,8 +135,7 @@ Kadabra = {
     "velocidade": 1.416666667,
     "XP": 55,
     "custo": 2,
-    "ataques normais": [A.ANpsiquico.Toque_Mental],
-    "ataques especiais": [A.ASpsiquico.Ondas_Mentais]
+
 }
 
 Dragonair = {
@@ -160,8 +152,7 @@ Dragonair = {
     "velocidade": 1.428571429,
     "XP": 65,
     "custo": 2,
-    "ataques normais": [A.ANnormal.Cabeçada],
-    "ataques especiais": [A.ASdragao.Bola_Dragonica]
+
 }
 
 Raichu = {
@@ -178,8 +169,7 @@ Raichu = {
     "velocidade": 1.294117647,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANeletrico.Jato_Elétrico],
-    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
+
 }
 
 Zoroark = {
@@ -196,8 +186,7 @@ Zoroark = {
     "velocidade": 1.633333333,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANsombrio.Garras_Nebulosas],
-    "ataques especiais": [A.ASsombrio.Vórtice_Void]
+
 }
 
 Gyarados = {
@@ -214,8 +203,7 @@ Gyarados = {
     "velocidade": 1.653846154,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [A.ANagua.Onda_Aquatica],
-    "ataques especiais": [A.ASagua.Tsunami]
+
 }
 
 Wigglytuff = {
@@ -232,8 +220,7 @@ Wigglytuff = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANnormal.Tapa],
-    "ataques especiais": [A.ASfada.Bola_de_Fada]
+
 }
 
 Clefable = {
@@ -250,8 +237,7 @@ Clefable = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANfada.Brilho],
-    "ataques especiais": [A.ASfada.Chuva_Cósmica]
+
 }
 
 Persian = {
@@ -268,8 +254,7 @@ Persian = {
     "velocidade": 1.482758621,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANnormal.Cabeçada],
-    "ataques especiais": [A.ASnormal.Energia]
+
 }
 
 Marowak = {
@@ -286,8 +271,7 @@ Marowak = {
     "velocidade": 1.368421053,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANterrestre.Impacto_Seísmo],
-    "ataques especiais": [A.ASterrestre.Bola_de_Terra]
+
 }
 
 Cloyster = {
@@ -304,8 +288,7 @@ Cloyster = {
     "velocidade": 1.523809524,
     "XP": 0,
     "custo": 2,
-    "ataques normais": [A.ANagua.Onda_Aquatica],
-    "ataques especiais": [A.ASagua.Bola_de_Agua]
+
 }
 
 Magneton = {
@@ -322,8 +305,7 @@ Magneton = {
     "velocidade": 1.55,
     "XP": 0,
     "custo": 1,
-    "ataques normais": [A.ANeletrico.Jato_Elétrico],
-    "ataques especiais": [A.ASeletrico.Bola_de_Eletricidade]
+
 }
 
 Raticate = {
@@ -340,8 +322,7 @@ Raticate = {
     "velocidade": 1.321428571,
     "XP": 0,
     "custo": 3,
-    "ataques normais": [A.ANnormal.Cabeçada],
-    "ataques especiais": [A.ASnormal.Vasculhar]
+
 }
 
 Kakuna = {
@@ -358,8 +339,7 @@ Kakuna = {
     "velocidade": 0.7647058824,
     "XP": 45,
     "custo": 2,
-    "ataques normais": [A.ANinseto.Mordida],
-    "ataques especiais": [A.ASinseto.Bola_de_Insetos]
+
 }
 
 

@@ -17,8 +17,6 @@ Venusaur = {
     "velocidade": 1.321428571,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [A.ANplanta.Folha_Navalha],
-    "ataques especiais": [A.ASplanta.Raio_Solar]
 }
 
 Charizard = {
@@ -35,8 +33,7 @@ Charizard = {
     "velocidade": 1.545454545,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [A.ANfogo.Lâmina_Ígnea],
-    "ataques especiais": [A.ASfogo.Bola_de_Fogo]
+
 }
 
 Blastoise = {
@@ -53,8 +50,7 @@ Blastoise = {
     "velocidade": 1.333333333,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [A.ANagua.Jato_de_Agua],
-    "ataques especiais": [A.ASagua.Bola_de_Agua]
+
 }
 
 Machamp = {
@@ -71,8 +67,7 @@ Machamp = {
     "velocidade": 1.384615385,
     "XP": 90,
     "custo": 3,
-    "ataques normais": [A.ANlutador.Chave_de_Impulso],
-    "ataques especiais": [A.ASlutador.Punho_Tornado]
+
 }
 
 Gengar = {
@@ -89,8 +84,7 @@ Gengar = {
     "velocidade": 1.324324324,
     "XP": 90,
     "custo": 2,
-    "ataques normais": [A.ANvenenoso.Vórtice_Venenoso],
-    "ataques especiais": [A.ASfantasma.Bola_Fantasma]
+
 }
 
 Golem = {
@@ -107,8 +101,7 @@ Golem = {
     "velocidade": 1.35,
     "XP": 0,
     "custo": 5,
-    "ataques normais": [A.ANpedra.Pancada_Rocha],
-    "ataques especiais": [A.ASpedra.Lança_de_Pedra]
+
 }
 
 Butterfree = {
@@ -125,8 +118,7 @@ Butterfree = {
     "velocidade": 4.2,
     "XP": 80,
     "custo": 2,
-    "ataques normais": [A.ANfada.Brilho],
-    "ataques especiais": [A.ASinseto.Bola_de_Insetos]
+
 }
 
 Alakazam = {
@@ -143,8 +135,7 @@ Alakazam = {
     "velocidade": 1.382352941,
     "XP": 95,
     "custo": 3,
-    "ataques normais": [A.ANpsiquico.Colapso_Psiquico],
-    "ataques especiais": [A.ASpsiquico.Bola_Psiquica]
+
 }
 
 Dragonite = {
@@ -161,8 +152,7 @@ Dragonite = {
     "velocidade": 1.1,
     "XP": 0,
     "custo": 4,
-    "ataques normais": [A.ANdragao.Garras_Ferinas],
-    "ataques especiais": [A.ASdragao.Bola_Dragonica]
+
 }
 
 Beedrill = {
@@ -179,8 +169,7 @@ Beedrill = {
     "velocidade": 4.230769231,
     "XP": 75,
     "custo": 1,
-    "ataques normais": [A.ANinseto.Mandíbula_Vingativa],
-    "ataques especiais": [A.ASinseto.Explosão_Criatura]
+
 }
 
 

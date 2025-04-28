@@ -449,8 +449,8 @@ def Gerador(Pokemon,P):
         "velocidade": vel,
         "XP": Pok["XP"],
         "custo": Pok["custo"],
-        "ataque normal": random.choice(Pok["ataques normais"]),
-        "ataque especial": random.choice(Pok["ataques especiais"]),
+        "ataque normal": Dreno,
+        "ataque especial": Dreno,
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
@@ -475,3 +475,17 @@ def VerificaSituaçãoPokemon(player,inimigo):
         else:
             pokemon.PodeAtacar = True
 
+Dreno = {
+    "nome": "Dreno",
+    "tipo": ["planta"],   
+    "custo": ["verde"],
+    "dano": 0.6,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
+    "função": ["Cura"],
+    "chance": [100],
+    "alvo": ["Self"],
+    "valorAlvo": [1],
+    "valores": [10]
+}
