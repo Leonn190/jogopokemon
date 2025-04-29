@@ -382,7 +382,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS):
             cor_normal=(0,0,0),  # Fundo escuro para o botão
             cor_borda=(0,0,0),   # Borda discreta
             cor_passagem=(0,0,0), # Cor ao passar o mouse
-            acao=lambda i=i: player.usar_item(i, PokemonS,tela),
+            acao=lambda i=i: player.usar_item(i, PokemonS, tela),
             Fonte=Fonte,
             estado_clique=B1,
             grossura=2,

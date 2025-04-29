@@ -105,7 +105,8 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,AlvoLoc):
     else:
         texto = "Não Afeta"
     Fonte = pygame.font.SysFont(None, 30)
-    adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,AlvoLoc)
+    x,y = AlvoLoc
+    adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,(x,y + 50))
 
     return multiplicador
 
@@ -438,4 +439,7 @@ def VEfeitos(pokemon,alvo,player,inimigo,dano_F,tipo,tela):
     
     return round(dano_F,1)
 
-    
+def Vsteb(pokemon,dano,ataque):
+    if ataque["tipo"] in pokemon.tipo:
+        dano = dano * 1.2
+    return dano

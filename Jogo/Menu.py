@@ -6,7 +6,6 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 import pygame
 from Visual import GeradoresVisuais as GV
-import Jogo.Gerador as G
 import PygameAções as A
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,

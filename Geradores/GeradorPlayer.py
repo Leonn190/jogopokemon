@@ -1,6 +1,7 @@
 from Geradores.GeradorPokemon import Gerador_final
 from Visual.Sonoridade import tocar
-from Jogo.Partida import Mudar_estadio
+import Jogo.Partida as P
+from Jogo.Partida import Mapa
 from Geradores.GeradorOutros import pokebolas_disponiveis,caixa,coletor
 import Visual.GeradoresVisuais as GV
 
@@ -67,7 +68,7 @@ class Jogador:
                         return
                 elif item["classe"] == "estadio":
                     tocar("Usou")
-                    Mudar_estadio(item["ST Code"])
+                    P.Mudar_estadio(item["ST Code"])
                     self.inventario.remove(item)
                     return
                 else:

@@ -3,7 +3,7 @@ import pygame
 mensagens_passageiras = []
 
 class MensagemPassageira:
-    def __init__(self, mensagem, cor, fonte, posicao, duracao=350, deslocamento=50):
+    def __init__(self, mensagem, cor, fonte, posicao, duracao=190, deslocamento=110):
         self.mensagem = mensagem
         self.cor = cor
         self.fonte = fonte
@@ -25,29 +25,35 @@ class MensagemPassageira:
         alpha = max(0, 255 - int((self.frame_atual / self.duracao) * 255))
         y_offset = int((self.frame_atual / self.duracao) * self.deslocamento)
 
-        texto_surface = self.fonte.render(self.mensagem, True, self.cor)
+        # Texto sempre branco
+        texto_surface = self.fonte.render(self.mensagem, True, (255, 255, 255))
         texto_surface = texto_surface.convert_alpha()
         texto_surface.set_alpha(alpha)
-
-        x, y = self.posicao_inicial
-        x_texto = x
-        y_texto = y - y_offset
 
         largura = texto_surface.get_width() + 20
         altura = texto_surface.get_height() + 10
 
-        # Cria a superfície com canal alpha
+        # Cria superfície com canal alpha para o fundo + borda
         fundo = pygame.Surface((largura, altura), pygame.SRCALPHA)
-        
-        # Cor branca com transparência proporcional
-        cor_fundo = (255, 255, 255, min(200, alpha))  # branco semi-transparente
 
-        # Desenha retângulo arredondado
-        pygame.draw.rect(fundo, cor_fundo, fundo.get_rect(), border_radius=10)
+        # Borda preta com alpha
+        cor_borda = (0, 0, 0, min(255, alpha))
+        pygame.draw.rect(fundo, cor_borda, fundo.get_rect(), border_radius=10)
 
-        # Posiciona retângulo levemente centralizado em relação ao texto
-        tela.blit(fundo, (x_texto - 10, y_texto - 5))
-        tela.blit(texto_surface, (x_texto, y_texto))
+        # Fundo colorido com alpha, um pouco menor para deixar a borda visível
+        padding = 2  # espessura da borda
+        inner_rect = pygame.Rect(padding, padding, largura - 2 * padding, altura - 2 * padding)
+        cor_fundo = (*self.cor, min(200, alpha))
+        pygame.draw.rect(fundo, cor_fundo, inner_rect, border_radius=8)
+
+        # Centraliza a caixa na posição inicial
+        x, y = self.posicao_inicial
+        x_caixa = x - largura // 2
+        y_caixa = y - altura // 2 - y_offset
+
+        # Desenha fundo e texto centralizado dentro da caixa
+        tela.blit(fundo, (x_caixa, y_caixa))
+        tela.blit(texto_surface, (x_caixa + 10, y_caixa + 5))
 
 def adicionar_mensagem_passageira(mensagens, texto, cor, fonte, posicao, duracao=200, deslocamento=90):
     nova_mensagem = MensagemPassageira(texto, cor, fonte, posicao, duracao, deslocamento)

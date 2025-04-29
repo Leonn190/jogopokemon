@@ -233,7 +233,7 @@ class Pokemon:
             self.VarDef_sp_perm = self.VarDef_sp_perm + round((self.Def_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
-    def atacado(self,dano,player,inimigo,tipo,tela):
+    def atacado(self,dano,player,inimigo,tela):
         DanoOriginal = dano
         if self.Vida <= dano:
             if self.efeitosPosi["Imortal"]:
@@ -243,19 +243,12 @@ class Pokemon:
                 dano = self.Vida
         
         self.Vida = round(self.Vida - dano,1)
-
-        if tipo == "N":
-            cor = LARANJA
-        elif tipo == "E":
-            cor = ROXO
-        else:
-            cor = PRETO
         
         i = self.pos
         if self in inimigo.pokemons:
-            adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",cor,Fonte35,((1400 - i * 190),190))
+            adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",VERMELHO,Fonte35,((1410 - i * 190),180))
         else:
-            adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",cor,Fonte35,((425 + i * 190),975))
+            adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",VERMELHO,Fonte35,((425 + i * 190),975))
 
         if self.Vida == 0:
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
@@ -276,7 +269,7 @@ class Pokemon:
             if self in player.pokemons:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((425 + i * 190),975))
             else:
-                adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1400 - i * 190),190))
+                adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1410 - i * 190),180))
 
     def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
 
@@ -444,8 +437,8 @@ def Gerador(Pokemon,P):
         "velocidade": vel,
         "XP": Pok["XP"],
         "custo": Pok["custo"],
-        "Move1": SelecionaAtaques("Jato de Agua","Jato de Agua"),
-        "Move2": SelecionaAtaques("Jato de Agua","Jato de Agua"),
+        "Move1": SelecionaAtaques("Jato de Agua","Jato Duplo"),
+        "Move2": SelecionaAtaques("Jato de Agua","Jato Duplo"),
         "Move3": None,
         "Move4": None,
         "evolução": Pok["evolução"],

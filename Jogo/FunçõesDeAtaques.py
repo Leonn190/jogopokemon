@@ -1,6 +1,5 @@
 import Funções2 as FU
 import random
-import Jogo.Gerador as G
 
 def Curar(ataque, pokemon, alvo, player, inimigo, mapa, tela, dano, defesa, i, alvos_selecionados):
     valores = ataque["valores"][i]
@@ -197,7 +196,7 @@ def RemoverGanhar(ataque, pokemon, alvo, player, inimigo, mapa, tela, dano, defe
 
     elif tipo == "Energia":
         if valor >= 0:
-            G.coletor(alvo_real, valor)
+            pass
         else:
             for _ in range(abs(valor)):
                 energias = [k for k in alvo_real.energias if alvo_real.energias[k] > 0]
@@ -208,7 +207,7 @@ def RemoverGanhar(ataque, pokemon, alvo, player, inimigo, mapa, tela, dano, defe
     elif tipo == "Item":
         if valor >= 0:
             for _ in range(valor):
-                G.caixa(alvo_real)
+               pass
         else:
             for _ in range(abs(valor)):
                 itens_inventario = [item for item in alvo_real.inventario]
