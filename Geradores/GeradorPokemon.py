@@ -96,13 +96,10 @@ class Pokemon:
         self.IV_defSP = pokemon["IV def SP"]
         self.IV_vel = pokemon["IV vel"]
 
-        self.ataque_normal = pokemon ["ataque normal"]
-        self.ataque_especial = pokemon["ataque especial"]
-
-        # self.Movimento1 
-        # self.Movimento2
-        # self.Movimento3
-        # self.Movimento4
+        self.movimento1 = pokemon["Move1"]
+        self.movimento2 = pokemon["Move2"]
+        self.movimento3 = pokemon["Move3"]
+        self.movimento4 = pokemon["Move4"]
 
         self.code = pokemon["code"]
         self.ID = pokemon["ID"] #unico
@@ -222,19 +219,19 @@ class Pokemon:
             self.Ganhar_XP(5,player)
         elif tipo == "atk":
             J = round(self.Atk)
-            self.Atk = round(self.Atk + (self.AtkB * amplificador))
+            self.VarAtk_perm = round(self.VarAtk_perm + (self.AtkB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk}")
         elif tipo == "atk SP":
             J = round(self.Atk_sp)
-            self.Atk_sp = round(self.Atk_sp + (self.Atk_spB * amplificador))
+            self.VarAtk_sp_perm = round(self.VarAtk_sp_perm + (self.Atk_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
         elif tipo == "def":
             J = round(self.Def)
-            self.Def = self.Def + round((self.DefB * amplificador))
+            self.VarDef_perm = self.VarDef_perm + round((self.DefB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
         elif tipo == "def SP":
             J = round(self.Def_sp)
-            self.Def_sp = self.Def_sp + round((self.Def_spB * amplificador))
+            self.VarDef_sp_perm = self.VarDef_sp_perm + round((self.Def_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
     def atacado(self,dano,player,inimigo,tipo,tela):
@@ -448,8 +445,10 @@ def Gerador(Pokemon,P):
         "velocidade": vel,
         "XP": Pok["XP"],
         "custo": Pok["custo"],
-        "ataque normal": Dreno,
-        "ataque especial": Dreno,
+        "Move1": A,
+        "Move2": B,
+        "Move3": C,
+        "Move4": D,
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
@@ -512,10 +511,44 @@ def VerificaSituaçãoPokemon(player, inimigo):
 
 
 
-Dreno = {
+A = {
     "nome": "Dreno",
     "tipo": ["planta"],   
     "custo": ["verde"],
+    "estilo": "N",
+    "dano": 0.6,
+    "alcance": 200,
+    "precisão": 100, 
+    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
+}
+
+B = {
+    "nome": ";jjjy",
+    "tipo": ["planta"],   
+    "custo": ["verde"],
+    "estilo": "S",
+    "dano": 0.6,
+    "alcance": 200,
+    "precisão": 100, 
+    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
+}
+
+C = {
+    "nome": "tunh",
+    "tipo": ["planta"],   
+    "custo": ["verde"],
+    "estilo": "E",
+    "dano": 0.6,
+    "alcance": 200,
+    "precisão": 100, 
+    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
+}
+
+D = {
+    "nome": "tyy",
+    "tipo": ["planta"],   
+    "custo": ["verde"],
+    "estilo": "N",
     "dano": 0.6,
     "alcance": 200,
     "precisão": 100, 

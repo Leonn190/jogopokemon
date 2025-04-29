@@ -22,7 +22,7 @@ def desseleciona_ataque(SoV):
 
 def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, SoV=None):
     x, y = pos
-    largura, altura = 360, 330
+    largura, altura = 360, 368
     global AtaqueSV
 
     if pokemon in player.pokemons:
@@ -128,25 +128,30 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
 
         pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)
 
-        # Botões
-        botao_rect1 = pygame.Rect(x + 17, y + 292, 156, 30)
-        botao_rect2 = pygame.Rect(x + 187, y + 292, 156, 30)
+        # -- Botões de movimentos
+        movimentos = [pokemon.movimento1, pokemon.movimento2, pokemon.movimento3, pokemon.movimento4]
+        cores_estilos = {
+            "N": (255, 165, 0),   # Laranja
+            "E": (210, 160, 255), # Roxo
+            "S": (144, 238, 144)  # Verde
+            }
 
-        GV.Botao_Selecao(
-            tela, botao_rect1, pokemon.ataque_normal["nome"], Fonte20,
-            (255, 200, 120), (255, 255, 255),funcao_esquerdo=lambda:seleciona_ataque(pokemon.ataque_normal,SoV),
-            desfazer_esquerdo=lambda:desseleciona_ataque(SoV),id_botao=f"{pokemon.ID}{pokemon.ataque_normal["nome"]}",
-            cor_borda_esquerda=VERMELHO,
-            estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
-        )
+        for i, movimento in enumerate(movimentos):
+            if movimento is not None:
+                pos_x = x + 17 + (i % 2) * 170
+                pos_y = y + 292 + (i // 2) * 38
+                cor_fundo = cores_estilos.get(movimento["estilo"], (200, 200, 200))  # Cor cinza se estilo desconhecido
 
-        GV.Botao_Selecao(
-            tela, botao_rect2, pokemon.ataque_especial["nome"], Fonte20,
-            (210, 160, 255), (255, 255, 255),funcao_esquerdo=lambda:seleciona_ataque(pokemon.ataque_especial,SoV),
-            desfazer_esquerdo=lambda:desseleciona_ataque(SoV),id_botao=f"{pokemon.ID}{pokemon.ataque_especial["nome"]}",
-            cor_borda_esquerda=VERMELHO,
-            estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
-        )
+                botao_rect = pygame.Rect(pos_x, pos_y, 156, 30)
+                GV.Botao_Selecao(
+                    tela, botao_rect, movimento["nome"], Fonte20,
+                    cor_fundo, (255, 255, 255),
+                    funcao_esquerdo=lambda mov=movimento:seleciona_ataque(mov, SoV),
+                    desfazer_esquerdo=lambda SoV=SoV:desseleciona_ataque(SoV),
+                    id_botao=f"{pokemon.ID}{movimento['nome']}",
+                    cor_borda_esquerda=VERMELHO,
+                    estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
+                )
 
         if x > 1600:
             desseleciona_ataque(SoV)

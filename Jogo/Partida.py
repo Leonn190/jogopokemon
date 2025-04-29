@@ -4,7 +4,7 @@ from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import atualizar_efeitos
 from Visual.Sonoridade import tocar
-import Abas as AB
+from Abas import Status_Pokemon,Tabela_Energias,Inventario
 import Tabuleiro as M
 import Visual.GeradoresVisuais as GV
 import Jogo.Gerador as G
@@ -624,6 +624,7 @@ def Troca_Terminal():
         T2 = 1030
         animaT = pygame.time.get_ticks()
     else:
+        GV.limpa_terminal()
         T1 = 1030
         T2 = 800
         animaT = pygame.time.get_ticks()
@@ -994,6 +995,12 @@ def TelaPokemons(tela,eventos,estados):
                     GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
                     j +=1
 
+    for i in range(len(player.pokemons)):
+        barra_vida(tela, 425 + i * 190, 875, 180, 15, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
+    
+    for i in range(len(inimigo.pokemons)):
+        barra_vida(tela, 1315 - i * 190, 190, 180, 15, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].ID)
+
     if PokemonS is not None:
         PokemonSV = PokemonS
 
@@ -1003,12 +1010,12 @@ def TelaPokemons(tela,eventos,estados):
     XstatusS = GV.animar(S1,S2,animaS)
 
     if XstatusS != 1920:
-        AB.Status_Pokemon((XstatusS,542), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
+        Status_Pokemon((XstatusS,515), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
 
     XstatusV = GV.animar(V1,V2,animaV)
 
     if XstatusV != 1920:
-        AB.Status_Pokemon((XstatusV,209), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
+        Status_Pokemon((XstatusV,145), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1061,12 +1068,6 @@ def TelaPokemons(tela,eventos,estados):
 
         if inimigo.pokemons[i].local is None:
             tela.blit(OutrosIMG[11], ((x+15), (y+10)))
-        
-    for i in range(len(player.pokemons)):
-        barra_vida(tela, 425 + i * 190, 875, 180, 15, player.pokemons[i].Vida, player.pokemons[i].VidaMax,(100,100,100),player.pokemons[i].ID)
-    
-    for i in range(len(inimigo.pokemons)):
-        barra_vida(tela, 1315 - i * 190, 190, 180, 15, inimigo.pokemons[i].Vida, inimigo.pokemons[i].VidaMax,(100,100,100),inimigo.pokemons[i].ID)
 
     atualizar_efeitos(tela)
     G.VerificaSituaçãoPokemon(player,inimigo)
@@ -1110,12 +1111,12 @@ def TelaOpções(tela,eventos,estados):
         XInvetario = GV.animar(A1,A2,animaAI)
 
         if XInvetario != -382:
-            AB.Inventario((XInvetario,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
+            Inventario((XInvetario,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
 
         XEnergias = GV.animar(A3,A4,animaAE)
 
         if XEnergias != -382:
-            AB.Tabela_Energias(tela,(XEnergias,300),player,estadoEnergias,eventos)
+            Tabela_Energias(tela,(XEnergias,300),player,estadoEnergias,eventos)
 
         XCentro = GV.animar(A5,A6,animaAC)
 
