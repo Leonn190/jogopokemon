@@ -1,4 +1,4 @@
-import Dados.AllAtaques as A
+
 
 Mega_Venusaur = {
     "nome": "Mega Venusaur",

@@ -1,7 +1,6 @@
 import random
 from Dados.Gen1.Mega import Mega_Alakazam,Mega_Charizard_X,Mega_Charizard_Y,Mega_Gengar,Mega_Beedrill,Mega_Blastoise,Mega_Venusaur
 from Dados.Gen1.V import Venusaur_V,Blastoise_V,Charizard_V,Gengar_V,Machamp_V,Butterfree_V
-import Dados.AllAtaques as A
 
 Venusaur = {
     "nome": "Venusaur",

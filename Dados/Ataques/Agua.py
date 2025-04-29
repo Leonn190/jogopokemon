@@ -1,3 +1,5 @@
+from Geradores.GeradorAtaques import padrao
+
 Jato_de_Agua = {
     "nome": "Jato De Agua",
     "tipo": ["agua"],   
@@ -7,12 +9,10 @@ Jato_de_Agua = {
     "alcance": 25,
     "precisão": 100, 
     "descrição": "Lança um jato de agua intenso no oponente",
+    "efeito": "EspiralAzul",
     "extra": False,
-    "funçao": None
+    "funçao": padrao
     }
-
-def F_Jato_de_Agua(PokemonS,PokemonA,player,inimigo,tela):
-    pass
 
 Jato_duplo = {
     "nome": "Jato De Agua",
@@ -23,5 +23,6 @@ Jato_duplo = {
     "alcance": 20,
     "precisão": 95, 
     "descrição": "Esse ataque tem 50% de chance de causar mais 50% de dano e deixar o oponente encharcado",
+    "extra": None,
     "funçao": None
     }

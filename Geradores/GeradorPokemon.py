@@ -7,6 +7,7 @@ from Visual.Imagens import Carrega_Icone_pokemon
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Jogo.Partida import VerificaGIF
+from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
@@ -130,17 +131,17 @@ class Pokemon:
                     if item["nome"] == "Energia Mega":
                         if self.FF[i]["FF"] == "Mega":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i,player))
+                            adicionar_efeito("Evoluindo",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i,player))
 
                     elif item["nome"] == "Energia Vstar":
                         if self.FF[i]["FF"] == "Vstar":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1,player))
+                            adicionar_efeito("Evoluindo",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1,player))
 
                     elif item["nome"] == "Energia GigantaMax":
                         if self.FF[i]["FF"] == "Vmax":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluir",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0,player))
+                            adicionar_efeito("Evoluindo",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0,player))
             else:
                 GV.adicionar_mensagem("Esse pokemon não tem forma final")
                 return
@@ -170,7 +171,6 @@ class Pokemon:
         self.xp_total = self.FF[i]["XP"]
         self.evolucao = self.FF[i]["evolução"]
         VerificaGIF(player)
-        self.PodeEvoluir = True
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
     def evoluir(self,player):
@@ -181,7 +181,7 @@ class Pokemon:
                 if self.evolucao is not None:
                     i = self.pos
                     self.PodeEvoluir = False
-                    adicionar_efeito("TornadoAgua", (520 + i * 190, 980), ao_terminar=lambda: self.Evoluir_de_fato(player))
+                    adicionar_efeito("Evoluindo", (520 + i * 190, 980), ao_terminar=lambda: self.Evoluir_de_fato(player))
                     return
             else:
                 tocar("Bloq")
@@ -206,7 +206,6 @@ class Pokemon:
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]
         self.icone = Carrega_Icone_pokemon(self.nome)
-        self.PodeEvoluir = True
         VerificaGIF(player)
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
 
@@ -445,10 +444,10 @@ def Gerador(Pokemon,P):
         "velocidade": vel,
         "XP": Pok["XP"],
         "custo": Pok["custo"],
-        "Move1": A,
-        "Move2": B,
-        "Move3": C,
-        "Move4": D,
+        "Move1": SelecionaAtaques("Jato de Agua","Jato de Agua"),
+        "Move2": SelecionaAtaques("Jato de Agua","Jato de Agua"),
+        "Move3": None,
+        "Move4": None,
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
@@ -472,6 +471,9 @@ def VerificaSituaçãoPokemon(player, inimigo):
             pokemon.PodeAtacar = False
         else:
             pokemon.PodeAtacar = True
+        if pokemon.PodeEvoluir is True:
+            if pokemon.local is None:
+                pokemon.PodeEvoluir = False
 
     for pokemon in player.pokemons + inimigo.pokemons:
         # --- Resetar apenas os modificadores TEMPORÁRIOS ---
@@ -506,51 +508,3 @@ def VerificaSituaçãoPokemon(player, inimigo):
         pokemon.Def = pokemon.DefB + pokemon.VarDef_perm + pokemon.VarDef_temp
         pokemon.Def_sp = pokemon.Def_spB + pokemon.VarDef_sp_perm + pokemon.VarDef_sp_temp
         pokemon.vel = pokemon.velB + pokemon.Varvel_perm + pokemon.Varvel_temp
-
-
-
-
-
-A = {
-    "nome": "Dreno",
-    "tipo": ["planta"],   
-    "custo": ["verde"],
-    "estilo": "N",
-    "dano": 0.6,
-    "alcance": 200,
-    "precisão": 100, 
-    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
-}
-
-B = {
-    "nome": ";jjjy",
-    "tipo": ["planta"],   
-    "custo": ["verde"],
-    "estilo": "S",
-    "dano": 0.6,
-    "alcance": 200,
-    "precisão": 100, 
-    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
-}
-
-C = {
-    "nome": "tunh",
-    "tipo": ["planta"],   
-    "custo": ["verde"],
-    "estilo": "E",
-    "dano": 0.6,
-    "alcance": 200,
-    "precisão": 100, 
-    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
-}
-
-D = {
-    "nome": "tyy",
-    "tipo": ["planta"],   
-    "custo": ["verde"],
-    "estilo": "N",
-    "dano": 0.6,
-    "alcance": 200,
-    "precisão": 100, 
-    "descrição": "Drene a energia vital do inimigo e cure 10 de vida",
-}

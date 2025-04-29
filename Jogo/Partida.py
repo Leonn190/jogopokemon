@@ -4,7 +4,7 @@ from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import atualizar_efeitos
 from Visual.Sonoridade import tocar
-from Abas import Status_Pokemon,Tabela_Energias,Inventario
+from Abas import Status_Pokemon,Tabela_Energias,Inventario,Atacar
 import Tabuleiro as M
 import Visual.GeradoresVisuais as GV
 import Jogo.Gerador as G
@@ -145,6 +145,7 @@ def passar_turno():
 
     for pokemon in player.pokemons:
         pokemon.atacou = False
+        pokemon.PodeEvoluir = True
         if pokemon.guardado != 0 and pokemon.guardado < 3:
             pokemon.guardado += 1
 
@@ -909,21 +910,34 @@ def TelaPokemons(tela,eventos,estados):
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
-    # GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: AB.Atacar(PokemonS,PokemonV,PokemonA,player,inimigo),Fonte40, B22, 3, None, True, eventos)
-    GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.atacar(PokemonA,player,inimigo,"S",tela,Mapa),Fonte40, B22, 3, None, True, eventos)
-
-    GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
+    try:
+        if PokemonS.PodeAtacar == True:
+            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela),Fonte40, B22, 3, None, True, eventos)
+        else:
+            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B22, 3, None, True, eventos)
+    
+    except AttributeError:
+        GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B22, 3, None, True, eventos)
+        
+    try:
+        if PokemonS.PodeEvoluir == True:
+            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: PokemonS.evoluir(player),Fonte40, B22, 3, None, True, eventos)
+        else:
+            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B22, 3, None, True, eventos)
+    
+    except AttributeError:
+        GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B22, 3, None, True, eventos)
 
     try:
         if PokemonS.local is not None:
             
-            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
 
         else:
             if PokemonS.guardado < 3:
-                GV.Botao(tela, f"Posicionar em {3 - PokemonS.guardado}", (1570, YO + 50, 340, 50), CINZA_ESCURO, PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, f"Posicione em {3 - PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1570, YO + 50, 340, 50), CINZA, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
 
     except AttributeError:
         pass

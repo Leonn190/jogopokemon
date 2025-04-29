@@ -23,7 +23,7 @@ Parametros_Efeitos = {
     "DomoVerde": {"velocidade": 85, "duracao": 1400},
     "EnergiaAzul": {"velocidade": 65, "duracao": 1100},
     "Engrenagem": {"velocidade": 115, "duracao": 900},
-    "EspiralAzul": {"velocidade": 48, "duracao": 2200},
+    "EspiralAzul": {"velocidade": 45, "duracao": 2200},
     "Estouro": {"velocidade": 97, "duracao": 750},
     "EstouroMagico": {"velocidade": 50, "duracao": 1800},
     "EstouroVermelho": {"velocidade": 46, "duracao": 1200},
@@ -79,7 +79,7 @@ class GifAtivo:
         self.tempo_ultimo_frame = self.inicio
         self.frame_atual = 0
 
-        self.tempo_80_porcento = self.inicio + (self.duracao * 0.75)
+        self.tempo_80_porcento = self.inicio + (self.duracao * 0.76)
         self.termino = self.inicio + self.duracao
 
         self.funcao_chamada = False  # <- novo controle

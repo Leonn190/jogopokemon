@@ -9,7 +9,7 @@ import pygame
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
 
-def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,atacado):
+def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,AlvoLoc):
     
     tabela_tipos = {
     "normal":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0.5, "venenoso": 0, "terrestre": 0,
@@ -105,7 +105,7 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,atacado):
     else:
         texto = "Não Afeta"
     Fonte = pygame.font.SysFont(None, 30)
-    adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,((1365 - atacado.pos * 190),220))
+    adicionar_mensagem_passageira(tela,f"{texto}",(0,0,0),Fonte,AlvoLoc)
 
     return multiplicador
 
@@ -407,7 +407,35 @@ def VAcerta(pokemon,alvo,ataque,Mapa):
     else:
         return True
     
+def VEstilo(pokemon,alvo,ataque):
+    if ataque["estilo"] == "N":
+        Dano = pokemon.Atk
+        Defesa = alvo.Def
+    elif ataque["estilo"] == "E":
+        Dano = pokemon.Atk_sp
+        Defesa = alvo.Def_sp
+    elif ataque["estilo"] == "S":
+        Dano = None
+        Defesa = None
+    return Dano, Defesa
 
-
+def VEfeitos(pokemon,alvo,player,inimigo,dano_F,tipo,tela):
+    
+    if alvo.efeitosNega["Vampirico"] > 0:
+        vampirismo = dano_F * 0.3
+        pokemon.curar(vampirismo,player,tela)
+    if alvo.efeitosPosi["Preparado"] > 0:
+        preparo = round((alvo.vel / 3),1)
+        dano_F = dano_F - preparo
+        pokemon.atacado(preparo,player,inimigo,tipo,tela)
+    if alvo.efeitosPosi["Refletir"] > 0:
+        reflexão = dano_F * 0.8
+        pokemon.atacado(reflexão,player,inimigo,tipo,tela)
+        dano_F = dano_F * 0.2
+    if pokemon.vampirismo > 0:
+        pokemon.curar(dano_F * pokemon.vampirismo,player,tela)
+        pokemon.vampirismo = 0
+    
+    return round(dano_F,1)
 
     

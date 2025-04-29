@@ -1,4 +1,3 @@
-import Dados.AllAtaques as A
 
 Venusaur_Vmax = { 
     "nome": "Venusaur Vmax", 

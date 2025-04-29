@@ -1,6 +1,8 @@
 import pygame
 import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
+from Visual.Efeitos import adicionar_efeito
+from Funções2 import VAcerta,VCusto
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,Fonte20,Fonte15,Fonte25
 
 AtaqueS = None
@@ -563,10 +565,28 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
         if chave in player.energiasDesc:
             GV.Texto_caixa(tela,f"D{player.energiasDesc.index(chave)}",(x_botao,( base_y - 150), largura_botao, 20),Fonte25,(30,30,30),(30,30,30),BRANCO)
 
-def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo):
+def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
     if PokemonS.PodeAtacar == True:
-        if PokemonS is None or PokemonA is None or AtaqueS is None:
-            print (PokemonS,PokemonA,AtaqueS)
+        if PokemonS is not None and PokemonA is not None and AtaqueS is not None:
+            if AtaqueS["extra"] == True and PokemonV is None:
+                GV.adicionar_mensagem("Esse ataque requer um alvo extra (vizualize o alvo extra)")
+                tocar("Bloq")
+                return
+            
+            else:
+                if VCusto(player,PokemonS,AtaqueS) == False:
+                    return
+    
+                PokemonS.atacou = True
+
+                if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa) == False:
+                    return
+
+                idx = PokemonA.pos
+                AlvoLoc = ((1410 - idx * 190),95)
+                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc))
+        
+        else: 
             GV.adicionar_mensagem("Selecione um alvo, um ataque, e um atacante")
             tocar("Bloq")
             return
