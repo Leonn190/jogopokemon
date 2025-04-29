@@ -799,8 +799,6 @@ def Partida(tela,estados,relogio):
 
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
-        print(player)
-
         pygame.display.update()
         relogio.tick(120)
 

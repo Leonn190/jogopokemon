@@ -5,8 +5,66 @@ efeitos_ativos = []
 
 # Agora só guardamos o que muda
 Parametros_Efeitos = {
-    "Evoluindo": {"velocidade": 95, "duracao": 2600},
-    "LabaredaMultipla": {"velocidade": 50, "duracao": 1500},
+    "Evoluindo": {"velocidade": 92, "duracao": 2800},
+
+    "LabaredaMultipla": {"velocidade": 32, "duracao": 2800},
+    "Corte": {"velocidade": 98, "duracao": 1100},
+    "BolhasVerdes": {"velocidade": 50, "duracao": 2100},
+    "CorteDourado": {"velocidade": 92, "duracao": 1300},
+    "ChuvaVermelha": {"velocidade": 32, "duracao": 3300},
+    "ChuvaBrilhante": {"velocidade": 30, "duracao": 2500},
+    "AtemporalRosa": {"velocidade": 25, "duracao": 3000},
+    "BarreiraCelular": {"velocidade": 80, "duracao": 1200},
+    "ChicoteMultiplo": {"velocidade": 72, "duracao": 1200},
+    "CorteDuploRoxo": {"velocidade": 30, "duracao": 2700},
+    "CorteMagico": {"velocidade": 40, "duracao": 1600},
+    "CorteRicocheteadoRoxo": {"velocidade": 112, "duracao": 700},
+    "CorteRosa": {"velocidade": 40, "duracao": 2200},
+    "DomoVerde": {"velocidade": 85, "duracao": 1400},
+    "EnergiaAzul": {"velocidade": 65, "duracao": 1100},
+    "Engrenagem": {"velocidade": 115, "duracao": 900},
+    "EspiralAzul": {"velocidade": 48, "duracao": 2200},
+    "Estouro": {"velocidade": 97, "duracao": 750},
+    "EstouroMagico": {"velocidade": 50, "duracao": 1800},
+    "EstouroVermelho": {"velocidade": 46, "duracao": 1200},
+    "Explosao": {"velocidade": 45, "duracao": 2000},
+    "ExplosaoPedra": {"velocidade": 92, "duracao": 1400},
+    "ExplosaoVerde": {"velocidade": 112, "duracao": 900},
+    "ExplosaoVermelha": {"velocidade": 30, "duracao": 2200},
+    "ExplosaoRoxa": {"velocidade": 105, "duracao": 1000},
+    "FacasAzuis": {"velocidade": 28, "duracao": 3000},
+    "FacasBrancas": {"velocidade": 38, "duracao": 2100},
+    "FacasColoridas": {"velocidade": 32, "duracao": 2200},
+    "FacasRosas": {"velocidade": 25, "duracao": 2700},
+    "FeixeMagenta": {"velocidade": 42, "duracao": 1800},
+    "FeixeRoxo": {"velocidade": 96, "duracao": 800},
+    "FluxoAzul": {"velocidade": 65, "duracao": 2200},
+    "Fogo": {"velocidade": 95, "duracao": 1000},
+    "Fumaça": {"velocidade": 35, "duracao": 2200},
+    "GasRoxo": {"velocidade": 78, "duracao": 1300},
+    "HexagonoLaminas": {"velocidade": 36, "duracao": 1300},
+    "ImpactoRochoso": {"velocidade": 115, "duracao": 600},
+    "Karate": {"velocidade": 90, "duracao": 1200},
+    "LuaAmarela": {"velocidade": 18, "duracao": 3500},
+    "MagiaAzul": {"velocidade": 26, "duracao": 3600},
+    "MagiaMagenta": {"velocidade": 48, "duracao": 1900},
+    "MarcaBrilhosa": {"velocidade": 38, "duracao": 2700},
+    "MarcaAmarela": {"velocidade": 52, "duracao": 2600},
+    "MarcaAzul": {"velocidade": 38, "duracao": 2500},
+    "Mordida": {"velocidade": 115, "duracao": 800},
+    "MultiplasFacas": {"velocidade": 36, "duracao": 2900},
+    "OrbesRoxos": {"velocidade": 28, "duracao": 2500},
+    "PedaçoColorido": {"velocidade": 38, "duracao": 2300},
+    "RaioAzul": {"velocidade": 12, "duracao": 4700},
+    "RajadaAmarela": {"velocidade": 35, "duracao": 2000},
+    "RasgoMagenta": {"velocidade": 26, "duracao": 3200},
+    "RasgosRosa": {"velocidade": 28, "duracao": 2900},
+    "RedemoinhoAzul": {"velocidade": 38, "duracao": 1900},
+    "RedemoinhoCosmico": {"velocidade": 95, "duracao": 1300},
+    "SuperDescarga": {"velocidade": 82, "duracao": 1100},
+    "SuperNova": {"velocidade": 32, "duracao": 3000},
+    "TirosAmarelos": {"velocidade": 25, "duracao": 2900},
+    "TornadoAgua": {"velocidade": 39, "duracao": 3900},
 }
 
 class GifAtivo:
@@ -21,8 +79,10 @@ class GifAtivo:
         self.tempo_ultimo_frame = self.inicio
         self.frame_atual = 0
 
-        # Calculando 80% da duração total
-        self.tempo_80_porcento = self.inicio + (self.duracao * 0.8)
+        self.tempo_80_porcento = self.inicio + (self.duracao * 0.75)
+        self.termino = self.inicio + self.duracao
+
+        self.funcao_chamada = False  # <- novo controle
 
     def desenhar(self, tela):
         agora = pygame.time.get_ticks()
@@ -37,15 +97,23 @@ class GifAtivo:
             imagem = self.frames[self.frame_atual]
             rect = imagem.get_rect(center=self.posicao)
             tela.blit(imagem, rect)
+        else:
+            # Se o frame atual passou o número de frames, fixa no último
+            imagem = self.frames[-1]
+            rect = imagem.get_rect(center=self.posicao)
+            tela.blit(imagem, rect)
 
     def finalizado(self):
-        # Verifica se o efeito atingiu os 80% do tempo
-        if pygame.time.get_ticks() >= self.tempo_80_porcento:
-            # Chama a função de término (se houver)
+        agora = pygame.time.get_ticks()
+
+        # Quando atingir 80% do tempo, chama a função só uma vez
+        if not self.funcao_chamada and agora >= self.tempo_80_porcento:
             if self.ao_terminar:
                 self.ao_terminar()
-            return True  # Retorna True quando o efeito alcançou os 80%
-        return False
+            self.funcao_chamada = True  # Marca que já chamou
+
+        # Finaliza apenas após 100% do tempo
+        return agora >= self.termino
 
 def adicionar_efeito(efeito, posicao, ao_terminar=None):
     # Gera o caminho automaticamente

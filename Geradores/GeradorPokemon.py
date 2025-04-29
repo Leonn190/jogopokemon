@@ -177,21 +177,21 @@ class Pokemon:
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
     def evoluir(self,player):
-        if self.xp_atu >= self.xp_total:
+        # if self.xp_atu >= self.xp_total:
             if self.PodeEvoluir is True:
                 if isinstance(self.evolucao,list):
                     self.evolucao = random.randint(self.evolucao)
                 if self.evolucao is not None:
                     i = self.pos
                     self.PodeEvoluir = False
-                    adicionar_efeito("Evoluindo", (360 + i * 190, 870), ao_terminar=lambda: self.Evoluir_de_fato(player))
+                    adicionar_efeito("TornadoAgua", (520 + i * 190, 980), ao_terminar=lambda: self.Evoluir_de_fato(player))
                     return
             else:
                 tocar("Bloq")
                 GV.adicionar_mensagem("Evoluindo...")
                 return
-        tocar("Bloq")
-        GV.adicionar_mensagem("Seu pokemon não pode evoluir")
+            tocar("Bloq")
+            GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
     def Evoluir_de_fato(self,player):
         nome_antigo = self.nome
