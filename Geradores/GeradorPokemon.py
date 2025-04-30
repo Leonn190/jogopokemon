@@ -6,6 +6,7 @@ from Visual.Mensagens import adicionar_mensagem_passageira
 from Visual.Imagens import Carrega_Icone_pokemon
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
+from Jogo.Tabuleiro import GuardarPosicionar
 from Jogo.Partida import VerificaGIF
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import (
@@ -131,23 +132,22 @@ class Pokemon:
                     if item["nome"] == "Energia Mega":
                         if self.FF[i]["FF"] == "Mega":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluindo",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(i,player))
+                            adicionar_efeito("Evoluindo",(520 + pos * 190, 980),ao_terminar=lambda:self.Evoluir_Final(i,player))
 
                     elif item["nome"] == "Energia Vstar":
                         if self.FF[i]["FF"] == "Vstar":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluindo",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(1,player))
+                            adicionar_efeito("Evoluindo",(520 + pos * 190, 980),ao_terminar=lambda:self.Evoluir_Final(1,player))
 
                     elif item["nome"] == "Energia GigantaMax":
                         if self.FF[i]["FF"] == "Vmax":
                             player.inventario.remove(item)
-                            adicionar_efeito("Evoluindo",(360 + pos * 190,870),ao_terminar=lambda:self.Evoluir_Final(0,player))
+                            adicionar_efeito("Evoluindo",(520 + pos * 190, 980),ao_terminar=lambda:self.Evoluir_Final(0,player))
             else:
                 GV.adicionar_mensagem("Esse pokemon não tem forma final")
                 return
             
             GV.adicionar_mensagem("Energia não condiz com a forma final")
-            del evoluirEFE
             return
 
         else:
@@ -165,8 +165,6 @@ class Pokemon:
         self.Atk_spB = round(self.Atk_spB * self.FF[i]["atk SP"])
         self.velB = round(self.velB * self.FF[i]["velocidade"])
         self.custo = self.FF[i]["custo"]
-        self.ataque_normal = random.choice(self.FF[i]["ataques normais"])
-        self.ataque_especial = random.choice(self.FF[i]["ataques especiais"])
         self.Estagio = self.FF[i]["estagio"]
         self.xp_total = self.FF[i]["XP"]
         self.evolucao = self.FF[i]["evolução"]
@@ -174,7 +172,7 @@ class Pokemon:
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Insano!")
 
     def evoluir(self,player):
-        # if self.xp_atu >= self.xp_total:
+        if self.xp_atu >= self.xp_total:
             if self.PodeEvoluir is True:
                 if isinstance(self.evolucao,list):
                     self.evolucao = random.randint(self.evolucao)
@@ -187,8 +185,8 @@ class Pokemon:
                 tocar("Bloq")
                 GV.adicionar_mensagem("Evoluindo...")
                 return
-            tocar("Bloq")
-            GV.adicionar_mensagem("Seu pokemon não pode evoluir")
+        tocar("Bloq")
+        GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
     def Evoluir_de_fato(self,player):
         nome_antigo = self.nome
@@ -251,6 +249,7 @@ class Pokemon:
             adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",VERMELHO,Fonte35,((425 + i * 190),975))
 
         if self.Vida == 0:
+            GuardarPosicionar(self,player,0)
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
     def curar(self,cura,player,tela):
@@ -270,106 +269,6 @@ class Pokemon:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((425 + i * 190),975))
             else:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1410 - i * 190),180))
-
-    def atacar(self,alvo,player,inimigo,tipo,tela,Mapa):
-
-        if tipo == "N":
-            F = self.ataque_normal
-            U = self.Atk
-            V = alvo.Def
-            if alvo.efeitosNega["Quebrado"] > 0:
-                V = V * 0.5
-        else:
-            F = self.ataque_especial
-            U = self.Atk_sp
-            V = alvo.Def_sp
-            if alvo.efeitosNega["Fragilizado"] > 0:
-                V = V * 0.5
-
-        if alvo.efeitosPosi["Reforçado"] > 0:
-            V = V * 1.5
-        if self.efeitosNega["Enfraquecido"] > 0:
-            U = U * 0.5
-        if self.efeitosPosi["Ofensivo"] > 0:
-            U = U * 1.5
-        
-        Custo = F["custo"].copy()
-        if self.efeitosNega["Descarregado"] > 0:
-            for i in range(len(F["custo"])):
-                Custo.append(F["custo"][i]) 
-        if self.efeitosPosi["Energizado"] > 0:
-            Custo = ["normal"]
-
-        pagou = 0
-        gastas = []
-        for i in range(len(Custo)):
-            if Custo[i] == "normal":
-                for cor in player.energiasDesc:
-                    if player.energias[cor] >= 1:
-                        player.energias[cor] -= 1
-                        gastas.append(cor)
-                        pagou += 1
-                        break
-            else:
-                if player.energias[Custo[i]] >= 1:
-                    player.energias[Custo[i]] -= 1
-                    gastas.append(Custo[i])
-                    pagou += 1
-
-        if pagou != len(Custo):
-            tocar("Bloq")
-            GV.adicionar_mensagem("Sem energias, seu ataque falhou")
-            for i in range(len(gastas)):
-                player.energias[gastas[i]] += 1
-            return None
-
-        distancia = FU.distancia_entre_pokemons(self,alvo,Mapa.Metros)
-        Over = F["alcance"] - distancia
-        if alvo.efeitosPosi["Voando"] > 0:
-            Over = Over - 45
-        if Over < 0:
-            assertividade = F["precisão"] + Over
-        else:
-            assertividade = F["precisão"]
-        if self.efeitosNega["Confuso"] > 0:
-            assertividade = assertividade * 0.5
-        if self.efeitosPosi["Focado"] > 0:
-            assertividade = assertividade * 1.5
-
-
-        desfoco = random.randint(0,100)
-        if desfoco > assertividade:
-            GV.adicionar_mensagem("Você errou o ataque")
-            return
-
-        self.atacou = True
-        Dano_I = U * F["dano"]
-
-        Tipo = F["tipo"]
-        mitigação = 100 / (100 + V) 
-        Dano_E = Dano_I * FU.efetividade(Tipo,alvo.tipo,tela,alvo)
-        dano_F = round(Dano_E * mitigação,1)
-
-        if alvo.efeitosNega["Vampirico"] > 0:
-            vampirismo = dano_F * 0.3
-            self.curar(vampirismo,player,tela)
-        if alvo.efeitosPosi["Preparado"] > 0:
-            preparo = round((alvo.vel / 3),1)
-            dano_F = dano_F - preparo
-            self.atacado(preparo,player,inimigo,tipo,tela)
-        if alvo.efeitosPosi["Refletir"] > 0:
-            reflexão = dano_F * 0.8
-            self.atacado(reflexão,player,inimigo,tipo,tela)
-            dano_F = dano_F * 0.2
-        if self.vampirismo > 0:
-            self.curar(dano_F * self.vampirismo,player,tela)
-            self.vampirismo = 0
-
-        GV.adicionar_mensagem (f"O seu {self.nome} causou {dano_F} de dano com o ataque")
-        GV.adicionar_mensagem(f"{F['nome']} no {alvo.nome} inimigo")
-        XP_ATK = random.randint(3,5)
-        self.Ganhar_XP(XP_ATK,player)
-        alvo.atacado(dano_F,player,inimigo,tipo,tela)
 
 IDpoke = 0
 
@@ -444,15 +343,15 @@ def Gerador(Pokemon,P):
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
-        "IV": IV,
-        "IV vida": round(IVV, 1),
-        "IV atk": round(IVA, 1),
-        "IV atk SP": round(IVAS, 1),
-        "IV def": round(IVD, 1),
-        "IV def SP": round(IVDS, 1),
-        "IV vel": round(IVVE, 1),
+        "IV": round(IV,1),
+        "IV vida": round(IVV),
+        "IV atk": round(IVA),
+        "IV atk SP": round(IVAS),
+        "IV def": round(IVD),
+        "IV def SP": round(IVDS),
+        "IV vel": round(IVVE),
         "code": Pok["code"],
-        "ID": IDpoke,
+        "ID": IDpoke
     }
 
 def Gerador_final(code,P,player):

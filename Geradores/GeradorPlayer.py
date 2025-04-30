@@ -1,10 +1,7 @@
 from Geradores.GeradorPokemon import Gerador_final
 from Visual.Sonoridade import tocar
-import Jogo.Partida as P
-from Jogo.Partida import Mapa
 from Geradores.GeradorOutros import pokebolas_disponiveis,caixa,coletor
 import Visual.GeradoresVisuais as GV
-
 
 class Jogador:
     def __init__(self, informaçoes):
@@ -12,14 +9,14 @@ class Jogador:
         self.pokemons = [Gerador_final(informaçoes[1],1,self)]
         self.inventario = []
         self.Captura = []
-        self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "rosa": 0, "laranja": 0,"marrom": 0, "preta": 0, "cinza": 0}
+        self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0, "cinza": 0}
         self.energiasDesc = []
         self.ouro = 10
     
     def ganhar_item(self,item):
         self.inventario.append(item)
     
-    def usar_item(self,indice,Pokemon,tela):
+    def usar_item(self,indice,Pokemon,tela,Mapa):
             item = self.inventario[indice] 
             if item["classe"] in ["pokebola", "fruta"]:
                 tocar("Bloq")
@@ -68,7 +65,7 @@ class Jogador:
                         return
                 elif item["classe"] == "estadio":
                     tocar("Usou")
-                    P.Mudar_estadio(item["ST Code"])
+                    Mapa.MudarEstagio(item["ST Code"])
                     self.inventario.remove(item)
                     return
                 else:

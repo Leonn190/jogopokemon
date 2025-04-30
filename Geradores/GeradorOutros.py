@@ -12,7 +12,7 @@ amplificadores_disponiveis = amplificadores_Todos
 itens_disponiveis = itens_Todos
 
 
-Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "rosa", "laranja", "marrom", "cinza", "preta"]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "cinza", "preta"]
 
 def spawn_do_centro(centro):
     pokemons_possiveis = Pokedex.copy()
@@ -107,6 +107,22 @@ def Gera_Mapa(i):
 
 class Mapa:
     def __init__(self, Info):
+        self.tempo = Info["Tempo"]
+        self.area = Info["zona"]
+        self.cores = Info["cores"]
+        self.PlojaI = Info["LojaItens"]
+        self.PlojaP = Info["LojaPokebolas"]
+        self.PlojaE = Info["LojaEnergias"]
+        self.PlojaA = Info["LojaAmplificadores"]
+        self.pLojaT = Info["LojaTreEst"]
+        self.Musica = Info["Code Musica"]
+        self.Fundo = Info["Code Tela"]
+        self.Metros = Info["Metros"]
+
+    def MudarEstagio(self,i):
+        
+        Info = Estadios[i]
+
         self.tempo = Info["Tempo"]
         self.area = Info["zona"]
         self.cores = Info["cores"]

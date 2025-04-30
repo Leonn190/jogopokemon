@@ -4,7 +4,7 @@ from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import atualizar_efeitos
 from Visual.Sonoridade import tocar
-import Abas as AB
+from Abas import Tabela_Energias,Status_Pokemon,Inventario,Atacar
 import Tabuleiro as M
 import Geradores.GeradorPlayer as GPA
 import Geradores.GeradorPokemon as GPO
@@ -12,7 +12,7 @@ import Geradores.GeradorOutros as GO
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
 from Visual.GeradoresVisuais import (
-    Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50,Fonte70,
+    Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA,)
@@ -148,8 +148,8 @@ def passar_turno():
     for pokemon in player.pokemons:
         pokemon.atacou = False
         pokemon.PodeEvoluir = True
-        if pokemon.guardado != 0 and pokemon.guardado < 3:
-            pokemon.guardado += 1
+        if pokemon.guardado != 0:
+            pokemon.guardado -= 1
 
     player, inimigo = inimigo, player
 
@@ -184,7 +184,7 @@ def seleciona(Pokemon):
             global AT1, AT2, animaA
             global OP1, OP2, animaOP
             S1 = 1920
-            S2 = 1560
+            S2 = 1540
             AT1 = -60
             AT2 = 210
             OP1 = 1080
@@ -217,7 +217,7 @@ def desseleciona():
     global AT1, AT2, animaA
     global OP1, OP2, animaOP
     if PokemonS is not None:
-        S1 = 1560
+        S1 = 1540
         S2 = 1920
         AT1 = 210
         AT2 = -60
@@ -235,7 +235,7 @@ def vizualiza(Pokemon):
     if not isinstance(Pokemon,str):
         PokemonV = Pokemon
         V1 = 1920
-        V2 = 1560
+        V2 = 1540
         animaV = pygame.time.get_ticks()
     else:
         PokemonV = None
@@ -246,7 +246,7 @@ def oculta():
     global estadoInfo
     global V1, V2, animaV
     if PokemonV is not None:
-        V1 = 1560
+        V1 = 1540
         V2 = 1920
         animaV = pygame.time.get_ticks()
         PokemonV = None
@@ -400,7 +400,7 @@ def PokemonCentro(ID,player):
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
                 novo_pokemon = GPO.Gerador_final(pokemon["code"],AIV,player)
-                M.GuardarPosicionar(novo_pokemon,player)
+                M.GuardarPosicionar(novo_pokemon,player,0)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
                 VerificaGIF(player,inimigo)
                 tocar("Bom")
@@ -478,6 +478,7 @@ def atacaS(Pokemon,player,inimigo,ID,tela):
 
 def pausarEdespausar():
     global Pausa
+    print (Pausa)
     if Pausa == True:
         pausaEdespausaCronometro()
         Pausa = False
@@ -500,10 +501,6 @@ def Muter():
     else:
         pygame.mixer.music.set_volume(0.3)
         Mute = False
-
-def Mudar_estadio(i):
-    global Mapa
-    Mapa = GO.Gera_Mapa(i)
 
 def tocar_musica_do_estadio():
     global Musica_Estadio_atual
@@ -532,7 +529,6 @@ def tocar_musica_do_estadio():
         Musica_Estadio_atual = Z
 
 def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos):
-    # Tamanhos fixos e corretos
     tamanho_pokemon = 100
     tamanho_pokebola = 60
     tamanho_fruta = 50
@@ -547,12 +543,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
     pygame.draw.rect(tela, (30, 30, 30), ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 3)
 
-    # --- Grade 3x3 de Pokémon ---
+    #  Grade 3x3 de Pokémon 
     for i in range(len(Centro)):
         coluna = i % 3
         linha = i // 3
         x = x_inicial_animado + coluna * tamanho_pokemon
-        y = y_inicial + 10 + linha * tamanho_pokemon  # 10px de título
+        y = y_inicial + 10 + linha * tamanho_pokemon 
 
         GV.Botao(
             tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), CINZA, PRETO, AZUL,
@@ -567,12 +563,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
         y = y_inicial + linha * 99
         tela.blit(ImagensPokemonCentro[Centro[i]["nome"]], (x, y))
 
-    # --- Pokébolas (lado direito) ---
+    #  Pokébolas
     idx_pokebola = 0
     for i, item in enumerate(player.Captura):
         if item.get("classe") == "pokebola":
-            x = x_inicial_animado + 300  # Começam logo ao lado da grade
-            y = y_inicial + idx_pokebola * tamanho_pokebola  # Já está alinhado com o topo da área
+            x = x_inicial_animado + 300  
+            y = y_inicial + idx_pokebola * tamanho_pokebola  
 
             GV.Botao_Selecao(
                 tela, (x, y, tamanho_pokebola, tamanho_pokebola),
@@ -592,12 +588,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
             idx_pokebola += 1
 
-    # --- Frutas (parte inferior, 6 espaços) ---
+    # (parte inferior, 6 espaços)
     idx_fruta = 0
     for i, item in enumerate(player.Captura):
         if item.get("classe") == "Fruta":
             x = x_inicial_animado + idx_fruta * tamanho_fruta
-            y = y_inicial + 310  # 10 (título) + 300 (grade)
+            y = y_inicial + 310  
 
             GV.Botao_Selecao(
                 tela, (x, y, tamanho_fruta, tamanho_fruta),
@@ -614,7 +610,6 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
                 tecla_esquerda=None, tecla_direita=None, grossura=3
             )
 
-            # Desenha imagem da fruta (centralizada com leve padding)
             if item["nome"] in ImagensCaptura:
                 tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
 
@@ -914,7 +909,7 @@ def TelaPokemons(tela,eventos,estados):
 
     try:
         if PokemonS.PodeAtacar == True:
-            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: AB.Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela),Fonte40, B22, 3, None, True, eventos)
+            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela),Fonte40, B22, 3, None, True, eventos)
         else:
             GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B22, 3, None, True, eventos)
     
@@ -933,13 +928,13 @@ def TelaPokemons(tela,eventos,estados):
     try:
         if PokemonS.local is not None:
             
-            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,2),Fonte40, B23, 3, None, True, eventos)
 
         else:
-            if PokemonS.guardado < 3:
-                GV.Botao(tela, f"Posicione em {3 - PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
+            if PokemonS.guardado > 0:
+                GV.Botao(tela, f"Posicione em {PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,0),Fonte40, B23, 3, None, True, eventos)
 
     except AttributeError:
         pass
@@ -1026,12 +1021,12 @@ def TelaPokemons(tela,eventos,estados):
     XstatusS = GV.animar(S1,S2,animaS)
 
     if XstatusS != 1920:
-        AB.Status_Pokemon((XstatusS,515), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
+        Status_Pokemon((XstatusS,515), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
 
     XstatusV = GV.animar(V1,V2,animaV)
 
     if XstatusV != 1920:
-        AB.Status_Pokemon((XstatusV,145), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
+        Status_Pokemon((XstatusV,145), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1127,13 +1122,12 @@ def TelaOpções(tela,eventos,estados):
         XInvetario = GV.animar(A1,A2,animaAI)
 
         if XInvetario != -382:
-            idxEST = None
-            AB.Inventario((XInvetario,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS)
+            Inventario((XInvetario,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS, Mapa)
 
         XEnergias = GV.animar(A3,A4,animaAE)
 
         if XEnergias != -382:
-            AB.Tabela_Energias(tela,(XEnergias,300),player,estadoEnergias,eventos)
+            Tabela_Energias(tela,(XEnergias,300),player,estadoEnergias,eventos)
 
         XCentro = GV.animar(A5,A6,animaAC)
 
@@ -1223,7 +1217,6 @@ def TelaTabuleiro(tela, eventos, estados):
     global LojaAmpliP
     global LojaEstTreP
 
-    print (Mapa.Fundo)
     LojaItensP = Mapa.PlojaI
     LojaPokeP = Mapa.PlojaP
     LojaAmpliP = Mapa.PlojaA

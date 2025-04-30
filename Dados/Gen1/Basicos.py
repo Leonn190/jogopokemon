@@ -19,6 +19,8 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
+    "H": 0.58,
+    "W": 7.5
 
 }
 
@@ -38,7 +40,8 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
-
+    "H": 0.7,   
+    "W": 8.5
 }
 
 Squirtle = {
@@ -57,7 +60,8 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-
+    "H": 0.67,
+    "W": 10
 }
 
 Machop = {
@@ -76,7 +80,8 @@ Machop = {
     "velocidade": 20,
     "XP": 25,
     "custo": 2,
-
+    "H": 0.9,
+    "W": 20
 }
 
 Gastly = {
@@ -95,7 +100,8 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
-
+    "H": 0.6,
+    "W": 0.2
 }
 
 Geodude = {
@@ -114,7 +120,8 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
-
+    "H": 0.52,
+    "W": 22
 }
 
 Caterpie = {
@@ -133,6 +140,8 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
+    "H": 0.32,
+    "W": 3.3
 
 }
 
@@ -152,7 +161,8 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
-
+    "H": 1,
+    "W": 20
 }
 
 Dratini = {
@@ -190,7 +200,8 @@ Pikachu = {
     "velocidade": 34,
     "XP": 40,
     "custo": 1,
-
+    "H": 0.51,
+    "W": 6.3
 }
 
 Zorua = {
@@ -209,7 +220,8 @@ Zorua = {
     "velocidade": 30,
     "XP": 40,
     "custo": 1,
-
+    "H": 0.68,
+    "W": 10.2
 }
 
 Magikarp = {
@@ -228,6 +240,8 @@ Magikarp = {
     "velocidade": 26,
     "XP": 50,
     "custo": 1,
+    "H": 0.85,
+    "W": 9.1
 
 }
 
@@ -247,6 +261,8 @@ Jigglypuff = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
+    "H": 0.56,
+    "W": 6.7
 
 }
 
@@ -266,6 +282,8 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
+    "H": 0.62,
+    "W": 8.9
 
 }
 
@@ -285,7 +303,8 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
-
+    "H": 0.63,
+    "W": 5.1
 }
 
 Cubone = {
@@ -304,6 +323,8 @@ Cubone = {
     "velocidade": 19,
     "XP": 30,
     "custo": 1,
+    "H": 0.42,
+    "W": 7.1
 
 }
 
@@ -323,6 +344,8 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
+    "H": 0.33,
+    "W": 4
 
 }
 
@@ -342,6 +365,8 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
+    "H": 0.29,
+    "W": 6.7
 
 }
 
@@ -361,7 +386,8 @@ Rattata = {
     "velocidade": 28,
     "XP": 30,
     "custo": 0,
-
+    "H": 0.34,
+    "W": 3.3
 }
 
 Weedle = {
@@ -380,6 +406,8 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
+    "H": 0.26,
+    "W": 2.5
 
 }
 
@@ -399,6 +427,8 @@ Snorlax = {
     "velocidade": 14,
     "XP": 45,
     "custo": 4,
+    "H": 2.2,
+    "W": 485
 
 }
 
@@ -418,6 +448,8 @@ Aerodactyl = {
     "velocidade": 50,
     "XP": 50,
     "custo": 3,
+    "H": 1.8,
+    "W": 60
 
 }
 
@@ -437,7 +469,8 @@ Jynx = {
     "velocidade": 24,
     "XP": 0,
     "custo": 2,
-
+    "H": 1.34,
+    "W": 38.8
 }
 
 Pinsir = {
@@ -456,6 +489,8 @@ Pinsir = {
     "velocidade": 25,
     "XP": 45,
     "custo": 2,
+    "H": 1.55,
+    "W": 53
 
 }
 
@@ -475,7 +510,8 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
-
+    "H": 1.87,
+    "W": 100
 }
 
 Articuno = {
@@ -494,7 +530,8 @@ Articuno = {
     "velocidade": 60,
     "XP": 55,
     "custo": 4,
-
+    "H": 1.84,
+    "W": 73
 }
 
 Moltres = {
@@ -513,7 +550,8 @@ Moltres = {
     "velocidade": 53,
     "XP": 0,
     "custo": 3,
-
+    "H": 1.98,
+    "W": 81
 }
 
 Zapdos = {
@@ -532,7 +570,8 @@ Zapdos = {
     "velocidade": 57,
     "XP": 0,
     "custo": 3,
-
+    "H": 1.72,
+    "W": 69
 }
 
 Pokedex = [0,

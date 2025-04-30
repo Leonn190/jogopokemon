@@ -42,31 +42,31 @@ def Gerar_Mapa():
 def seleciona_peça(p,dono,player):
     global PeçaS
     if dono == "player":
-        if p.efeitosNega["Congelado"] == 0 or p.efeitosNega["Paralisado"] == 0:
-            pagou = 0
-            gastas = []
-            Custo = p.custo
-            if p.efeitosNega["Encharcado"]:
-                Custo += 2
-            for i in range(Custo):
-                for cor in player.energiasDesc:
-                    if player.energias[cor] >= 1:
-                        player.energias[cor] -= 1
-                        gastas.append(cor)
-                        pagou += 1
-                        break
-            
-            if pagou != Custo:
-                tocar("Bloq")
-                GV.adicionar_mensagem("Sem energias, não pode se mover")
-                for i in range(len(gastas)):
-                    player.energias[gastas[i]] += 1
-                desseleciona_peça()
-                return 
+            if p.efeitosNega["Congelado"] == 0 or p.efeitosNega["Paralisado"] == 0:
+                pagou = 0
+                gastas = []
+                Custo = p.custo
+                if p.efeitosNega["Encharcado"]:
+                    Custo += 2
+                for i in range(Custo):
+                    for cor in player.energiasDesc:
+                        if player.energias[cor] >= 1:
+                            player.energias[cor] -= 1
+                            gastas.append(cor)
+                            pagou += 1
+                            break
+                
+                if pagou != Custo:
+                    tocar("Bloq")
+                    GV.adicionar_mensagem("Sem energias, não pode se mover")
+                    for i in range(len(gastas)):
+                        player.energias[gastas[i]] += 1
+                    desseleciona_peça()
+                    return 
 
-            PeçaS = p
-        else:
-            GV.adicionar_mensagem("Esse pokemon está congelado ou paralisado")
+                PeçaS = p
+            else:
+                GV.adicionar_mensagem("Esse pokemon está congelado ou paralisado")
     else:
         GV.adicionar_mensagem("Não pode selecionar pokemon inimigo")
 
@@ -278,13 +278,13 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
             eventos=eventos
         )
 
-def GuardarPosicionar(pokemon,player):
+def GuardarPosicionar(pokemon,player,tempo):
     if pokemon.local is not None:
         if len(player.pokemons) > 1:
             linha_antiga, coluna_antiga = pokemon.local["id"]
             Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
             pokemon.local = None
-            pokemon.guardado = 1
+            pokemon.guardado = tempo
         else:
             tocar("Bloq")
             GV.adicionar_mensagem("Você não deve guardar seu unico pokemon")
