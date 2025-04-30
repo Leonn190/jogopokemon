@@ -121,9 +121,14 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
                 tela.blit(img, img_rect)
 
         xp_txt = fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230))
-        peso_txt = fonte_pequena.render(f"CT: {pokemon.custo}", True, (230, 230, 230))
-        tela.blit(xp_txt, (x + 170, y + 244)) 
-        tela.blit(peso_txt, (x + 170, y + 262))
+        custo_txt = fonte_pequena.render(f"CT: {pokemon.custo}", True, (230, 230, 230))
+        altura_txt = fonte_pequena.render(f"1,80M", True, (230, 230, 230))
+        peso_txt = fonte_pequena.render(f"990Kg", True, (230, 230, 230))
+
+        tela.blit(xp_txt, (x + 160, y + 244)) 
+        tela.blit(custo_txt, (x + 160, y + 262))
+        tela.blit(altura_txt, (x + 210, y + 244)) 
+        tela.blit(peso_txt, (x + 210, y + 262))
 
         iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
         tela.blit(iv_txt, (x + 275, y + 250))  

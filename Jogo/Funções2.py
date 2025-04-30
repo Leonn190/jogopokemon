@@ -363,12 +363,12 @@ def VCusto(player,pokemon,ataque):
     gastas = []
     for i in range(len(Custo)):
         if Custo[i] == "normal":
-            for cor in player.energiasDesc:
-                if player.energias[cor] >= 1:
-                    player.energias[cor] -= 1
-                    gastas.append(cor)
-                    pagou += 1
-                    break
+                for cor in player.energiasDesc:
+                    if player.energias[cor] >= 1:
+                        player.energias[cor] -= 1
+                        gastas.append(cor)
+                        pagou += 1
+                        break
         else:
             if player.energias[Custo[i]] >= 1:
                 player.energias[Custo[i]] -= 1
