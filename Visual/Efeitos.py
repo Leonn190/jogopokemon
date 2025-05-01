@@ -13,6 +13,7 @@ Parametros_Efeitos = {
     "CorteDourado": {"velocidade": 92, "duracao": 1300},
     "ChuvaVermelha": {"velocidade": 32, "duracao": 3300},
     "ChuvaBrilhante": {"velocidade": 30, "duracao": 2500},
+    "Agua": {"velocidade": 42, "duracao": 1500},
     "AtemporalRosa": {"velocidade": 25, "duracao": 3000},
     "BarreiraCelular": {"velocidade": 80, "duracao": 1200},
     "ChicoteMultiplo": {"velocidade": 72, "duracao": 1200},

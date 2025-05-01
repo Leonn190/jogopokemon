@@ -1,6 +1,4 @@
-import Partida as P
 import random
-import FunçõesDeAtaques as FA
 import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Mensagens import adicionar_mensagem_passageira
@@ -111,19 +109,13 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,AlvoLoc):
     return multiplicador
 
 def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
+    linha1, coluna1 = poke1.local["id"]
+    linha2, coluna2 = poke2.local["id"]
 
-    if poke1.local is None or poke2.local is None:
-        return None
-
-    linha1, coluna1 = map(int, poke1.local["id"])
-    linha2, coluna2 = map(int, poke2.local["id"])
-
-    dx = (linha1 - linha2) * tamanho_casa
-    dy = (coluna1 - coluna2) * tamanho_casa
+    dx = (coluna1 - coluna2) * tamanho_casa  # Coluna representa o eixo X
+    dy = (linha1 - linha2) * tamanho_casa    # Linha representa o eixo Y
 
     return math.hypot(dx, dy)
-
-
 
 def Aliado_menos_vida(pokemon,player,numero=1):
     selecionados = []
@@ -312,44 +304,6 @@ def seleciona_alvo(pokemon, alvo_str, player, inimigo, mapa, alvo, Valor_alvo=1)
     return None
 
 
-
-def seleciona_função_ataque(ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa):
-
-    FunçoesComAlvo = {
-        "Curar": FA.Curar,
-        "Efeito": FA.Efeito,
-        "Status": FA.Status,
-        "DanoExtra": FA.DanoExtra,
-        }
-    
-    FunçoesDeStatus = {
-        "DanoEscalar": FA.DanoEscalar,
-        "AumentoCondicional": FA.AumentoCondicional,
-        "DanoExtra": FA.DanoExtra,
-        "RemoverGanhar": FA.RemoverGanhar,
-        "Perfurar": FA.Perfurar,
-        "Corroer": FA.Corroer,
-        "Executar": FA.Executar
-    }
-
-    for i,funçao in enumerate(ataque["função"]):
-        chance = ataque["chance"][i]
-        Erro = random.randint(0,100)
-        if chance > Erro:
-            if funçao in FunçoesComAlvo:
-                if ataque["valorAlvo"][i] is not None:
-                    Valor_alvo = ataque["valorAlvo"][i]
-                    alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo, Valor_alvo)
-                else:
-                    alvosAdicionais = seleciona_alvo(pokemon, ataque["alvo"][i], player, inimigo, mapa, alvo,)
-                FunçoesComAlvo[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i,alvosAdicionais)
-            else:
-                defesa, dano = FunçoesDeStatus[funçao](ataque,pokemon,alvo,player,inimigo,mapa,tela,dano,defesa,i)
-        
-        return defesa, dano
-        
-
-
 def VCusto(player,pokemon,ataque):
     
     Custo = ataque["custo"].copy()
@@ -384,9 +338,9 @@ def VCusto(player,pokemon,ataque):
     else:
         return True
 
-def VAcerta(pokemon,alvo,ataque,Mapa):
-    
-    distancia = distancia_entre_pokemons(pokemon,alvo,Mapa.Metros)
+def VAcerta(pokemon,alvo,ataque,metros):
+
+    distancia = distancia_entre_pokemons(pokemon,alvo,metros)
     Over = ataque["alcance"] - distancia
     if alvo.efeitosPosi["Voando"] > 0:
         Over = Over - 45
@@ -418,6 +372,7 @@ def VEstilo(pokemon,alvo,ataque):
     elif ataque["estilo"] == "S":
         Dano = None
         Defesa = None
+    Dano = Dano * ataque["dano"]
     return Dano, Defesa
 
 def VEfeitos(pokemon,alvo,player,inimigo,dano_F,tipo,tela):

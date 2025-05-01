@@ -488,9 +488,9 @@ def pausarEdespausar():
 
 def AddLocalPokemonINIC(pokemon,jogador):
     if jogador == Jogador1:
-        M.Move(pokemon,11,12,player)
+        M.Move(pokemon,11,12)
     else:
-        M.Move(pokemon,3,12,player)
+        M.Move(pokemon,3,12)
 
 def Muter():
     global Mute
@@ -704,14 +704,6 @@ estadoEnergias = {
 estadoFruta = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-estadoMostraAtaqueS = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None
-    }
-estadoMostraAtaqueV = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None
-    }
 
 animaS = 0
 animaAI = 0
@@ -856,7 +848,7 @@ def Inicia(tela):
     LojaEstTreP = Mapa.pLojaT
 
     ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG = Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG)
-    M.Gerar_Mapa()
+    Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
     Jogador1 = GPA.Gerador_player(informaçoesp1)
@@ -1021,12 +1013,12 @@ def TelaPokemons(tela,eventos,estados):
     XstatusS = GV.animar(S1,S2,animaS)
 
     if XstatusS != 1920:
-        Status_Pokemon((XstatusS,502), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
+        Status_Pokemon((XstatusS,502), tela, PokemonSV,TiposEnergiaIMG, player, eventos,"S")
 
     XstatusV = GV.animar(V1,V2,animaV)
 
     if XstatusV != 1920:
-        Status_Pokemon((XstatusV,115), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
+        Status_Pokemon((XstatusV,115), tela, PokemonVV,TiposEnergiaIMG, player, eventos,"V")
 
     agora = pygame.time.get_ticks()
 
@@ -1222,6 +1214,8 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaAmpliP = Mapa.PlojaA
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
+
+    M.GaranteQueMapaZonaSejaIgualZona(Mapa.Zona)
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
     M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros)   

@@ -3,10 +3,29 @@ import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Funções2 import VAcerta,VCusto
-from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,Fonte20,Fonte15,Fonte25
+from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25
 
 AtaqueS = None
 AtaqueSV = None
+AtaqueV = None
+
+estadoMostraAtaqueS = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+    }
+estadoMostraAtaqueV = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None
+    }
+
+EstadoDaPergunta = {
+    "estado": False,
+    "info": None,
+    "opçoes": None,
+    "funçao": None
+}
+
+Bpergunta = {"estado": False}
 
 def seleciona_ataque(ataque,SoV):
     global AtaqueS,AtaqueSV
@@ -19,8 +38,30 @@ def desseleciona_ataque(SoV):
     global AtaqueS,AtaqueSV
     if SoV == "S":
         AtaqueS = None
+        estadoMostraAtaqueS["selecionado_esquerdo"] = None
     else:
         AtaqueSV = None
+        estadoMostraAtaqueV["selecionado_direito"] = None
+        estadoMostraAtaqueV["selecionado_esquerdo"] = None
+
+def Vizualiza_ataque(ataque,SoV):
+    global AtaqueS,AtaqueSV,AtaqueV
+    if SoV == "S":
+        AtaqueV = ataque
+        AtaqueS = ataque
+    else:
+        AtaqueSV = ataque
+
+def Oculta_ataque(SoV):
+    global AtaqueS,AtaqueSV,AtaqueV
+    if SoV == "S":
+        AtaqueS = None
+        AtaqueV = None
+        estadoMostraAtaqueS["selecionado_direito"] = None
+    else:
+        AtaqueSV = None
+        estadoMostraAtaqueV["selecionado_direito"] = None
+        estadoMostraAtaqueV["selecionado_esquerdo"] = None
 
 fonte_titulo = pygame.font.SysFont("arial", 25, True)
 fonte_HP = pygame.font.SysFont("arial", 23, True)
@@ -30,10 +71,15 @@ fonte_pequena = pygame.font.SysFont("arial", 18)
 fonte_iv = pygame.font.SysFont("arial", 18, True)
 fonte_iv_destaque = pygame.font.SysFont("arial", 22, True)
 
-def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, SoV=None):
+def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=None):
     x, y = pos
     largura, altura = 380, 385  # Aumentado de 368 para 385
     global AtaqueSV
+
+    if SoV == "S":
+        estado_global = estadoMostraAtaqueS
+    else:
+        estado_global = estadoMostraAtaqueV
 
     if pokemon in player.pokemons:
         cor = (35, 35, 35)
@@ -151,40 +197,61 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
             "S": (144, 238, 144)
         }
 
-        largura_botao = 160
-        margem_lateral = 20
-        espaco_entre_botoes = 20
+        largura_interface = 380  # Ajuste conforme a largura da área de botões
+        margem_lateral = 16
+        espaco_entre_botoes = 16
+        largura_botao = (largura_interface - 2 * margem_lateral - espaco_entre_botoes) // 2
 
-        for i, movimento in enumerate(movimentos):
-            if movimento is not None:
-                linha = i // 2
-                coluna = i % 2
-                pos_y = y + 309 + linha * 38  # Era 292, +17
-                pos_x = x + margem_lateral + coluna * (largura_botao + espaco_entre_botoes)
+        if EstadoDaPergunta["estado"] == False:
+            for i, movimento in enumerate(movimentos):
+                if movimento is not None:
+                    linha = i // 2
+                    coluna = i % 2
+                    pos_y = y + 309 + linha * 38  # Ajuste vertical (309 é a base + 38 por linha)
+                    pos_x = x + margem_lateral + coluna * (largura_botao + espaco_entre_botoes)
 
-                cor_fundo = cores_estilos.get(movimento["estilo"], (200, 200, 200))
+                    cor_fundo = cores_estilos.get(movimento["estilo"], (200, 200, 200))
 
-                botao_rect = pygame.Rect(pos_x, pos_y, largura_botao, 30)
+                    botao_rect = pygame.Rect(pos_x, pos_y, largura_botao, 30)
 
-                GV.Botao_Selecao(
-                    tela, botao_rect, movimento["nome"], Fonte20,
-                    cor_fundo, (255, 255, 255),
-                    funcao_esquerdo=lambda mov=movimento: seleciona_ataque(mov, SoV),
-                    desfazer_esquerdo=lambda SoV=SoV: desseleciona_ataque(SoV),
-                    id_botao=f"{pokemon.ID}{movimento['nome']}",
-                    cor_borda_esquerda=VERMELHO,
-                    estado_global=estado_global, eventos=eventos, grossura=2, cor_passagem=AMARELO
-                )
+                    GV.Botao_Selecao(
+                        tela, botao_rect, movimento["nome"], Fonte20,
+                        cor_fundo, (255, 255, 255),
+                        funcao_esquerdo=lambda mov=movimento: seleciona_ataque(mov, SoV),
+                        desfazer_esquerdo=lambda SoV=SoV: desseleciona_ataque(SoV),
+                        funcao_direito=lambda mov=movimento: Vizualiza_ataque(mov, SoV),
+                        desfazer_direito=lambda SoV=SoV: Oculta_ataque(SoV),
+                        id_botao=f"{pokemon.ID}{movimento['nome']}",
+                        cor_borda_esquerda=VERMELHO,
+                        cor_borda_direita=AZUL,
+                        estado_global=estado_global, eventos=eventos,
+                        grossura=2, cor_passagem=AMARELO
+                    )
+        else:
+            for i, opçao in enumerate(EstadoDaPergunta["opçoes"]):
+                if opçao is not None:
+                    linha = i // 2
+                    coluna = i % 2
+                    pos_y = y + 309 + linha * 38  # Ajuste vertical (309 é a base + 38 por linha)
+                    pos_x = x + margem_lateral + coluna * (largura_botao + espaco_entre_botoes)
 
+                    botao_rect = pygame.Rect(pos_x, pos_y, largura_botao, 30)
+                    
+                    PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
+
+                    GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
+        
         if x > 1600:
             desseleciona_ataque(SoV)
+            Oculta_ataque(SoV)
+            EstadoDaPergunta["estado"] = False
 
         if SoV == "S":
-            if AtaqueS is not None:
-                Mostrar_Ataque(tela, AtaqueS, (1228, y), imagens_tipos)
+            if AtaqueV is not None:
+                Mostrar_Ataque(tela, AtaqueV, (1540, y + 60), imagens_tipos)
         else:
             if AtaqueSV is not None:
-                Mostrar_Ataque(tela, AtaqueSV, (1228, y), imagens_tipos)
+                Mostrar_Ataque(tela, AtaqueSV, (1540, y + 60), imagens_tipos)
 
 def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
     FUNDO = (30, 30, 30)
@@ -196,20 +263,20 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
     energia_cores = {
         "vermelha": (255, 0, 0), "azul": (0, 0, 255),
         "amarela": (255, 255, 0), "verde": (0, 200, 0),
-        "roxa": (128, 0, 128), "rosa": (255, 105, 180),
-        "laranja": (255, 140, 0), "marrom": (139, 69, 19),
+        "roxa": (128, 0, 128), 
+        "laranja": (255, 140, 0), 
         "preta": (30, 30, 30), "cinza": (160, 160, 160)
     }
 
     # Fontes menores para caber melhor na ficha reduzida
     fonte_titulo = pygame.font.SysFont("arial", 22, bold=True)
-    fonte_desc = pygame.font.SysFont("arial", 14)
-    fonte_info = pygame.font.SysFont("arial", 14)
-    fonte_infoStat = pygame.font.SysFont("arial", 14, bold=True)
+    fonte_desc = pygame.font.SysFont("arial", 15)
+    fonte_info = pygame.font.SysFont("arial", 15)
+    fonte_infoStat = pygame.font.SysFont("arial", 15, bold=True)
 
     # Novo tamanho da ficha
     largura_total = 380
-    altura_total = 230
+    altura_total = 244
     x, y = posicao
 
     # Fundo da ficha
@@ -225,8 +292,8 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
     # Tipos
     if imagens_tipos and "tipo" in ataque:
         tipos = ataque["tipo"]
-        raio = 13
-        tamanho_icon = 26
+        raio = 12
+        tamanho_icon = 30
 
         def desenhar_tipo(tipo, centro):
             pygame.draw.circle(tela, (255, 255, 255), centro, raio)
@@ -302,7 +369,7 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
 
             centro_x = x + espacamento * i + espacamento // 2
             tela.blit(texto_info, texto_info.get_rect(center=(centro_x, y + altura_total - 55)))
-            tela.blit(texto_valor, texto_valor.get_rect(center=(centro_x, y + altura_total - 35)))
+            tela.blit(texto_valor, texto_valor.get_rect(center=(centro_x, y + altura_total - 38)))
 
         pygame.draw.line(tela, LINHA, (x + 10, y + altura_total - 28), (x + largura_total - 10, y + altura_total - 28), 2)
 
@@ -556,12 +623,12 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
     
                 PokemonS.atacou = True
 
-                if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa) == False:
+                if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
                     return
 
                 idx = PokemonA.pos
-                AlvoLoc = ((1410 - idx * 190),95)
-                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc))
+                AlvoLoc = ((1400 - idx * 190),95)
+                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta))
         
         else: 
             GV.adicionar_mensagem("Selecione um alvo, um ataque, e um atacante")
@@ -572,4 +639,5 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
         GV.adicionar_mensagem("Esse pokemon não pode realizar ataques")
         tocar("Bloq")
         return
-    
+
+                

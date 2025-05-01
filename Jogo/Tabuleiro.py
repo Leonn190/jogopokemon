@@ -9,7 +9,7 @@ from Visual.GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
-Mapa = []
+Zona = []
 Area = [(3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16),
         (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15), (4, 16),
         (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15), (5, 16),
@@ -26,9 +26,9 @@ estadoTabuleiro = {
     "selecionado_direito": None}
 
 def Gerar_Mapa():
-    global Mapa
+    global Zona
 
-    Mapa = []
+    Zona = []
     for i in range(15):  # 15 linhas
         linha = []
         for j in range(25):  # 20 colunas
@@ -37,7 +37,8 @@ def Gerar_Mapa():
                 "ocupado": None  # Aqui futuramente pode ser um Pokémon ou outro objeto
             }
             linha.append(casa)
-        Mapa.append(linha)
+        Zona.append(linha)
+    return Zona
 
 def seleciona_peça(p,dono,player):
     global PeçaS
@@ -92,19 +93,19 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
         if pokemon.local is not None:
             if pokemon.local["id"] not in casas_disponiveis:
                 linha_antiga, coluna_antiga = pokemon.local["id"]
-                Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+                Zona[linha_antiga][coluna_antiga]["ocupado"] = None
                 pokemon.local = None
                 pokemon.guardado = 3
     for pokemon in inimigo.pokemons:
         if pokemon.local is not None:
             if pokemon.local["id"] not in casas_disponiveis:
                 linha_antiga, coluna_antiga = pokemon.local["id"]
-                Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+                Zona[linha_antiga][coluna_antiga]["ocupado"] = None
                 pokemon.local = None
                 pokemon.guardado = 3
 
     for (linha, coluna) in casas_disponiveis:
-        casa = Mapa[linha][coluna]
+        casa = Zona[linha][coluna]
         x = x_inicial + coluna * tamanho_casa
         y = y_inicial + linha * tamanho_casa
         espaco = pygame.Rect(x, y, tamanho_casa, tamanho_casa)
@@ -161,24 +162,28 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
     if PeçaS is not None:
         Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros)
 
-def Move(peça, L, C,player):
-    peça.Ganhar_XP(1,player)
+def Move(peça, L, C,ZonaImportada=None):
+    global Zona
+
+    if Zona == []:
+        Zona = ZonaImportada
+
     if peça.local is not None:
 
         linha_antiga, coluna_antiga = peça.local["id"]
-        Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+        Zona[linha_antiga][coluna_antiga]["ocupado"] = None
 
         # Atualizar a nova posição
-    peça.local = Mapa[L][C]
-    Mapa[L][C]["ocupado"] = peça.ID
+    peça.local = Zona[L][C]
+    Zona[L][C]["ocupado"] = peça.ID
 
     desseleciona_peça()
 
 def Inverter_Tabuleiro(player, inimigo):
-    global Mapa
+    global Zona
 
     # Cria novo mapa espelhado verticalmente
-    novo_mapa = []
+    nova_Zona = []
     for i in range(15):
         linha = []
         for j in range(25):
@@ -187,19 +192,19 @@ def Inverter_Tabuleiro(player, inimigo):
                 "ocupado": None
             }
             linha.append(casa)
-        novo_mapa.append(linha)
+        nova_Zona.append(linha)
 
     # Reposiciona todos os pokémons no novo mapa invertido
     for poke in player.pokemons + inimigo.pokemons:
         if poke.local is not None:
             antiga_linha, coluna = poke.local["id"]
             nova_linha = 14 - antiga_linha  # espelhamento vertical
-            novo_local = novo_mapa[nova_linha][coluna]
+            novo_local = nova_Zona[nova_linha][coluna]
             poke.local = novo_local
             novo_local["ocupado"] = poke.ID  # Corrigido para 'ID'
 
     # Substitui o mapa original
-    Mapa = novo_mapa
+    Zona = nova_Zona
 
 def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
     tamanho_casa = 40
@@ -250,7 +255,7 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
 
             if (0 <= nova_linha < 15 and 0 <= nova_coluna < 25 and
                 (nova_linha, nova_coluna) in casas_disponiveis and
-                Mapa[nova_linha][nova_coluna]["ocupado"] is None):
+                Zona[nova_linha][nova_coluna]["ocupado"] is None):
 
                 # Verifica se é diagonal
                 if dx != 0 and dy != 0:
@@ -282,23 +287,25 @@ def GuardarPosicionar(pokemon,player,tempo):
     if pokemon.local is not None:
         if len(player.pokemons) > 1:
             linha_antiga, coluna_antiga = pokemon.local["id"]
-            Mapa[linha_antiga][coluna_antiga]["ocupado"] = None
+            Zona[linha_antiga][coluna_antiga]["ocupado"] = None
             pokemon.local = None
             pokemon.guardado = tempo
         else:
             tocar("Bloq")
             GV.adicionar_mensagem("Você não deve guardar seu unico pokemon")
     else:
-        for i in range(len(Mapa)):
+        for i in range(len(Zona)):
             for tentativa in range(40):
                 j = random.randint(0, 24)
-                if Mapa[14 - i][j]["ocupado"] is None:
-                    if Mapa[14 - i][j]["id"] in Area:
-                        pokemon.local = Mapa[14 - i][j]
-                        Mapa[14 - i][j]["ocupado"] = pokemon.ID
+                if Zona[14 - i][j]["ocupado"] is None:
+                    if Zona[14 - i][j]["id"] in Area:
+                        pokemon.local = Zona[14 - i][j]
+                        Zona[14 - i][j]["ocupado"] = pokemon.ID
                         return
 
-
+def GaranteQueMapaZonaSejaIgualZona(ZonaCorreta):
+    global Zona
+    Zona = ZonaCorreta
 
 
 

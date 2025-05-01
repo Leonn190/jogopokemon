@@ -2,7 +2,7 @@ import importlib
 import random
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 
-def padrao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc):
+def padrao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
     Dano = Vsteb(PokemonS,Dano,Ataque)
 
@@ -18,6 +18,8 @@ DicionarioAtaques = {
 
     "Jato de Agua": lambda: importlib.import_module("Dados.Ataques.Agua").Jato_de_Agua,
     "Jato Duplo": lambda: importlib.import_module("Dados.Ataques.Agua").Jato_Duplo,
+    "Bolhas": lambda: importlib.import_module("Dados.Ataques.Agua").Bolhas,
+    "Controle do Oceano": lambda: importlib.import_module("Dados.Ataques.Agua").Controle_do_Oceano,
 
 }
 
