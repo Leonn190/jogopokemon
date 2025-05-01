@@ -32,15 +32,14 @@ fonte_iv_destaque = pygame.font.SysFont("arial", 22, True)
 
 def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, estado_global=None, SoV=None):
     x, y = pos
-    largura, altura = 380, 368  
+    largura, altura = 380, 385  # Aumentado de 368 para 385
     global AtaqueSV
 
     if pokemon in player.pokemons:
         cor = (35, 35, 35)
     else:
-        cor = (80, 35, 35)
+        cor = (70, 35, 35)
 
-    # Retângulo principal
     ret = pygame.Rect(x, y, largura, altura)
     pygame.draw.rect(tela, cor, ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 2)
@@ -50,20 +49,17 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
         def cor_percentual(pct):
             if pct < 15:
                 return (255, 0, 0)
-            elif pct < 30:
+            elif pct < 25:
                 return (255, 165, 0)
-            elif pct < 50:
-                return (255, 255, 0)
-            elif pct < 70:
+            elif pct < 40:
+                return (240, 255, 0)
+            elif pct < 65:
                 return (0, 255, 0)
             elif pct < 90:
-                return (0, 0, 255)
-            elif pct < 100:
-                return (75, 0, 130)
-            elif pct == 100:
+                return (0, 200, 255)
+            elif pct <= 100:
                 return (255, 0, 255)
 
-        # Nome e HP
         nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
         tela.blit(nome_txt, (x + 10, y + 5))
 
@@ -72,46 +68,61 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
         vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))
         tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
 
-        pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 362, 18), 1)  
+        pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 362, 18), 1)
         pygame.draw.rect(tela, cor_percentual(vida_pct), (x + 10, y + 35, (360 * (pokemon.Vida / pokemon.VidaMax)), 16))
 
         pygame.draw.line(tela, (255, 255, 255), (x, y + 60), (x + largura, y + 60), 2)
 
+        # Ajuste: aumentamos o espaçamento entre os atributos
+        # SETOR 2 – Atributos com IVs e barras
         atributos = [
-            ("HP", pokemon.VidaMax, pokemon.IV_vida, 300),
-            ("Attack", pokemon.Atk, pokemon.IV_atk, 100),
-            ("Defense", pokemon.Def, pokemon.IV_def, 100),
-            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 100),
-            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 100),
-            ("Speed", pokemon.vel, pokemon.IV_vel, 100)
+            ("HP", pokemon.VidaMax, pokemon.IV_vida, 360),
+            ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
+            ("Defense", pokemon.Def, pokemon.IV_def, 120),
+            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
+            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 120),
+            ("Speed", pokemon.vel, pokemon.IV_vel, 120)
         ]
 
+        altura_total = 238 - 48  # altura disponível: 178px
+        num_barras = 6
+        altura_barra = 19
+        num_espacos = num_barras + 1  # 7 espaços
+        espacamento = (altura_total - num_barras * altura_barra) / num_espacos  # espaçamento vertical entre as barras
+
         for i, (nome, valor, iv_val, valor_max) in enumerate(atributos):
-            top = y + 68 + i * 28
+            top = y + 60 + espacamento * (i + 1) + altura_barra * i
+
+            # Texto do nome do atributo
             label = fonte_normal.render(f"{nome}:", True, (230, 230, 230))
-            tela.blit(label, (x + 10, top))
+            tela.blit(label, (x + 10, int(top + 1)))
 
+            # Valor numérico do atributo
             val_txt = fonte_Stat.render(f"{valor}", True, (255, 255, 255))
-            tela.blit(val_txt, (x + 85, top))
+            tela.blit(val_txt, (x + 83, int(top + 2)))
 
+            # Barra de progresso do atributo
             percentual = min(valor / valor_max, 1.0)
-            largura_barra = int(percentual * 164)
+            largura_barra = int(percentual * 179)
 
-            pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 130, top + 4, largura_barra, 16))
-            pygame.draw.rect(tela, (0, 0, 0), (x + 130, top + 4, 164, 16), 1) 
+            pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 115, int(top + 4), largura_barra, altura_barra))
+            pygame.draw.rect(tela, (0, 0, 0), (x + 115, int(top + 4), 179, altura_barra), 1)
 
+            # Texto do IV
             iv_txt = fonte_iv.render(f"IV: {iv_val}%", True, cor_percentual(iv_val))
-            tela.blit(iv_txt, (x + 301, top))  
+            tela.blit(iv_txt, (x + 301, int(top + 2)))
 
-        pygame.draw.line(tela, (255, 255, 255), (x, y + 238), (x + largura, y + 238), 2)
+        # Ajuste: linha divisória após os atributos
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 255), (x + largura, y + 255), 2)  # Era 238, agora +17
 
+        # Tipos e info geral agora deslocados +17
         for i, tipo in enumerate(pokemon.tipo):
             tipo_render = fonte_pequena.render(tipo, True, (255, 255, 255))
-            tela.blit(tipo_render, (x + 10, y + 244 + i * 18))
+            tela.blit(tipo_render, (x + 10, y + 261 + i * 18))  # Era 244
 
         for i, tipo in enumerate(pokemon.tipo):
             pos_x = x + 80 + i * 36
-            pos_y = y + 245
+            pos_y = y + 262  # Era 245
             centro = (pos_x + 15, pos_y + 15)
             pygame.draw.circle(tela, (255, 255, 255), centro, 15)
             pygame.draw.circle(tela, (0, 0, 0), centro, 15, 1)
@@ -120,21 +131,19 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
                 img_rect = img.get_rect(center=centro)
                 tela.blit(img, img_rect)
 
-        xp_txt = fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230))
-        custo_txt = fonte_pequena.render(f"CT: {pokemon.custo}", True, (230, 230, 230))
-        altura_txt = fonte_pequena.render(f"1,80M", True, (230, 230, 230))
-        peso_txt = fonte_pequena.render(f"990Kg", True, (230, 230, 230))
-
-        tela.blit(xp_txt, (x + 160, y + 244)) 
-        tela.blit(custo_txt, (x + 160, y + 262))
-        tela.blit(altura_txt, (x + 210, y + 244)) 
-        tela.blit(peso_txt, (x + 210, y + 262))
+        # Textos diversos
+        tela.blit(fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230)), (x + 160, y + 261))
+        tela.blit(fonte_pequena.render(f"CT: {pokemon.custo}", True, (230, 230, 230)), (x + 160, y + 279))
+        tela.blit(fonte_pequena.render(f"1,80M", True, (230, 230, 230)), (x + 215, y + 261))
+        tela.blit(fonte_pequena.render(f"990Kg", True, (230, 230, 230)), (x + 215, y + 279))
 
         iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
-        tela.blit(iv_txt, (x + 275, y + 250))  
+        tela.blit(iv_txt, (x + 275, y + 267))  # Era 250
 
-        pygame.draw.line(tela, (255, 255, 255), (x, y + 285), (x + largura, y + 285), 2)
+        # Linha final (ajustada)
+        pygame.draw.line(tela, (255, 255, 255), (x, y + 302), (x + largura, y + 302), 2)
 
+        # Botões de movimento (também deslocados)
         movimentos = [pokemon.movimento1, pokemon.movimento2, pokemon.movimento3, pokemon.movimento4]
         cores_estilos = {
             "N": (255, 165, 0),
@@ -143,14 +152,14 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, esta
         }
 
         largura_botao = 160
-        margem_lateral = 20  
-        espaco_entre_botoes =20  
+        margem_lateral = 20
+        espaco_entre_botoes = 20
 
         for i, movimento in enumerate(movimentos):
             if movimento is not None:
                 linha = i // 2
                 coluna = i % 2
-                pos_y = y + 292 + linha * 38
+                pos_y = y + 309 + linha * 38  # Era 292, +17
                 pos_x = x + margem_lateral + coluna * (largura_botao + espaco_entre_botoes)
 
                 cor_fundo = cores_estilos.get(movimento["estilo"], (200, 200, 200))
@@ -192,57 +201,53 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
         "preta": (30, 30, 30), "cinza": (160, 160, 160)
     }
 
-    # Fontes
-    fonte_titulo = pygame.font.SysFont("arial", 28, bold=True)
-    fonte_desc = pygame.font.SysFont("arial", 18)
-    fonte_info = pygame.font.SysFont("arial", 18)
-    fonte_infoStat = pygame.font.SysFont("arial", 18, bold=True)
+    # Fontes menores para caber melhor na ficha reduzida
+    fonte_titulo = pygame.font.SysFont("arial", 22, bold=True)
+    fonte_desc = pygame.font.SysFont("arial", 14)
+    fonte_info = pygame.font.SysFont("arial", 14)
+    fonte_infoStat = pygame.font.SysFont("arial", 14, bold=True)
 
-    # Tamanho da ficha
-    largura_total = 330
-    altura_total = 330
+    # Novo tamanho da ficha
+    largura_total = 380
+    altura_total = 230
     x, y = posicao
 
-    # Fundo principal da ficha
+    # Fundo da ficha
     fundo = pygame.Rect(x, y, largura_total, altura_total)
     pygame.draw.rect(tela, FUNDO, fundo)
     pygame.draw.rect(tela, BORDA, fundo, 2)
 
     if ataque is not None:
-        # 1. Cabeçalho - Nome
         nome_render = fonte_titulo.render(ataque["nome"], True, TEXTO)
-        nome_rect = nome_render.get_rect(center=(x + largura_total // 2, y + 25))
+        nome_rect = nome_render.get_rect(center=(x + largura_total // 2, y + 20))
         tela.blit(nome_render, nome_rect)
 
-    # Tipos com borda branca e preta centralizados
+    # Tipos
     if imagens_tipos and "tipo" in ataque:
         tipos = ataque["tipo"]
-        raio = 15
-        tamanho_icon = 30
+        raio = 13
+        tamanho_icon = 26
 
         def desenhar_tipo(tipo, centro):
             pygame.draw.circle(tela, (255, 255, 255), centro, raio)
-            pygame.draw.circle(tela, (0, 0, 0), centro, raio, 1)    
-
+            pygame.draw.circle(tela, (0, 0, 0), centro, raio, 1)
             if tipo in imagens_tipos:
                 img = pygame.transform.scale(imagens_tipos[tipo], (tamanho_icon, tamanho_icon))
                 img_rect = img.get_rect(center=centro)
                 tela.blit(img, img_rect)
 
+        centro_esq = (x + 10 + raio, y + 10 + raio)
+        centro_dir = (x + largura_total - 10 - raio, y + 10 + raio)
         if len(tipos) == 1:
-            centro_esq = (x + 8 + raio, y + 8 + raio)
-            centro_dir = (x + largura_total - 8 - raio, y + 8 + raio)
             desenhar_tipo(tipos[0], centro_esq)
             desenhar_tipo(tipos[0], centro_dir)
         elif len(tipos) >= 2:
-            centro_esq = (x + 8 + raio, y + 8 + raio)
-            centro_dir = (x + largura_total - 8 - raio, y + 8 + raio)
             desenhar_tipo(tipos[0], centro_esq)
             desenhar_tipo(tipos[1], centro_dir)
 
-        pygame.draw.line(tela, LINHA, (x + 10, y + 50), (x + largura_total - 10, y + 50), 2)
+        pygame.draw.line(tela, LINHA, (x + 10, y + 40), (x + largura_total - 10, y + 40), 2)
 
-        # 2. Descrição 
+        # Descrição
         palavras = ataque["descrição"].split(" ")
         linhas = []
         linha = ""
@@ -256,75 +261,60 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
         if linha:
             linhas.append(linha)
 
-        y_desc_inicio = y + 60
-        for i, linha in enumerate(linhas[:9]):
+        y_desc_inicio = y + 45
+        for i, linha in enumerate(linhas[:5]):  # Menos linhas por espaço
             texto_linha = fonte_desc.render(linha.strip(), True, TEXTO)
-            tela.blit(texto_linha, (x + 10, y_desc_inicio + i * 22))
+            tela.blit(texto_linha, (x + 10, y_desc_inicio + i * 18))
 
-        y_divisoria = y + altura_total - 80
+        y_divisoria = y + altura_total - 65
         pygame.draw.line(tela, LINHA, (x + 10, y_divisoria), (x + largura_total - 10, y_divisoria), 2)
 
-        # 3. Status
+        # Status
         infos = [
             f"Dano: {ataque['dano']}",
             f"Alcance: {ataque['alcance']}m",
             f"Precisão: {ataque['precisão']}%"
         ]
-        
-        # Função para definir a cor do status
+
         def obter_cor_status(status, tipo):
             if tipo == "dano":
-                if status < 0.8:
-                    return (255, 0, 0)  # Vermelho
-                elif status < 1.2:
-                    return (255, 255, 0)  # Amarelo
-                elif status < 1.6:
-                    return (0, 200, 0)  # Verde
-                else:
-                    return (180, 90, 255)  # Roxo claro
+                if status < 0.8: return (255, 0, 0)
+                elif status < 1.2: return (255, 255, 0)
+                elif status < 1.6: return (0, 200, 0)
+                else: return (180, 90, 255)
             elif tipo == "alcance":
-                if status < 20:
-                    return (255, 0, 0)  # Vermelho
-                elif status < 50:
-                    return (255, 255, 0)  # Amarelo
-                elif status < 90:
-                    return (0, 200, 0)  # Verde
-                else:
-                    return (180, 90, 255)  # Roxo claro
+                if status < 20: return (255, 0, 0)
+                elif status < 50: return (255, 255, 0)
+                elif status < 90: return (0, 200, 0)
+                else: return (180, 90, 255)
             elif tipo == "precisão":
-                if status < 35:
-                    return (255, 0, 0)  # Vermelho
-                elif status < 70:
-                    return (255, 255, 0)  # Amarelo
-                elif status < 101:
-                    return (0, 200, 0)  # Verde
-                else:
-                    return (180, 90, 255)  # Roxo claro
+                if status < 35: return (255, 0, 0)
+                elif status < 70: return (255, 255, 0)
+                elif status < 101: return (0, 200, 0)
+                else: return (180, 90, 255)
 
         espacamento = largura_total // len(infos)
         for i, info in enumerate(infos):
+            tipo = info.split(":")[0].lower()
+            valor_bruto = float(info.split(":")[1].replace("m", "").replace("%", ""))
             texto_info = fonte_info.render(info.split(":")[0], True, TEXTO)
-            texto_valor = fonte_infoStat.render(info.split(":")[1], True, obter_cor_status(float(info.split(":")[1].replace("m", "").replace("%", "")), infos[i].split(":")[0].lower()))
-            
-            rect_info = texto_info.get_rect(center=(x + espacamento * i + espacamento // 2, y + altura_total - 68))
-            rect_valor = texto_valor.get_rect(center=(x + espacamento * i + espacamento // 2, y + altura_total - 48))
+            texto_valor = fonte_infoStat.render(info.split(":")[1], True, obter_cor_status(valor_bruto, tipo))
 
-            tela.blit(texto_info, rect_info)
-            tela.blit(texto_valor, rect_valor)
+            centro_x = x + espacamento * i + espacamento // 2
+            tela.blit(texto_info, texto_info.get_rect(center=(centro_x, y + altura_total - 55)))
+            tela.blit(texto_valor, texto_valor.get_rect(center=(centro_x, y + altura_total - 35)))
 
-        pygame.draw.line(tela, LINHA, (x + 10, y + altura_total - 35), (x + largura_total - 10, y + altura_total - 35), 2)
+        pygame.draw.line(tela, LINHA, (x + 10, y + altura_total - 28), (x + largura_total - 10, y + altura_total - 28), 2)
 
-        # 4. Custo
+        # Custo
         custo_label = fonte_info.render("Custo:", True, TEXTO)
-        tela.blit(custo_label, (x + 10, y + altura_total - 28))
-
+        tela.blit(custo_label, (x + 10, y + altura_total - 22))
         if "custo" in ataque:
             for i, energia in enumerate(ataque["custo"]):
                 cor = energia_cores.get(energia, BRANCO)
-                cx = x + 70 + i * 28
-                cy = y + altura_total - 18
-                pygame.draw.circle(tela, cor, (cx, cy), 10)
-                pygame.draw.circle(tela, BORDA, (cx, cy), 10, 1)
+                cx = x + 65 + i * 24
+                cy = y + altura_total - 14
+                pygame.draw.circle(tela, cor, (cx, cy), 8)
 
 H = None
 B1 = {"estado": False}

@@ -799,7 +799,7 @@ def Partida(tela,estados,relogio):
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(175)
 
 def Inicia(tela):
     global Turno
@@ -1021,12 +1021,12 @@ def TelaPokemons(tela,eventos,estados):
     XstatusS = GV.animar(S1,S2,animaS)
 
     if XstatusS != 1920:
-        Status_Pokemon((XstatusS,515), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
+        Status_Pokemon((XstatusS,502), tela, PokemonSV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueS,"S")
 
     XstatusV = GV.animar(V1,V2,animaV)
 
     if XstatusV != 1920:
-        Status_Pokemon((XstatusV,145), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
+        Status_Pokemon((XstatusV,115), tela, PokemonVV,TiposEnergiaIMG, player, eventos, estadoMostraAtaqueV,"V")
 
     agora = pygame.time.get_ticks()
 
