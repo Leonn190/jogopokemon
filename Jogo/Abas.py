@@ -628,7 +628,7 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
 
                 idx = PokemonA.pos
                 AlvoLoc = ((1400 - idx * 190),95)
-                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta))
+                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
         
         else: 
             GV.adicionar_mensagem("Selecione um alvo, um ataque, e um atacante")

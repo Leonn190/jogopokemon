@@ -1,7 +1,7 @@
 import Visual.GeradoresVisuais as GV
 import random
 import Jogo.Funções2 as FU
-from Dados.Gen1.Basicos import Pokedex
+from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
 from Visual.Imagens import Carrega_Icone_pokemon
 from Visual.Sonoridade import tocar
@@ -231,7 +231,7 @@ class Pokemon:
             self.VarDef_sp_perm = self.VarDef_sp_perm + round((self.Def_spB * amplificador))
             GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
     
-    def atacado(self,dano,player,inimigo,tela):
+    def atacado(self,dano,player,inimigo,tela,Mapa):
         DanoOriginal = dano
         if self.Vida <= dano:
             if self.efeitosPosi["Imortal"]:
@@ -249,7 +249,7 @@ class Pokemon:
             adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",VERMELHO,Fonte35,((425 + i * 190),975))
 
         if self.Vida == 0:
-            GuardarPosicionar(self,player,0)
+            GuardarPosicionar(self,player,0,Mapa.Zona)
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
     def curar(self,cura,player,tela):
@@ -338,8 +338,8 @@ def Gerador(Pokemon,P):
         "custo": Pok["custo"],
         "Move1": SelecionaAtaques("Jato de Agua","Jato Duplo","Bolhas"),
         "Move2": SelecionaAtaques("Jato de Agua","Jato Duplo","Bolhas"),
-        "Move3": SelecionaAtaques("Controle do Oceano","Controle do Oceano"),
-        "Move4": None,
+        "Move3": SelecionaAtaques("Controle do Oceano","Golpe de Concha","Gota Pesada"),
+        "Move4": SelecionaAtaques("Vasculhar no Rio","Splash","Cabeçada"),
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
@@ -355,7 +355,7 @@ def Gerador(Pokemon,P):
     }
 
 def Gerador_final(code,P,player):
-    return Pokemon(Gerador(Pokedex[code],P),player)
+    return Pokemon(Gerador(Pokemons_Todos[code],P),player)
 
 def VerificaSituaçãoPokemon(player, inimigo):
     for pokemon in player.pokemons:

@@ -1,11 +1,13 @@
 import pygame
 import Visual.GeradoresVisuais as GV
+import os
 
 efeitos_ativos = []
 
 # Agora só guardamos o que muda
 Parametros_Efeitos = {
     "Evoluindo": {"velocidade": 92, "duracao": 2800},
+    "!None": {"velocidade": 100, "duracao": 1000},
 
     "LabaredaMultipla": {"velocidade": 32, "duracao": 2800},
     "Corte": {"velocidade": 98, "duracao": 1100},
@@ -138,3 +140,42 @@ def atualizar_efeitos(tela):
         gif.desenhar(tela)
         if gif.finalizado():
             efeitos_ativos.remove(gif)
+
+class GifCondicional:
+    def __init__(self, frames, pos, intervalo):
+        self.frames = frames
+        self.index = 0
+        self.tempo_entre_frames = intervalo
+        self.ultimo_tempo = pygame.time.get_ticks()
+        self.pos = pos  # A posição de destino (onde você quer que o gif fique)
+        self.ativo = True  # Continua sendo ativo
+
+    def atualizar(self, tela):
+        if not self.ativo:
+            return
+
+        tempo_atual = pygame.time.get_ticks()
+        if tempo_atual - self.ultimo_tempo > self.tempo_entre_frames:
+            self.index += 1
+            self.ultimo_tempo = tempo_atual
+
+            # Redefine o índice para criar o efeito de repetição infinita
+            if self.index >= len(self.frames):
+                self.index = 0  # Volta ao primeiro frame
+
+        # Desenha o frame atual centralizado
+        if self.index < len(self.frames):
+            largura = self.frames[self.index].get_width()
+            altura = self.frames[self.index].get_height()
+
+            # Calculando a posição de modo que o gif fique centralizado
+            pos_x = self.pos[0] - largura // 2
+            pos_y = self.pos[1] - altura // 2
+
+            tela.blit(self.frames[self.index], (pos_x, pos_y))  # Desenha o gif
+
+    def apagar(self):
+        self.ativo = False  # Caso precise parar manualmente em algum momento
+
+def gerar_gif(frames, posicao, intervalo=80):
+    return GifCondicional(frames, posicao, intervalo)

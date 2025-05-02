@@ -338,6 +338,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
     Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
 
+    Alvo = GV.carregar_frames('imagens/efeitos/Alvo_frames')
 
     EfeitosIMG = {
     "Confuso": ConfusoIMG,
@@ -464,7 +465,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     
     }
 
-    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG,LojasIMG,TreinadorIMG]
+    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG,LojasIMG,TreinadorIMG,Alvo]
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 

@@ -574,6 +574,6 @@ Zapdos = {
     "W": 69
 }
 
-Pokedex = [0,
+Pokemons_Todos = [0,
     Bulbasaur, Charmander, Squirtle, Machop, Gastly, Geodude, Caterpie, Abra, Dratini, Pikachu,
     Zorua, Magikarp, Jigglypuff, Clefairy, Meowth, Cubone, Shellder, Magnemite, Rattata, Weedle, Snorlax, Aerodactyl, Jynx, Pinsir, Mewtwo, Articuno,Moltres,Zapdos]

@@ -2,7 +2,7 @@ import importlib
 import random
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 
-def padrao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def Regular(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
     Dano = Vsteb(PokemonS,Dano,Ataque)
 
@@ -12,7 +12,21 @@ def padrao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,Estado
 
     DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
 
-    Alvo.atacado(DanoF,player,inimigo,tela)
+    Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+
+def Irregular(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+    Dano = Vsteb(PokemonS,Dano,Ataque)
+
+    Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
+
+    Mitigaçao = 100 / (100 + Defesa)
+    DanoM = Dano * Mitigaçao
+    DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+
+    DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+
+    Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
 
 DicionarioAtaques = {
 
@@ -20,6 +34,17 @@ DicionarioAtaques = {
     "Jato Duplo": lambda: importlib.import_module("Dados.Ataques.Agua").Jato_Duplo,
     "Bolhas": lambda: importlib.import_module("Dados.Ataques.Agua").Bolhas,
     "Controle do Oceano": lambda: importlib.import_module("Dados.Ataques.Agua").Controle_do_Oceano,
+    "Splash": lambda: importlib.import_module("Dados.Ataques.Agua").Splash,
+    "Vasculhar no Rio": lambda: importlib.import_module("Dados.Ataques.Agua").Vasculhar_no_Rio,
+    "Golpe de Concha": lambda: importlib.import_module("Dados.Ataques.Agua").Golpe_de_Concha,
+    "Gota Pesada": lambda: importlib.import_module("Dados.Ataques.Agua").Gota_Pesada,
+
+    "Tapa": lambda: importlib.import_module("Dados.Ataques.Normal").Tapa,
+    "Cabeçada": lambda: importlib.import_module("Dados.Ataques.Normal").Cabeçada,
+    "Investida": lambda: importlib.import_module("Dados.Ataques.Normal").Investida,
+    "Vasculhar": lambda: importlib.import_module("Dados.Ataques.Normal").Vasculhar,
+
+    "Sopro do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
 
 }
 

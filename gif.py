@@ -23,8 +23,8 @@ def extrair_gifs_para_frames(pasta_gifs, multiplicador=1):
                     frame_atual = img.convert("RGBA")
 
                     # Redimensiona
-                    nova_largura = int(245)
-                    nova_altura = int(245)
+                    nova_largura = int(300)
+                    nova_altura = int(300)
                     redimensionada = frame_atual.resize((nova_largura, nova_altura), Image.LANCZOS)
 
                     # Salva o frame
@@ -36,4 +36,4 @@ def extrair_gifs_para_frames(pasta_gifs, multiplicador=1):
             except Exception as e:
                 print(f"Erro ao processar {arquivo}: {e}")
 
-extrair_gifs_para_frames("imagens/Efeitos/quadrados")
+extrair_gifs_para_frames("imagens/Efeitos/Z")

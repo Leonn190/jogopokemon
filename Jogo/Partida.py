@@ -2,7 +2,7 @@ import pygame
 import random
 from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
-from Visual.Efeitos import atualizar_efeitos
+from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
 from Abas import Tabela_Energias,Status_Pokemon,Inventario,Atacar
 import Tabuleiro as M
@@ -32,6 +32,7 @@ PokemonV = None
 PokemonVV = None
 PokemonA = None
 PokemonAV = None
+alvo = None
 informacao = None
 Visor = None
 PokebolaSelecionada = None
@@ -143,7 +144,7 @@ def passar_turno():
 
     player.ouro += 2 + (tempo_restante // 20)
     GV.limpa_terminal()
-    M.Inverter_Tabuleiro(player, inimigo)
+    Mapa.Zona = M.Inverter_Tabuleiro(player, inimigo, Mapa.Zona)
 
     for pokemon in player.pokemons:
         pokemon.atacou = False
@@ -200,12 +201,14 @@ def seleciona(Pokemon):
         GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")
 
 def selecionaAlvo(Pokemon):
-    global PokemonA
+    global PokemonA,alvo
     if not isinstance(Pokemon,str):
         PokemonA = Pokemon
+        alvo = gerar_gif(OutrosIMG[14],((1400 - PokemonA.pos * 190),95),35)
 
 def desselecionaAlvo():
-    global PokemonA
+    global PokemonA,alvo
+    alvo = None
     PokemonA = None
     estadoAlvo["selecionado_esquerdo"] = False
 
@@ -338,11 +341,16 @@ def fechar_tudo():
     global estadoPokebola
     global estadoItens
     global estadoFruta
-    global S1, S2, V1, V2,AT1,AT2,T1,T2,OP1,OP2,A1, A2, A3, A4, A5, A6 
+    global estadoAlvo
+    global estadoVizualiza
+    global S1, S2, V1, V2,AT1,AT2,T1,T2,OP1,OP2,A1, A2, A3, A4, A5, A6, alvo
 
-    estadoPokemon = {
-        "selecionado_esquerdo": None,
-        "selecionado_direito": None}
+    estadoPokemon = {"selecionado_esquerdo": None}
+
+    estadoAlvo = {"selecionado_esquerdo": None}
+
+    estadoVizualiza ={"selecionado_direito": None}
+
     estadoInfo = {
         "selecionado_esquerdo": None,
         "selecionado_direito": None}
@@ -377,6 +385,8 @@ def fechar_tudo():
     A5 = -400
     A6 = -400
 
+    alvo = None
+
 def PokemonCentro(ID,player):
     global Centro
     global estadoOutros
@@ -400,7 +410,7 @@ def PokemonCentro(ID,player):
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
                 novo_pokemon = GPO.Gerador_final(pokemon["code"],AIV,player)
-                M.GuardarPosicionar(novo_pokemon,player,0)
+                M.GuardarPosicionar(novo_pokemon,player,0,Mapa.Zona)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
                 VerificaGIF(player,inimigo)
                 tocar("Bom")
@@ -488,9 +498,9 @@ def pausarEdespausar():
 
 def AddLocalPokemonINIC(pokemon,jogador):
     if jogador == Jogador1:
-        M.Move(pokemon,11,12)
+        M.Move(pokemon,11,12,Mapa.Zona)
     else:
-        M.Move(pokemon,3,12)
+        M.Move(pokemon,3,12,Mapa.Zona)
 
 def Muter():
     global Mute
@@ -641,7 +651,7 @@ def Passar_contadores():
             if pokemon.efeitosPosi["Regeneração"]:
                 pokemon.curar(15,player,Tela)
             if dano_dos_efeitos > 0:
-                pokemon.atacado(dano_dos_efeitos,player,inimigo,"O",Tela)
+                pokemon.atacado(dano_dos_efeitos,player,inimigo,Tela,Mapa)
 
         for efeito, contador in pokemon.efeitosNega.items():
             if contador > 0:
@@ -894,7 +904,7 @@ def TelaPokemons(tela,eventos,estados):
     global informacao
     global player
     global inimigo
-    
+
     VerificaGIF(player,inimigo)
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
@@ -920,13 +930,13 @@ def TelaPokemons(tela,eventos,estados):
     try:
         if PokemonS.local is not None:
             
-            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,2),Fonte40, B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,2,Mapa.Zona),Fonte40, B23, 3, None, True, eventos)
 
         else:
             if PokemonS.guardado > 0:
                 GV.Botao(tela, f"Posicione em {PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,0),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,0,Mapa.Zona),Fonte40, B23, 3, None, True, eventos)
 
     except AttributeError:
         pass
@@ -1019,6 +1029,12 @@ def TelaPokemons(tela,eventos,estados):
 
     if XstatusV != 1920:
         Status_Pokemon((XstatusV,115), tela, PokemonVV,TiposEnergiaIMG, player, eventos,"V")
+
+    try:
+        if alvo.ativo:
+            alvo.atualizar(tela)
+    except AttributeError:
+        pass
 
     agora = pygame.time.get_ticks()
 
@@ -1215,7 +1231,5 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
 
-    M.GaranteQueMapaZonaSejaIgualZona(Mapa.Zona)
-
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros)   
+    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros, Mapa.Zona)   

@@ -9,7 +9,6 @@ from Visual.GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
-Zona = []
 Area = [(3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16),
         (4, 8), (4, 9), (4, 10), (4, 11), (4, 12), (4, 13), (4, 14), (4, 15), (4, 16),
         (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (5, 14), (5, 15), (5, 16),
@@ -26,7 +25,6 @@ estadoTabuleiro = {
     "selecionado_direito": None}
 
 def Gerar_Mapa():
-    global Zona
 
     Zona = []
     for i in range(15):  # 15 linhas
@@ -77,7 +75,7 @@ def desseleciona_peça():
     PeçaS = None
     estadoTabuleiro["selecionado_esquerdo"] =  False
 
-def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem, metros):
+def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem, metros, Zona):
     global Area
     tamanho_casa = 40
     tamanho_imagem = 38
@@ -160,13 +158,9 @@ def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, 
             pygame.draw.rect(tela, (0, 0, 0), espaco, 2)
 
     if PeçaS is not None:
-        Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros)
+        Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, Zona, metros)
 
-def Move(peça, L, C,ZonaImportada=None):
-    global Zona
-
-    if Zona == []:
-        Zona = ZonaImportada
+def Move(peça, L, C,Zona):
 
     if peça.local is not None:
 
@@ -179,9 +173,7 @@ def Move(peça, L, C,ZonaImportada=None):
 
     desseleciona_peça()
 
-def Inverter_Tabuleiro(player, inimigo):
-    global Zona
-
+def Inverter_Tabuleiro(player, inimigo, Zona):
     # Cria novo mapa espelhado verticalmente
     nova_Zona = []
     for i in range(15):
@@ -203,10 +195,9 @@ def Inverter_Tabuleiro(player, inimigo):
             poke.local = novo_local
             novo_local["ocupado"] = poke.ID  # Corrigido para 'ID'
 
-    # Substitui o mapa original
-    Zona = nova_Zona
+    return nova_Zona
 
-def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
+def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, Zona, metros=10):
     tamanho_casa = 40
     x_inicial = (1920 - 25 * tamanho_casa) // 2
     y_inicial = (1080 - 15 * tamanho_casa) // 2
@@ -276,14 +267,14 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, metros=10):
             cor_normal=(100, 255, 100),
             cor_borda=BRANCO,
             cor_passagem=(150, 255, 150),
-            acao=lambda linha=linha, coluna=coluna: Move(PeçaS, linha, coluna, player),
+            acao=lambda linha=linha, coluna=coluna: Move(PeçaS, linha, coluna, Zona),
             Fonte=pygame.font.SysFont("arial", 16),
             estado_clique={"estado": False},
             grossura=2,
             eventos=eventos
         )
 
-def GuardarPosicionar(pokemon,player,tempo):
+def GuardarPosicionar(pokemon,player,tempo,Zona):
     if pokemon.local is not None:
         if len(player.pokemons) > 1:
             linha_antiga, coluna_antiga = pokemon.local["id"]
@@ -302,10 +293,6 @@ def GuardarPosicionar(pokemon,player,tempo):
                         pokemon.local = Zona[14 - i][j]
                         Zona[14 - i][j]["ocupado"] = pokemon.ID
                         return
-
-def GaranteQueMapaZonaSejaIgualZona(ZonaCorreta):
-    global Zona
-    Zona = ZonaCorreta
 
 
 
