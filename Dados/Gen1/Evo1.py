@@ -15,7 +15,8 @@ Ivysaur = {
     "velocidade": 1.217391304,
     "XP": 55,
     "custo": 2,
-
+    "H": 0.86,
+    "W": 13
 }
 
 Charmeleon = {
@@ -32,7 +33,8 @@ Charmeleon = {
     "velocidade": 1.375,
     "XP": 55,
     "custo": 2,
-
+    "H": 0.98,
+    "W": 17
 }
 
 Wartortle = {
@@ -49,7 +51,8 @@ Wartortle = {
     "velocidade": 1.2,
     "XP": 55,
     "custo": 2,
-
+    "H": 0.83,
+    "W": 21
 }
 
 Machoke = {
@@ -66,6 +69,8 @@ Machoke = {
     "velocidade": 1.3,
     "XP": 55,
     "custo": 2,
+    "H": 1.38,
+    "W": 61
 
 }
 
@@ -83,7 +88,8 @@ Haunter = {
     "velocidade": 1.48,
     "XP": 55,
     "custo": 1,
-
+    "H": 1.3,
+    "W": 0.3
 }
 
 Graveler = {
@@ -100,6 +106,8 @@ Graveler = {
     "velocidade": 1.176470588,
     "XP": 60,
     "custo": 3,
+    "H": 1.03,
+    "W": 102
 
 }
 
@@ -117,6 +125,8 @@ Metapod = {
     "velocidade": 0.5555555556,
     "XP": 45,
     "custo": 2,
+    "H": 0.45,
+    "W": 4.1
 
 }
 
@@ -134,6 +144,8 @@ Kadabra = {
     "velocidade": 1.416666667,
     "XP": 55,
     "custo": 2,
+    "H": 1.29,
+    "W": 52
 
 }
 
@@ -151,7 +163,8 @@ Dragonair = {
     "velocidade": 1.428571429,
     "XP": 65,
     "custo": 2,
-
+    "H": 4.2,
+    "W": 17.5
 }
 
 Raichu = {
@@ -168,6 +181,8 @@ Raichu = {
     "velocidade": 1.294117647,
     "XP": 0,
     "custo": 1,
+    "H": 0.72,
+    "W": 13.6
 
 }
 
@@ -185,6 +200,8 @@ Zoroark = {
     "velocidade": 1.633333333,
     "XP": 0,
     "custo": 2,
+    "H": 1.48,
+    "W": 46
 
 }
 
@@ -202,6 +219,8 @@ Gyarados = {
     "velocidade": 1.653846154,
     "XP": 90,
     "custo": 3,
+    "H": 7.1,
+    "W": 245
 
 }
 
@@ -219,6 +238,8 @@ Wigglytuff = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 1,
+    "H": 1.01,
+    "W": 13.5
 
 }
 
@@ -236,6 +257,8 @@ Clefable = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 3,
+    "H": 1.2,
+    "W": 48
 
 }
 
@@ -253,6 +276,8 @@ Persian = {
     "velocidade": 1.482758621,
     "XP": 0,
     "custo": 1,
+    "H": 0.89,
+    "W": 35
 
 }
 
@@ -270,6 +295,8 @@ Marowak = {
     "velocidade": 1.368421053,
     "XP": 0,
     "custo": 1,
+    "H": 0.99,
+    "W": 41
 
 }
 
@@ -287,6 +314,8 @@ Cloyster = {
     "velocidade": 1.523809524,
     "XP": 0,
     "custo": 2,
+    "H": 1.45,
+    "W": 138
 
 }
 
@@ -304,6 +333,8 @@ Magneton = {
     "velocidade": 1.55,
     "XP": 0,
     "custo": 1,
+    "H": 0.96,
+    "W": 55.5
 
 }
 
@@ -321,6 +352,8 @@ Raticate = {
     "velocidade": 1.321428571,
     "XP": 0,
     "custo": 3,
+    "H": 0.85,
+    "W": 26.2
 
 }
 
@@ -338,6 +371,8 @@ Kakuna = {
     "velocidade": 0.7647058824,
     "XP": 45,
     "custo": 2,
+    "H": 0.48,
+    "W": 5.1
 
 }
 

@@ -120,8 +120,8 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
-    "H": 0.52,
-    "W": 22
+    "H": 0.51,
+    "W": 23
 }
 
 Caterpie = {
@@ -181,7 +181,8 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
-
+    "H": 1.81,
+    "W": 3.4
 }
 
 Pikachu = {
@@ -427,7 +428,7 @@ Snorlax = {
     "velocidade": 14,
     "XP": 45,
     "custo": 4,
-    "H": 2.2,
+    "H": 2.15,
     "W": 485
 
 }
@@ -510,8 +511,8 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
-    "H": 1.87,
-    "W": 100
+    "H": 1.9,
+    "W": 95
 }
 
 Articuno = {
@@ -530,7 +531,7 @@ Articuno = {
     "velocidade": 60,
     "XP": 55,
     "custo": 4,
-    "H": 1.84,
+    "H": 1.83,
     "W": 73
 }
 

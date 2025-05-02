@@ -18,3 +18,4 @@ Pedregulho = {
     "funçao": Regular,
     "irregularidade": False
     }
+

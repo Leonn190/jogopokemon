@@ -21,3 +21,4 @@ Voar = {
     "funçao": F_Voar,
     "irregularidade": False
     }
+
