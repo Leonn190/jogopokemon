@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
 def F_Envenenar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Envenenado"] = 3
+    Alvo.efeitosNega["Envenenado"] += 3
 
 Envenenar = {
     "nome": "Envenenar",

@@ -95,7 +95,8 @@ def caixa():
             item = random.choice(raridades)
             if item["classe"] != "caixa":
                 break
-        
+            
+        print (item)
         return item
 
 def coletor():

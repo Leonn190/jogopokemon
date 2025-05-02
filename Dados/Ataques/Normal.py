@@ -55,7 +55,7 @@ Investida = {
     }
 
 def F_Vasculhar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    player.inventário.append(caixa)
+    player.inventario.append(caixa())
 
 Vasculhar = {
     "nome": "Vasculhar",

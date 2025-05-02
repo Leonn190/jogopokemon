@@ -5,11 +5,13 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
 def F_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    for chave, valor in PokemonS.efeitosPosi.items():
-        if valor > 0:
-            PokemonS.efeitosPosi[chave] = 0
-            break
-        
+
+    efeitos_ativos = [chave for chave, valor in Alvo.efeitosPosi.items() if valor > 0]
+
+    if efeitos_ativos:
+        efeito_removido = random.choice(efeitos_ativos)
+        Alvo.efeitosPosi[efeito_removido] = 0
+
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Sopro_do_Dragao = {

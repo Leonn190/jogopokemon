@@ -24,7 +24,7 @@ def F_Jato_Duplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,t
 
     if Aumento is True:
         Dano = Dano * 1.5
-        Alvo.efeitosNega["Encharcado"] = 3
+        Alvo.efeitosNega["Encharcado"] += 3
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -133,7 +133,7 @@ Splash = {
 def F_Vasculhar_no_Rio(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     Vezes = random.choice([1,2])
     for i in range(Vezes):
-        player.inventário.append(caixa)
+        player.inventario.append(caixa())
 
 Vasculhar_no_Rio = {
     "nome": "Vasculhar no Rio",
@@ -172,7 +172,7 @@ Golpe_de_Concha = {
     }
 
 def F_Gota_Pesada(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Encharcado"] = 4
+    Alvo.efeitosNega["Encharcado"] += 4
 
 Gota_Pesada = {
     "nome": "Gota Pesada",
@@ -181,7 +181,7 @@ Gota_Pesada = {
     "estilo": "S",
     "dano": 0.0,
     "alcance": 25,
-    "precisão": 100, 
+    "precisão": 95, 
     "descrição": "Esse ataque deixa o oponente encharcado por 4 turnos mas sem dar dano nele",
     "efeito": "Agua",
     "extra": None,

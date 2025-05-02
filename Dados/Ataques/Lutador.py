@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
 def F_Chamar_para_Briga(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonS.efeitosPosi["Provocar"] += 3
+    PokemonS.efeitosPosi["Provocando"] += 3
     PokemonS.efeitosPosi["Preparado"] += 3
 
 Chamar_para_Briga = {

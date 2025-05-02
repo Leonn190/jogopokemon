@@ -40,7 +40,7 @@ Faisca = {
     "irregularidade": False
     }
 
-def F_Onda_Eletrica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Onda_Eletrica(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     Alvo.efeitosNega["Paralisado"] += 3
 
 Onda_Eletrica = {
@@ -79,7 +79,7 @@ Choque_do_Trovao = {
     "irregularidade": F_Choque_do_Trovao
     }
 
-def F_Energizar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Energizar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     if PokemonV is not None:
         if PokemonV in player.pokemons:
             PokemonV.efeitosPosi["Energizado"] += 3
@@ -98,6 +98,6 @@ Energizar = {
     "descrição": "Ganhe energizado por 3 turnos ou caso exista um pokemon aliado vizualisado, ele que ganhará o efeito",
     "efeito": "Estouro",
     "extra": True,
-    "funçao": F_Onda_Eletrica,
+    "funçao": F_Energizar,
     "irregularidade": None
     }

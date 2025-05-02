@@ -46,6 +46,32 @@ DicionarioAtaques = {
 
     "Sopro do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
 
+    "Faisca": lambda: importlib.import_module("Dados.Ataques.Eletrico").Faisca,
+    "Energizar": lambda: importlib.import_module("Dados.Ataques.Eletrico").Energizar,
+    "Eletrolise Hidrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Eletrolise_Hidrica,
+    "Choque do Trovao": lambda: importlib.import_module("Dados.Ataques.Eletrico").Choque_do_Trovao,
+    "Onda Eletrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Onda_Eletrica,
+
+    "Queimar": lambda: importlib.import_module("Dados.Ataques.Fogo").Queimar,
+
+    "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
+
+    "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
+
+    "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
+    "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
+
+    "Reforçar": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
+    
+    "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
+
+    "Confusao": lambda: importlib.import_module("Dados.Ataques.Eletrico").Confusão,
+
+    "Nas Sombras": lambda: importlib.import_module("Dados.Ataques.Sombrio").Nas_Sombras,
+
+    "Voar": lambda: importlib.import_module("Dados.Ataques.Voador").Voar,
+
+    "Envenenar": lambda: importlib.import_module("Dados.Ataques.Veneno").Envenenar,
 }
 
 def SelecionaAtaques(O1,O2,O3=None,O4=None,O5=None,O6=None,O7=None,O8=None):

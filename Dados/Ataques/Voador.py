@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
 def F_Voar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonS.efeitosNega["Voando"] += 3
+    PokemonS.efeitosPosi["Voando"] += 3
 
 Voar = {
     "nome": "Voar",

@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
 def F_Queimar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Queimado"] = 3
+    Alvo.efeitosNega["Queimado"] += 3
 
 Queimar = {
     "nome": "Queimar",
