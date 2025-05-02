@@ -266,7 +266,7 @@ class Pokemon:
             
             i = self.pos
             if self in player.pokemons:
-                adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((425 + i * 190),975))
+                adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((510 + i * 190),1010))
             else:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1410 - i * 190),180))
 

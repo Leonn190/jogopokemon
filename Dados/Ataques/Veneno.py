@@ -17,7 +17,7 @@ Envenenar = {
     "precisão": 80, 
     "descrição": "deixe o pokemon inimigo envenenado por 3 turnos",
     "efeito": "GasRoxo",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Envenenar,
     "irregularidade": False
     }

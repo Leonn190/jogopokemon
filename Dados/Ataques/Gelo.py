@@ -19,7 +19,7 @@ Cristalizar = {
     "precisão": 100, 
     "descrição": "Se o pokemon inimigo estiver encharcado, ele perde esse efeito e ganha congelar por 1 turno a mais",
     "efeito": "FluxoAzul",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Cristalizar,
     "irregularidade": False
     }

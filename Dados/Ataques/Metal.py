@@ -21,8 +21,8 @@ Reforçar = {
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Ganhe reforçado por 3 turnos, caso tenha um pokemon vizualisado aliado, ele que ganhará o efeito",
-    "efeito": "!None",
-    "extra": None,
+    "efeito": "Engrenagem",
+    "extra": "TV",
     "funçao": F_Reforçar,
     "irregularidade": False
     }

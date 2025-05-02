@@ -14,7 +14,7 @@ Mordida = {
     "precisão": 95, 
     "descrição": "Morda seu oponente com força",
     "efeito": "Mordida",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }

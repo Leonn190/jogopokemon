@@ -17,7 +17,7 @@ Chamar_para_Briga = {
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Ganhe preparado e provocar por 3 turnos",
-    "efeito": "!None",
+    "efeito": "Karate",
     "extra": None,
     "funçao": F_Chamar_para_Briga,
     "irregularidade": False
@@ -33,7 +33,7 @@ Soco = {
     "precisão": 100, 
     "descrição": "Um soco firme",
     "efeito": "Estouro",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }

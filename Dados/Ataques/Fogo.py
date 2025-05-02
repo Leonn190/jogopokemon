@@ -17,7 +17,7 @@ Queimar = {
     "precisão": 90, 
     "descrição": "Queime o pokemon inimigo por 3 turnos",
     "efeito": "Fogo",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Queimar,
     "irregularidade": False
     }

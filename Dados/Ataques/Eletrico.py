@@ -20,7 +20,7 @@ Eletrolise_Hidrica = {
     "precisão": 100, 
     "descrição": "Se o alvo estiver encharcado esse ataque causará 2 vezes o dano",
     "efeito": "EnergiaAzul",
-    "extra": None,
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Eletrolise_Hidrica
     }
@@ -35,7 +35,7 @@ Faisca = {
     "precisão": 125, 
     "descrição": "Uma faisca certeira no oponente",
     "efeito": "RajadaAmarela",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
@@ -53,7 +53,7 @@ Onda_Eletrica = {
     "precisão": 100, 
     "descrição": "Deixe o alvo paralisado por 3 turnos",
     "efeito": "Estouro",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Onda_Eletrica,
     "irregularidade": None
     }
@@ -74,7 +74,7 @@ Choque_do_Trovao = {
     "precisão": 99, 
     "descrição": "Um grande raio que tem 30% de chance de paralisar o alvo por 3 turnos",
     "efeito": "SuperDescarga",
-    "extra": None,
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Choque_do_Trovao
     }
@@ -97,7 +97,7 @@ Energizar = {
     "precisão": 99, 
     "descrição": "Ganhe energizado por 3 turnos ou caso exista um pokemon aliado vizualisado, ele que ganhará o efeito",
     "efeito": "Estouro",
-    "extra": True,
+    "extra": "TV",
     "funçao": F_Energizar,
     "irregularidade": None
     }

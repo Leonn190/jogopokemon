@@ -14,7 +14,7 @@ Pedregulho = {
     "precisão": 90, 
     "descrição": "Lança um pedregulho no inimigo",
     "efeito": "Estouro",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }

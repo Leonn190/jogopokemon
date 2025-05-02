@@ -141,6 +141,10 @@ def atualizar_efeitos(tela):
         if gif.finalizado():
             efeitos_ativos.remove(gif)
 
+
+
+
+
 class GifCondicional:
     def __init__(self, frames, pos, intervalo):
         self.frames = frames

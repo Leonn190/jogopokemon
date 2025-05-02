@@ -20,11 +20,11 @@ Sopro_do_Dragao = {
     "custo": ["vermelha"],
     "estilo": "E",
     "dano": 0.7,
-    "alcance": 30,
+    "alcance": 28,
     "precisão": 90, 
     "descrição": "O sopro do dragão é capaz de remover um efeito positivo com o padrão draconico do pokemon atingido",
-    "efeito": "EspiralAzul",
-    "extra": False,
+    "efeito": "Fumaça",
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Sopro_do_Dragao
     }

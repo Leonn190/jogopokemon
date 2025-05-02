@@ -14,7 +14,7 @@ Tapa = {
     "precisão": 100, 
     "descrição": "Um Tapa ofensivo no pokemon inimigo",
     "efeito": "Estouro",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
@@ -29,7 +29,7 @@ Cabeçada = {
     "precisão": 90, 
     "descrição": "Uma cabeçada ofensiva no pokemon inimigo",
     "efeito": "Estouro",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
@@ -49,7 +49,7 @@ Investida = {
     "precisão": 85, 
     "descrição": "Esse ataque causa 10 de dano a si mesmo",
     "efeito": "Estouro",
-    "extra": False,
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Investida
     }

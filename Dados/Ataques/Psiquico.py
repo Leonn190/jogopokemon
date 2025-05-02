@@ -17,7 +17,7 @@ Confusão = {
     "precisão": 90, 
     "descrição": "Deixe o inimigo confuso por 3 turnos",
     "efeito": "FeixeRoxo",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Confusão,
     "irregularidade": False
     }

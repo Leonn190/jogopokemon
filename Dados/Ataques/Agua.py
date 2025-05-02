@@ -14,7 +14,7 @@ Jato_de_Agua = {
     "precisão": 100, 
     "descrição": "Lança um jato de agua intenso no oponente",
     "efeito": "EspiralAzul",
-    "extra": False,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
@@ -38,7 +38,7 @@ Jato_Duplo = {
     "precisão": 95, 
     "descrição": "Esse ataque tem 50% de chance de causar mais 50% de dano e deixar o oponente encharcado por 3 turnos",
     "efeito": "EspiralAzul",
-    "extra": None,
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Jato_Duplo
     }
@@ -63,7 +63,7 @@ Bolhas = {
     "precisão": 100, 
     "descrição": "Esse ataque causa mais 15% de dano por cada vez que o pokemon oponente foi atingido pelo ataque Bolhas",
     "efeito": "Agua",
-    "extra": None,
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Bolhas
     }
@@ -110,7 +110,7 @@ Controle_do_Oceano = {
     "precisão": 100, 
     "descrição": "Escolha para qual direçao irá mover o pokemon inimigo em 2 posições",
     "efeito": "TornadoAgua",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Controle_do_Oceano,
     "irregularidade": False
     }
@@ -125,7 +125,7 @@ Splash = {
     "precisão": 50, 
     "descrição": "A precisão do ataque é 50% pois esse ataque tem 50% de chance de não fazer nada",
     "efeito": "Agua",
-    "extra": None,
+    "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
@@ -166,7 +166,7 @@ Golpe_de_Concha = {
     "precisão": 100, 
     "descrição": "Esse ataque causa dano baseado em defesa e em ataque, após esse ataque o pokemon perde o efeito reforçado caso tenha",
     "efeito": "HexagonoLaminas",
-    "extra": None,
+    "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Golpe_de_Concha
     }
@@ -184,7 +184,7 @@ Gota_Pesada = {
     "precisão": 95, 
     "descrição": "Esse ataque deixa o oponente encharcado por 4 turnos mas sem dar dano nele",
     "efeito": "Agua",
-    "extra": None,
+    "extra": "A",
     "funçao": F_Gota_Pesada,
     "irregularidade": False
     }
