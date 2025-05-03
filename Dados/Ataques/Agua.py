@@ -1,7 +1,7 @@
 from Geradores.GeradorAtaques import Regular, Irregular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
-from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
+from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
 Jato_de_Agua = {
@@ -187,4 +187,27 @@ Gota_Pesada = {
     "extra": "A",
     "funçao": F_Gota_Pesada,
     "irregularidade": False
+    }
+
+def F_Bola_de_Agua(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+
+    for inimigo in inimigos:
+        inimigo.atacado(Dano/2,player,inimigo,tela,Mapa)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Bola_de_Agua = {
+    "nome": "Bola de Água",
+    "tipo": ["agua"],   
+    "custo": ["azul","azul","azul"],
+    "estilo": "E",
+    "dano": 1.3,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
+    "efeito": "EspiralAzul",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Bola_de_Agua
     }

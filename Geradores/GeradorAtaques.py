@@ -38,11 +38,13 @@ DicionarioAtaques = {
     "Vasculhar no Rio": lambda: importlib.import_module("Dados.Ataques.Agua").Vasculhar_no_Rio,
     "Golpe de Concha": lambda: importlib.import_module("Dados.Ataques.Agua").Golpe_de_Concha,
     "Gota Pesada": lambda: importlib.import_module("Dados.Ataques.Agua").Gota_Pesada,
+    "Bola de Agua": lambda: importlib.import_module("Dados.Ataques.Agua").Bola_de_Agua,
 
     "Tapa": lambda: importlib.import_module("Dados.Ataques.Normal").Tapa,
     "Cabeçada": lambda: importlib.import_module("Dados.Ataques.Normal").Cabeçada,
     "Investida": lambda: importlib.import_module("Dados.Ataques.Normal").Investida,
     "Vasculhar": lambda: importlib.import_module("Dados.Ataques.Normal").Vasculhar,
+    "Ataque Rapido": lambda: importlib.import_module("Dados.Ataques.Normal").Ataque_Rapido,
 
     "Sopro do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
 
@@ -51,8 +53,10 @@ DicionarioAtaques = {
     "Eletrolise Hidrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Eletrolise_Hidrica,
     "Choque do Trovao": lambda: importlib.import_module("Dados.Ataques.Eletrico").Choque_do_Trovao,
     "Onda Eletrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Onda_Eletrica,
+    "Bola Eletrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Bola_Eletrica,
 
     "Queimar": lambda: importlib.import_module("Dados.Ataques.Fogo").Queimar,
+    "Bola de Fogo": lambda: importlib.import_module("Dados.Ataques.Fogo").Bola_de_Fogo,
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
 
@@ -65,9 +69,11 @@ DicionarioAtaques = {
     
     "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
 
-    "Confusao": lambda: importlib.import_module("Dados.Ataques.Eletrico").Confusão,
+    "Confusao": lambda: importlib.import_module("Dados.Ataques.Psiquico").Confusão,
+    "Bola Pisquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Bola_Psiquica,
 
     "Nas Sombras": lambda: importlib.import_module("Dados.Ataques.Sombrio").Nas_Sombras,
+    "Bola Sombria": lambda: importlib.import_module("Dados.Ataques.Sombrio").Bola_Sombria,
 
     "Voar": lambda: importlib.import_module("Dados.Ataques.Voador").Voar,
 

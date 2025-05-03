@@ -71,3 +71,25 @@ Vasculhar = {
     "funçao": F_Vasculhar,
     "irregularidade": False
     }
+
+def F_Ataque_Rapido(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    
+    if random.choice([True,False]) == True:
+        PokemonS.Atacou = False
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Ataque_Rapido = {
+    "nome": "Bola Eletrica",
+    "tipo": ["normal"],   
+    "custo": ["normal","normal"],
+    "estilo": "N",
+    "dano": 1,
+    "alcance": 15,
+    "precisão": 100, 
+    "descrição": "Tem 50% de chance desse ataque não constar como um ataque e esse pokemon poder atacar novamente",
+    "efeito": "Estouro",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Ataque_Rapido
+    }
