@@ -180,8 +180,8 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
         # Textos diversos
         tela.blit(fonte_pequena.render(f"XP: {pokemon.xp_atu}", True, (230, 230, 230)), (x + 160, y + 261))
         tela.blit(fonte_pequena.render(f"CT: {pokemon.custo}", True, (230, 230, 230)), (x + 160, y + 279))
-        tela.blit(fonte_pequena.render(f"1,80M", True, (230, 230, 230)), (x + 215, y + 261))
-        tela.blit(fonte_pequena.render(f"990Kg", True, (230, 230, 230)), (x + 215, y + 279))
+        tela.blit(fonte_pequena.render(f"{pokemon.Altura}M", True, (230, 230, 230)), (x + 215, y + 261))
+        tela.blit(fonte_pequena.render(f"{pokemon.Peso}Kg", True, (230, 230, 230)), (x + 215, y + 279))
 
         iv_txt = fonte_iv_destaque.render(f"IV: {pokemon.IV}%", True, cor_percentual(pokemon.IV))
         tela.blit(iv_txt, (x + 275, y + 267))  # Era 250
@@ -545,7 +545,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
     largura, altura = 380, 285
 
     ret = pygame.Rect(x, y, largura, altura)
-    pygame.draw.rect(tela, (30, 30, 30), ret)
+    pygame.draw.rect(tela, (35, 35, 35), ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 3)
 
     energia_cores = {
@@ -553,7 +553,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
         "amarela": (255, 215, 0), 
         "verde": (0, 200, 0),
         "roxa": (128, 0, 128), "laranja": (255, 140, 0),
-        "preta": (30, 30, 30), "cinza": (160, 160, 160)
+        "preta": (0, 0, 0), "cinza": (160, 160, 160)
     }
 
     chaves = [k for k in player.energias.keys() if k in energia_cores]

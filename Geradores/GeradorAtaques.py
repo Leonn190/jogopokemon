@@ -83,6 +83,7 @@ DicionarioAtaques = {
     "Disparo de Semente": lambda: importlib.import_module("Dados.Ataques.Planta").Disparo_de_Semente,
     "Chicote de Vinha": lambda: importlib.import_module("Dados.Ataques.Planta").Chicote_de_Vinha,
     "Cura Natural": lambda: importlib.import_module("Dados.Ataques.Planta").Cura_Natural,
+    
 }
 
 def SelecionaAtaques(O1,O2,O3=None,O4=None,O5=None,O6=None,O7=None,O8=None):

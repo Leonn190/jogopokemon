@@ -57,6 +57,8 @@ class Pokemon:
         self.raridade = pokemon["raridade"]
         self.dificuldade = pokemon["dificuldade"]
         self.Estagio = pokemon["estagio"]
+        self.Altura = pokemon["altura"]
+        self.Peso = pokemon["peso"]
 
         self.Vida = pokemon["vida"]
         self.Atk = 0
@@ -322,6 +324,23 @@ def Gerador(Pokemon,P):
 
     IV = round((IVV + IVA + IVAS + IVD + IVDS + IVVE) / 6, 2)
 
+    Coef_Genetico = random.uniform(0.8,1.15)
+
+    Altura = Pok["H"] * (Coef_Genetico + (IVV/200) + (IVA/300) + (IVAS/300))
+    Peso = Pok["W"] * (Coef_Genetico + (IVV/200) + (IVD/200) + (IVDS/200) - (IVVE/250))
+
+    if Altura > 9.9:
+        Altura = round(Altura,1)
+    else:
+        Altura = round(Altura,2)
+
+    if Peso > 99.5:
+        Peso = round(Peso,0)
+    else:
+        Peso = round(Peso,1)
+
+
+
     return {
         "nome": Pok["nome"],
         "tipo": Pok["tipo"],
@@ -329,6 +348,8 @@ def Gerador(Pokemon,P):
         "dificuldade": Pok["dificuldade"],
         "vida": vida,
         "estagio": 1,
+        "altura": Altura,
+        "peso": Peso,
         "atk": Atk,
         "atk SP": Atk_SP,
         "def": Def,
