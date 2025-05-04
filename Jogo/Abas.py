@@ -105,17 +105,50 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
                 return (0, 200, 255)
             elif pct <= 100:
                 return (255, 0, 255)
+                
+        def cor_percentual_vida(pct):
+            if pct > 60:
+                return (0, 200, 0)
+            elif pct > 30:
+                return (255, 200, 0)
+            else:
+                return (200, 0, 0)
 
         nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
         tela.blit(nome_txt, (x + 10, y + 5))
 
-        vida_pct = pokemon.Vida / pokemon.VidaMax * 100
-        vida_str = f"HP: {pokemon.Vida}/{pokemon.VidaMax}"
+                # Cálculo de vida e barreira
+         # Pega valores
+        vida = max(pokemon.Vida, 0)
+        vida_max = max(pokemon.VidaMax, 1)
+        barreira = max(getattr(pokemon, "barreira", 0), 0)
+
+        vida_pct = vida / vida_max * 100
+        vida_str = f"HP: {int(vida)}/{int(vida_max)}"
         vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))
         tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
 
-        pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, 362, 18), 1)
-        pygame.draw.rect(tela, cor_percentual(vida_pct), (x + 10, y + 35, (360 * (pokemon.Vida / pokemon.VidaMax)), 16))
+        largura_total = 360
+        proporcao_vida = vida / vida_max
+        proporcao_barreira = barreira / vida_max
+
+        largura_vida = int(largura_total * proporcao_vida)
+        largura_barreira = int(largura_total * proporcao_barreira)
+
+        # Garante que a soma não ultrapasse o total da barra
+        if largura_vida + largura_barreira > largura_total:
+            excesso = (largura_vida + largura_barreira) - largura_total
+            largura_vida = max(largura_vida - excesso, 0)
+
+        # Desenha borda
+        pygame.draw.rect(tela, (0, 0, 0), (x + 9, y + 34, largura_total + 2, 18), 1)
+
+        # Desenha vida
+        pygame.draw.rect(tela, cor_percentual_vida(vida_pct), (x + 10, y + 35, largura_vida, 16))
+
+        # Desenha barreira à direita da vida (se houver)
+        if largura_barreira > 0:
+            pygame.draw.rect(tela, (0, 150, 255), (x + 10 + largura_vida, y + 35, largura_barreira, 16))
 
         pygame.draw.line(tela, (255, 255, 255), (x, y + 60), (x + largura, y + 60), 2)
 
@@ -670,7 +703,7 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
             
             adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
             if AlvoLoc2 is not None:
-                adicionar_efeito(AtaqueS["efeito2"],AlvoLoc)
+                adicionar_efeito(AtaqueS["efeito2"],AlvoLoc2)
 
         else: 
             GV.adicionar_mensagem("Selecione um ataque")

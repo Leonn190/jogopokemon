@@ -91,6 +91,8 @@ class Pokemon:
         self.Altura = pokemon["altura"]
         self.Peso = pokemon["peso"]
 
+        self.barreira = 0
+
         self.Vida = pokemon["vida"]
         self.Atk = 0
         self.Atk_sp = 0
@@ -267,14 +269,23 @@ class Pokemon:
     
     def atacado(self,dano,player,inimigo,tela,Mapa):
         DanoOriginal = dano
-        if self.Vida <= dano:
-            if self.efeitosPosi["Imortal"]:
-                dano = self.Vida - 0.1
-                self.efeitosPosi["Imortal"] = 0
-            else:
-                dano = self.Vida
-        
-        self.Vida = round(self.Vida - dano,1)
+
+        if self.barreira > 0:
+            if self.barreira <= dano:
+                dano = self.barreira
+            self.barreira = self.barreira - dano
+            self.barreira = round(self.barreira,1)
+
+        else:
+            if self.Vida <= dano:
+                if self.efeitosPosi["Imortal"]:
+                    dano = self.Vida - 0.1
+                    self.efeitosPosi["Imortal"] = 0
+                else:
+                    dano = self.Vida
+            
+            self.Vida = self.Vida - dano
+            self.Vida = round(self.Vida,1)
         
         i = self.pos
         if self in inimigo.pokemons:

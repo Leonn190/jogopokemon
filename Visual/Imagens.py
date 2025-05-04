@@ -143,6 +143,7 @@ PokeGifs = {
     "Mega Blastoise": lambda: GV.carregar_frames('imagens/gifs/blastoise-mega_frames'),
     "Butterfree Vmax": lambda: GV.carregar_frames('imagens/gifs/butterfree-gigantamax_frames'),
     "Charizard Vmax": lambda: GV.carregar_frames('imagens/gifs/charizard-gigantamax_frames'),
+    "Mega Venusaur": lambda: GV.carregar_frames('imagens/gifs/venusaur-mega_frames'),
     "Mega Charizard X": lambda: GV.carregar_frames('imagens/gifs/charizard-megax_frames'),
     "Mega Charizard Y": lambda: GV.carregar_frames('imagens/gifs/charizard-megay_frames'),
     "Clefable": lambda: GV.carregar_frames('imagens/gifs/clefable_frames'),
