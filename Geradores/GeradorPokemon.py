@@ -408,6 +408,8 @@ def Gerador(Pokemon,P):
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokemons_Todos[code],P),player)
 
+Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta", "cinza"]
+
 def VerificaSituaçãoPokemon(player, inimigo):
     for pokemon in player.pokemons:
         if pokemon.atacou == True or pokemon.efeitosNega["Incapacitado"] > 0 or pokemon.efeitosNega["Congelado"] > 0 or pokemon.local is None:
@@ -453,3 +455,23 @@ def VerificaSituaçãoPokemon(player, inimigo):
         pokemon.Def = pokemon.DefB + pokemon.VarDef_perm + pokemon.VarDef_temp
         pokemon.Def_sp = pokemon.Def_spB + pokemon.VarDef_sp_perm + pokemon.VarDef_sp_temp
         pokemon.vel = pokemon.velB + pokemon.Varvel_perm + pokemon.Varvel_temp
+
+
+        if sum(player.energias[energia] for energia in Energias) > 0:
+            if player.energiasDesc == []:
+                while True:
+                    energiaSort = random.choice(Energias)
+                    if energiaSort not in player.energiasDesc and player.energias[energiaSort] != 0:
+                        player.energiasDesc.append(energiaSort)
+                        break
+
+            while True:
+                SomaDesc = sum(player.energias[energia] for energia in player.energiasDesc)
+
+                if SomaDesc >= 1:
+                    break
+
+                energiaSort = random.choice(Energias)
+                if energiaSort not in player.energiasDesc and player.energias[energiaSort] != 0:
+                    player.energiasDesc.append(energiaSort)
+

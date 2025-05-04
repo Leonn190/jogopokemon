@@ -659,7 +659,6 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                 idx = PokemonS.pos
                 AlvoLoc = ((510 + idx * 190),1010)
                 
-            
             if VCusto(player,PokemonS,AtaqueS) == False:
                 return
             
@@ -672,7 +671,6 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
             adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
             if AlvoLoc2 is not None:
                 adicionar_efeito(AtaqueS["efeito2"],AlvoLoc)
-
 
         else: 
             GV.adicionar_mensagem("Selecione um ataque")
