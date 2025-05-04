@@ -97,6 +97,7 @@ Energizar = {
     "precisão": 99, 
     "descrição": "Ganhe energizado por 3 turnos ou caso exista um pokemon aliado vizualisado, ele que ganhará o efeito",
     "efeito": "Estouro",
+    "efeito2": "Estouro",
     "extra": "TV",
     "funçao": F_Energizar,
     "irregularidade": None

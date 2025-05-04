@@ -203,8 +203,6 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, Zona, metros=1
     y_inicial = (1080 - 15 * tamanho_casa) // 2
 
     vel = PeçaS.vel
-    if PeçaS.efeitosPosi["Velocista"]:
-        vel = vel * 1.5
 
     if vel <= 0:
         return  # Pokémon imóvel

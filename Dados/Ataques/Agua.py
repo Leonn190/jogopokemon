@@ -133,7 +133,11 @@ Splash = {
 def F_Vasculhar_no_Rio(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     Vezes = random.choice([1,2])
     for i in range(Vezes):
-        player.inventario.append(caixa())
+        item = caixa()
+        if item["classe"] in ["pokebola","Fruta"]:
+            player.captura.append(item)
+        else:
+            player.inventario.append(item)
 
 Vasculhar_no_Rio = {
     "nome": "Vasculhar no Rio",

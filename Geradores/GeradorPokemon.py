@@ -49,6 +49,37 @@ EfeitosPositivos = {
     "Energizado": 0,
     }
 
+EfeitosDescrição = {
+    "Regeneração": "Cura 15 de vida por turno",
+    "Abençoado": "Aumenta 30% da cura",
+    "Imune": "Não pode receber efeitos negativos", 
+    "Preparado": "bloqueia e contra ataca com valores baseados na velocidade",
+    "Provocando": "Sempre é o alvo",
+    "Furtivo": "Não pode ser um alvo",
+    "Voando": "Ataques contra voce tem -50 assertividade",
+    "Ofensivo": "Mais 30% de ataques",
+    "Reforçado": "Mais 30% de defesas",
+    "Imortal": "Não pode ser nocauteado",
+    "Refletir": "Recebe apenas 20% do dano, o resto reflete",
+    "Focado": "Sempre mais 50 assertividade",
+    "Velocista": "Mais 50% de velocidade",
+    "Energizado": "Precisa de só uma energia para atacar",
+    "Confuso": "Menos 50 de assertividade sempre",
+    "Bloqueado": "Não recebe efeitos positivos",
+    "Envenenado": "10 de dano por turno",
+    "Tóxico": "20 de dano por turno",
+    "Fragilizado": "Menos 50% de Sp defesa ",
+    "Quebrado": "Menos 50% de defesa",
+    "Congelado": "Não pode ser selecionado",
+    "Queimado": "Corta cura de 30% e toma 15 de dano por turno",
+    "Paralisado": "Velocidade zerada",
+    "Encharcado": "Mais 2 energias para se mover",
+    "Vampirico": "Inimigos se curam em 30% do dano causado",
+    "Descarregado": "Ataca com o dobro de energias",
+    "Enfraquecido": "Menos 30% de ataques",
+    "Incapacitado": "Não pode atacar"
+}
+
 class Pokemon:
     def __init__(self, pokemon, player):
 
@@ -113,6 +144,7 @@ class Pokemon:
         self.icone = Carrega_Icone_pokemon(self.nome)
         self.efeitosPosi = EfeitosPositivos.copy()
         self.efeitosNega = EfeitosNegativos.copy()
+        self.descrição = EfeitosDescrição
         
         try:
             player.pokemons.append(self)
@@ -408,6 +440,8 @@ def VerificaSituaçãoPokemon(player, inimigo):
         if pokemon.efeitosPosi["Ofensivo"] > 0:
             pokemon.VarAtk_temp += pokemon.AtkB * 0.3
             pokemon.VarAtk_sp_temp += pokemon.Atk_spB * 0.3
+        if pokemon.efeitosPosi["Velocista"] > 0:
+            pokemon.Varvel_temp += pokemon.velB * 1.5
         if pokemon.efeitosNega["Paralisado"] > 0:
             pokemon.Varvel_temp += -pokemon.velB
         if pokemon.efeitosNega["Congelado"] > 0:

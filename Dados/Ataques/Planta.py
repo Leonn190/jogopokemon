@@ -77,7 +77,8 @@ Cura_Natural = {
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Ganhe regeneração por 3 turnos, caso tenha um pokemon vizualisado aliado, ele que ganhará o efeito",
-    "efeito": "ExplosaoVerde",
+    "efeito": "DomoVerde",
+    "efeito2": "DomoVerde",
     "extra": "TV",
     "funçao": F_Cura_Natural,
     "irregularidade": False

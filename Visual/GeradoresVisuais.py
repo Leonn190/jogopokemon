@@ -534,9 +534,55 @@ def Efeito(tela, posicao, imagem, cor, numero):
     texto_rect = texto.get_rect(midleft=(x + raio + 4, y))
     tela.blit(texto, texto_rect)
 
-        
+def quebrar_texto(texto, fonte, largura_max):
+    palavras = texto.split()
+    linhas = []
+    linha_atual = ""
+    for palavra in palavras:
+        teste = linha_atual + " " + palavra if linha_atual else palavra
+        if fonte.size(teste)[0] <= largura_max:
+            linha_atual = teste
+        else:
+            linhas.append(linha_atual)
+            linha_atual = palavra
+    if linha_atual:
+        linhas.append(linha_atual)
+    return linhas
 
+def tooltip(area, texto, tela, fonte, largura_max=150):
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    area_rect = pygame.Rect(area)
+    if not area_rect.collidepoint((mouse_x, mouse_y)):
+        return
 
+    # Prepara texto
+    linhas = quebrar_texto(texto, fonte, largura_max - 10)
+    altura_linha = fonte.get_height()
+    altura_total = altura_linha * len(linhas) + 10
+    largura_texto = max(fonte.size(linha)[0] for linha in linhas) + 10
+
+    # Calcula posição: centro da base da tooltip a 5px do mouse
+    pos_x = mouse_x - largura_texto // 2
+    pos_y = mouse_y - altura_total - 5
+
+    # Ajusta se estiver saindo da tela (opcional)
+    if pos_x < 0:
+        pos_x = 0
+    if pos_x + largura_texto > tela.get_width():
+        pos_x = tela.get_width() - largura_texto
+    if pos_y < 0:
+        pos_y = 0
+
+    # Fundo transparente
+    fundo = pygame.Surface((largura_texto, altura_total), pygame.SRCALPHA)
+    fundo.fill((0, 0, 0, 180))
+
+    # Renderiza texto
+    for i, linha in enumerate(linhas):
+        render = fonte.render(linha, True, (255, 255, 255))
+        fundo.blit(render, (5, 5 + i * altura_linha))
+
+    tela.blit(fundo, (pos_x, pos_y))
 
 
 

@@ -55,7 +55,11 @@ Investida = {
     }
 
 def F_Vasculhar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    player.inventario.append(caixa())
+    item = caixa()
+    if item["classe"] in ["pokebola","Fruta"]:
+        player.captura.append(item)
+    else:
+        player.inventario.append(item)
 
 Vasculhar = {
     "nome": "Vasculhar",

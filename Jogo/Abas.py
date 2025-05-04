@@ -650,7 +650,6 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                         AlvoLoc2 = ((510 + idx * 190),1010)
 
             else:
-                print (1)
                 if PokemonV is not None and AtaqueS["extra"] == "TV":
                     idx = PokemonV.pos
                     if PokemonV in inimigo.pokemons:

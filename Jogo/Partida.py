@@ -773,9 +773,9 @@ def Partida(tela,estados,relogio):
 
         if Pausa == False:
             TelaTabuleiro(tela,eventos,estados)
-            TelaPokemons(tela,eventos,estados)
             TelaOpções(tela,eventos,estados)
             TelaOutros(tela,eventos,estados)
+            TelaPokemons(tela,eventos,estados)
 
             VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
             if VidaTotal1 <= 0:
@@ -801,7 +801,7 @@ def Partida(tela,estados,relogio):
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(175)
+        relogio.tick(160)
 
 def Inicia(tela):
     global Turno
@@ -967,17 +967,6 @@ def TelaPokemons(tela,eventos,estados):
             funcao_direito=lambda i=i: vizualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
             tecla_esquerda=pygame.K_1, tecla_direita=None, som=selecionaSOM)
-        
-        if not isinstance(id_poke,str):
-            j = 0
-            for efeito,valor in id_poke.efeitosPosi.items():
-                if valor > 0:
-                    GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERDE,valor)
-                    j +=1
-            for efeito,valor in id_poke.efeitosNega.items():
-                if valor > 0:
-                    GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
-                    j +=1
 
     for i in range(6):
         x = 1310 - i * 190  # ajusta a posição horizontal
@@ -1087,6 +1076,35 @@ def TelaPokemons(tela,eventos,estados):
 
         if inimigo.pokemons[i].local is None:
             tela.blit(OutrosIMG[11], ((x+15), (y+10)))
+
+
+    for Pokemon in player.pokemons:
+            j = 0
+            x = 420 + Pokemon.pos * 190
+            for efeito,valor in Pokemon.efeitosPosi.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERDE,valor)
+                    GV.tooltip((x + 146, 906 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    j +=1
+            for efeito,valor in Pokemon.efeitosNega.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
+                    GV.tooltip((x + 146, 906 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    j +=1
+
+    for Pokemon in inimigo.pokemons:
+            j = 0
+            x = 1310 - Pokemon.pos * 190
+            for efeito,valor in Pokemon.efeitosPosi.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERDE,valor)
+                    GV.tooltip((x + 136, 16 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    j +=1
+            for efeito,valor in Pokemon.efeitosNega.items():
+                if valor > 0:
+                    GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
+                    GV.tooltip((x + 136, 16 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    j +=1
 
     atualizar_efeitos(tela)
     GPO.VerificaSituaçãoPokemon(player,inimigo)

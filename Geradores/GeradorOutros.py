@@ -96,7 +96,6 @@ def caixa():
             if item["classe"] != "caixa":
                 break
             
-        print (item)
         return item
 
 def coletor():
