@@ -135,7 +135,7 @@ def F_Vasculhar_no_Rio(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,Al
     for i in range(Vezes):
         item = caixa()
         if item["classe"] in ["pokebola","Fruta"]:
-            player.captura.append(item)
+            player.Captura.append(item)
         else:
             player.inventario.append(item)
 

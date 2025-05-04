@@ -116,3 +116,25 @@ Submissão = {
     "funçao": F_Submissão,
     "irregularidade": False
     }
+
+def F_Treinar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    PokemonS.Ganhar_XP(3,player)
+    vezes = PokemonS.vel // 12
+    for i in range(vezes):
+         Atributo = random.choice([PokemonS.Varvel_perm,PokemonS.VarDef_perm,PokemonS.VarDef_sp_perm,PokemonS.VarAtk_perm,PokemonS.VarAtk_sp_perm])
+         Atributo += 1
+
+Treinar = {
+    "nome": "Treinar",
+    "tipo": ["lutador"],   
+    "custo": ["laranja"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ganhe 3 de XP e aumente 1 de seus atributos aleatoriamente para cada 12 de velocidade que esse pokemon tiver",
+    "efeito": "Karate",
+    "extra": None,
+    "funçao": F_Treinar,
+    "irregularidade": False
+    }

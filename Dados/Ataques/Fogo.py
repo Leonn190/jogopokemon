@@ -13,7 +13,7 @@ Queimar = {
     "custo": ["normal","vermelha"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 20,
+    "alcance": 15,
     "precisão": 90, 
     "descrição": "Queime o pokemon inimigo por 3 turnos",
     "efeito": "Fogo",
@@ -43,4 +43,29 @@ Bola_de_Fogo = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Bola_de_Fogo
+    }
+
+def F_Superaquecer(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if Alvo.efeitosNega["Queimado"] > 0:
+        Alvo.efeitosNega["Queimado"] += 1
+        Dano = Dano * 1.15
+    if PokemonV in player.pokemons:
+        PokemonV.efeitosNega["Congelado"] = 0
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Superaquecer = {
+    "nome": "Superaquecer",
+    "tipo": ["fogo"],   
+    "custo": ["vermelha","vermelha"],
+    "estilo": "E",
+    "dano": 0.5,
+    "alcance": 20,
+    "precisão": 99, 
+    "descrição": "Caso o alvo ja esteja queimado, acrescente 1 contador no efeito e cause mais 15% de dano, selecione um pokemon aliado para remover o efeito congelado",
+    "efeito": "Fogo",
+    "efeito2": "Fogo",
+    "extra": "AV",
+    "funçao": Irregular,
+    "irregularidade": F_Superaquecer
     }

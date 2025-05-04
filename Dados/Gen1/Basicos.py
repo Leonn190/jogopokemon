@@ -19,9 +19,10 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
+    "MoveList": ["Cabeçada", "Acido", "Disparo de Semente", "Dreno"],
+    "Moves": 2,
     "H": 0.58,
     "W": 7.5
-
 }
 
 Charmander = {
@@ -40,6 +41,8 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
+    "MoveList": ["Tapa", "Queimar", "Superaquecer", "Mordida"],
+    "Moves": 2,
     "H": 0.7,   
     "W": 8.5
 }
@@ -60,6 +63,8 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
+    "MoveList": ["Investida", "Jato de Agua", "Gota Pesada", "Bolhas"],
+    "Moves": 2,
     "H": 0.67,
     "W": 10
 }
@@ -80,6 +85,8 @@ Machop = {
     "velocidade": 20,
     "XP": 25,
     "custo": 2,
+    "MoveList": ["Treinar", "Soco", "Provocar", "Pedregulho"],
+    "Moves": 2,
     "H": 0.9,
     "W": 20
 }
@@ -100,6 +107,8 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
+    "MoveList": ["Lambida", "Acido", "Envenenar", "Assombrar"],
+    "Moves": 2,
     "H": 0.6,
     "W": 0.2
 }
@@ -120,6 +129,8 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
+    "MoveList": ["Soco", "Pedregulho", "Provocar", "Investida"],
+    "Moves": 2,
     "H": 0.51,
     "W": 23
 }
@@ -140,9 +151,10 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
+    "MoveList": ["Seda", "Cabeçada", "Mordida", "Vasculhar"],
+    "Moves": 2,
     "H": 0.32,
     "W": 3.3
-
 }
 
 Abra = {

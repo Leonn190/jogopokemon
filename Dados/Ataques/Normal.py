@@ -57,7 +57,7 @@ Investida = {
 def F_Vasculhar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     item = caixa()
     if item["classe"] in ["pokebola","Fruta"]:
-        player.captura.append(item)
+        player.Captura.append(item)
     else:
         player.inventario.append(item)
 

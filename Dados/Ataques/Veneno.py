@@ -21,3 +21,26 @@ Envenenar = {
     "funçao": F_Envenenar,
     "irregularidade": False
     }
+
+def F_Acido(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Defesa = Defesa * 0.8
+    if random.choice([True,False]) == True:
+        Alvo.Def_spB -= 1
+
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Acido = {
+    "nome": "Acido",
+    "tipo": ["venenoso"],   
+    "custo": ["roxa","roxa"],
+    "estilo": "E",
+    "dano": 1,
+    "alcance": 15,
+    "precisão": 100, 
+    "descrição": "Esse ataque ignora 20% da defesa especial e tem 50% de chance de remover 1 de defesa especial permanente",
+    "efeito": "MagiaMagenta",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Acido
+    }

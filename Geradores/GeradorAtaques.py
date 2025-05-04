@@ -59,16 +59,22 @@ DicionarioAtaques = {
 
     "Queimar": lambda: importlib.import_module("Dados.Ataques.Fogo").Queimar,
     "Bola de Fogo": lambda: importlib.import_module("Dados.Ataques.Fogo").Bola_de_Fogo,
+    "Superaquecer": lambda: importlib.import_module("Dados.Ataques.Fogo").Superaquecer,
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
 
     "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
+    "Seda": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
+
+    "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
+    "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,
 
     "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
     "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
     "Punho Missil": lambda: importlib.import_module("Dados.Ataques.Lutador").Punho_Missil,
     "Combate Proximo": lambda: importlib.import_module("Dados.Ataques.Lutador").Combate_Proximo,
     "Submissão": lambda: importlib.import_module("Dados.Ataques.Lutador").Submissão,
+    "Treinar": lambda: importlib.import_module("Dados.Ataques.Lutador").Treinar,
 
     "Reforçar": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
     
@@ -83,6 +89,7 @@ DicionarioAtaques = {
     "Voar": lambda: importlib.import_module("Dados.Ataques.Voador").Voar,
 
     "Envenenar": lambda: importlib.import_module("Dados.Ataques.Veneno").Envenenar,
+    "Acido": lambda: importlib.import_module("Dados.Ataques.Veneno").Acido,
 
     "Dreno": lambda: importlib.import_module("Dados.Ataques.Planta").Dreno,
     "Disparo de Semente": lambda: importlib.import_module("Dados.Ataques.Planta").Disparo_de_Semente,

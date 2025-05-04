@@ -3,7 +3,7 @@ import pygame
 mensagens_passageiras = []
 
 class MensagemPassageira:
-    def __init__(self, mensagem, cor, fonte, posicao, duracao=220, deslocamento=110):
+    def __init__(self, mensagem, cor, fonte, posicao, duracao=240, deslocamento=110):
         self.mensagem = mensagem
         self.cor = cor
         self.fonte = fonte
