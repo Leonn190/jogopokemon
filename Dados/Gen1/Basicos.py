@@ -443,6 +443,8 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
+    "MoveList": ["Mordida", "Seda", "Cabeçada", "Vasculhar"],
+    "Moves": 2,
     "H": 0.26,
     "W": 2.5
 
