@@ -49,7 +49,7 @@ Disparo_de_Semente = {
     "nome": "Disparo de Semente",
     "tipo": ["planta"],   
     "custo": ["normal","verde"],
-    "estilo": "E",
+    "estilo": "N",
     "dano": 0.9,
     "alcance": 38,
     "precisão": 100, 
@@ -80,5 +80,20 @@ Cura_Natural = {
     "efeito": "ExplosaoVerde",
     "extra": "TV",
     "funçao": F_Cura_Natural,
+    "irregularidade": False
+    }
+
+Raio_Solar = {
+    "nome": "Raio Solar",
+    "tipo": ["planta"],   
+    "custo": ["normal","normal","verde","verde","verde"],
+    "estilo": "E",
+    "dano": 1.8,
+    "alcance": 30,
+    "precisão": 100, 
+    "descrição": "Lança um jato de agua intenso no oponente",
+    "efeito": "BarreiraCelular",
+    "extra": "A",
+    "funçao": Regular,
     "irregularidade": False
     }

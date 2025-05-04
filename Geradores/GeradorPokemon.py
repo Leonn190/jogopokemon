@@ -324,7 +324,7 @@ def Gerador(Pokemon,P):
 
     IV = round((IVV + IVA + IVAS + IVD + IVDS + IVVE) / 6, 2)
 
-    Coef_Genetico = random.uniform(0.8,1.15)
+    Coef_Genetico = random.uniform(0.75,1.15)
 
     Altura = Pok["H"] * (Coef_Genetico + (IVV/200) + (IVA/300) + (IVAS/300))
     Peso = Pok["W"] * (Coef_Genetico + (IVV/200) + (IVD/200) + (IVDS/200) - (IVVE/250))
@@ -338,8 +338,6 @@ def Gerador(Pokemon,P):
         Peso = round(Peso,0)
     else:
         Peso = round(Peso,1)
-
-
 
     return {
         "nome": Pok["nome"],

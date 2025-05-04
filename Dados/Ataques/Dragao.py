@@ -29,3 +29,39 @@ Sopro_do_Dragao = {
     "irregularidade": F_Sopro_do_Dragao
     }
 
+def FF_Garra_do_Dragao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+        Alvo.efeitosNega[Escolha] = 3
+
+        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano = Vsteb(PokemonS,Dano,Ataque)
+
+        Mitigaçao = 100 / (100 + Defesa)
+        DanoM = Dano * Mitigaçao
+        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+
+        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+
+        EstadoDaPergunta["estado"] = False
+        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+
+def F_Garra_do_Dragao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    
+    EstadoDaPergunta["funçao"] = FF_Garra_do_Dragao
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["opçoes"] = ["Quebrado","Fragilizado"]
+    EstadoDaPergunta["estado"] = True
+
+Garra_do_Dragao = {
+    "nome": "Garra_do_Dragão",
+    "tipo": ["dragao"],   
+    "custo": ["normal","normal","vermelha"],
+    "estilo": "N",
+    "dano": 1.2,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Escolha entre deixar o oponente fragilizado ou quebrado por 3 turnos",
+    "efeito": "Garra",
+    "extra": "A",
+    "funçao": F_Garra_do_Dragao,
+    "irregularidade": False
+    }

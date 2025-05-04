@@ -93,3 +93,21 @@ Ataque_Rapido = {
     "funçao": Irregular,
     "irregularidade": F_Ataque_Rapido
     }
+
+def F_Provocar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    PokemonS.efeitosPosi["Provocando"] += 3
+
+Provocar = {
+    "nome": "Provocar",
+    "tipo": ["normal"],   
+    "custo": ["normal"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Provoque os inimigos e ganhe Provocar",
+    "efeito": "!None",
+    "extra": None,
+    "funçao": F_Provocar,
+    "irregularidade": False
+    }

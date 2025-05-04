@@ -45,8 +45,10 @@ DicionarioAtaques = {
     "Investida": lambda: importlib.import_module("Dados.Ataques.Normal").Investida,
     "Vasculhar": lambda: importlib.import_module("Dados.Ataques.Normal").Vasculhar,
     "Ataque Rapido": lambda: importlib.import_module("Dados.Ataques.Normal").Ataque_Rapido,
+    "Provocar": lambda: importlib.import_module("Dados.Ataques.Normal").Provocar,
 
     "Sopro do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
+    "Garra do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Garra_do_Dragao,
 
     "Faisca": lambda: importlib.import_module("Dados.Ataques.Eletrico").Faisca,
     "Energizar": lambda: importlib.import_module("Dados.Ataques.Eletrico").Energizar,
@@ -64,6 +66,9 @@ DicionarioAtaques = {
 
     "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
     "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
+    "Punho Missil": lambda: importlib.import_module("Dados.Ataques.Lutador").Punho_Missil,
+    "Combate Proximo": lambda: importlib.import_module("Dados.Ataques.Lutador").Combate_Proximo,
+    "Submissão": lambda: importlib.import_module("Dados.Ataques.Lutador").Submissão,
 
     "Reforçar": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
     
@@ -83,7 +88,8 @@ DicionarioAtaques = {
     "Disparo de Semente": lambda: importlib.import_module("Dados.Ataques.Planta").Disparo_de_Semente,
     "Chicote de Vinha": lambda: importlib.import_module("Dados.Ataques.Planta").Chicote_de_Vinha,
     "Cura Natural": lambda: importlib.import_module("Dados.Ataques.Planta").Cura_Natural,
-    
+    "Raio Solar": lambda: importlib.import_module("Dados.Ataques.Planta").Raio_Solar,
+
 }
 
 def SelecionaAtaques(O1,O2,O3=None,O4=None,O5=None,O6=None,O7=None,O8=None):
