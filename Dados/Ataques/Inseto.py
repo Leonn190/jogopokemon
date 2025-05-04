@@ -39,3 +39,24 @@ Seda = {
     "funçao": Irregular,
     "irregularidade": F_Seda
     }
+
+def F_Picada(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if random.choice([True,False]) == True:
+        Alvo.efeitosNega["Envenenado"] += 3
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Picada = {
+    "nome": "Picada",
+    "tipo": ["Inseto"],   
+    "custo": ["verde"],
+    "estilo": "N",
+    "dano": 0.8,
+    "alcance": 15,
+    "precisão": 90, 
+    "descrição": "Esse ataque tem 50% de chance de deixar o oponente envenenado por 3 turnos",
+    "efeito": "Estouro",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Picada
+    }

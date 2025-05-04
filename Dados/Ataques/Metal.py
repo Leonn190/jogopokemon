@@ -27,3 +27,24 @@ Reforçar = {
     "funçao": F_Reforçar,
     "irregularidade": False
     }
+
+def F_Cauda_de_Ferro(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if random.choice([True,False]) == True:
+        Alvo.Def_spB -= 1
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Cauda_de_Ferro = {
+    "nome": "Cauda de Ferro",
+    "tipo": ["metal"],   
+    "custo": ["cinza","cinza"],
+    "estilo": "N",
+    "dano": 1.25,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Esse ataque tem 50% de chance de remover 1 de defesa normal permanente",
+    "efeito": "Corte",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Cauda_de_Ferro
+    }

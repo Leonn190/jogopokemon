@@ -63,7 +63,7 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Investida", "Jato de Agua", "Gota Pesada", "Bolhas"],
+    "MoveList": ["Investida", "Jato de Agua", "Gota Pesada", "Vasculhar no Rio"],
     "Moves": 2,
     "H": 0.67,
     "W": 10
@@ -173,6 +173,8 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
+    "MoveList": ["Teleporte", "Ampliação Mental", "Confusão", "Psiquico Desgastante"],
+    "Moves": 2,
     "H": 1,
     "W": 20
 }
@@ -193,6 +195,8 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
+    "MoveList": ["Ultraje", "Sopro do Dragao", "Cabeçada", "Mordida"],
+    "Moves": 2,
     "H": 1.81,
     "W": 3.4
 }
@@ -213,6 +217,8 @@ Pikachu = {
     "velocidade": 34,
     "XP": 40,
     "custo": 1,
+    "MoveList": ["Cauda de Ferro", "Ataque Rapido", "Choque do Trovao", "Faisca", "Bola Eletrica", "Energizar"],
+    "Moves": 3,
     "H": 0.51,
     "W": 6.3
 }
@@ -233,6 +239,8 @@ Zorua = {
     "velocidade": 30,
     "XP": 40,
     "custo": 1,
+    "MoveList": ["Investida", "Nas Sombras", "Bola Sombria", "Vasculhar"],
+    "Moves": 2,
     "H": 0.68,
     "W": 10.2
 }
@@ -253,6 +261,8 @@ Magikarp = {
     "velocidade": 26,
     "XP": 50,
     "custo": 1,
+    "MoveList": ["Splash", "Vasculhar", "Vasculhar no Rio", "Splash"],
+    "Moves": 2,
     "H": 0.85,
     "W": 9.1
 
@@ -274,6 +284,8 @@ Jigglypuff = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
+    "MoveList": ["Tapa", "Cura Natural", "Brilho", "Energia"],
+    "Moves": 2,
     "H": 0.56,
     "W": 6.7
 
@@ -295,6 +307,8 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
+    "MoveList": ["Provocar", "Vento Fada", "Brilho", "Bençao"],
+    "Moves": 2,
     "H": 0.62,
     "W": 8.9
 
@@ -316,6 +330,8 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
+    "MoveList": ["Tapa", "Energia", "Vasculhar", "Arranhar"],
+    "Moves": 2,
     "H": 0.63,
     "W": 5.1
 }
@@ -336,6 +352,8 @@ Cubone = {
     "velocidade": 19,
     "XP": 30,
     "custo": 1,
+    "MoveList": ["Provocar", "Pedregulho", "Soco", "Arremesso de Terra"],
+    "Moves": 2,
     "H": 0.42,
     "W": 7.1
 
@@ -357,6 +375,8 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
+    "MoveList": ["Lambida", "Provocar", "Jato de Agua", "Bolhas"],
+    "Moves": 2,
     "H": 0.33,
     "W": 4
 
@@ -378,6 +398,8 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
+    "MoveList": ["Reforçar", "Faisca", "Energia", "Energizar"],
+    "Moves": 2,
     "H": 0.29,
     "W": 6.7
 
@@ -399,6 +421,8 @@ Rattata = {
     "velocidade": 28,
     "XP": 30,
     "custo": 0,
+    "MoveList": ["Mordida", "Investida", "Nas Sombras", "Vasculhar"],
+    "Moves": 2,
     "H": 0.34,
     "W": 3.3
 }

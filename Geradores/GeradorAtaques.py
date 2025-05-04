@@ -46,9 +46,12 @@ DicionarioAtaques = {
     "Vasculhar": lambda: importlib.import_module("Dados.Ataques.Normal").Vasculhar,
     "Ataque Rapido": lambda: importlib.import_module("Dados.Ataques.Normal").Ataque_Rapido,
     "Provocar": lambda: importlib.import_module("Dados.Ataques.Normal").Provocar,
+    "Energia": lambda: importlib.import_module("Dados.Ataques.Normal").Energia,
+    "Arranhar": lambda: importlib.import_module("Dados.Ataques.Normal").Arranhar,
 
     "Sopro do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
     "Garra do Dragao": lambda: importlib.import_module("Dados.Ataques.Dragao").Garra_do_Dragao,
+    "Ultraje": lambda: importlib.import_module("Dados.Ataques.Dragao").Ultraje,
 
     "Faisca": lambda: importlib.import_module("Dados.Ataques.Eletrico").Faisca,
     "Energizar": lambda: importlib.import_module("Dados.Ataques.Eletrico").Energizar,
@@ -63,8 +66,13 @@ DicionarioAtaques = {
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
 
+    "Brilho": lambda: importlib.import_module("Dados.Ataques.Fada").Brilho,
+    "Vento Fada": lambda: importlib.import_module("Dados.Ataques.Fada").Vento_Fada,
+    "Bençao": lambda: importlib.import_module("Dados.Ataques.Fada").Bençao,
+
     "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
     "Seda": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
+    "Picada": lambda: importlib.import_module("Dados.Ataques.Inseto").Picada,
 
     "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
     "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,
@@ -77,11 +85,17 @@ DicionarioAtaques = {
     "Treinar": lambda: importlib.import_module("Dados.Ataques.Lutador").Treinar,
 
     "Reforçar": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
+    "Cauda de Ferro": lambda: importlib.import_module("Dados.Ataques.Metal").Cauda_de_Ferro,
     
     "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
 
+    "Arremesso de Terra": lambda: importlib.import_module("Dados.Ataques.Terrestre").Arremesso_de_Terra,
+
     "Confusao": lambda: importlib.import_module("Dados.Ataques.Psiquico").Confusão,
     "Bola Pisquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Bola_Psiquica,
+    "Teleporte": lambda: importlib.import_module("Dados.Ataques.Psiquico").Teleporte,
+    "Ampliação Mental": lambda: importlib.import_module("Dados.Ataques.Psiquico").Ampliação_Mental,
+    "Psiquico Desgastante": lambda: importlib.import_module("Dados.Ataques.Psiquico").Psiquico_Desgastante,
 
     "Nas Sombras": lambda: importlib.import_module("Dados.Ataques.Sombrio").Nas_Sombras,
     "Bola Sombria": lambda: importlib.import_module("Dados.Ataques.Sombrio").Bola_Sombria,

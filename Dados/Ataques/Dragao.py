@@ -65,3 +65,21 @@ Garra_do_Dragao = {
     "funçao": F_Garra_do_Dragao,
     "irregularidade": False
     }
+
+def F_Ultraje(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    Alvo.atacado(22,player,inimigo,tela,Mapa)
+    
+Ultraje = {
+    "nome": "Ultraje",
+    "tipo": ["dragao"],   
+    "custo": ["normal","vermelha"],
+    "estilo": "N",
+    "dano": 1,
+    "alcance": 25,
+    "precisão": 95, 
+    "descrição": "Esse ataque causa sempre 22 de dano independente de qualquer efeito ou atributo",
+    "efeito": "Fumaça",
+    "extra": "A",
+    "funçao": F_Ultraje,
+    "irregularidade": False
+    }

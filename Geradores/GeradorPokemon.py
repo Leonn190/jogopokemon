@@ -211,7 +211,7 @@ class Pokemon:
         if self.xp_atu >= self.xp_total:
             if self.PodeEvoluir is True:
                 if isinstance(self.evolucao,list):
-                    self.evolucao = random.randint(self.evolucao)
+                    self.evolucao = random.choice(self.evolucao)
                 if self.evolucao is not None:
                     i = self.pos
                     self.PodeEvoluir = False

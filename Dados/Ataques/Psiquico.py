@@ -44,3 +44,69 @@ Bola_Psiquica = {
     "funçao": Irregular,
     "irregularidade": F_Bola_Psiquica
     }
+
+def F_Teleporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    linhaA, colunaA = Alvo.local["id"]
+    linhaS, colunaS = PokemonS.local["id"]
+    
+    Move(PokemonS,linhaA,colunaA,Mapa.Zona)
+    Move(Alvo,linhaS,colunaS,Mapa.Zona)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Ampliação_Mental = {
+    "nome": "Teleporte",
+    "tipo": ["psiquico"],   
+    "custo": ["roxa"],
+    "estilo": "E",
+    "dano": 0.4,
+    "alcance": 45,
+    "precisão": 100, 
+    "descrição": "Troque de lugar com o alvo",
+    "efeito": "FeixeMagenta",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Teleporte
+    }
+
+def F_Ampliação_Mental(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    for efeito in PokemonS.efeitosNega:
+        if PokemonS.efeitosNega[efeito] >= 1:
+            PokemonS.efeitosNega[efeito] += 1
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Ampliação_Mental = {
+    "nome": "Ampliação Mental",
+    "tipo": ["psiquico"],   
+    "custo": ["normal","roxa"],
+    "estilo": "E",
+    "dano": 0.85,
+    "alcance": 15,
+    "precisão": 90, 
+    "descrição": "Aumente 1 de todos os contadores de efeitos negativos do pokemon atingido",
+    "efeito": "FeixeRoxo",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Ampliação_Mental
+    }
+
+def F_Psiquico_Desgastante(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    PokemonS.efeitosNega["Incapacitado"] += 3
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Psiquico_Desgastante = {
+    "nome": "Psiquico Desgastante",
+    "tipo": ["psiquico"],   
+    "custo": ["normal","roxa"],
+    "estilo": "E",
+    "dano": 1.45,
+    "alcance": 20,
+    "precisão": 85, 
+    "descrição": "Esse pokemon agora está incapacitado por 3 turnos",
+    "efeito": "CorteRicocheteadoRoxo",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Psiquico_Desgastante
+    }

@@ -13,7 +13,7 @@ def F_Assombrar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,E
 Assombrar = {
     "nome": "Assombrar",
     "tipo": ["fantasma"],   
-    "custo": ["roxa"],
+    "custo": ["preta"],
     "estilo": "S",
     "dano": 0.0,
     "alcance": 15,
@@ -33,7 +33,7 @@ def F_Lambida(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela
 Lambida = {
     "nome": "Lambida",
     "tipo": ["fantasma"],   
-    "custo": ["normal","roxa"],
+    "custo": ["normal","preta"],
     "estilo": "N",
     "dano": 1.1,
     "alcance": 10,

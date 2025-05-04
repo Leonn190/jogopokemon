@@ -115,3 +115,33 @@ Provocar = {
     "funçao": F_Provocar,
     "irregularidade": False
     }
+
+Energia = {
+    "nome": "Energia",
+    "tipo": ["normal"],   
+    "custo": ["normal"],
+    "estilo": "E",
+    "dano": 0.9,
+    "alcance": 20,
+    "precisão": 95, 
+    "descrição": "Libere energia contra o pokemon inimigo",
+    "efeito": "Estouro",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }
+
+Arranhar = {
+    "nome": "Arranhar",
+    "tipo": ["normal"],   
+    "custo": ["normal","normal","normal"],
+    "estilo": "E",
+    "dano": 1.3,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Arranhe o alvo com vontade",
+    "efeito": "Garra",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }
