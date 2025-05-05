@@ -155,7 +155,6 @@ class Pokemon:
             self.pos = None
         
         self.atacou = False
-        self.vampirismo = 0
         self.PodeEvoluir = True
         self.PodeAtacar = True
         self.PodeSerAtacado = True

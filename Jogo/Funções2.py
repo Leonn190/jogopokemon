@@ -388,9 +388,6 @@ def VEfeitos(pokemon,alvo,player,inimigo,dano_F,tipo,tela):
         reflexão = dano_F * 0.8
         pokemon.atacado(reflexão,player,inimigo,tipo,tela)
         dano_F = dano_F * 0.2
-    if pokemon.vampirismo > 0:
-        pokemon.curar(dano_F * pokemon.vampirismo,player,tela)
-        pokemon.vampirismo = 0
     
     return round(dano_F,1)
 

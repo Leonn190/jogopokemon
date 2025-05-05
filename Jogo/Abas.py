@@ -117,8 +117,7 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
         nome_txt = fonte_titulo.render(pokemon.nome, True, (255, 255, 255))
         tela.blit(nome_txt, (x + 10, y + 5))
 
-                # Cálculo de vida e barreira
-         # Pega valores
+        # Cálculo de vida e barreira
         vida = max(pokemon.Vida, 0)
         vida_max = max(pokemon.VidaMax, 1)
         barreira = max(getattr(pokemon, "barreira", 0), 0)
@@ -155,7 +154,7 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
         # Ajuste: aumentamos o espaçamento entre os atributos
         # SETOR 2 – Atributos com IVs e barras
         atributos = [
-            ("HP", pokemon.VidaMax, pokemon.IV_vida, 360),
+            ("HP", pokemon.VidaMax, pokemon.IV_vida, 350),
             ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
             ("Defense", pokemon.Def, pokemon.IV_def, 120),
             ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
@@ -178,14 +177,14 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
 
             # Valor numérico do atributo
             val_txt = fonte_Stat.render(f"{valor}", True, (255, 255, 255))
-            tela.blit(val_txt, (x + 83, int(top + 2)))
+            tela.blit(val_txt, (x + 80, int(top + 2)))
 
             # Barra de progresso do atributo
             percentual = min(valor / valor_max, 1.0)
             largura_barra = int(percentual * 179)
 
-            pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 115, int(top + 4), largura_barra, altura_barra))
-            pygame.draw.rect(tela, (0, 0, 0), (x + 115, int(top + 4), 179, altura_barra), 1)
+            pygame.draw.rect(tela, cor_percentual(percentual * 100), (x + 116, int(top + 4), largura_barra, altura_barra))
+            pygame.draw.rect(tela, (0, 0, 0), (x + 116, int(top + 4), 179, altura_barra), 1)
 
             # Texto do IV
             iv_txt = fonte_iv.render(f"IV: {iv_val}%", True, cor_percentual(iv_val))
@@ -569,7 +568,6 @@ B10 = {"estado": False}
 B11 = {"estado": False}
 BB = [B2,B3,B4,B5,B6,B7,B8,B9,B10,B11]
 
-
 fonte_ = pygame.font.SysFont(None, 24)
 fonte_titulo_ = pygame.font.SysFont(None, 28)
 
@@ -714,5 +712,3 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
         GV.adicionar_mensagem("Esse pokemon não pode realizar ataques")
         tocar("Bloq")
         return
-
-                

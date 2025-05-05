@@ -58,3 +58,4 @@ class MensagemPassageira:
 def adicionar_mensagem_passageira(mensagens, texto, cor, fonte, posicao, duracao=200, deslocamento=90):
     nova_mensagem = MensagemPassageira(texto, cor, fonte, posicao, duracao, deslocamento)
     mensagens_passageiras.append(nova_mensagem)
+    

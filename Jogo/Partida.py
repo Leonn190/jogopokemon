@@ -142,7 +142,7 @@ def passar_turno():
     global player
     global inimigo
 
-    player.ouro += 2 + (tempo_restante // 20)
+    player.ouro += 2 + (tempo_restante // 25)
     GV.limpa_terminal()
     Mapa.Zona = M.Inverter_Tabuleiro(player, inimigo, Mapa.Zona)
 
@@ -502,22 +502,6 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, 
     barra_vida.vidas_animadas[id_pokemon] = vida_animada
     barra_vida.barreiras_animadas[id_pokemon] = barreira_animada
 
-def atacaN(Pokemon,player,inimigo,ID,tela):
-    alvo = inimigo.pokemons[ID]
-    if Pokemon is not None and alvo.Vida >= 0:
-        Pokemon.atacar(alvo,player,inimigo,"N",tela,Mapa)
-    else:
-        tocar("Bloq")
-        GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
-
-def atacaS(Pokemon,player,inimigo,ID,tela):
-    alvo = inimigo.pokemons[ID]
-    if Pokemon is not None and alvo.Vida >= 0:
-        Pokemon.atacar(alvo,player,inimigo,"E",tela,Mapa)
-    else:
-        tocar("Bloq")
-        GV.adicionar_mensagem("pokemons nocauteados não podem atacar")
-
 def pausarEdespausar():
     global Pausa
     print (Pausa)
@@ -833,7 +817,7 @@ def Partida(tela,estados,relogio):
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(160)
+        relogio.tick(125)
 
 def Inicia(tela):
     global Turno
@@ -1211,6 +1195,8 @@ def TelaOpções(tela,eventos,estados):
                 x = x_inicial + coluna * 109
                 y = y_inicial + linha * 109
                 tela.blit(ImagensPokemonCentro[Centro[i]["nome"]],(x,y))
+    
+    GV.tooltip((350, (YT - 60), 70, 60),f"Quanto mais rapido jogar, mais ouro você vai ganhar Ganho se passar turno: {2 + (tempo_restante // 25)}",tela,Fonte20,200)
 
 def TelaOutros(tela,eventos,estados):
     global LojaItensP
