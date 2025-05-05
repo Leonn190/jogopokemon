@@ -295,6 +295,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     MegaIMG = GV.Carregar_Imagem("imagens/itens/mega.png", (62, 62), "PNG")
     VMaxIMG = GV.Carregar_Imagem("imagens/itens/Vmax.png", (62, 62), "PNG")
     VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (62, 62), "PNG")
+    TrocadorAtaque = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (62, 62), "PNG")
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
@@ -424,8 +425,6 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Pinsir": MpinsirIMG
 }
 
-
-
     ImagensCaptura = {
     "Pokebola": UPokeballIMG,
     "Greatball": UGreatBallIMG,
@@ -462,7 +461,8 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "estadio": EstadioIMG,
     "Energia Mega": MegaIMG,
     "Energia Vstar": VStarIMG,
-    "Energia GigantaMax": VMaxIMG
+    "Energia GigantaMax": VMaxIMG,
+    "Trocador de Ataque": TrocadorAtaque
     
     }
 

@@ -19,7 +19,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Cabeçada", "Acido", "Disparo de Semente", "Dreno"],
+    "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno"],
     "Moves": 2,
     "H": 0.58,
     "W": 7.5
@@ -41,7 +41,8 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Tapa", "Queimar", "Superaquecer", "Mordida"],
+    # "MoveList": ["Tapa", "Queimar", "Superaquecer", "Mordida"],
+    "MoveList": ["Minhocagem", "Controle do Oceano", "Garra do Dragão", "Mordida"],
     "Moves": 2,
     "H": 0.7,   
     "W": 8.5
@@ -63,7 +64,7 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Investida", "Jato de Agua", "Gota Pesada", "Vasculhar no Rio"],
+    "MoveList": ["Investida", "Jato de Água", "Gota Pesada", "Vasculhar no Rio"],
     "Moves": 2,
     "H": 0.67,
     "W": 10
@@ -107,7 +108,7 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
-    "MoveList": ["Lambida", "Acido", "Envenenar", "Assombrar"],
+    "MoveList": ["Lambida", "Ácido", "Envenenar", "Assombrar"],
     "Moves": 2,
     "H": 0.6,
     "W": 0.2
@@ -151,7 +152,7 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
-    "MoveList": ["Seda", "Cabeçada", "Mordida", "Vasculhar"],
+    "MoveList": ["Seda", "Cabeçada", "Mordida", "Minhocagem"],
     "Moves": 2,
     "H": 0.32,
     "W": 3.3
@@ -195,7 +196,7 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
-    "MoveList": ["Ultraje", "Sopro do Dragao", "Cabeçada", "Mordida"],
+    "MoveList": ["Ultraje", "Sopro do Dragão", "Cabeçada", "Mordida"],
     "Moves": 2,
     "H": 1.81,
     "W": 3.4
@@ -217,7 +218,7 @@ Pikachu = {
     "velocidade": 34,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Cauda de Ferro", "Ataque Rapido", "Choque do Trovao", "Faisca", "Bola Eletrica", "Energizar"],
+    "MoveList": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
     "Moves": 3,
     "H": 0.51,
     "W": 6.3
@@ -307,7 +308,7 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
-    "MoveList": ["Provocar", "Vento Fada", "Brilho", "Bençao"],
+    "MoveList": ["Provocar", "Vento Fada", "Brilho", "Benção"],
     "Moves": 2,
     "H": 0.62,
     "W": 8.9
@@ -375,7 +376,7 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Lambida", "Provocar", "Jato de Agua", "Bolhas"],
+    "MoveList": ["Lambida", "Provocar", "Jato de Água", "Bolhas"],
     "Moves": 2,
     "H": 0.33,
     "W": 4
@@ -443,7 +444,7 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
-    "MoveList": ["Mordida", "Seda", "Cabeçada", "Vasculhar"],
+    "MoveList": ["Minhocagem", "Seda", "Picada", "Vasculhar"],
     "Moves": 2,
     "H": 0.26,
     "W": 2.5

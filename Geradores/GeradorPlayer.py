@@ -1,5 +1,6 @@
 from Geradores.GeradorPokemon import Gerador_final
 from Visual.Sonoridade import tocar
+from Jogo.Abas import Trocar_Ataque_Pergunta
 from Geradores.GeradorOutros import pokebolas_disponiveis,caixa,coletor
 import Visual.GeradoresVisuais as GV
 
@@ -68,6 +69,12 @@ class Jogador:
                     Mapa.MudarEstagio(item["ST Code"])
                     self.inventario.remove(item)
                     return
+                elif item["classe"] == "Outros":
+                    if item["nome"] == "Trocador de Ataque":
+                        if #chamar aataque p funçao
+                        tocar("Usou")
+                        Trocar_Ataque_Pergunta(Pokemon,self)
+                        return
                 else:
                     tocar("Bloq")
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")

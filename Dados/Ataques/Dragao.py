@@ -52,7 +52,7 @@ def F_Garra_do_Dragao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,Alv
     EstadoDaPergunta["estado"] = True
 
 Garra_do_Dragao = {
-    "nome": "Garra_do_Dragão",
+    "nome": "Garra do Dragão",
     "tipo": ["dragao"],   
     "custo": ["normal","normal","vermelha"],
     "estilo": "N",

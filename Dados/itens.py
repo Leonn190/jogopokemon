@@ -86,6 +86,14 @@ Coletor = {
     "compra": 3
 }
 
+Trocador_de_Ataque = {
+    "nome": "Trocador de Ataque",
+    "classe": "Outros",
+    "Descrição": "Troque um ataque selecionado",
+    "raridade": 1,
+    "compra": 0
+}
+
 Fruta_frambo = {
     "nome": "Fruta Frambo",
     "classe": "Fruta",
@@ -238,7 +246,7 @@ Porto_Molgera = {
     "ST Code": 6
 }
 
-itens_Todos = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor]
+itens_Todos = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção,Caixa,Caixote,Coletor,Trocador_de_Ataque]
 pokebolas_Todas = [Pokebola,Gratball,Ultraball,Masterball,Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
 amplificadores_Todos = [Citrino,Safira,Rubi,Ametista,Esmeralda,Energia_Mega,Energia_Vstar,Energia_Vmax]
 Estadios_Todos = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]

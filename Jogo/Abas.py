@@ -1,8 +1,10 @@
 import pygame
+import random
 import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Funções2 import VAcerta,VCusto
+from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25
 
 AtaqueS = None
@@ -269,10 +271,14 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
 
                     botao_rect = pygame.Rect(pos_x, pos_y, largura_botao, 30)
                     
-                    PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
+                    
+                    try:
+                        PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
 
-                    GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
-        
+                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
+                    except TypeError:
+                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](EstadoDaPergunta["info"][0],EstadoDaPergunta["info"][1],opçao),Fonte20, Bpergunta, 3, None, True, eventos)
+
         if x > 1600:
             desseleciona_ataque(SoV)
             Oculta_ataque(SoV)
@@ -712,3 +718,29 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
         GV.adicionar_mensagem("Esse pokemon não pode realizar ataques")
         tocar("Bloq")
         return
+
+
+def Trocar_Ataque(Pokemon,player,escolha):
+    if Pokemon.movimento1 == AtaqueS:
+        Pokemon.movimento1 = seleciona_ataque([escolha])
+    elif Pokemon.movimento2 == AtaqueS:
+        Pokemon.movimento2 = seleciona_ataque([escolha])
+    elif Pokemon.movimento3 == AtaqueS:
+        Pokemon.movimento3 = seleciona_ataque([escolha])
+    elif Pokemon.movimento4 == AtaqueS:
+        Pokemon.movimento4 = seleciona_ataque([escolha])
+
+def Trocar_Ataque_Pergunta(Pokemon,player):
+    EstadoDaPergunta["funçao"] = Trocar_Ataque
+    EstadoDaPergunta["info"] = [Pokemon,player]
+    EstadoDaPergunta["opçoes"] = []
+    EstadoDaPergunta["estado"] = True
+    
+    contador = 0
+    for i in range(100):
+        if contador == 4:
+            break
+        move = random.choice(Pokemon.movePossiveis)
+        if move not in Pokemon.moveList:
+            EstadoDaPergunta["opçoes"].append(move)
+            contador += 1

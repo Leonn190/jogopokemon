@@ -137,6 +137,8 @@ class Pokemon:
         self.movimento2 = pokemon["Move2"]
         self.movimento3 = pokemon["Move3"]
         self.movimento4 = pokemon["Move4"]
+        self.moveList = pokemon["MoveList"]
+        self.movePossiveis = pokemon["possiveis"]
 
         self.code = pokemon["code"]
         self.ID = pokemon["ID"] #unico
@@ -381,7 +383,7 @@ def Gerador(Pokemon,P):
     else:
         Peso = round(Peso,1)
 
-    return {
+    Stats = {
         "nome": Pok["nome"],
         "tipo": Pok["tipo"],
         "raridade": Pok["raridade"],
@@ -397,10 +399,6 @@ def Gerador(Pokemon,P):
         "velocidade": vel,
         "XP": Pok["XP"],
         "custo": Pok["custo"],
-        "Move1": SelecionaAtaques("Sopro do Dragao","Gota Pesada"),
-        "Move2": SelecionaAtaques("Chamar para Briga","Cristalizar"),
-        "Move3": SelecionaAtaques("Energizar","Nas Sombras"),
-        "Move4": SelecionaAtaques("Queimar","Choque do Trovao","Vasculhar"),
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
@@ -412,8 +410,24 @@ def Gerador(Pokemon,P):
         "IV def SP": round(IVDS),
         "IV vel": round(IVVE),
         "code": Pok["code"],
-        "ID": IDpoke
+        "ID": IDpoke,
+        "MoveList": [],
+        "possiveis": Pok["MoveList"],
+        "Move1": None,
+        "Move2": None,
+        "Move3": None,
+        "Move4": None
     }
+
+    for i in range(Pok["Moves"]):
+        while True:
+            ataque = SelecionaAtaques(Pok["MoveList"])
+            if ataque not in Stats["MoveList"]:
+                Stats["MoveList"].append(ataque["nome"])
+                Stats[f"Move{i+1}"] = ataque
+                break
+
+    return Stats
 
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokemons_Todos[code],P),player)

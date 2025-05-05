@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular, Irregular
-from Jogo.Tabuleiro import Move
+from Jogo.Tabuleiro import Move, GuardarPosicionar
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
@@ -59,4 +59,49 @@ Picada = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Picada
+    }
+
+def FF_Minhocagem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+        if Escolha == "Roubar":
+            if inimigo.energias["verde"] > 2:
+                 inimigo.energias["verde"] -= 2
+                 player.energias["verde"] += 2
+            else:
+                 player.energias["verde"] += inimigo.energias["verde"]
+                 inimigo.energias["verde"] = 0
+        else:
+            GuardarPosicionar(PokemonS,player,3,Mapa.Zona)
+
+        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano = Vsteb(PokemonS,Dano,Ataque)
+
+        Mitigaçao = 100 / (100 + Defesa)
+        DanoM = Dano * Mitigaçao
+        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+
+        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+
+        EstadoDaPergunta["estado"] = False
+        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+
+def F_Minhocagem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    
+    EstadoDaPergunta["funçao"] = FF_Minhocagem
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["opçoes"] = ["Guardar","Roubar"]
+    EstadoDaPergunta["estado"] = True
+
+Minhocagem = {
+    "nome": "Minhocagem",
+    "tipo": ["inseto"],   
+    "custo": ["normal","normal","normal"],
+    "estilo": "E",
+    "dano": 0.7,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Com o movimento das minhocas voce pode escolher entre guardar esse pokemon ou roubar 2 energias verde do oponente",
+    "efeito": "DomoVerde",
+    "extra": "A",
+    "funçao": F_Minhocagem,
+    "irregularidade": False
     }
