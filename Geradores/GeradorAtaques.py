@@ -73,7 +73,7 @@ DicionarioAtaques = {
     "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
     "Seda": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
     "Picada": lambda: importlib.import_module("Dados.Ataques.Inseto").Picada,
-    "Minhocagem": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
+    "Minhocagem": lambda: importlib.import_module("Dados.Ataques.Inseto").Minhocagem,
 
     "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
     "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,

@@ -17,7 +17,7 @@ class Jogador:
     def ganhar_item(self,item):
         self.inventario.append(item)
     
-    def usar_item(self,indice,Pokemon,tela,Mapa):
+    def usar_item(self,indice,Pokemon,tela,Mapa,ataque,EstadoDaPergunta):
             item = self.inventario[indice] 
             if item["classe"] in ["pokebola", "fruta"]:
                 tocar("Bloq")
@@ -70,11 +70,14 @@ class Jogador:
                     self.inventario.remove(item)
                     return
                 elif item["classe"] == "Outros":
-                    if item["nome"] == "Trocador de Ataque":
-                        if #chamar aataque p funçao
+                    if item["nome"] == "Trocador de Ataque" and ataque is not None:
                         tocar("Usou")
-                        Trocar_Ataque_Pergunta(Pokemon,self)
+                        Trocar_Ataque_Pergunta(Pokemon,ataque,EstadoDaPergunta)
+                        self.inventario.remove(item)
                         return
+                    else:
+                        tocar("Bloq")
+                        GV.adicionar_mensagem("selecione um ataque para usar um item")
                 else:
                     tocar("Bloq")
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")

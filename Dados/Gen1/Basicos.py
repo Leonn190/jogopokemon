@@ -174,7 +174,7 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
-    "MoveList": ["Teleporte", "Ampliação Mental", "Confusão", "Psiquico Desgastante"],
+    "MoveList": ["Teleporte", "Ampliação Mental", "Confusão", "Psíquico Desgastante"],
     "Moves": 2,
     "H": 1,
     "W": 20

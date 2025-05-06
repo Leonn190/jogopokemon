@@ -236,7 +236,7 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
         espaco_entre_botoes = 16
         largura_botao = (largura_interface - 2 * margem_lateral - espaco_entre_botoes) // 2
 
-        if EstadoDaPergunta["estado"] == False:
+        if EstadoDaPergunta["estado"] == False or SoV == "V":
             for i, movimento in enumerate(movimentos):
                 if movimento is not None:
                     linha = i // 2
@@ -276,8 +276,8 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
                         PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
 
                         GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
-                    except TypeError:
-                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](EstadoDaPergunta["info"][0],EstadoDaPergunta["info"][1],opçao),Fonte20, Bpergunta, 3, None, True, eventos)
+                    except ValueError:
+                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](EstadoDaPergunta["info"][0],EstadoDaPergunta["info"][1],EstadoDaPergunta["info"][2],opçao),Fonte20, Bpergunta, 3, None, True, eventos)
 
         if x > 1600:
             desseleciona_ataque(SoV)
@@ -488,7 +488,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
             cor_normal=(0,0,0),  
             cor_borda=(0,0,0),   
             cor_passagem=(0,0,0), 
-            acao=lambda i=i: player.usar_item(i, PokemonS, tela, Mapa),
+            acao=lambda i=i: player.usar_item(i, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta),
             Fonte=Fonte,
             estado_clique=B1,
             grossura=2,
@@ -720,27 +720,28 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
         return
 
 
-def Trocar_Ataque(Pokemon,player,escolha):
-    if Pokemon.movimento1 == AtaqueS:
-        Pokemon.movimento1 = seleciona_ataque([escolha])
-    elif Pokemon.movimento2 == AtaqueS:
-        Pokemon.movimento2 = seleciona_ataque([escolha])
-    elif Pokemon.movimento3 == AtaqueS:
-        Pokemon.movimento3 = seleciona_ataque([escolha])
-    elif Pokemon.movimento4 == AtaqueS:
-        Pokemon.movimento4 = seleciona_ataque([escolha])
+def Trocar_Ataque(Pokemon,EstadoDaPergunta,Ataque,escolha):
+    if Pokemon.movimento1 == Ataque:
+        Pokemon.movimento1 = SelecionaAtaques([escolha])
+    elif Pokemon.movimento2 == Ataque:
+        Pokemon.movimento2 = SelecionaAtaques([escolha])
+    elif Pokemon.movimento3 == Ataque:
+        Pokemon.movimento3 = SelecionaAtaques([escolha])
+    elif Pokemon.movimento4 == Ataque:
+        Pokemon.movimento4 = SelecionaAtaques([escolha])
+    EstadoDaPergunta["estado"] = False
 
-def Trocar_Ataque_Pergunta(Pokemon,player):
+def Trocar_Ataque_Pergunta(Pokemon,Ataque,EstadoDaPergunta):
     EstadoDaPergunta["funçao"] = Trocar_Ataque
-    EstadoDaPergunta["info"] = [Pokemon,player]
+    EstadoDaPergunta["info"] = [Pokemon,EstadoDaPergunta,Ataque]
     EstadoDaPergunta["opçoes"] = []
     EstadoDaPergunta["estado"] = True
     
     contador = 0
-    for i in range(100):
+    for i in range(20):
         if contador == 4:
             break
         move = random.choice(Pokemon.movePossiveis)
-        if move not in Pokemon.moveList:
+        if move not in Pokemon.moveList and move not in EstadoDaPergunta["opçoes"]:
             EstadoDaPergunta["opçoes"].append(move)
             contador += 1
