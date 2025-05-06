@@ -685,6 +685,8 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                         AlvoLoc2 = ((1400 - idx * 190),95)
                     else:
                         AlvoLoc2 = ((510 + idx * 190),1010)
+            elif AtaqueS["extra"] == "MA":
+                alvos = AtaqueS["alvos"](PokemonS,player,inimigo,Mapa)
 
             else:
                 if PokemonV is not None and AtaqueS["extra"] == "TV":
@@ -705,10 +707,23 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                 if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
                     return
             
-            adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
-            if AlvoLoc2 is not None:
-                adicionar_efeito(AtaqueS["efeito2"],AlvoLoc2)
-
+            if alvos is None:
+                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
+                if AlvoLoc2 is not None:
+                    adicionar_efeito(AtaqueS["efeito2"],AlvoLoc2)
+            else:
+                jafoi = False
+                for alvo in alvos:
+                    idx = alvo.pos
+                    if alvo in inimigo.pokemons:
+                        AlvoLoc = ((1400 - idx * 190),95)
+                    else:
+                        AlvoLoc = ((510 + idx * 190),1010)
+                    if jafoi == False:
+                        adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
+                        jafoi = True
+                    else:
+                        adicionar_efeito(AtaqueS["efeito"],AlvoLoc)
         else: 
             GV.adicionar_mensagem("Selecione um ataque")
             tocar("Bloq")

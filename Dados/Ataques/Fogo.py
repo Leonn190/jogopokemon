@@ -69,3 +69,21 @@ Superaquecer = {
     "funçao": Irregular,
     "irregularidade": F_Superaquecer
     }
+
+def F_Brasa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    Alvo.efeitosNega["Queimado"] += 2
+
+Brasa = {
+    "nome": "Brasa",
+    "tipo": ["fogo"],   
+    "custo": ["normal","vermelha"],
+    "estilo": "E",
+    "dano": 1.05,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Esse ataque tem 10% de chance de deixar o alvo queimado por 2 turnos",
+    "efeito": "Fogo",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }

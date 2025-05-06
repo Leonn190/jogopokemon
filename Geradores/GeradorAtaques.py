@@ -28,6 +28,19 @@ def Irregular(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,Est
 
     Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
 
+def Multi_Regular(PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for Alvo in Alvos:
+        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano = Vsteb(PokemonS,Dano,Ataque)
+
+        Mitigaçao = 100 / (100 + Defesa)
+        DanoM = Dano * Mitigaçao
+        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+
+        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+
+        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+
 DicionarioAtaques = {
 
     "Jato de Água": lambda: importlib.import_module("Dados.Ataques.Agua").Jato_de_Agua,
@@ -41,6 +54,7 @@ DicionarioAtaques = {
     "Bola de Água": lambda: importlib.import_module("Dados.Ataques.Agua").Bola_de_Agua,
 
     "Tapa": lambda: importlib.import_module("Dados.Ataques.Normal").Tapa,
+    "Tapa Especial": lambda: importlib.import_module("Dados.Ataques.Normal").Tapa_Especial,
     "Cabeçada": lambda: importlib.import_module("Dados.Ataques.Normal").Cabeçada,
     "Investida": lambda: importlib.import_module("Dados.Ataques.Normal").Investida,
     "Vasculhar": lambda: importlib.import_module("Dados.Ataques.Normal").Vasculhar,
@@ -48,6 +62,8 @@ DicionarioAtaques = {
     "Provocar": lambda: importlib.import_module("Dados.Ataques.Normal").Provocar,
     "Energia": lambda: importlib.import_module("Dados.Ataques.Normal").Energia,
     "Arranhar": lambda: importlib.import_module("Dados.Ataques.Normal").Arranhar,
+    "Crescer": lambda: importlib.import_module("Dados.Ataques.Normal").Crescer,
+    "Esbravejar": lambda: importlib.import_module("Dados.Ataques.Normal").Esbravejar,
 
     "Sopro do Dragão": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
     "Garra do Dragão": lambda: importlib.import_module("Dados.Ataques.Dragao").Garra_do_Dragao,
@@ -63,6 +79,7 @@ DicionarioAtaques = {
     "Queimar": lambda: importlib.import_module("Dados.Ataques.Fogo").Queimar,
     "Bola de Fogo": lambda: importlib.import_module("Dados.Ataques.Fogo").Bola_de_Fogo,
     "Superaquecer": lambda: importlib.import_module("Dados.Ataques.Fogo").Superaquecer,
+    "Brasa": lambda: importlib.import_module("Dados.Ataques.Fogo").Brasa,
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
 
@@ -74,9 +91,11 @@ DicionarioAtaques = {
     "Seda": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
     "Picada": lambda: importlib.import_module("Dados.Ataques.Inseto").Picada,
     "Minhocagem": lambda: importlib.import_module("Dados.Ataques.Inseto").Minhocagem,
+    "Coleta": lambda: importlib.import_module("Dados.Ataques.Inseto").Coleta,
 
     "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
     "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,
+    "Atravessar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Atravessar,
 
     "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
     "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
@@ -91,6 +110,7 @@ DicionarioAtaques = {
     "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
 
     "Arremesso de Terra": lambda: importlib.import_module("Dados.Ataques.Terrestre").Arremesso_de_Terra,
+    "Tremor": lambda: importlib.import_module("Dados.Ataques.Terrestre").Tremor,
 
     "Confusão": lambda: importlib.import_module("Dados.Ataques.Psiquico").Confusão,
     "Bola Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Bola_Psiquica,
@@ -114,6 +134,5 @@ DicionarioAtaques = {
 
 }
 
-def SelecionaAtaques(Seleçao):
-    Sorteado = random.choice(Seleçao)
-    return DicionarioAtaques[Sorteado]()
+def SelecionaAtaques(ataque):
+    return DicionarioAtaques[ataque]()

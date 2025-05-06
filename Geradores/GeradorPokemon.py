@@ -421,9 +421,10 @@ def Gerador(Pokemon,P):
 
     for i in range(Pok["Moves"]):
         while True:
-            ataque = SelecionaAtaques(Pok["MoveList"])
-            if ataque not in Stats["MoveList"]:
-                Stats["MoveList"].append(ataque["nome"])
+            sorteado = random.choice(Pok["MoveList"])
+            ataque = SelecionaAtaques(sorteado)
+            if sorteado not in Stats["MoveList"]:
+                Stats["MoveList"].append(sorteado)
                 Stats[f"Move{i+1}"] = ataque
                 break
 

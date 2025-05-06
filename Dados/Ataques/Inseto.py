@@ -1,6 +1,6 @@
 from Geradores.GeradorAtaques import Regular, Irregular
 from Jogo.Tabuleiro import Move, GuardarPosicionar
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import caixa, coletor
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
@@ -104,4 +104,23 @@ Minhocagem = {
     "extra": "A",
     "funçao": F_Minhocagem,
     "irregularidade": False
+    }
+
+def F_Coleta(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for i in range(4):
+        player.energias[coletor()] += 1
+
+Coleta = {
+    "nome": "Coleta",
+    "tipo": ["Inseto"],   
+    "custo": ["normal"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ganhe 4 energias aleatorias",
+    "efeito": "!None",
+    "extra": None,
+    "funçao": F_Coleta,
+    "irregularidade": None
     }

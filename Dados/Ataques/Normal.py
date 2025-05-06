@@ -109,7 +109,7 @@ Provocar = {
     "dano": 0.0,
     "alcance": 100,
     "precisão": 100, 
-    "descrição": "Provoque os inimigos e ganhe Provocar",
+    "descrição": "Provoque os inimigos e ganhe Provocar por 3 turnos",
     "efeito": "!None",
     "extra": None,
     "funçao": F_Provocar,
@@ -141,6 +141,58 @@ Arranhar = {
     "precisão": 100, 
     "descrição": "Arranhe o alvo com vontade",
     "efeito": "Garra",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }
+
+def F_Crescer(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    PokemonS.Ganhar_XP(4,player)
+
+Crescer = {
+    "nome": "Crescer",
+    "tipo": ["normal"],   
+    "custo": ["normal"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ganhe 4 de XP",
+    "efeito": "!None",
+    "extra": None,
+    "funçao": F_Crescer,
+    "irregularidade": False
+    }
+
+def F_Esbravejar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    if PokemonS.Vida < PokemonS.VidaMax * 0.6:
+        PokemonS.efeitosPosi["Ofensivo"] = 3
+
+Esbravejar = {
+    "nome": "Esbravejar",
+    "tipo": ["normal"],   
+    "custo": ["normal"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Se esse pokemon estiver com menos de 60% da vida maxima, ele ganha Ofensivo por 3 turnos",
+    "efeito": "!None",
+    "extra": None,
+    "funçao": F_Esbravejar,
+    "irregularidade": False
+    }
+
+Tapa_Especial = {
+    "nome": "Tapa Especial",
+    "tipo": ["normal"],   
+    "custo": ["normal"],
+    "estilo": "S",
+    "dano": 0.8,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Um Tapa ofensivo no pokemon inimigo",
+    "efeito": "Estouro",
     "extra": "A",
     "funçao": Regular,
     "irregularidade": False

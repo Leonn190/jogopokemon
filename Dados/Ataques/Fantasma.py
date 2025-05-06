@@ -44,3 +44,23 @@ Lambida = {
     "funçao": Irregular,
     "irregularidade": F_Lambida
     }
+
+def F_Atravessar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for chave,valor in PokemonS.efeitosNega:
+        PokemonS.efeitosNega[chave] = 0
+        Alvo.efeitosNega[chave] = valor
+
+Atravessar = {
+    "nome": "Atravessar",
+    "tipo": ["fantasma"],   
+    "custo": ["preta","preta"],
+    "estilo": "E",
+    "dano": 0.5,
+    "alcance": 0,
+    "precisão": 100, 
+    "descrição": "Atravessa o alvo, removendo todos os efeitos negativos de si mesmo e passando para o alvo",
+    "efeito": "FeixeMagenta",
+    "extra": "A",
+    "funçao": F_Assombrar,
+    "irregularidade": False
+    }

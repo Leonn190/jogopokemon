@@ -19,7 +19,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno"],
+    "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
     "Moves": 2,
     "H": 0.58,
     "W": 7.5
@@ -41,8 +41,7 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
-    # "MoveList": ["Tapa", "Queimar", "Superaquecer", "Mordida"],
-    "MoveList": ["Minhocagem", "Controle do Oceano", "Garra do Dragão", "Mordida"],
+    "MoveList": ["Tapa", "Queimar", "Superaquecer", "Mordida", "Crescer", "Brasa"],
     "Moves": 2,
     "H": 0.7,   
     "W": 8.5
@@ -64,7 +63,7 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Investida", "Jato de Água", "Gota Pesada", "Vasculhar no Rio"],
+    "MoveList": ["Investida", "Jato de Água", "Gota Pesada", "Vasculhar no Rio", "Provocar", "Crescer"],
     "Moves": 2,
     "H": 0.67,
     "W": 10
@@ -86,7 +85,7 @@ Machop = {
     "velocidade": 20,
     "XP": 25,
     "custo": 2,
-    "MoveList": ["Treinar", "Soco", "Provocar", "Pedregulho"],
+    "MoveList": ["Treinar", "Soco", "Provocar", "Pedregulho", "Crescer", "Tapa Especial"],
     "Moves": 2,
     "H": 0.9,
     "W": 20
@@ -108,7 +107,7 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
-    "MoveList": ["Lambida", "Ácido", "Envenenar", "Assombrar"],
+    "MoveList": ["Lambida", "Ácido", "Envenenar", "Assombrar", "Energia", "Atravessar"],
     "Moves": 2,
     "H": 0.6,
     "W": 0.2
@@ -130,7 +129,7 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
-    "MoveList": ["Soco", "Pedregulho", "Provocar", "Investida"],
+    "MoveList": ["Soco", "Pedregulho", "Provocar", "Investida", "Esbravejar", "Tremor"],
     "Moves": 2,
     "H": 0.51,
     "W": 23
@@ -152,9 +151,9 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
-    "MoveList": ["Seda", "Cabeçada", "Mordida", "Minhocagem"],
+    "MoveList": ["Seda", "Cabeçada", "Mordida", "Minhocagem", "Coleta", "Energia"],
     "Moves": 2,
-    "H": 0.32,
+    "H": 0.31,
     "W": 3.3
 }
 
@@ -174,7 +173,7 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
-    "MoveList": ["Teleporte", "Ampliação Mental", "Confusão", "Psíquico Desgastante"],
+    "MoveList": ["Teleporte", "Ampliação Mental", "Confusão", "Psíquico Desgastante", "Tapa Especial", "Tapa"],
     "Moves": 2,
     "H": 1,
     "W": 20
@@ -196,7 +195,7 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
-    "MoveList": ["Ultraje", "Sopro do Dragão", "Cabeçada", "Mordida"],
+    "MoveList": ["Ultraje", "Sopro do Dragão", "Cabeçada", "Mordida", "Crescer", "Bolhas"],
     "Moves": 2,
     "H": 1.81,
     "W": 3.4
@@ -240,7 +239,7 @@ Zorua = {
     "velocidade": 30,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Investida", "Nas Sombras", "Bola Sombria", "Vasculhar"],
+    "MoveList": ["Investida", "Nas Sombras", "Bola Sombria", "Vasculhar", "Energia", "Crescer"],
     "Moves": 2,
     "H": 0.68,
     "W": 10.2
@@ -262,7 +261,7 @@ Magikarp = {
     "velocidade": 26,
     "XP": 50,
     "custo": 1,
-    "MoveList": ["Splash", "Vasculhar", "Vasculhar no Rio", "Splash"],
+    "MoveList": ["Splash", "Vasculhar", "Vasculhar no Rio", "Splash", "Splash", "Splash"],
     "Moves": 2,
     "H": 0.85,
     "W": 9.1

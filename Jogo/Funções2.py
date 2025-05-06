@@ -258,51 +258,17 @@ def pokemons_nos_arredores(pokemon, player, inimigo, arredores, Mapa):
                 ocupante = Mapa[nova_linha][nova_coluna]["ocupado"]
                 if ocupante is not None:
                     # Procura nos aliados
-                    for p in player:
+                    for p in player.pokemons:
                         if p.ID == ocupante:
                             aliados_encontrados.append(p)
                             break
                     # Procura nos inimigos
-                    for p in inimigo:
+                    for p in inimigo.pokemons:
                         if p.ID == ocupante:
                             inimigos_encontrados.append(p)
                             break
 
     return aliados_encontrados, inimigos_encontrados
-
-def seleciona_alvo(pokemon, alvo_str, player, inimigo, mapa, alvo, Valor_alvo=1):
-    if alvo_str == "self":
-        return pokemon
-    elif alvo_str == "alvo":
-        return alvo
-    elif alvo_str == "AliadoMenosVida":
-        return Aliado_menos_vida(pokemon, player)
-    elif alvo_str == "AliadoMaisLonge":
-        return aliado_mais_longe(pokemon, player, mapa)
-    elif alvo_str == "AliadoMaisProximo":
-        return aliado_mais_proximo(pokemon, player, mapa)
-    elif alvo_str == "AliadoAleatorio":
-        return aliado_aleatorio(pokemon, player)
-    elif alvo_str == "InimigoMenosVida":
-        return Inimigo_menos_vida(inimigo)
-    elif alvo_str == "InimigoMaisLonge":
-        return inimigo_mais_longe(pokemon, inimigo, mapa)
-    elif alvo_str == "InimigoMaisProximo":
-        return inimigo_mais_proximo(pokemon, inimigo, mapa)
-    elif alvo_str == "InimigoAleatorio":
-        return inimigo_aleatorio(inimigo)
-
-    # NOVOS MODOS DE ÁREA
-    elif alvo_str == "AliadosArredores":
-        aliados, _ = pokemons_nos_arredores(pokemon, player, inimigo, Valor_alvo, mapa)
-        return aliados
-
-    elif alvo_str == "InimigosArredores":
-        _, inimigos = pokemons_nos_arredores(pokemon, player, inimigo, Valor_alvo, mapa)
-        return inimigos
-
-    return None
-
 
 def VCusto(player,pokemon,ataque):
     
