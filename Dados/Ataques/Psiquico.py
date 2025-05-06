@@ -54,7 +54,7 @@ def F_Teleporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,te
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Ampliação_Mental = {
+Teleporte = {
     "nome": "Teleporte",
     "tipo": ["psiquico"],   
     "custo": ["roxa"],
@@ -110,3 +110,4 @@ Psiquico_Desgastante = {
     "funçao": Irregular,
     "irregularidade": F_Psiquico_Desgastante
     }
+

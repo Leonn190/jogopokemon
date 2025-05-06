@@ -649,6 +649,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
 def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
     if PokemonS.PodeAtacar == True:
         if AtaqueS is not None:
+            alvos = None
             AlvoLoc2 = None
             if AtaqueS["extra"] == "V":
                 if PokemonV is None:

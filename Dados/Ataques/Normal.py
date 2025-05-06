@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular, Irregular
-from Jogo.Tabuleiro import Move
+from Jogo.Tabuleiro import Move, GuardarPosicionar
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
@@ -195,5 +195,46 @@ Tapa_Especial = {
     "efeito": "Estouro",
     "extra": "A",
     "funçao": Regular,
+    "irregularidade": False
+    }
+
+def F_Esmagar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    
+    Dano = Dano + Dano * (1 + 0.1 * PokemonS.peso // 100)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Esmagar = {
+    "nome": "Esmagar",
+    "tipo": ["normal"],   
+    "custo": ["normal","normal","normal","normal","normal"],
+    "estilo": "N",
+    "dano": 1.1,
+    "alcance": 0,
+    "precisão": 99, 
+    "descrição": "Esse ataque causa mais 10% de dano a cada 100kg que esse pokemon tiver",
+    "efeito": "FacasBrancas",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Ataque_Rapido
+    }
+
+def F_Descansar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    GuardarPosicionar(PokemonS,player,4,Mapa.Zona)
+    cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.2
+    PokemonS.curar(cura,player,tela)
+
+Descansar = {
+    "nome": "Descansar",
+    "tipo": ["normal"],   
+    "custo": ["normal","normal","normal"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 150,
+    "precisão": 100, 
+    "descrição": "Esse pokemon é guardado por 4 turnos mas regenera 20% da vida perdida",
+    "efeito": "!None",
+    "extra": None,
+    "funçao": F_Vasculhar,
     "irregularidade": False
     }

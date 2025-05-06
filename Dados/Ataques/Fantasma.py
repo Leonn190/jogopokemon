@@ -64,3 +64,43 @@ Atravessar = {
     "funçao": F_Assombrar,
     "irregularidade": False
     }
+
+saldo = 1
+
+def FF_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+    global saldo
+    if Escolha == "Mais":
+        if random.randint(0,100) > saldo * 2:
+            saldo += saldo
+            EstadoDaPergunta["estado"] = False
+            F_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
+        else:   
+            saldo = 0
+            EstadoDaPergunta["estado"] = False
+            return
+    else:
+        player.ouro += saldo
+        saldo = 1
+        EstadoDaPergunta["estado"] = False
+
+def F_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
+    
+    EstadoDaPergunta["funçao"] = FF_Coleta_Gananciosa
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["opçoes"] = ["Mais","Parar"]
+    EstadoDaPergunta["estado"] = True
+
+Coleta_Gananciosa = {
+    "nome": "Coleta Gananciosa",
+    "tipo": ["fantasma"],   
+    "custo": ["preta"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ganhe 1 de ouro, no entanto voce pode ganhar mais, porém toda vez que escolhe mais tem mais chance de perder tudo",
+    "efeito": "!None",
+    "extra": "TV",
+    "funçao": F_Coleta_Gananciosa,
+    "irregularidade": False
+    }

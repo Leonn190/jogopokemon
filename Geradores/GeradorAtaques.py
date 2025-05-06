@@ -41,6 +41,21 @@ def Multi_Regular(PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLo
 
         Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
 
+def Multi_Irregular(PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for Alvo in Alvos:
+        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano = Vsteb(PokemonS,Dano,Ataque)
+
+        Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
+
+        Mitigaçao = 100 / (100 + Defesa)
+        DanoM = Dano * Mitigaçao
+        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+
+        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+
+        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+
 DicionarioAtaques = {
 
     "Jato de Água": lambda: importlib.import_module("Dados.Ataques.Agua").Jato_de_Agua,
@@ -64,6 +79,8 @@ DicionarioAtaques = {
     "Arranhar": lambda: importlib.import_module("Dados.Ataques.Normal").Arranhar,
     "Crescer": lambda: importlib.import_module("Dados.Ataques.Normal").Crescer,
     "Esbravejar": lambda: importlib.import_module("Dados.Ataques.Normal").Esbravejar,
+    "Esmagar": lambda: importlib.import_module("Dados.Ataques.Normal").Esmagar,
+    "Descansar": lambda: importlib.import_module("Dados.Ataques.Normal").Descansar,
 
     "Sopro do Dragão": lambda: importlib.import_module("Dados.Ataques.Dragao").Sopro_do_Dragao,
     "Garra do Dragão": lambda: importlib.import_module("Dados.Ataques.Dragao").Garra_do_Dragao,
@@ -82,10 +99,13 @@ DicionarioAtaques = {
     "Brasa": lambda: importlib.import_module("Dados.Ataques.Fogo").Brasa,
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
+    "Reinado de Gelo": lambda: importlib.import_module("Dados.Ataques.Gelo").Reinado_de_Gelo,
+    "Magia de Gelo": lambda: importlib.import_module("Dados.Ataques.Gelo").Magia_de_Gelo,
 
     "Brilho": lambda: importlib.import_module("Dados.Ataques.Fada").Brilho,
     "Vento Fada": lambda: importlib.import_module("Dados.Ataques.Fada").Vento_Fada,
     "Benção": lambda: importlib.import_module("Dados.Ataques.Fada").Bençao,
+    "Busca Alegre": lambda: importlib.import_module("Dados.Ataques.Fada").Busca_Alegre,
 
     "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
     "Seda": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
@@ -96,6 +116,7 @@ DicionarioAtaques = {
     "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
     "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,
     "Atravessar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Atravessar,
+    "Coleta Gananciosa": lambda: importlib.import_module("Dados.Ataques.Fantasma").Coleta_Gananciosa,
 
     "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
     "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
@@ -106,8 +127,11 @@ DicionarioAtaques = {
 
     "Reforçar": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
     "Cauda de Ferro": lambda: importlib.import_module("Dados.Ataques.Metal").Cauda_de_Ferro,
+    "Projétil Metálico": lambda: importlib.import_module("Dados.Ataques.Metal").Projetil_Metalico,
     
     "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
+    "Pedra Especial": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedra_Especial,
+    "Barragem Rochosa": lambda: importlib.import_module("Dados.Ataques.Pedra").Barragem_Rochosa,
 
     "Arremesso de Terra": lambda: importlib.import_module("Dados.Ataques.Terrestre").Arremesso_de_Terra,
     "Tremor": lambda: importlib.import_module("Dados.Ataques.Terrestre").Tremor,
@@ -122,6 +146,8 @@ DicionarioAtaques = {
     "Bola Sombria": lambda: importlib.import_module("Dados.Ataques.Sombrio").Bola_Sombria,
 
     "Voar": lambda: importlib.import_module("Dados.Ataques.Voador").Voar,
+    "Ataque de Asa": lambda: importlib.import_module("Dados.Ataques.Voador").Ataque_de_Asa,
+    "Investida Aérea": lambda: importlib.import_module("Dados.Ataques.Voador").Investida_Aerea,
 
     "Envenenar": lambda: importlib.import_module("Dados.Ataques.Veneno").Envenenar,
     "Ácido": lambda: importlib.import_module("Dados.Ataques.Veneno").Acido,

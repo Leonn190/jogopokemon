@@ -48,3 +48,18 @@ Cauda_de_Ferro = {
     "funçao": Irregular,
     "irregularidade": F_Cauda_de_Ferro
     }
+
+Projetil_Metalico = {
+    "nome": "Projétil Metálico",
+    "tipo": ["metal"],   
+    "custo": ["cinza","cinza"],
+    "estilo": "N",
+    "dano": 1.2,
+    "alcance": 30,
+    "precisão": 90, 
+    "descrição": "Lança um projétil metalico intenso no oponente",
+    "efeito": "Engrenagem",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }

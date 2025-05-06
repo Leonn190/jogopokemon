@@ -23,3 +23,57 @@ Cristalizar = {
     "funçao": F_Cristalizar,
     "irregularidade": False
     }
+
+def F_Reinado_de_Gelo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    contador = 0
+    for pokemon in player.pokemons + inimigo.pokemons:
+        if pokemon.efeitosNega["Congelado"] > 0:
+            contador += 1
+    Dano = Dano * (1 + 0.5 * contador)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Reinado_de_Gelo = {
+    "nome": "Jato Duplo",
+    "tipo": ["agua"],   
+    "custo": ["normal","azul","azul"],
+    "estilo": "E",
+    "dano": 0.6,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa 50% a mais de dano para cada pokemon congelado na partida",
+    "efeito": "FacasAzuis",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Reinado_de_Gelo
+    }
+
+def FF_Magia_de_Gelo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+    Valor = int(Escolha)
+    PokemonV.curar(30,player,tela)
+    PokemonV.efeitosPosi["Regeneração"] = Valor
+    PokemonV.efeitosPosi["Congelado"] = Valor
+
+def F_Magia_de_Gelo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    
+    EstadoDaPergunta["funçao"] = FF_Magia_de_Gelo
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["opçoes"] = ["2","3","4","5"]
+    EstadoDaPergunta["estado"] = True
+
+Magia_de_Gelo = {
+    "nome": "Magia de Gelo",
+    "tipo": ["gelo"],  
+    "custo": ["normal","azul"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Cure 25 de vida do pokemon Visualizado e escolha quantos turnos ele vai ganhar o efeito cura e congelado",
+    "efeito": "MagiaAzul",
+    "efeito2": "MagiaAzul",
+    "extra": "V",
+    "funçao": F_Magia_de_Gelo,
+    "irregularidade": False
+    }
+

@@ -265,7 +265,6 @@ Magikarp = {
     "Moves": 2,
     "H": 0.85,
     "W": 9.1
-
 }
 
 Jigglypuff = {
@@ -284,11 +283,10 @@ Jigglypuff = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Tapa", "Cura Natural", "Brilho", "Energia"],
+    "MoveList": ["Tapa", "Cura Natural", "Brilho", "Energia", "Busca Alegre", "Tapa Especial"],
     "Moves": 2,
     "H": 0.56,
     "W": 6.7
-
 }
 
 Clefairy = {
@@ -307,7 +305,7 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
-    "MoveList": ["Provocar", "Vento Fada", "Brilho", "Benção"],
+    "MoveList": ["Provocar", "Vento Fada", "Brilho", "Benção", "Investida", "Energia"],
     "Moves": 2,
     "H": 0.62,
     "W": 8.9
@@ -330,7 +328,7 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Tapa", "Energia", "Vasculhar", "Arranhar"],
+    "MoveList": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Busca Gananciosa"],
     "Moves": 2,
     "H": 0.63,
     "W": 5.1
@@ -352,7 +350,7 @@ Cubone = {
     "velocidade": 19,
     "XP": 30,
     "custo": 1,
-    "MoveList": ["Provocar", "Pedregulho", "Soco", "Arremesso de Terra"],
+    "MoveList": ["Provocar", "Pedregulho", "Soco", "Arremesso de Terra", "Tremor", "Crescer"],
     "Moves": 2,
     "H": 0.42,
     "W": 7.1
@@ -375,7 +373,7 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Lambida", "Provocar", "Jato de Água", "Bolhas"],
+    "MoveList": ["Lambida", "Provocar", "Jato de Água", "Bolhas", "Energia", "Golpe de Concha"],
     "Moves": 2,
     "H": 0.33,
     "W": 4
@@ -398,7 +396,7 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Reforçar", "Faisca", "Energia", "Energizar"],
+    "MoveList": ["Reforçar", "Faisca", "Energia", "Energizar", "Projétil Metalico", "Onda Elétrica"],
     "Moves": 2,
     "H": 0.29,
     "W": 6.7
@@ -421,7 +419,7 @@ Rattata = {
     "velocidade": 28,
     "XP": 30,
     "custo": 0,
-    "MoveList": ["Mordida", "Investida", "Nas Sombras", "Vasculhar"],
+    "MoveList": ["Mordida", "Investida", "Nas Sombras", "Vasculhar", "Crescer", "Envenenar"],
     "Moves": 2,
     "H": 0.34,
     "W": 3.3
@@ -443,7 +441,7 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
-    "MoveList": ["Minhocagem", "Seda", "Picada", "Vasculhar"],
+    "MoveList": ["Minhocagem", "Seda", "Picada", "Vasculhar", "Envenenar", "Coleta"],
     "Moves": 2,
     "H": 0.26,
     "W": 2.5
@@ -466,6 +464,8 @@ Snorlax = {
     "velocidade": 14,
     "XP": 45,
     "custo": 4,
+    "MoveList": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
+    "Moves": 4,
     "H": 2.15,
     "W": 485
 
@@ -487,6 +487,8 @@ Aerodactyl = {
     "velocidade": 50,
     "XP": 50,
     "custo": 3,
+    "MoveList": ["Voar", "Ataque de Asa", "Investida Aérea", "Pedra Especial", "Barragem Rochosa", "Mordida"],
+    "Moves": 4,
     "H": 1.8,
     "W": 60
 
@@ -508,6 +510,8 @@ Jynx = {
     "velocidade": 24,
     "XP": 0,
     "custo": 2,
+    "MoveList": ["Cristalizar", "Reinado de Gelo", "Mágia de Gelo", "Pedra Especial", "Barragem Rochosa", "Mordida"],
+    "Moves": 4,
     "H": 1.34,
     "W": 38.8
 }
