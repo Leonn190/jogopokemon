@@ -152,6 +152,9 @@ DicionarioAtaques = {
     "Arremesso de Terra": lambda: importlib.import_module("Dados.Ataques.Terrestre").Arremesso_de_Terra,
     "Tremor": lambda: importlib.import_module("Dados.Ataques.Terrestre").Tremor,
     "Quebra Chão": lambda: importlib.import_module("Dados.Ataques.Terrestre").Quebra_Chao,
+    "Afinidade Territorial": lambda: importlib.import_module("Dados.Ataques.Terrestre").Afinidade_Territorial,
+    "Osso Veloz": lambda: importlib.import_module("Dados.Ataques.Terrestre").Osso_Veloz,
+    "Golpe Territorial": lambda: importlib.import_module("Dados.Ataques.Terrestre").Golpe_Territorial,
 
     "Confusão": lambda: importlib.import_module("Dados.Ataques.Psiquico").Confusão,
     "Bola Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Bola_Psiquica,
@@ -166,6 +169,7 @@ DicionarioAtaques = {
     "Nas Sombras": lambda: importlib.import_module("Dados.Ataques.Sombrio").Nas_Sombras,
     "Bola Sombria": lambda: importlib.import_module("Dados.Ataques.Sombrio").Bola_Sombria,
     "Corte Noturno": lambda: importlib.import_module("Dados.Ataques.Sombrio").Corte_Noturno,
+    "Confronto Trevoso": lambda: importlib.import_module("Dados.Ataques.Sombrio").Confronto_Trevoso,
 
     "Voar": lambda: importlib.import_module("Dados.Ataques.Voador").Voar,
     "Ataque de Asa": lambda: importlib.import_module("Dados.Ataques.Voador").Ataque_de_Asa,

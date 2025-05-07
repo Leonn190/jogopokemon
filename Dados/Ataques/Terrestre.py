@@ -68,3 +68,63 @@ Quebra_Chão = {
     "funçao": Multi_Irregular,
     "irregularidade": F_Quebra_Chao
     }
+
+def F_Afinidade_Territorial(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    PokemonS.efeitosPois["Velocista"] = 3
+    aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
+    if inimigos == []:
+        PokemonS.atacou = False
+
+Afinidade_Territorial = {
+    "nome": "Afinidade Territorial",
+    "tipo": ["terrestre"],   
+    "custo": ["amarela"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ganhe o efeito velocista por 3 turnos, se não tiver nenhum inimigo até 2 casas adjacentes esse pokemon poderá atacar novamente",
+    "efeito": "!None",
+    "extra": None,
+    "funçao": F_Afinidade_Territorial,
+    "irregularidade": False
+    }
+
+Osso_Veloz = {
+    "nome": "Osso Veloz",
+    "tipo": ["terrestre"],   
+    "custo": ["amarela","amarela","amarela"],
+    "estilo": "N",
+    "dano": 1.35,
+    "alcance": 55,
+    "precisão": 75, 
+    "descrição": "Lança um osso ofensivo com força no oponente, podendo viajar por muitos metros",
+    "efeito": "Estouro",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }
+
+def F_Golpe_Territorial(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if PokemonS.efeitosPosi["Provocando"] > 0:
+        Dano = Dano * 1.2
+        if Alvo.efeitosPosi["Provocando"] > 0:
+            Dano = Dano * 1.1
+            Alvo.efeitosPosi["Provocando"] = 0
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+F_Golpe_Territorial = {
+    "nome": "Golpe Territorial",
+    "tipo": ["terrestre"],   
+    "custo": ["normal","amarela","amarela"],
+    "estilo": "N",
+    "dano": 1.1,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Se esse pokemon estiver com o efeito provocando, esse ataque causará mais 20% de dano e caso o alvo também esteja provocando, esse golpe causa ainda mais 10% e remove o efeito de provocando do alvo",
+    "efeito": "ExplosaoPedra",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Golpe_Territorial
+    }

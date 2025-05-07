@@ -72,3 +72,24 @@ Corte_Noturno = {
     "funçao": Irregular,
     "irregularidade": F_Corte_Noturno
     }
+
+def F_Confronto_Trevoso(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    PokemonS.efeitosPosi["Provocando"] = 3
+    Alvo.efeitosPosi["Provocando"] = 3
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Confronto_Trevoso = {
+    "nome": "Confronto Trevoso",
+    "tipo": ["Sombrio"],   
+    "custo": ["normal","preta","preta"],
+    "estilo": "N",
+    "dano": 1.05,
+    "alcance": 25,
+    "precisão": 100, 
+    "descrição": "Deixe a si mesmo e o alvo provocando por 3 turnos",
+    "efeito": "CorteDourado",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Corte_Noturno
+    }

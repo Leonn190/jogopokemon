@@ -221,7 +221,7 @@ Zoroark = {
     "XP": 0,
     "custo": 2,
     "movelist": ["Arranhar", "Nas Sombras", "Bola Sombria", "Corte Noturno", "Garra do Dragão", "Ataque Rápido"],
-    "moves": 2,
+    "moves": 4,
     "H": 1.48,
     "W": 46
 
@@ -263,7 +263,7 @@ Wigglytuff = {
     "XP": 0,
     "custo": 1,
     "movelist": ["Tapa", "Canto Alegre", "Brilho", "Tapa das Fadas", "Busca Alegre", "Vento Fada"],
-    "moves": 2,
+    "moves": 4,
     "H": 1.01,
     "W": 13.5
 
@@ -284,7 +284,7 @@ Clefable = {
     "XP": 0,
     "custo": 3,
     "movelist": ["Constelação Mágica", "Vento Fada", "Brilho", "Benção", "Cura Natural", "Explosão Fada"],
-    "moves": 2,
+    "moves": 4,
     "H": 1.2,
     "W": 48
 
@@ -304,6 +304,8 @@ Persian = {
     "velocidade": 1.482758621,
     "XP": 0,
     "custo": 1,
+    "movelist": ["Arranhar", "Esbravejar", "Afinidade Territorial", "Corte Noturno", "Investida", "Ataque Rápido"],
+    "moves": 4,
     "H": 0.89,
     "W": 35
 
@@ -323,6 +325,8 @@ Marowak = {
     "velocidade": 1.368421053,
     "XP": 0,
     "custo": 1,
+    "movelist": ["Tremor", "Esbravejar", "Osso Veloz", "Golpe Territorial", "Pedregulho", "Provocar"],
+    "moves": 4,
     "H": 0.99,
     "W": 41
 
@@ -342,6 +346,8 @@ Cloyster = {
     "velocidade": 1.523809524,
     "XP": 0,
     "custo": 2,
+    "movelist": ["Confronto Trevoso", "Controle do Oceano", "Raio de Gelo", "Gelo Verdadeiro", "Golpe de Concha", "Lambida"],
+    "moves": 4,
     "H": 1.45,
     "W": 138
 
@@ -361,6 +367,8 @@ Magneton = {
     "velocidade": 1.55,
     "XP": 0,
     "custo": 1,
+    "MoveList": ["Reforçar", "Eletrólise Hidrica", "Barragem", "Energizar", "Projétil Metalico", "Onda Elétrica"],
+    "Moves": 2,
     "H": 0.96,
     "W": 55.5
 
@@ -380,6 +388,8 @@ Raticate = {
     "velocidade": 1.321428571,
     "XP": 0,
     "custo": 3,
+    "MoveList": ["Mordida", "Investida", "Nas Sombras", "Vasculhar", "Arranhar", "Envenenar"],
+    "Moves": 2,
     "H": 0.85,
     "W": 26.2
 
