@@ -45,10 +45,12 @@ Lambida = {
     "irregularidade": F_Lambida
     }
 
-def F_Atravessar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Atravessar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     for chave,valor in PokemonS.efeitosNega:
         PokemonS.efeitosNega[chave] = 0
         Alvo.efeitosNega[chave] = valor
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Atravessar = {
     "nome": "Atravessar",
@@ -61,8 +63,8 @@ Atravessar = {
     "descrição": "Atravessa o alvo, removendo todos os efeitos negativos de si mesmo e passando para o alvo",
     "efeito": "FeixeMagenta",
     "extra": "A",
-    "funçao": F_Atravessar,
-    "irregularidade": False
+    "funçao": Irregular,
+    "irregularidade": F_Atravessar
     }
 
 saldo = 1
@@ -103,4 +105,30 @@ Coleta_Gananciosa = {
     "extra": "TV",
     "funçao": F_Coleta_Gananciosa,
     "irregularidade": False
+    }
+
+def F_Mao_Espectral(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    linhaS, colunaS = PokemonS.local["id"]
+    linhaA, colunaA = Alvo.local["id"]
+
+    if linhaS > linhaA:
+        Move(Alvo,linhaS - 1, colunaS,Mapa.Zona)
+    else:
+        Move(Alvo,linhaS + 1, colunaS,Mapa.Zona)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Mao_Espectral = {
+    "nome": "Mão Espectral",
+    "tipo": ["fantasma"],   
+    "custo": ["normal","preta","preta"],
+    "estilo": "E",
+    "dano": 1,
+    "alcance": 40,
+    "precisão": 100, 
+    "descrição": "Puxe o inimigo para perto de você",
+    "efeito": "ExplosaoRoxa",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Lambida
     }

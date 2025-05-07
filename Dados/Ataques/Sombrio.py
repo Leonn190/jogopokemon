@@ -49,3 +49,26 @@ Bola_Sombria = {
     "irregularidade": F_Bola_Sombria
     }
 
+def F_Corte_Noturno(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    linhaS, colunaS = PokemonS.local["id"]
+    linhaA, colunaA = Alvo.local["id"]
+
+    if linhaS == linhaA + 1:
+        Dano = Dano * 1.7
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Corte_Noturno = {
+    "nome": "Corte Noturno",
+    "tipo": ["Sombrio"],   
+    "custo": ["normal","preta","preta"],
+    "estilo": "N",
+    "dano": 0.95,
+    "alcance": 5,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa 70% a mais de dano caso voce esteja atras do pokemon",
+    "efeito": "CorteDourado",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Corte_Noturno
+    }

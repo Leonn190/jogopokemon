@@ -139,3 +139,4 @@ Tesoura_X = {
     "funçao": Regular,
     "irregularidade": False
     }
+

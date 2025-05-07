@@ -63,7 +63,7 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Investida", "Jato de Água", "Gota Pesada", "Vasculhar no Rio", "Provocar", "Crescer"],
+    "MoveList": ["Investida", "Jato de Água", "Bolhas", "Vasculhar no Rio", "Provocar", "Crescer"],
     "Moves": 2,
     "H": 0.67,
     "W": 10

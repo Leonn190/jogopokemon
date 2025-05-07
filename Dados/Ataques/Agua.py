@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
-from Jogo.Tabuleiro import Move
+from Jogo.Tabuleiro import Move, GuardarPosicionar
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
@@ -156,6 +156,7 @@ Vasculhar_no_Rio = {
 
 def F_Golpe_de_Concha(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano += PokemonS.Def * Ataque["dano"]
+    Dano += PokemonS.Def_sp * Ataque["dano"]
     PokemonS.efeitosPosi["Reforçado"] = 0
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
@@ -163,12 +164,12 @@ def F_Golpe_de_Concha(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,M
 Golpe_de_Concha = {
     "nome": "Golpe de Concha",
     "tipo": ["agua"],   
-    "custo": ["normal","normal","azul"],
+    "custo": ["normal","azul","azul"],
     "estilo": "N",
-    "dano": 0.6,
+    "dano": 0.5,
     "alcance": 10,
     "precisão": 100, 
-    "descrição": "Esse ataque causa dano baseado em defesa e em ataque, após esse ataque o pokemon perde o efeito reforçado caso tenha",
+    "descrição": "Esse ataque causa dano baseado em defesa, defesa especial e em ataque, após esse ataque o pokemon perde o efeito reforçado caso tenha",
     "efeito": "HexagonoLaminas",
     "extra": "A",
     "funçao": Irregular,
@@ -218,4 +219,25 @@ Bola_de_Agua = {
     "extra": "MAA",
     "funçao": Multi_Irregular,
     "irregularidade": F_Bola_de_Agua
+    }
+
+def F_Cachoeira(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if random.randint(0,100) > 75:
+        GuardarPosicionar(Alvo,player,3,Mapa.Zona)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Cachoeira = {
+    "nome": "Cachoeira",
+    "tipo": ["agua"],   
+    "custo": ["normal","azul","azul","azul"],
+    "estilo": "N",
+    "dano": 1.55,
+    "alcance": 15,
+    "precisão": 100, 
+    "descrição": "Uma manobra aquática poderosa que tem 25% de chance de fazer o pokemon alvo ser guardado por 3 turnos",
+    "efeito": "TornadoAgua",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
     }

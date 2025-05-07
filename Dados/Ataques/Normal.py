@@ -238,3 +238,22 @@ Descansar = {
     "funçao": F_Vasculhar,
     "irregularidade": False
     }
+
+def F_Canto_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for efeito in PokemonV.efeitosNega:
+        PokemonV.efeitosNega[efeito] = 0
+ 
+Canto_Alegre = {
+    "nome": "Canto Alegre",
+    "tipo": ["normal"],   
+    "custo": ["normal","normal","normal"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Remove todos os efeitos negativos do pokemon visualizado",
+    "efeito": "FeixeRosa",
+    "extra": "V",
+    "funçao": F_Canto_Alegre,
+    "irregularidade": False
+    }

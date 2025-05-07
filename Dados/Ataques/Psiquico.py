@@ -87,7 +87,7 @@ Ampliação_Mental = {
     "estilo": "E",
     "dano": 0.85,
     "alcance": 15,
-    "precisão": 90, 
+    "precisão": 80, 
     "descrição": "Aumente 1 de todos os contadores de efeitos negativos do pokemon atingido",
     "efeito": "FeixeRoxo",
     "extra": "A",
@@ -179,4 +179,29 @@ Psicorte_Duplo = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Psicorte_Duplo
+    }
+
+def F_Ampliação_Mental(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    for efeito in PokemonV.efeitosNega:
+        if PokemonV.efeitosNega[efeito] >= 1:
+            Alvo.efeitosNega[efeito] += PokemonV.efeitosNega[efeito]
+            PokemonV.efeitosNega[efeito] = 0
+            break
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Transferencia_Psiquica = {
+    "nome": "Tranferência Psíquica",
+    "tipo": ["psiquico"],   
+    "custo": ["roxa","roxa"],
+    "estilo": "E",
+    "dano": 0.7,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Transfere um efeito negativo aleatorio do pokemon visualizado para o alvo",
+    "efeito": "FeixeMagenta",
+    "efeito2": "FluxoAzul",
+    "extra": "AV",
+    "funçao": Irregular,
+    "irregularidade": F_Ampliação_Mental
     }

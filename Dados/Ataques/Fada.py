@@ -14,11 +14,12 @@ def Alv_Brilho(PokemonS,Alvo,player,inimigo,Mapa):
     for pokemon in inimigo.pokemons:
         if pokemon.efeitosPosi["Furtivo"] > 0:
             alvos.append(pokemon)
+    return alvos
 
 Brilho = {
     "nome": "Brilho",
     "tipo": ["fada"],   
-    "custo": ["roxa","roxa"],
+    "custo": ["normal","roxa"],
     "estilo": "E",
     "dano": 0.5,
     "alcance": 100,
@@ -94,4 +95,84 @@ Busca_Alegre = {
     "extra": "TV",
     "funçao": F_Busca_Alegre,
     "irregularidade": False
+    }
+
+def F_Tapa_das_Fadas(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    contador = 0
+    for efeito in Alvo.efeitosPosi:
+        if Alvo.efeitosPosi[efeito] > 1:
+            contador += 1
+    Dano = Dano * (1 + 0.3 * contador)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Tapa_das_Fadas = {
+    "nome": "Tapa das Fadas",
+    "tipo": ["agua"],   
+    "custo": ["normal","roxa","roxa"],
+    "estilo": "N",
+    "dano": 0.95,
+    "alcance": 5,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa 30% de dano a mais para cada efeito positivo que o alvo tiver",
+    "efeito": "FacasRosas",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Tapa_das_Fadas
+    }
+
+def F_Constelaçao_Magica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    Alvo.efeitosPosi["Furtivo"] = 3
+
+def Alv_Constelaçao_Magica(PokemonS,Alvo,player,inimigo,Mapa):
+    alvos = []
+    for pokemon in player.pokemons:
+        if pokemon != PokemonS:
+            alvos.append(pokemon)
+    return alvos
+
+Constelaçao_Magica = {
+    "nome": "Constelação Mágica",
+    "tipo": ["fada"],   
+    "custo": ["roxa","roxa"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Deixa todos os pokemon aliados menos a si mesmo em modo furtivo por 3 turnos",
+    "efeito": "Fumaça",
+    "extra": "MA",
+    "alvos": Alv_Constelaçao_Magica,
+    "funçao": F_Constelaçao_Magica,
+    "irregularidade": False
+    }
+
+def Alv_Explosao_Lunar(PokemonS,Alvo,player,inimigo,Mapa):
+    alvos = [Alvo]
+    for pokemon in inimigo.pokemons:
+        if abs(pokemon.pos - Alvo.pos) == 1:
+            alvos.append(pokemon)
+
+    return alvos
+
+def F_Explosao_Lunar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if Alvo != AlvoS:
+        Dano = Dano * 0.4
+
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Explosao_Lunar = {
+    "nome": "Explosão Lunar",
+    "tipo": ["agua"],   
+    "custo": ["normal","roxa","roxa","roxa"],
+    "estilo": "E",
+    "dano": 1.4,
+    "alcance": 15,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa 40% do dano original aos pokemons nas duas posiçoes adjacentes",
+    "efeito": "CorteRosa",
+    "alvos": Alv_Explosao_Lunar,
+    "extra": "MAA",
+    "funçao": Multi_Irregular,
+    "irregularidade": F_Explosao_Lunar
     }

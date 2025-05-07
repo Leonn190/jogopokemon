@@ -147,7 +147,7 @@ Ataque_de_Chamas = {
     "estilo": "N",
     "dano": 1.2,
     "alcance": 10,
-    "precisão": 90, 
+    "precisão": 95, 
     "descrição": "Uma manobra poderosa onde se utiliza fogo",
     "efeito": "Fogo",
     "extra": "A",

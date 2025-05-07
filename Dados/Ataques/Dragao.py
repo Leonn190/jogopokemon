@@ -83,3 +83,18 @@ Ultraje = {
     "funçao": F_Ultraje,
     "irregularidade": False
     }
+
+Cauda_Violenta = {
+    "nome": "Cauda Violenta",
+    "tipo": ["Dragao"],   
+    "custo": ["normal","vermelha","vermelha"],
+    "estilo": "N",
+    "dano": 1.4,
+    "alcance": 20,
+    "precisão": 85, 
+    "descrição": "Use sua cauda para atingir o oponente com força",
+    "efeito": "CorteRosa",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }

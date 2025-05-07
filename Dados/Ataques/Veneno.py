@@ -1,7 +1,7 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
-from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
+from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
 def F_Envenenar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
@@ -43,4 +43,32 @@ Acido = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Acido
+    }
+
+def Alv_Bomba_de_Lodo(PokemonS,Alvo,player,inimigo,Mapa):
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 2, Mapa.Zona)
+    inimigos.append(Alvo)
+    return inimigos
+
+def F_Bomba_de_Lodo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Alvo.efeitosNega["env"]
+    if Alvo != AlvoS:
+        Dano = Dano * 0.0
+
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Bomba_de_Lodo = {
+    "nome": "Bomba de Lodo",
+    "tipo": ["venenoso"],   
+    "custo": ["roxa","roxa","roxa"],
+    "estilo": "E",
+    "dano": 0.95,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa envenenamento por 3 turnos aos pokemons inimigos adjacentes até 2 casas",
+    "efeito": "Fogo",
+    "alvos": Alv_Bomba_de_Lodo,
+    "extra": "MAA",
+    "funçao": Multi_Irregular,
+    "irregularidade": F_Bomba_de_Lodo
     }

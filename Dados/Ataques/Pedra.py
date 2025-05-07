@@ -52,3 +52,24 @@ Barragem_Rochosa = {
     "irregularidade": False
     }
 
+def F_Impacto_Rochoso(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Dano = PokemonS.Def * Ataque["dano"]
+    PokemonS.efeitosNega["Quebrado"] = 2
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Impacto_Rochoso = {
+    "nome": "Seda",
+    "tipo": ["pedra"],   
+    "custo": ["normal","laranja","laranja"],
+    "estilo": "N",
+    "dano": 1.35,
+    "alcance": 5,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa dano baseado apenas na Defesa, após esse ataque, esse pokemon fica quebrado por 2 turnos",
+    "efeito": "ImpactoRochoso",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Impacto_Rochoso
+    }
+

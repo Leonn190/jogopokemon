@@ -63,3 +63,25 @@ Projetil_Metalico = {
     "funçao": Regular,
     "irregularidade": False
     }
+
+def F_Barragem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    ganho = PokemonS.Atk_sp * 0.4
+    if "metal" in PokemonS.tipo:
+        ganho = ganho * 1.25
+    PokemonS.barreira += ganho
+
+Barragem = {
+    "nome": "Reforçar",
+    "tipo": ["metal"],   
+    "custo": ["cinza"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ganhe barreira equivalente a 40% do dano especial, caso esse pokemon seja do tipo Metal, ganhe mais 25%",
+    "efeito": "Engrenagem",
+    "efeito2": "Engrenagem",
+    "extra": None,
+    "funçao": F_Barragem,
+    "irregularidade": False
+    }

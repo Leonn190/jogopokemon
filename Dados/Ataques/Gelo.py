@@ -117,3 +117,4 @@ Gelo_Verdadeiro = {
     "funçao": Irregular,
     "irregularidade": F_Raio_de_Gelo
     }
+

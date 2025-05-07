@@ -11,7 +11,7 @@ def F_Eletrolise_Hidrica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataqu
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Eletrolise_Hidrica = {
-    "nome": "Eletrolise_Hidrica",
+    "nome": "Eletrólise Hidrica",
     "tipo": ["eletrico"],   
     "custo": ["normal","amarela","azul"],
     "estilo": "E",
@@ -44,7 +44,7 @@ def F_Onda_Eletrica(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoL
     Alvo.efeitosNega["Paralisado"] += 3
 
 Onda_Eletrica = {
-    "nome": "Onda Eletrica",
+    "nome": "Onda Elétrica",
     "tipo": ["eletrico"],   
     "custo": ["normal","amarela"],
     "estilo": "S",
