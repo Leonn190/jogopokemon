@@ -687,8 +687,9 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                     else:
                         AlvoLoc2 = ((510 + idx * 190),1010)
             elif AtaqueS["extra"] == "MA":
-                alvos = AtaqueS["alvos"](PokemonS,player,inimigo,Mapa)
+                alvos = AtaqueS["alvos"](PokemonS,PokemonA,player,inimigo,Mapa)
             elif AtaqueS["extra"] == "MAA":
+                alvos = AtaqueS["alvos"](PokemonS,PokemonA,player,inimigo,Mapa)
                 if PokemonA is None:
                     GV.adicionar_mensagem("Esse ataque requer um alvo")
                     tocar("Bloq")

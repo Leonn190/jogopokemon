@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores, distancia_entre_pokemons
@@ -22,13 +22,16 @@ Queimar = {
     "irregularidade": False
     }
 
-def F_Bola_de_Fogo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def Alv_Bola_de_Fogo(PokemonS,Alvo,player,inimigo,Mapa):
     _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    inimigos.append(Alvo)
+    return inimigos
 
-    for inimigo in inimigos:
-        inimigo.atacado(Dano/2,player,inimigo,tela,Mapa)
+def F_Bola_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if Alvo != AlvoS:
+        Dano = Dano * 0.5
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Bola_de_Fogo = {
     "nome": "Bola de Fogo",
@@ -40,8 +43,9 @@ Bola_de_Fogo = {
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
     "efeito": "Fogo",
-    "extra": "A",
-    "funçao": Irregular,
+    "alvos": Alv_Bola_de_Fogo,
+    "extra": "MAA",
+    "funçao": Multi_Irregular,
     "irregularidade": F_Bola_de_Fogo
     }
 
@@ -94,7 +98,7 @@ def F_Ondas_de_Calor(Dano,Defesa,PokemonS,PokemonV,Alvos,player,inimigo,Ataque,M
     for alvo in Alvos:
         alvo.efeitosNega["Queimado"] = 4
 
-def Alv_Ondas_de_Calor(PokemonS,player,inimigo,Mapa):
+def Alv_Ondas_de_Calor(PokemonS,Alvo,player,inimigo,Mapa):
     alvos = []
     for pokemon in inimigo.pokemons:
         dist = distancia_entre_pokemons(pokemon,PokemonS,Mapa.Metros)

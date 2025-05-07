@@ -26,7 +26,7 @@ Assombrar = {
     }
 
 def F_Lambida(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    PokemonS.Curar(Dano/10,player,tela)
+    PokemonS.curar(Dano/10,player,tela)
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -61,7 +61,7 @@ Atravessar = {
     "descrição": "Atravessa o alvo, removendo todos os efeitos negativos de si mesmo e passando para o alvo",
     "efeito": "FeixeMagenta",
     "extra": "A",
-    "funçao": F_Assombrar,
+    "funçao": F_Atravessar,
     "irregularidade": False
     }
 

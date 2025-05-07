@@ -28,7 +28,7 @@ def Irregular(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,Est
 
     Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def Multi_Regular(PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def Multi_Regular(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for Alvo in Alvos:
         Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
@@ -41,12 +41,12 @@ def Multi_Regular(PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLo
 
         Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def Multi_Irregular(PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def Multi_Irregular(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for Alvo in Alvos:
         Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
 
-        Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
+        Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
 
         Mitigaçao = 100 / (100 + Defesa)
         DanoM = Dano * Mitigaçao

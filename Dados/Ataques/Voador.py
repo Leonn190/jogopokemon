@@ -44,7 +44,7 @@ Ataque_de_Asa = {
     }
 
 def F_Investida_Aerea(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    if PokemonS.efeitosNega["Voando"] > 0:
+    if PokemonS.efeitosPosi["Voando"] > 0:
         Dano = Dano * 1.25
     
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta

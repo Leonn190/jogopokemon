@@ -103,16 +103,19 @@ Energizar = {
     "irregularidade": None
     }
 
-def F_Bola_Eletrica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def Alv_Bola_Elétrica(PokemonS,Alvo,player,inimigo,Mapa):
     _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    inimigos.append(Alvo)
+    return inimigos
 
-    for inimigo in inimigos:
-        inimigo.atacado(Dano/2,player,inimigo,tela,Mapa)
+def F_Bola_Elétrica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if Alvo != AlvoS:
+        Dano = Dano * 0.5
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Bola_Eletrica = {
-    "nome": "Bola Eletrica",
+Bola_Elétrica = {
+    "nome": "Bola_Elétrica",
     "tipo": ["eletrico"],   
     "custo": ["amarela","amarela","amarela"],
     "estilo": "E",
@@ -120,13 +123,14 @@ Bola_Eletrica = {
     "alcance": 20,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
-    "efeito": "Estouro",
-    "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Bola_Eletrica
+    "efeito": "Fogo",
+    "alvos": Alv_Bola_Elétrica,
+    "extra": "MAA",
+    "funçao": Multi_Irregular,
+    "irregularidade": F_Bola_Elétrica
     }
 
-def Alv_Tempestade_de_Raios(PokemonS,player,inimigo,Mapa):
+def Alv_Tempestade_de_Raios(PokemonS,Alvo,player,inimigo,Mapa):
     alvos = []
     for pokemon in inimigo.pokemons:
         if pokemon.efeitosNega["Encharcado"] > 0:

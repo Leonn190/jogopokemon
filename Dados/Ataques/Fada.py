@@ -4,12 +4,12 @@ from Geradores.GeradorOutros import caixa, coletor
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def F_Brilho(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def F_Brilho(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosPosi["Furtivo"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-def Alv_Brilho(PokemonS,player,inimigo,Mapa):
+def Alv_Brilho(PokemonS,Alvo,player,inimigo,Mapa):
     alvos = []
     for pokemon in inimigo.pokemons:
         if pokemon.efeitosPosi["Furtivo"] > 0:
@@ -60,7 +60,7 @@ Bençao = {
     "descrição": "Selecione um pokemon como vizualizado, ele será abençoado por 3 turnos",
     "efeito": "MarcaBrilhosa",
     "extra": "V",
-    "funçao": F_Brilho,
+    "funçao": F_Bençao,
     "irregularidade": False
     }
 

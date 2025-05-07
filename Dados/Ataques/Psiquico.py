@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
@@ -22,16 +22,19 @@ Confusão = {
     "irregularidade": False
     }
 
-def F_Bola_Psiquica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def Alv_Bola_Psíquica(PokemonS,Alvo,player,inimigo,Mapa):
     _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    inimigos.append(Alvo)
+    return inimigos
 
-    for inimigo in inimigos:
-        inimigo.atacado(Dano/2,player,inimigo,tela,Mapa)
+def F_Bola_Psíquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if Alvo != AlvoS:
+        Dano = Dano * 0.5
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Bola_Psiquica = {
-    "nome": "Bola Psiquica",
+Bola_Psíquica = {
+    "nome": "Bola_Psíquica",
     "tipo": ["psiquico"],   
     "custo": ["roxa","roxa","roxa"],
     "estilo": "E",
@@ -39,10 +42,11 @@ Bola_Psiquica = {
     "alcance": 20,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
-    "efeito": "ExplosaoRoxa",
-    "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Bola_Psiquica
+    "efeito": "Fogo",
+    "alvos": Alv_Bola_Psíquica,
+    "extra": "MAA",
+    "funçao": Multi_Irregular,
+    "irregularidade": F_Bola_Psíquica
     }
 
 def F_Teleporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):

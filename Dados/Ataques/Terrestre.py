@@ -19,7 +19,7 @@ Arremesso_de_Terra = {
     "irregularidade": False
     }
 
-def Alv_Tremor(PokemonS,player,inimigo,Mapa):
+def Alv_Tremor(PokemonS,Alvo,player,inimigo,Mapa):
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
     return inimigos  
 
