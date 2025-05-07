@@ -15,6 +15,8 @@ Ivysaur = {
     "velocidade": 1.217391304,
     "XP": 55,
     "custo": 2,
+    "movelist": ["Cristalizar", "Reinado de Gelo", "Magia de Gelo", "Bola Psíquica", "Mente Forte", "Tapa Especial"],
+    "moves": 4,
     "H": 0.86,
     "W": 13
 }

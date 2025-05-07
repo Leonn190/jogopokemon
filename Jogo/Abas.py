@@ -562,18 +562,6 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
             render = FonteMenor.render(texto, True, (255, 255, 255)) 
             tela.blit(render, (x + 10, y + 218 + i * 20))  
 
-B2 = {"estado": False}
-B3 = {"estado": False}
-B4 = {"estado": False}
-B5 = {"estado": False}
-B6 = {"estado": False}
-B7 = {"estado": False}
-B8 = {"estado": False}
-B9 = {"estado": False}
-B10 = {"estado": False}
-B11 = {"estado": False}
-BB = [B2,B3,B4,B5,B6,B7,B8,B9,B10,B11]
-
 fonte_ = pygame.font.SysFont(None, 24)
 fonte_titulo_ = pygame.font.SysFont(None, 28)
 
@@ -744,13 +732,13 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
 
 def Trocar_Ataque(Pokemon,EstadoDaPergunta,Ataque,escolha):
     if Pokemon.movimento1 == Ataque:
-        Pokemon.movimento1 = SelecionaAtaques([escolha])
+        Pokemon.movimento1 = SelecionaAtaques(escolha)
     elif Pokemon.movimento2 == Ataque:
-        Pokemon.movimento2 = SelecionaAtaques([escolha])
+        Pokemon.movimento2 = SelecionaAtaques(escolha)
     elif Pokemon.movimento3 == Ataque:
-        Pokemon.movimento3 = SelecionaAtaques([escolha])
+        Pokemon.movimento3 = SelecionaAtaques(escolha)
     elif Pokemon.movimento4 == Ataque:
-        Pokemon.movimento4 = SelecionaAtaques([escolha])
+        Pokemon.movimento4 = SelecionaAtaques(escolha)
     EstadoDaPergunta["estado"] = False
 
 def Trocar_Ataque_Pergunta(Pokemon,Ataque,EstadoDaPergunta):

@@ -18,11 +18,12 @@ Area = [(3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3
         (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16),
         (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16),
         (11, 8), (11, 9), (11, 10), (11, 11), (11, 12), (11, 13), (11, 14), (11, 15), (11, 16)]
-PeçaS = None
 
-estadoTabuleiro = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+
+def desselecionae():
+    pass
+
+desseleciona = desselecionae
 
 def Gerar_Mapa():
 
@@ -38,48 +39,15 @@ def Gerar_Mapa():
         Zona.append(linha)
     return Zona
 
-def seleciona_peça(p,dono,player):
-    global PeçaS
-    if dono == "player":
-            if p.efeitosNega["Congelado"] == 0 or p.efeitosNega["Paralisado"] == 0:
-                pagou = 0
-                gastas = []
-                Custo = p.custo
-                if p.efeitosNega["Encharcado"]:
-                    Custo += 2
-                for i in range(Custo):
-                    for cor in player.energiasDesc:
-                        if player.energias[cor] >= 1:
-                            player.energias[cor] -= 1
-                            gastas.append(cor)
-                            pagou += 1
-                            break
-                
-                if pagou != Custo:
-                    tocar("Bloq")
-                    GV.adicionar_mensagem("Sem energias, não pode se mover")
-                    for i in range(len(gastas)):
-                        player.energias[gastas[i]] += 1
-                    desseleciona_peça()
-                    return 
-
-                PeçaS = p
-            else:
-                GV.adicionar_mensagem("Esse pokemon está congelado ou paralisado")
-    else:
-        GV.adicionar_mensagem("Não pode selecionar pokemon inimigo")
-
-def desseleciona_peça():
-    global PeçaS
-    global estadoTabuleiro
-    PeçaS = None
-    estadoTabuleiro["selecionado_esquerdo"] =  False
-
-def Desenhar_Casas_Disponiveis(tela, casas_disponiveis, player, inimigo, Fonte, eventos, cores_zebragem, metros, Zona):
-    global Area
+def Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro):
+    global desseleciona
+    desseleciona = desseleciona_peça
+    Zona = Mapa.Zona
+    metros = Mapa.Metros
+    casas_disponiveis = Mapa.area
+    cores_zebragem = Mapa.cores
     tamanho_casa = 40
     tamanho_imagem = 38
-    Area = casas_disponiveis
     x_inicial = (1920 - 25 * tamanho_casa) // 2
     y_inicial = (1080 - 15 * tamanho_casa) // 2
 
@@ -171,7 +139,7 @@ def Move(peça, L, C,Zona):
     peça.local = Zona[L][C]
     Zona[L][C]["ocupado"] = peça.ID
 
-    desseleciona_peça()
+    desseleciona()
 
 def Inverter_Tabuleiro(player, inimigo, Zona):
     # Cria novo mapa espelhado verticalmente

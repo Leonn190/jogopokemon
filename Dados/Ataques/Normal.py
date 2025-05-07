@@ -187,7 +187,7 @@ Tapa_Especial = {
     "nome": "Tapa Especial",
     "tipo": ["normal"],   
     "custo": ["normal"],
-    "estilo": "S",
+    "estilo": "E",
     "dano": 0.8,
     "alcance": 10,
     "precisão": 100, 

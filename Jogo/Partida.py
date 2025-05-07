@@ -26,6 +26,7 @@ Mapa = None
 Gifs_ativos = []
 
 Mute = False
+PeçaS = None
 PokemonS = None
 PokemonSV = None
 PokemonV = None
@@ -176,6 +177,46 @@ T2 = 800
 OP1 = 1080
 OP2 = 1080
 
+def seleciona_peça(p,dono,player):
+    global PeçaS
+    if dono == "player":
+            if p.efeitosNega["Congelado"] == 0 or p.efeitosNega["Paralisado"] == 0:
+                pagou = 0
+                gastas = []
+                Custo = p.custo
+                if p.efeitosNega["Encharcado"]:
+                    Custo += 2
+                for i in range(Custo):
+                    for cor in player.energiasDesc:
+                        if player.energias[cor] >= 1:
+                            player.energias[cor] -= 1
+                            gastas.append(cor)
+                            pagou += 1
+                            break
+                
+                if pagou != Custo:
+                    tocar("Bloq")
+                    GV.adicionar_mensagem("Sem energias, não pode se mover")
+                    for i in range(len(gastas)):
+                        player.energias[gastas[i]] += 1
+                    desseleciona_peça()
+                    return 
+
+                PeçaS = p
+            else:
+                GV.adicionar_mensagem("Esse pokemon está congelado ou paralisado")
+    else:
+        print (p)
+        selecionaAlvo(p)
+
+def desseleciona_peça():
+    global PeçaS, estadoTabuleiro, PokemonA
+    if PeçaS == None:
+        print ("jujuba")
+        desselecionaAlvo()
+    PeçaS = None
+    estadoTabuleiro["selecionado_esquerdo"] =  False
+
 def seleciona(Pokemon):
     global PokemonS
     if not isinstance(Pokemon,str):
@@ -201,16 +242,16 @@ def seleciona(Pokemon):
         GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")
 
 def selecionaAlvo(Pokemon):
-    global PokemonA,alvo
+    global PokemonA, alvo
     if not isinstance(Pokemon,str):
         PokemonA = Pokemon
         alvo = gerar_gif(OutrosIMG[14],((1400 - PokemonA.pos * 190),95),35)
 
 def desselecionaAlvo():
-    global PokemonA,alvo
+    global PokemonA,alvo, estadoAlvo
     alvo = None
     PokemonA = None
-    estadoAlvo["selecionado_esquerdo"] = False
+    estadoAlvo = {"selecionado_esquerdo": None}
 
 def desseleciona():
     global PokemonS
@@ -323,16 +364,18 @@ def seleciona_pokebola(pokebola):
     PokebolaSelecionada = pokebola
 
 def desseleciona_pokebola():
-    global PokebolaSelecionada
+    global PokebolaSelecionada,estadoPokebola
     PokebolaSelecionada = None
+    estadoPokebola = {"selecionado_esquerdo": None,}
 
 def seleciona_fruta(fruta):
     global FrutaSelecionada
     FrutaSelecionada = fruta
 
 def desseleciona_fruta():
-    global FrutaSelecionada
+    global FrutaSelecionada,estadoFruta
     FrutaSelecionada = None
+    estadoFruta = {"selecionado_esquerdo": None,}
 
 def fechar_tudo():
     global estadoPokemon
@@ -718,18 +761,22 @@ estadoInfo = {
 estadoOutros = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-estadoPokebola = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+
+estadoPokebola = {"selecionado_esquerdo": None,}
+
 estadoItens = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 estadoEnergias = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
-estadoFruta = {
+
+estadoFruta = {"selecionado_esquerdo": None,}
+
+estadoTabuleiro = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
+
 
 animaS = 0
 animaAI = 0
@@ -976,7 +1023,7 @@ def TelaPokemons(tela,eventos,estados):
             tela, (x, 890, 190, 190),
             "", Fonte30,
             cor_fundo=cor_do_fundo_pokemon, cor_borda_normal=PRETO,
-            cor_borda_esquerda=VERDE_CLARO, cor_borda_direita=AZUL,
+            cor_borda_esquerda=VERDE, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
             estado_global_esquerdo=estadoPokemon, estado_global_direito=estadoVizualiza, eventos=eventos,
             funcao_esquerdo=lambda i=i: seleciona(id_poke),
@@ -1268,4 +1315,5 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaEstTreP = Mapa.pLojaT
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, Mapa.area, player, inimigo, Fonte20, eventos, Mapa.cores, Mapa.Metros, Mapa.Zona)   
+    M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte20, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  
+ 

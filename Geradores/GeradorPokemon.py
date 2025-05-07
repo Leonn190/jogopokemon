@@ -227,6 +227,25 @@ class Pokemon:
 
     def Evoluir_de_fato(self,player):
         nome_antigo = self.nome
+
+        if self.evolucao["moves"] >= 3 and self.movimento3 is None:
+            while True:
+                sorteado = random.choice(self.evolucao["movelist"])
+                ataque = SelecionaAtaques(sorteado)
+                if sorteado not in self.moveList:
+                    self.moveList.append(sorteado)
+                    self.movimento3 = ataque
+                    break
+        if self.evolucao["moves"] == 4 and self.movimento4 is None:
+            while True:
+                sorteado = random.choice(self.evolucao["movelist"])
+                ataque = SelecionaAtaques(sorteado)
+                if sorteado not in self.moveList:
+                    self.moveList.append(sorteado)
+                    self.movimento4 = ataque
+                    break
+        
+        self.movePossiveis = self.evolucao["movelist"]
         self.nome = self.evolucao["nome"]
         self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
         self.Vida = round(self.Vida * self.evolucao["vida"])
