@@ -4,6 +4,16 @@ import ctypes
 
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
 
+# comando foda abaixo
+
+# $arquivosPython = Get-ChildItem -Recurse -File -Filter "*.py"
+# $numeroArquivosPython = $arquivosPython.Count
+# $arquivosTotais = Get-ChildItem -Recurse -File | Measure-Object | Select-Object -ExpandProperty Count
+# $linhasPython = $arquivosPython | Get-Content | Measure-Object -Line
+# "Arquivos totais: $arquivosTotais"
+# "Arquivos Python: $numeroArquivosPython"
+# "Linhas totais Python: $($linhasPython.Lines)"
+
 try:
     ctypes.windll.user32.SetProcessDPIAware()
 except:
