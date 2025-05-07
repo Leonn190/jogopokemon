@@ -688,6 +688,11 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                         AlvoLoc2 = ((510 + idx * 190),1010)
             elif AtaqueS["extra"] == "MA":
                 alvos = AtaqueS["alvos"](PokemonS,player,inimigo,Mapa)
+            elif AtaqueS["extra"] == "MAA":
+                if PokemonA is None:
+                    GV.adicionar_mensagem("Esse ataque requer um alvo")
+                    tocar("Bloq")
+                    return
 
             else:
                 if PokemonV is not None and AtaqueS["extra"] == "TV":
@@ -721,7 +726,7 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                     else:
                         AlvoLoc = ((510 + idx * 190),1010)
                     if jafoi == False:
-                        adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
+                        adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
                         jafoi = True
                     else:
                         adicionar_efeito(AtaqueS["efeito"],AlvoLoc)

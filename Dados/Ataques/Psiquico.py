@@ -58,7 +58,7 @@ Teleporte = {
     "nome": "Teleporte",
     "tipo": ["psiquico"],   
     "custo": ["roxa"],
-    "estilo": "E",
+    "estilo": "N",
     "dano": 0.4,
     "alcance": 45,
     "precisão": 100, 
@@ -111,3 +111,68 @@ Psiquico_Desgastante = {
     "irregularidade": F_Psiquico_Desgastante
     }
 
+def F_Mente_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if random.choice([True,False]) ==  True:
+        PokemonS.efeitosPosi["Focado"] = 3
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Mente_Forte = {
+    "nome": "Psiquico Desgastante",
+    "tipo": ["psiquico"],   
+    "custo": ["roxa","roxa"],
+    "estilo": "N",
+    "dano": 1.15,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "Esse ataque tem 50% de chance de te deixar focado",
+    "efeito": "CorteRicocheteadoRoxo",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Mente_Forte
+    }
+
+def F_Corrosao_Psíquica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Dano = Dano * Alvo.Vida // 100
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Corrosão_Psíquica = {
+    "nome": "Corrosão Psíquica",
+    "tipo": ["psiquico"],   
+    "custo": ["roxa","roxa","roxa","roxa"],
+    "estilo": "E",
+    "dano": 1.1,
+    "alcance": 20,
+    "precisão": 100, 
+    "descrição": "O dano desse ataque é a % da vida do inimigo",
+    "efeito": "OrbesRoxos",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Corrosao_Psíquica
+    }
+
+def F_Psicorte_Duplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Defesa = Defesa * 0.7
+    aliados, inimigos = pokemons_nos_arredores(Alvo,player,inimigo,2,Mapa.Zona)
+    if PokemonV in inimigos:
+        mitigação = 100 / (100 + PokemonV.Def)
+        DanoV = Dano * mitigação
+        PokemonV.atacado(DanoV,player,inimigo,tela,Mapa)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Psicorte_Duplo = {
+    "nome": "Psicorte Duplo",
+    "tipo": ["psiquico"],   
+    "custo": ["normal","roxa","roxa","roxa","roxa"],
+    "estilo": "N",
+    "dano": 1.5,
+    "alcance": 10,
+    "precisão": 95, 
+    "descrição": "Esse ataque causa dano a um oponente selecionado caso esteja ate 2 casas adjacentes do alvo principal, esse ataque ignora 40% das defesas inimigas",
+    "efeito": "CorteRoxoDuplo",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Psicorte_Duplo
+    }

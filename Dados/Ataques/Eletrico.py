@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular, Multi_Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
@@ -124,4 +124,26 @@ Bola_Eletrica = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Bola_Eletrica
+    }
+
+def Alv_Tempestade_de_Raios(PokemonS,player,inimigo,Mapa):
+    alvos = []
+    for pokemon in inimigo.pokemons:
+        if pokemon.efeitosNega["Encharcado"] > 0:
+            alvos.append(pokemon)
+
+Tempestade_de_Raios = {
+    "nome": "Tempestade de Raios",
+    "tipo": ["eletrico"],   
+    "custo": ["normal","amarela","amarela"],
+    "estilo": "E",
+    "dano": 1.45,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Esse ataque atinge todos os pokemon encharcados inimigos",
+    "efeito": "MarcaBrilhosa",
+    "extra": "MA",
+    "alvos": Alv_Tempestade_de_Raios,
+    "funçao": Multi_Regular,
+    "irregularidade": False
     }

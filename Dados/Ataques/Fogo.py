@@ -1,7 +1,7 @@
 from Geradores.GeradorAtaques import Regular, Irregular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
-from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
+from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores, distancia_entre_pokemons
 import random
 
 def F_Queimar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
@@ -51,6 +51,7 @@ def F_Superaquecer(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa
         Dano = Dano * 1.15
     if PokemonV in player.pokemons:
         PokemonV.efeitosNega["Congelado"] = 0
+        PokemonV.efeitosNega["Encharcado"] = 0
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -62,7 +63,7 @@ Superaquecer = {
     "dano": 0.5,
     "alcance": 20,
     "precisão": 99, 
-    "descrição": "Caso o alvo ja esteja queimado, acrescente 1 contador no efeito e cause mais 15% de dano, selecione um pokemon aliado para remover o efeito congelado",
+    "descrição": "Caso o alvo ja esteja queimado, acrescente 1 contador no efeito e cause mais 15% de dano, selecione um pokemon aliado para remover o efeito congelado e encharcado",
     "efeito": "Fogo",
     "efeito2": "Fogo",
     "extra": "AV",
@@ -71,7 +72,8 @@ Superaquecer = {
     }
 
 def F_Brasa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Queimado"] += 2
+    if random.randint(0,100) > 85:
+        Alvo.efeitosNega["Queimado"] += 2
 
 Brasa = {
     "nome": "Brasa",
@@ -81,7 +83,68 @@ Brasa = {
     "dano": 1.05,
     "alcance": 20,
     "precisão": 100, 
-    "descrição": "Esse ataque tem 10% de chance de deixar o alvo queimado por 2 turnos",
+    "descrição": "Esse ataque tem 15% de chance de deixar o alvo queimado por 2 turnos",
+    "efeito": "Fogo",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }
+
+def F_Ondas_de_Calor(Dano,Defesa,PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for alvo in Alvos:
+        alvo.efeitosNega["Queimado"] = 4
+
+def Alv_Ondas_de_Calor(PokemonS,player,inimigo,Mapa):
+    alvos = []
+    for pokemon in inimigo.pokemons:
+        dist = distancia_entre_pokemons(pokemon,PokemonS,Mapa.Metros)
+        if random.randint(0,100) > dist + 5:
+            alvos.append(pokemon)
+
+Ondas_de_Calor = {
+    "nome": "Ondas de Calor",
+    "tipo": ["fogo"],   
+    "custo": ["normal","vermelha","vermelha"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Ataca todos os pokemon com o efeito furtivo e remove esse efeito deles",
+    "efeito": "Fogo",
+    "extra": "MA",
+    "alvos": Alv_Ondas_de_Calor,
+    "funçao": F_Ondas_de_Calor,
+    "irregularidade": False
+    }
+
+def F_Raio_de_Fogo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    Alvo.efeitosNega["Congelado"] = 0
+    Alvo.efeitosNega["Encharcado"] = 0
+
+Raio_de_Fogo = {
+    "nome": "Raio de Fogo",
+    "tipo": ["planta"],   
+    "custo": ["normal","vermelha","vermelha","vermelha","vermelha"],
+    "estilo": "E",
+    "dano": 1.9,
+    "alcance": 25,
+    "precisão": 100, 
+    "descrição": "Lança um raio de calor concentrado extremo",
+    "efeito": "LabaredaMultipla",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Raio_de_Fogo
+    }
+
+Ataque_de_Chamas = {
+    "nome": "Ataque_de_Chamas",
+    "tipo": ["fogo"],   
+    "custo": ["normal","fogo"],
+    "estilo": "N",
+    "dano": 1.2,
+    "alcance": 10,
+    "precisão": 90, 
+    "descrição": "Uma manobra poderosa onde se utiliza fogo",
     "efeito": "Fogo",
     "extra": "A",
     "funçao": Regular,

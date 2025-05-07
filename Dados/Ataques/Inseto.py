@@ -124,3 +124,18 @@ Coleta = {
     "funçao": F_Coleta,
     "irregularidade": None
     }
+
+Tesoura_X = {
+    "nome": "Tesoura X",
+    "tipo": ["inseto"],   
+    "custo": ["verde","verde","verde"],
+    "estilo": "N",
+    "dano": 1.5,
+    "alcance": 15,
+    "precisão": 100, 
+    "descrição": "Atinja com força o oponente",
+    "efeito": "Mordida",
+    "extra": "A",
+    "funçao": Regular,
+    "irregularidade": False
+    }

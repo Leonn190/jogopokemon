@@ -34,8 +34,8 @@ def F_Reinado_de_Gelo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,M
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Reinado_de_Gelo = {
-    "nome": "Jato Duplo",
-    "tipo": ["agua"],   
+    "nome": "Reinado de Gelo",
+    "tipo": ["gelo"],   
     "custo": ["normal","azul","azul"],
     "estilo": "E",
     "dano": 0.6,
@@ -77,3 +77,43 @@ Magia_de_Gelo = {
     "irregularidade": False
     }
 
+def F_Raio_de_Gelo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if random.randint(0,100) > 80:
+        Alvo.efeitosNega["Congelado"] = 3
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Raio_de_Gelo = {
+    "nome": "Raio de Gelo",
+    "tipo": ["gelo"],   
+    "custo": ["normal","azul","azul","azul","azul"],
+    "estilo": "E",
+    "dano": 1.95,
+    "alcance": 18,
+    "precisão": 99, 
+    "descrição": "Lança um raio de gelo extremamente potente que tem 20% de chance de congelar o alvo por 3 turnos",
+    "efeito": "RaioAzul",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Raio_de_Gelo
+    }
+
+def F_Gelo_Verdadeiro(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Defesa = 0
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Gelo_Verdadeiro = {
+    "nome": "Gelo_Verdadeiro",
+    "tipo": ["gelo"],   
+    "custo": ["azul","azul"],
+    "estilo": "N",
+    "dano": 1.15,
+    "alcance": 15,
+    "precisão": 100, 
+    "descrição": "Esse ataque ignora a defesa do pokemon inimigo",
+    "efeito": "MarcaAzul",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Raio_de_Gelo
+    }

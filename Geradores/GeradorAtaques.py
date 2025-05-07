@@ -92,15 +92,21 @@ DicionarioAtaques = {
     "Choque do Trovão": lambda: importlib.import_module("Dados.Ataques.Eletrico").Choque_do_Trovao,
     "Onda Elétrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Onda_Eletrica,
     "Bola Elétrica": lambda: importlib.import_module("Dados.Ataques.Eletrico").Bola_Eletrica,
+    "Tempestade de Raios": lambda: importlib.import_module("Dados.Ataques.Eletrico").Tempestade_de_Raios,
 
     "Queimar": lambda: importlib.import_module("Dados.Ataques.Fogo").Queimar,
     "Bola de Fogo": lambda: importlib.import_module("Dados.Ataques.Fogo").Bola_de_Fogo,
     "Superaquecer": lambda: importlib.import_module("Dados.Ataques.Fogo").Superaquecer,
     "Brasa": lambda: importlib.import_module("Dados.Ataques.Fogo").Brasa,
+    "Ondas de Calor": lambda: importlib.import_module("Dados.Ataques.Fogo").Ondas_de_Calor,
+    "Raio de Fogo": lambda: importlib.import_module("Dados.Ataques.Fogo").Raio_de_Fogo,
+    "Ataque de Chamas": lambda: importlib.import_module("Dados.Ataques.Fogo").Ataque_de_Chamas,
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
     "Reinado de Gelo": lambda: importlib.import_module("Dados.Ataques.Gelo").Reinado_de_Gelo,
     "Magia de Gelo": lambda: importlib.import_module("Dados.Ataques.Gelo").Magia_de_Gelo,
+    "Raio de Gelo": lambda: importlib.import_module("Dados.Ataques.Gelo").Raio_de_Gelo,
+    "Gelo Verdadeiro": lambda: importlib.import_module("Dados.Ataques.Gelo").Gelo_Verdadeiro,
 
     "Brilho": lambda: importlib.import_module("Dados.Ataques.Fada").Brilho,
     "Vento Fada": lambda: importlib.import_module("Dados.Ataques.Fada").Vento_Fada,
@@ -112,6 +118,7 @@ DicionarioAtaques = {
     "Picada": lambda: importlib.import_module("Dados.Ataques.Inseto").Picada,
     "Minhocagem": lambda: importlib.import_module("Dados.Ataques.Inseto").Minhocagem,
     "Coleta": lambda: importlib.import_module("Dados.Ataques.Inseto").Coleta,
+    "Tesoura X": lambda: importlib.import_module("Dados.Ataques.Inseto").Tesoura_X,
 
     "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
     "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,
@@ -141,6 +148,9 @@ DicionarioAtaques = {
     "Teleporte": lambda: importlib.import_module("Dados.Ataques.Psiquico").Teleporte,
     "Ampliação Mental": lambda: importlib.import_module("Dados.Ataques.Psiquico").Ampliação_Mental,
     "Psíquico Desgastante": lambda: importlib.import_module("Dados.Ataques.Psiquico").Psiquico_Desgastante,
+    "Mente Forte": lambda: importlib.import_module("Dados.Ataques.Psiquico").Mente_Forte,
+    "Psicorte_Duplo": lambda: importlib.import_module("Dados.Ataques.Psiquico").Psicorte_Duplo,
+    "Corrosão_Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Corrosão_Psíquica,
 
     "Nas Sombras": lambda: importlib.import_module("Dados.Ataques.Sombrio").Nas_Sombras,
     "Bola Sombria": lambda: importlib.import_module("Dados.Ataques.Sombrio").Bola_Sombria,
@@ -148,6 +158,8 @@ DicionarioAtaques = {
     "Voar": lambda: importlib.import_module("Dados.Ataques.Voador").Voar,
     "Ataque de Asa": lambda: importlib.import_module("Dados.Ataques.Voador").Ataque_de_Asa,
     "Investida Aérea": lambda: importlib.import_module("Dados.Ataques.Voador").Investida_Aerea,
+    "Rasante": lambda: importlib.import_module("Dados.Ataques.Voador").Rasante,
+    "Bico Broca": lambda: importlib.import_module("Dados.Ataques.Voador").Bico_Broca,
 
     "Envenenar": lambda: importlib.import_module("Dados.Ataques.Veneno").Envenenar,
     "Ácido": lambda: importlib.import_module("Dados.Ataques.Veneno").Acido,

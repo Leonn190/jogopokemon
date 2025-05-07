@@ -64,3 +64,44 @@ Investida_Aerea = {
     "irregularidade": F_Investida_Aerea
     }
 
+def F_Rasante(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    DanoV = PokemonS.vel * 1.35 * 0.9
+    DanoN = PokemonS.Atk * 1.35 * 0.1
+    Dano = DanoV + DanoN
+    
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Rasante = {
+    "nome": "Rasante",
+    "tipo": ["voador"],   
+    "custo": ["cinza","cinza"],
+    "estilo": "N",
+    "dano": 1.35,
+    "alcance": 15,
+    "precisão": 110, 
+    "descrição": "Esse ataque escala apenas 10% com o dano o resto é com velocidade (90%)",
+    "efeito": "FacasBrancas",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Investida_Aerea
+    }
+
+def F_Bico_Broca(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Defesa = Defesa * 0.49
+    
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Bico_Broca = {
+    "nome": "Bico Broca",
+    "tipo": ["voador"],   
+    "custo": ["normal","cinza"],
+    "estilo": "N",
+    "dano": 1.05,
+    "alcance": 0,
+    "precisão": 100, 
+    "descrição": "Bique seu oponente como uma verdadeira broca, ignorando 51% da defesa dele",
+    "efeito": "Corte",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Bico_Broca
+    }

@@ -510,7 +510,7 @@ Jynx = {
     "velocidade": 24,
     "XP": 0,
     "custo": 2,
-    "MoveList": ["Cristalizar", "Reinado de Gelo", "Mágia de Gelo", "Pedra Especial", "Barragem Rochosa", "Mordida"],
+    "MoveList": ["Cristalizar", "Reinado de Gelo", "Mágia de Gelo", "Bola Psiquica", "Mente Forte", "Tapa Especial"],
     "Moves": 4,
     "H": 1.34,
     "W": 38.8
@@ -532,6 +532,8 @@ Pinsir = {
     "velocidade": 25,
     "XP": 45,
     "custo": 2,
+    "MoveList": ["Seda", "Mordida", "Tesoura X", "Bola Psiquica", "Mente Forte", "Tapa Especial"],
+    "Moves": 4,
     "H": 1.55,
     "W": 53
 
@@ -553,6 +555,8 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
+    "MoveList": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Ampliação Mental", "Mente Forte", "Confusão"],
+    "Moves": 4,
     "H": 1.9,
     "W": 95
 }
@@ -573,6 +577,8 @@ Articuno = {
     "velocidade": 60,
     "XP": 55,
     "custo": 4,
+    "MoveList": ["Raio de Gelo", "Reinado de Gelo", "Voar", "Ataque de Asa", "Provocar", "Gelo Verdadeiro"],
+    "Moves": 4,
     "H": 1.83,
     "W": 73
 }
@@ -593,6 +599,8 @@ Moltres = {
     "velocidade": 53,
     "XP": 0,
     "custo": 3,
+    "MoveList": ["Ondas de Calor", "Raio de Fogo", "Voar", "Investida Aérea", "Provocar", "Superaquecer"],
+    "Moves": 4,
     "H": 1.98,
     "W": 81
 }
@@ -613,6 +621,8 @@ Zapdos = {
     "velocidade": 57,
     "XP": 0,
     "custo": 3,
+    "MoveList": ["Tempestade de Raios", "Choque do Trovão", "Voar", "Rasante", "Bola Elétrica", "Bico Broca"],
+    "Moves": 4,
     "H": 1.72,
     "W": 69
 }
