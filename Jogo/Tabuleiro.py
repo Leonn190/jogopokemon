@@ -242,14 +242,11 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, Zona, metros=1
 
 def GuardarPosicionar(pokemon,player,tempo,Zona):
     if pokemon.local is not None:
-        if len(player.pokemons) > 1:
-            linha_antiga, coluna_antiga = pokemon.local["id"]
-            Zona[linha_antiga][coluna_antiga]["ocupado"] = None
-            pokemon.local = None
-            pokemon.guardado = tempo
-        else:
-            tocar("Bloq")
-            GV.adicionar_mensagem("Você não deve guardar seu unico pokemon")
+        linha_antiga, coluna_antiga = pokemon.local["id"]
+        Zona[linha_antiga][coluna_antiga]["ocupado"] = None
+        pokemon.local = None
+        pokemon.guardado = tempo
+
     else:
         for i in range(len(Zona)):
             for tentativa in range(40):

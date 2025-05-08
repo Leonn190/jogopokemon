@@ -79,12 +79,12 @@ Vasculhar = {
 def F_Ataque_Rapido(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     
     if random.choice([True,False]) == True:
-        PokemonS.Atacou = False
+        PokemonS.atacou = False
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Ataque_Rapido = {
-    "nome": "Bola Eletrica",
+    "nome": "Ataque Rápido",
     "tipo": ["normal"],   
     "custo": ["normal","normal"],
     "estilo": "N",

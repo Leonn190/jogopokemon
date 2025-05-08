@@ -7,88 +7,49 @@ import pygame
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
 
+
 def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,AlvoLoc):
     
-    tabela_tipos = {
-    "normal":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0.5, "venenoso": 0, "terrestre": 0,
-                  "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": -0.75, "dragao": 0, "sombrio": 0, "metal": 0, "fada": 0},
+    tipos = [
+    "normal", "fogo", "agua", "eletrico", "planta", "gelo",
+    "lutador", "venenoso", "terrestre", "voador", "psiquico", "inseto",
+    "pedra", "fantasma", "dragao", "sombrio", "metal", "fada"]
 
-    "fogo":      {"normal": 0, "fogo": -0.25, "agua": -0.25, "eletrico": 0, "planta": 0.5, "gelo": 0.5, "lutador": 0, "venenoso": 0,
-                  "terrestre": 0, "voador": 0, "psiquico": 0, "inseto": 0.5, "pedra": -0.25, "fantasma": 0, "dragao": -0.25, "sombrio": 0,
-                  "metal": 0.5, "fada": 0},
-
-    "agua":      {"normal": 0, "fogo": 0.5, "agua": -0.25, "eletrico": 0, "planta": -0.25, "gelo": 0, "lutador": 0, "venenoso": 0,
-                  "terrestre": 0.5, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0.5, "fantasma": 0, "dragao": -0.25, "sombrio": 0,
-                  "metal": 0, "fada": 0},
-
-    "eletrico":  {"normal": 0, "fogo": 0, "agua": 0.5, "eletrico": -0.25, "planta": -0.25, "gelo": 0, "lutador": 0, "venenoso": 0,
-                  "terrestre": -0.75, "voador": 0.5, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": -0.25, "sombrio": 0,
-                  "metal": 0, "fada": 0},
-
-    "planta":    {"normal": 0, "fogo": -0.25, "agua": 0.5, "eletrico": 0, "planta": -0.25, "gelo": 0, "lutador": 0, "venenoso": -0.25,
-                  "terrestre": 0.5, "voador": -0.25, "psiquico": 0, "inseto": -0.25, "pedra": 0.5, "fantasma": 0, "dragao": -0.25,
-                  "sombrio": 0, "metal": -0.25, "fada": 0},
-
-    "gelo":      {"normal": 0, "fogo": -0.25, "agua": -0.25, "eletrico": 0, "planta": 0.5, "gelo": -0.25, "lutador": 0, "venenoso": 0,
-                  "terrestre": 0.5, "voador": 0.5, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0.5, "sombrio": 0,
-                  "metal": -0.25, "fada": 0},
-
-    "lutador":   {"normal": 0.5, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0.5, "lutador": 0, "venenoso": -0.25,
-                  "terrestre": 0, "voador": -0.25, "psiquico": -0.25, "inseto": -0.25, "pedra": 0.5, "fantasma": -0.75, "dragao": 0,
-                  "sombrio": 0.5, "metal": 0.5, "fada": -0.25},
-
-    "venenoso":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0.5, "gelo": 0, "lutador": 0, "venenoso": -0.25,
-                  "terrestre": -0.25, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": -0.25, "fantasma": -0.25, "dragao": 0,
-                  "sombrio": 0, "metal": -0.75, "fada": 0.5},
-
-    "terrestre":     {"normal": 0, "fogo": 0.5, "agua": 0, "eletrico": 0.5, "planta": -0.25, "gelo": 0, "lutador": 0, "venenoso": 0.5,
-                  "terrestre": 0, "voador": -0.75, "psiquico": 0, "inseto": -0.25, "pedra": 0.5, "fantasma": 0, "dragao": 0,
-                  "sombrio": 0, "metal": 0.5, "fada": 0},
-
-    "voador":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": -0.25, "planta": 0.5, "gelo": 0, "lutador": 0.5, "venenoso": 0,
-                  "terrestre": 0, "voador": 0, "psiquico": 0, "inseto": 0.5, "pedra": -0.25, "fantasma": 0, "dragao": 0,
-                  "sombrio": 0, "metal": -0.25, "fada": 0},
-
-    "psiquico":  {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0.5, "venenoso": 0.5,
-                  "terrestre": 0, "voador": 0, "psiquico": -0.25, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0,
-                  "sombrio": -0.75, "metal": -0.25, "fada": 0},
-
-    "inseto":    {"normal": 0, "fogo": -0.25, "agua": 0, "eletrico": 0, "planta": 0.5, "gelo": 0, "lutador": -0.25, "venenoso": -0.25,
-                  "terrestre": 0, "voador": -0.25, "psiquico": 0.5, "inseto": 0, "pedra": 0, "fantasma": -0.25, "dragao": 0,
-                  "sombrio": 0.5, "metal": -0.25, "fada": -0.25},
-
-    "pedra":     {"normal": 0, "fogo": 0.5, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0.5, "lutador": -0.25, "venenoso": 0,
-                  "terrestre": -0.25, "voador": 0.5, "psiquico": 0, "inseto": 0.5, "pedra": 0, "fantasma": 0, "dragao": 0,
-                  "sombrio": 0, "metal": -0.25, "fada": 0},
-
-    "fantasma":  {"normal": -0.75, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0, "venenoso": 0,
-                  "terrestre": 0, "voador": 0, "psiquico": 0.5, "inseto": 0, "pedra": 0, "fantasma": 0.5, "dragao": 0,
-                  "sombrio": -0.25, "metal": 0, "fada": 0},
-
-    "dragao":    {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0, "venenoso": 0,
-                  "terrestre": 0, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0.5,
-                  "sombrio": 0, "metal": -0.25, "fada": -0.75},
-
-    "sombrio":   {"normal": 0, "fogo": 0, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": -0.25, "venenoso": 0,
-                  "terrestre": 0, "voador": 0, "psiquico": 0.5, "inseto": 0, "pedra": 0, "fantasma": 0.5, "dragao": 0,
-                  "sombrio": -0.25, "metal": 0, "fada": -0.25},
-
-    "metal":       {"normal": 0, "fogo": -0.25, "agua": -0.25, "eletrico": -0.25, "planta": 0, "gelo": 0.5, "lutador": 0, "venenoso": 0,
-                  "terrestre": 0, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0,
-                  "sombrio": 0, "metal": -0.25, "fada": 0.5},
-
-    "fada":      {"normal": 0, "fogo": -0.25, "agua": 0, "eletrico": 0, "planta": 0, "gelo": 0, "lutador": 0.5, "venenoso": -0.25,
-                  "terrestre": 0, "voador": 0, "psiquico": 0, "inseto": 0, "pedra": 0, "fantasma": 0, "dragao": 0.5,
-                  "sombrio": 0.5, "metal": -0.25, "fada": 0},
-    }
+    matriz_fraquezas = [
+    # ATK \ DEF: NOR FOG AGU ELE GRA GEL LUT VEN TER VOA PSI INS PED FAN DRA NOT MET FAA
+    [ 1,  1,  1,  1,  1,  1,  1, 1,  1,  1,  1, 1, 0.5,  0,  1,  1, 0.5, 1 ],  # normal
+    [ 1, 0.5, 0.5, 1,  2,  2,  1, 1,  1,  1,  1, 2, 0.5, 1, 0.5, 1,  2,  1 ],  # fogo
+    [ 1, 2,  0.5, 1,  0.5, 1,  1, 1,  2,  1,  1, 1, 2,   1, 0.5, 1,  1,  1 ],  # agua
+    [ 1, 1,  2,  0.5, 0.5, 1,  1, 1,  0,  2,  1, 1, 1,   1, 0.5, 1,  1,  1 ],  # eletrico
+    [ 1, 0.5, 2,  1,  0.5, 1,  1, 0.5,2,  0.5, 1, 0.5,2,  1, 0.5, 1,  0.5,1 ],  # grama
+    [ 1, 0.5, 0.5,1,  2,  0.5,1, 1,  2,  2,  1, 1, 1,   1, 2,   1,  0.5,1 ],  # gelo
+    [ 2, 1,  1,  1,  1,  2,  1, 0.5,1,  0.5,0.5,0.5,2,   0, 1,   2,  2,  0.5],  # lutador
+    [ 1, 1,  1,  1,  2,  1,  1, 0.5,0.5,1,  1, 1, 0.5, 0.5,1,   1,  0,  2 ],  # venenoso
+    [ 1, 2,  1,  2,  0.5,1,  1, 2,  1,  0,  1, 0.5,2,   1, 1,   1,  2,  1 ],  # terra
+    [ 1, 1,  1,  0.5,2,  1,  2, 1,  1,  1,  1, 2, 0.5, 1, 1,   1,  0.5,1 ],  # voador
+    [ 1, 1,  1,  1,  1,  1,  2, 2,  1,  1,  0.5,1, 1,   1, 1,   0,  0.5,1 ],  # psiquico
+    [ 1, 0.5,1,  1,  2,  1,  0.5,0.5,1,  0.5,2, 1, 1,   0.5,1,   2,  0.5,0.5],  # inseto
+    [ 1, 2,  1,  1,  1,  2,  0.5,1,  0.5,2,  1, 2, 1,   1, 1,   1,  0.5,1 ],  # pedra
+    [ 0, 1,  1,  1,  1,  1,  1, 1,  1,  1,  2, 1, 1,   2, 1,   0.5,1,  1 ],  # fantasma
+    [ 1, 1,  1,  1,  1,  1,  1, 1,  1,  1,  1, 1, 1,   1, 2,   1,  0.5,0 ],  # dragao
+    [ 1, 1,  1,  1,  1,  1,  0.5,1,  1,  1,  2, 1, 1,   2, 1,   0.5,1,  0.5],  # noturno
+    [ 1, 0.5,0.5,0.5,1,  2,  1, 1,  1,  1,  1, 1, 2,   1, 1,   1,  0.5,2 ],  # metal
+    [ 1, 0.5,1,  1,  1,  1,  2, 0.5,1,  1,  1, 1, 1,   1, 2,   2,  0.5,1 ]   # fada
+    ]
     
     multiplicador = 1
-    for i in range(len(Tipo_do_ataque)):
-        for j in range(len(Tipo_do_atacado)):
-            multiplicador = multiplicador + tabela_tipos[Tipo_do_ataque[i]][Tipo_do_atacado[j]]
-    if multiplicador < 0:
-        multiplicador = 0
-    
+    for tipo_atk in Tipo_do_ataque:
+        idx_atk = tipos.index(tipo_atk)
+        for tipo_def in Tipo_do_atacado:
+            idx_def = tipos.index(tipo_def)
+            multiplicador *= matriz_fraquezas[idx_atk][idx_def]
+
+    if multiplicador == 4:
+        multiplicador -= 2
+    elif multiplicador == 2:
+        multiplicador -= 0.5
+    elif multiplicador in [0.5,0.25]:
+        multiplicador += 0.25
     
     if multiplicador > 1.5:
         texto = "Super Efetivo"

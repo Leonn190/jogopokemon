@@ -27,14 +27,14 @@ def Alv_Bola_Psíquica(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bola_Psíquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def F_Bola_Psiquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Bola_Psíquica = {
-    "nome": "Bola_Psíquica",
+Bola_Psiquica = {
+    "nome": "Bola Psíquica",
     "tipo": ["psiquico"],   
     "custo": ["roxa","roxa","roxa"],
     "estilo": "E",
@@ -46,7 +46,7 @@ Bola_Psíquica = {
     "alvos": Alv_Bola_Psíquica,
     "extra": "MAA",
     "funçao": Multi_Irregular,
-    "irregularidade": F_Bola_Psíquica
+    "irregularidade": F_Bola_Psiquica
     }
 
 def F_Teleporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):

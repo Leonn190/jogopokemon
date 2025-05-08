@@ -159,3 +159,4 @@ Dor_Falsa = {
     "funçao": Irregular,
     "irregularidade": F_Picada
     }
+

@@ -45,7 +45,7 @@ Jato_Duplo = {
 
 def F_Bolhas(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     try:
-        Dano = Dano * (1 + PokemonS.bolhas/6,6)
+        Dano = Dano * (1 + PokemonS.bolhas/5)
     except AttributeError:
         PokemonS.bolhas = 0
     
@@ -61,7 +61,7 @@ Bolhas = {
     "dano": 0.3,
     "alcance": 25,
     "precisão": 100, 
-    "descrição": "Esse ataque causa mais 15% de dano por cada vez que o pokemon oponente foi atingido pelo ataque Bolhas",
+    "descrição": "Esse ataque causa mais 20% de dano por cada vez que o pokemon oponente foi atingido pelo ataque Bolhas",
     "efeito": "Agua",
     "extra": "A",
     "funçao": Irregular,
@@ -238,8 +238,8 @@ Cachoeira = {
     "descrição": "Uma manobra aquática poderosa que tem 25% de chance de fazer o pokemon alvo ser guardado por 3 turnos",
     "efeito": "TornadoAgua",
     "extra": "A",
-    "funçao": Regular,
-    "irregularidade": False
+    "funçao": Irregular,
+    "irregularidade": F_Cachoeira
     }
 
 def F_Jato_Triplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
