@@ -7,10 +7,10 @@ import random
 def F_Reforçar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     if PokemonV is not None:
         if PokemonV in player.pokemons:
-            PokemonV.efeitosPosi["Reforçado"] += 3
+            PokemonV.efeitosPosi["Reforçado"] = 3
             return
  
-    PokemonS.efeitosPosi["Reforçado"] += 3
+    PokemonS.efeitosPosi["Reforçado"] = 3
 
 Reforçar = {
     "nome": "Reforçar",
@@ -84,4 +84,24 @@ Barragem = {
     "extra": None,
     "funçao": F_Barragem,
     "irregularidade": False
+    }
+
+def F_Broca_Perfuradora(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Defesa = Defesa * 0.2
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+F_Broca_Perfuradora = {
+    "nome": "Broca Perfuradora",
+    "tipo": ["metal"],   
+    "custo": ["normal","cinza","cinza"],
+    "estilo": "N",
+    "dano": 1.35,
+    "alcance": 0,
+    "precisão": 100, 
+    "descrição": "Esse ataque ignora 80% da armadura do Alvo",
+    "efeito": "Corte",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Cauda_de_Ferro
     }

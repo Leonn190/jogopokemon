@@ -130,13 +130,32 @@ Tesoura_X = {
     "tipo": ["inseto"],   
     "custo": ["verde","verde","verde"],
     "estilo": "N",
-    "dano": 1.5,
+    "dano": 1.6,
     "alcance": 15,
     "precisão": 100, 
     "descrição": "Atinja com força o oponente",
-    "efeito": "Mordida",
+    "efeito": "FacasBrancas",
     "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
 
+def F_Dor_Falsa(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Alvo.efeitosPosi["Regeneração"] = 3
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Dor_Falsa = {
+    "nome": "Dor Falsa",
+    "tipo": ["Inseto"],   
+    "custo": ["normal","verde"],
+    "estilo": "N",
+    "dano": 1.7,
+    "alcance": 10,
+    "precisão": 100, 
+    "descrição": "Esse ataque aplica uma dor falsa no oponente pois deixa ele com regeneração por 3 turnos",
+    "efeito": "ChicoteMultiplo",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Picada
+    }

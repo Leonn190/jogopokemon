@@ -68,6 +68,7 @@ DicionarioAtaques = {
     "Gota Pesada": lambda: importlib.import_module("Dados.Ataques.Agua").Gota_Pesada,
     "Bola de Água": lambda: importlib.import_module("Dados.Ataques.Agua").Bola_de_Agua,
     "Cachoeira": lambda: importlib.import_module("Dados.Ataques.Agua").Cachoeira,
+    "Jato Triplo": lambda: importlib.import_module("Dados.Ataques.Agua").Jato_Triplo,
 
     "Tapa": lambda: importlib.import_module("Dados.Ataques.Normal").Tapa,
     "Tapa Especial": lambda: importlib.import_module("Dados.Ataques.Normal").Tapa_Especial,
@@ -88,6 +89,7 @@ DicionarioAtaques = {
     "Garra do Dragão": lambda: importlib.import_module("Dados.Ataques.Dragao").Garra_do_Dragao,
     "Ultraje": lambda: importlib.import_module("Dados.Ataques.Dragao").Ultraje,
     "Cauda Violenta": lambda: importlib.import_module("Dados.Ataques.Dragao").Cauda_Violenta,
+    "Investida do Dragão": lambda: importlib.import_module("Dados.Ataques.Dragao").Investida_do_Dragao,
 
     "Faisca": lambda: importlib.import_module("Dados.Ataques.Eletrico").Faisca,
     "Energizar": lambda: importlib.import_module("Dados.Ataques.Eletrico").Energizar,
@@ -104,6 +106,7 @@ DicionarioAtaques = {
     "Ondas de Calor": lambda: importlib.import_module("Dados.Ataques.Fogo").Ondas_de_Calor,
     "Raio de Fogo": lambda: importlib.import_module("Dados.Ataques.Fogo").Raio_de_Fogo,
     "Ataque de Chamas": lambda: importlib.import_module("Dados.Ataques.Fogo").Ataque_de_Chamas,
+    "Laser Incandescente": lambda: importlib.import_module("Dados.Ataques.Fogo").Laser_Incandescente,
 
     "Cristalizar": lambda: importlib.import_module("Dados.Ataques.Gelo").Cristalizar,
     "Reinado de Gelo": lambda: importlib.import_module("Dados.Ataques.Gelo").Reinado_de_Gelo,
@@ -125,12 +128,15 @@ DicionarioAtaques = {
     "Minhocagem": lambda: importlib.import_module("Dados.Ataques.Inseto").Minhocagem,
     "Coleta": lambda: importlib.import_module("Dados.Ataques.Inseto").Coleta,
     "Tesoura X": lambda: importlib.import_module("Dados.Ataques.Inseto").Tesoura_X,
+    "Dor Falsa": lambda: importlib.import_module("Dados.Ataques.Inseto").Dor_Falsa,
 
     "Assombrar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Assombrar,
     "Lambida": lambda: importlib.import_module("Dados.Ataques.Fantasma").Lambida,
     "Atravessar": lambda: importlib.import_module("Dados.Ataques.Fantasma").Atravessar,
     "Coleta Gananciosa": lambda: importlib.import_module("Dados.Ataques.Fantasma").Coleta_Gananciosa,
     "Mão Espectral": lambda: importlib.import_module("Dados.Ataques.Fantasma").Mao_Espectral,
+    "Maldade": lambda: importlib.import_module("Dados.Ataques.Fantasma").Maldade,
+    "Massacre Fantasmagórico": lambda: importlib.import_module("Dados.Ataques.Fantasma").Massacre_Fantasmagórico,
 
     "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
     "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
@@ -143,11 +149,14 @@ DicionarioAtaques = {
     "Cauda de Ferro": lambda: importlib.import_module("Dados.Ataques.Metal").Cauda_de_Ferro,
     "Projétil Metálico": lambda: importlib.import_module("Dados.Ataques.Metal").Projetil_Metalico,
     "Barragem": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
+    "Broca Perfuradora": lambda: importlib.import_module("Dados.Ataques.Metal").Broca_Perfuradora,
     
     "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
     "Pedra Especial": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedra_Especial,
     "Barragem Rochosa": lambda: importlib.import_module("Dados.Ataques.Pedra").Barragem_Rochosa,
     "Impacto Rochoso": lambda: importlib.import_module("Dados.Ataques.Pedra").Impacto_Rochoso,
+    "Pedra Colossal": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedra_Colossal,
+    "Fúria Pétrea": lambda: importlib.import_module("Dados.Ataques.Pedra").Fúria_Pétrea,
 
     "Arremesso de Terra": lambda: importlib.import_module("Dados.Ataques.Terrestre").Arremesso_de_Terra,
     "Tremor": lambda: importlib.import_module("Dados.Ataques.Terrestre").Tremor,
@@ -155,6 +164,7 @@ DicionarioAtaques = {
     "Afinidade Territorial": lambda: importlib.import_module("Dados.Ataques.Terrestre").Afinidade_Territorial,
     "Osso Veloz": lambda: importlib.import_module("Dados.Ataques.Terrestre").Osso_Veloz,
     "Golpe Territorial": lambda: importlib.import_module("Dados.Ataques.Terrestre").Golpe_Territorial,
+    "Terremoto": lambda: importlib.import_module("Dados.Ataques.Terrestre").Terremoto,
 
     "Confusão": lambda: importlib.import_module("Dados.Ataques.Psiquico").Confusão,
     "Bola Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Bola_Psiquica,
@@ -165,6 +175,9 @@ DicionarioAtaques = {
     "Psicorte Duplo": lambda: importlib.import_module("Dados.Ataques.Psiquico").Psicorte_Duplo,
     "Corrosão Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Corrosao_Psiquica,
     "Tranferência Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Tranferencia_Psíquica,
+    "Teletransporte": lambda: importlib.import_module("Dados.Ataques.Psiquico").Teletransporte,
+    "Raio Psíquico": lambda: importlib.import_module("Dados.Ataques.Psiquico").Raio_Psiquico,
+    "Agonia Mental": lambda: importlib.import_module("Dados.Ataques.Psiquico").Agonia_Mental,
 
     "Nas Sombras": lambda: importlib.import_module("Dados.Ataques.Sombrio").Nas_Sombras,
     "Bola Sombria": lambda: importlib.import_module("Dados.Ataques.Sombrio").Bola_Sombria,
@@ -176,16 +189,22 @@ DicionarioAtaques = {
     "Investida Aérea": lambda: importlib.import_module("Dados.Ataques.Voador").Investida_Aerea,
     "Rasante": lambda: importlib.import_module("Dados.Ataques.Voador").Rasante,
     "Bico Broca": lambda: importlib.import_module("Dados.Ataques.Voador").Bico_Broca,
+    "Vento Forte": lambda: importlib.import_module("Dados.Ataques.Voador").Vento_Forte,
 
     "Envenenar": lambda: importlib.import_module("Dados.Ataques.Veneno").Envenenar,
     "Ácido": lambda: importlib.import_module("Dados.Ataques.Veneno").Acido,
     "Bomba de Lodo": lambda: importlib.import_module("Dados.Ataques.Veneno").Bomba_de_Lodo,
+    "Extração": lambda: importlib.import_module("Dados.Ataques.Veneno").Extraçao,
 
     "Dreno": lambda: importlib.import_module("Dados.Ataques.Planta").Dreno,
     "Disparo de Semente": lambda: importlib.import_module("Dados.Ataques.Planta").Disparo_de_Semente,
     "Chicote de Vinha": lambda: importlib.import_module("Dados.Ataques.Planta").Chicote_de_Vinha,
     "Cura Natural": lambda: importlib.import_module("Dados.Ataques.Planta").Cura_Natural,
     "Raio Solar": lambda: importlib.import_module("Dados.Ataques.Planta").Raio_Solar,
+    "Dança das Pétalas": lambda: importlib.import_module("Dados.Ataques.Planta").Dança_das_petalas,
+    "Mega Dreno": lambda: importlib.import_module("Dados.Ataques.Planta").Mega_Dreno,
+    "Folha Navalha": lambda: importlib.import_module("Dados.Ataques.Planta").Folha_Navalha,
+    "Morteiro de Pólem": lambda: importlib.import_module("Dados.Ataques.Planta").Morteiro_de_Polem,
 
 }
 

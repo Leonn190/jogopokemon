@@ -114,7 +114,7 @@ def F_Golpe_Territorial(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-F_Golpe_Territorial = {
+Golpe_Territorial = {
     "nome": "Golpe Territorial",
     "tipo": ["terrestre"],   
     "custo": ["normal","amarela","amarela"],
@@ -127,4 +127,23 @@ F_Golpe_Territorial = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Golpe_Territorial
+    }
+
+def Alv_Terremoto(PokemonS,Alvo,player,inimigo,Mapa):
+    return inimigo.Pokemons
+
+Terremoto = {
+    "nome": "Terremoto",
+    "tipo": ["terrestre"],   
+    "custo": ["normal","amarela","amarela","amarela","amarela"],
+    "estilo": "N",
+    "dano": 1.2,
+    "alcance": 100,
+    "precisão": 100, 
+    "descrição": "Esse ataque atinge todos os pokemon inimigos",
+    "efeito": "ExplosaoPedra",
+    "extra": "MA",
+    "alvos": Alv_Tremor,
+    "funçao": Multi_Regular,
+    "irregularidade": False
     }

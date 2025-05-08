@@ -1,5 +1,4 @@
 
-
 Mega_Venusaur = {
     "nome": "Mega Venusaur",
     "tipo": ["planta", "veneneno"],
@@ -14,6 +13,7 @@ Mega_Venusaur = {
     "velocidade": 1.135135135,
     "XP": 0,
     "custo": 3,
+    "movelist": ["Mega Dreno", "Ácido", "Raio Solar", "Folha Navalha", "Morteiro de Pólem", "Bomba de Lodo"],
     "H": 2.02,
     "W": 115
 
@@ -33,6 +33,7 @@ Mega_Charizard_X = {
     "velocidade": 1.058823529,
     "XP": 0,
     "custo": 3,
+    "movelist": ["Investida do Dragão", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque em Chamas"],
     "H": 1.86,
     "W": 105
 
@@ -52,6 +53,7 @@ Mega_Charizard_Y = {
     "velocidade": 1.215686275,
     "XP": 0,
     "custo": 3,
+    "movelist": ["Ataque de Asa", "Rasante", "Laser Incandescente", "Cauda Violenta", "Bola de Fogo", "Ataque em Chamas"],
     "H": 1.92,
     "W": 99
 }
@@ -70,6 +72,7 @@ Mega_Blastoise = {
     "velocidade": 1.125,
     "XP": 0,
     "custo": 3,
+    "movelist": ["Jato Triplo", "Provocar", "Bola de Água", "Golpe de Concha", "Golpe Territorial", "Gota Pesada"],
     "H": 1.73,
     "W": 112
 }
@@ -88,6 +91,7 @@ Mega_Gengar = {
     "velocidade": 1.183673469,
     "XP": 0,
     "custo": 2,
+    "movelist": ["Maldade", "Bola Sombria", "Massacre Fantasmagórico", "Coleta Gananciosa", "Nas Sombras", "Extração"],
     "H": 1.65,
     "W": 56
 }
@@ -106,6 +110,7 @@ Mega_Alakazam = {
     "velocidade": 1.170212766,
     "XP": 0,
     "custo": 2,
+    "movelist": ["Teletransporte", "Ampliação Mental", "Raio Psíquico", "Mente Forte", "Bola Psíquica", "Transferência Psíquica"],
     "H": 1.60,
     "W": 45
 }
@@ -124,6 +129,7 @@ Mega_Gyarados = {
     "velocidade": 1.162790698,
     "XP": 0,
     "custo": 3,
+    "movelist": ["Rasante", "Cauda Violenta", "Cachoeira", "Jato Duplo", "Cauda de Ferro", "Esmagar"],
     "H": 7.5,
     "W": 290
 
@@ -143,6 +149,7 @@ Mega_Mewtwo_X = {
     "velocidade": 1.0,
     "XP": 0,
     "custo": 3,
+    "movelist": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Chamar para Briga", "Mente Forte", "Combate Próximo"],
     "H": 2,
     "W": 110
 
@@ -162,6 +169,7 @@ Mega_Mewtwo_Y = {
     "velocidade": 1.147058824,
     "XP": 0,
     "custo": 2,
+    "movelist": ["Teleporte", "Raio Psíquico", "Agonia Mental", "Ampliação Mental", "Mente Forte", "Teletransporte"],
     "H": 1.7,
     "W": 78
 
@@ -181,6 +189,7 @@ Mega_Aerodactyl = {
     "velocidade": 1.5,
     "XP": 0,
     "custo": 3,
+    "MoveList": ["Voar", "Ataque de Asa", "Investida Aérea", "Pedra Especial", "Barragem Rochosa", "Pedra Colossal"],
     "H": 2.09,
     "W": 85
 
@@ -200,6 +209,7 @@ Mega_Pinsir = {
     "velocidade": 1.44,
     "XP": 0,
     "custo": 2,
+    "MoveList": ["Seda", "Mordida", "Tesoura X", "Arranhar", "Esbravejar", "Voar"],
     "H": 1.75,
     "W": 64
 
@@ -219,6 +229,7 @@ Mega_Beedrill = {
     "velocidade": 1.545454545,
     "XP": 0,
     "custo": 1,
+    "movelist": ["Dor Falsa", "Envenenar", "Voar", "Rasante", "Broca Perfuradora", "Extraçao"],
     "H": 1.29,
     "W": 35
 

@@ -15,7 +15,7 @@ Ivysaur = {
     "velocidade": 1.217391304,
     "XP": 55,
     "custo": 2,
-    "movelist": ["Dreno", "Ácido", "Disparo de Semente", "Chicote de Vinha", "Cura Natural", "Bomba de Lodo"],
+    "movelist": ["Dreno", "Ácido", "Dança das Pételas", "Chicote de Vinha", "Cura Natural", "Bomba de Lodo"],
     "moves": 3,
     "H": 0.86,
     "W": 13
@@ -118,7 +118,7 @@ Graveler = {
     "custo": 3,
     "movelist": ["Tremor", "Provocar", "Soco", "Barragem Rochosa", "Quebra Chão", "Impacto Rochoso"],
     "moves": 3,
-    "H": 1.03,
+    "H": 1.12,
     "W": 102
 
 }

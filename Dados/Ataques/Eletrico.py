@@ -41,7 +41,7 @@ Faisca = {
     }
 
 def F_Onda_Eletrica(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Paralisado"] += 3
+    Alvo.efeitosNega["Paralisado"] = 3
 
 Onda_Eletrica = {
     "nome": "Onda Elétrica",

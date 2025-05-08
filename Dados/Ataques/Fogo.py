@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_
 import random
 
 def F_Queimar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Queimado"] += 3
+    Alvo.efeitosNega["Queimado"] = 3
 
 Queimar = {
     "nome": "Queimar",
@@ -127,13 +127,13 @@ def F_Raio_de_Fogo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLo
 
 Raio_de_Fogo = {
     "nome": "Raio de Fogo",
-    "tipo": ["planta"],   
+    "tipo": ["fogo"],   
     "custo": ["normal","vermelha","vermelha","vermelha","vermelha"],
     "estilo": "E",
     "dano": 1.9,
     "alcance": 25,
     "precisão": 100, 
-    "descrição": "Lança um raio de calor concentrado extremo",
+    "descrição": "Lança um raio de calor concentrado extremo que remove o efeito congelado e encharcado do oponente",
     "efeito": "LabaredaMultipla",
     "extra": "A",
     "funçao": Irregular,
@@ -153,4 +153,23 @@ Ataque_de_Chamas = {
     "extra": "A",
     "funçao": Regular,
     "irregularidade": False
+    }
+
+def F_Laser_Incandescente(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    Alvo.efeitosNega["Congelado"] = 0
+    Alvo.efeitosNega["Encharcado"] = 0
+
+Laser_Incandescente = {
+    "nome": "Laser Incandescente",
+    "tipo": ["fogo"],   
+    "custo": ["vermelha","vermelha","vermelha","vermelha","vermelha"],
+    "estilo": "E",
+    "dano": 2,
+    "alcance": 28,
+    "precisão": 100, 
+    "descrição": "Lança um laser de calor concentrado extremo que remove o efeito congelado e encharcado do oponente",
+    "efeito": "LabaredaMultipla",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Laser_Incandescente
     }

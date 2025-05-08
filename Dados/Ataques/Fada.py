@@ -48,7 +48,7 @@ Vento_Fada = {
     }
 
 def F_Bençao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonV.efeitosPosi["Abençoado"] += 3
+    PokemonV.efeitosPosi["Abençoado"] = 3
     
 Bençao = {
     "nome": "Benção",

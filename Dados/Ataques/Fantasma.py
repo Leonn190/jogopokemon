@@ -8,7 +8,7 @@ def F_Assombrar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,E
     efeitos_disponiveis = list(Alvo.efeitosNega.keys())
     if efeitos_disponiveis:
         efeito_escolhido = random.choice(efeitos_disponiveis)
-        Alvo.efeitosNega[efeito_escolhido] += 2
+        Alvo.efeitosNega[efeito_escolhido] = 2
 
 Assombrar = {
     "nome": "Assombrar",
@@ -132,3 +132,58 @@ Mao_Espectral = {
     "funçao": Irregular,
     "irregularidade": F_Lambida
     }
+
+def FF_Maldade(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+    PokemonS.efeitosNega[Escolha] = 4
+
+def F_Maldade(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
+    opçoes = []
+    for chave in PokemonS.efeitosNega:
+        opçoes.append(chave)
+
+    EstadoDaPergunta["funçao"] = FF_Maldade
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["opçoes"] = []
+    EstadoDaPergunta["estado"] = True
+
+    for i in range(4):
+        EstadoDaPergunta["opçoes"].append(random.choice(opçoes))
+
+Maldade = {
+    "nome": "Maldade",
+    "tipo": ["fantasma"],   
+    "custo": ["normal","preta","preta"],
+    "estilo": "S",
+    "dano": 0.0,
+    "alcance": 50,
+    "precisão": 100, 
+    "descrição": "Escolha entre 4 efeitos negativos aleatorios para colocar no alvo por 4 turnos",
+    "efeito": "ChuvaVermelha",
+    "extra": "TV",
+    "funçao": F_Coleta_Gananciosa,
+    "irregularidade": False
+    }
+
+def F_Massacre_Fantasmagorico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    for chave in PokemonS.efeitosPosi:
+        if Alvo.efeitosPosi[chave] > 1:
+            return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+    Dano = Dano * 1.41
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Massacre_Fantasmagorico = {
+    "nome": "Massacre Fantasmagórico",
+    "tipo": ["fantasma"],   
+    "custo": ["preta","preta","preta","preta"],
+    "estilo": "S",
+    "dano": 1.4,
+    "alcance": 10,
+    "precisão": 99, 
+    "descrição": "Se o alvo não tiver nenhum efeito positivo, esse ataque irá causar mais 41% de dano",
+    "efeito": "RasgosRosa",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Massacre_Fantasmagorico
+    }
+

@@ -16,8 +16,10 @@ Venusaur = {
     "velocidade": 1.321428571,
     "XP": 90,
     "custo": 3,
+    "movelist": ["Mega Dreno", "Ácido", "Raio Solar", "Folha Navalha", "Cura Natural", "Bomba de Lodo"],
+    "moves": 4,
     "H": 1.77,
-    "W": 100
+    "W": 110
 }
 
 Charizard = {
@@ -34,6 +36,8 @@ Charizard = {
     "velocidade": 1.545454545,
     "XP": 90,
     "custo": 3,
+    "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque em Chamas"],
+    "moves": 4,
     "H": 1.83,
     "W": 92
 
@@ -53,8 +57,10 @@ Blastoise = {
     "velocidade": 1.333333333,
     "XP": 90,
     "custo": 3,
+    "movelist": ["Jato Duplo", "Provocar", "Bola de Água", "Golpe de Concha", "Golpe Territorial", "Gota Pesada"],
+    "moves": 4,
     "H": 1.69,
-    "W": 104
+    "W": 106
 
 }
 
@@ -72,6 +78,8 @@ Machamp = {
     "velocidade": 1.384615385,
     "XP": 90,
     "custo": 3,
+    "movelist": ["Soco", "Combate Próximo", "Treinar", "Submissão", "Chamar para Briga", "Punho Missil"],
+    "moves": 4,
     "H": 1.75,
     "W": 115
 
@@ -91,6 +99,8 @@ Gengar = {
     "velocidade": 1.324324324,
     "XP": 90,
     "custo": 2,
+    "movelist": ["Maldade", "Bola Sombria", "Massacre Fantasmagórico", "Coleta Gananciosa", "Nas Sombras", "Extração"],
+    "moves": 4,
     "H": 1.52,
     "W": 48
 
@@ -110,8 +120,10 @@ Golem = {
     "velocidade": 1.35,
     "XP": 0,
     "custo": 5,
-    "H": 1.57,
-    "W": 350
+    "movelist": ["Terremoto", "Provocar", "Fúria Pétrea", "Barragem Rochosa", "Reforçar", "Pedra Colossal"],
+    "moves": 4,
+    "H": 1.58,
+    "W": 390
 
 }
 
@@ -129,6 +141,8 @@ Butterfree = {
     "velocidade": 4.2,
     "XP": 80,
     "custo": 2,
+    "movelist": ["Vento Forte", "Brilho", "Benção", "Cura Natural", "Seda", "Voar"],
+    "moves": 4,
     "H": 1.16,
     "W": 31
 
@@ -148,6 +162,8 @@ Alakazam = {
     "velocidade": 1.382352941,
     "XP": 95,
     "custo": 3,
+    "movelist": ["Teletransporte", "Ampliação Mental", "Raio Psíquico", "Mente Forte", "Bola Psíquica", "Transferência Psíquica"],
+    "moves": 4,
     "H": 1.59,
     "W": 43
 
@@ -167,9 +183,10 @@ Dragonite = {
     "velocidade": 1.1,
     "XP": 0,
     "custo": 4,
+    "movelist": ["Ultraje", "Investida do Dragão", "Provocar", "Pedra Colossal", "Cauda Violenta", "Bola de Fogo"],
+    "moves": 4,
     "H": 2.26,
     "W": 210
-
 }
 
 Beedrill = {
@@ -186,6 +203,8 @@ Beedrill = {
     "velocidade": 4.230769231,
     "XP": 75,
     "custo": 1,
+    "movelist": ["Dor Falsa", "Envenenar", "Voar", "Rasante", "Picada", "Extraçao"],
+    "moves": 4,
     "H": 1.14,
     "W": 28
 

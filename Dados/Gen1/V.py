@@ -15,6 +15,7 @@ Venusaur_V = {
     "velocidade": 1.027027027,
     "XP": 120,
     "custo": 3,
+    "movelist": ["Mega Dreno", "Ácido", "Raio Solar", "Folha Navalha", "Cura Natural", "Bomba de Lodo"],
 }
 
 Charizard_V = { 
@@ -31,6 +32,7 @@ Charizard_V = {
     "velocidade": 1.019607843,
     "XP": 120,
     "custo": 3,
+    "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque em Chamas"],
 }
 
 Blastoise_V = { 
@@ -47,6 +49,7 @@ Blastoise_V = {
     "velocidade": 1.03125,
     "XP": 120,
     "custo": 3,
+    "movelist": ["Jato Duplo", "Provocar", "Bola de Água", "Golpe de Concha", "Golpe Territorial", "Gota Pesada"],
 }
 
 Machamp_V = { 
@@ -63,6 +66,7 @@ Machamp_V = {
     "velocidade": 1.027777778,
     "XP": 120,
     "custo": 3,
+    "movelist": ["Soco", "Combate Próximo", "Treinar", "Submissão", "Chamar para Briga", "Punho Missil"],
 }
 
 Gengar_V = { 
@@ -79,6 +83,7 @@ Gengar_V = {
     "velocidade": 1.020408163,
     "XP": 120,
     "custo": 2,
+    "movelist": ["Maldade", "Bola Sombria", "Massacre Fantasmagórico", "Coleta Gananciosa", "Nas Sombras", "Extração"],
 }
 
 Butterfree_V = { 
@@ -95,6 +100,7 @@ Butterfree_V = {
     "velocidade": 1.023809524,
     "XP": 100,
     "custo": 2,
+    "movelist": ["Vento Forte", "Brilho", "Benção", "Cura Natural", "Seda", "Voar"],
 }
 
 Snorlax_V = { 
@@ -111,6 +117,7 @@ Snorlax_V = {
     "velocidade": 1.071428571,
     "XP": 100,
     "custo": 4,
+    "movelist": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
 }
 
 Meowth_V = { 
@@ -127,6 +134,7 @@ Meowth_V = {
     "velocidade": 1.034482759,
     "XP": 70,
     "custo": 1,
+    "movelist": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Busca Gananciosa"],
 }
 
 Pikachu_V = { 
@@ -143,4 +151,5 @@ Pikachu_V = {
     "velocidade": 1.029411765,
     "XP": 75,
     "custo": 1,
+    "movelist": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
 }

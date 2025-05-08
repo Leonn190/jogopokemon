@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_
 import random
 
 def F_Nas_Sombras(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonS.efeitosPosi["Furtivo"] += 5
+    PokemonS.efeitosPosi["Furtivo"] = 5
 
 Nas_Sombras = {
     "nome": "Nas Sombras",

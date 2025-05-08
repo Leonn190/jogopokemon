@@ -24,7 +24,7 @@ def F_Jato_Duplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,t
 
     if Aumento is True:
         Dano = Dano * 1.5
-        Alvo.efeitosNega["Encharcado"] += 3
+        Alvo.efeitosNega["Encharcado"] = 3
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -103,9 +103,9 @@ def F_Controle_do_Oceano(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,
 Controle_do_Oceano = {
     "nome": "Controle do Oceano",
     "tipo": ["agua"],   
-    "custo": ["normal","normal","azul","azul"],
+    "custo": ["normal","azul","azul","azul"],
     "estilo": "E",
-    "dano": 0.7,
+    "dano": 0.8,
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Escolha para qual direçao irá mover o pokemon inimigo em 2 posições",
@@ -177,7 +177,7 @@ Golpe_de_Concha = {
     }
 
 def F_Gota_Pesada(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Encharcado"] += 4
+    Alvo.efeitosNega["Encharcado"] = 4
 
 Gota_Pesada = {
     "nome": "Gota Pesada",
@@ -240,4 +240,31 @@ Cachoeira = {
     "extra": "A",
     "funçao": Regular,
     "irregularidade": False
+    }
+
+def F_Jato_Triplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    Aumento = random.randint(0,100)
+
+    if Aumento > 70:
+        Dano = Dano * 1.55
+        Alvo.efeitosNega["Encharcado"] = 3
+    elif Aumento > 20:
+        Dano = Dano * 2.1
+        Alvo.efeitosNega["Encharcado"] = 5
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Jato_Triplo = {
+    "nome": "Jato Triplo",
+    "tipo": ["agua"],   
+    "custo": ["azul","azul","azul","azul"],
+    "estilo": "E",
+    "dano": 0.8,
+    "alcance": 18,
+    "precisão": 100, 
+    "descrição": "Esse ataque tem 50% de chance de aumentar 55% de dano e deixar o alvo encharcado por 3 turnos e tem 30% de chance de aumentar 110% de dano e encharcar o alvo por 5 turnos, e 20% de chance de não fazer nada a mais",
+    "efeito": "EspiralAzul",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Jato_Triplo
     }

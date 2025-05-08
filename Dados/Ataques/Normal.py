@@ -99,7 +99,7 @@ Ataque_Rapido = {
     }
 
 def F_Provocar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonS.efeitosPosi["Provocando"] += 3
+    PokemonS.efeitosPosi["Provocando"] = 3
 
 Provocar = {
     "nome": "Provocar",

@@ -309,7 +309,6 @@ Clefairy = {
     "Moves": 2,
     "H": 0.62,
     "W": 8.9
-
 }
 
 Meowth = {
@@ -532,7 +531,7 @@ Pinsir = {
     "velocidade": 25,
     "XP": 45,
     "custo": 2,
-    "MoveList": ["Seda", "Mordida", "Tesoura X", "Bola Psiquica", "Mente Forte", "Tapa Especial"],
+    "MoveList": ["Seda", "Mordida", "Tesoura X", "Arranhar", "Esbravejar", "Treinar"],
     "Moves": 4,
     "H": 1.55,
     "W": 53
@@ -555,7 +554,7 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
-    "MoveList": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Ampliação Mental", "Mente Forte", "Confusão"],
+    "MoveList": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Ampliação Mental", "Mente Forte", "Cauda Violenta"],
     "Moves": 4,
     "H": 1.9,
     "W": 95

@@ -5,7 +5,7 @@ from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
 def F_Voar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonS.efeitosPosi["Voando"] += 3
+    PokemonS.efeitosPosi["Voando"] = 3
 
 Voar = {
     "nome": "Voar",
@@ -104,4 +104,60 @@ Bico_Broca = {
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Bico_Broca
+    }
+
+def F_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    linhaS, colunaS = PokemonS.local["id"]
+    linhaA, colunaA = Alvo.local["id"]
+
+    intensidade = 2 if Alvo.peso < 200 else 1
+
+    deslocamento_linha = 0
+    deslocamento_coluna = 0
+
+    if colunaS == colunaA:
+
+        if linhaA > linhaS:
+            deslocamento_linha = intensidade  
+        else:
+            deslocamento_linha = -intensidade  
+
+    elif linhaS == linhaA:
+        if colunaA > colunaS:
+            deslocamento_coluna = intensidade  
+        else:
+            deslocamento_coluna = -intensidade  
+
+    else:
+
+        if linhaA > linhaS:
+            deslocamento_linha = intensidade  
+        else:
+            deslocamento_linha = -intensidade 
+
+        if colunaA > colunaS:
+            deslocamento_coluna = intensidade  
+        else:
+            deslocamento_coluna = -intensidade  
+
+    nova_linha = linhaA + deslocamento_linha
+    nova_coluna = colunaA + deslocamento_coluna
+
+    Move(Alvo, nova_linha, nova_coluna, Mapa.Zona)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Vento_Forte = {
+    "nome": "Vento Forte",
+    "tipo": ["voador"],   
+    "custo": ["cinza","cinza"],
+    "estilo": "S",
+    "dano": 1.1,
+    "alcance": 25,
+    "precisão": 100, 
+    "descrição": "Mova o alvo 2 casas para longe, caso ele tenha mais de 200kg mova apenas 1 casa",
+    "efeito": "Estouro",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Vento_Forte
     }

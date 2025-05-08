@@ -20,7 +20,7 @@ Sopro_do_Dragao = {
     "custo": ["vermelha"],
     "estilo": "E",
     "dano": 0.7,
-    "alcance": 28,
+    "alcance": 26,
     "precisão": 90, 
     "descrição": "O sopro do dragão é capaz de remover um efeito positivo com o padrão draconico do pokemon atingido",
     "efeito": "Fumaça",
@@ -54,7 +54,7 @@ def F_Garra_do_Dragao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,Alv
 Garra_do_Dragao = {
     "nome": "Garra do Dragão",
     "tipo": ["dragao"],   
-    "custo": ["normal","normal","vermelha"],
+    "custo": ["normal","vermelha","vermelha"],
     "estilo": "N",
     "dano": 1.2,
     "alcance": 10,
@@ -97,4 +97,25 @@ Cauda_Violenta = {
     "extra": "A",
     "funçao": Regular,
     "irregularidade": False
+    }
+
+def F_Investida_do_Dragao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+
+    PokemonS.atacado(40,player,inimigo,tela,Mapa)
+
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+
+Investida_do_Dragao = {
+    "nome": "Investida do Dragao",
+    "tipo": ["dragao"],   
+    "custo": ["vermelha","vermelha","vermelha","vermelha"],
+    "estilo": "N",
+    "dano": 2,
+    "alcance": 16,
+    "precisão": 100, 
+    "descrição": "Esse ataque causa 40 de dano de perfuraçao em si mesmo",
+    "efeito": "ExplosaoVermelha",
+    "extra": "A",
+    "funçao": Irregular,
+    "irregularidade": F_Investida_do_Dragao
     }
