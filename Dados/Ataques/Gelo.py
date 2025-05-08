@@ -50,9 +50,10 @@ Reinado_de_Gelo = {
 
 def FF_Magia_de_Gelo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
     Valor = int(Escolha)
-    PokemonV.curar(30,player,tela)
+    PokemonV.curar(20,player,tela)
     PokemonV.efeitosPosi["Regeneração"] = Valor
     PokemonV.efeitosPosi["Congelado"] = Valor
+    EstadoDaPergunta["estado"] = False
 
 def F_Magia_de_Gelo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
@@ -69,7 +70,7 @@ Magia_de_Gelo = {
     "dano": 0.0,
     "alcance": 100,
     "precisão": 100, 
-    "descrição": "Cure 25 de vida do pokemon Visualizado e escolha quantos turnos ele vai ganhar o efeito cura e congelado",
+    "descrição": "Cure 20 de vida do pokemon Visualizado e escolha quantos turnos ele vai ganhar o efeito cura e congelado",
     "efeito": "MagiaAzul",
     "efeito2": "MagiaAzul",
     "extra": "V",
@@ -104,7 +105,7 @@ def F_Gelo_Verdadeiro(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,M
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Gelo_Verdadeiro = {
-    "nome": "Gelo_Verdadeiro",
+    "nome": "Gelo Verdadeiro",
     "tipo": ["gelo"],   
     "custo": ["azul","azul"],
     "estilo": "N",

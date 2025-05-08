@@ -494,11 +494,11 @@ def VerificaSituaçãoPokemon(player, inimigo):
             pokemon.Varvel_temp += -pokemon.velB
 
         # --- Atualizar status finais (Base + Permanente + Temporário) ---
-        pokemon.Atk = pokemon.AtkB + pokemon.VarAtk_perm + pokemon.VarAtk_temp
-        pokemon.Atk_sp = pokemon.Atk_spB + pokemon.VarAtk_sp_perm + pokemon.VarAtk_sp_temp
-        pokemon.Def = pokemon.DefB + pokemon.VarDef_perm + pokemon.VarDef_temp
-        pokemon.Def_sp = pokemon.Def_spB + pokemon.VarDef_sp_perm + pokemon.VarDef_sp_temp
-        pokemon.vel = pokemon.velB + pokemon.Varvel_perm + pokemon.Varvel_temp
+        pokemon.Atk = round(pokemon.AtkB + pokemon.VarAtk_perm + pokemon.VarAtk_temp)
+        pokemon.Atk_sp = round(pokemon.Atk_spB + pokemon.VarAtk_sp_perm + pokemon.VarAtk_sp_temp)
+        pokemon.Def = round(pokemon.DefB + pokemon.VarDef_perm + pokemon.VarDef_temp)
+        pokemon.Def_sp = round(pokemon.Def_spB + pokemon.VarDef_sp_perm + pokemon.VarDef_sp_temp)
+        pokemon.vel = round(pokemon.velB + pokemon.Varvel_perm + pokemon.Varvel_temp)
 
 
         if sum(player.energias[energia] for energia in Energias) > 0:

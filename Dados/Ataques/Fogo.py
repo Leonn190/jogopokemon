@@ -94,7 +94,7 @@ Brasa = {
     "irregularidade": False
     }
 
-def F_Ondas_de_Calor(Dano,Defesa,PokemonS,PokemonV,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Ondas_de_Calor(PokemonS,PokemonV,Alvo,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for alvo in Alvos:
         alvo.efeitosNega["Queimado"] = 4
 
@@ -104,6 +104,7 @@ def Alv_Ondas_de_Calor(PokemonS,Alvo,player,inimigo,Mapa):
         dist = distancia_entre_pokemons(pokemon,PokemonS,Mapa.Metros)
         if random.randint(0,100) > dist + 5:
             alvos.append(pokemon)
+    return alvos
 
 Ondas_de_Calor = {
     "nome": "Ondas de Calor",
@@ -113,7 +114,7 @@ Ondas_de_Calor = {
     "dano": 0.0,
     "alcance": 100,
     "precisão": 100, 
-    "descrição": "Ataca todos os pokemon com o efeito furtivo e remove esse efeito deles",
+    "descrição": "qaunto mais perto os inimigos estiverem desse pokemon, mais chance eles tem de serem atingidos, todos os atingidos ficam queimados por 4 turnos",
     "efeito": "Fogo",
     "extra": "MA",
     "alvos": Alv_Ondas_de_Calor,
@@ -121,9 +122,10 @@ Ondas_de_Calor = {
     "irregularidade": False
     }
 
-def F_Raio_de_Fogo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Raio_de_Fogo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Congelado"] = 0
     Alvo.efeitosNega["Encharcado"] = 0
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Raio_de_Fogo = {
     "nome": "Raio de Fogo",
@@ -141,9 +143,9 @@ Raio_de_Fogo = {
     }
 
 Ataque_de_Chamas = {
-    "nome": "Ataque_de_Chamas",
+    "nome": "Ataque de Chamas",
     "tipo": ["fogo"],   
-    "custo": ["normal","fogo"],
+    "custo": ["normal","vermelha"],
     "estilo": "N",
     "dano": 1.2,
     "alcance": 10,
@@ -155,9 +157,10 @@ Ataque_de_Chamas = {
     "irregularidade": False
     }
 
-def F_Laser_Incandescente(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Laser_Incandescente(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Congelado"] = 0
     Alvo.efeitosNega["Encharcado"] = 0
+    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Laser_Incandescente = {
     "nome": "Laser Incandescente",

@@ -45,7 +45,7 @@ Parametros_Efeitos = {
     "Fogo": {"velocidade": 95, "duracao": 1000},
     "Fumaça": {"velocidade": 35, "duracao": 2200},
     "GasRoxo": {"velocidade": 78, "duracao": 1300},
-    "Garra": {"velocidade": 78, "duracao": 1300},
+    "Garra": {"velocidade": 80, "duracao": 900},
     "HexagonoLaminas": {"velocidade": 36, "duracao": 1300},
     "ImpactoRochoso": {"velocidade": 115, "duracao": 600},
     "Karate": {"velocidade": 90, "duracao": 1200},

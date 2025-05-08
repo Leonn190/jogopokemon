@@ -158,7 +158,7 @@ Crescer = {
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Ganhe 4 de XP",
-    "efeito": "!None",
+    "efeito": "BolhasVerdes",
     "extra": None,
     "funçao": F_Crescer,
     "irregularidade": False
@@ -200,7 +200,7 @@ Tapa_Especial = {
 
 def F_Esmagar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     
-    Dano = Dano + Dano * (1 + 0.1 * PokemonS.peso // 100)
+    Dano = Dano + Dano * (1 + 0.1 * PokemonS.Peso // 100)
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -216,12 +216,12 @@ Esmagar = {
     "efeito": "FacasBrancas",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Ataque_Rapido
+    "irregularidade": F_Esmagar
     }
 
 def F_Descansar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     GuardarPosicionar(PokemonS,player,4,Mapa.Zona)
-    cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.2
+    cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.3
     PokemonS.curar(cura,player,tela)
 
 Descansar = {
@@ -232,10 +232,10 @@ Descansar = {
     "dano": 0.0,
     "alcance": 150,
     "precisão": 100, 
-    "descrição": "Esse pokemon é guardado por 4 turnos mas regenera 20% da vida perdida",
+    "descrição": "Esse pokemon é guardado por 4 turnos mas regenera 30% da vida perdida",
     "efeito": "!None",
     "extra": None,
-    "funçao": F_Vasculhar,
+    "funçao": F_Descansar,
     "irregularidade": False
     }
 
@@ -252,7 +252,7 @@ Canto_Alegre = {
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Remove todos os efeitos negativos do pokemon visualizado",
-    "efeito": "FeixeRosa",
+    "efeito": "FeixeMagenta",
     "extra": "V",
     "funçao": F_Canto_Alegre,
     "irregularidade": False

@@ -19,7 +19,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Vasculhar","Ataque Rápido","Provocar","Cachoeira"],
+    "MoveList": ["Brilho","Benção","Constelação Mágica","Busca Alegre"],
     # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
     "Moves": 4,
     "H": 0.58,
@@ -396,7 +396,7 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Reforçar", "Faisca", "Energia", "Energizar", "Projétil Metalico", "Onda Elétrica"],
+    "MoveList": ["Reforçar", "Faisca", "Energia", "Energizar", "Projétil Metálico", "Onda Elétrica"],
     "Moves": 2,
     "H": 0.29,
     "W": 6.7

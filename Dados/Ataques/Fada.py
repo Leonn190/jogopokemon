@@ -68,18 +68,19 @@ Bençao = {
 def FF_Busca_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
     num = int(Escolha)
     if PokemonV is not None:
-        PokemonV.curar(3*num,player,tela)
+        PokemonV.curar(4*num,player,tela)
     else:
-        PokemonS.curar(3*num,player,tela)
+        PokemonS.curar(4*num,player,tela)
     
     for i in range(5-num):
-        player.energias[coletor] += 1
+        player.energias[coletor()] += 1
+    EstadoDaPergunta["estado"] = False
 
 def F_Busca_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Busca_Alegre
     EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
-    EstadoDaPergunta["opçoes"] = ["1","2","3","4"]
+    EstadoDaPergunta["opçoes"] = ["0","1","2","3"]
     EstadoDaPergunta["estado"] = True
 
 Busca_Alegre = {
@@ -90,7 +91,7 @@ Busca_Alegre = {
     "dano": 0.0,
     "alcance": 100,
     "precisão": 100, 
-    "descrição": "Ganhe 5 energias aleatorias, voce pode escolher descartar até 4 delas, para cada uma cure 3 de vida do pokemon visualizado ou de si mesmo",
+    "descrição": "Ganhe 5 energias aleatorias, voce pode escolher descartar até 3 delas, para cada uma cure 4 de vida do pokemon visualizado ou de si mesmo",
     "efeito": "!None",
     "extra": "TV",
     "funçao": F_Busca_Alegre,
@@ -121,8 +122,9 @@ Tapa_das_Fadas = {
     "irregularidade": F_Tapa_das_Fadas
     }
 
-def F_Constelaçao_Magica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosPosi["Furtivo"] = 3
+def F_Constelaçao_Magica(PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for alvo in Alvo:
+        alvo.efeitosPosi["Furtivo"] = 3
 
 def Alv_Constelaçao_Magica(PokemonS,Alvo,player,inimigo,Mapa):
     alvos = []

@@ -48,7 +48,7 @@ def F_Picada(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,
 
 Picada = {
     "nome": "Picada",
-    "tipo": ["Inseto"],   
+    "tipo": ["inseto"],   
     "custo": ["verde"],
     "estilo": "N",
     "dano": 0.8,
@@ -159,4 +159,3 @@ Dor_Falsa = {
     "funçao": Irregular,
     "irregularidade": F_Picada
     }
-

@@ -6,19 +6,19 @@ import random
 
 def F_Eletrolise_Hidrica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo.efeitosNega["Encharcado"] > 0:
-        Dano = Dano * 2
+        Dano = Dano * 2.25
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Eletrolise_Hidrica = {
     "nome": "Eletrólise Hidrica",
     "tipo": ["eletrico"],   
-    "custo": ["normal","amarela","azul"],
+    "custo": ["normal","amarela","amarela"],
     "estilo": "E",
     "dano": 0.9,
     "alcance": 25,
     "precisão": 100, 
-    "descrição": "Se o alvo estiver encharcado esse ataque causará 2 vezes o dano",
+    "descrição": "Se o alvo estiver encharcado esse ataque causará 125% a mais de dano",
     "efeito": "EnergiaAzul",
     "extra": "A",
     "funçao": Irregular,
@@ -103,19 +103,19 @@ Energizar = {
     "irregularidade": None
     }
 
-def Alv_Bola_Elétrica(PokemonS,Alvo,player,inimigo,Mapa):
+def Alv_Bola_Eletrica(PokemonS,Alvo,player,inimigo,Mapa):
     _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bola_Elétrica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def F_Bola_Eletrica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Bola_Elétrica = {
-    "nome": "Bola_Elétrica",
+Bola_Eletrica = {
+    "nome": "Bola Elétrica",
     "tipo": ["eletrico"],   
     "custo": ["amarela","amarela","amarela"],
     "estilo": "E",
@@ -123,11 +123,11 @@ Bola_Elétrica = {
     "alcance": 20,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
-    "efeito": "Fogo",
-    "alvos": Alv_Bola_Elétrica,
+    "efeito": "FacasBrancas",
+    "alvos": Alv_Bola_Eletrica,
     "extra": "MAA",
     "funçao": Multi_Irregular,
-    "irregularidade": F_Bola_Elétrica
+    "irregularidade": F_Bola_Eletrica
     }
 
 def Alv_Tempestade_de_Raios(PokemonS,Alvo,player,inimigo,Mapa):
@@ -135,6 +135,7 @@ def Alv_Tempestade_de_Raios(PokemonS,Alvo,player,inimigo,Mapa):
     for pokemon in inimigo.pokemons:
         if pokemon.efeitosNega["Encharcado"] > 0:
             alvos.append(pokemon)
+    return alvos
 
 Tempestade_de_Raios = {
     "nome": "Tempestade de Raios",
@@ -145,7 +146,7 @@ Tempestade_de_Raios = {
     "alcance": 100,
     "precisão": 100, 
     "descrição": "Esse ataque atinge todos os pokemon encharcados inimigos",
-    "efeito": "MarcaBrilhosa",
+    "efeito": "MarcaAmarela",
     "extra": "MA",
     "alvos": Alv_Tempestade_de_Raios,
     "funçao": Multi_Regular,

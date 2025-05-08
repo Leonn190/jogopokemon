@@ -66,7 +66,7 @@ Garra_do_Dragao = {
     "irregularidade": False
     }
 
-def F_Ultraje(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Ultraje(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     Alvo.atacado(22,player,inimigo,tela,Mapa)
     
 Ultraje = {
@@ -78,7 +78,7 @@ Ultraje = {
     "alcance": 25,
     "precisão": 95, 
     "descrição": "Esse ataque causa sempre 22 de dano independente de qualquer efeito ou atributo",
-    "efeito": "Fumaça",
+    "efeito": "Corte",
     "extra": "A",
     "funçao": F_Ultraje,
     "irregularidade": False
@@ -86,7 +86,7 @@ Ultraje = {
 
 Cauda_Violenta = {
     "nome": "Cauda Violenta",
-    "tipo": ["Dragao"],   
+    "tipo": ["dragao"],   
     "custo": ["normal","vermelha","vermelha"],
     "estilo": "N",
     "dano": 1.4,
@@ -113,7 +113,7 @@ Investida_do_Dragao = {
     "dano": 2,
     "alcance": 16,
     "precisão": 100, 
-    "descrição": "Esse ataque causa 40 de dano de perfuraçao em si mesmo",
+    "descrição": "Esse ataque causa 36 de dano de perfuraçao em si mesmo",
     "efeito": "ExplosaoVermelha",
     "extra": "A",
     "funçao": Irregular,

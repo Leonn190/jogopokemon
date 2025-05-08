@@ -119,7 +119,7 @@ DicionarioAtaques = {
     "Benção": lambda: importlib.import_module("Dados.Ataques.Fada").Bençao,
     "Busca Alegre": lambda: importlib.import_module("Dados.Ataques.Fada").Busca_Alegre,
     "Tapa das Fadas": lambda: importlib.import_module("Dados.Ataques.Fada").Tapa_das_Fadas,
-    "Constelação Mágica": lambda: importlib.import_module("Dados.Ataques.Fada").Contelacao_Magica,
+    "Constelação Mágica": lambda: importlib.import_module("Dados.Ataques.Fada").Constelaçao_Magica,
     "Explosão Lunar": lambda: importlib.import_module("Dados.Ataques.Fada").Explosão_Lunar,
 
     "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
