@@ -700,7 +700,6 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                 idx = PokemonS.pos
                 AlvoLoc = ((510 + idx * 190),1010)
             
-            print (8)
             if VCusto(player,PokemonS,AtaqueS) == False:
                 return
             

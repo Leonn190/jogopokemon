@@ -19,7 +19,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Osso Veloz","Golpe Territorial","Provocar","Terremoto"],
+    "MoveList": ["Psíquico Desgastante","Mente Forte","Psicorte Duplo","Corrosão Psíquica"],
     # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
     "Moves": 4,
     "H": 0.58,
@@ -328,7 +328,7 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Busca Gananciosa"],
+    "MoveList": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
     "Moves": 2,
     "H": 0.63,
     "W": 5.1

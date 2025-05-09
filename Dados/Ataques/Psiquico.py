@@ -42,7 +42,7 @@ Bola_Psiquica = {
     "alcance": 20,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
-    "efeito": "Fogo",
+    "efeito": "ExplosaoRoxa",
     "alvos": Alv_Bola_Psíquica,
     "extra": "MAA",
     "funçao": Multi_Irregular,
@@ -77,8 +77,8 @@ Teleporte = {
 
 def F_Ampliação_Mental(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     for efeito in PokemonS.efeitosNega:
-        if PokemonS.efeitosNega[efeito] >= 1:
-            PokemonS.efeitosNega[efeito] += 1
+        if Alvo.efeitosNega[efeito] > 0:
+            Alvo.efeitosNega[efeito] += 1
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -124,7 +124,7 @@ def F_Mente_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Mente_Forte = {
-    "nome": "Psiquico Desgastante",
+    "nome": "Mente Forte",
     "tipo": ["psiquico"],   
     "custo": ["roxa","roxa"],
     "estilo": "N",
@@ -177,7 +177,7 @@ Psicorte_Duplo = {
     "alcance": 10,
     "precisão": 95, 
     "descrição": "Esse ataque causa dano a um oponente selecionado caso esteja ate 2 casas adjacentes do alvo principal, esse ataque ignora 40% das defesas inimigas",
-    "efeito": "CorteRoxoDuplo",
+    "efeito": "CorteDuploRoxo",
     "extra": "A",
     "funçao": Irregular,
     "irregularidade": F_Psicorte_Duplo
