@@ -163,7 +163,7 @@ Esmeralda = {
     "classe": "amplificador",
     "Descrição": "aumenta 1 de XP dos pokemon",
     "raridade": 2,
-    "aumento": "XP atu"
+    "aumento": "XP"
 }
 
 Energia_Mega = {

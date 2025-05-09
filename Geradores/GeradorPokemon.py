@@ -92,6 +92,7 @@ class Pokemon:
         self.Peso = pokemon["peso"]
 
         self.barreira = 0
+        self.amplificações = 0
 
         self.Vida = pokemon["vida"]
         self.Atk = 0
@@ -268,24 +269,24 @@ class Pokemon:
         self.xp_atu = self.xp_atu + quantidade
     
     def amplificar(self,tipo,amplificador,player):
-        if tipo == "XP atu":
-            self.Ganhar_XP(5,player)
-        elif tipo == "atk":
+        if tipo == "atk":
             J = round(self.Atk)
-            self.VarAtk_perm = round(self.VarAtk_perm + (self.AtkB * amplificador))
-            GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {self.Atk}")
+            self.VarAtk_perm += 2
+            GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {J + 2}")
         elif tipo == "atk SP":
             J = round(self.Atk_sp)
-            self.VarAtk_sp_perm = round(self.VarAtk_sp_perm + (self.Atk_spB * amplificador))
-            GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {self.Atk_sp}")
+            self.VarAtk_sp_perm += 2
+            GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {J + 2}")
         elif tipo == "def":
             J = round(self.Def)
-            self.VarDef_perm = self.VarDef_perm + round((self.DefB * amplificador))
-            GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {self.Def}")
+            self.VarDef_perm += 2
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {J + 2}")
         elif tipo == "def SP":
             J = round(self.Def_sp)
-            self.VarDef_sp_perm = self.VarDef_sp_perm + round((self.Def_spB * amplificador))
-            GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {self.Def_sp}")
+            self.VarDef_sp_perm += 2
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {J + 2}")
+        self.amplificações += 1
+        
     
     def atacado(self,dano,player,inimigo,tela,Mapa):
         DanoOriginal = dano

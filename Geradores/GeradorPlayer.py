@@ -38,6 +38,14 @@ class Jogador:
                             tipo = item["aumento"]
                             if tipo == "Evolucional":
                                 Pokemon.FormaFinal(item,self)
+                            elif tipo == "XP":
+                                Pokemon.Ganhar_XP(5,self)
+                                GV.adicionar_mensagem(f"{Pokemon.nome} Ganhou 5 de XP")
+                                self.inventario.remove(item)
+                                return
+                            elif Pokemon.amplificações > 5:
+                                GV.adicionar_mensagem("Esse pokemon já atingiu 6 amplificações")
+                                return
                             else:
                                 tocar("Usou")
                                 self.inventario.remove(item)
