@@ -1,7 +1,7 @@
 from Geradores.GeradorPokemon import Gerador_final
 from Visual.Sonoridade import tocar
 from Jogo.Abas import Trocar_Ataque_Pergunta
-from Geradores.GeradorOutros import pokebolas_disponiveis,caixa,coletor
+from Geradores.GeradorOutros import Pokebolas_disponiveis,caixa,coletor
 import Visual.GeradoresVisuais as GV
 
 class Jogador:
@@ -17,7 +17,7 @@ class Jogador:
     def ganhar_item(self,item):
         self.inventario.append(item)
     
-    def usar_item(self,indice,Pokemon,tela,Mapa,ataque,EstadoDaPergunta):
+    def usar_item(self,indice,Pokemon,tela,Mapa,ataque,EstadoDaPergunta, Baralho):
             item = self.inventario[indice] 
             if item["classe"] in ["pokebola", "fruta"]:
                 tocar("Bloq")
@@ -27,6 +27,7 @@ class Jogador:
                         if Pokemon.Vida > 0:
                             cura = item["cura"]
                             tocar("Usou")
+                            Baralho.devolve_item(item)
                             self.inventario.remove(item)
                             Pokemon.curar(cura,self,tela)
                             return
@@ -41,6 +42,7 @@ class Jogador:
                             elif tipo == "XP":
                                 Pokemon.Ganhar_XP(5,self)
                                 GV.adicionar_mensagem(f"{Pokemon.nome} Ganhou 5 de XP")
+                                Baralho.devolve_item(item)
                                 self.inventario.remove(item)
                                 return
                             elif Pokemon.amplificações > 5:
@@ -48,39 +50,24 @@ class Jogador:
                                 return
                             else:
                                 tocar("Usou")
+                                Baralho.devolve_item(item)
                                 self.inventario.remove(item)
                                 Pokemon.amplificar(tipo,0.1,self)
                                 return
                         else:
                             tocar("Bloq")
                             GV.adicionar_mensagem("Pokemons nocauteados não podem ser amplificados")
-                elif item["classe"] in ["caixa","coletor"]:
-                    compras = item["compra"]
-                    if item["classe"] in ["caixa"]:
-                        tocar("Usou")
-                        self.inventario.remove(item)
-                        for _ in range(compras):
-                            item = caixa()
-                            if item in pokebolas_disponiveis:
-                                self.Captura.append(item)
-                            else:
-                                self.inventario.append(item)
-                        return
-                    elif item["classe"] in ["coletor"]:
-                        tocar("Usou")
-                        self.inventario.remove(item)
-                        for _ in range(compras):
-                            self.energias[coletor()] += 1
-                        return
                 elif item["classe"] == "estadio":
                     tocar("Usou")
                     Mapa.MudarEstagio(item["ST Code"])
+                    Baralho.devolve_item(item)
                     self.inventario.remove(item)
                     return
                 elif item["classe"] == "Outros":
                     if item["nome"] == "Trocador de Ataque" and ataque is not None:
                         tocar("Usou")
                         Trocar_Ataque_Pergunta(Pokemon,ataque,EstadoDaPergunta)
+                        Baralho.devolve_item(item)
                         self.inventario.remove(item)
                         return
                     else:
@@ -98,6 +85,24 @@ class Jogador:
             self.energiasDesc.remove(energia)
         else:
             self.energiasDesc.append(energia)
+
+    def ganhar_item(self,item):
+        if item["classe"] in ["pokebola","Fruta"]:
+            if len(self.Captura) < 10:
+                self.Captura.append(item)
+                return True
+            else:
+                GV.adicionar_mensagem("Inventário de captura cheio")
+                self.ouro += item["preço"]
+                return False
+        else:
+            if len(self.inventario) < 11:
+                self.inventario.append(item)
+                return True
+            else:
+                GV.adicionar_mensagem("Inventário cheio")
+                self.ouro += item["preço"]
+                return False
 
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)

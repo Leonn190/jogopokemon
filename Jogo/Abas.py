@@ -5,7 +5,7 @@ from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Funções2 import VAcerta,VCusto
 from Geradores.GeradorAtaques import SelecionaAtaques
-from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25
+from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO
 
 AtaqueS = None
 AtaqueSV = None
@@ -430,11 +430,12 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
 
 H = None
 B1 = {"estado": False}
+BotaoCompraEnergia = {"estado": False}
 
 FonteMenor = pygame.font.SysFont(None, 25)
 Fonte = pygame.font.SysFont(None, 32)
 
-def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Mapa):
+def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Mapa, Baralho):
     x, y = local
     largura, altura = 380, 285  # ⬅️ Aumentado para 285
 
@@ -495,7 +496,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
             cor_normal=(0,0,0),  
             cor_borda=(0,0,0),   
             cor_passagem=(0,0,0), 
-            acao=lambda i=i: player.usar_item(i, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta),
+            acao=lambda i=i: player.usar_item(i, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta, Baralho),
             Fonte=Fonte,
             estado_clique=B1,
             grossura=2,
@@ -572,7 +573,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
 fonte_ = pygame.font.SysFont(None, 24)
 fonte_titulo_ = pygame.font.SysFont(None, 28)
 
-def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
+def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energias):
     x, y = local
     largura, altura = 380, 285
 
@@ -590,9 +591,21 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos):
 
     chaves = [k for k in player.energias.keys() if k in energia_cores]
 
+        # Comprar energias
+    botao_compra_x = x + largura - 40  # 10px de margem da borda direita
+    GV.Botao(
+        tela, "", (botao_compra_x, y + 5, 28, 28),
+        (50, 50, 50), (255, 255, 255), (80, 80, 80),
+        lambda: Comprar_Energias(player, 1),
+        fonte_, BotaoCompraEnergia,
+        grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
+    )
+
     # Cabeçalho
+    espaco_util_cabecalho = largura - 40  # descontando espaço do botão
     titulo = fonte_titulo_.render(f"Energias de {player.nome}", True, (255, 255, 255))
-    tela.blit(titulo, (x + 190 - titulo.get_width() // 2, y + 10))
+    tela.blit(titulo, (x + espaco_util_cabecalho // 2 - titulo.get_width() // 2, y + 10))
+
     pygame.draw.line(tela, (255, 255, 255), (x, y + 34), (x + largura, y + 34), 2)  
 
     # Parte inferior: barras verticais
@@ -790,3 +803,126 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, metros_por_casa, tamanho_casa
 
     # Desenha por cima da tela
     tela.blit(superficie_transparente, (0, 0))
+
+botao_RR = {"estado": False}
+botaoitem = {"estado": False}
+itens_loja = [None, None, None, None]
+
+def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
+    global itens_loja
+    x, y = pos
+    largura = 480
+    altura = 120
+    cor_fundo = (35, 35, 35)
+
+    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+
+    if turnos < 4:
+        raridades = { "Comum": 50, "Incomum": 40, "Raro": 10, "Lendario": 0}
+    elif turnos < 8:
+        raridades = { "Comum": 40, "Incomum": 45, "Raro": 15, "Lendario": 0}
+    elif turnos < 15:
+        raridades = { "Comum": 30, "Incomum": 30, "Raro": 32, "Lendario": 8}
+    elif turnos > 15:
+        raridades = { "Comum": 27, "Incomum": 27, "Raro": 27, "Lendario": 19}
+
+    baralhos_por_raridade = {
+        "Comum": baralho.Comuns,
+        "Incomum": baralho.Incomuns,
+        "Raro": baralho.Raros,
+        "Lendario": baralho.Lendarios
+    }
+
+    def Comprar(item,indice):
+        if player.ouro < item["preço"]:
+            tocar("Bloq")
+            return
+        player.ouro -= item["preço"]
+        tocar ("Compra")
+        Comprou = player.ganhar_item(item)
+        if Comprou == True:
+            itens_loja[indice] = None
+
+
+    def Roletar(lista_itens, baralho, raridades):
+        if player.ouro < preco:
+            tocar("Bloq")
+            return  # ouro insuficiente
+        player.ouro -= preco
+        tocar ("Roletar")
+
+        for item in lista_itens:
+            if item is not None:
+                baralho.devolve_item(item)
+
+        for i in range(len(lista_itens)):
+            lista_itens[i] = None
+
+        for i in range(len(lista_itens)):
+            raridade_escolhida = random.choices(
+                population=["Comum", "Incomum", "Raro", "Lendario"],
+                weights=[raridades["Comum"], raridades["Incomum"], raridades["Raro"], raridades["Lendario"]],
+                k=1
+            )[0]
+            baralho_da_raridade = baralhos_por_raridade[raridade_escolhida]
+            if baralho_da_raridade:
+                novo_item = random.choice(baralho_da_raridade)
+                lista_itens[i] = novo_item
+                baralho_da_raridade.remove(novo_item)
+
+    espacamento = 85
+    base_x = x + 10
+    base_y = y + 10
+
+    cor_raridade = {
+    "Comum": (200, 200, 200),       # Cinza claro
+    "Incomum": (0, 200, 0),         # Verde
+    "Raro": (0, 100, 255),          # Azul
+    "Lendario": (255, 215, 0)       # Amarelo
+    }
+
+    for i in range(5):
+        bx = base_x + i * espacamento
+        by = base_y
+
+        if i < 4:
+            item = itens_loja[i]
+            if item is not None:
+                
+                CorBotao = cor_raridade[item["raridade"]]
+
+                GV.Botao(
+                    tela, "", (bx, by, 80, 80),
+                    CorBotao, PRETO, VERDE_CLARO,
+                    lambda: Comprar(item,i),
+                    Fonte50, botaoitem, 3, None, True, eventos
+                )
+
+                preco_item = item["preço"]  # ← como você pediu, diretamente do dicionário
+                GV.Texto_caixa(
+                    tela, str(preco_item), (bx + 15, by + 80, 50, 20),
+                    Fonte20, CINZA, PRETO, 2
+                )
+
+                nome_item = item["nome"]
+                if nome_item in imagens:
+                    imagem = pygame.transform.scale(imagens[nome_item], (65, 65))
+                    iw, ih = imagem.get_size()
+                    img_x = bx + (80 - iw) // 2
+                    img_y = by + (80 - ih) // 2
+                    tela.blit(imagem, (img_x, img_y))
+            else:
+                pygame.draw.rect(tela, (60, 60, 60), (bx, by, 80, 80), border_radius=5)
+        else:
+            # Botão Roletar
+            GV.Botao(
+                tela, "R", (bx, by, 80, 80),
+                (70,70,70), PRETO, VERDE_CLARO,
+                lambda: Roletar(itens_loja, baralho, raridades),
+                Fonte50, botao_RR, 3, None, True, eventos
+            )
+            # Exibir preço do roletar
+            GV.Texto_caixa(
+                tela, str(preco), (bx + 15, by + 80, 50, 20),
+                Fonte20, AMARELO, PRETO, 2
+            )

@@ -4,7 +4,7 @@ from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
-from Abas import Tabela_Energias,Status_Pokemon,Inventario,Atacar
+from Abas import Tabela_Energias,Status_Pokemon,Inventario,Atacar, Loja
 import Tabuleiro as M
 import Geradores.GeradorPlayer as GPA
 import Geradores.GeradorPokemon as GPO
@@ -22,6 +22,7 @@ selecionaSOM = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 
 Tela = None
 Mapa = None
+Baralho = None
 
 Gifs_ativos = []
 
@@ -310,8 +311,8 @@ A3 = -382
 A4 = -382
 A5 = -400
 A6 = -400
-A7 = -400
-A8 = -400
+A7 = -480
+A8 = -480
 
 def informa(ID,Pokemon):
     pass
@@ -339,7 +340,7 @@ def Abre(ID,player,inimigo):
         animaAC = pygame.time.get_ticks()
     elif ID == "Lojas":
         global A7, A8, animaAL
-        A7 = -400
+        A7 = -480
         A8 = 0
         animaAL = pygame.time.get_ticks()
     
@@ -363,7 +364,7 @@ def Fecha():
         animaAC = pygame.time.get_ticks()
     elif A8 == 0:
         A7 = 0
-        A8 = -400
+        A8 = -480
         animaAL = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
@@ -446,11 +447,13 @@ def PokemonCentro(ID,player):
     pokemon = Centro[ID]
     
     if PokebolaSelecionada is not None:
+        Baralho.devolve_item(PokebolaSelecionada)
         player.Captura.remove(PokebolaSelecionada)
         Pokebola_usada = PokebolaSelecionada
         desseleciona_pokebola()
         maestria = random.randint(0,Pokebola_usada["poder"] * 2)
         if FrutaSelecionada is not None:
+            Baralho.devolve_item(FrutaSelecionada)
             player.Captura.remove(FrutaSelecionada)
             if FrutaSelecionada["nome"] in ["Fruta Frambo","Fruta Frambo Dourada"]:
                 pokemon["dificuldade"] -= FrutaSelecionada["poder"]
@@ -900,6 +903,7 @@ def Inicia(tela):
     global LojaAmpliP
     global LojaEstTreP
     global Tela
+    global Baralho
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
@@ -915,6 +919,7 @@ def Inicia(tela):
 
     Tela = tela
     Mapa = GO.Gera_Mapa(0)
+    Baralho = GO.Gera_Baralho()
 
     fechar_tudo()
 
@@ -937,14 +942,9 @@ def Inicia(tela):
     Jogador1.pokemons[0].pos = 0
     Jogador2.pokemons[0].pos = 0
 
-    for item in informaçoesp1[3:]:
-        GO.gera_item(item, Jogador1)
-    for item in informaçoesp2[3:]:
-        GO.gera_item(item, Jogador2)
-
     for i in range(10):
-        GO.gera_item("energia", Jogador1)
-        GO.gera_item("energia", Jogador2)
+        Jogador1.energias[GO.coletor()]
+        Jogador2.energias[GO.coletor()]
 
     AddLocalPokemonINIC(Jogador2.pokemons[0],Jogador2)
     AddLocalPokemonINIC(Jogador1.pokemons[0],Jogador1)
@@ -1223,12 +1223,12 @@ def TelaOpções(tela,eventos,estados):
         XInvetario = GV.animar(A1,A2,animaAI)
 
         if XInvetario != -382:
-            Inventario((XInvetario,300),tela,player,ImagensItens,estadoItens,eventos,PokemonS, Mapa)
+            Inventario((XInvetario,350),tela,player,ImagensItens,estadoItens,eventos,PokemonS, Mapa, Baralho)
 
         XEnergias = GV.animar(A3,A4,animaAE)
 
         if XEnergias != -382:
-            Tabela_Energias(tela,(XEnergias,300),player,estadoEnergias,eventos)
+            Tabela_Energias(tela,(XEnergias,350),player,estadoEnergias,eventos,GO.Compra_Energia)
 
         XCentro = GV.animar(A5,A6,animaAC)
 
@@ -1265,6 +1265,7 @@ def TelaOutros(tela,eventos,estados):
     global LojaEstTreP
     global player
     global inimigo
+    global Baralho
 
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: pausarEdespausar(), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)
 
@@ -1279,32 +1280,7 @@ def TelaOutros(tela,eventos,estados):
 
     XL = GV.animar(A7,A8,animaAL)
 
-    itens_loja = [
-        (LojaItensP, B2, XL),
-        (LojaPokeP, B3, XL + 80),
-        (LojaEnerP, B5, XL + 160),
-        (LojaAmpliP, B4, XL + 240),
-        (LojaEstTreP,B20, XL + 320)] 
-
-    for i, (valor, botao_dict, x) in enumerate(itens_loja):
-        GV.Texto_caixa(tela, str(valor), (x + 15, 289, 50, 20), Fonte20, CINZA, PRETO, 2)
-
-        GV.Botao(tela, "", (x, 210, 80, 80),CINZA, PRETO, VERDE_CLARO,lambda botao_dict=botao_dict, valor=valor: GO.gera_item(botao_dict["ID"], player, valor, Turno),
-            Fonte50, botao_dict, 3, None, True, eventos)
-    
-    tela.blit(OutrosIMG[3],(XL + 5,215))
-    tela.blit(OutrosIMG[4],(XL + 85,215))
-    tela.blit(OutrosIMG[6],(XL + 171,218))
-
-    if Turno > 3:
-        tela.blit(OutrosIMG[5],(XL + 246,215))
-        if Turno > 5:
-            tela.blit(OutrosIMG[9],(XL + 324,218))
-        else:
-            tela.blit(OutrosIMG[10],(XL + 325,215))
-    else:
-        tela.blit(OutrosIMG[10],(XL + 245,215))
-        tela.blit(OutrosIMG[10],(XL + 325,215))
+    Loja((XL,200),tela,Baralho,ImagensItens,Turno,eventos,player,2)
 
 def Telapausa(tela,eventos,estados):
 

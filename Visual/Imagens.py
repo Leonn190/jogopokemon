@@ -295,7 +295,8 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     MegaIMG = GV.Carregar_Imagem("imagens/itens/mega.png", (62, 62), "PNG")
     VMaxIMG = GV.Carregar_Imagem("imagens/itens/Vmax.png", (62, 62), "PNG")
     VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (62, 62), "PNG")
-    TrocadorAtaque = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (62, 62), "PNG")
+    TrocadorAtaqueIMG = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (62, 62), "PNG")
+    RemovedorIMG = GV.Carregar_Imagem("imagens/itens/removedor.png", (62, 62), "PNG")
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
@@ -458,11 +459,17 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Fruta Frambo Dourada": FramboDouradaIMG,
     "Fruta Caxi": CaxiIMG,
     "Fruta Caxi Prateada": CaxiPrateadaIMG,
-    "estadio": EstadioIMG,
     "Energia Mega": MegaIMG,
     "Energia Vstar": VStarIMG,
     "Energia GigantaMax": VMaxIMG,
-    "Trocador de Ataque": TrocadorAtaque
+    "Trocador de Ataque": TrocadorAtaqueIMG,
+    "Removedor": RemovedorIMG,
+    "Estádio Mer": EstadioIMG,
+    "Cidade Shivre": EstadioIMG,
+    "Parque Auroma": EstadioIMG,
+    "Estádio Kalos": EstadioIMG,
+    "Skyloft": EstadioIMG,
+    "Porto Molgera": EstadioIMG
     
     }
 
