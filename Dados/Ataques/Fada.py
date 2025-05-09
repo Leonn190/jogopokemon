@@ -113,7 +113,7 @@ Tapa_das_Fadas = {
     "custo": ["normal","roxa","roxa"],
     "estilo": "N",
     "dano": 0.95,
-    "alcance": 5,
+    "alcance": 9,
     "precisão": 100, 
     "descrição": "Esse ataque causa 30% de dano a mais para cada efeito positivo que o alvo tiver",
     "efeito": "FacasRosas",

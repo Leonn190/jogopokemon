@@ -20,6 +20,7 @@ Arremesso_de_Terra = {
     }
 
 def Alv_Tremor(PokemonS,Alvo,player,inimigo,Mapa):
+
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
     return inimigos  
 
@@ -47,13 +48,13 @@ def Alv_Quebra_Chao(PokemonS,Alvo,player,inimigo,Mapa):
         aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
         return inimigos
 
-def F_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def F_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,AlvoS,alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano = Dano * PokemonS.Vida / 100
     PokemonS.atacado(Dano*0.15,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Quebra_Chão = {
+Quebra_Chao = {
     "nome": "Quebra Chão",
     "tipo": ["terrestre"],   
     "custo": ["amarela","amarela","amarela"],
@@ -70,7 +71,7 @@ Quebra_Chão = {
     }
 
 def F_Afinidade_Territorial(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    PokemonS.efeitosPois["Velocista"] = 3
+    PokemonS.efeitosPosi["Velocista"] = 3
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
     if inimigos == []:
         PokemonS.atacou = False
@@ -129,8 +130,8 @@ Golpe_Territorial = {
     "irregularidade": F_Golpe_Territorial
     }
 
-def Alv_Terremoto(PokemonS,Alvo,player,inimigo,Mapa):
-    return inimigo.Pokemons
+def Alv_Tremorr(PokemonS,Alvo,player,inimigo,Mapa):
+    return inimigo.pokemons
 
 Terremoto = {
     "nome": "Terremoto",
@@ -143,7 +144,7 @@ Terremoto = {
     "descrição": "Esse ataque atinge todos os pokemon inimigos",
     "efeito": "ExplosaoPedra",
     "extra": "MA",
-    "alvos": Alv_Tremor,
+    "alvos": Alv_Tremorr,
     "funçao": Multi_Regular,
     "irregularidade": False
     }

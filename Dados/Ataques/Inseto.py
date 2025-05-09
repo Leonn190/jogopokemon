@@ -27,7 +27,7 @@ def F_Seda(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,Al
 
 Seda = {
     "nome": "Seda",
-    "tipo": ["Inseto"],   
+    "tipo": ["inseto"],   
     "custo": ["verde"],
     "estilo": "E",
     "dano": 1.1,
@@ -106,13 +106,13 @@ Minhocagem = {
     "irregularidade": False
     }
 
-def F_Coleta(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Coleta(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for i in range(4):
         player.energias[coletor()] += 1
 
 Coleta = {
     "nome": "Coleta",
-    "tipo": ["Inseto"],   
+    "tipo": ["inseto"],   
     "custo": ["normal"],
     "estilo": "S",
     "dano": 0.0,
@@ -147,7 +147,7 @@ def F_Dor_Falsa(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,te
 
 Dor_Falsa = {
     "nome": "Dor Falsa",
-    "tipo": ["Inseto"],   
+    "tipo": ["inseto"],   
     "custo": ["normal","verde"],
     "estilo": "N",
     "dano": 1.7,
@@ -157,5 +157,5 @@ Dor_Falsa = {
     "efeito": "ChicoteMultiplo",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Picada
+    "irregularidade": F_Dor_Falsa
     }

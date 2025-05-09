@@ -71,7 +71,7 @@ def F_Barragem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,Es
     PokemonS.barreira += ganho
 
 Barragem = {
-    "nome": "Reforçar",
+    "nome": "Barragem",
     "tipo": ["metal"],   
     "custo": ["cinza"],
     "estilo": "S",
@@ -91,13 +91,13 @@ def F_Broca_Perfuradora(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-F_Broca_Perfuradora = {
+Broca_Perfuradora = {
     "nome": "Broca Perfuradora",
     "tipo": ["metal"],   
     "custo": ["normal","cinza","cinza"],
     "estilo": "N",
     "dano": 1.35,
-    "alcance": 0,
+    "alcance": 9,
     "precisão": 100, 
     "descrição": "Esse ataque ignora 80% da armadura do Alvo",
     "efeito": "Corte",

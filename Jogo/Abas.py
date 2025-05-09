@@ -56,7 +56,7 @@ def Vizualiza_ataque(ataque,SoV):
 
 def Oculta_ataque(SoV):
     global AtaqueS,AtaqueSV,AtaqueV
-    if SoV == "S":
+    if SoV == "S": 
         AtaqueS = None
         AtaqueV = None
         estadoMostraAtaqueS["selecionado_direito"] = None
@@ -284,12 +284,19 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
             Oculta_ataque(SoV)
             EstadoDaPergunta["estado"] = False
 
+        if SoV == "V":
+            pokemon = None
+
         if SoV == "S":
             if AtaqueV is not None:
                 Mostrar_Ataque(tela, AtaqueV, (1540, y + 60), imagens_tipos)
+            if AtaqueS is not None:
+                Desenhar_Alcance(tela,pokemon,AtaqueS["alcance"],10)
+
         else:
             if AtaqueSV is not None:
                 Mostrar_Ataque(tela, AtaqueSV, (1540, y + 60), imagens_tipos)
+
 
 def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
     FUNDO = (30, 30, 30)
@@ -308,7 +315,7 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
 
     # Fontes menores para caber melhor na ficha reduzida
     fonte_titulo = pygame.font.SysFont("arial", 22, bold=True)
-    fonte_desc = pygame.font.SysFont("arial", 15)
+    fonte_desc = pygame.font.SysFont("arial", 17)
     fonte_info = pygame.font.SysFont("arial", 15)
     fonte_infoStat = pygame.font.SysFont("arial", 15, bold=True)
 
@@ -692,7 +699,8 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                         AlvoLoc2 = ((510 + idx * 190),1010)
                 idx = PokemonS.pos
                 AlvoLoc = ((510 + idx * 190),1010)
-                
+            
+            print (8)
             if VCusto(player,PokemonS,AtaqueS) == False:
                 return
             
@@ -713,7 +721,7 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                     if alvo in inimigo.pokemons:
                         AlvoLoc = ((1400 - idx * 190),95)
                     else:
-                        AlvoLoc = ((510 + idx * 190),1010)
+                        AlvoLoc = ((520 + idx * 190),1000)
                     if jafoi == False:
                         adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
                         jafoi = True
@@ -755,3 +763,31 @@ def Trocar_Ataque_Pergunta(Pokemon,Ataque,EstadoDaPergunta):
         if move not in Pokemon.moveList and move not in EstadoDaPergunta["opçoes"]:
             EstadoDaPergunta["opçoes"].append(move)
             contador += 1
+
+
+def Desenhar_Alcance(tela, PeçaS, alcance_metros, metros_por_casa, tamanho_casa=40):
+    if PeçaS is None or PeçaS.local is None:
+        return
+
+    linha, coluna = PeçaS.local["id"]
+
+    # Centro do círculo (em pixels)
+    x_inicial = (1920 - 25 * tamanho_casa) // 2
+    y_inicial = (1080 - 15 * tamanho_casa) // 2
+
+    centro_x = x_inicial + coluna * tamanho_casa + tamanho_casa // 2
+    centro_y = y_inicial + linha * tamanho_casa + tamanho_casa // 2
+
+    # Raio em pixels
+    raio = int((alcance_metros / metros_por_casa) * tamanho_casa)
+
+    superficie_transparente = pygame.Surface((1920, 1080), pygame.SRCALPHA)
+
+    # Desenhar borda (vermelha com mais opacidade)
+    pygame.draw.circle(superficie_transparente, (255, 0, 0, 150), (centro_x, centro_y), raio + 5)  # Bordo mais grossa e opaca
+
+    # Desenhar área interna (vermelha com menos opacidade)
+    pygame.draw.circle(superficie_transparente, (255, 0, 0, 70), (centro_x, centro_y), raio)  # Área com menos opacidade
+
+    # Desenha por cima da tela
+    tela.blit(superficie_transparente, (0, 0))

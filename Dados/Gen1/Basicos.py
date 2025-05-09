@@ -19,7 +19,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Brilho","Benção","Constelação Mágica","Busca Alegre"],
+    "MoveList": ["Osso Veloz","Golpe Territorial","Provocar","Terremoto"],
     # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
     "Moves": 4,
     "H": 0.58,

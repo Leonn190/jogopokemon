@@ -73,10 +73,12 @@ def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
     linha1, coluna1 = poke1.local["id"]
     linha2, coluna2 = poke2.local["id"]
 
-    dx = (coluna1 - coluna2) * tamanho_casa  # Coluna representa o eixo X
-    dy = (linha1 - linha2) * tamanho_casa    # Linha representa o eixo Y
+    dx = (coluna1 - coluna2) * tamanho_casa
+    dy = (linha1 - linha2) * tamanho_casa
 
-    return math.hypot(dx, dy)
+    distancia_centros = math.hypot(dx, dy)
+
+    return max(0, distancia_centros - (tamanho_casa / 2))
 
 def Aliado_menos_vida(pokemon,player,numero=1):
     selecionados = []

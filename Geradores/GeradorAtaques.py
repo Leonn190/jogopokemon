@@ -120,7 +120,7 @@ DicionarioAtaques = {
     "Busca Alegre": lambda: importlib.import_module("Dados.Ataques.Fada").Busca_Alegre,
     "Tapa das Fadas": lambda: importlib.import_module("Dados.Ataques.Fada").Tapa_das_Fadas,
     "Constelação Mágica": lambda: importlib.import_module("Dados.Ataques.Fada").Constelaçao_Magica,
-    "Explosão Lunar": lambda: importlib.import_module("Dados.Ataques.Fada").Explosão_Lunar,
+    "Explosão Lunar": lambda: importlib.import_module("Dados.Ataques.Fada").Explosao_Lunar,
 
     "Mordida": lambda: importlib.import_module("Dados.Ataques.Inseto").Mordida,
     "Seda": lambda: importlib.import_module("Dados.Ataques.Inseto").Seda,
@@ -136,7 +136,7 @@ DicionarioAtaques = {
     "Coleta Gananciosa": lambda: importlib.import_module("Dados.Ataques.Fantasma").Coleta_Gananciosa,
     "Mão Espectral": lambda: importlib.import_module("Dados.Ataques.Fantasma").Mao_Espectral,
     "Maldade": lambda: importlib.import_module("Dados.Ataques.Fantasma").Maldade,
-    "Massacre Fantasmagórico": lambda: importlib.import_module("Dados.Ataques.Fantasma").Massacre_Fantasmagórico,
+    "Massacre Fantasmagórico": lambda: importlib.import_module("Dados.Ataques.Fantasma").Massacre_Fantasmagorico,
 
     "Soco": lambda: importlib.import_module("Dados.Ataques.Lutador").Soco,
     "Chamar para Briga": lambda: importlib.import_module("Dados.Ataques.Lutador").Chamar_para_Briga,
@@ -148,7 +148,7 @@ DicionarioAtaques = {
     "Reforçar": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
     "Cauda de Ferro": lambda: importlib.import_module("Dados.Ataques.Metal").Cauda_de_Ferro,
     "Projétil Metálico": lambda: importlib.import_module("Dados.Ataques.Metal").Projetil_Metalico,
-    "Barragem": lambda: importlib.import_module("Dados.Ataques.Metal").Reforçar,
+    "Barragem": lambda: importlib.import_module("Dados.Ataques.Metal").Barragem,
     "Broca Perfuradora": lambda: importlib.import_module("Dados.Ataques.Metal").Broca_Perfuradora,
     
     "Pedregulho": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedregulho,
@@ -156,7 +156,7 @@ DicionarioAtaques = {
     "Barragem Rochosa": lambda: importlib.import_module("Dados.Ataques.Pedra").Barragem_Rochosa,
     "Impacto Rochoso": lambda: importlib.import_module("Dados.Ataques.Pedra").Impacto_Rochoso,
     "Pedra Colossal": lambda: importlib.import_module("Dados.Ataques.Pedra").Pedra_Colossal,
-    "Fúria Pétrea": lambda: importlib.import_module("Dados.Ataques.Pedra").Fúria_Pétrea,
+    "Fúria Pétrea": lambda: importlib.import_module("Dados.Ataques.Pedra").Furia_Petrea,
 
     "Arremesso de Terra": lambda: importlib.import_module("Dados.Ataques.Terrestre").Arremesso_de_Terra,
     "Tremor": lambda: importlib.import_module("Dados.Ataques.Terrestre").Tremor,

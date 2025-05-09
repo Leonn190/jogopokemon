@@ -26,7 +26,7 @@ Assombrar = {
     }
 
 def F_Lambida(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    PokemonS.curar(Dano/10,player,tela)
+    PokemonS.curar(Dano/15,player,tela)
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -38,7 +38,7 @@ Lambida = {
     "dano": 1.1,
     "alcance": 10,
     "precisão": 100, 
-    "descrição": "Cure 10% do dano causado",
+    "descrição": "Cure 15% do dano causado",
     "efeito": "MagiaMagenta",
     "extra": "A",
     "funçao": Irregular,
@@ -46,7 +46,7 @@ Lambida = {
     }
 
 def F_Atravessar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    for chave,valor in PokemonS.efeitosNega:
+    for chave,valor in PokemonS.efeitosNega.items():
         PokemonS.efeitosNega[chave] = 0
         Alvo.efeitosNega[chave] = valor
 
@@ -58,7 +58,7 @@ Atravessar = {
     "custo": ["preta","preta"],
     "estilo": "E",
     "dano": 0.5,
-    "alcance": 0,
+    "alcance": 9,
     "precisão": 100, 
     "descrição": "Atravessa o alvo, removendo todos os efeitos negativos de si mesmo e passando para o alvo",
     "efeito": "FeixeMagenta",
@@ -130,11 +130,12 @@ Mao_Espectral = {
     "efeito": "ExplosaoRoxa",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Lambida
+    "irregularidade": F_Mao_Espectral
     }
 
 def FF_Maldade(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
-    PokemonS.efeitosNega[Escolha] = 4
+    Alvo.efeitosNega[Escolha] = 4
+    EstadoDaPergunta["estado"] = False
 
 def F_Maldade(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
     opçoes = []
@@ -159,8 +160,8 @@ Maldade = {
     "precisão": 100, 
     "descrição": "Escolha entre 4 efeitos negativos aleatorios para colocar no alvo por 4 turnos",
     "efeito": "ChuvaVermelha",
-    "extra": "TV",
-    "funçao": F_Coleta_Gananciosa,
+    "extra": "A",
+    "funçao": F_Maldade,
     "irregularidade": False
     }
 
@@ -176,7 +177,7 @@ Massacre_Fantasmagorico = {
     "nome": "Massacre Fantasmagórico",
     "tipo": ["fantasma"],   
     "custo": ["preta","preta","preta","preta"],
-    "estilo": "S",
+    "estilo": "E",
     "dano": 1.4,
     "alcance": 10,
     "precisão": 99, 

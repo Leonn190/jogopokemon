@@ -23,7 +23,7 @@ Pedra_Especial = {
     "nome": "Pedra Especial",
     "tipo": ["pedra"],   
     "custo": ["normal","laranja"],
-    "estilo": "N",
+    "estilo": "E",
     "dano": 1.5,
     "alcance": 20,
     "precisão": 50, 
@@ -38,8 +38,8 @@ def F_Barragem_Rochosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,Al
     PokemonS.barreira += (PokemonS.Def + PokemonS.Def_sp) * 0.2
 
 Barragem_Rochosa = {
-    "nome": "Voar",
-    "tipo": ["voador"],   
+    "nome": "Barragem Rochosa",
+    "tipo": ["pedra"],   
     "custo": ["cinza"],
     "estilo": "S",
     "dano": 0.0,
@@ -64,7 +64,7 @@ Impacto_Rochoso = {
     "custo": ["normal","laranja","laranja"],
     "estilo": "N",
     "dano": 1.35,
-    "alcance": 5,
+    "alcance": 9,
     "precisão": 100, 
     "descrição": "Esse ataque causa dano baseado apenas na Defesa, após esse ataque, esse pokemon fica quebrado por 2 turnos",
     "efeito": "ImpactoRochoso",
@@ -88,7 +88,7 @@ Pedra_Colossal = {
     "dano": 1.55,
     "alcance": 15,
     "precisão": 95, 
-    "descrição": "Esse ataque causa dano baseado apenas na Defesa, após esse ataque, esse pokemon fica quebrado por 2 turnos",
+    "descrição": "Esse ataque remove um item do inventário do oponente",
     "efeito": "ImpactoRochoso",
     "extra": "A",
     "funçao": Irregular,

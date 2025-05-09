@@ -38,6 +38,7 @@ informacao = None
 Visor = None
 PokebolaSelecionada = None
 FrutaSelecionada = None
+provocar = False
 
 PokeGifs = {}
 TiposEnergiaIMG = {}
@@ -244,6 +245,13 @@ def seleciona(Pokemon):
 def selecionaAlvo(Pokemon):
     global PokemonA, alvo
     if not isinstance(Pokemon,str):
+        if Pokemon.efeitosPosi["Furtivo"] > 0:
+            GV.adicionar_mensagem("Esse pokemon está em modo furtivo")
+            return
+        if provocar is True:
+            if Pokemon.efeitosPosi["Provocando"] == 0:
+                GV.adicionar_mensagem("Algum outro pokemon está provocando")
+                return
         PokemonA = Pokemon
         alvo = gerar_gif(OutrosIMG[14],((1400 - PokemonA.pos * 190),95),35)
 
@@ -777,7 +785,6 @@ estadoTabuleiro = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
-
 animaS = 0
 animaAI = 0
 animaAE = 0
@@ -964,9 +971,14 @@ def TelaPokemons(tela,eventos,estados):
     global PokemonV
     global PokemonSV
     global PokemonVV
+    global provocar
     global informacao
     global player
     global inimigo
+
+    for pokemon in inimigo.pokemons:
+        if pokemon.efeitosPosi["Provocando"] > 0:
+            provocar = True
 
     VerificaGIF(player,inimigo)
 

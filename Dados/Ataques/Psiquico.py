@@ -138,12 +138,12 @@ Mente_Forte = {
     "irregularidade": F_Mente_Forte
     }
 
-def F_Corrosao_Psíquica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def F_Corrosao_Psiquica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano = Dano * Alvo.Vida // 100
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Corrosão_Psíquica = {
+Corrosao_Psiquica = {
     "nome": "Corrosão Psíquica",
     "tipo": ["psiquico"],   
     "custo": ["roxa","roxa","roxa","roxa"],
@@ -155,7 +155,7 @@ Corrosão_Psíquica = {
     "efeito": "OrbesRoxos",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Corrosao_Psíquica
+    "irregularidade": F_Corrosao_Psiquica
     }
 
 def F_Psicorte_Duplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):

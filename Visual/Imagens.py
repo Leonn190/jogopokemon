@@ -369,7 +369,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Imortal": ImortalIMG,
     "Refletir": RefletirIMG,
     "Focado": FocadoIMG,
-    "velocista": VelocistaIMG,
+    "Velocista": VelocistaIMG,
     "Energizado": EnergizadoIMG
     }
 
