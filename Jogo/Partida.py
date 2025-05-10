@@ -395,7 +395,7 @@ def fechar_tudo():
     global estadoFruta
     global estadoAlvo
     global estadoVizualiza
-    global S1, S2, V1, V2,AT1,AT2,T1,T2,OP1,OP2,A1, A2, A3, A4, A5, A6, alvo
+    global S1, S2, V1, V2,AT1,AT2,T1,T2,OP1,OP2,A1, A2, A3, A4, A5, A6, A7, A8, alvo
 
     estadoPokemon = {"selecionado_esquerdo": None}
 
@@ -436,6 +436,8 @@ def fechar_tudo():
     A4 = -382
     A5 = -400
     A6 = -400
+    A7 = -480
+    A8 = -480
 
     alvo = None
 
@@ -942,9 +944,9 @@ def Inicia(tela):
     Jogador1.pokemons[0].pos = 0
     Jogador2.pokemons[0].pos = 0
 
-    for i in range(10):
-        Jogador1.energias[GO.coletor()]
-        Jogador2.energias[GO.coletor()]
+    for i in range(15):
+        Jogador1.energias[GO.coletor()] += 1
+        Jogador2.energias[GO.coletor()] += 1
 
     AddLocalPokemonINIC(Jogador2.pokemons[0],Jogador2)
     AddLocalPokemonINIC(Jogador1.pokemons[0],Jogador1)
@@ -1228,7 +1230,7 @@ def TelaOpções(tela,eventos,estados):
         XEnergias = GV.animar(A3,A4,animaAE)
 
         if XEnergias != -382:
-            Tabela_Energias(tela,(XEnergias,350),player,estadoEnergias,eventos,GO.Compra_Energia)
+            Tabela_Energias(tela,(XEnergias,350),player,estadoEnergias,eventos,GO.Compra_Energia,ImagensItens["CompraEnergia"])
 
         XCentro = GV.animar(A5,A6,animaAC)
 

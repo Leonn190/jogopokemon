@@ -297,7 +297,6 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
             if AtaqueSV is not None:
                 Mostrar_Ataque(tela, AtaqueSV, (1540, y + 60), imagens_tipos)
 
-
 def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
     FUNDO = (30, 30, 30)
     BORDA = (255, 255, 255)
@@ -573,7 +572,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
 fonte_ = pygame.font.SysFont(None, 24)
 fonte_titulo_ = pygame.font.SysFont(None, 28)
 
-def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energias):
+def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energias, Imagem):
     x, y = local
     largura, altura = 380, 285
 
@@ -600,6 +599,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energi
         fonte_, BotaoCompraEnergia,
         grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
     )
+    tela.blit(Imagem,(botao_compra_x, y + 5))
 
     # Cabeçalho
     espaco_util_cabecalho = largura - 40  # descontando espaço do botão
@@ -818,13 +818,13 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
     pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
 
     if turnos < 4:
-        raridades = { "Comum": 50, "Incomum": 40, "Raro": 10, "Lendario": 0}
+        raridades = { "Comum": 55, "Incomum": 40, "Raro": 5, "Lendario": 0}
     elif turnos < 8:
         raridades = { "Comum": 40, "Incomum": 45, "Raro": 15, "Lendario": 0}
     elif turnos < 15:
-        raridades = { "Comum": 30, "Incomum": 30, "Raro": 32, "Lendario": 8}
-    elif turnos > 15:
-        raridades = { "Comum": 27, "Incomum": 27, "Raro": 27, "Lendario": 19}
+        raridades = { "Comum": 35, "Incomum": 30, "Raro": 30, "Lendario": 5}
+    elif turnos > 14:
+        raridades = { "Comum": 30, "Incomum": 30, "Raro": 25, "Lendario": 15}
 
     baralhos_por_raridade = {
         "Comum": baralho.Comuns,
@@ -880,6 +880,20 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
     "Raro": (0, 100, 255),          # Azul
     "Lendario": (255, 215, 0)       # Amarelo
     }
+
+    porcentagens = [raridades["Comum"], raridades["Incomum"], raridades["Raro"], raridades["Lendario"]]
+    pos_base_x = x + largura - 42
+    pos_base_y = y + 5
+    espacamento_y = 20
+
+    for idx, porcentagem in enumerate(porcentagens):
+        cor = list(cor_raridade.values())[idx]
+        texto = f"{porcentagem}%"
+        GV.Texto_caixa(
+            tela, texto,
+            (pos_base_x, pos_base_y + idx * espacamento_y, 40, 20),
+            Fonte15, cor, PRETO, 2
+        )
 
     for i in range(5):
         bx = base_x + i * espacamento

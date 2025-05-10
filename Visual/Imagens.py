@@ -233,7 +233,6 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     EnergizadoIMG = GV.Carregar_Imagem("imagens/icones/energizado.png", (24, 24), "PNG")
     AbençoadoIMG = GV.Carregar_Imagem("imagens/icones/abençoado.png", (24, 24), "PNG")
 
-
     Fundo = GV.Carregar_Imagem("imagens/fundos/fundo3.jpg", (1920,1080))
     MerFundo = GV.Carregar_Imagem("imagens/fundos/Mer.jpg", (1920, 1080))
     ShivreFundo = GV.Carregar_Imagem("imagens/fundos/Shivre.png", (1920, 1080))
@@ -297,6 +296,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (62, 62), "PNG")
     TrocadorAtaqueIMG = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (62, 62), "PNG")
     RemovedorIMG = GV.Carregar_Imagem("imagens/itens/removedor.png", (62, 62), "PNG")
+    CompraEnergia = GV.Carregar_Imagem("imagens/icones/CompraEnergia.png", (28, 28), "PNG")
 
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
@@ -469,7 +469,8 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Parque Auroma": EstadioIMG,
     "Estádio Kalos": EstadioIMG,
     "Skyloft": EstadioIMG,
-    "Porto Molgera": EstadioIMG
+    "Porto Molgera": EstadioIMG,
+    "CompraEnergia": CompraEnergia
     
     }
 
