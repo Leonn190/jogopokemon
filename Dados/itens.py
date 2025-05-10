@@ -191,7 +191,7 @@ Rubelita = {
 Esmeralda = {
     "nome": "Esmeralda",
     "classe": "amplificador",
-    "Descrição": "aumenta 1 de XP dos pokemon",
+    "Descrição": "aumenta 5 de XP dos pokemon",
     "quantidade": 6,
     "raridade": "Comum",
     "aumento": "XP",

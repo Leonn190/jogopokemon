@@ -36,7 +36,7 @@ Charizard = {
     "velocidade": 1.545454545,
     "XP": 90,
     "custo": 3,
-    "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque em Chamas"],
+    "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque de Chamas"],
     "moves": 4,
     "H": 1.83,
     "W": 92

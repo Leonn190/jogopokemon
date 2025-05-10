@@ -19,9 +19,8 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Mega Dreno","Folha Navalha","Morteiro de Pólem","Dança das Pétalas"],
-    # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
-    "Moves": 4,
+    "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
+    "Moves": 2,
     "H": 0.58,
     "W": 7.5
 }

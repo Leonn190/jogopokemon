@@ -101,7 +101,7 @@ Ataque_Rapido = {
 def F_Provocar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Provocando"] = 3
 
-Provocar = {
+Provocar = { 
     "nome": "Provocar",
     "tipo": ["normal"],   
     "custo": ["normal"],

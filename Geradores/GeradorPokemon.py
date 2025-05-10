@@ -298,14 +298,14 @@ class Pokemon:
             self.VarDef_sp_perm += 2
             GV.adicionar_mensagem(f"{self.nome} amplificou sua defesa especial, foi de {J} para {J + 2}")
         elif tipo == "vel":
-            J = round(self.Def_sp)
+            J = round(self.vel)
             self.Varvel_perm += 3
             GV.adicionar_mensagem(f"{self.nome} amplificou sua velocidade, foi de {J} para {J + 3}")
         elif tipo == "Vida":
-            J = round(self.Def_sp)
+            J = round(self.VidaMax)
             self.VarVida += 6
             self.Vida += 6
-            GV.adicionar_mensagem(f"{self.nome} amplificou sua vida, foi de {J} para {J + 6}")
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua vida máxima, foi de {J} para {J + 6}")
         
         self.amplificações += 1
         

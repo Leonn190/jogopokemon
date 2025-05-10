@@ -29,7 +29,7 @@ pygame.display.set_caption("Jogo Pokémon")
 icone_surface = pygame.image.load("imagens/icones/Icone.png")
 pygame.display.set_icon(icone_surface)
 
-import Menu
+import Menu 
 import PréPartida
 import Partida
 import Final
