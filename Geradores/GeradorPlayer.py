@@ -52,7 +52,7 @@ class Jogador:
                                 tocar("Usou")
                                 Baralho.devolve_item(item)
                                 self.inventario.remove(item)
-                                Pokemon.amplificar(tipo,0.1,self)
+                                Pokemon.amplificar(tipo,tela,self)
                                 return
                         else:
                             tocar("Bloq")

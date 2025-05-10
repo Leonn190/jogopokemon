@@ -19,7 +19,7 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Psíquico Desgastante","Mente Forte","Psicorte Duplo","Corrosão Psíquica"],
+    "MoveList": ["Bico Broca","Vento Forte","Dreno","Disparo de Semente"],
     # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
     "Moves": 4,
     "H": 0.58,

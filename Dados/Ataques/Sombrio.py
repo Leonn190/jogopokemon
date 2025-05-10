@@ -34,7 +34,7 @@ def F_Bola_Sombria(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataqu
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Bola_Sombria = {
-    "nome": "Bola_Sombria",
+    "nome": "Bola Sombria",
     "tipo": ["sombrio"],   
     "custo": ["preta","preta","preta"],
     "estilo": "E",
@@ -42,7 +42,7 @@ Bola_Sombria = {
     "alcance": 20,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
-    "efeito": "Fogo",
+    "efeito": "ChuvaBrilhante",
     "alvos": Alv_Bola_Sombria,
     "extra": "MAA",
     "funçao": Multi_Irregular,
@@ -53,14 +53,14 @@ def F_Corte_Noturno(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Map
     linhaS, colunaS = PokemonS.local["id"]
     linhaA, colunaA = Alvo.local["id"]
 
-    if linhaS == linhaA + 1:
+    if linhaS == linhaA - 1:
         Dano = Dano * 1.7
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Corte_Noturno = {
     "nome": "Corte Noturno",
-    "tipo": ["Sombrio"],   
+    "tipo": ["sombrio"],   
     "custo": ["normal","preta","preta"],
     "estilo": "N",
     "dano": 0.95,
@@ -81,15 +81,15 @@ def F_Confronto_Trevoso(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque
 
 Confronto_Trevoso = {
     "nome": "Confronto Trevoso",
-    "tipo": ["Sombrio"],   
+    "tipo": ["sombrio"],   
     "custo": ["normal","preta","preta"],
     "estilo": "N",
     "dano": 1.05,
     "alcance": 25,
     "precisão": 100, 
     "descrição": "Deixe a si mesmo e o alvo provocando por 3 turnos",
-    "efeito": "CorteDourado",
+    "efeito": "RedemoinhoCosmico",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Corte_Noturno
+    "irregularidade": F_Confronto_Trevoso
     }

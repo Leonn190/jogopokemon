@@ -23,7 +23,7 @@ Voar = {
     }
 
 def F_Ataque_de_Asa(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    if PokemonS.efeitosNega["Voando"] > 0:
+    if PokemonS.efeitosPosi["Voando"] > 0:
         Dano = Dano * 0.8
     
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
@@ -46,6 +46,7 @@ Ataque_de_Asa = {
 def F_Investida_Aerea(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if PokemonS.efeitosPosi["Voando"] > 0:
         Dano = Dano * 1.25
+    PokemonS.atacado(15,player,inimigo,tela,Mapa)
     
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
@@ -57,7 +58,7 @@ Investida_Aerea = {
     "dano": 1.25,
     "alcance": 10,
     "precisão": 95, 
-    "descrição": "Esse ataque causa 20 de dano a si mesmo, caso esse pokemon esteja voando esse ataque causará mais 25% de dano",
+    "descrição": "Esse ataque causa 15 de dano a si mesmo, caso esse pokemon esteja voando esse ataque causará mais 25% de dano",
     "efeito": "FacasBrancas",
     "extra": "A",
     "funçao": Irregular,
@@ -110,7 +111,7 @@ def F_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,
     linhaS, colunaS = PokemonS.local["id"]
     linhaA, colunaA = Alvo.local["id"]
 
-    intensidade = 2 if Alvo.peso < 200 else 1
+    intensidade = 2 if Alvo.Peso < 200 else 1
 
     deslocamento_linha = 0
     deslocamento_coluna = 0
@@ -151,7 +152,7 @@ Vento_Forte = {
     "nome": "Vento Forte",
     "tipo": ["voador"],   
     "custo": ["cinza","cinza"],
-    "estilo": "S",
+    "estilo": "E",
     "dano": 1.1,
     "alcance": 25,
     "precisão": 100, 

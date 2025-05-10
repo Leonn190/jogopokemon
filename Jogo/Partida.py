@@ -159,7 +159,7 @@ def passar_turno():
 
     for pokemon in player.pokemons:
         if pokemon.local is not None:
-            pokemon.Ganhar_XP(1,player)
+            pokemon.Ganhar_XP(2,player)
     Passar_contadores()
 
     Centro = GO.spawn_do_centro(Centro)
@@ -876,7 +876,7 @@ def Partida(tela,estados,relogio):
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(125)
+        relogio.tick(160)
 
 def Inicia(tela):
     global Turno

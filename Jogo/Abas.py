@@ -568,6 +568,9 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
         for i, texto in enumerate(linhas[:2]):
             render = FonteMenor.render(texto, True, (255, 255, 255)) 
             tela.blit(render, (x + 10, y + 218 + i * 20))  
+    
+    if x < 0:
+        TiraDescriçao()
 
 fonte_ = pygame.font.SysFont(None, 24)
 fonte_titulo_ = pygame.font.SysFont(None, 28)
@@ -824,7 +827,7 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
     elif turnos < 15:
         raridades = { "Comum": 35, "Incomum": 30, "Raro": 30, "Lendario": 5}
     elif turnos > 14:
-        raridades = { "Comum": 30, "Incomum": 30, "Raro": 25, "Lendario": 15}
+        raridades = { "Comum": 32, "Incomum": 32, "Raro": 26, "Lendario": 10}
 
     baralhos_por_raridade = {
         "Comum": baralho.Comuns,

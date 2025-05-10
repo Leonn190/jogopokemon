@@ -101,7 +101,10 @@ class Pokemon:
         self.Def_sp = 0
         self.vel = 0 
 
-        self.VidaMax = pokemon["vida"]
+        self.VidaMaxB = pokemon["vida"]
+        self.VidaMax = 1
+        self.VarVida = 0
+
         self.AtkB = pokemon["atk"]
         self.Atk_spB = pokemon["atk SP"]
         self.DefB = pokemon["def"]
@@ -195,7 +198,7 @@ class Pokemon:
     def Evoluir_Final(self,i,player):
         nome_antigo = self.nome
         self.nome = self.FF[i]["nome"]
-        self.VidaMax = round(self.VidaMax * self.FF[i]["vida"])
+        self.VidaMaxB = round(self.VidaMaxB * self.FF[i]["vida"])
         self.Vida = round(self.Vida * self.FF[i]["vida"])
         self.DefB = round(self.DefB * self.FF[i]["def"])
         self.Def_spB = round(self.Def_spB * self.FF[i]["def SP"])
@@ -248,7 +251,7 @@ class Pokemon:
         
         self.movePossiveis = self.evolucao["movelist"]
         self.nome = self.evolucao["nome"]
-        self.VidaMax = round(self.VidaMax * self.evolucao["vida"])
+        self.VidaMaxB = round(self.VidaMaxB * self.evolucao["vida"])
         self.Vida = round(self.Vida * self.evolucao["vida"])
         self.DefB = round(self.DefB * self.evolucao["def"])
         self.Def_spB = round(self.Def_spB * self.evolucao["def SP"])
@@ -268,23 +271,33 @@ class Pokemon:
     def Ganhar_XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
     
-    def amplificar(self,tipo,amplificador,player):
+    def amplificar(self,tipo,tela,player):
         if tipo == "atk":
             J = round(self.Atk)
             self.VarAtk_perm += 2
-            GV.adicionar_mensagem(f"{self.nome} amplificou seu ATK, foi de {J} para {J + 2}")
+            GV.adicionar_mensagem(f"{self.nome} amplificou seu ataque, foi de {J} para {J + 2}")
         elif tipo == "atk SP":
             J = round(self.Atk_sp)
             self.VarAtk_sp_perm += 2
-            GV.adicionar_mensagem(f"{self.nome} amplificou seu sp ATK, foi de {J} para {J + 2}")
+            GV.adicionar_mensagem(f"{self.nome} amplificou seu ataque especial, foi de {J} para {J + 2}")
         elif tipo == "def":
             J = round(self.Def)
             self.VarDef_perm += 2
-            GV.adicionar_mensagem(f"{self.nome} amplificou sua DEF, foi de {J} para {J + 2}")
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua defesa, foi de {J} para {J + 2}")
         elif tipo == "def SP":
             J = round(self.Def_sp)
             self.VarDef_sp_perm += 2
-            GV.adicionar_mensagem(f"{self.nome} amplificou sua sp DEF, foi de {J} para {J + 2}")
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua defesa especial, foi de {J} para {J + 2}")
+        elif tipo == "vel":
+            J = round(self.Def_sp)
+            self.Varvel_perm += 3
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua velocidade, foi de {J} para {J + 3}")
+        elif tipo == "Vida":
+            J = round(self.Def_sp)
+            self.VarVida += 6
+            self.Vida += 6
+            GV.adicionar_mensagem(f"{self.nome} amplificou sua vida, foi de {J} para {J + 6}")
+        
         self.amplificações += 1
         
     
@@ -495,6 +508,7 @@ def VerificaSituaçãoPokemon(player, inimigo):
             pokemon.Varvel_temp += -pokemon.velB
 
         # --- Atualizar status finais (Base + Permanente + Temporário) ---
+        pokemon.VidaMax = pokemon.VidaMaxB + pokemon.VarVida
         pokemon.Atk = round(pokemon.AtkB + pokemon.VarAtk_perm + pokemon.VarAtk_temp)
         pokemon.Atk_sp = round(pokemon.Atk_spB + pokemon.VarAtk_sp_perm + pokemon.VarAtk_sp_temp)
         pokemon.Def = round(pokemon.DefB + pokemon.VarDef_perm + pokemon.VarDef_temp)

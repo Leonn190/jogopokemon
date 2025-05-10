@@ -78,30 +78,6 @@ Mega_poção = {
     "preço": 7
 } 
 
-Caixa = {
-    "nome": "Caixa",
-    "classe": "caixa",
-    "Descrição": "serve para fazer 2 compras sortidas",
-    "quantidade": 2,
-    "compra": 2,
-}
-
-Caixote = {
-    "nome": "Caixote",
-    "classe": "caixa",
-    "Descrição": "serve para fazer 3 compras sortidas",
-    "quantidade": 4,
-    "compra": 3
-}
-
-Coletor = {
-    "nome": "Coletor",
-    "classe": "coletor",
-    "Descrição": "serve para ganhar 3 energias",
-    "quantidade": 1,
-    "compra": 3
-}
-
 Trocador_de_Ataque = {
     "nome": "Trocador de Ataque",
     "classe": "Outros",
@@ -189,6 +165,26 @@ Ametista = {
     "quantidade": 4,
     "raridade": "Incomum",
     "aumento": "atk SP",
+    "preço": 2
+}
+
+Diamante = {
+    "nome": "Diamante",
+    "classe": "amplificador",
+    "Descrição": "aumenta a vida dos pokemons",
+    "quantidade": 4,
+    "raridade": "Incomum",
+    "aumento": "Vida",
+    "preço": 2
+}
+
+Rubelita = {
+    "nome": "Rubelita",
+    "classe": "amplificador",
+    "Descrição": "aumenta a velocidade dos pokemons",
+    "quantidade": 4,
+    "raridade": "Incomum",
+    "aumento": "vel",
     "preço": 2
 }
 
@@ -301,7 +297,7 @@ Porto_Molgera = {
 }
 
 Pokebolas_Todas = [Pokebola,Gratball,Ultraball,Masterball]
-Amplificadores_Todos = [Citrino,Safira,Rubi,Ametista,Esmeralda,Energia_Mega]
+Amplificadores_Todos = [Citrino,Safira,Rubi,Ametista,Esmeralda,Rubelita,Diamante,Energia_Mega]
 Estadios_Todos = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
 Poçoes_Todas = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção]
 Frutas_Todas = [Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]

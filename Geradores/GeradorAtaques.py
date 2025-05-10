@@ -174,7 +174,7 @@ DicionarioAtaques = {
     "Mente Forte": lambda: importlib.import_module("Dados.Ataques.Psiquico").Mente_Forte,
     "Psicorte Duplo": lambda: importlib.import_module("Dados.Ataques.Psiquico").Psicorte_Duplo,
     "Corrosão Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Corrosao_Psiquica,
-    "Tranferência Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Tranferencia_Psíquica,
+    "Tranferência Psíquica": lambda: importlib.import_module("Dados.Ataques.Psiquico").Transferencia_Psiquica,
     "Teletransporte": lambda: importlib.import_module("Dados.Ataques.Psiquico").Teletransporte,
     "Raio Psíquico": lambda: importlib.import_module("Dados.Ataques.Psiquico").Raio_Psiquico,
     "Agonia Mental": lambda: importlib.import_module("Dados.Ataques.Psiquico").Agonia_Mental,

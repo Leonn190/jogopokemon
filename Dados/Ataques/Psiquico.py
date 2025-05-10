@@ -205,7 +205,7 @@ Transferencia_Psiquica = {
     "efeito2": "FluxoAzul",
     "extra": "AV",
     "funçao": Irregular,
-    "irregularidade": F_Ampliação_Mental
+    "irregularidade": F_Transferencia_Psiquica
     }
 
 def F_Teletransporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
@@ -235,7 +235,7 @@ Teletransporte = {
     "irregularidade": F_Teletransporte
     }
 
-def F_Raio_Psíquico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def F_Raio_Psiquico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     contador = 0
     for efeito in Alvo.efeitosNega:
         if Alvo.efeitosNega[efeito] > 0:
@@ -247,7 +247,7 @@ def F_Raio_Psíquico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Ma
 
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
-Raio_Psíquico = {
+Raio_Psiquico = {
     "nome": "Raio Psíquico",
     "tipo": ["psiquico"],   
     "custo": ["normal","roxa","roxa","roxa","roxa"],
@@ -259,7 +259,7 @@ Raio_Psíquico = {
     "efeito": "RasgoMagenta",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Raio_Psíquico
+    "irregularidade": F_Raio_Psiquico
     }
 
 def F_Agonia_Mental(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
@@ -279,5 +279,5 @@ Agonia_Mental = {
     "efeito": "OrbesRoxos",
     "extra": "A",
     "funçao": Irregular,
-    "irregularidade": F_Raio_Psíquico
+    "irregularidade": F_Agonia_Mental
     }

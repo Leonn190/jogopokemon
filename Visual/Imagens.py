@@ -275,6 +275,8 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     RubiIMG = GV.Carregar_Imagem("imagens/itens/rubi.png", (62, 62), "PNG")
     SafiraIMG = GV.Carregar_Imagem("imagens/itens/safira.png", (62, 62), "PNG")
     AmetistaIMG = GV.Carregar_Imagem("imagens/itens/ametista.png", (62, 62), "PNG")
+    RubelitaIMG = GV.Carregar_Imagem("imagens/itens/rubelita.png", (62, 62), "PNG")
+    DiamanteIMG = GV.Carregar_Imagem("imagens/itens/diamante.png", (62, 62), "PNG")
     ColetorIMG = GV.Carregar_Imagem("imagens/itens/coletor.png", (62, 62), "PNG")
     CaixaIMG = GV.Carregar_Imagem("imagens/itens/caixa.png", (62, 62), "PNG")
     CaixoteIMG = GV.Carregar_Imagem("imagens/itens/caixote.png", (62, 62), "PNG")
@@ -444,6 +446,8 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     "Rubi": RubiIMG,
     "Safira": SafiraIMG,
     "Ametista": AmetistaIMG,
+    "Rubelita": RubelitaIMG,
+    "Diamante": DiamanteIMG,
     "Coletor": ColetorIMG,
     "Caixa": CaixaIMG,
     "Caixote": CaixoteIMG,

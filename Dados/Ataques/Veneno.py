@@ -50,7 +50,7 @@ def Alv_Bomba_de_Lodo(PokemonS,Alvo,player,inimigo,Mapa):
     return inimigos
 
 def F_Bomba_de_Lodo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    Alvo.efeitosNega["Envenenado"]
+    Alvo.efeitosNega["Envenenado"] = 3
     if Alvo != AlvoS:
         Dano = Dano * 0.0
 
@@ -61,7 +61,7 @@ Bomba_de_Lodo = {
     "tipo": ["venenoso"],   
     "custo": ["roxa","roxa","roxa"],
     "estilo": "E",
-    "dano": 0.95,
+    "dano": 1,
     "alcance": 20,
     "precisão": 100, 
     "descrição": "Esse ataque causa envenenamento por 3 turnos aos pokemons inimigos adjacentes até 2 casas",
