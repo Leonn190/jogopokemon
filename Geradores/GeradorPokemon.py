@@ -268,7 +268,7 @@ class Pokemon:
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
 
 
-    def Ganhar_XP(self,quantidade,player):
+    def Ganhar_XP(self,quantidade,player=0):
         self.xp_atu = self.xp_atu + quantidade
     
     def amplificar(self,tipo,tela,player):

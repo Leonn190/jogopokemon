@@ -777,9 +777,8 @@ estadoOutros = {
 
 estadoPokebola = {"selecionado_esquerdo": None,}
 
-estadoItens = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+estadoItens = {"selecionado_direito": None}
+
 estadoEnergias = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}

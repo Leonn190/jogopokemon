@@ -455,6 +455,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
 
     def TiraDescriçao():
         global H
+        estado["selecionado_direito"] = None
         H = None
 
     for i, item in enumerate(player.inventario[:10]):
