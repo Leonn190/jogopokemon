@@ -98,7 +98,7 @@ Coleta_Gananciosa = {
     "custo": ["preta"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "Ganhe 1 de ouro, no entanto voce pode ganhar mais, porém toda vez que escolhe mais tem mais chance de perder tudo",
     "efeito": "!None",

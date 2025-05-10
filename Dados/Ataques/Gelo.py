@@ -68,7 +68,7 @@ Magia_de_Gelo = {
     "custo": ["normal","azul"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "Cure 20 de vida do pokemon Visualizado e escolha quantos turnos ele vai ganhar o efeito cura e congelado",
     "efeito": "MagiaAzul",

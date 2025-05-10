@@ -31,7 +31,7 @@ def F_Chicote_de_Vinha(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,
     return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Chicote_de_Vinha = {
-    "nome": "Dreno",
+    "nome": "Chicote de Vinha",
     "tipo": ["planta"],   
     "custo": ["verde","verde"],
     "estilo": "N",
@@ -74,9 +74,9 @@ Cura_Natural = {
     "custo": ["verde"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
-    "descrição": "Ganhe regeneração por 3 turnos, caso tenha um pokemon vizualisado aliado, ele que ganhará o efeito",
+    "descrição": "Ganhe regeneração por 3 turnos, caso tenha um pokemon visualizado aliado, ele que ganhará o efeito",
     "efeito": "DomoVerde",
     "efeito2": "DomoVerde",
     "extra": "TV",
@@ -101,14 +101,13 @@ Raio_Solar = {
 
 def Alv_Dança_das_Petalas(PokemonS,Alvo,player,inimigo,Mapa):
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
-    return aliados + PokemonS
+    return aliados + [PokemonS]
 
-def F_Dança_das_Petalas(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    cura = (Alvo.VidaMax - Alvo.Vida) * 0.15
-    Alvo.curar(cura,player,tela)
-    Alvo.efeitosPosi["Velocista"] = 3
-
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+def F_Dança_das_Petalas(PokemonS,PokemonV,Alvo,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for alvo in Alvos:
+        cura = (alvo.VidaMax - alvo.Vida) * 0.15
+        alvo.curar(cura,player,tela)
+        alvo.efeitosPosi["Velocista"] = 3
 
 Dança_das_Petalas = {
     "nome": "Dança das Pétalas",
@@ -116,14 +115,14 @@ Dança_das_Petalas = {
     "custo": ["normal","verde","verde"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "Num raio de 2 casas adjacentes, cure 15% da vida perdida dos aliados e deixe eles com o efeito velocista",
     "efeito": "DomoVerde",
     "extra": "MA",
     "alvos": Alv_Dança_das_Petalas,
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Dança_das_Petalas
+    "funçao": F_Dança_das_Petalas,
+    "irregularidade": None
     }
 
 def F_Mega_Dreno(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):

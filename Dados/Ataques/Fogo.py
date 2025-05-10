@@ -112,7 +112,7 @@ Ondas_de_Calor = {
     "custo": ["normal","vermelha","vermelha"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "qaunto mais perto os inimigos estiverem desse pokemon, mais chance eles tem de serem atingidos, todos os atingidos ficam queimados por 4 turnos",
     "efeito": "Fogo",

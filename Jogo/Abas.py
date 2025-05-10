@@ -659,8 +659,7 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energi
             tela.blit(texto, (x_centro - texto.get_width() // 2, base_y + 24))  
 
 def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
-    if PokemonS.PodeAtacar == True:
-        if AtaqueS is not None:
+    if AtaqueS is not None:
             alvos = None
             AlvoLoc2 = None
             if AtaqueS["extra"] == "V":
@@ -721,6 +720,7 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                 return
             
             PokemonS.atacou = True
+            PokemonS.Ganhar_XP(4,player)
 
             if AtaqueS["extra"] == "A" or AtaqueS["extra"] == "AV":
                 if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
@@ -743,15 +743,10 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                         jafoi = True
                     else:
                         adicionar_efeito(AtaqueS["efeito"],AlvoLoc)
-        else: 
+    else: 
             GV.adicionar_mensagem("Selecione um ataque")
             tocar("Bloq")
             return
-        
-    else:
-        GV.adicionar_mensagem("Esse pokemon não pode realizar ataques")
-        tocar("Bloq")
-        return
 
 
 def Trocar_Ataque(Pokemon,EstadoDaPergunta,Ataque,escolha):

@@ -43,7 +43,7 @@ Barragem_Rochosa = {
     "custo": ["cinza"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "Ganhe 20% das somas das defesas como barreira",
     "efeito": "!None",

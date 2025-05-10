@@ -76,7 +76,7 @@ Barragem = {
     "custo": ["cinza"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "Ganhe barreira equivalente a 40% do dano especial, caso esse pokemon seja do tipo Metal, ganhe mais 25%",
     "efeito": "Engrenagem",

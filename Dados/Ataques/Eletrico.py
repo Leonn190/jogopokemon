@@ -82,10 +82,10 @@ Choque_do_Trovao = {
 def F_Energizar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     if PokemonV is not None:
         if PokemonV in player.pokemons:
-            PokemonV.efeitosPosi["Energizado"] += 3
+            PokemonV.efeitosPosi["Energizado"] += 2
             return
  
-    PokemonS.efeitosPosi["Energizado"] += 3
+    PokemonS.efeitosPosi["Energizado"] += 2
 
 Energizar = {
     "nome": "Energizar",
@@ -93,9 +93,9 @@ Energizar = {
     "custo": ["normal","amarela"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 99, 
-    "descrição": "Ganhe energizado por 3 turnos ou caso exista um pokemon aliado vizualisado, ele que ganhará o efeito",
+    "descrição": "Ganhe energizado por 2 turnos ou caso exista um pokemon aliado vizualisado, ele que ganhará o efeito",
     "efeito": "Estouro",
     "efeito2": "Estouro",
     "extra": "TV",

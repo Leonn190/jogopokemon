@@ -13,7 +13,7 @@ Voar = {
     "custo": ["cinza"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "voe e ganhe o efeito voando por 3 turnos",
     "efeito": "!None",

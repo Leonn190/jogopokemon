@@ -138,11 +138,20 @@ class Pokemon:
         self.IV_vel = pokemon["IV vel"]
 
         self.movimento1 = pokemon["Move1"]
+        self.movimento1["num"] = 1
         self.movimento2 = pokemon["Move2"]
+        self.movimento1["num"] = 2
         self.movimento3 = pokemon["Move3"]
+        self.movimento1["num"] = 3
         self.movimento4 = pokemon["Move4"]
+        self.movimento1["num"] = 4
         self.moveList = pokemon["MoveList"]
         self.movePossiveis = pokemon["possiveis"]
+
+        self.PodeMovimento1 = 0
+        self.PodeMovimento2 = 0
+        self.PodeMovimento3 = 0
+        self.PodeMovimento4 = 0
 
         self.code = pokemon["code"]
         self.ID = pokemon["ID"] #unico
@@ -268,7 +277,7 @@ class Pokemon:
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
 
 
-    def Ganhar_XP(self,quantidade,player=0):
+    def Ganhar_XP(self,quantidade,player):
         self.xp_atu = self.xp_atu + quantidade
     
     def amplificar(self,tipo,tela,player):

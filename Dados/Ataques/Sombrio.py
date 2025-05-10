@@ -13,7 +13,7 @@ Nas_Sombras = {
     "custo": ["preta","preta"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "entre nas sombras e ganhe o efeito furtivo por 5 turnos",
     "efeito": "ChuvaBrilhante",

@@ -201,7 +201,7 @@ DicionarioAtaques = {
     "Chicote de Vinha": lambda: importlib.import_module("Dados.Ataques.Planta").Chicote_de_Vinha,
     "Cura Natural": lambda: importlib.import_module("Dados.Ataques.Planta").Cura_Natural,
     "Raio Solar": lambda: importlib.import_module("Dados.Ataques.Planta").Raio_Solar,
-    "Dança das Pétalas": lambda: importlib.import_module("Dados.Ataques.Planta").Dança_das_petalas,
+    "Dança das Pétalas": lambda: importlib.import_module("Dados.Ataques.Planta").Dança_das_Petalas,
     "Mega Dreno": lambda: importlib.import_module("Dados.Ataques.Planta").Mega_Dreno,
     "Folha Navalha": lambda: importlib.import_module("Dados.Ataques.Planta").Folha_Navalha,
     "Morteiro de Pólem": lambda: importlib.import_module("Dados.Ataques.Planta").Morteiro_de_Polem,
