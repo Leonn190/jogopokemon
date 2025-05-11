@@ -86,7 +86,6 @@ class Pokemon:
         self.nome = pokemon["nome"]
         self.tipo = pokemon["tipo"]
         self.raridade = pokemon["raridade"]
-        self.dificuldade = pokemon["dificuldade"]
         self.Estagio = pokemon["estagio"]
         self.Altura = pokemon["altura"]
         self.Peso = pokemon["peso"]
@@ -429,7 +428,6 @@ def Gerador(Pokemon,P):
         "nome": Pok["nome"],
         "tipo": Pok["tipo"],
         "raridade": Pok["raridade"],
-        "dificuldade": Pok["dificuldade"],
         "vida": vida,
         "estagio": 1,
         "altura": Altura,

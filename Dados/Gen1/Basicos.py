@@ -5,8 +5,8 @@ from Dados.Gen1.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Gravele
 
 Bulbasaur = {
     "nome": "Bulbasaur",
-    "raridade": 4,
-    "dificuldade": 3,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 1,
     "tipo": ["planta", "venenoso"],
     "evolução": Ivysaur,
@@ -27,8 +27,8 @@ Bulbasaur = {
 
 Charmander = {
     "nome": "Charmander",
-    "raridade": 4,
-    "dificuldade": 3,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 2,
     "tipo": ["fogo"],
     "evolução": Charmeleon,
@@ -49,8 +49,8 @@ Charmander = {
 
 Squirtle = {
     "nome": "Squirtle",
-    "raridade": 4,
-    "dificuldade": 3,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 3,
     "tipo": ["agua"],
     "evolução": Wartortle,
@@ -71,8 +71,8 @@ Squirtle = {
 
 Machop = {
     "nome": "Machop",
-    "raridade": 3,
-    "dificuldade": 3,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 4,
     "tipo": ["lutador"],
     "evolução": Machoke,
@@ -93,8 +93,8 @@ Machop = {
 
 Gastly = {
     "nome": "Gastly",
-    "raridade": 3,
-    "dificuldade": 3,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 5,
     "tipo": ["fantasma", "venenoso"],
     "evolução": Haunter,
@@ -115,8 +115,8 @@ Gastly = {
 
 Geodude = {
     "nome": "Geodude",
-    "raridade": 2,
-    "dificuldade": 3,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 6,
     "tipo": ["pedra", "terrestre"],
     "evolução": Graveler,
@@ -137,8 +137,8 @@ Geodude = {
 
 Caterpie = {
     "nome": "Caterpie",
-    "raridade": 1,
-    "dificuldade": 1,
+    "raridade": "Comum",
+    "dificuldade": 2,
     "code": 7,
     "tipo": ["inseto"],
     "evolução": Metapod,
@@ -159,8 +159,8 @@ Caterpie = {
 
 Abra = {
     "nome": "Abra",
-    "raridade": 4,
-    "dificuldade": 4,
+    "raridade": "Raro",
+    "dificuldade": 6,
     "code": 8,
     "tipo": ["psiquico"],
     "evolução": Kadabra,
@@ -181,8 +181,8 @@ Abra = {
 
 Dratini = {
     "nome": "Dratini",
-    "raridade": 5,
-    "dificuldade": 3,
+    "raridade": "Raro",
+    "dificuldade": 6,
     "code": 9,
     "tipo": ["dragao"],
     "evolução": Dragonair,
@@ -203,8 +203,8 @@ Dratini = {
 
 Pikachu = {
     "nome": "Pikachu",
-    "raridade": 3,
-    "dificuldade": 2,
+    "raridade": "Raro",
+    "dificuldade": 6,
     "code": 10,
     "tipo": ["eletrico"],
     "evolução": [Raichu, Pikachu_V],
@@ -225,8 +225,8 @@ Pikachu = {
 
 Zorua = {
     "nome": "Zorua",
-    "raridade": 5,
-    "dificuldade": 4,
+    "raridade": "Epico",
+    "dificuldade": 8,
     "code": 11,
     "tipo": ["sombrio"],
     "evolução": Zoroark,
@@ -247,7 +247,7 @@ Zorua = {
 
 Magikarp = {
     "nome": "Magikarp",
-    "raridade": 2,
+    "raridade": "Comum",
     "dificuldade": 2,
     "code": 12,
     "tipo": ["agua"],
@@ -269,8 +269,8 @@ Magikarp = {
 
 Jigglypuff = {
     "nome": "Jigglypuff",
-    "raridade": 3,
-    "dificuldade": 1,
+    "raridade": "Comum",
+    "dificuldade": 2,
     "code": 13,
     "tipo": ["fada", "normal"],
     "evolução": Wigglytuff,
@@ -291,8 +291,8 @@ Jigglypuff = {
 
 Clefairy = {
     "nome": "Clefairy",
-    "raridade": 3,
-    "dificuldade": 1,
+    "raridade": "Comum",
+    "dificuldade": 2,
     "code": 14,
     "tipo": ["fada"],
     "evolução": Clefable,
@@ -313,7 +313,7 @@ Clefairy = {
 
 Meowth = {
     "nome": "Meowth",
-    "raridade": 2,
+    "raridade": "Comum",
     "dificuldade": 2,
     "code": 15,
     "tipo": ["normal"],
@@ -335,7 +335,7 @@ Meowth = {
 
 Cubone = {
     "nome": "Cubone",
-    "raridade": 2,
+    "raridade": "Incomum",
     "dificuldade": 4,
     "code": 16,
     "tipo": ["terrestre"],
@@ -358,8 +358,8 @@ Cubone = {
 
 Shellder = {
     "nome": "Shellder",
-    "raridade": 3,
-    "dificuldade": 2,
+    "raridade": "Raro",
+    "dificuldade": 6,
     "code": 17,
     "tipo": ["agua"],
     "evolução": Cloyster,
@@ -381,8 +381,8 @@ Shellder = {
 
 Magnemite = {
     "nome": "Magnemite",
-    "raridade": 2,
-    "dificuldade": 2,
+    "raridade": "Incomum",
+    "dificuldade": 4,
     "code": 18,
     "tipo": ["eletrico", "metal"],
     "evolução": Magneton,
@@ -404,8 +404,8 @@ Magnemite = {
 
 Rattata = {
     "nome": "Rattata",
-    "raridade": 1,
-    "dificuldade": 1,
+    "raridade": "Comum",
+    "dificuldade": 2,
     "code": 19,
     "tipo": ["normal"],
     "evolução": Raticate,
@@ -426,8 +426,8 @@ Rattata = {
 
 Weedle = {
     "nome": "Weedle",
-    "raridade": 1,
-    "dificuldade": 1,
+    "raridade": "Comum",
+    "dificuldade": 2,
     "code": 20,
     "tipo": ["inseto"],
     "evolução": Kakuna,
@@ -449,8 +449,8 @@ Weedle = {
 
 Snorlax = {
     "nome": "Snorlax",
-    "raridade": 7,
-    "dificuldade": 5,
+    "raridade": "Epico",
+    "dificuldade": 8,
     "code": 21,
     "tipo": ["normal"],
     "evolução": Snorlax_V,
@@ -472,8 +472,8 @@ Snorlax = {
 
 Aerodactyl = {
     "nome": "Aerodactyl",
-    "raridade": 7,
-    "dificuldade": 6,
+    "raridade": "Epico",
+    "dificuldade": 8,
     "code": 22,
     "tipo": ["pedra", "voador"],
     "evolução": None,
@@ -495,8 +495,8 @@ Aerodactyl = {
 
 Jynx = {
     "nome": "Jynx",
-    "raridade": 6,
-    "dificuldade": 4,
+    "raridade": "Raro",
+    "dificuldade": 6,
     "code": 23,
     "tipo": ["psiquico", "gelo"],
     "evolução": None,
@@ -517,8 +517,8 @@ Jynx = {
 
 Pinsir = {
     "nome": "Pinsir",
-    "raridade": 6,
-    "dificuldade": 4,
+    "raridade": "Raro",
+    "dificuldade": 6,
     "code": 24,
     "tipo": ["inseto"],
     "evolução": None,
@@ -540,8 +540,8 @@ Pinsir = {
 
 Mewtwo = {
     "nome": "Mewtwo",
-    "raridade": 10,
-    "dificuldade": 9,
+    "raridade": "Lendario",
+    "dificuldade": 12,
     "code": 25,
     "tipo": ["psiquico"],
     "evolução": None,
@@ -562,8 +562,8 @@ Mewtwo = {
 
 Articuno = {
     "nome": "Articuno",
-    "raridade": 10,
-    "dificuldade": 8,
+    "raridade": "Lendario",
+    "dificuldade": 12,
     "code": 26,
     "tipo": ["voador", "gelo"],
     "evolução": None,
@@ -584,8 +584,8 @@ Articuno = {
 
 Moltres = {
     "nome": "Moltres",
-    "raridade": 10,
-    "dificuldade": 8,
+    "raridade": "Lendario",
+    "dificuldade": 12,
     "code": 27,
     "tipo": ["voador", "fogo"],
     "evolução": None,
@@ -606,8 +606,8 @@ Moltres = {
 
 Zapdos = {
     "nome": "Zapdos",
-    "raridade": 10,
-    "dificuldade": 8,
+    "raridade": "Lendario",
+    "dificuldade": 12,
     "code": 28,
     "tipo": ["voador", "eletrico"],
     "evolução": None,

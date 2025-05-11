@@ -57,6 +57,13 @@ class Baralho:
         self.Raros = []
         self.Lendarios = []
 
+        self.PokeComuns = []
+        self.PokeIncomuns = []
+        self.PokeRaros = []
+        self.PokeEpicos = []
+        self.PokeMiticos = []
+        self.PokeLendarios = []
+
         for item in self.baralho:
             if item["raridade"] == "Comum":
                 self.Comuns.append(item)
@@ -66,6 +73,21 @@ class Baralho:
                 self.Raros.append(item)
             elif item["raridade"] == "Lendario":
                 self.Lendarios.append(item)
+        
+        for pokemon in Pokedex:
+            if pokemon != 0:
+                if pokemon["raridade"] == "Comum":
+                    self.PokeComuns.append(pokemon)
+                elif pokemon["raridade"] == "Incomum":
+                    self.PokeIncomuns.append(pokemon)
+                elif pokemon["raridade"] == "Raro":
+                    self.PokeRaros.append(pokemon)
+                elif pokemon["raridade"] == "Epico":
+                    self.PokeEpicos.append(pokemon)
+                elif pokemon["raridade"] == "Mitico":
+                    self.PokeMiticos.append(pokemon)
+                elif pokemon["raridade"] == "Lendario":
+                    self.PokeLendarios.append(pokemon)
 
     def devolve_item(self,item):
             if item["raridade"] == "Comum":
@@ -77,24 +99,61 @@ class Baralho:
             elif item["raridade"] == "Lendario":
                 self.Lendarios.append(item)
 
-def spawn_do_centro(centro):
-    pokemons_possiveis = Pokedex.copy()
-    if 0 in pokemons_possiveis:
-        pokemons_possiveis.remove(0)
+def spawn_do_centro(centro,Baralho,turnos):
+
+    if turnos < 4:
+        raridades = { "Comum": 45, "Incomum": 40, "Raro": 13, "Epico": 2, "Mitico": 0, "Lendario": 0 }
+
+    elif turnos < 8:
+        raridades = { "Comum": 35, "Incomum": 35, "Raro": 20, "Epico": 7, "Mitico": 3, "Lendario": 0 }
+
+    elif turnos < 15:
+        raridades = { "Comum": 28, "Incomum": 28, "Raro": 25, "Epico": 12, "Mitico": 5, "Lendario": 2}
+    
+    else:
+        raridades = { "Comum": 18, "Incomum": 20, "Raro": 22, "Epico": 20, "Mitico": 13, "Lendario": 7}
 
 
-    if len(centro) < 9:
-        if random.choice(["s", "n"]) == "s":
-            # Cria uma lista ponderada com base na raridade (quanto menor a raridade, mais comum)
-            raridades = []
-            for pokemon in pokemons_possiveis:
-                raridades.extend([pokemon] * (11 - pokemon["raridade"]))
+    baralhos_por_raridade = {
+        "Comum": Baralho.PokeComuns,
+        "Incomum": Baralho.PokeIncomuns,
+        "Raro": Baralho.PokeRaros,
+        "Epico": Baralho.PokeEpicos,
+        "Mitico": Baralho.PokeMiticos,
+        "Lendario": Baralho.PokeLendarios
+    }
+    
+    def spawn(centro,i):
+        raridade_escolhida = random.choices(
+                population=["Comum", "Incomum", "Raro", "Epico", "Mitico", "Lendario"],
+                weights=[raridades["Comum"], raridades["Incomum"], raridades["Raro"], raridades["Epico"], raridades["Mitico"], raridades["Lendario"]],
+                k=1
+            )[0]
+        
+        BaralhoEscolhido = baralhos_por_raridade[raridade_escolhida]
+        if BaralhoEscolhido == []:
+            return
+        centro[i] = random.choice(BaralhoEscolhido)
+        GV.adicionar_mensagem(f"Um {centro[i]["nome"]} selvagem apareceu")
+    
+    def despawn(centro,i):
+        GV.adicionar_mensagem(f"Um {centro[i]["nome"]} selvagem desapareceu")
+        centro[i] = None
 
-            # Seleciona um Pokémon aleatório com base na raridade
-            pokemon_apareceu = random.choice(raridades)
-            centro.append(pokemon_apareceu)
+    for i,slot in enumerate(centro):
+        if slot is not None:
+            if random.choice([1,2,3,4]) == 1:
+                despawn(centro,i)
+                break
 
-            GV.adicionar_mensagem(f"Um {pokemon_apareceu['nome']} selvagem apareceu no centro!")
+    pokemonsSpawn = 0
+    for i,slot in enumerate(centro):
+        if pokemonsSpawn == 2:
+            break
+        if slot is None:
+            if random.choice([1,2,3]) == 1:
+                spawn(centro,i)
+                pokemonsSpawn += 1
 
     return centro
 

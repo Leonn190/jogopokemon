@@ -4,7 +4,7 @@ Pokebola = {
     "Descrição": "serve para capturar pokemons",
     "quantidade": 8,
     "raridade": "Comum",
-    "poder": 2,
+    "poder": 3,
     "preço": 2
 }
 
@@ -14,7 +14,7 @@ Gratball = {
     "Descrição": "serve para capturar pokemons",
     "quantidade": 6,
     "raridade": "Incomum",
-    "poder": 4,
+    "poder": 5,
     "preço": 4
 }
 
@@ -24,7 +24,7 @@ Ultraball = {
     "Descrição": "serve para capturar pokemons",
     "quantidade": 3,
     "raridade": "Raro",
-    "poder": 6,
+    "poder": 8,
     "preço": 6
 }
 
@@ -34,7 +34,7 @@ Masterball = {
     "Descrição": "serve para capturar pokemons",
     "quantidade": 1,
     "raridade": "Lendario",
-    "poder": 10,
+    "poder": 15,
     "preço": 10
 }
 

@@ -51,7 +51,7 @@ OutrosIMG = []
 FundosIMG = []
 EfeitosIMG = {}
 
-Centro = []
+Centro = [None,None,None,None,None,None,None,None]
 ver_centro = "n"
 
 Turno = 1
@@ -162,8 +162,8 @@ def passar_turno():
             pokemon.Ganhar_XP(2,player)
     Passar_contadores()
 
-    Centro = GO.spawn_do_centro(Centro)
-    Centro = GO.spawn_do_centro(Centro)
+    Centro = GO.spawn_do_centro(Centro, Baralho, Turno)
+
     Turno += 1
     fechar_tudo()
     GV.adicionar_mensagem(f"Novo turno de {player.nome}!")
@@ -441,12 +441,11 @@ def fechar_tudo():
 
     alvo = None
 
-def PokemonCentro(ID,player):
+def PokemonCentro(pokemon,player):
     global Centro
     global estadoOutros
 
     AIV = 1
-    pokemon = Centro[ID]
     
     if PokebolaSelecionada is not None:
         Baralho.devolve_item(PokebolaSelecionada)
@@ -470,7 +469,8 @@ def PokemonCentro(ID,player):
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
                 VerificaGIF(player,inimigo)
                 tocar("Bom")
-                Centro.remove(pokemon)
+                indice = Centro.index(pokemon)
+                Centro[indice] = None
                 return
             else:
                 tocar("Bloq")
@@ -611,91 +611,100 @@ def tocar_musica_do_estadio():
         Musica_Estadio_atual = Z
 
 def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, estadoPokebola, estadoFruta, eventos):
-    tamanho_pokemon = 100
-    tamanho_pokebola = 60
-    tamanho_fruta = 50
+    largura_total = 380
+    altura_total = 420
 
-    largura_total = 360
-    altura_total = 360
-
+    espacamento = 5
     x_inicial_animado = x_inicial
 
-    # Retângulo de fundo da área principal
+    # Calculando tamanhos
+    tamanho_pokemon = (largura_total - (5 * espacamento)) // 4
+    tamanho_botao_pokebola = 50
+    tamanho_fruta = 50
+
+    # Retângulo de fundo
     ret = pygame.Rect(x_inicial_animado, y_inicial, largura_total, altura_total)
     pygame.draw.rect(tela, (30, 30, 30), ret)
     pygame.draw.rect(tela, (255, 255, 255), ret, 3)
 
-    #  Grade 3x3 de Pokémon 
-    for i in range(len(Centro)):
-        coluna = i % 3
-        linha = i // 3
-        x = x_inicial_animado + coluna * tamanho_pokemon
-        y = y_inicial + 10 + linha * tamanho_pokemon 
+    # Seção superior com título
+    altura_titulo = 30  # altura visual da seção de título
+    texto = Fonte28.render("Centro Pokémon", True, (255, 255, 255))
+    texto_rect = texto.get_rect(center=(x_inicial_animado + largura_total // 2, y_inicial + altura_titulo // 2))
+    tela.blit(texto, texto_rect)
 
-        GV.Botao(
-            tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), CINZA, PRETO, AZUL,
-            lambda i=i: PokemonCentro(i, player),
-            Fonte50, B6, 2, None, True, eventos
+    # Linha branca separadora
+    pygame.draw.line(tela, (255, 255, 255), (x_inicial_animado, y_inicial + altura_titulo), (x_inicial_animado + largura_total, y_inicial + altura_titulo), 2)
+
+    # Ajuste Y inicial dos botões de pokébolas (começam logo após a linha)
+    offset_y_pokebola = y_inicial + altura_titulo + espacamento
+
+    # Pokébolas (topo, 6 espaços)
+    for i, item in enumerate([i for i in player.inventario if i.get("classe") == "pokebola"][:6]):
+        x = x_inicial_animado + i * (tamanho_botao_pokebola + espacamento)
+        y = offset_y_pokebola
+
+        GV.Botao_Selecao(
+            tela, (x, y, tamanho_botao_pokebola, tamanho_botao_pokebola),
+            "", Fonte28,
+            cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
+            cor_borda_esquerda=VERMELHO,
+            cor_borda_direita=None,
+            cor_passagem=AMARELO, id_botao=i,
+            estado_global=estadoPokebola, eventos=eventos,
+            funcao_esquerdo=lambda item=item: seleciona_pokebola(item),
+            funcao_direito=None,
+            desfazer_esquerdo=lambda: desseleciona_pokebola(),
+            desfazer_direito=None,
+            tecla_esquerda=None, tecla_direita=None, grossura=3
         )
-    # precisa de for diferentes pois centro perde um pokemon no botao acima
-    for i in range(len(Centro)):
-        coluna = i % 3        
-        linha = i // 3        
-        x = x_inicial_animado + coluna * 99
-        y = y_inicial + linha * 99
-        tela.blit(ImagensPokemonCentro[Centro[i]["nome"]], (x, y))
+        tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
 
-    #  Pokébolas
-    idx_pokebola = 0
-    for i, item in enumerate(player.inventario):
-        if item.get("classe") == "pokebola":
-            x = x_inicial_animado + 300  
-            y = y_inicial + idx_pokebola * tamanho_pokebola  
+    # Grade Pokémon (centro, 4x2)
+    offset_y_pokemon = offset_y_pokebola + tamanho_botao_pokebola + espacamento
+    for i, pokemon in enumerate(Centro):
+        coluna = i % 4
+        linha = i // 4
+        x = x_inicial_animado + espacamento + coluna * (tamanho_pokemon + espacamento)
+        y = offset_y_pokemon + linha * (tamanho_pokemon + espacamento)
 
-            GV.Botao_Selecao(
-                tela, (x, y, tamanho_pokebola, tamanho_pokebola),
-                "", Fonte28,
-                cor_fundo=AZUL_SUPER_CLARO, cor_borda_normal=PRETO,
-                cor_borda_esquerda=VERMELHO,
-                cor_borda_direita=None,
-                cor_passagem=AMARELO, id_botao=i,
-                estado_global=estadoPokebola, eventos=eventos,
-                funcao_esquerdo=lambda item=item: seleciona_pokebola(item),
-                funcao_direito=None,
-                desfazer_esquerdo=lambda: desseleciona_pokebola(),
-                desfazer_direito=None,
-                tecla_esquerda=None, tecla_direita=None, grossura=3
+        if pokemon and pokemon["nome"] in ImagensPokemonCentro:
+            # Desenha botão e imagem do Pokémon
+            GV.Botao(
+                tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), CINZA, PRETO, AZUL,
+                lambda p=pokemon: PokemonCentro(p, player),
+                Fonte50, B6, 2, None, True, eventos
             )
+            tela.blit(ImagensPokemonCentro[pokemon["nome"]], (x, y))
+        else:
+            # Desenha apenas a lacuna vazia
+            vazio = pygame.Surface((tamanho_pokemon, tamanho_pokemon))
+            vazio.fill((50, 50, 50))
+            tela.blit(vazio, (x, y))
 
+    # Frutas (parte inferior, 6 espaços)
+    offset_y_fruta = y_inicial + altura_total - tamanho_fruta - espacamento
+    for i, item in enumerate([i for i in player.inventario if i.get("classe") == "Fruta"][:6]):
+        x = x_inicial_animado + i * (tamanho_fruta + espacamento)
+        y = offset_y_fruta
+
+        GV.Botao_Selecao(
+            tela, (x, y, tamanho_fruta, tamanho_fruta),
+            "", Fonte28,
+            cor_fundo=(150, 100, 100), cor_borda_normal=PRETO,
+            cor_borda_esquerda=VERDE,
+            cor_borda_direita=None,
+            cor_passagem=AMARELO, id_botao=i,
+            estado_global=estadoFruta, eventos=eventos,
+            funcao_esquerdo=lambda item=item: seleciona_fruta(item),
+            funcao_direito=None,
+            desfazer_esquerdo=lambda: desseleciona_fruta(),
+            desfazer_direito=None,
+            tecla_esquerda=None, tecla_direita=None, grossura=3
+        )
+
+        if item["nome"] in ImagensCaptura:
             tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
-            idx_pokebola += 1
-
-    # (parte inferior, 6 espaços)
-    idx_fruta = 0
-    for i, item in enumerate(player.inventario):
-        if item.get("classe") == "Fruta":
-            x = x_inicial_animado + idx_fruta * tamanho_fruta
-            y = y_inicial + 310  
-
-            GV.Botao_Selecao(
-                tela, (x, y, tamanho_fruta, tamanho_fruta),
-                "", Fonte28,
-                cor_fundo=(150, 100, 100), cor_borda_normal=PRETO,
-                cor_borda_esquerda=VERDE,
-                cor_borda_direita=None,
-                cor_passagem=AMARELO, id_botao=i,
-                estado_global=estadoFruta, eventos=eventos,
-                funcao_esquerdo=lambda item=item: seleciona_fruta(item),
-                funcao_direito=None,
-                desfazer_esquerdo=lambda: desseleciona_fruta(),
-                desfazer_direito=None,
-                tecla_esquerda=None, tecla_direita=None, grossura=3
-            )
-
-            if item["nome"] in ImagensCaptura:
-                tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
-
-            idx_fruta += 1
 
 def Troca_Terminal():
     global animaT, T1, T2
@@ -961,7 +970,7 @@ def Inicia(tela):
 
     Pausa = False
     Turno = 1
-    Centro = []
+    Centro = [None,None,None,None,None,None,None,None]
 
     Resetar_Cronometro()
     cronometro.inicio = pygame.time.get_ticks()
