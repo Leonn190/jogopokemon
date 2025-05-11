@@ -298,7 +298,7 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
                 Mostrar_Ataque(tela, AtaqueSV, (1540, y + 60), imagens_tipos)
 
 def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
-    FUNDO = (30, 30, 30)
+    FUNDO = (35, 35, 35)
     BORDA = (255, 255, 255)
     TEXTO = (255, 255, 255)
     LINHA = (200, 200, 200)
@@ -309,7 +309,7 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
         "amarela": (255, 255, 0), "verde": (0, 200, 0),
         "roxa": (128, 0, 128), 
         "laranja": (255, 140, 0), 
-        "preta": (30, 30, 30), "cinza": (160, 160, 160)
+        "preta": (0, 0, 0), "cinza": (160, 160, 160)
     }
 
     # Fontes menores para caber melhor na ficha reduzida
@@ -431,199 +431,191 @@ H = None
 B1 = {"estado": False}
 BotaoCompraEnergia = {"estado": False}
 
-FonteMenor = pygame.font.SysFont(None, 25)
-Fonte = pygame.font.SysFont(None, 32)
+FonteMenor = pygame.font.SysFont("arial", 16)
+Fonte = pygame.font.SysFont("arial", 22, True)
 
-def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Mapa, Baralho):
+fonte_ = pygame.font.SysFont(None, 24)
+fonte_titulo_ = pygame.font.SysFont(None, 28)
+
+# botao_compra_x = x + largura - 40  # 10px de margem da borda direita
+#     GV.Botao(
+#         tela, "", (botao_compra_x, y + 5, 28, 28),
+#         (50, 50, 50), (255, 255, 255), (80, 80, 80),
+#         lambda: Comprar_Energias(player, 1),
+#         fonte_, BotaoCompraEnergia,
+#         grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
+#     )
+#     tela.blit(Imagem,(botao_compra_x, y + 5))
+
+def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Mapa, Baralho, estadoEnergias):
     x, y = local
-    largura, altura = 380, 285  # ⬅️ Aumentado para 285
+    largura, altura = 380, 420
+    cor_borda = (255, 255, 255)
 
-    cor_borda = (255, 255, 255)  # Borda branca
-    global H  # Item selecionado com botão direito
+    # 1. Cabeçalho
+    pygame.draw.rect(tela, (35, 35, 35), (x, y, largura, 30))
 
-    # Fundo escuro com borda branca
-    pygame.draw.rect(tela, cor_borda, (x - 3, y - 3, largura + 4, altura + 4)) 
-    pygame.draw.rect(tela, (30, 30, 30), (x, y, largura, altura))  
+    # 2. Fundo do inventário
+    pygame.draw.rect(tela, (35, 35, 35), (x, y, largura, altura))
 
-    # Cabeçalho com fundo escuro e texto branco
-    pygame.draw.rect(tela, (30, 30, 30), (x, y, largura, 40))  
-    texto_nome = Fonte.render(f"Inventário de {player.nome}", True, (255, 255, 255))  
-    tela.blit(texto_nome, (x + largura // 2 - texto_nome.get_width() // 2, y + 10))
+    # 3. Borda branca
+    pygame.draw.rect(tela, cor_borda, (x, y, largura, altura), 2)
 
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 40), (x + largura, y + 40), 2)  # Linha branca
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 192), (x + largura, y + 192), 2)  # Linha branca
+    # 4. Texto do cabeçalho
+    texto_nome = Fonte.render(f"Inventário de {player.nome}", True, (255, 255, 255))
+    tela.blit(texto_nome, (x + largura // 2 - texto_nome.get_width() // 2, y + 5))
+
+    # 5. Linha divisória abaixo do cabeçalho
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 30), (x + largura - 2, y + 30), 2)
 
     def TiraDescriçao():
         global H
         estado["selecionado_direito"] = None
         H = None
 
-    for i, item in enumerate(player.inventario[:10]):
-        col = i % 5
-        row = i // 5
-        bx = x + col * 76
-        by = y + 40 + row * 76
-        espaço_botao = pygame.Rect(bx, by, 76, 76)
+    for i, item in enumerate(player.inventario[:12]):
+        col = i % 6
+        row = i // 6
+        bx = x + col * 63
+        by = y + 30 + row * 63  # ✅ novo cabeçalho é 30 px
+        espaço_botao = pygame.Rect(bx, by, 63, 63)
         nome_item = item["nome"]
         classe_item = item.get("classe", "").lower()
 
         def Descriçao(item=item):
             global H
-            H = item  # Guarda o item clicado com o botão direito
+            H = item
 
-        # Cor de fundo conforme a classe
         if classe_item == "pokebola":
-            cor_fundo = (255, 100, 100)  # Vermelho claro
+            cor_fundo = (255, 100, 100)
         elif classe_item == "poçao":
-            cor_fundo = (100, 150, 255)  # Azul claro
+            cor_fundo = (100, 150, 255)
         elif classe_item in ["caixa", "coletor"]:
-            cor_fundo = (100, 200, 100)  # Verde claro
+            cor_fundo = (100, 200, 100)
         elif classe_item == "amplificador":
-            cor_fundo = (255, 150, 50)   # Laranja claro
+            cor_fundo = (255, 150, 50)
         elif classe_item == "fruta":
-            cor_fundo = (255, 255, 100)  # Amarelo claro
+            cor_fundo = (255, 255, 100)
         else:
-            cor_fundo = (150, 100, 255)  # Roxo claro
+            cor_fundo = (150, 100, 255)
 
-        pygame.draw.line(tela, (255, 255, 255), (x, y + 40), (x + largura, y + 40), 2)
-        pygame.draw.line(tela, (255, 255, 255), (x, y + 192), (x + largura, y + 192), 2)
-
-        # Botão de item
-        GV.Botao(
-            tela=tela,
-            texto="",
-            espaço=espaço_botao,
-            cor_normal=(0,0,0),  
-            cor_borda=(0,0,0),   
-            cor_passagem=(0,0,0), 
-            acao=lambda i=i: player.usar_item(i, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta, Baralho),
-            Fonte=Fonte,
-            estado_clique=B1,
-            grossura=2,
-            tecla_atalho=None,
-            mostrar_na_tela=True,
-            eventos=eventos,
-            som=None)
-
-        # Botão de seleção
         GV.Botao_Selecao(
             tela=tela,
             espaço=espaço_botao,
             texto="",
             Fonte=Fonte,
             cor_fundo=cor_fundo,
-            cor_borda_normal=(255, 255, 255), 
-            cor_borda_esquerda=(255, 255, 255),  
-            cor_borda_direita=(0, 0, 255),
+            cor_borda_normal=(255, 255, 255),
+            cor_borda_esquerda= VERMELHO,
+            cor_borda_direita=(255, 255, 255),
             cor_passagem=(255, 255, 0),
             id_botao=f"item_sel_{i}",
             estado_global=estado,
             eventos=eventos,
-            funcao_esquerdo=None,
-            funcao_direito=Descriçao,
-            desfazer_esquerdo=None,
-            desfazer_direito=TiraDescriçao,
+            funcao_esquerdo=Descriçao,
+            funcao_direito=None,
+            desfazer_esquerdo=TiraDescriçao,
+            desfazer_direito=None,
             tecla_esquerda=None,
             tecla_direita=None,
             grossura=3,
             som=None
         )
 
-        if nome_item in ImagensItens:
-            imagem = ImagensItens[nome_item]
-            iw, ih = imagem.get_size()
-            img_x = bx + (76 - iw) // 2
-            img_y = by + (76 - ih) // 2
-            tela.blit(imagem, (img_x, img_y))
-        else:
-            imagem = ImagensItens[classe_item]
-            iw, ih = imagem.get_size()
-            img_x = bx + (76 - iw) // 2
-            img_y = by + (76 - ih) // 2
-            tela.blit(imagem, (img_x, img_y))
+        imagem = ImagensItens.get(nome_item) or ImagensItens[classe_item]
+        imagem = pygame.transform.smoothscale(imagem, (55, 55))  # ✅ tamanho padronizado
 
-        
-    if H:
+        img_x = bx + (63 - 55) // 2
+        img_y = by + (63 - 55) // 2
+        tela.blit(imagem, (img_x, img_y))
+
+    pygame.draw.line(tela, (255, 255, 255), (x, y + 156), (x + largura - 2, y + 156), 2)
+
+    if H in player.inventario:
+        # Proporção ajustada: 75% descrição e nome, 25% botões
+        largura_desc = int(largura * 0.75)
+        largura_botoes = largura - largura_desc
+        x_desc = x
+        x_botoes = x + largura_desc
+
+        # --- Linha divisória vertical entre descrição e botões ---
+        pygame.draw.line(tela, (255, 255, 255), (x_botoes, y + 156), (x_botoes, y + altura - 180), 2)
+
+        # --- Botões laterais usando GV ---
+        GV.Botao(
+            tela, "Usar",
+            (x_botoes + 6, y + 160, largura_botoes - 10, 36),
+            AZUL, PRETO, AZUL,
+            lambda: player.usar_item(H, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta, Baralho),
+            fonte_pequena, B1
+        )
+        GV.Botao(
+            tela, "Vender",
+            (x_botoes + 6, y + 200, largura_botoes - 10, 36),
+            VERMELHO, PRETO, VERMELHO,
+            lambda: player.vender_item(H, Baralho),
+            fonte_pequena, B1
+        )
+
+        # --- Nome do item ---
         nome = H.get("nome", "")
-        FonteNome = pygame.font.SysFont(None, 28)
-        render_nome = FonteNome.render(nome, True, (255, 255, 255))  # Texto branco
-        tela.blit(render_nome, (x + largura // 2 - render_nome.get_width() // 2, y + 195))  # ⬅️ Acima da descrição
+        render_nome = Fonte.render(nome, True, (255, 255, 255))
+        tela.blit(render_nome, (
+            x_desc + (largura_desc // 2 - render_nome.get_width() // 2),
+            y + 160
+        ))
 
-    # descrição se H foi definido
-    if H:
+        # --- Descrição do item ---
         descricao = H.get("Descrição", "")
-
-        # Quebrar descrição em até 2 linhas
         palavras = descricao.split()
         linhas = []
         linha = ""
         for palavra in palavras:
             teste = linha + " " + palavra if linha else palavra
-            if FonteMenor.size(teste)[0] > (largura - 20):
+            if FonteMenor.size(teste)[0] > (largura_desc - 20):
                 linhas.append(linha)
                 linha = palavra
             else:
                 linha = teste
         linhas.append(linha)
 
-        for i, texto in enumerate(linhas[:2]):
-            render = FonteMenor.render(texto, True, (255, 255, 255)) 
-            tela.blit(render, (x + 10, y + 218 + i * 20))  
-    
+        for i, texto in enumerate(linhas[:3]):
+            render = FonteMenor.render(texto, True, (255, 255, 255))
+            tela.blit(render, (x_desc + 10, y + 188 + i * 15))
+
     if x < 0:
         TiraDescriçao()
 
-fonte_ = pygame.font.SysFont(None, 24)
-fonte_titulo_ = pygame.font.SysFont(None, 28)
+    # Energias
+    
+    y = y + 240
 
-def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energias, Imagem):
-    x, y = local
-    largura, altura = 380, 285
+    pygame.draw.line(tela, (255, 255, 255), (x, y), (x + largura - 2, y), 2)
 
-    ret = pygame.Rect(x, y, largura, altura)
-    pygame.draw.rect(tela, (35, 35, 35), ret)
-    pygame.draw.rect(tela, (255, 255, 255), ret, 3)
+    altura = 175
 
     energia_cores = {
         "vermelha": (255, 0, 0), "azul": (0, 0, 255),
         "amarela": (255, 215, 0), 
         "verde": (0, 200, 0),
         "roxa": (128, 0, 128), "laranja": (255, 140, 0),
-        "preta": (0, 0, 0), "cinza": (160, 160, 160)
+        "preta": (0, 0, 0)
     }
 
     chaves = [k for k in player.energias.keys() if k in energia_cores]
 
-        # Comprar energias
-    botao_compra_x = x + largura - 40  # 10px de margem da borda direita
-    GV.Botao(
-        tela, "", (botao_compra_x, y + 5, 28, 28),
-        (50, 50, 50), (255, 255, 255), (80, 80, 80),
-        lambda: Comprar_Energias(player, 1),
-        fonte_, BotaoCompraEnergia,
-        grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
-    )
-    tela.blit(Imagem,(botao_compra_x, y + 5))
-
-    # Cabeçalho
-    espaco_util_cabecalho = largura - 40  # descontando espaço do botão
-    titulo = fonte_titulo_.render(f"Energias de {player.nome}", True, (255, 255, 255))
-    tela.blit(titulo, (x + espaco_util_cabecalho // 2 - titulo.get_width() // 2, y + 10))
-
-    pygame.draw.line(tela, (255, 255, 255), (x, y + 34), (x + largura, y + 34), 2)  
-
     # Parte inferior: barras verticais
-    base_y = y + altura - 50
-    topo_barra = y + 50 - 4  
-    largura_barra = 28
-    espaco_total = 360
+    base_y = y + altura - 45
+    topo_barra = y + 10
+    largura_barra = 30
     margem_x = 10
-    espaco_entre = espaco_total // len(chaves)
+    espaco_total = largura - 2 * margem_x
+    espaco_entre = espaco_total // len(chaves) if chaves else 1
 
     for i, chave in enumerate(chaves):
         cor = energia_cores[chave]
-        valor = min(player.energias[chave], 25)  
-        altura_barra = int((valor / 25) * (base_y - topo_barra))
+        valor = min(player.energias[chave], 15)  
+        altura_barra = int((valor / 15) * (base_y - topo_barra))
         x_centro = x + margem_x + espaco_entre * i + espaco_entre // 2
 
         # Desenha a barra de energia
@@ -631,15 +623,15 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energi
         pygame.draw.rect(tela, (0, 0, 0), (x_centro - largura_barra // 2, topo_barra, largura_barra, base_y - topo_barra), 1)
 
         # Círculo na base com número de energias
-        pygame.draw.circle(tela, cor, (x_centro, base_y + 3), 12)
-        pygame.draw.circle(tela, (255, 255, 255), (x_centro, base_y + 3), 12, 1)
+        pygame.draw.circle(tela, cor, (x_centro, base_y + 3), 13)
+        pygame.draw.circle(tela, (255, 255, 255), (x_centro, base_y + 3), 13, 1)
         num = fonte_.render(str(player.energias[chave]), True, (255, 255, 255)) 
         tela.blit(num, (x_centro - num.get_width() // 2, base_y - num.get_height() // 2 + 3))
 
         # Criação do botão de descarte
         estado_clique = estadoEnergias.setdefault(chave, {"clicado": False, "pressionado": False})
         GV.Botao(
-            tela, "", (x_centro - 16, base_y + 24, 32, 18),  
+            tela, "", (x_centro - 16, base_y + 22, 32, 18),  
             (50, 50, 50), (255, 255, 255), (80, 80, 80),
             lambda ch=chave: player.muda_descarte(ch),
             fonte_, estado_clique,
@@ -653,10 +645,9 @@ def Tabela_Energias(tela, local, player, estadoEnergias, eventos, Comprar_Energi
         else:
             texto_ordem = ""
 
-        # Desenha o texto sobre o botão, na mesma posição
         if texto_ordem:
             texto = fonte_.render(texto_ordem, True, (255, 255, 255))  
-            tela.blit(texto, (x_centro - texto.get_width() // 2, base_y + 24))  
+            tela.blit(texto, (x_centro - texto.get_width() // 2, base_y + 22))
 
 def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
     if AtaqueS is not None:
@@ -748,7 +739,6 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
             tocar("Bloq")
             return
 
-
 def Trocar_Ataque(Pokemon,EstadoDaPergunta,Ataque,escolha):
     if Pokemon.movimento1 == Ataque:
         Pokemon.movimento1 = SelecionaAtaques(escolha)
@@ -774,7 +764,6 @@ def Trocar_Ataque_Pergunta(Pokemon,Ataque,EstadoDaPergunta):
         if move not in Pokemon.moveList and move not in EstadoDaPergunta["opçoes"]:
             EstadoDaPergunta["opçoes"].append(move)
             contador += 1
-
 
 def Desenhar_Alcance(tela, PeçaS, alcance_metros, metros_por_casa, tamanho_casa=40):
     if PeçaS is None or PeçaS.local is None:
@@ -811,7 +800,7 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
     global itens_loja
     x, y = pos
     largura = 480
-    altura = 120
+    altura = 110
     cor_fundo = (35, 35, 35)
 
     pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))

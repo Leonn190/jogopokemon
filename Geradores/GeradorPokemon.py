@@ -475,7 +475,7 @@ def Gerador(Pokemon,P):
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokemons_Todos[code],P),player)
 
-Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta", "cinza"]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 
 def VerificaSituaçãoPokemon(player, inimigo):
     for pokemon in player.pokemons:

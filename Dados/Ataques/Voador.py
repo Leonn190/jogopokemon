@@ -10,7 +10,7 @@ def F_Voar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,Estado
 Voar = {
     "nome": "Voar",
     "tipo": ["voador"],   
-    "custo": ["cinza"],
+    "custo": ["amarela"],
     "estilo": "S",
     "dano": 0.0,
     "alcance": 0,
@@ -31,7 +31,7 @@ def F_Ataque_de_Asa(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Map
 Ataque_de_Asa = {
     "nome": "Ataque de Asa",
     "tipo": ["voador"],   
-    "custo": ["normal","cinza","cinza"],
+    "custo": ["normal","amarela","amarela"],
     "estilo": "N",
     "dano": 1.45,
     "alcance": 15,
@@ -53,7 +53,7 @@ def F_Investida_Aerea(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,M
 Investida_Aerea = {
     "nome": "Investida Aérea",
     "tipo": ["voador"],   
-    "custo": ["cinza","cinza"],
+    "custo": ["amarela","amarela"],
     "estilo": "N",
     "dano": 1.25,
     "alcance": 10,
@@ -75,7 +75,7 @@ def F_Rasante(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela
 Rasante = {
     "nome": "Rasante",
     "tipo": ["voador"],   
-    "custo": ["cinza","cinza"],
+    "custo": ["amarela","amarela"],
     "estilo": "N",
     "dano": 1.35,
     "alcance": 15,
@@ -95,7 +95,7 @@ def F_Bico_Broca(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,t
 Bico_Broca = {
     "nome": "Bico Broca",
     "tipo": ["voador"],   
-    "custo": ["normal","cinza"],
+    "custo": ["normal","amarela"],
     "estilo": "N",
     "dano": 1.05,
     "alcance": 0,
@@ -151,7 +151,7 @@ def F_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,
 Vento_Forte = {
     "nome": "Vento Forte",
     "tipo": ["voador"],   
-    "custo": ["cinza","cinza"],
+    "custo": ["amarela","amarela"],
     "estilo": "E",
     "dano": 1.1,
     "alcance": 25,

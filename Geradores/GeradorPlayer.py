@@ -9,16 +9,11 @@ class Jogador:
         self.nome = informaçoes[0]
         self.pokemons = [Gerador_final(informaçoes[1],1,self)]
         self.inventario = []
-        self.Captura = []
-        self.energias = { "vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0, "cinza": 0}
+        self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
         self.energiasDesc = []
         self.ouro = 10
     
-    def ganhar_item(self,item):
-        self.inventario.append(item)
-    
-    def usar_item(self,indice,Pokemon,tela,Mapa,ataque,EstadoDaPergunta, Baralho):
-            item = self.inventario[indice] 
+    def usar_item(self,item,Pokemon,tela,Mapa,ataque,EstadoDaPergunta, Baralho):
             if item["classe"] in ["pokebola", "fruta"]:
                 tocar("Bloq")
                 GV.adicionar_mensagem("Pokebolas e frutas são usadas no centro")
@@ -77,6 +72,11 @@ class Jogador:
                     tocar("Bloq")
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")
     
+    def vender_item(self,item,Baralho):
+        self.ouro += item["preço"] // 2
+        self.inventario.remove(item)
+        Baralho.devolve_item(item)
+
     def ganhar_pokemon(self,pokemon):
         self.pokemons.append(pokemon)
 
@@ -87,16 +87,7 @@ class Jogador:
             self.energiasDesc.append(energia)
 
     def ganhar_item(self,item):
-        if item["classe"] in ["pokebola","Fruta"]:
-            if len(self.Captura) < 10:
-                self.Captura.append(item)
-                return True
-            else:
-                GV.adicionar_mensagem("Inventário de captura cheio")
-                self.ouro += item["preço"]
-                return False
-        else:
-            if len(self.inventario) < 11:
+            if len(self.inventario) < 13:
                 self.inventario.append(item)
                 return True
             else:

@@ -15,7 +15,7 @@ def F_Reforçar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,E
 Reforçar = {
     "nome": "Reforçar",
     "tipo": ["metal"],   
-    "custo": ["cinza"],
+    "custo": ["azul"],
     "estilo": "S",
     "dano": 0.0,
     "alcance": 100,
@@ -37,7 +37,7 @@ def F_Cauda_de_Ferro(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Ma
 Cauda_de_Ferro = {
     "nome": "Cauda de Ferro",
     "tipo": ["metal"],   
-    "custo": ["cinza","cinza"],
+    "custo": ["azul","azul"],
     "estilo": "N",
     "dano": 1.25,
     "alcance": 10,
@@ -52,7 +52,7 @@ Cauda_de_Ferro = {
 Projetil_Metalico = {
     "nome": "Projétil Metálico",
     "tipo": ["metal"],   
-    "custo": ["cinza","cinza"],
+    "custo": ["azul","azul"],
     "estilo": "N",
     "dano": 1.2,
     "alcance": 30,
@@ -73,7 +73,7 @@ def F_Barragem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,Es
 Barragem = {
     "nome": "Barragem",
     "tipo": ["metal"],   
-    "custo": ["cinza"],
+    "custo": ["azul"],
     "estilo": "S",
     "dano": 0.0,
     "alcance": 0,
@@ -94,7 +94,7 @@ def F_Broca_Perfuradora(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque
 Broca_Perfuradora = {
     "nome": "Broca Perfuradora",
     "tipo": ["metal"],   
-    "custo": ["normal","cinza","cinza"],
+    "custo": ["normal","azul","azul"],
     "estilo": "N",
     "dano": 1.35,
     "alcance": 9,

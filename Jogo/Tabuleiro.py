@@ -241,6 +241,8 @@ def Mover_casas(tela, eventos, PeçaS, casas_disponiveis, player, Zona, metros=1
         )
 
 def GuardarPosicionar(pokemon,player,tempo,Zona):
+    
+    
     if pokemon.local is not None:
         linha_antiga, coluna_antiga = pokemon.local["id"]
         Zona[linha_antiga][coluna_antiga]["ocupado"] = None

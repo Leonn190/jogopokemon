@@ -6,7 +6,7 @@ from Dados.itens import Pokebolas_Todas,Estadios_Todos,Amplificadores_Todos,Frut
 from Dados.Estadios import Estadios
 
 
-Pokebolas_disponiveis = Pokebolas_Todas
+Pokebolas_disponiveis  = Pokebolas_Todas
 Estadios_disponiveis = Estadios_Todos
 Amplificadores_disponiveis = Amplificadores_Todos
 Frutas_disponiveis = Frutas_Todas
@@ -15,7 +15,7 @@ Outros_disponiveis = Outros_Todos
 
 Pokedex = Pokemons_Todos
 
-Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "cinza", "preta"]
+Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 
 class Baralho:
     def __init__(self):

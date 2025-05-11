@@ -4,7 +4,7 @@ from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
-from Abas import Tabela_Energias,Status_Pokemon,Inventario,Atacar, Loja
+from Abas import Status_Pokemon,Inventario,Atacar, Loja
 import Tabuleiro as M
 import Geradores.GeradorPlayer as GPA
 import Geradores.GeradorPokemon as GPO
@@ -311,8 +311,8 @@ A3 = -382
 A4 = -382
 A5 = -400
 A6 = -400
-A7 = -480
-A8 = -480
+A7 = 0
+A8 = 0
 
 def informa(ID,Pokemon):
     pass
@@ -340,7 +340,7 @@ def Abre(ID,player,inimigo):
         animaAC = pygame.time.get_ticks()
     elif ID == "Lojas":
         global A7, A8, animaAL
-        A7 = -480
+        A7 = 0
         A8 = 0
         animaAL = pygame.time.get_ticks()
     
@@ -364,7 +364,7 @@ def Fecha():
         animaAC = pygame.time.get_ticks()
     elif A8 == 0:
         A7 = 0
-        A8 = -480
+        A8 = 0
         animaAL = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
@@ -450,13 +450,13 @@ def PokemonCentro(ID,player):
     
     if PokebolaSelecionada is not None:
         Baralho.devolve_item(PokebolaSelecionada)
-        player.Captura.remove(PokebolaSelecionada)
+        player.inventario.remove(PokebolaSelecionada)
         Pokebola_usada = PokebolaSelecionada
         desseleciona_pokebola()
         maestria = random.randint(0,Pokebola_usada["poder"] * 2)
         if FrutaSelecionada is not None:
             Baralho.devolve_item(FrutaSelecionada)
-            player.Captura.remove(FrutaSelecionada)
+            player.inventario.remove(FrutaSelecionada)
             if FrutaSelecionada["nome"] in ["Fruta Frambo","Fruta Frambo Dourada"]:
                 pokemon["dificuldade"] -= FrutaSelecionada["poder"]
                 AIV = 1
@@ -647,7 +647,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
 
     #  Pokébolas
     idx_pokebola = 0
-    for i, item in enumerate(player.Captura):
+    for i, item in enumerate(player.inventario):
         if item.get("classe") == "pokebola":
             x = x_inicial_animado + 300  
             y = y_inicial + idx_pokebola * tamanho_pokebola  
@@ -672,7 +672,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
 
     # (parte inferior, 6 espaços)
     idx_fruta = 0
-    for i, item in enumerate(player.Captura):
+    for i, item in enumerate(player.inventario):
         if item.get("classe") == "Fruta":
             x = x_inicial_animado + idx_fruta * tamanho_fruta
             y = y_inicial + 310  
@@ -875,7 +875,7 @@ def Partida(tela,estados,relogio):
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(160)
+        relogio.tick(170)
 
 def Inicia(tela):
     global Turno
@@ -1224,12 +1224,7 @@ def TelaOpções(tela,eventos,estados):
         XInvetario = GV.animar(A1,A2,animaAI)
 
         if XInvetario != -382:
-            Inventario((XInvetario,350),tela,player,ImagensItens,estadoItens,eventos,PokemonS, Mapa, Baralho)
-
-        XEnergias = GV.animar(A3,A4,animaAE)
-
-        if XEnergias != -382:
-            Tabela_Energias(tela,(XEnergias,350),player,estadoEnergias,eventos,GO.Compra_Energia,ImagensItens["CompraEnergia"])
+            Inventario((XInvetario,310),tela,player,ImagensItens,estadoItens,eventos,PokemonS, Mapa, Baralho, estadoEnergias)
 
         XCentro = GV.animar(A5,A6,animaAC)
 
@@ -1281,7 +1276,7 @@ def TelaOutros(tela,eventos,estados):
 
     XL = GV.animar(A7,A8,animaAL)
 
-    Loja((XL,200),tela,Baralho,ImagensItens,Turno,eventos,player,2)
+    Loja((XL,195),tela,Baralho,ImagensItens,Turno,eventos,player,2)
 
 def Telapausa(tela,eventos,estados):
 
