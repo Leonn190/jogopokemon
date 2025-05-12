@@ -25,6 +25,7 @@ Mapa = None
 Baralho = None
 
 Gifs_ativos = []
+Itens_Arrastaveis = []
 
 Mute = False
 PeçaS = None
@@ -311,8 +312,8 @@ A3 = -382
 A4 = -382
 A5 = -400
 A6 = -400
-A7 = 0
-A8 = 0
+A7 = -480
+A8 = -480
 
 def informa(ID,Pokemon):
     pass
@@ -328,21 +329,15 @@ def Abre(ID,player,inimigo):
         A1 = -382
         A2 = 0
         animaAI = pygame.time.get_ticks()
-    elif ID == "Energias":
-        global A3, A4, animaAE
-        A3 = -382
-        A4 = 0
-        animaAE = pygame.time.get_ticks()
+        global A7, A8, animaAL
+        A7 = -480
+        A8 = 0
+        animaAL = pygame.time.get_ticks()
     elif ID == "Centro":
         global A5, A6, animaAC
         A5 = -400
         A6 = 0
         animaAC = pygame.time.get_ticks()
-    elif ID == "Lojas":
-        global A7, A8, animaAL
-        A7 = 0
-        A8 = 0
-        animaAL = pygame.time.get_ticks()
     
 def Fecha():
     global A1, A2, animaAI
@@ -364,7 +359,7 @@ def Fecha():
         animaAC = pygame.time.get_ticks()
     elif A8 == 0:
         A7 = 0
-        A8 = 0
+        A8 = -480
         animaAL = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
@@ -639,9 +634,11 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
     # Ajuste Y inicial dos botões de pokébolas (começam logo após a linha)
     offset_y_pokebola = y_inicial + altura_titulo + espacamento
 
-    # Pokébolas (topo, 6 espaços)
+    espacamento = 5  # exemplo fixo, pode ajustar
+    tamanho_botao_pokebola = (380 - 7 * espacamento) // 6  # vai dar 57
+
     for i, item in enumerate([i for i in player.inventario if i.get("classe") == "pokebola"][:6]):
-        x = x_inicial_animado + i * (tamanho_botao_pokebola + espacamento)
+        x = x_inicial_animado + espacamento + i * (tamanho_botao_pokebola + espacamento)
         y = offset_y_pokebola
 
         GV.Botao_Selecao(
@@ -666,7 +663,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
         coluna = i % 4
         linha = i // 4
         x = x_inicial_animado + espacamento + coluna * (tamanho_pokemon + espacamento)
-        y = offset_y_pokemon + linha * (tamanho_pokemon + espacamento)
+        y = offset_y_pokemon + linha * (tamanho_pokemon + espacamento) + 30
 
         if pokemon and pokemon["nome"] in ImagensPokemonCentro:
             # Desenha botão e imagem do Pokémon
@@ -682,10 +679,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             vazio.fill((50, 50, 50))
             tela.blit(vazio, (x, y))
 
-    # Frutas (parte inferior, 6 espaços)
+    espacamento = 5  # mesmo usado nas pokébolas
+    tamanho_fruta = (380 - 7 * espacamento) // 6  # será 57
+
     offset_y_fruta = y_inicial + altura_total - tamanho_fruta - espacamento
     for i, item in enumerate([i for i in player.inventario if i.get("classe") == "Fruta"][:6]):
-        x = x_inicial_animado + i * (tamanho_fruta + espacamento)
+        x = x_inicial_animado + espacamento + i * (tamanho_fruta + espacamento)
         y = offset_y_fruta
 
         GV.Botao_Selecao(
@@ -838,7 +837,7 @@ B23 = {"estado": False}
 BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 #botoes de clique unico = B6
 
-def Partida(tela,estados,relogio):
+def Partida(tela, estados, relogio):
     global Vencedor
     global Perdedor
 
@@ -847,44 +846,48 @@ def Partida(tela,estados,relogio):
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
         eventos = pygame.event.get()
+
         for evento in eventos:
-            if evento.type == pygame.QUIT:
-                estados["Rodando_Partida"] = False
-                estados["Rodando_Jogo"] = False
-        
+                if evento.type == pygame.QUIT:
+                    estados["Rodando_Partida"] = False
+                    estados["Rodando_Jogo"] = False
+
+        # Toca música
         tocar_musica_do_estadio()
 
-        if Pausa == False:
-            TelaTabuleiro(tela,eventos,estados)
-            TelaOpções(tela,eventos,estados)
-            TelaOutros(tela,eventos,estados)
-            TelaPokemons(tela,eventos,estados)
+        if not Pausa:
+            TelaTabuleiro(tela, eventos, estados)
+            TelaOpções(tela, eventos, estados)
+            TelaOutros(tela, eventos, estados)
+            TelaPokemons(tela, eventos, estados)
 
+            # Verifica fim de partida
             VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
+            VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
             if VidaTotal1 <= 0:
                 Vencedor = Jogador2
                 Perdedor = Jogador1
                 A.Fim_da_partida(estados)
-
-            VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
-            if VidaTotal2 <= 0:
+            elif VidaTotal2 <= 0:
                 Vencedor = Jogador1
                 Perdedor = Jogador2
                 A.Fim_da_partida(estados)
 
+            # Mensagens passageiras
             for mensagem in mensagens_passageiras[:]:
                 mensagem.desenhar(tela)
                 mensagem.atualizar()
                 if not mensagem.ativa:
                     mensagens_passageiras.remove(mensagem)
         else:
-            tela.blit(FundosIMG[0],(0,0))
-            Telapausa(tela,eventos,estados)
+            tela.blit(FundosIMG[0], (0, 0))
+            Telapausa(tela, eventos, estados)
 
+        # FPS
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(170)
+        relogio.tick(120)
 
 def Inicia(tela):
     global Turno
@@ -1201,15 +1204,16 @@ def TelaOpções(tela,eventos,estados):
     global inimigo
     global ver_centro
     global Centro
+    global Itens_Arrastaveis
 
     YT = GV.animar(T1,T2,animaT,300)
 
     GV.Botao(tela, "", (0, YT, 420, 50), PRETO, PRETO, PRETO,lambda: Troca_Terminal(),Fonte40, B20, 3, None, True, eventos)
-    GV.Texto_caixa(tela,f"{player.ouro}",(350, (YT - 60), 70, 60),Fonte40,LARANJA,PRETO)
+    GV.Texto_caixa(tela,f"{player.ouro}",(280, (YT - 60), 140, 60),Fonte40,LARANJA,PRETO)
     GV.Texto_caixa(tela,player.nome,(0, YT, 420, 50),Fonte50,AZUL,PRETO) 
     GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte20, AZUL_CLARO, PRETO)
 
-    nomes_botoes_outros = ["Inventario", "Energias", "Centro", "Lojas", "Treinador"]
+    nomes_botoes_outros = ["Inventario", "Centro", "Treinador", "Estadio"]
 
     for i, nome in enumerate(nomes_botoes_outros):
         GV.Botao_Selecao(
@@ -1225,10 +1229,9 @@ def TelaOpções(tela,eventos,estados):
             tecla_esquerda=pygame.K_1, tecla_direita=None)
         
         tela.blit(OutrosIMG[0],(5,(YT - 60)))
-        tela.blit(OutrosIMG[1],(80,(YT - 55)))
-        tela.blit(OutrosIMG[2],(140,(YT - 65)))
-        tela.blit(OutrosIMG[12],(220,(YT - 55)))
-        tela.blit(OutrosIMG[13],(290,(YT - 55)))
+        tela.blit(OutrosIMG[2],(69,(YT - 65)))
+        tela.blit(OutrosIMG[13],(150,(YT - 55)))
+        tela.blit(OutrosIMG[3],(217,(YT - 58)))
 
         XInvetario = GV.animar(A1,A2,animaAI)
 
@@ -1238,27 +1241,7 @@ def TelaOpções(tela,eventos,estados):
         XCentro = GV.animar(A5,A6,animaAC)
 
         if XCentro != 400:
-            Centroo(tela, XCentro, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos)
-
-        if ver_centro == "s":
-            idx_pokebola = 0  
-            for i, item in enumerate(player.inventario):
-                if item.get("classe") == "pokebola":
-                    x = 332
-                    y = 262 + idx_pokebola * 60 
-                    tela.blit(ImagensCaptura[item["nome"]], (x, y))
-                    idx_pokebola += 1 
-
-            
-            x_inicial = 10
-            y_inicial = 270
-
-            for i in range(len(Centro)):
-                coluna = i % 3        
-                linha = i // 3        
-                x = x_inicial + coluna * 109
-                y = y_inicial + linha * 109
-                tela.blit(ImagensPokemonCentro[Centro[i]["nome"]],(x,y))
+            Centroo(tela, XCentro, 310, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos)
     
     GV.tooltip((350, (YT - 60), 70, 60),f"Quanto mais rapido jogar, mais ouro você vai ganhar Ganho se passar turno: {2 + (tempo_restante // 25)}",tela,Fonte20,200)
 

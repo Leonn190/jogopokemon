@@ -98,6 +98,20 @@ class Baralho:
                 self.Raros.append(item)
             elif item["raridade"] == "Lendario":
                 self.Lendarios.append(item)
+    
+    def devolve_pokemon(self,pokemon):
+        if pokemon["raridade"] == "Comum":
+            self.PokeComuns.append(pokemon)
+        elif pokemon["raridade"] == "Incomum":
+            self.PokeIncomuns.append(pokemon)
+        elif pokemon["raridade"] == "Raro":
+            self.PokeRaros.append(pokemon)
+        elif pokemon["raridade"] == "Epico":
+            self.PokeEpicos.append(pokemon)
+        elif pokemon["raridade"] == "Mitico":
+            self.PokeMiticos.append(pokemon)
+        elif pokemon["raridade"] == "Lendario":
+            self.PokeLendarios.append(pokemon)
 
 def spawn_do_centro(centro,Baralho,turnos):
 
@@ -135,9 +149,11 @@ def spawn_do_centro(centro,Baralho,turnos):
             return
         centro[i] = random.choice(BaralhoEscolhido)
         GV.adicionar_mensagem(f"Um {centro[i]["nome"]} selvagem apareceu")
+        BaralhoEscolhido.remove(centro[i])
     
     def despawn(centro,i):
         GV.adicionar_mensagem(f"Um {centro[i]["nome"]} selvagem desapareceu")
+        Baralho.devolve_pokemon(centro[i])
         centro[i] = None
 
     for i,slot in enumerate(centro):

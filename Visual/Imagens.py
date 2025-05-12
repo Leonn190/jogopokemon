@@ -313,9 +313,9 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     energiasIMG = GV.Carregar_Imagem("imagens/icones/energias.png", (50,50),"PNG")
     CentroIMG = GV.Carregar_Imagem("imagens/icones/centro.png", (70,70),"PNG")
     LojasIMG = GV.Carregar_Imagem("imagens/icones/Loja.png", (50,50),"PNG")
+    EstadiosIMG = GV.Carregar_Imagem("imagens/icones/Mapa.png", (55,55),"PNG")
     TreinadorIMG = GV.Carregar_Imagem("imagens/icones/Treinador.png", (50,50),"PNG")
     LojaPokebolasIMG = GV.Carregar_Imagem("imagens/icones/Poke.png", (70,70),"PNG")
-    LojaItensIMG = GV.Carregar_Imagem("imagens/icones/itens.png", (70,70),"PNG")
     LojaAmplificadoresIMG = GV.Carregar_Imagem("imagens/icones/amplificadores.png", (70,70),"PNG")
     LojaEnergiasIMG = GV.Carregar_Imagem("imagens/icones/energias.png", (60,60),"PNG")
     LojaEstTreIMG = GV.Carregar_Imagem("imagens/icones/EstTre.png", (70,70),"PNG")
@@ -478,7 +478,7 @@ def Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCa
     
     }
 
-    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,LojaItensIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG,LojasIMG,TreinadorIMG,Alvo]
+    OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,EstadiosIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG,LojasIMG,TreinadorIMG,Alvo]
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
