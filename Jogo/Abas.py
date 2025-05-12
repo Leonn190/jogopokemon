@@ -469,8 +469,8 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
     pygame.draw.line(tela, (255, 255, 255), (x, y + 30), (x + largura - 2, y + 30), 2)
 
     def TiraDescriçao():
+        print (4)
         global H
-        estado["selecionado_direito"] = None
         H = None
 
     for i, item in enumerate(player.inventario[:12]):
@@ -482,7 +482,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
         nome_item = item["nome"]
         classe_item = item.get("classe", "").lower()
 
-        def Descriçao(item=item):
+        def Descriçao(item):
             global H
             H = item
 
@@ -512,9 +512,9 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
             id_botao=f"item_sel_{i}",
             estado_global=estado,
             eventos=eventos,
-            funcao_esquerdo=Descriçao,
+            funcao_esquerdo=lambda item=item: Descriçao(item),
             funcao_direito=None,
-            desfazer_esquerdo=TiraDescriçao,
+            desfazer_esquerdo=lambda: TiraDescriçao(),
             desfazer_direito=None,
             tecla_esquerda=None,
             tecla_direita=None,
