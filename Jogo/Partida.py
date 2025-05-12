@@ -25,7 +25,6 @@ Mapa = None
 Baralho = None
 
 Gifs_ativos = []
-Itens_Arrastaveis = []
 
 Mute = False
 PeçaS = None
@@ -785,7 +784,9 @@ estadoOutros = {
 
 estadoPokebola = {"selecionado_esquerdo": None,}
 
-estadoItens = {"selecionado_direito": None}
+estadoitens = {
+    "selecionado_esquerdo": None,
+    "selecionado_direito": None}
 
 estadoEnergias = {
     "selecionado_esquerdo": None,
@@ -1204,7 +1205,6 @@ def TelaOpções(tela,eventos,estados):
     global inimigo
     global ver_centro
     global Centro
-    global Itens_Arrastaveis
 
     YT = GV.animar(T1,T2,animaT,300)
 
