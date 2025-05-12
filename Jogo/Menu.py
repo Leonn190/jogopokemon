@@ -38,11 +38,11 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
 
     else:
 
-        GV.Botao(tela, "Modo Normal", (700, 700, 520, 150), CINZA, PRETO, DOURADO,
+        GV.Botao(tela, "Jogar", (700, 700, 520, 150), CINZA, PRETO, DOURADO,
                  lambda: A.iniciar_prépartida(estados), Fonte70, B1, 4, None, True, eventos,clique)
     
-        GV.Botao(tela, "Modo Personalizado", (700, 500, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: A.iniciar_prépartida(estados), Fonte70, B1, 4, None, True, eventos,clique)
+        GV.Botao(tela, "Decks", (700, 500, 520, 150), CINZA, PRETO, DOURADO,
+                 lambda: A.iniciar_decks(estados), Fonte70, B1, 4, None, True, eventos,clique)
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)

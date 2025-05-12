@@ -138,7 +138,7 @@ def PréPartida(tela,estados,relogio):
     selecionado2 = False
 
     pygame.mixer.music.load('Audio/Musicas/PréPartida.ogg')
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(0.4)
     pygame.mixer.music.play(-1)
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))

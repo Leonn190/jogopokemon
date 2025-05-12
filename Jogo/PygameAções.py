@@ -32,6 +32,10 @@ def fechar_jogo(estados):
     estados["Rodando_Partida"] = False
     estados["Rodando_Jogo"] = False
 
+def iniciar_decks(estados):
+    estados["Rodando_Menu"] = False
+    estados["Rodando_Decks"] = True
+
 def Pokemon_inicial(id_botao):
     global informaçoesp1
     global informaçoesp2

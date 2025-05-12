@@ -33,6 +33,7 @@ import Menu
 import PréPartida
 import Partida
 import Final
+import Decks
 
 relogio = pygame.time.Clock()
 
@@ -41,13 +42,16 @@ estados = {
     "Rodando_Menu": True,
     "Rodando_PréPartida": False,
     "Rodando_Partida": False,
-    "Rodando_Final": False
+    "Rodando_Final": False,
+    "Rodando_Decks": False
 }
 
 while estados["Rodando_Jogo"]:
 
     if estados["Rodando_Menu"]:
         Menu.Menu(tela,estados,relogio)
+    elif estados["Rodando_Decks"]:
+        Decks.Decks(tela,estados,relogio)
     elif estados["Rodando_PréPartida"]:
         PréPartida.PréPartida(tela,estados,relogio)
     elif estados["Rodando_Partida"]:
