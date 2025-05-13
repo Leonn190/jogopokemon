@@ -1,11 +1,11 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores, distancia_entre_pokemons
 import random
 
-def F_Queimar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Queimado"] = 3
+def F_Queimar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    AlvoS.efeitosNega["Queimado"] = 3
 
 Queimar = {
     "nome": "Queimar",
@@ -27,7 +27,7 @@ def Alv_Bola_de_Fogo(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bola_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bola_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
@@ -45,11 +45,11 @@ Bola_de_Fogo = {
     "efeito": "Fogo",
     "alvos": Alv_Bola_de_Fogo,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Bola_de_Fogo
+    "funçao": Regular,
+    "irregularidade": FI_Bola_de_Fogo
     }
 
-def F_Superaquecer(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Superaquecer(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo.efeitosNega["Queimado"] > 0:
         Alvo.efeitosNega["Queimado"] += 1
         Dano = Dano * 1.15
@@ -57,7 +57,7 @@ def F_Superaquecer(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa
         PokemonV.efeitosNega["Congelado"] = 0
         PokemonV.efeitosNega["Encharcado"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Superaquecer = {
     "nome": "Superaquecer",
@@ -71,13 +71,15 @@ Superaquecer = {
     "efeito": "Fogo",
     "efeito2": "Fogo",
     "extra": "AV",
-    "funçao": Irregular,
-    "irregularidade": F_Superaquecer
+    "funçao": Regular,
+    "irregularidade": FI_Superaquecer
     }
 
-def F_Brasa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def FI_Brasa(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if random.randint(0,100) > 85:
         Alvo.efeitosNega["Queimado"] += 2
+    
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Brasa = {
     "nome": "Brasa",
@@ -91,7 +93,7 @@ Brasa = {
     "efeito": "Fogo",
     "extra": "A",
     "funçao": Regular,
-    "irregularidade": False
+    "irregularidade": FI_Brasa
     }
 
 def F_Ondas_de_Calor(PokemonS,PokemonV,Alvo,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
@@ -122,10 +124,11 @@ Ondas_de_Calor = {
     "irregularidade": False
     }
 
-def F_Raio_de_Fogo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Raio_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Congelado"] = 0
     Alvo.efeitosNega["Encharcado"] = 0
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Raio_de_Fogo = {
     "nome": "Raio de Fogo",
@@ -138,8 +141,8 @@ Raio_de_Fogo = {
     "descrição": "Lança um raio de calor concentrado extremo que remove o efeito congelado e encharcado do oponente",
     "efeito": "LabaredaMultipla",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Raio_de_Fogo
+    "funçao": Regular,
+    "irregularidade": FI_Raio_de_Fogo
     }
 
 Ataque_de_Chamas = {
@@ -157,10 +160,10 @@ Ataque_de_Chamas = {
     "irregularidade": False
     }
 
-def F_Laser_Incandescente(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Laser_Incandescente(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Congelado"] = 0
     Alvo.efeitosNega["Encharcado"] = 0
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Laser_Incandescente = {
     "nome": "Laser Incandescente",
@@ -173,6 +176,6 @@ Laser_Incandescente = {
     "descrição": "Lança um laser de calor concentrado extremo que remove o efeito congelado e encharcado do oponente",
     "efeito": "LabaredaMultipla",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Laser_Incandescente
+    "funçao": Regular,
+    "irregularidade": FI_Laser_Incandescente
     }

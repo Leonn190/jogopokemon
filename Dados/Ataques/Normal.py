@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move, GuardarPosicionar
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
@@ -34,10 +34,10 @@ Cabeçada = {
     "irregularidade": False
     }
 
-def F_Investida(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    PokemonS.Vida -= 10
+def FI_Investida(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    PokemonS.atacado(10,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Investida = {
     "nome": "Investida",
@@ -50,11 +50,11 @@ Investida = {
     "descrição": "Esse ataque causa 10 de dano a si mesmo",
     "efeito": "Estouro",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Investida
+    "funçao": Regular,
+    "irregularidade": FI_Investida
     }
 
-def F_Vasculhar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Vasculhar(PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     item = caixa()
     if item["classe"] in ["pokebola","Fruta"]:
         player.Captura.append(item)
@@ -76,7 +76,7 @@ Vasculhar = {
     "irregularidade": False
     }
 
-def F_Ataque_Rapido(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Ataque_Rapido(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     
     if random.choice([True,False]) == True:
         PokemonS.atacou = False
@@ -94,11 +94,11 @@ Ataque_Rapido = {
     "descrição": "Tem 50% de chance desse ataque não constar como um ataque e esse pokemon poder atacar novamente",
     "efeito": "Estouro",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Ataque_Rapido
+    "funçao": Regular,
+    "irregularidade": FI_Ataque_Rapido
     }
 
-def F_Provocar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Provocar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Provocando"] = 3
 
 Provocar = { 
@@ -146,7 +146,7 @@ Arranhar = {
     "irregularidade": False
     }
 
-def F_Crescer(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Crescer(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.Ganhar_XP(4,player)
 
 Crescer = {
@@ -164,7 +164,7 @@ Crescer = {
     "irregularidade": False
     }
 
-def F_Esbravejar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Esbravejar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     if PokemonS.Vida < PokemonS.VidaMax * 0.6:
         PokemonS.efeitosPosi["Ofensivo"] = 3
 
@@ -198,11 +198,11 @@ Tapa_Especial = {
     "irregularidade": False
     }
 
-def F_Esmagar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Esmagar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     
     Dano = Dano + Dano * (1 + 0.1 * PokemonS.Peso // 100)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Esmagar = {
     "nome": "Esmagar",
@@ -215,13 +215,13 @@ Esmagar = {
     "descrição": "Esse ataque causa mais 10% de dano a cada 100kg que esse pokemon tiver",
     "efeito": "FacasBrancas",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Esmagar
+    "funçao": Regular,
+    "irregularidade": FI_Esmagar
     }
 
-def F_Descansar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Descansar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     GuardarPosicionar(PokemonS,player,4,Mapa.Zona)
-    cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.3
+    cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.35
     PokemonS.curar(cura,player,tela)
 
 Descansar = {
@@ -232,14 +232,14 @@ Descansar = {
     "dano": 0.0,
     "alcance": 0,
     "precisão": 100, 
-    "descrição": "Esse pokemon é guardado por 4 turnos mas regenera 30% da vida perdida",
+    "descrição": "Esse pokemon é guardado por 4 turnos mas regenera 35% da vida perdida",
     "efeito": "!None",
     "extra": None,
     "funçao": F_Descansar,
     "irregularidade": False
     }
 
-def F_Canto_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Canto_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for efeito in PokemonV.efeitosNega:
         PokemonV.efeitosNega[efeito] = 0
  

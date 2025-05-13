@@ -269,14 +269,23 @@ def VCusto(player,pokemon,ataque):
 
 def VAcerta(pokemon,alvo,ataque,metros):
 
+    alcance = ataque["alcance"]
+    assertividade = ataque["precisão"]
+
+    try:
+        alcance,assertividade = ataque["var"](alcance,assertividade,pokemon,alvo,ataque)
+    except KeyError:
+        pass
+
     distancia = distancia_entre_pokemons(pokemon,alvo,metros)
-    Over = ataque["alcance"] - distancia
+    print(distancia)
+    Over = alcance - distancia * 2
     if alvo.efeitosPosi["Voando"] > 0:
         Over = Over - 45
     if Over < 0:
-        assertividade = ataque["precisão"] + Over
+        assertividade = assertividade + Over
     else:
-        assertividade = ataque["precisão"]
+        pass
     if pokemon.efeitosNega["Confuso"] > 0:
         assertividade = assertividade * 0.5
     if pokemon.efeitosPosi["Focado"] > 0:

@@ -1,10 +1,10 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def F_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
 
     efeitos_ativos = [chave for chave, valor in Alvo.efeitosPosi.items() if valor > 0]
 
@@ -12,7 +12,7 @@ def F_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,M
         efeito_removido = random.choice(efeitos_ativos)
         Alvo.efeitosPosi[efeito_removido] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Sopro_do_Dragao = {
     "nome": "Sopro do Dragão",
@@ -25,29 +25,29 @@ Sopro_do_Dragao = {
     "descrição": "O sopro do dragão é capaz de remover um efeito positivo com o padrão draconico do pokemon atingido",
     "efeito": "Fumaça",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Sopro_do_Dragao
+    "funçao": Regular,
+    "irregularidade": FI_Sopro_do_Dragao
     }
 
-def FF_Garra_do_Dragao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
-        Alvo.efeitosNega[Escolha] = 3
+def FF_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+        AlvoS.efeitosNega[Escolha] = 3
 
-        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
 
         Mitigaçao = 100 / (100 + Defesa)
         DanoM = Dano * Mitigaçao
-        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+        DanoF = DanoM * efetividade(Ataque["tipo"],AlvoS.tipo,tela,AlvoLoc)
 
-        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+        DanoF = VEfeitos(PokemonS,AlvoS,player,inimigo,DanoF,Ataque["estilo"],tela)
 
         EstadoDaPergunta["estado"] = False
-        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+        AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Garra_do_Dragao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Garra_do_Dragao
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["Quebrado","Fragilizado"]
     EstadoDaPergunta["estado"] = True
 
@@ -66,8 +66,8 @@ Garra_do_Dragao = {
     "irregularidade": False
     }
 
-def F_Ultraje(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.atacado(22,player,inimigo,tela,Mapa)
+def F_Ultraje(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    AlvoS.atacado(22,player,inimigo,tela,Mapa)
     
 Ultraje = {
     "nome": "Ultraje",
@@ -99,11 +99,11 @@ Cauda_Violenta = {
     "irregularidade": False
     }
 
-def F_Investida_do_Dragao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Investida_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
 
-    PokemonS.atacado(40,player,inimigo,tela,Mapa)
+    PokemonS.atacado(36,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Investida_do_Dragao = {
     "nome": "Investida do Dragao",
@@ -116,6 +116,6 @@ Investida_do_Dragao = {
     "descrição": "Esse ataque causa 36 de dano de perfuraçao em si mesmo",
     "efeito": "ExplosaoVermelha",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Investida_do_Dragao
+    "funçao": Regular,
+    "irregularidade": FI_Investida_do_Dragao
     }

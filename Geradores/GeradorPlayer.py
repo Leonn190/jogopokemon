@@ -9,7 +9,7 @@ class Jogador:
         self.nome = informaçoes[0]
         self.pokemons = [Gerador_final(informaçoes[1],1,self)]
         self.inventario = []
-        self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
+        self.energias = {"vermelha": 10, "azul": 10, "amarela": 10, "verde": 10, "roxa": 10, "laranja": 10, "preta": 10}
         self.energiasDesc = []
         self.ouro = 10
     

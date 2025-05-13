@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move, GuardarPosicionar
 from Geradores.GeradorOutros import caixa, coletor
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
@@ -19,11 +19,11 @@ Mordida = {
     "irregularidade": False
     }
 
-def F_Seda(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Seda(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo.Varvel_perm > -11:
         Alvo.Varvel_perm -= 12
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Seda = {
     "nome": "Seda",
@@ -36,15 +36,15 @@ Seda = {
     "descrição": "Esse ataque diminue 12 de velocidade do oponente, caso ja tenha -12 de velocidade, não diminue mais",
     "efeito": "Estouro",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Seda
+    "funçao": Regular,
+    "irregularidade": FI_Seda
     }
 
-def F_Picada(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Picada(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if random.choice([True,False]) == True:
         Alvo.efeitosNega["Envenenado"] += 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Picada = {
     "nome": "Picada",
@@ -57,11 +57,11 @@ Picada = {
     "descrição": "Esse ataque tem 50% de chance de deixar o oponente envenenado por 3 turnos",
     "efeito": "Estouro",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Picada
+    "funçao": Regular,
+    "irregularidade": FI_Picada
     }
 
-def FF_Minhocagem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Minhocagem(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
         if Escolha == "Roubar":
             if inimigo.energias["verde"] > 2:
                  inimigo.energias["verde"] -= 2
@@ -72,22 +72,22 @@ def FF_Minhocagem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
         else:
             GuardarPosicionar(PokemonS,player,3,Mapa.Zona)
 
-        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
 
         Mitigaçao = 100 / (100 + Defesa)
         DanoM = Dano * Mitigaçao
-        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+        DanoF = DanoM * efetividade(Ataque["tipo"],AlvoS.tipo,tela,AlvoLoc)
 
-        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+        DanoF = VEfeitos(PokemonS,AlvoS,player,inimigo,DanoF,Ataque["estilo"],tela)
 
         EstadoDaPergunta["estado"] = False
-        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+        AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Minhocagem(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Minhocagem(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Minhocagem
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["Guardar","Roubar"]
     EstadoDaPergunta["estado"] = True
 
@@ -106,7 +106,7 @@ Minhocagem = {
     "irregularidade": False
     }
 
-def F_Coleta(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Coleta(PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for i in range(4):
         player.energias[coletor()] += 1
 
@@ -140,10 +140,10 @@ Tesoura_X = {
     "irregularidade": False
     }
 
-def F_Dor_Falsa(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Dor_Falsa(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosPosi["Regeneração"] = 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Dor_Falsa = {
     "nome": "Dor Falsa",
@@ -156,6 +156,6 @@ Dor_Falsa = {
     "descrição": "Esse ataque aplica uma dor falsa no oponente pois deixa ele com regeneração por 3 turnos",
     "efeito": "ChicoteMultiplo",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Dor_Falsa
+    "funçao": Regular,
+    "irregularidade": FI_Dor_Falsa
     }

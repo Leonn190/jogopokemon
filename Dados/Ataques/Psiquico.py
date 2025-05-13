@@ -1,11 +1,11 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move, GuardarPosicionar
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Confusão(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Confuso"] = 3
+def F_Confusão(PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    AlvoS.efeitosNega["Confuso"] = 3
 
 Confusão = {
     "nome": "Confusão",
@@ -27,7 +27,7 @@ def Alv_Bola_Psíquica(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bola_Psiquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bola_Psiquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
@@ -45,11 +45,11 @@ Bola_Psiquica = {
     "efeito": "ExplosaoRoxa",
     "alvos": Alv_Bola_Psíquica,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Bola_Psiquica
+    "funçao": Regular,
+    "irregularidade": FI_Bola_Psiquica
     }
 
-def F_Teleporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Teleporte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     linhaA, colunaA = Alvo.local["id"]
     linhaS, colunaS = PokemonS.local["id"]
     
@@ -58,7 +58,7 @@ def F_Teleporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,te
     Move(PokemonS,linhaA,colunaA,Mapa.Zona)
     Move(Alvo,linhaS,colunaS,Mapa.Zona)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Teleporte = {
     "nome": "Teleporte",
@@ -71,16 +71,16 @@ Teleporte = {
     "descrição": "Troque de lugar com o alvo",
     "efeito": "FeixeMagenta",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Teleporte
+    "funçao": Regular,
+    "irregularidade": FI_Teleporte
     }
 
-def F_Ampliação_Mental(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Ampliação_Mental(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     for efeito in PokemonS.efeitosNega:
         if Alvo.efeitosNega[efeito] > 0:
             Alvo.efeitosNega[efeito] += 1
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Ampliação_Mental = {
     "nome": "Ampliação Mental",
@@ -93,14 +93,14 @@ Ampliação_Mental = {
     "descrição": "Aumente 1 de todos os contadores de efeitos negativos do pokemon atingido",
     "efeito": "FeixeRoxo",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Ampliação_Mental
+    "funçao": Regular,
+    "irregularidade": FI_Ampliação_Mental
     }
 
-def F_Psiquico_Desgastante(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Psiquico_Desgastante(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     PokemonS.efeitosNega["Incapacitado"] += 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Psiquico_Desgastante = {
     "nome": "Psiquico Desgastante",
@@ -113,15 +113,15 @@ Psiquico_Desgastante = {
     "descrição": "Esse pokemon agora está incapacitado por 3 turnos",
     "efeito": "CorteRicocheteadoRoxo",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Psiquico_Desgastante
+    "funçao": Regular,
+    "irregularidade": FI_Psiquico_Desgastante
     }
 
-def F_Mente_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Mente_Forte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if random.choice([True,False]) ==  True:
         PokemonS.efeitosPosi["Focado"] = 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Mente_Forte = {
     "nome": "Mente Forte",
@@ -134,14 +134,14 @@ Mente_Forte = {
     "descrição": "Esse ataque tem 50% de chance de te deixar focado",
     "efeito": "CorteRicocheteadoRoxo",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Mente_Forte
+    "funçao": Regular,
+    "irregularidade": FI_Mente_Forte
     }
 
-def F_Corrosao_Psiquica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Corrosao_Psiquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano = Dano * Alvo.Vida // 100
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Corrosao_Psiquica = {
     "nome": "Corrosão Psíquica",
@@ -154,11 +154,11 @@ Corrosao_Psiquica = {
     "descrição": "O dano desse ataque é a % da vida do inimigo",
     "efeito": "OrbesRoxos",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Corrosao_Psiquica
+    "funçao": Regular,
+    "irregularidade": FI_Corrosao_Psiquica
     }
 
-def F_Psicorte_Duplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Psicorte_Duplo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Defesa = Defesa * 0.7
     aliados, inimigos = pokemons_nos_arredores(Alvo,player,inimigo,2,Mapa.Zona)
     if PokemonV in inimigos:
@@ -166,7 +166,7 @@ def F_Psicorte_Duplo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Ma
         DanoV = Dano * mitigação
         PokemonV.atacado(DanoV,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Psicorte_Duplo = {
     "nome": "Psicorte Duplo",
@@ -179,18 +179,18 @@ Psicorte_Duplo = {
     "descrição": "Esse ataque causa dano a um oponente selecionado caso esteja ate 2 casas adjacentes do alvo principal, esse ataque ignora 40% das defesas inimigas",
     "efeito": "CorteDuploRoxo",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Psicorte_Duplo
+    "funçao": Regular,
+    "irregularidade": FI_Psicorte_Duplo
     }
 
-def F_Transferencia_Psiquica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Transferencia_Psiquica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     for efeito in PokemonV.efeitosNega:
         if PokemonV.efeitosNega[efeito] >= 1:
             Alvo.efeitosNega[efeito] += PokemonV.efeitosNega[efeito]
             PokemonV.efeitosNega[efeito] = 0
             break
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Transferencia_Psiquica = {
     "nome": "Tranferência Psíquica",
@@ -204,11 +204,11 @@ Transferencia_Psiquica = {
     "efeito": "FeixeMagenta",
     "efeito2": "FluxoAzul",
     "extra": "AV",
-    "funçao": Irregular,
-    "irregularidade": F_Transferencia_Psiquica
+    "funçao": Regular,
+    "irregularidade": FI_Transferencia_Psiquica
     }
 
-def F_Teletransporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Teletransporte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     linhaA, colunaA = Alvo.local["id"]
     linhaS, colunaS = PokemonV.local["id"]
     
@@ -217,7 +217,7 @@ def F_Teletransporte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Ma
     Move(PokemonV,linhaA,colunaA,Mapa.Zona)
     Move(Alvo,linhaS,colunaS,Mapa.Zona)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Teletransporte = {
     "nome": "Teletransporte",
@@ -231,11 +231,11 @@ Teletransporte = {
     "efeito": "FeixeMagenta",
     "efeito2": "FeixeMagenta",
     "extra": "AV",
-    "funçao": Irregular,
-    "irregularidade": F_Teletransporte
+    "funçao": Regular,
+    "irregularidade": FI_Teletransporte
     }
 
-def F_Raio_Psiquico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Raio_Psiquico(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     contador = 0
     for efeito in Alvo.efeitosNega:
         if Alvo.efeitosNega[efeito] > 0:
@@ -245,7 +245,7 @@ def F_Raio_Psiquico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Map
             contador += 1
     Dano = Dano * (1 - 0.1 * contador)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Raio_Psiquico = {
     "nome": "Raio Psíquico",
@@ -258,14 +258,14 @@ Raio_Psiquico = {
     "descrição": "Esse ataque causa menos 10% de dano a cada efeito que o pokemon inimigo tiver",
     "efeito": "RasgoMagenta",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Raio_Psiquico
+    "funçao": Regular,
+    "irregularidade": FI_Raio_Psiquico
     }
 
-def F_Agonia_Mental(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Agonia_Mental(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Incapacitado"] = 5
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Agonia_Mental = {
     "nome": "Agonia Mental",
@@ -278,6 +278,6 @@ Agonia_Mental = {
     "descrição": "Esse ataque deixa o alvo incapacitado por 5 turnos",
     "efeito": "OrbesRoxos",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Agonia_Mental
+    "funçao": Regular,
+    "irregularidade": FI_Agonia_Mental
     }

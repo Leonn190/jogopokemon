@@ -1,10 +1,10 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa, coletor
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def F_Brilho(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Brilho(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosPosi["Furtivo"] = 0
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
@@ -28,8 +28,8 @@ Brilho = {
     "efeito": "MarcaBrilhosa",
     "extra": "MA",
     "alvos": Alv_Brilho,
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Brilho
+    "funçao": Regular,
+    "irregularidade": FI_Brilho
     }
 
 Vento_Fada = {
@@ -47,7 +47,7 @@ Vento_Fada = {
     "irregularidade": False
     }
 
-def F_Bençao(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Bençao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonV.efeitosPosi["Abençoado"] = 3
     
 Bençao = {
@@ -65,7 +65,7 @@ Bençao = {
     "irregularidade": False
     }
 
-def FF_Busca_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Busca_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
     num = int(Escolha)
     if PokemonV is not None:
         PokemonV.curar(4*num,player,tela)
@@ -76,10 +76,10 @@ def FF_Busca_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoL
         player.energias[coletor()] += 1
     EstadoDaPergunta["estado"] = False
 
-def F_Busca_Alegre(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Busca_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Busca_Alegre
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["0","1","2","3"]
     EstadoDaPergunta["estado"] = True
 
@@ -98,14 +98,14 @@ Busca_Alegre = {
     "irregularidade": False
     }
 
-def F_Tapa_das_Fadas(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Tapa_das_Fadas(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     contador = 0
     for efeito in Alvo.efeitosPosi:
         if Alvo.efeitosPosi[efeito] > 1:
             contador += 1
     Dano = Dano * (1 + 0.3 * contador)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Tapa_das_Fadas = {
     "nome": "Tapa das Fadas",
@@ -118,12 +118,12 @@ Tapa_das_Fadas = {
     "descrição": "Esse ataque causa 30% de dano a mais para cada efeito positivo que o alvo tiver",
     "efeito": "FacasRosas",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Tapa_das_Fadas
+    "funçao": Regular,
+    "irregularidade": FI_Tapa_das_Fadas
     }
 
-def F_Constelaçao_Magica(PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    for alvo in Alvo:
+def F_Constelaçao_Magica(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    for alvo in Alvos:
         alvo.efeitosPosi["Furtivo"] = 3
 
 def Alv_Constelaçao_Magica(PokemonS,Alvo,player,inimigo,Mapa):
@@ -157,7 +157,7 @@ def Alv_Explosao_Lunar(PokemonS,Alvo,player,inimigo,Mapa):
 
     return alvos
 
-def F_Explosao_Lunar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Explosao_Lunar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.4
 
@@ -175,6 +175,6 @@ Explosao_Lunar = {
     "efeito": "CorteRosa",
     "alvos": Alv_Explosao_Lunar,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Explosao_Lunar
+    "funçao": Regular,
+    "irregularidade": FI_Explosao_Lunar
     }

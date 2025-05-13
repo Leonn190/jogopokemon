@@ -1,13 +1,13 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def F_Cristalizar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    if Alvo.efeitosNega["Encharcado"] > 0:
-        Alvo.efeitosNega["Congelado"] += Alvo.efeitosNega["Encharcado"] + 1
-        Alvo.efeitosNega["Encharcado"] = 0
+def F_Cristalizar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    if AlvoS.efeitosNega["Encharcado"] > 0:
+        AlvoS.efeitosNega["Congelado"] += AlvoS.efeitosNega["Encharcado"] + 1
+        AlvoS.efeitosNega["Encharcado"] = 0
 
 Cristalizar = {
     "nome": "Cristalizar",
@@ -24,14 +24,14 @@ Cristalizar = {
     "irregularidade": False
     }
 
-def F_Reinado_de_Gelo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Reinado_de_Gelo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     contador = 0
     for pokemon in player.pokemons + inimigo.pokemons:
         if pokemon.efeitosNega["Congelado"] > 0:
             contador += 1
     Dano = Dano * (1 + 0.5 * contador)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Reinado_de_Gelo = {
     "nome": "Reinado de Gelo",
@@ -44,21 +44,21 @@ Reinado_de_Gelo = {
     "descrição": "Esse ataque causa 50% a mais de dano para cada pokemon congelado na partida",
     "efeito": "FacasAzuis",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Reinado_de_Gelo
+    "funçao": Regular,
+    "irregularidade": FI_Reinado_de_Gelo
     }
 
-def FF_Magia_de_Gelo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Magia_de_Gelo(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
     Valor = int(Escolha)
     PokemonV.curar(20,player,tela)
     PokemonV.efeitosPosi["Regeneração"] = Valor
     PokemonV.efeitosPosi["Congelado"] = Valor
     EstadoDaPergunta["estado"] = False
 
-def F_Magia_de_Gelo(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Magia_de_Gelo(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Magia_de_Gelo
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["2","3","4","5"]
     EstadoDaPergunta["estado"] = True
 
@@ -78,11 +78,11 @@ Magia_de_Gelo = {
     "irregularidade": False
     }
 
-def F_Raio_de_Gelo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Raio_de_Gelo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if random.randint(0,100) > 80:
         Alvo.efeitosNega["Congelado"] = 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Raio_de_Gelo = {
     "nome": "Raio de Gelo",
@@ -95,14 +95,14 @@ Raio_de_Gelo = {
     "descrição": "Lança um raio de gelo extremamente potente que tem 20% de chance de congelar o alvo por 3 turnos",
     "efeito": "RaioAzul",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Raio_de_Gelo
+    "funçao": Regular,
+    "irregularidade": FI_Raio_de_Gelo
     }
 
-def F_Gelo_Verdadeiro(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Gelo_Verdadeiro(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Defesa = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Gelo_Verdadeiro = {
     "nome": "Gelo Verdadeiro",
@@ -115,7 +115,7 @@ Gelo_Verdadeiro = {
     "descrição": "Esse ataque ignora a defesa do pokemon inimigo",
     "efeito": "MarcaAzul",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Raio_de_Gelo
+    "funçao": Regular,
+    "irregularidade": FI_Gelo_Verdadeiro
     }
 

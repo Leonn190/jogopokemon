@@ -1,10 +1,10 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Chamar_para_Briga(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Chamar_para_Briga(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Provocando"] = 3
     PokemonS.efeitosPosi["Preparado"] = 3
 
@@ -38,27 +38,32 @@ Soco = {
     "irregularidade": False
     }
 
+def V_Punho_Missil(alcance,assertividade,PokemonS,AlvoS,Ataque):
+     alcance += PokemonS.Atk_sp // 5
+     return alcance,assertividade
+
 Punho_Missil = {
     "nome": "Punho Missil",
     "tipo": ["lutador"],   
     "custo": ["normal","laranja"],
     "estilo": "E",
     "dano": 1.2,
-    "alcance": 35,
+    "alcance": 25,
     "precisão": 100, 
-    "descrição": "Um construto de soco disparado no oponente",
+    "descrição": "Um construto de soco disparado no oponente, aumenta 1 de alcance a cada 5 de dano especial",
+    "var": V_Punho_Missil,
     "efeito": "Estouro",
     "extra": "A",
     "funçao": Regular,
     "irregularidade": False
     }
 
-def F_Combate_Proximo(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Combate_Proximo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     aliados, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
     if PokemonS in aliados:
         Dano = Dano * 1.7
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Combate_Proximo = {
     "nome": "Combate Proximo",
@@ -71,34 +76,34 @@ Combate_Proximo = {
     "descrição": "Esse ataque causa mais 70% de dano caso voce esteja grudado no alvo",
     "efeito": "Karate",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Combate_Proximo
+    "funçao": Regular,
+    "irregularidade": FI_Combate_Proximo
     }
 
-def FF_Submissão(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Submissão(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
         
         if Escolha == "Sim":
             PokemonS.efeitosNega["Incapacitado"] = 3
-            Alvo.efeitosNega["Incapacitado"] = 3
+            AlvoS.efeitosNega["Incapacitado"] = 3
         elif Escolha == "Não":
             pass
 
-        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+        Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
 
         Mitigaçao = 100 / (100 + Defesa)
         DanoM = Dano * Mitigaçao
-        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+        DanoF = DanoM * efetividade(Ataque["tipo"],AlvoS.tipo,tela,AlvoLoc)
 
-        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+        DanoF = VEfeitos(PokemonS,AlvoS,player,inimigo,DanoF,Ataque["estilo"],tela)
 
         EstadoDaPergunta["estado"] = False
-        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+        AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Submissão(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Submissão(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Submissão
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["Sim","Não"]
     EstadoDaPergunta["estado"] = True
 
@@ -117,7 +122,7 @@ Submissão = {
     "irregularidade": False
     }
 
-def F_Treinar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Treinar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.Ganhar_XP(3,player)
     vezes = PokemonS.vel // 12
     for i in range(vezes):

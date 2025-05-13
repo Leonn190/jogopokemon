@@ -1,13 +1,13 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Dreno(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Dreno(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     PokemonS.curar(15,player,tela)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Dreno = {
     "nome": "Dreno",
@@ -20,15 +20,15 @@ Dreno = {
     "descrição": "Esse ataque cura 15 de vida de si mesmo",
     "efeito": "ExplosaoVerde",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Dreno
+    "funçao": Regular,
+    "irregularidade": FI_Dreno
     }
 
-def F_Chicote_de_Vinha(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Chicote_de_Vinha(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if random.randint(0,100) > 40:
         Dano = Dano * 1.2
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Chicote_de_Vinha = {
     "nome": "Chicote de Vinha",
@@ -41,8 +41,8 @@ Chicote_de_Vinha = {
     "descrição": "Esse ataque tem 60% de chance de causar mais 20% de dano",
     "efeito": "ExplosaoVerde",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Chicote_de_Vinha
+    "funçao": Regular,
+    "irregularidade": FI_Chicote_de_Vinha
     }
 
 Disparo_de_Semente = {
@@ -60,7 +60,7 @@ Disparo_de_Semente = {
     "irregularidade": False
     }
 
-def F_Cura_Natural(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Cura_Natural(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     if PokemonV is not None:
         if PokemonV in player.pokemons:
             PokemonV.efeitosPosi["Regeneração"] += 3
@@ -103,7 +103,7 @@ def Alv_Dança_das_Petalas(PokemonS,Alvo,player,inimigo,Mapa):
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
     return aliados + [PokemonS]
 
-def F_Dança_das_Petalas(PokemonS,PokemonV,Alvo,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Dança_das_Petalas(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     for alvo in Alvos:
         cura = (alvo.VidaMax - alvo.Vida) * 0.15
         alvo.curar(cura,player,tela)
@@ -125,10 +125,10 @@ Dança_das_Petalas = {
     "irregularidade": None
     }
 
-def F_Mega_Dreno(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Mega_Dreno(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     PokemonS.curar(PokemonS.Atk_sp * 0.45,player,tela)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Mega_Dreno = {
     "nome": "Mega Dreno",
@@ -141,8 +141,8 @@ Mega_Dreno = {
     "descrição": "Esse ataque cura 45% do seu dano especial",
     "efeito": "ExplosaoVerde",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Dreno
+    "funçao": Regular,
+    "irregularidade": FI_Mega_Dreno
     }
 
 Folha_Navalha = {
@@ -165,7 +165,7 @@ def Alv_Morteiro_de_Polem(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Morteiro_de_Polem(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Morteiro_de_Polem(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
@@ -183,6 +183,6 @@ Morteiro_de_Polem = {
     "efeito": "Explosao",
     "alvos": Alv_Morteiro_de_Polem,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Morteiro_de_Polem
+    "funçao": Regular,
+    "irregularidade": FI_Morteiro_de_Polem
     }

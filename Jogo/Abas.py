@@ -273,9 +273,9 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
                     
                     
                     try:
-                        PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
+                        PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
 
-                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
+                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
                     except ValueError:
                         GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](EstadoDaPergunta["info"][0],EstadoDaPergunta["info"][1],EstadoDaPergunta["info"][2],opçao),Fonte20, Bpergunta, 3, None, True, eventos)
 
@@ -469,7 +469,6 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
     pygame.draw.line(tela, (255, 255, 255), (x, y + 30), (x + largura - 2, y + 30), 2)
 
     def TiraDescriçao():
-        print (4)
         global H
         estado["selecionado_esquerdo"] = None
         H = None
@@ -697,6 +696,9 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                     GV.adicionar_mensagem("Esse ataque requer um alvo")
                     tocar("Bloq")
                     return
+                else:
+                    idx = PokemonA.pos
+                    AlvoLoc = ((1400 - idx * 190),95)
 
             else:
                 if PokemonV is not None and AtaqueS["extra"] == "TV":
@@ -718,27 +720,23 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                 if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
                     return
             
-            if alvos is None:
-                adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
-                if AlvoLoc2 is not None:
-                    adicionar_efeito(AtaqueS["efeito2"],AlvoLoc2)
-            else:
-                jafoi = False
+            adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
+            if alvos is not None:
                 for alvo in alvos:
                     idx = alvo.pos
                     if alvo in inimigo.pokemons:
                         AlvoLoc = ((1400 - idx * 190),95)
                     else:
                         AlvoLoc = ((520 + idx * 190),1000)
-                    if jafoi == False:
-                        adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
-                        jafoi = True
-                    else:
-                        adicionar_efeito(AtaqueS["efeito"],AlvoLoc)
+                    adicionar_efeito(AtaqueS["efeito"],AlvoLoc)
+
+            if AlvoLoc2 is not None:
+                adicionar_efeito(AtaqueS["efeito2"],AlvoLoc2)
+
     else: 
-            GV.adicionar_mensagem("Selecione um ataque")
-            tocar("Bloq")
-            return
+        GV.adicionar_mensagem("Selecione um ataque")
+        tocar("Bloq")
+        return
 
 def Trocar_Ataque(Pokemon,EstadoDaPergunta,Ataque,escolha):
     if Pokemon.movimento1 == Ataque:

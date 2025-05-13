@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Regular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
@@ -36,7 +36,7 @@ Tremor = {
     "efeito": "ExplosaoPedra",
     "extra": "MA",
     "alvos": Alv_Tremor,
-    "funçao": Multi_Regular,
+    "funçao": Regular,
     "irregularidade": False
     }
 
@@ -48,7 +48,7 @@ def Alv_Quebra_Chao(PokemonS,Alvo,player,inimigo,Mapa):
         aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
         return inimigos
 
-def F_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,AlvoS,alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,AlvoS,alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano = Dano * PokemonS.Vida / 100
     PokemonS.atacado(Dano*0.15,player,inimigo,tela,Mapa)
 
@@ -66,11 +66,11 @@ Quebra_Chao = {
     "efeito": "ImpactoRochoso",
     "extra": "MA",
     "alvos": Alv_Quebra_Chao,
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Quebra_Chao
+    "funçao": Regular,
+    "irregularidade": FI_Quebra_Chao
     }
 
-def F_Afinidade_Territorial(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Afinidade_Territorial(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Velocista"] = 3
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
     if inimigos == []:
@@ -106,14 +106,14 @@ Osso_Veloz = {
     "irregularidade": False
     }
 
-def F_Golpe_Territorial(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Golpe_Territorial(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if PokemonS.efeitosPosi["Provocando"] > 0:
         Dano = Dano * 1.2
         if Alvo.efeitosPosi["Provocando"] > 0:
             Dano = Dano * 1.1
             Alvo.efeitosPosi["Provocando"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Golpe_Territorial = {
     "nome": "Golpe Territorial",
@@ -126,8 +126,8 @@ Golpe_Territorial = {
     "descrição": "Se esse pokemon estiver com o efeito provocando, esse ataque causará mais 20% de dano e caso o alvo também esteja provocando, esse golpe causa ainda mais 10% e remove o efeito de provocando do alvo",
     "efeito": "ExplosaoPedra",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Golpe_Territorial
+    "funçao": Regular,
+    "irregularidade": FI_Golpe_Territorial
     }
 
 def Alv_Tremorr(PokemonS,Alvo,player,inimigo,Mapa):
@@ -145,6 +145,6 @@ Terremoto = {
     "efeito": "ExplosaoPedra",
     "extra": "MA",
     "alvos": Alv_Tremorr,
-    "funçao": Multi_Regular,
+    "funçao": Regular,
     "irregularidade": False
     }

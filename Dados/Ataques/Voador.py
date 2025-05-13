@@ -1,10 +1,10 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def F_Voar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Voar(PokemonS,PokemonV,Alvo,AlvoS,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Voando"] = 3
 
 Voar = {
@@ -22,11 +22,11 @@ Voar = {
     "irregularidade": False
     }
 
-def F_Ataque_de_Asa(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Ataque_de_Asa(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if PokemonS.efeitosPosi["Voando"] > 0:
         Dano = Dano * 0.8
     
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Ataque_de_Asa = {
     "nome": "Ataque de Asa",
@@ -39,16 +39,16 @@ Ataque_de_Asa = {
     "descrição": "Esse ataque causa -25% de dano caso esse pokemon esteja voando",
     "efeito": "ChicoteMultiplo",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Ataque_de_Asa
+    "funçao": Regular,
+    "irregularidade": FI_Ataque_de_Asa
     }
 
-def F_Investida_Aerea(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Investida_Aerea(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if PokemonS.efeitosPosi["Voando"] > 0:
         Dano = Dano * 1.25
     PokemonS.atacado(15,player,inimigo,tela,Mapa)
     
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Investida_Aerea = {
     "nome": "Investida Aérea",
@@ -61,16 +61,16 @@ Investida_Aerea = {
     "descrição": "Esse ataque causa 15 de dano a si mesmo, caso esse pokemon esteja voando esse ataque causará mais 25% de dano",
     "efeito": "FacasBrancas",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Investida_Aerea
+    "funçao": Regular,
+    "irregularidade": FI_Investida_Aerea
     }
 
-def F_Rasante(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Rasante(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     DanoV = PokemonS.vel * 1.35 * 0.9
     DanoN = PokemonS.Atk * 1.35 * 0.1
     Dano = DanoV + DanoN
     
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Rasante = {
     "nome": "Rasante",
@@ -83,14 +83,14 @@ Rasante = {
     "descrição": "Esse ataque escala apenas 10% com o dano o resto é com velocidade (90%)",
     "efeito": "FacasBrancas",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Investida_Aerea
+    "funçao": Regular,
+    "irregularidade": FI_Rasante
     }
 
-def F_Bico_Broca(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bico_Broca(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Defesa = Defesa * 0.49
     
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Bico_Broca = {
     "nome": "Bico Broca",
@@ -103,11 +103,11 @@ Bico_Broca = {
     "descrição": "Bique seu oponente como uma verdadeira broca, ignorando 51% da defesa dele",
     "efeito": "Corte",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Bico_Broca
+    "funçao": Regular,
+    "irregularidade": FI_Bico_Broca
     }
 
-def F_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     linhaS, colunaS = PokemonS.local["id"]
     linhaA, colunaA = Alvo.local["id"]
 
@@ -146,7 +146,7 @@ def F_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,
 
     Move(Alvo, nova_linha, nova_coluna, Mapa.Zona)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Vento_Forte = {
     "nome": "Vento Forte",
@@ -159,6 +159,6 @@ Vento_Forte = {
     "descrição": "Mova o alvo 2 casas para longe, caso ele tenha mais de 200kg mova apenas 1 casa",
     "efeito": "Estouro",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Vento_Forte
+    "funçao": Regular,
+    "irregularidade": FI_Vento_Forte
     }

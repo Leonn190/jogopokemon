@@ -1,4 +1,4 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
@@ -34,7 +34,7 @@ Pedra_Especial = {
     "irregularidade": False
     }
 
-def F_Barragem_Rochosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Barragem_Rochosa(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.barreira += (PokemonS.Def + PokemonS.Def_sp) * 0.2
 
 Barragem_Rochosa = {
@@ -52,11 +52,11 @@ Barragem_Rochosa = {
     "irregularidade": False
     }
 
-def F_Impacto_Rochoso(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Impacto_Rochoso(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Dano = PokemonS.Def * Ataque["dano"]
     PokemonS.efeitosNega["Quebrado"] = 2
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Impacto_Rochoso = {
     "nome": "Impacto Rochoso",
@@ -69,16 +69,16 @@ Impacto_Rochoso = {
     "descrição": "Esse ataque causa dano baseado apenas na Defesa, após esse ataque, esse pokemon fica quebrado por 2 turnos",
     "efeito": "ImpactoRochoso",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Impacto_Rochoso
+    "funçao": Regular,
+    "irregularidade": FI_Impacto_Rochoso
     }
 
-def F_Pedra_Colossal(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Pedra_Colossal(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if inimigo.inventario != []:  
         item = random.choice(inimigo.inventario)
         inimigo.inventario.remove(item)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Pedra_Colossal = {
     "nome": "Pedra Colossal",
@@ -91,34 +91,34 @@ Pedra_Colossal = {
     "descrição": "Esse ataque remove um item do inventário do oponente",
     "efeito": "ImpactoRochoso",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Pedra_Colossal
+    "funçao": Regular,
+    "irregularidade": FI_Pedra_Colossal
     }
 
-def FF_Furia_Petrea(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
     Valor = int(Escolha)
     
     PokemonS.efeitosPosi["Imortal"] = 2
     PokemonS.atacado(Valor * 35,player,inimigo,tela,Mapa)
 
-    Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
+    Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
     Dano = Vsteb(PokemonS,Dano,Ataque)
 
     Dano = Dano * (1 + 0.35 * Valor)
 
     Mitigaçao = 100 / (100 + Defesa)
     DanoM = Dano * Mitigaçao
-    DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
+    DanoF = DanoM * efetividade(Ataque["tipo"],AlvoS.tipo,tela,AlvoLoc)
     
-    DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
+    DanoF = VEfeitos(PokemonS,AlvoS,player,inimigo,DanoF,Ataque["estilo"],tela)
 
     EstadoDaPergunta["estado"] = False
-    Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
+    AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Furia_Petrea(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Furia_Petrea
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["1","2","3","4"]
     EstadoDaPergunta["estado"] = True
 

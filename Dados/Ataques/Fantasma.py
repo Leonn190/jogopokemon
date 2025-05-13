@@ -1,14 +1,14 @@
-from Geradores.GeradorAtaques import Regular, Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def F_Assombrar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    efeitos_disponiveis = list(Alvo.efeitosNega.keys())
+def F_Assombrar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    efeitos_disponiveis = list(AlvoS.efeitosNega.keys())
     if efeitos_disponiveis:
         efeito_escolhido = random.choice(efeitos_disponiveis)
-        Alvo.efeitosNega[efeito_escolhido] = 2
+        AlvoS.efeitosNega[efeito_escolhido] = 2
 
 Assombrar = {
     "nome": "Assombrar",
@@ -25,10 +25,10 @@ Assombrar = {
     "irregularidade": False
     }
 
-def F_Lambida(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Lambida(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     PokemonS.curar(Dano/15,player,tela)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Lambida = {
     "nome": "Lambida",
@@ -41,16 +41,16 @@ Lambida = {
     "descrição": "Cure 15% do dano causado",
     "efeito": "MagiaMagenta",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Lambida
+    "funçao": Regular,
+    "irregularidade": FI_Lambida
     }
 
-def F_Atravessar(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Atravessar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     for chave,valor in PokemonS.efeitosNega.items():
         PokemonS.efeitosNega[chave] = 0
         Alvo.efeitosNega[chave] = valor
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Atravessar = {
     "nome": "Atravessar",
@@ -63,19 +63,19 @@ Atravessar = {
     "descrição": "Atravessa o alvo, removendo todos os efeitos negativos de si mesmo e passando para o alvo",
     "efeito": "FeixeMagenta",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Atravessar
+    "funçao": Regular,
+    "irregularidade": FI_Atravessar
     }
 
 saldo = 1
 
-def FF_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Coleta_Gananciosa(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
     global saldo
     if Escolha == "Mais":
         if random.randint(0,100) > saldo * 2:
             saldo += saldo
             EstadoDaPergunta["estado"] = False
-            F_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
+            F_Coleta_Gananciosa(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
         else:   
             saldo = 0
             EstadoDaPergunta["estado"] = False
@@ -85,10 +85,11 @@ def FF_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,
         saldo = 1
         EstadoDaPergunta["estado"] = False
 
-def F_Coleta_Gananciosa(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
-    
+def F_Coleta_Gananciosa(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
+    global saldo
+    saldo = 1
     EstadoDaPergunta["funçao"] = FF_Coleta_Gananciosa
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["Mais","Parar"]
     EstadoDaPergunta["estado"] = True
 
@@ -107,7 +108,7 @@ Coleta_Gananciosa = {
     "irregularidade": False
     }
 
-def F_Mao_Espectral(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Mao_Espectral(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     linhaS, colunaS = PokemonS.local["id"]
     linhaA, colunaA = Alvo.local["id"]
 
@@ -116,7 +117,7 @@ def F_Mao_Espectral(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Map
     else:
         Move(Alvo,linhaS + 1, colunaS,Mapa.Zona)
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Mao_Espectral = {
     "nome": "Mão Espectral",
@@ -129,21 +130,21 @@ Mao_Espectral = {
     "descrição": "Puxe o inimigo para perto de você",
     "efeito": "ExplosaoRoxa",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Mao_Espectral
+    "funçao": Regular,
+    "irregularidade": FI_Mao_Espectral
     }
 
-def FF_Maldade(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
-    Alvo.efeitosNega[Escolha] = 4
+def FF_Maldade(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+    AlvoS.efeitosNega[Escolha] = 4
     EstadoDaPergunta["estado"] = False
 
-def F_Maldade(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
+def F_Maldade(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I=None):
     opçoes = []
     for chave in PokemonS.efeitosNega:
         opçoes.append(chave)
 
     EstadoDaPergunta["funçao"] = FF_Maldade
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,player,Alvos,inimigo,Ataque,Mapa,tela,AlvoLoc
     EstadoDaPergunta["opçoes"] = []
     EstadoDaPergunta["estado"] = True
 
@@ -165,13 +166,13 @@ Maldade = {
     "irregularidade": False
     }
 
-def F_Massacre_Fantasmagorico(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Massacre_Fantasmagorico(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     for chave in PokemonS.efeitosPosi:
         if Alvo.efeitosPosi[chave] > 1:
-            return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+            return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
     Dano = Dano * 1.41
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Massacre_Fantasmagorico = {
     "nome": "Massacre Fantasmagórico",
@@ -184,7 +185,7 @@ Massacre_Fantasmagorico = {
     "descrição": "Se o alvo não tiver nenhum efeito positivo, esse ataque irá causar mais 41% de dano",
     "efeito": "RasgosRosa",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Massacre_Fantasmagorico
+    "funçao": Regular,
+    "irregularidade": FI_Massacre_Fantasmagorico
     }
 

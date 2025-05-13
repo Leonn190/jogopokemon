@@ -1,10 +1,10 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Nas_Sombras(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Nas_Sombras(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Furtivo"] = 5
 
 Nas_Sombras = {
@@ -27,7 +27,7 @@ def Alv_Bola_Sombria(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bola_Sombria(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bola_Sombria(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
@@ -45,18 +45,18 @@ Bola_Sombria = {
     "efeito": "ChuvaBrilhante",
     "alvos": Alv_Bola_Sombria,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Bola_Sombria
+    "funçao": Regular,
+    "irregularidade": FI_Bola_Sombria
     }
 
-def F_Corte_Noturno(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Corte_Noturno(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     linhaS, colunaS = PokemonS.local["id"]
     linhaA, colunaA = Alvo.local["id"]
 
     if linhaS == linhaA - 1:
         Dano = Dano * 1.7
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Corte_Noturno = {
     "nome": "Corte Noturno",
@@ -69,15 +69,15 @@ Corte_Noturno = {
     "descrição": "Esse ataque causa 70% a mais de dano caso voce esteja atras do pokemon",
     "efeito": "CorteDourado",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Corte_Noturno
+    "funçao": Regular,
+    "irregularidade": FI_Corte_Noturno
     }
 
-def F_Confronto_Trevoso(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Confronto_Trevoso(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     PokemonS.efeitosPosi["Provocando"] = 3
     Alvo.efeitosPosi["Provocando"] = 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Confronto_Trevoso = {
     "nome": "Confronto Trevoso",
@@ -90,6 +90,6 @@ Confronto_Trevoso = {
     "descrição": "Deixe a si mesmo e o alvo provocando por 3 turnos",
     "efeito": "RedemoinhoCosmico",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Confronto_Trevoso
+    "funçao": Regular,
+    "irregularidade": FI_Confronto_Trevoso
     }

@@ -2,51 +2,15 @@ import importlib
 import random
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 
-def Regular(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
-    Dano = Vsteb(PokemonS,Dano,Ataque)
-
-    Mitigaçao = 100 / (100 + Defesa)
-    DanoM = Dano * Mitigaçao
-    DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
-
-    DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
-
-    Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
-
-def Irregular(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
-    Dano = Vsteb(PokemonS,Dano,Ataque)
-
-    Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
-
-    Mitigaçao = 100 / (100 + Defesa)
-    DanoM = Dano * Mitigaçao
-    DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
-
-    DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
-
-    Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
-
-def Multi_Regular(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def Regular(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    if Alvos is None:
+        Alvos = [AlvoS]
     for Alvo in Alvos:
         Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
 
-        Mitigaçao = 100 / (100 + Defesa)
-        DanoM = Dano * Mitigaçao
-        DanoF = DanoM * efetividade(Ataque["tipo"],Alvo.tipo,tela,AlvoLoc)
-
-        DanoF = VEfeitos(PokemonS,Alvo,player,inimigo,DanoF,Ataque["estilo"],tela)
-
-        Alvo.atacado(DanoF,player,inimigo,tela,Mapa)
-
-def Multi_Irregular(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    for Alvo in Alvos:
-        Dano, Defesa = VEstilo(PokemonS,Alvo,Ataque)
-        Dano = Vsteb(PokemonS,Dano,Ataque)
-
-        Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
+        if I is not None and I != False:
+            Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta = I(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta)
 
         Mitigaçao = 100 / (100 + Defesa)
         DanoM = Dano * Mitigaçao

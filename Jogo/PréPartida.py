@@ -2,7 +2,7 @@ import pygame
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
 from Visual.GeradoresVisuais import (
-    Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
+    Fonte15, Fonte23, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)

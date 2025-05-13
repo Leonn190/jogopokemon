@@ -1,14 +1,14 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular, Multi_Regular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Eletrolise_Hidrica(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Eletrolise_Hidrica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo.efeitosNega["Encharcado"] > 0:
         Dano = Dano * 2.25
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Eletrolise_Hidrica = {
     "nome": "Eletrólise Hidrica",
@@ -21,8 +21,8 @@ Eletrolise_Hidrica = {
     "descrição": "Se o alvo estiver encharcado esse ataque causará 125% a mais de dano",
     "efeito": "EnergiaAzul",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Eletrolise_Hidrica
+    "funçao": Regular,
+    "irregularidade": FI_Eletrolise_Hidrica
     }
 
 Faisca = {
@@ -40,8 +40,8 @@ Faisca = {
     "irregularidade": False
     }
 
-def F_Onda_Eletrica(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Paralisado"] = 3
+def F_Onda_Eletrica(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    AlvoS.efeitosNega["Paralisado"] = 3
 
 Onda_Eletrica = {
     "nome": "Onda Elétrica",
@@ -58,11 +58,11 @@ Onda_Eletrica = {
     "irregularidade": None
     }
 
-def F_Choque_do_Trovao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
-    if random.randint(0,100) > 70:
+def FI_Choque_do_Trovao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+    if random.randint(0,100) <= 30:
         Alvo.efeitosNega["Paralisado"] = 3
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Choque_do_Trovao = {
     "nome": "Choque do Trovão",
@@ -75,11 +75,11 @@ Choque_do_Trovao = {
     "descrição": "Um grande raio que tem 30% de chance de paralisar o alvo por 3 turnos",
     "efeito": "SuperDescarga",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Choque_do_Trovao
+    "funçao": Regular,
+    "irregularidade": FI_Choque_do_Trovao
     }
 
-def F_Energizar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Energizar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
     if PokemonV is not None:
         if PokemonV in player.pokemons:
             PokemonV.efeitosPosi["Energizado"] += 2
@@ -108,7 +108,7 @@ def Alv_Bola_Eletrica(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bola_Eletrica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bola_Eletrica(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
@@ -126,8 +126,8 @@ Bola_Eletrica = {
     "efeito": "FacasBrancas",
     "alvos": Alv_Bola_Eletrica,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Bola_Eletrica
+    "funçao": Regular,
+    "irregularidade": FI_Bola_Eletrica
     }
 
 def Alv_Tempestade_de_Raios(PokemonS,Alvo,player,inimigo,Mapa):
@@ -149,6 +149,6 @@ Tempestade_de_Raios = {
     "efeito": "MarcaAmarela",
     "extra": "MA",
     "alvos": Alv_Tempestade_de_Raios,
-    "funçao": Multi_Regular,
+    "funçao": Regular,
     "irregularidade": False
     }

@@ -1,11 +1,11 @@
-from Geradores.GeradorAtaques import Regular, Irregular, Multi_Irregular
+from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
 from Geradores.GeradorOutros import caixa
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Envenenar(PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    Alvo.efeitosNega["Envenenado"] = 3
+def F_Envenenar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+    AlvoS.efeitosNega["Envenenado"] = 3
 
 Envenenar = {
     "nome": "Envenenar",
@@ -22,12 +22,12 @@ Envenenar = {
     "irregularidade": False
     }
 
-def F_Acido(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Acido(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Defesa = Defesa * 0.8
     if random.choice([True,False]) == True:
         Alvo.Def_spB -= 1
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Acido = {
     "nome": "Acido",
@@ -40,8 +40,8 @@ Acido = {
     "descrição": "Esse ataque ignora 20% da defesa especial e tem 50% de chance de remover 1 de defesa especial permanente",
     "efeito": "MagiaMagenta",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Acido
+    "funçao": Regular,
+    "irregularidade": FI_Acido
     }
 
 def Alv_Bomba_de_Lodo(PokemonS,Alvo,player,inimigo,Mapa):
@@ -49,7 +49,7 @@ def Alv_Bomba_de_Lodo(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def F_Bomba_de_Lodo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bomba_de_Lodo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Envenenado"] = 3
     if Alvo != AlvoS:
         Dano = Dano * 0.0
@@ -68,16 +68,16 @@ Bomba_de_Lodo = {
     "efeito": "Fogo",
     "alvos": Alv_Bomba_de_Lodo,
     "extra": "MAA",
-    "funçao": Multi_Irregular,
-    "irregularidade": F_Bomba_de_Lodo
+    "funçao": Regular,
+    "irregularidade": FI_Bomba_de_Lodo
     }
 
-def F_Extraçao(Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Extraçao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
     if Alvo.efeitosNega["Envenenado"] > 0:
         PokemonS.curar(14 * Alvo.efeitosNega["Envenenado"],player,tela)
         Alvo.efeitosNega["Envenenado"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
 
 Extraçao = {
     "nome": "Extração",
@@ -90,6 +90,6 @@ Extraçao = {
     "descrição": "Esse ataque remove o efeito envenenar do oponente, para cada turno restante no efeito, cure 14 de vida",
     "efeito": "Mordida",
     "extra": "A",
-    "funçao": Irregular,
-    "irregularidade": F_Extraçao
+    "funçao": Regular,
+    "irregularidade": FI_Extraçao
     }
