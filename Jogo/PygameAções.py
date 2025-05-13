@@ -16,7 +16,6 @@ informaçoesp2 = [random.choice(["Jogador Astuto","Jogador Habil","Jogador Feliz
 Contador1 = 0
 Contador2 = 0 
 
-
 def iniciar_prépartida(estados):
     global informaçoesp1, informaçoesp2,Contador1,Contador2
     estados["Rodando_Menu"] = False
@@ -58,15 +57,12 @@ def Fim_da_partida(estados):
     estados["Rodando_Final"] = True
 
 def Voltar(estados):
-    if estados["Rodando_PréPartida"] == True:
-        estados["Rodando_PréPartida"] = False
-        estados["Rodando_Menu"] = True
-    elif estados["Rodando_Partida"] == True:
-        estados["Rodando_Partida"] = False
-        estados["Rodando_Menu"] = True
-    elif estados["Rodando_Final"] == True:
-        estados["Rodando_Final"] = False
-        estados["Rodando_Menu"] = True
+    estados["Rodando_PréPartida"] = False
+    estados["Rodando_Partida"] = False
+    estados["Rodando_Final"] = False
+    estados["Rodando_Decks"] = False
+    estados["Rodando_Menu"] = True
+    
 
 def Remover_inicial(id_botao):
     pass

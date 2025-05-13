@@ -1,6 +1,6 @@
 import pygame
 import random
-from Visual.Imagens import Carregar_Imagens, Carrega_Gif_pokemon
+from Visual.Imagens import Carregar_Imagens1,Carregar_Imagens2, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
@@ -12,7 +12,7 @@ import Geradores.GeradorOutros as GO
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
 from Visual.GeradoresVisuais import (
-    Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50, Fonte70,
+    Fonte15, Fonte20, Fonte23, Fonte25, Fonte28, Fonte30, Fonte35, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA,)
@@ -45,7 +45,6 @@ PokeGifs = {}
 TiposEnergiaIMG = {}
 ImagensPokemonIcons = {}
 ImagensPokemonCentro = {}
-ImagensCaptura = {}
 ImagensItens = {}
 OutrosIMG = []
 FundosIMG = []
@@ -348,6 +347,9 @@ def Fecha():
         A1 = 0
         A2 = -382
         animaAI = pygame.time.get_ticks()
+        A7 = 0
+        A8 = -480
+        animaAL = pygame.time.get_ticks()
     elif A4 == 0:
         A3 = 0
         A4 = -382
@@ -356,10 +358,6 @@ def Fecha():
         A5 = 0
         A6 = -400
         animaAC = pygame.time.get_ticks()
-    elif A8 == 0:
-        A7 = 0
-        A8 = -480
-        animaAL = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
 def seleciona_pokebola(pokebola):
@@ -654,7 +652,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             desfazer_direito=None,
             tecla_esquerda=None, tecla_direita=None, grossura=3
         )
-        tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
+        tela.blit(ImagensItens[item["nome"]], (x + 2, y + 2))
 
     # Grade Pokémon (centro, 4x2)
     offset_y_pokemon = offset_y_pokebola + tamanho_botao_pokebola + espacamento
@@ -701,8 +699,8 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             tecla_esquerda=None, tecla_direita=None, grossura=3
         )
 
-        if item["nome"] in ImagensCaptura:
-            tela.blit(ImagensCaptura[item["nome"]], (x + 2, y + 2))
+        if item["nome"] in ImagensItens:
+            tela.blit(ImagensItens[item["nome"]], (x + 2, y + 2))
 
 def Troca_Terminal():
     global animaT, T1, T2
@@ -889,7 +887,6 @@ def Inicia(tela):
     global ImagensPokemonCentro
     global ImagensPokemonIcons
     global PokeGifs
-    global ImagensCaptura
     global ImagensItens
     global OutrosIMG
     global FundosIMG
@@ -940,7 +937,8 @@ def Inicia(tela):
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
 
-    ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG = Carregar_Imagens(ImagensPokemonIcons,ImagensPokemonCentro,PokeGifs,ImagensCaptura,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG)
+    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG = Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG)
+    ImagensItens,ImagensPokemonCentro = Carregar_Imagens2(ImagensItens,ImagensPokemonCentro)
     Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
@@ -1167,12 +1165,14 @@ def TelaPokemons(tela,eventos,estados):
             for efeito,valor in Pokemon.efeitosPosi.items():
                 if valor > 0:
                     GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERDE,valor)
-                    GV.tooltip((x + 146, 906 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    GV.tooltip((x + 146, 906 + j * 30,28,28),(x + 10, 810, 170, 60),
+                               player.pokemons[0].descrição[efeito],efeito,Fonte20,Fonte28,tela)
                     j +=1
             for efeito,valor in Pokemon.efeitosNega.items():
                 if valor > 0:
                     GV.Efeito(tela,(x + 160, 920 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
-                    GV.tooltip((x + 146, 906 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    GV.tooltip((x + 146, 906 + j * 30,28,28),(x + 10, 810, 170, 60),
+                               player.pokemons[0].descrição[efeito],efeito,Fonte20,Fonte28,tela)
                     j +=1
 
     for Pokemon in inimigo.pokemons:
@@ -1181,12 +1181,14 @@ def TelaPokemons(tela,eventos,estados):
             for efeito,valor in Pokemon.efeitosPosi.items():
                 if valor > 0:
                     GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERDE,valor)
-                    GV.tooltip((x + 136, 16 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    GV.tooltip((x + 136, 16 + j * 30,28,28),(x + 10, 200, 170, 60),
+                               player.pokemons[0].descrição[efeito],efeito,Fonte20,Fonte28,tela)
                     j +=1
             for efeito,valor in Pokemon.efeitosNega.items():
                 if valor > 0:
                     GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
-                    GV.tooltip((x + 136, 16 + j * 30,28,28),player.pokemons[0].descrição[efeito],tela,Fonte20)
+                    GV.tooltip((x + 136, 16 + j * 30,28,28)(x + 10, 200, 170, 60),
+                               player.pokemons[0].descrição[efeito],efeito,Fonte20,Fonte28,tela)
                     j +=1
 
     atualizar_efeitos(tela)
@@ -1205,7 +1207,7 @@ def TelaOpções(tela,eventos,estados):
     GV.Botao(tela, "", (0, YT, 420, 50), PRETO, PRETO, PRETO,lambda: Troca_Terminal(),Fonte40, B20, 3, None, True, eventos)
     GV.Texto_caixa(tela,f"{player.ouro}",(280, (YT - 60), 140, 60),Fonte40,LARANJA,PRETO)
     GV.Texto_caixa(tela,player.nome,(0, YT, 420, 50),Fonte50,AZUL,PRETO) 
-    GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte20, AZUL_CLARO, PRETO)
+    GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte23, AZUL_CLARO, PRETO)
 
     nomes_botoes_outros = ["Inventario", "Centro", "Treinador", "Estadio"]
 
@@ -1237,29 +1239,15 @@ def TelaOpções(tela,eventos,estados):
     XCentro = GV.animar(A5,A6,animaAC)
 
     if XCentro != 400:
-            Centroo(tela, XCentro, 260, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos)
-
-    if ver_centro == "s":
-            idx_pokebola = 0  
-            for i, item in enumerate(player.inventario):
-                if item.get("classe") == "pokebola":
-                    x = 332
-                    y = 262 + idx_pokebola * 60 
-                    tela.blit(ImagensCaptura[item["nome"]], (x, y))
-                    idx_pokebola += 1 
-
-            
-            x_inicial = 10
-            y_inicial = 270
-
-            for i in range(len(Centro)):
-                coluna = i % 3        
-                linha = i // 3        
-                x = x_inicial + coluna * 109
-                y = y_inicial + linha * 109
-                tela.blit(ImagensPokemonCentro[Centro[i]["nome"]],(x,y))
+            Centroo(tela, XCentro, 310, Centro, player, Fonte50, Fonte28, B6, estadoPokebola,estadoFruta, eventos)
     
-    GV.tooltip((350, (YT - 60), 70, 60),f"Quanto mais rapido jogar, mais ouro você vai ganhar Ganho se passar turno: {2 + (tempo_restante // 25)}",tela,Fonte20,200)
+    GV.tooltip((280, (YT - 60), 140, 60),(30,(YT - 130),360,70), f"Quanto mais fizer sua jogada, mais ouro vai ganhar", f"Ganho Atual {2 + (tempo_restante // 25)}",Fonte25,Fonte35,tela)
+    GV.tooltip((210, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja quais são as mudanças e as caracteristicas do estádio atual", f"Estádio",Fonte25,Fonte35,tela)
+    GV.tooltip((140, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja quais são as caracteristicas do seu apoiador", f"Apoiador",Fonte25,Fonte35,tela)
+    GV.tooltip((70, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja os pokemons que podem ser capturados", f"Centro",Fonte25,Fonte35,tela)
+    GV.tooltip((0, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja suas energias e seus itens, podendo usa-los", f"Inventário",Fonte25,Fonte35,tela)
+
+
 
 def TelaOutros(tela,eventos,estados):
     global LojaItensP
@@ -1307,5 +1295,5 @@ def TelaTabuleiro(tela, eventos, estados):
     LojaEstTreP = Mapa.pLojaT
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte20, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  
+    M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte23, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  
  

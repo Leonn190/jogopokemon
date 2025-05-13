@@ -35,10 +35,11 @@ Fonte35 = pygame.font.SysFont(None, 35)
 Fonte30 = pygame.font.SysFont(None, 30)
 Fonte25 = pygame.font.SysFont(None, 25)
 Fonte28 = pygame.font.SysFont(None, 28)
-Fonte20 = pygame.font.SysFont(None, 23)
+Fonte23 = pygame.font.SysFont(None, 23)
+Fonte20 = pygame.font.SysFont(None, 20)
 Fonte15 = pygame.font.SysFont(None, 15)
 
-Fontes = [Fonte15,Fonte20,Fonte25,Fonte28,Fonte30,Fonte40,Fonte50]
+Fontes = [Fonte15,Fonte23,Fonte25,Fonte28,Fonte30,Fonte40,Fonte50]
 Cores = [PRETO,BRANCO,CINZA,AZUL,AZUL_CLARO,AMARELO,VERMELHO,VERDE,VERDE_CLARO,LARANJA,ROXO,ROSA,DOURADO,PRATA]
 
 def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
@@ -549,40 +550,39 @@ def quebrar_texto(texto, fonte, largura_max):
         linhas.append(linha_atual)
     return linhas
 
-def tooltip(area, texto, tela, fonte, largura_max=150):
+def tooltip(area, local, texto, titulo, fonte_texto, fonte_titulo, tela):
     mouse_x, mouse_y = pygame.mouse.get_pos()
     area_rect = pygame.Rect(area)
+    local_rect = pygame.Rect(local)
+
     if not area_rect.collidepoint((mouse_x, mouse_y)):
         return
 
-    # Prepara texto
-    linhas = quebrar_texto(texto, fonte, largura_max - 10)
-    altura_linha = fonte.get_height()
-    altura_total = altura_linha * len(linhas) + 10
-    largura_texto = max(fonte.size(linha)[0] for linha in linhas) + 10
+    # Prepara texto quebrado sem limite artificial de largura
+    linhas_texto = quebrar_texto(texto, fonte_texto, local_rect.width - 20)
+    altura_texto = fonte_texto.get_height() * len(linhas_texto)
 
-    # Calcula posição: centro da base da tooltip a 5px do mouse
-    pos_x = mouse_x - largura_texto // 2
-    pos_y = mouse_y - altura_total - 5
+    # Prepara título (sem quebra)
+    titulo_render = fonte_titulo.render(titulo, True, (255, 255, 255))
+    altura_titulo = titulo_render.get_height()
 
-    # Ajusta se estiver saindo da tela (opcional)
-    if pos_x < 0:
-        pos_x = 0
-    if pos_x + largura_texto > tela.get_width():
-        pos_x = tela.get_width() - largura_texto
-    if pos_y < 0:
-        pos_y = 0
+    # Cria fundo com transparência no tamanho definido por 'local'
+    fundo = pygame.Surface((local_rect.width, local_rect.height), pygame.SRCALPHA)
+    fundo.fill((0, 0, 0, 200))
 
-    # Fundo transparente
-    fundo = pygame.Surface((largura_texto, altura_total), pygame.SRCALPHA)
-    fundo.fill((0, 0, 0, 180))
+    # Desenha o título centralizado horizontalmente no topo
+    titulo_rect = titulo_render.get_rect(center=(local_rect.width // 2, altura_titulo // 2 + 5))
+    fundo.blit(titulo_render, titulo_rect)
 
-    # Renderiza texto
-    for i, linha in enumerate(linhas):
-        render = fonte.render(linha, True, (255, 255, 255))
-        fundo.blit(render, (5, 5 + i * altura_linha))
+    # Desenha o texto abaixo, centralizado horizontalmente
+    y_texto_inicio = altura_titulo + 10
+    for i, linha in enumerate(linhas_texto):
+        render_linha = fonte_texto.render(linha, True, (255, 255, 255))
+        linha_rect = render_linha.get_rect(center=(local_rect.width // 2, y_texto_inicio + fonte_texto.get_height() // 2 + i * fonte_texto.get_height()))
+        fundo.blit(render_linha, linha_rect)
 
-    tela.blit(fundo, (pos_x, pos_y))
+    # Blita no local especificado
+    tela.blit(fundo, local_rect.topleft)
 
 
 
