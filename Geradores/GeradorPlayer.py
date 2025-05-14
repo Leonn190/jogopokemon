@@ -1,7 +1,7 @@
 from Geradores.GeradorPokemon import Gerador_final
 from Visual.Sonoridade import tocar
 from Jogo.Abas import Trocar_Ataque_Pergunta
-from Geradores.GeradorOutros import Pokebolas_disponiveis,caixa,coletor
+from Geradores.GeradorOutros import Pokebolas_disponiveis,coletor
 import Visual.GeradoresVisuais as GV
 
 class Jogador:
@@ -86,13 +86,14 @@ class Jogador:
         else:
             self.energiasDesc.append(energia)
 
-    def ganhar_item(self,item):
+    def ganhar_item(self,item,Baralho):
             if len(self.inventario) < 13:
                 self.inventario.append(item)
                 return True
             else:
                 GV.adicionar_mensagem("Inventário cheio")
                 self.ouro += item["preço"]
+                Baralho.devolve_item(item)
                 return False
 
 def Gerador_player(informaçoes):

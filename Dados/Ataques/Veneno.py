@@ -1,10 +1,10 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
-def F_Envenenar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Envenenar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     AlvoS.efeitosNega["Envenenado"] = 3
 
 Envenenar = {
@@ -22,12 +22,12 @@ Envenenar = {
     "irregularidade": False
     }
 
-def FI_Acido(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Acido(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Defesa = Defesa * 0.8
     if random.choice([True,False]) == True:
         Alvo.Def_spB -= 1
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Acido = {
     "nome": "Acido",
@@ -49,12 +49,12 @@ def Alv_Bomba_de_Lodo(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def FI_Bomba_de_Lodo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bomba_de_Lodo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Envenenado"] = 3
     if Alvo != AlvoS:
         Dano = Dano * 0.0
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Bomba_de_Lodo = {
     "nome": "Bomba de Lodo",
@@ -72,12 +72,12 @@ Bomba_de_Lodo = {
     "irregularidade": FI_Bomba_de_Lodo
     }
 
-def FI_Extraçao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Extraçao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if Alvo.efeitosNega["Envenenado"] > 0:
         PokemonS.curar(14 * Alvo.efeitosNega["Envenenado"],player,tela)
         Alvo.efeitosNega["Envenenado"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Extraçao = {
     "nome": "Extração",

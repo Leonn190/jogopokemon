@@ -15,7 +15,7 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte23, Fonte25, Fonte28, Fonte30, Fonte35, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
-    LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA,)
+    LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA, cores_raridade)
 
 pygame.mixer.init()
 selecionaSOM = pygame.mixer.Sound("Audio/Sons/Som1.wav")
@@ -322,12 +322,12 @@ def desinforma():
     pass
 
 def Abre(ID,player,inimigo):
+    global A7, A8, animaAL
     if ID == "Inventario":
         global A1, A2, animaAI
         A1 = -382
         A2 = 0
         animaAI = pygame.time.get_ticks()
-        global A7, A8, animaAL
         A7 = -480
         A8 = 0
         animaAL = pygame.time.get_ticks()
@@ -336,6 +336,9 @@ def Abre(ID,player,inimigo):
         A5 = -400
         A6 = 0
         animaAC = pygame.time.get_ticks()
+        A7 = -480
+        A8 = 0
+        animaAL = pygame.time.get_ticks()
     
 def Fecha():
     global A1, A2, animaAI
@@ -358,6 +361,9 @@ def Fecha():
         A5 = 0
         A6 = -400
         animaAC = pygame.time.get_ticks()
+        A7 = 0
+        A8 = -480
+        animaAL = pygame.time.get_ticks()
     estadoOutros["selecionado_esquerdo"] =  False
 
 def seleciona_pokebola(pokebola):
@@ -663,9 +669,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
         y = offset_y_pokemon + linha * (tamanho_pokemon + espacamento) + 30
 
         if pokemon and pokemon["nome"] in ImagensPokemonCentro:
-            # Desenha botão e imagem do Pokémon
+            # Define a cor pela raridade do Pokémon
+            cor_fundo = cores_raridade.get(pokemon["raridade"])
+            
+            # Desenha botão com cor de fundo conforme raridade
             GV.Botao(
-                tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), CINZA, PRETO, AZUL,
+                tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), cor_fundo, PRETO, AZUL,
                 lambda p=pokemon: PokemonCentro(p, player),
                 Fonte50, B6, 2, None, True, eventos
             )
@@ -937,8 +946,8 @@ def Inicia(tela):
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
 
-    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG = Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG)
-    ImagensItens,ImagensPokemonCentro = Carregar_Imagens2(ImagensItens,ImagensPokemonCentro)
+    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG = Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG)
+    ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG = Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG)
     Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
@@ -992,7 +1001,7 @@ def TelaPokemons(tela,eventos,estados):
 
     try:
         if PokemonS.PodeAtacar == True:
-            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela),Fonte40, B22, 3, None, True, eventos)
+            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela,Baralho),Fonte40, B22, 3, None, True, eventos)
         else:
             GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B22, 3, None, True, eventos)
     
@@ -1181,13 +1190,13 @@ def TelaPokemons(tela,eventos,estados):
             for efeito,valor in Pokemon.efeitosPosi.items():
                 if valor > 0:
                     GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERDE,valor)
-                    GV.tooltip((x + 136, 16 + j * 30,28,28),(x + 10, 200, 170, 60),
+                    GV.tooltip((x + 136, 16 + j * 30,28,28),(x + 10, 210, 170, 60),
                                player.pokemons[0].descrição[efeito],efeito,Fonte20,Fonte28,tela)
                     j +=1
             for efeito,valor in Pokemon.efeitosNega.items():
                 if valor > 0:
                     GV.Efeito(tela,(x + 150, 30 + j * 30),EfeitosIMG[efeito],VERMELHO,valor)
-                    GV.tooltip((x + 136, 16 + j * 30,28,28)(x + 10, 200, 170, 60),
+                    GV.tooltip((x + 136, 16 + j * 30,28,28),(x + 10, 210, 170, 60),
                                player.pokemons[0].descrição[efeito],efeito,Fonte20,Fonte28,tela)
                     j +=1
 

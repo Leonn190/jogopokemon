@@ -1,68 +1,45 @@
 import pygame
 
-class DraggableImagem:
-    def __init__(self, imagem, pos_inicial, areas_destino, funcoes_sucesso, funcao_clique=None):
+class Arrastavel:
+    def __init__(self, imagem, pos, dados=None, categoria=None, interno=False, funcao_execucao=None):
         self.imagem = imagem
-        self.rect = self.imagem.get_rect(topleft=pos_inicial)
-        self.pos_inicial = pos_inicial
-        self.areas_destino = areas_destino
-        self.funcoes_sucesso = funcoes_sucesso
-        self.funcao_clique = funcao_clique  # Nova função de clique
+        self.rect = self.imagem.get_rect(topleft=pos)
+        self.pos_inicial = pos
         self.arrastando = False
-        self.offset_x = 0
-        self.offset_y = 0
+        self.offset = (0, 0)
+        self.dados = dados
+        self.categoria = categoria
+        self.interno = interno
+        self.funcao_execucao = funcao_execucao
 
-    def handle_event(self, event, outros_itens=[]):
-        """
-        Handle de eventos para o item arrastável e função de clique simples.
-        
-        :param event: Evento Pygame
-        :param outros_itens: Lista de outros itens arrastáveis a serem verificados.
-        """
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 3 and self.rect.collidepoint(event.pos):  # Botão direito
-                print("Clique direito detectado!")
+    def verificar_clique(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            self.arrastando = True
+            mouse_x, mouse_y = mouse_pos
+            self.offset = (self.rect.x - mouse_x, self.rect.y - mouse_y)
 
-                # Executa a função de clique simples (sem arrastar)
-                if self.funcao_clique:
-                    print("Executando função de clique.")
-                    self.funcao_clique()
-
-                # Apenas inicia arrasto se nenhum outro está arrastando
-                if not any(item.arrastando for item in outros_itens):
-                    self.arrastando = True
-                    self.offset_x = self.rect.x - event.pos[0]
-                    self.offset_y = self.rect.y - event.pos[1]
-
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if self.arrastando:
-                print("Arraste finalizado!")
-                sucesso = False
-                for i, area in enumerate(self.areas_destino):
-                    if area.colliderect(self.rect):
-                        print(f"Item solto na área {i}")
-                        self.funcoes_sucesso[i]()  # Chama a função de sucesso
-                        sucesso = True
-                        break
-                if not sucesso:
-                    print("Não colidiu com nenhuma área, retornando à posição inicial.")
-                    self.rect.topleft = self.pos_inicial
-                self.arrastando = False
-
-        elif event.type == pygame.MOUSEMOTION and self.arrastando:
-            print(f"Movendo para: {event.pos}")
-            self.rect.x = event.pos[0] + self.offset_x
-            self.rect.y = event.pos[1] + self.offset_y
-
-    def atualiza_posicao(self, pos_mouse):
+    def arrastar(self, mouse_pos):
         if self.arrastando:
-            self.rect.x = pos_mouse[0] + self.offset_x
-            self.rect.y = pos_mouse[1] + self.offset_y
+            mouse_x, mouse_y = mouse_pos
+            self.rect.x = mouse_x + self.offset[0]
+            self.rect.y = mouse_y + self.offset[1]
 
-    def desenha(self, surface):
-        surface.blit(self.imagem, self.rect)
+    def soltar(self):
+        if self.arrastando:
+            self.arrastando = False
+            if self.funcao_execucao:
+                resultado = self.funcao_execucao(
+                    self.rect.center,
+                    self.dados,
+                    self.categoria,
+                    self.interno
+                )
+                if resultado is False:
+                    self.rect.topleft = self.pos_inicial
 
+    def desenhar(self, tela):
+        tela.blit(self.imagem, self.rect.topleft)
 
-
-def Gera_Arrastavel(imagem, pos_inicial, areas_destino, funcoes_sucesso, fun):
-    return DraggableImagem(imagem, pos_inicial, areas_destino, funcoes_sucesso, fun)
+    @property
+    def esta_arrastando(self):
+        return self.arrastando

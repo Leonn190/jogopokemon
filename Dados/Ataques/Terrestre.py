@@ -1,6 +1,6 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
@@ -48,11 +48,11 @@ def Alv_Quebra_Chao(PokemonS,Alvo,player,inimigo,Mapa):
         aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
         return inimigos
 
-def FI_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,AlvoS,alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Dano = Dano * PokemonS.Vida / 100
     PokemonS.atacado(Dano*0.15,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Quebra_Chao = {
     "nome": "Quebra Chão",
@@ -70,7 +70,7 @@ Quebra_Chao = {
     "irregularidade": FI_Quebra_Chao
     }
 
-def F_Afinidade_Territorial(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Afinidade_Territorial(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Velocista"] = 3
     aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
     if inimigos == []:
@@ -106,14 +106,14 @@ Osso_Veloz = {
     "irregularidade": False
     }
 
-def FI_Golpe_Territorial(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Golpe_Territorial(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if PokemonS.efeitosPosi["Provocando"] > 0:
         Dano = Dano * 1.2
         if Alvo.efeitosPosi["Provocando"] > 0:
             Dano = Dano * 1.1
             Alvo.efeitosPosi["Provocando"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Golpe_Territorial = {
     "nome": "Golpe Territorial",

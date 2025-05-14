@@ -27,7 +27,7 @@ def Final(tela,estados,relogio):
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
-    pygame.time.wait(9000)
+    pygame.time.wait(8800)
 
     pygame.mixer.music.load('Audio/Musicas/resultados.ogg')  
     pygame.mixer.music.set_volume(0.3)

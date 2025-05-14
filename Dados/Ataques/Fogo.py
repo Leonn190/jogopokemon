@@ -1,10 +1,10 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores, distancia_entre_pokemons
 import random
 
-def F_Queimar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Queimar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     AlvoS.efeitosNega["Queimado"] = 3
 
 Queimar = {
@@ -27,11 +27,11 @@ def Alv_Bola_de_Fogo(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def FI_Bola_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bola_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Bola_de_Fogo = {
     "nome": "Bola de Fogo",
@@ -49,7 +49,7 @@ Bola_de_Fogo = {
     "irregularidade": FI_Bola_de_Fogo
     }
 
-def FI_Superaquecer(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Superaquecer(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if Alvo.efeitosNega["Queimado"] > 0:
         Alvo.efeitosNega["Queimado"] += 1
         Dano = Dano * 1.15
@@ -57,7 +57,7 @@ def FI_Superaquecer(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataq
         PokemonV.efeitosNega["Congelado"] = 0
         PokemonV.efeitosNega["Encharcado"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Superaquecer = {
     "nome": "Superaquecer",
@@ -75,11 +75,11 @@ Superaquecer = {
     "irregularidade": FI_Superaquecer
     }
 
-def FI_Brasa(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Brasa(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if random.randint(0,100) > 85:
         Alvo.efeitosNega["Queimado"] += 2
     
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Brasa = {
     "nome": "Brasa",
@@ -124,11 +124,11 @@ Ondas_de_Calor = {
     "irregularidade": False
     }
 
-def FI_Raio_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Raio_de_Fogo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Congelado"] = 0
     Alvo.efeitosNega["Encharcado"] = 0
     
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Raio_de_Fogo = {
     "nome": "Raio de Fogo",
@@ -160,10 +160,10 @@ Ataque_de_Chamas = {
     "irregularidade": False
     }
 
-def FI_Laser_Incandescente(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Laser_Incandescente(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Alvo.efeitosNega["Congelado"] = 0
     Alvo.efeitosNega["Encharcado"] = 0
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Laser_Incandescente = {
     "nome": "Laser Incandescente",

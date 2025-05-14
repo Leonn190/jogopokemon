@@ -1,6 +1,6 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move, GuardarPosicionar
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
 
@@ -19,14 +19,14 @@ Jato_de_Agua = {
     "irregularidade": False
     }
 
-def FI_Jato_Duplo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Jato_Duplo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Aumento = random.choice([True,False])
 
     if Aumento is True:
         Dano = Dano * 1.5
         Alvo.efeitosNega["Encharcado"] = 3
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Jato_Duplo = {
     "nome": "Jato Duplo",
@@ -43,7 +43,7 @@ Jato_Duplo = {
     "irregularidade": FI_Jato_Duplo
     }
 
-def FI_Bolhas(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bolhas(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     try:
         Dano = Dano * (1 + PokemonS.bolhas/5)
     except AttributeError:
@@ -51,7 +51,7 @@ def FI_Bolhas(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Map
     
     PokemonS.bolhas += 1
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Bolhas = {
     "nome": "Bolhas",
@@ -68,7 +68,7 @@ Bolhas = {
     "irregularidade": FI_Bolhas
     }
 
-def FF_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,Escolha):
         
         linhaA, colunaA = AlvoS.local["id"]
 
@@ -93,10 +93,10 @@ def FF_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,alvos,player,inimigo,Ataque,Ma
         EstadoDaPergunta["estado"] = False
         AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Controle_do_Oceano
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["Norte","Sul","Leste","Oeste"]
     EstadoDaPergunta["estado"] = True
 
@@ -130,14 +130,11 @@ Splash = {
     "irregularidade": False
     }
 
-def F_Vasculhar_no_Rio(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Vasculhar_no_Rio(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     Vezes = random.choice([1,2])
     for i in range(Vezes):
-        item = caixa()
-        if item["classe"] in ["pokebola","Fruta"]:
-            player.Captura.append(item)
-        else:
-            player.inventario.append(item)
+        item = Gera_item(Baralho.Comuns + Baralho.Incomuns,Baralho)
+        player.ganhar_item(item,Baralho)
 
 Vasculhar_no_Rio = {
     "nome": "Vasculhar no Rio",
@@ -147,19 +144,19 @@ Vasculhar_no_Rio = {
     "dano": 0.0,
     "alcance": 0,
     "precisão": 100, 
-    "descrição": "Vasculhe até 2 itens no rio",
+    "descrição": "Vasculhe até 2 itens no rio, podendo ser da raridade comum ou incomum",
     "efeito": "!None",
     "extra": None,
     "funçao": F_Vasculhar_no_Rio,
     "irregularidade": False
     }
 
-def FI_Golpe_de_Concha(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Golpe_de_Concha(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Dano += PokemonS.Def * Ataque["dano"]
     Dano += PokemonS.Def_sp * Ataque["dano"]
     PokemonS.efeitosPosi["Reforçado"] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Golpe_de_Concha = {
     "nome": "Golpe de Concha",
@@ -176,7 +173,7 @@ Golpe_de_Concha = {
     "irregularidade": FI_Golpe_de_Concha
     }
 
-def F_Gota_Pesada(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Gota_Pesada(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     AlvoS.efeitosNega["Encharcado"] = 4
 
 Gota_Pesada = {
@@ -199,11 +196,11 @@ def Alv_Bola_de_Agua(PokemonS,Alvo,player,inimigo,Mapa):
     inimigos.append(Alvo)
     return inimigos
 
-def FI_Bola_de_Agua(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Bola_de_Agua(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if Alvo != AlvoS:
         Dano = Dano * 0.5
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Bola_de_Agua = {
     "nome": "Bola de Água",
@@ -221,11 +218,11 @@ Bola_de_Agua = {
     "irregularidade": FI_Bola_de_Agua
     }
 
-def FI_Cachoeira(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Cachoeira(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if random.randint(0,100) <= 25:
         GuardarPosicionar(Alvo,player,3,Mapa.Zona)
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Cachoeira = {
     "nome": "Cachoeira",
@@ -242,7 +239,7 @@ Cachoeira = {
     "irregularidade": FI_Cachoeira
     }
 
-def FI_Jato_Triplo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Jato_Triplo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Aumento = random.randint(0,100)
 
     if Aumento > 70:
@@ -252,7 +249,7 @@ def FI_Jato_Triplo(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataqu
         Dano = Dano * 2.1
         Alvo.efeitosNega["Encharcado"] = 5
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Jato_Triplo = {
     "nome": "Jato Triplo",

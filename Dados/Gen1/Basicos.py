@@ -19,9 +19,9 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Controle do Oceano","Bola de Água","Jato Duplo","Provocar"],
+    "MoveList": ["Vasculhada Trapaceira","Controle do Oceano"],
     # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
-    "Moves": 3,
+    "Moves": 2,
     "H": 0.58,
     "W": 7.5
 }

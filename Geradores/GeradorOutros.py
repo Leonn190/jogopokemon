@@ -89,6 +89,16 @@ class Baralho:
                 elif pokemon["raridade"] == "Lendario":
                     self.PokeLendarios.append(pokemon)
 
+    def Tira_item(self,item):
+        if item["raridade"] == "Comum":
+            self.Comuns.remove(item)
+        elif item["raridade"] == "Incomum":
+            self.Incomuns.remove(item)
+        elif item["raridade"] == "Raro":
+            self.Raros.remove(item)
+        elif item["raridade"] == "Lendario":
+            self.Lendarios.remove(item)
+
     def devolve_item(self,item):
             if item["raridade"] == "Comum":
                 self.Comuns.append(item)
@@ -186,18 +196,9 @@ def Compra_Energia(player,custo=0):
         GV.adicionar_mensagem("Sem ouro para comprar energias")
         
 
-def caixa():
-        while True:
-            raridades = []
-            # U = itens_disponiveis + pokebolas_disponiveis + amplificadores_disponiveis
-            U = 2
-            for i in range(len(U)):
-                        for j in range(6 - U[i]["raridade"]):
-                            raridades.append(U[i])
-            item = random.choice(raridades)
-            if item["classe"] != "caixa":
-                break
-            
+def Gera_item(Lista,Baralho):
+        item = random.choice(Lista)
+        Baralho.tira_item(item)
         return item
 
 def coletor():

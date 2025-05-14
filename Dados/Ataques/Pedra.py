@@ -1,6 +1,6 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
@@ -34,7 +34,7 @@ Pedra_Especial = {
     "irregularidade": False
     }
 
-def F_Barragem_Rochosa(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Barragem_Rochosa(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.barreira += (PokemonS.Def + PokemonS.Def_sp) * 0.2
 
 Barragem_Rochosa = {
@@ -52,11 +52,11 @@ Barragem_Rochosa = {
     "irregularidade": False
     }
 
-def FI_Impacto_Rochoso(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Impacto_Rochoso(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     Dano = PokemonS.Def * Ataque["dano"]
     PokemonS.efeitosNega["Quebrado"] = 2
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Impacto_Rochoso = {
     "nome": "Impacto Rochoso",
@@ -73,12 +73,13 @@ Impacto_Rochoso = {
     "irregularidade": FI_Impacto_Rochoso
     }
 
-def FI_Pedra_Colossal(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Pedra_Colossal(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if inimigo.inventario != []:  
         item = random.choice(inimigo.inventario)
+        Baralho.devolve_item(item)
         inimigo.inventario.remove(item)
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Pedra_Colossal = {
     "nome": "Pedra Colossal",
@@ -95,7 +96,7 @@ Pedra_Colossal = {
     "irregularidade": FI_Pedra_Colossal
     }
 
-def FF_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,Escolha):
     Valor = int(Escolha)
     
     PokemonS.efeitosPosi["Imortal"] = 2
@@ -115,10 +116,10 @@ def FF_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tel
     EstadoDaPergunta["estado"] = False
     AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Furia_Petrea(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Furia_Petrea
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["1","2","3","4"]
     EstadoDaPergunta["estado"] = True
 

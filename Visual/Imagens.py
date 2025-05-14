@@ -255,25 +255,6 @@ def Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEner
     NocauteIMG  = GV.Carregar_Imagem("imagens/icones/KO.png", (50,50),"PNG")
     GuardadoIMG = GV.Carregar_Imagem("imagens/icones/guardado.png", (40,40),"PNG") 
 
-    Efogo = GV.Carregar_Imagem("imagens/icones/fogo.png", (30,30), "PNG")
-    Eagua = GV.Carregar_Imagem("imagens/icones/agua.png", (30,30), "PNG")
-    Eplanta = GV.Carregar_Imagem("imagens/icones/planta.png", (30,30), "PNG")
-    Eeletrico = GV.Carregar_Imagem("imagens/icones/eletrico.png", (30,30), "PNG")
-    Epsiquico = GV.Carregar_Imagem("imagens/icones/psiquico.png", (30,30), "PNG")
-    Efantasma = GV.Carregar_Imagem("imagens/icones/fantasma.png", (30,30), "PNG")
-    Epedra = GV.Carregar_Imagem("imagens/icones/pedra.png", (30,30), "PNG")
-    Eterrestre = GV.Carregar_Imagem("imagens/icones/terrestre.png", (30,30), "PNG")
-    Evoador = GV.Carregar_Imagem("imagens/icones/voador.png", (30,30), "PNG")
-    Enormal = GV.Carregar_Imagem("imagens/icones/normal.png", (30,30), "PNG")
-    Evenenoso = GV.Carregar_Imagem("imagens/icones/venenoso.png", (30,30), "PNG")
-    Einseto = GV.Carregar_Imagem("imagens/icones/inseto.png", (30,30), "PNG")
-    Elutador = GV.Carregar_Imagem("imagens/icones/lutador.png", (30,30), "PNG")
-    Edragao = GV.Carregar_Imagem("imagens/icones/dragao.png", (30,30), "PNG")
-    Egelo = GV.Carregar_Imagem("imagens/icones/gelo.png", (30,30), "PNG")
-    Efada = GV.Carregar_Imagem("imagens/icones/fada.png", (30,30), "PNG")
-    Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
-    Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
-
     Alvo = GV.carregar_frames('imagens/efeitos/Alvo_frames')
 
     EfeitosIMG = {
@@ -307,34 +288,13 @@ def Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEner
     "Energizado": EnergizadoIMG
     }
 
-    TiposEnergiaIMG = {
-    "fogo": Efogo,
-    "agua": Eagua,
-    "planta": Eplanta,
-    "eletrico": Eeletrico,
-    "psiquico": Epsiquico,
-    "fantasma": Efantasma,
-    "pedra": Epedra,
-    "terrestre": Eterrestre,
-    "voador": Evoador,
-    "normal": Enormal,
-    "venenoso": Evenenoso,
-    "inseto": Einseto,
-    "lutador": Elutador,
-    "dragao": Edragao,
-    "gelo": Egelo,
-    "fada": Efada,
-    "metal": Emetal,
-    "sombrio": Esombrio
-}
-
     OutrosIMG = [InventárioIMG,energiasIMG,CentroIMG,EstadiosIMG,LojaPokebolasIMG,LojaAmplificadoresIMG,LojaEnergiasIMG,AtaqueIMG,NocauteIMG,LojaEstTreIMG,LojaBloqIMG,GuardadoIMG,LojasIMG,TreinadorIMG,Alvo]
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
     return ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
 
-def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro):
+def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG):
     
     EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (62, 62), "PNG")
     CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (62, 62), "PNG")
@@ -403,6 +363,46 @@ def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro):
     MweedleIMG = GV.Carregar_Imagem("imagens/pokemons/weedle.png", (88, 88), "PNG")
     MpinsirIMG = GV.Carregar_Imagem("imagens/pokemons/pinsir.png", (88, 88), "PNG")
 
+    Efogo = GV.Carregar_Imagem("imagens/icones/fogo.png", (30,30), "PNG")
+    Eagua = GV.Carregar_Imagem("imagens/icones/agua.png", (30,30), "PNG")
+    Eplanta = GV.Carregar_Imagem("imagens/icones/planta.png", (30,30), "PNG")
+    Eeletrico = GV.Carregar_Imagem("imagens/icones/eletrico.png", (30,30), "PNG")
+    Epsiquico = GV.Carregar_Imagem("imagens/icones/psiquico.png", (30,30), "PNG")
+    Efantasma = GV.Carregar_Imagem("imagens/icones/fantasma.png", (30,30), "PNG")
+    Epedra = GV.Carregar_Imagem("imagens/icones/pedra.png", (30,30), "PNG")
+    Eterrestre = GV.Carregar_Imagem("imagens/icones/terrestre.png", (30,30), "PNG")
+    Evoador = GV.Carregar_Imagem("imagens/icones/voador.png", (30,30), "PNG")
+    Enormal = GV.Carregar_Imagem("imagens/icones/normal.png", (30,30), "PNG")
+    Evenenoso = GV.Carregar_Imagem("imagens/icones/venenoso.png", (30,30), "PNG")
+    Einseto = GV.Carregar_Imagem("imagens/icones/inseto.png", (30,30), "PNG")
+    Elutador = GV.Carregar_Imagem("imagens/icones/lutador.png", (30,30), "PNG")
+    Edragao = GV.Carregar_Imagem("imagens/icones/dragao.png", (30,30), "PNG")
+    Egelo = GV.Carregar_Imagem("imagens/icones/gelo.png", (30,30), "PNG")
+    Efada = GV.Carregar_Imagem("imagens/icones/fada.png", (30,30), "PNG")
+    Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
+    Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
+
+    TiposEnergiaIMG = {
+    "fogo": Efogo,
+    "agua": Eagua,
+    "planta": Eplanta,
+    "eletrico": Eeletrico,
+    "psiquico": Epsiquico,
+    "fantasma": Efantasma,
+    "pedra": Epedra,
+    "terrestre": Eterrestre,
+    "voador": Evoador,
+    "normal": Enormal,
+    "venenoso": Evenenoso,
+    "inseto": Einseto,
+    "lutador": Elutador,
+    "dragao": Edragao,
+    "gelo": Egelo,
+    "fada": Efada,
+    "metal": Emetal,
+    "sombrio": Esombrio
+}
+    
     ImagensItens = {
     "Esmeralda": EsmeraldaIMG,
     "Citrino": CitrinoIMG,
@@ -478,4 +478,4 @@ def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro):
     "Pinsir": MpinsirIMG
 }
 
-    return ImagensItens,ImagensPokemonCentro
+    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG

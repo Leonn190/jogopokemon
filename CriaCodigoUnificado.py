@@ -2,7 +2,7 @@ import os
 
 # Caminho da pasta onde estão os arquivos .py
 pasta_origem = "Geradores"  # 🔁 Substitua pelo caminho da sua pasta
-arquivo_saida = "codigo_unificado_G.py"
+arquivo_saida = "Geradores.py"
 
 # Obtém todos os arquivos .py na pasta (exceto o próprio arquivo de saída)
 arquivos = sorted([f for f in os.listdir(pasta_origem) if f.endswith(".py") and f != arquivo_saida])

@@ -18,7 +18,7 @@ try:
     ctypes.windll.user32.SetProcessDPIAware()
 except:
     pass
-
+ 
 pygame.init()
 pygame.mixer.init()
 

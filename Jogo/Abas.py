@@ -5,7 +5,7 @@ from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Funções2 import VAcerta,VCusto
 from Geradores.GeradorAtaques import SelecionaAtaques
-from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO
+from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO, energia_cores
 
 AtaqueS = None
 AtaqueSV = None
@@ -248,6 +248,8 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
 
                     botao_rect = pygame.Rect(pos_x, pos_y, largura_botao, 30)
 
+                    
+
                     GV.Botao_Selecao(
                         tela, botao_rect, movimento["nome"], Fonte20,
                         cor_fundo, (255, 255, 255),
@@ -273,9 +275,9 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
                     
                     
                     try:
-                        PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc = EstadoDaPergunta["info"]
+                        PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc = EstadoDaPergunta["info"]
 
-                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
+                        GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,opçao),Fonte20, Bpergunta, 3, None, True, eventos)
                     except ValueError:
                         GV.Botao(tela, opçao, botao_rect, CINZA, PRETO, AZUL,lambda: EstadoDaPergunta["funçao"](EstadoDaPergunta["info"][0],EstadoDaPergunta["info"][1],EstadoDaPergunta["info"][2],opçao),Fonte20, Bpergunta, 3, None, True, eventos)
 
@@ -382,7 +384,7 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
 
         # Status
         infos = [
-            f"Dano: {ataque['dano']}",
+            f"Dano: {ataque['dano'] * 100}%",
             f"Alcance: {ataque['alcance']}m",
             f"Precisão: {ataque['precisão']}%"
         ]
@@ -594,14 +596,6 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
 
     altura = 175
 
-    energia_cores = {
-        "vermelha": (255, 0, 0), "azul": (0, 0, 255),
-        "amarela": (255, 215, 0), 
-        "verde": (0, 200, 0),
-        "roxa": (128, 0, 128), "laranja": (255, 140, 0),
-        "preta": (0, 0, 0)
-    }
-
     chaves = [k for k in player.energias.keys() if k in energia_cores]
 
     # Parte inferior: barras verticais
@@ -649,7 +643,7 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
             texto = fonte_.render(texto_ordem, True, (255, 255, 255))  
             tela.blit(texto, (x_centro - texto.get_width() // 2, base_y + 22))
 
-def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
+def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela,Baralho):
     if AtaqueS is not None:
             alvos = None
             AlvoLoc2 = None
@@ -720,7 +714,7 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela):
                 if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
                     return
             
-            adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
+            adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
             if alvos is not None:
                 for alvo in alvos:
                     idx = alvo.pos
@@ -826,7 +820,7 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
             return
         player.ouro -= item["preço"]
         tocar ("Compra")
-        Comprou = player.ganhar_item(item)
+        Comprou = player.ganhar_item(item,baralho)
         if Comprou == True:
             itens_loja[indice] = None
 

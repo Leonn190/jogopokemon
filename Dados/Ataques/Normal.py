@@ -1,6 +1,6 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move, GuardarPosicionar
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
@@ -34,10 +34,10 @@ Cabeçada = {
     "irregularidade": False
     }
 
-def FI_Investida(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Investida(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     PokemonS.atacado(10,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Investida = {
     "nome": "Investida",
@@ -54,12 +54,9 @@ Investida = {
     "irregularidade": FI_Investida
     }
 
-def F_Vasculhar(PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
-    item = caixa()
-    if item["classe"] in ["pokebola","Fruta"]:
-        player.Captura.append(item)
-    else:
-        player.inventario.append(item)
+def F_Vasculhar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
+    item = Gera_item(Baralho.Comuns + Baralho.Incomuns, Baralho)
+    player.ganhar_item(item,Baralho)
 
 Vasculhar = {
     "nome": "Vasculhar",
@@ -98,7 +95,7 @@ Ataque_Rapido = {
     "irregularidade": FI_Ataque_Rapido
     }
 
-def F_Provocar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Provocar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.efeitosPosi["Provocando"] = 3
 
 Provocar = { 
@@ -146,7 +143,7 @@ Arranhar = {
     "irregularidade": False
     }
 
-def F_Crescer(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Crescer(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     PokemonS.Ganhar_XP(4,player)
 
 Crescer = {
@@ -164,7 +161,7 @@ Crescer = {
     "irregularidade": False
     }
 
-def F_Esbravejar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Esbravejar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     if PokemonS.Vida < PokemonS.VidaMax * 0.6:
         PokemonS.efeitosPosi["Ofensivo"] = 3
 
@@ -198,11 +195,11 @@ Tapa_Especial = {
     "irregularidade": False
     }
 
-def FI_Esmagar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Esmagar(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     
     Dano = Dano + Dano * (1 + 0.1 * PokemonS.Peso // 100)
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Esmagar = {
     "nome": "Esmagar",
@@ -219,7 +216,7 @@ Esmagar = {
     "irregularidade": FI_Esmagar
     }
 
-def F_Descansar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Descansar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     GuardarPosicionar(PokemonS,player,4,Mapa.Zona)
     cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.35
     PokemonS.curar(cura,player,tela)
@@ -239,7 +236,7 @@ Descansar = {
     "irregularidade": False
     }
 
-def F_Canto_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Canto_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     for efeito in PokemonV.efeitosNega:
         PokemonV.efeitosNega[efeito] = 0
  

@@ -1,10 +1,10 @@
 from Geradores.GeradorAtaques import Regular
 from Jogo.Tabuleiro import Move
-from Geradores.GeradorOutros import caixa
+from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
-def FI_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
 
     efeitos_ativos = [chave for chave, valor in Alvo.efeitosPosi.items() if valor > 0]
 
@@ -12,7 +12,7 @@ def FI_Sopro_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,A
         efeito_removido = random.choice(efeitos_ativos)
         Alvo.efeitosPosi[efeito_removido] = 0
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Sopro_do_Dragao = {
     "nome": "Sopro do Dragão",
@@ -29,7 +29,7 @@ Sopro_do_Dragao = {
     "irregularidade": FI_Sopro_do_Dragao
     }
 
-def FF_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,Escolha):
+def FF_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,Escolha):
         AlvoS.efeitosNega[Escolha] = 3
 
         Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
@@ -44,10 +44,10 @@ def FF_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,
         EstadoDaPergunta["estado"] = False
         AlvoS.atacado(DanoF,player,inimigo,tela,Mapa)
 
-def F_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Garra_do_Dragao(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     
     EstadoDaPergunta["funçao"] = FF_Garra_do_Dragao
-    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc
+    EstadoDaPergunta["info"] = PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc
     EstadoDaPergunta["opçoes"] = ["Quebrado","Fragilizado"]
     EstadoDaPergunta["estado"] = True
 
@@ -66,7 +66,7 @@ Garra_do_Dragao = {
     "irregularidade": False
     }
 
-def F_Ultraje(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta,I):
+def F_Ultraje(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     AlvoS.atacado(22,player,inimigo,tela,Mapa)
     
 Ultraje = {
@@ -99,11 +99,11 @@ Cauda_Violenta = {
     "irregularidade": False
     }
 
-def FI_Investida_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta):
+def FI_Investida_do_Dragao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
 
     PokemonS.atacado(36,player,inimigo,tela,Mapa)
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,AlvoLoc,EstadoDaPergunta
+    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Investida_do_Dragao = {
     "nome": "Investida do Dragao",

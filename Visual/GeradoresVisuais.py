@@ -28,6 +28,30 @@ ROSA = (255, 192, 203)
 DOURADO = (255, 215, 0)
 PRATA = (192, 192, 192)
 
+AmareloClaroRar = (255, 255, 153)
+AzulClaroRar = (173, 216, 230)
+VerdeClaroRar = (144, 238, 144)
+CinzaClaroRar = (211, 211, 211)
+VermelhoClaroRar = (255, 182, 193)
+RoxoClaroRar = (216, 191, 216)
+
+cores_raridade = {
+    "Comum": CinzaClaroRar,
+    "Incomum": VerdeClaroRar,
+    "Raro": AzulClaroRar,
+    "Epico": RoxoClaroRar,
+    "Mitico": VermelhoClaroRar,
+    "Lendario": AmareloClaroRar,
+}
+
+energia_cores = {
+        "vermelha": (255, 0, 0), "azul": (0, 0, 255),
+        "amarela": (255, 215, 0), 
+        "verde": (0, 200, 0),
+        "roxa": (128, 0, 128), "laranja": (255, 140, 0),
+        "preta": (0, 0, 0)
+    }
+
 Fonte70 = pygame.font.SysFont(None, 70)
 Fonte50 = pygame.font.SysFont(None, 50)
 Fonte40 = pygame.font.SysFont(None, 40)
@@ -144,7 +168,8 @@ def Botao_Selecao(
     elif mouse_sobre and cor_passagem:
         cor_borda_atual = cor_passagem
 
-    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+    if cor_fundo is not None:
+        pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
     pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
 
     texto_render = Fonte.render(texto, True, (0, 0, 0))
