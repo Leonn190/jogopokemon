@@ -3,6 +3,7 @@ import os
 import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+from Infos import PokemonInfo
 from Visual.Arrastaveis import Arrastavel
 from Visual.Imagens import Carregar_Imagens2
 from Geradores.GeradorOutros import Amplificadores_Todos,Frutas_Todas,Pokebolas_Todas,Poçoes_Todas,Estadios_Todos,Outros_Todos,Pokemons_Todos
@@ -36,6 +37,7 @@ Abrir = None
 ListaDecks = []
 EditorSelecionado = None
 EditorSelecionado_atual = None
+PokemonSelecionado = None
 
 Aviso_Apagar = False
 
@@ -50,6 +52,13 @@ Criou_Areas_pokemon = 0
 Criou_Areas_itens = 0
 Criou_Areas_energia = 0
 AreaEditor = pygame.Rect(470,450,980,560)
+
+EvoPokemon = 0
+EvoPokemonLim = 0
+ListaFormas = []
+
+#Botao generico
+BG = {"estado": False}
 
 def Trocar(Idx1,Idx2,categoria):
     DeckSelecionado[categoria][Idx1],DeckSelecionado[categoria][Idx2] = DeckSelecionado[categoria][Idx2],DeckSelecionado[categoria][Idx1]
@@ -141,6 +150,13 @@ def carregar_decks(pasta):
     
     for i,deck in enumerate(ListaDecks):
         deck["ID"] = f"Deck{i + 1}"
+
+def MudaForma(sentido):
+    global EvoPokemon
+    if sentido is True:
+        EvoPokemon += 1
+    else:
+        EvoPokemon -= 1
 
 def desenhaBaralho(tela, Baralho):
     global Arrastaveis, Baralho_atual_pokemons, Baralho_atual_itens, Baralho_atual_energias
@@ -455,8 +471,93 @@ def desenhaBaralho(tela, Baralho):
 
             tela.blit(texto_renderizado, (texto_x, texto_y))
 
-def desenhaEditor(tela):
+def desenhaBotoesEditor(tela, eventos):    
+
+    largura = 980
+    altura = 560
+    x = 470
+    y = 450
+
+    if EditorSelecionado == listaPokemon:
+        linhas = 4
+        colunas = 7
+        espacamento = 12
+
+        # Calcula o tamanho dos slots usando toda a área e respeitando os espaçamentos
+        largura_disponivel = largura - (espacamento * (colunas + 1)) + 2
+        altura_disponivel = altura - (espacamento * (linhas + 1))
+        lado_slot = min(largura_disponivel // colunas, altura_disponivel // linhas)
+
+        # Desenha a grade e cria os arrastáveis
+        for i in range(min(len(listaPokemon), linhas * colunas)):
+            linha = i // colunas
+            coluna = i % colunas
+
+            x_slot = x + espacamento + coluna * (lado_slot + espacamento) + 4
+            y_slot = y + espacamento + linha * (lado_slot + espacamento)
+
+            pokemon = listaPokemon[i]
+
+            GV.Botao(
+                tela, "", (x_slot, y_slot, lado_slot, lado_slot), PRETO, PRETO, PRETO,
+                lambda p=pokemon: SelecionaPokemon(p),
+                Fonte50, BG, 2, None, True, eventos
+            )
+    
+    if PokemonSelecionado is not None:
+        if EvoPokemon < EvoPokemonLim:
+            GV.Botao(
+                    tela, "", (355, 547, 40, 30), PRETO, PRETO, PRETO,
+                    lambda : MudaForma(True),
+                    Fonte50, BG, 2, None, True, eventos
+                ) 
+        if EvoPokemon != 0:
+            GV.Botao(
+                    tela, "", (75, 547, 40, 30), PRETO, PRETO, PRETO,
+                    lambda: MudaForma(False),
+                    Fonte50, BG, 2, None, True, eventos
+                ) 
+
+def desenhaEditor(tela, eventos):
     global EditorSelecionado, listaPokemon, Lista_atual_pokemons, ArrastaveisEditor, Lista_atual_itens
+
+    desenhaBotoesEditor(tela, eventos)
+
+    largura = 380
+    altura = 415
+    x = 1495
+    y = 450
+    retangulo = pygame.Rect(x, y, largura, altura)
+    pygame.draw.rect(tela, (50, 50, 50), retangulo)
+    pygame.draw.rect(tela, (0, 0, 0), retangulo, 3)
+
+    pygame.draw.line(tela, (0,0,0), (x, y + 45), (x + largura, y + 45), width=4)
+    if EditorSelecionado == listaPokemon:
+        texto = "Editor De Pokemons"
+    elif EditorSelecionado == listaItens:
+        texto = "Editor De Itens"
+    elif EditorSelecionado == listaEnergias:
+        texto = "Editor De Energias"
+    else:
+        texto = ""
+
+    superficie_texto = Fonte40.render(texto, True, (250,250,250))
+
+    rect_texto = superficie_texto.get_rect()
+    rect_texto.center = (x + largura // 2, y + 46 // 2)
+
+    tela.blit(superficie_texto, rect_texto)
+
+    largura = 380
+    altura = 560
+    x = 45
+    y = 450
+
+    retangulo = pygame.Rect(x, y, largura, altura)
+    pygame.draw.rect(tela, (50, 50, 50), retangulo)
+    pygame.draw.rect(tela, (0, 0, 0), retangulo, 3)
+
+    pygame.draw.line(tela, (0,0,0), (x, y + 45), (x + largura, y + 45), width=4)
 
     # Define as dimensões e posição do retângulo principal do editor
     largura = 980
@@ -470,9 +571,9 @@ def desenhaEditor(tela):
 
     # Desenha a borda preta
     pygame.draw.rect(tela, (0, 0, 0), retangulo, 3)
+
     # Se a aba selecionada for a lista de pokemons
     if EditorSelecionado == listaPokemon:
-        # Se a lista atual não for a mesma da lista original, atualiza e gera os arrastáveis
         if Lista_atual_pokemons != listaPokemon:
             Lista_atual_pokemons = list(listaPokemon)  # Faz uma cópia simples
             ArrastaveisEditor.clear()
@@ -548,6 +649,15 @@ def desenhaEditor(tela):
                     arrastavel = Arrastavel(imagem_fundo, (x_slot, y_slot), item, "itens", False, Executar)
                     ArrastaveisEditor.append(arrastavel)
 
+    if EditorSelecionado == listaEnergias:
+        if Lista_atual_energias != listaEnergias:
+            pass
+    
+    
+    if EditorSelecionado == listaPokemon:
+        if PokemonSelecionado is not None:
+            PokemonInfo((45,450,380,560),tela,PokemonSelecionado,EvoPokemon,EvoPokemonLim,ListaFormas, eventos, TiposEnergiaIMG)
+
 def Abre(Editar):
     global Abrir, DeckSelecionado
     if Editar is False:
@@ -575,6 +685,59 @@ def SelecionaEditor(lista):
 def DesselecionaEditor():
     global EditorSelecionado
     EditorSelecionado = None
+
+def SelecionaPokemon(pokemon):
+    global PokemonSelecionado, ListaFormas, EvoPokemonLim, EvoPokemon
+    PokemonSelecionado = pokemon
+    ListaFormas = [pokemon]  # O próprio selecionado já na lista
+    EvoPokemonLim = 0
+    EvoPokemon = 0
+
+    # Trata formas finais FF do próprio Pokémon inicial antes de explorar evoluções
+    ff_inicial = pokemon.get("FF")
+    if ff_inicial:
+        if isinstance(ff_inicial, list):
+            for forma in ff_inicial:
+                if forma not in ListaFormas:
+                    ListaFormas.append(forma)
+        else:
+            if ff_inicial not in ListaFormas:
+                ListaFormas.append(ff_inicial)
+
+    # Função interna recursiva que trata evoluções e FF delas
+    def explorar(pokemon_atual):
+        if pokemon_atual in ListaFormas:
+            return
+        ListaFormas.append(pokemon_atual)
+
+        evolucao = pokemon_atual.get("evolução")
+        if evolucao:
+            if isinstance(evolucao, list):
+                for e in evolucao:
+                    explorar(e)
+            else:
+                explorar(evolucao)
+
+        ff = pokemon_atual.get("FF")
+        if ff:
+            if isinstance(ff, list):
+                for forma in ff:
+                    if forma not in ListaFormas:
+                        ListaFormas.append(forma)
+            else:
+                if ff not in ListaFormas:
+                    ListaFormas.append(ff)
+
+    # Começa explorando a partir das evoluções
+    evolucao_inicial = pokemon.get("evolução")
+    if evolucao_inicial:
+        if isinstance(evolucao_inicial, list):
+            for e in evolucao_inicial:
+                explorar(e)
+        else:
+            explorar(evolucao_inicial)
+
+    EvoPokemonLim = len(ListaFormas) - 1
 
 estadoDecks = {"selecionado_esquerdo": None}
 estadoEditor = {"selecionado_esquerdo": None}
@@ -652,6 +815,7 @@ def TelaDecks(tela,eventos,estados):
 
 def TelaCriador(tela,eventos,estados):
 
+    print (EvoPokemon)
     desenhaBaralho(tela, DeckSelecionado)
 
     GV.Botao_Selecao(
@@ -699,9 +863,9 @@ def TelaCriador(tela,eventos,estados):
         desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
         tecla_esquerda=None, tecla_direita=None, grossura=2)
 
-    desenhaEditor(tela)
+    desenhaEditor(tela, eventos)
 
-    GV.Botao(tela, "Salvar Deck", (1470, 910, 330, 100), AMARELO_CLARO, PRETO, AZUL,
+    GV.Botao(tela, "Salvar Deck", (1495, 910, 380, 100), AMARELO_CLARO, PRETO, AZUL,
                 lambda: salvar_dicionario_em_py(DeckSelecionado,DeckSelecionado["ID"],"Decks"), Fonte40, B1, 3, None, True, eventos)
 
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
@@ -772,7 +936,7 @@ def Decks(tela,estados,relogio):
     ImagensItens,ImagensPokemon,TiposEnergiaIMG = Carregar_Imagens2(ImagensItens,ImagensPokemon,TiposEnergiaIMG)
 
     pygame.mixer.music.load('Audio/Musicas/Decks.ogg')  
-    pygame.mixer.music.set_volume(0.0)
+    pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
     IniciaDecks()
@@ -827,5 +991,5 @@ def Decks(tela,estados,relogio):
             Lista_atual_energias = None
 
         pygame.display.update()
-        relogio.tick(100)
+        relogio.tick(120)
 

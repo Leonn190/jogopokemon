@@ -1,19 +1,20 @@
-
 Venusaur_Vstar = { 
     "nome": "Venusaur Vstar", 
-    "tipo": ["planta", "veneno"],
+    "tipo": ["planta", "venenoso"],
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.060913706,
-    "atk": 1.216216216,
-    "atk SP": 1.166666667,
-    "def": 1.222222222,
-    "def SP": 1.173076923,
-    "velocidade": 1.342105263,
-    "XP": 0,
+    "vida": 209,
+    "atk": 45,
+    "atk SP": 63,
+    "def": 44,
+    "def SP": 61,
+    "velocidade": 51,
     "custo": 3,
-
+    "XP": 0,
+    "movelist": ["Mega Dreno", "Ácido", "Raio Solar", "Folha Navalha", "Cura Natural", "Bomba de Lodo"],
+    "H": 1.77,
+    "W": 110
 }
 
 Charizard_Vstar = { 
@@ -22,15 +23,17 @@ Charizard_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.063157895,
-    "atk": 1.1875,
-    "atk SP": 1.169811321,
-    "def": 1.235294118,
-    "def SP": 1.216216216,
-    "velocidade": 1.25,
-    "XP": 0,
+    "vida": 202,
+    "atk": 57,
+    "atk SP": 62,
+    "def": 42,
+    "def SP": 45,
+    "velocidade": 65,
     "custo": 3,
-
+    "XP": 0,
+    "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque de Chamas"],
+    "H": 1.83,
+    "W": 92
 }
 
 Blastoise_Vstar = { 
@@ -39,15 +42,17 @@ Blastoise_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.0625,
-    "atk": 1.2,
-    "atk SP": 1.2,
-    "def": 1.166666667,
-    "def SP": 1.18,
-    "velocidade": 1.393939394,
-    "XP": 0,
+    "vida": 204,
+    "atk": 48,
+    "atk SP": 48,
+    "def": 63,
+    "def SP": 59,
+    "velocidade": 46,
     "custo": 3,
-
+    "XP": 0,
+    "movelist": ["Jato Duplo", "Provocar", "Bola de Água", "Golpe de Concha", "Golpe Territorial", "Gota Pesada"],
+    "H": 1.69,
+    "W": 106
 }
 
 Machamp_Vstar = { 
@@ -56,32 +61,36 @@ Machamp_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.057416268,
-    "atk": 1.166666667,
-    "atk SP": 1.222222222,
-    "def": 1.173076923,
-    "def SP": 1.216216216,
-    "velocidade": 1.351351351,
-    "XP": 0,
+    "vida": 221,
+    "atk": 63,
+    "atk SP": 44,
+    "def": 61,
+    "def SP": 45,
+    "velocidade": 50,
     "custo": 3,
-
+    "XP": 0,
+    "movelist": ["Soco", "Combate Próximo", "Treinar", "Submissão", "Chamar para Briga", "Punho Míssil"],
+    "H": 1.75,
+    "W": 115
 }
 
 Gengar_Vstar = { 
     "nome": "Gengar Vstar", 
-    "tipo": ["fantasma", "veneno"],
+    "tipo": ["fantasma", "venenoso"],
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.06779661,
-    "atk": 1.228571429,
-    "atk SP": 1.14516129,
-    "def": 1.242424242,
-    "def SP": 1.219512195,
-    "velocidade": 1.26,
-    "XP": 0,
+    "vida": 189,
+    "atk": 43,
+    "atk SP": 71,
+    "def": 41,
+    "def SP": 50,
+    "velocidade": 63,
     "custo": 2,
-
+    "XP": 0,
+    "movelist": ["Maldade", "Bola Sombria", "Massacre Fantasmagórico", "Coleta Gananciosa", "Nas Sombras", "Extração"],
+    "H": 1.52,
+    "W": 48
 }
 
 Butterfree_Vstar = { 
@@ -90,15 +99,17 @@ Butterfree_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.070588235,
-    "atk": 1.235294118,
-    "atk SP": 1.183673469,
-    "def": 1.235294118,
-    "def SP": 1.219512195,
-    "velocidade": 1.302325581,
-    "XP": 0,
+    "vida": 182,
+    "atk": 42,
+    "atk SP": 58,
+    "def": 42,
+    "def SP": 50,
+    "velocidade": 56,
     "custo": 2,
-
+    "XP": 0,
+    "movelist": ["Vento Forte", "Brilho", "Benção", "Cura Natural", "Seda", "Voar"],
+    "H": 1.16,
+    "W": 31
 }
 
 Snorlax_Vstar = { 
@@ -107,15 +118,17 @@ Snorlax_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.046332046,
-    "atk": 1.225,
-    "atk SP": 1.258064516,
-    "def": 1.25,
-    "def SP": 1.264705882,
-    "velocidade": 1.866666667,
-    "XP": 0,
+    "vida": 271,
+    "atk": 49,
+    "atk SP": 39,
+    "def": 40,
+    "def SP": 43,
+    "velocidade": 28,
     "custo": 4,
-
+    "XP": 0,
+    "movelist": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
+    "H": 2.15,
+    "W": 485
 }
 
 Meowth_Vstar = { 
@@ -124,15 +137,17 @@ Meowth_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.12371134,
-    "atk": 1.391304348,
-    "atk SP": 1.45,
-    "def": 1.421052632,
-    "def SP": 1.421052632,
-    "velocidade": 1.433333333,
-    "XP": 0,
+    "vida": 109,
+    "atk": 32,
+    "atk SP": 29,
+    "def": 27,
+    "def SP": 27,
+    "velocidade": 43,
     "custo": 1,
-
+    "XP": 0,
+    "movelist": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
+    "H": 0.63,
+    "W": 5.1
 }
 
 Pikachu_Vstar = { 
@@ -141,12 +156,15 @@ Pikachu_Vstar = {
     "evolução": None,
     "FF": "Vstar",
     "estagio": 5, 
-    "vida": 1.111111111,
-    "atk": 1.428571429,
-    "atk SP": 1.310344828,
-    "def": 1.347826087,
-    "def SP": 1.380952381,
-    "velocidade": 1.371428571,
-    "XP": 0,
+    "vida": 120,
+    "atk": 30,
+    "atk SP": 38,
+    "def": 31,
+    "def SP": 29,
+    "velocidade": 48,
     "custo": 1,
+    "XP": 0,
+    "movelist": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
+    "H": 0.62,
+    "W": 8.9
 }

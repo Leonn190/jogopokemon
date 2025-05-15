@@ -1,18 +1,20 @@
-
 Venusaur_Vmax = { 
     "nome": "Venusaur Vmax", 
-    "tipo": ["planta", "veneno"],
+    "tipo": ["planta", "venenoso"],
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.081218274,
-    "atk": 1.108108108,
-    "atk SP": 1.074074074,
-    "def": 1.083333333,
-    "def SP": 1.038461538,
-    "velocidade": 0.4473684211,
-    "XP": 0,
+    "vida": 410,
+    "atk": 41,
+    "atk SP": 58,
+    "def": 39,
+    "def SP": 54,
+    "velocidade": 17,
     "custo": 6,
+    "XP": 0,
+    "movelist": ["Mega Dreno", "Ácido", "Raio Solar", "Folha Navalha", "Cura Natural", "Bomba de Lodo"],
+    "H": 0,
+    "W": 0
 }
 
 Charizard_Vmax = { 
@@ -21,14 +23,17 @@ Charizard_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.210526316,
-    "atk": 1.145833333,
-    "atk SP": 1.056603774,
-    "def": 1.176470588,
-    "def SP": 1.162162162,
-    "velocidade": 0.2692307692,
-    "XP": 0,
+    "vida": 420,
+    "atk": 55,
+    "atk SP": 56,
+    "def": 40,
+    "def SP": 43,
+    "velocidade": 14,
     "custo": 7,
+    "XP": 0,
+    "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque de Chamas"],
+    "H": 0,
+    "W": 0
 }
 
 Blastoise_Vmax = { 
@@ -37,15 +42,18 @@ Blastoise_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.135416667,
-    "atk": 1.2,
-    "atk SP": 1.1,
-    "def": 1.055555556,
-    "def SP": 1.02,
-    "velocidade": 0.303030303,
-    "XP": 0,
+    "vida": 410,
+    "atk": 48,
+    "atk SP": 44,
+    "def": 57,
+    "def SP": 51,
+    "velocidade": 10,
     "custo": 7,
-
+    "XP": 0,
+    "movelist": ["Jato Duplo", "Provocar", "Bola de Água", "Golpe de Concha", "Golpe Territorial", "Gota Pesada"],
+    "H": 0,
+    "W": 0
+    
 }
 
 Machamp_Vmax = { 
@@ -54,32 +62,36 @@ Machamp_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.057416268,
-    "atk": 1.111111111,
-    "atk SP": 1.083333333,
-    "def": 1.038461538,
-    "def SP": 1.054054054,
-    "velocidade": 0.3243243243,
-    "XP": 0,
+    "vida": 430,
+    "atk": 60,
+    "atk SP": 39,
+    "def": 54,
+    "def SP": 39,
+    "velocidade": 12,
     "custo": 6,
-
+    "XP": 0,
+    "movelist": ["Soco", "Combate Próximo", "Treinar", "Submissão", "Chamar para Briga", "Punho Míssil"],
+    "H": 0,
+    "W": 0
 }
 
 Gengar_Vmax = { 
     "nome": "Gengar Vmax", 
-    "tipo": ["fantasma", "veneno"],
+    "tipo": ["fantasma", "venenoso"],
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.203389831,
-    "atk": 1.228571429,
-    "atk SP": 1.064516129,
-    "def": 1.090909091,
-    "def SP": 1.097560976,
-    "velocidade": 0.4,
-    "XP": 0,
+    "vida": 390,
+    "atk": 43,
+    "atk SP": 66,
+    "def": 36,
+    "def SP": 45,
+    "velocidade": 20,
     "custo": 6,
-
+    "XP": 0,
+    "movelist": ["Maldade", "Bola Sombria", "Massacre Fantasmagórico", "Coleta Gananciosa", "Nas Sombras", "Extração"],
+    "H": 0,
+    "W": 0
 }
 
 Butterfree_Vmax = { 
@@ -88,15 +100,17 @@ Butterfree_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.176470588,
-    "atk": 1.147058824,
-    "atk SP": 1.12244898,
-    "def": 1.058823529,
-    "def SP": 1.024390244,
-    "velocidade": 0.7441860465,
-    "XP": 0,
+    "vida": 370,
+    "atk": 39,
+    "atk SP": 55,
+    "def": 36,
+    "def SP": 42,
+    "velocidade": 32,
     "custo": 5,
-
+    "XP": 0,
+    "movelist": ["Vento Forte", "Brilho", "Benção", "Cura Natural", "Seda", "Voar"],
+    "H": 0,
+    "W": 0
 }
 
 Snorlax_Vmax = { 
@@ -105,15 +119,17 @@ Snorlax_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.200772201,
-    "atk": 1.25,
-    "atk SP": 1.161290323,
-    "def": 1.0625,
-    "def SP": 1.176470588,
+    "vida": 570,
+    "atk": 50,
+    "atk SP": 36,
+    "def": 34,
+    "def SP": 40,
     "velocidade": 0,
-    "XP": 0,
     "custo": 0,
-
+    "XP": 0,
+    "movelist": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
+    "H": 0,
+    "W": 0
 }
 
 Meowth_Vmax = { 
@@ -122,15 +138,17 @@ Meowth_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.577319588,
-    "atk": 1.304347826,
-    "atk SP": 1.15,
-    "def": 1.157894737,
-    "def SP": 1.210526316,
-    "velocidade": 0.7666666667,
-    "XP": 0,
+    "vida": 250,
+    "atk": 30,
+    "atk SP": 23,
+    "def": 22,
+    "def SP": 23,
+    "velocidade": 23,
     "custo": 4,
-
+    "XP": 0,
+    "movelist": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
+    "H": 0,
+    "W": 0
 }
 
 Pikachu_Vmax = { 
@@ -139,13 +157,15 @@ Pikachu_Vmax = {
     "evolução": None,
     "FF": "Vmax",
     "estagio": 5, 
-    "vida": 2.592592593,
-    "atk": 1.333333333,
-    "atk SP": 1.172413793,
-    "def": 1.086956522,
-    "def SP": 1.19047619,
-    "velocidade": 0.4857142857,
-    "XP": 0,
+    "vida": 280,
+    "atk": 28,
+    "atk SP": 34,
+    "def": 25,
+    "def SP": 25,
+    "velocidade": 17,
     "custo": 4,
-
+    "XP": 0,
+    "movelist": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
+    "H": 0,
+    "W": 0
 }

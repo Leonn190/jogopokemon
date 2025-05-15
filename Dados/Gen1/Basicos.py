@@ -1,4 +1,3 @@
-import random
 from Dados.Gen1.V import Snorlax_V,Meowth_V,Pikachu_V
 from Dados.Gen1.Mega import Mega_Aerodactyl,Mega_Pinsir,Mega_Mewtwo_X,Mega_Mewtwo_Y
 from Dados.Gen1.Evo1 import Ivysaur,Charmeleon,Wartortle,Machoke,Haunter,Graveler,Metapod,Kadabra,Dragonair,Raichu,Zoroark,Gyarados,Wigglytuff,Magneton,Raticate,Kakuna,Clefable,Persian,Marowak,Cloyster
@@ -19,9 +18,8 @@ Bulbasaur = {
     "velocidade": 23,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Vasculhada Trapaceira","Controle do Oceano"],
-    # "MoveList": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
-    "Moves": 2,
+    "movelist": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
+    "moves": 2,
     "H": 0.58,
     "W": 7.5
 }
@@ -42,8 +40,8 @@ Charmander = {
     "velocidade": 24,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Tapa", "Queimar", "Superaquecer", "Mordida", "Crescer", "Brasa"],
-    "Moves": 2,
+    "movelist": ["Tapa", "Queimar", "Superaquecer", "Mordida", "Crescer", "Brasa"],
+    "moves": 2,
     "H": 0.7,   
     "W": 8.5
 }
@@ -64,8 +62,8 @@ Squirtle = {
     "velocidade": 20,
     "XP": 25,
     "custo": 1,
-    "MoveList": ["Investida", "Jato de Água", "Bolhas", "Vasculhar no Rio", "Provocar", "Crescer"],
-    "Moves": 2,
+    "movelist": ["Investida", "Jato de Água", "Bolhas", "Vasculhar no Rio", "Provocar", "Crescer"],
+    "moves": 2,
     "H": 0.67,
     "W": 10
 }
@@ -86,8 +84,8 @@ Machop = {
     "velocidade": 20,
     "XP": 25,
     "custo": 2,
-    "MoveList": ["Treinar", "Soco", "Provocar", "Pedregulho", "Crescer", "Tapa Especial"],
-    "Moves": 2,
+    "movelist": ["Treinar", "Soco", "Provocar", "Pedregulho", "Crescer", "Tapa Especial"],
+    "moves": 2,
     "H": 0.9,
     "W": 20
 }
@@ -108,8 +106,8 @@ Gastly = {
     "velocidade": 25,
     "XP": 20,
     "custo": 0,
-    "MoveList": ["Lambida", "Ácido", "Envenenar", "Assombrar", "Energia", "Atravessar"],
-    "Moves": 2,
+    "movelist": ["Lambida", "Ácido", "Envenenar", "Assombrar", "Energia", "Atravessar"],
+    "moves": 2,
     "H": 0.6,
     "W": 0.2
 }
@@ -130,8 +128,8 @@ Geodude = {
     "velocidade": 17,
     "XP": 30,
     "custo": 2,
-    "MoveList": ["Soco", "Pedregulho", "Provocar", "Investida", "Esbravejar", "Tremor"],
-    "Moves": 2,
+    "movelist": ["Soco", "Pedregulho", "Provocar", "Investida", "Esbravejar", "Tremor"],
+    "moves": 2,
     "H": 0.51,
     "W": 23
 }
@@ -152,8 +150,8 @@ Caterpie = {
     "velocidade": 18,
     "XP": 15,
     "custo": 1,
-    "MoveList": ["Seda", "Cabeçada", "Mordida", "Minhocagem", "Coleta", "Energia"],
-    "Moves": 2,
+    "movelist": ["Seda", "Cabeçada", "Mordida", "Minhocagem", "Coleta", "Energia"],
+    "moves": 2,
     "H": 0.31,
     "W": 3.3
 }
@@ -174,8 +172,8 @@ Abra = {
     "velocidade": 24,
     "XP": 25,
     "custo": 0,
-    "MoveList": ["Teleporte", "Ampliação Mental", "Confusão", "Psíquico Desgastante", "Tapa Especial", "Tapa"],
-    "Moves": 2,
+    "movelist": ["Teleporte", "Ampliação Mental", "Confusão", "Psíquico Desgastante", "Tapa Especial", "Tapa"],
+    "moves": 2,
     "H": 1,
     "W": 20
 }
@@ -196,8 +194,8 @@ Dratini = {
     "velocidade": 21,
     "XP": 30,
     "custo": 1,
-    "MoveList": ["Ultraje", "Sopro do Dragão", "Cabeçada", "Mordida", "Crescer", "Bolhas"],
-    "Moves": 2,
+    "movelist": ["Ultraje", "Sopro do Dragão", "Cabeçada", "Mordida", "Crescer", "Bolhas"],
+    "moves": 2,
     "H": 1.81,
     "W": 3.4
 }
@@ -218,8 +216,8 @@ Pikachu = {
     "velocidade": 34,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
-    "Moves": 3,
+    "movelist": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
+    "moves": 3,
     "H": 0.51,
     "W": 6.3
 }
@@ -240,8 +238,8 @@ Zorua = {
     "velocidade": 30,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Investida", "Nas Sombras", "Bola Sombria", "Vasculhar", "Energia", "Crescer"],
-    "Moves": 2,
+    "movelist": ["Investida", "Nas Sombras", "Bola Sombria", "Vasculhar", "Energia", "Crescer"],
+    "moves": 2,
     "H": 0.68,
     "W": 10.2
 }
@@ -262,8 +260,8 @@ Magikarp = {
     "velocidade": 26,
     "XP": 50,
     "custo": 1,
-    "MoveList": ["Splash", "Vasculhar", "Vasculhar no Rio", "Splash", "Splash", "Splash"],
-    "Moves": 2,
+    "movelist": ["Splash", "Vasculhar", "Vasculhar no Rio", "Splash", "Splash", "Splash"],
+    "moves": 2,
     "H": 0.85,
     "W": 9.1
 }
@@ -284,8 +282,8 @@ Jigglypuff = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Tapa", "Cura Natural", "Brilho", "Energia", "Busca Alegre", "Tapa Especial"],
-    "Moves": 2,
+    "movelist": ["Tapa", "Cura Natural", "Brilho", "Energia", "Busca Alegre", "Tapa Especial"],
+    "moves": 2,
     "H": 0.56,
     "W": 6.7
 }
@@ -306,8 +304,8 @@ Clefairy = {
     "velocidade": 14,
     "XP": 35,
     "custo": 2,
-    "MoveList": ["Provocar", "Vento Fada", "Brilho", "Benção", "Investida", "Energia"],
-    "Moves": 2,
+    "movelist": ["Provocar", "Vento Fada", "Brilho", "Benção", "Investida", "Energia"],
+    "moves": 2,
     "H": 0.62,
     "W": 8.9
 }
@@ -328,8 +326,8 @@ Meowth = {
     "velocidade": 29,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
-    "Moves": 2,
+    "movelist": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
+    "moves": 2,
     "H": 0.63,
     "W": 5.1
 }
@@ -350,8 +348,8 @@ Cubone = {
     "velocidade": 19,
     "XP": 30,
     "custo": 1,
-    "MoveList": ["Provocar", "Pedregulho", "Soco", "Arremesso de Terra", "Tremor", "Crescer"],
-    "Moves": 2,
+    "movelist": ["Provocar", "Pedregulho", "Soco", "Arremesso de Terra", "Tremor", "Crescer"],
+    "moves": 2,
     "H": 0.42,
     "W": 7.1
 
@@ -373,8 +371,8 @@ Shellder = {
     "velocidade": 21,
     "XP": 40,
     "custo": 1,
-    "MoveList": ["Lambida", "Provocar", "Jato de Água", "Bolhas", "Energia", "Golpe de Concha"],
-    "Moves": 2,
+    "movelist": ["Lambida", "Provocar", "Jato de Água", "Bolhas", "Energia", "Golpe de Concha"],
+    "moves": 2,
     "H": 0.33,
     "W": 4
 
@@ -396,8 +394,8 @@ Magnemite = {
     "velocidade": 20,
     "XP": 35,
     "custo": 1,
-    "MoveList": ["Reforçar", "Faisca", "Energia", "Energizar", "Projétil Metálico", "Onda Elétrica"],
-    "Moves": 2,
+    "movelist": ["Reforçar", "Faisca", "Energia", "Energizar", "Projétil Metálico", "Onda Elétrica"],
+    "moves": 2,
     "H": 0.29,
     "W": 6.7
 
@@ -419,8 +417,8 @@ Rattata = {
     "velocidade": 28,
     "XP": 30,
     "custo": 0,
-    "MoveList": ["Mordida", "Investida", "Nas Sombras", "Vasculhar", "Crescer", "Envenenar"],
-    "Moves": 2,
+    "movelist": ["Mordida", "Investida", "Nas Sombras", "Vasculhar", "Crescer", "Envenenar"],
+    "moves": 2,
     "H": 0.34,
     "W": 3.3
 }
@@ -441,8 +439,8 @@ Weedle = {
     "velocidade": 17,
     "XP": 15,
     "custo": 1,
-    "MoveList": ["Minhocagem", "Seda", "Picada", "Vasculhar", "Envenenar", "Coleta"],
-    "Moves": 2,
+    "movelist": ["Minhocagem", "Seda", "Picada", "Vasculhar", "Envenenar", "Coleta"],
+    "moves": 2,
     "H": 0.26,
     "W": 2.5
 
@@ -464,8 +462,8 @@ Snorlax = {
     "velocidade": 14,
     "XP": 45,
     "custo": 4,
-    "MoveList": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
-    "Moves": 4,
+    "movelist": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
+    "moves": 4,
     "H": 2.15,
     "W": 485
 
@@ -487,8 +485,8 @@ Aerodactyl = {
     "velocidade": 50,
     "XP": 50,
     "custo": 3,
-    "MoveList": ["Voar", "Ataque de Asa", "Investida Aérea", "Pedra Especial", "Barragem Rochosa", "Mordida"],
-    "Moves": 4,
+    "movelist": ["Voar", "Ataque de Asa", "Investida Aérea", "Pedra Especial", "Barragem Rochosa", "Mordida"],
+    "moves": 4,
     "H": 1.8,
     "W": 60
 
@@ -510,8 +508,8 @@ Jynx = {
     "velocidade": 24,
     "XP": 0,
     "custo": 2,
-    "MoveList": ["Cristalizar", "Reinado de Gelo", "Magia de Gelo", "Bola Psíquica", "Mente Forte", "Tapa Especial"],
-    "Moves": 4,
+    "movelist": ["Cristalizar", "Reinado de Gelo", "Magia de Gelo", "Bola Psíquica", "Mente Forte", "Tapa Especial"],
+    "moves": 4,
     "H": 1.34,
     "W": 38.8
 }
@@ -532,8 +530,8 @@ Pinsir = {
     "velocidade": 25,
     "XP": 45,
     "custo": 2,
-    "MoveList": ["Seda", "Mordida", "Tesoura X", "Arranhar", "Esbravejar", "Treinar"],
-    "Moves": 4,
+    "movelist": ["Seda", "Mordida", "Tesoura X", "Arranhar", "Esbravejar", "Treinar"],
+    "moves": 4,
     "H": 1.55,
     "W": 53
 
@@ -546,7 +544,7 @@ Mewtwo = {
     "code": 25,
     "tipo": ["psiquico"],
     "evolução": None,
-    "FF": random.choice([Mega_Mewtwo_X, Mega_Mewtwo_Y]),
+    "FF": [Mega_Mewtwo_X, Mega_Mewtwo_Y],
     "vida": 196,
     "atk": 64,
     "atk SP": 76,
@@ -555,8 +553,8 @@ Mewtwo = {
     "velocidade": 68,
     "XP": 55,
     "custo": 3,
-    "MoveList": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Ampliação Mental", "Mente Forte", "Cauda Violenta"],
-    "Moves": 4,
+    "movelist": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Ampliação Mental", "Mente Forte", "Cauda Violenta"],
+    "moves": 4,
     "H": 1.9,
     "W": 95
 }
@@ -577,8 +575,8 @@ Articuno = {
     "velocidade": 60,
     "XP": 55,
     "custo": 4,
-    "MoveList": ["Raio de Gelo", "Reinado de Gelo", "Voar", "Ataque de Asa", "Provocar", "Gelo Verdadeiro"],
-    "Moves": 4,
+    "movelist": ["Raio de Gelo", "Reinado de Gelo", "Voar", "Ataque de Asa", "Provocar", "Gelo Verdadeiro"],
+    "moves": 4,
     "H": 1.83,
     "W": 73
 }
@@ -599,8 +597,8 @@ Moltres = {
     "velocidade": 53,
     "XP": 0,
     "custo": 3,
-    "MoveList": ["Ondas de Calor", "Raio de Fogo", "Voar", "Investida Aérea", "Provocar", "Superaquecer"],
-    "Moves": 4,
+    "movelist": ["Ondas de Calor", "Raio de Fogo", "Voar", "Investida Aérea", "Provocar", "Superaquecer"],
+    "moves": 4,
     "H": 1.98,
     "W": 81
 }
@@ -621,8 +619,8 @@ Zapdos = {
     "velocidade": 57,
     "XP": 0,
     "custo": 3,
-    "MoveList": ["Tempestade de Raios", "Choque do Trovão", "Voar", "Rasante", "Bola Elétrica", "Bico Broca"],
-    "Moves": 4,
+    "movelist": ["Tempestade de Raios", "Choque do Trovão", "Voar", "Rasante", "Bola Elétrica", "Bico Broca"],
+    "moves": 4,
     "H": 1.72,
     "W": 69
 }

@@ -384,7 +384,7 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
 
         # Status
         infos = [
-            f"Dano: {ataque['dano'] * 100}%",
+            f"Dano: {round(ataque['dano'] * 100)}%",
             f"Alcance: {ataque['alcance']}m",
             f"Precisão: {ataque['precisão']}%"
         ]

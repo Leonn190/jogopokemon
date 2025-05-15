@@ -785,6 +785,7 @@ estadoVizualiza ={"selecionado_direito": None}
 estadoInfo = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
+
 estadoOutros = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}

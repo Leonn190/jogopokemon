@@ -56,7 +56,7 @@ def Menu(tela,estados,relogio):
 
 
     pygame.mixer.music.load('Audio/Musicas/Menu.ogg')  
-    pygame.mixer.music.set_volume(0.0)
+    pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
     while estados["Rodando_Menu"]:
