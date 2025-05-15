@@ -294,7 +294,7 @@ def Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEner
 
     return ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
 
-def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG):
+def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIconesIMG):
     
     EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (62, 62), "PNG")
     CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (62, 62), "PNG")
@@ -381,6 +381,26 @@ def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG):
     Efada = GV.Carregar_Imagem("imagens/icones/fada.png", (30,30), "PNG")
     Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
     Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
+
+    Icon1 = GV.Carregar_Imagem("imagens/Deck_icones/icon1.png", (80, 80), "PNG")
+    Icon2 = GV.Carregar_Imagem("imagens/Deck_icones/icon2.png", (80, 80), "PNG")
+    Icon3 = GV.Carregar_Imagem("imagens/Deck_icones/icon3.png", (80, 80), "PNG")
+    Icon4 = GV.Carregar_Imagem("imagens/Deck_icones/icon4.png", (80, 80), "PNG")
+    Icon5 = GV.Carregar_Imagem("imagens/Deck_icones/icon5.png", (80, 80), "PNG")
+    Icon6 = GV.Carregar_Imagem("imagens/Deck_icones/icon6.png", (80, 80), "PNG")
+    Icon7 = GV.Carregar_Imagem("imagens/Deck_icones/icon7.png", (80, 80), "PNG")
+    Icon8 = GV.Carregar_Imagem("imagens/Deck_icones/icon8.png", (80, 80), "PNG")
+
+    DeckIconesIMG = {
+    "icone1": Icon1,
+    "icone2": Icon2,
+    "icone3": Icon3,
+    "icone4": Icon4,
+    "icone5": Icon5,
+    "icone6": Icon6,
+    "icone7": Icon7,
+    "icone8": Icon8,
+}
 
     TiposEnergiaIMG = {
     "fogo": Efogo,
@@ -478,4 +498,4 @@ def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG):
     "Pinsir": MpinsirIMG
 }
 
-    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG
+    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG, DeckIconesIMG

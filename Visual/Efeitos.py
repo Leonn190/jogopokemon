@@ -1,6 +1,5 @@
 import pygame
 import Visual.GeradoresVisuais as GV
-import os
 
 efeitos_ativos = []
 
@@ -141,7 +140,6 @@ def atualizar_efeitos(tela):
         gif.desenhar(tela)
         if gif.finalizado():
             efeitos_ativos.remove(gif)
-
 
 class GifCondicional:
     def __init__(self, frames, pos, intervalo):

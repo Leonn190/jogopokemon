@@ -80,9 +80,13 @@ EfeitosDescrição = {
     "Incapacitado": "Não pode atacar"
 }
 
+def calcular_coef(iv):
+            return 0.8 + (iv / 100) * 0.4
+
 class Pokemon:
     def __init__(self, pokemon, player):
 
+        self.origem = pokemon["origem"]
         self.nome = pokemon["nome"]
         self.tipo = pokemon["tipo"]
         self.raridade = pokemon["raridade"]
@@ -135,6 +139,13 @@ class Pokemon:
         self.IV_def = pokemon["IV def"]
         self.IV_defSP = pokemon["IV def SP"]
         self.IV_vel = pokemon["IV vel"]
+
+        self.CoefVida = calcular_coef(self.IV_vida)
+        self.CoefAtk = calcular_coef(self.IV_atk)
+        self.CoefAtkSP = calcular_coef(self.IV_atkSP)
+        self.CoefDef = calcular_coef(self.IV_def)
+        self.CoefDefSP = calcular_coef(self.IV_defSP)
+        self.CoefVel = calcular_coef(self.IV_vel)
 
         self.movimento1 = pokemon["Move1"]
         self.movimento1["num"] = 1
@@ -206,13 +217,13 @@ class Pokemon:
     def Evoluir_Final(self,i,player):
         nome_antigo = self.nome
         self.nome = self.FF[i]["nome"]
-        self.VidaMaxB = round(self.VidaMaxB * self.FF[i]["vida"])
-        self.Vida = round(self.Vida * self.FF[i]["vida"])
-        self.DefB = round(self.DefB * self.FF[i]["def"])
-        self.Def_spB = round(self.Def_spB * self.FF[i]["def SP"])
-        self.AtkB = round(self.AtkB * self.FF[i]["atk"])
-        self.Atk_spB = round(self.Atk_spB * self.FF[i]["atk SP"])
-        self.velB = round(self.velB * self.FF[i]["velocidade"])
+        self.VidaMaxB = round(self.CoefVida * self.FF[i]["vida"])
+        self.Vida = round(self.CoefVida * self.FF[i]["vida"] - (self.Vida - self.VidaMax))
+        self.DefB = round(self.CoefDef * self.FF[i]["def"])
+        self.Def_spB = round(self.CoefDefSP * self.FF[i]["def SP"])
+        self.AtkB = round(self.CoefAtk * self.FF[i]["atk"])
+        self.Atk_spB = round(self.CoefAtkSP * self.FF[i]["atk SP"])
+        self.velB = round(self.CoefVel * self.FF[i]["velocidade"])
         self.custo = self.FF[i]["custo"]
         self.Estagio = self.FF[i]["estagio"]
         self.xp_total = self.FF[i]["XP"]
@@ -259,13 +270,13 @@ class Pokemon:
         
         self.movePossiveis = self.evolucao["movelist"]
         self.nome = self.evolucao["nome"]
-        self.VidaMaxB = round(self.VidaMaxB * self.evolucao["vida"])
-        self.Vida = round(self.Vida * self.evolucao["vida"])
-        self.DefB = round(self.DefB * self.evolucao["def"])
-        self.Def_spB = round(self.Def_spB * self.evolucao["def SP"])
-        self.AtkB = round(self.AtkB * self.evolucao["atk"])
-        self.Atk_spB = round(self.Atk_spB * self.evolucao["atk SP"])
-        self.velB = round(self.velB * self.evolucao["velocidade"])
+        self.VidaMaxB = round(self.CoefVida * self.evolucao["vida"])
+        self.Vida = round(self.CoefVida * self.evolucao["vida"] - (self.Vida - self.VidaMax))
+        self.DefB = round(self.CoefDef * self.evolucao["def"])
+        self.Def_spB = round(self.CoefDefSP * self.evolucao["def SP"])
+        self.AtkB = round(self.CoefAtk * self.evolucao["atk"])
+        self.Atk_spB = round(self.CoefAtkSP * self.evolucao["atk SP"])
+        self.velB = round(self.CoefVel * self.evolucao["velocidade"])
         self.custo = self.evolucao["custo"]
         self.Estagio = self.evolucao["estagio"]
         self.FF = self.evolucao["FF"]
@@ -364,11 +375,11 @@ def Gerador(Pokemon,P):
     IDpoke += 1
     Pok = Pokemon
 
-    vida_min = int(Pok["vida"] * 0.8)
-    vida_max = int(Pok["vida"] * 1.2)
+    vida_min = int(Pok["vida"] * 0.85)
+    vida_max = int(Pok["vida"] * 1.15)
     vida_max_real = int(vida_max * P)
     vida = random.randint(vida_min, vida_max_real)
-    vida = min(vida, int(Pok["vida"] * 1.2))
+    vida = min(vida, int(Pok["vida"] * 1.15))
 
     atk_min = int(Pok["atk"] * 0.8)
     atk_max = int(Pok["atk"] * 1.2)
@@ -428,6 +439,7 @@ def Gerador(Pokemon,P):
         "nome": Pok["nome"],
         "tipo": Pok["tipo"],
         "raridade": Pok["raridade"],
+        "origem": Pok,
         "vida": vida,
         "estagio": 1,
         "altura": Altura,

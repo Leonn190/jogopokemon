@@ -4,6 +4,7 @@ import Visual.GeradoresVisuais as GV
 from Geradores.GeradorPokemon import Pokemons_Todos
 from Dados.itens import Pokebolas_Todas,Estadios_Todos,Amplificadores_Todos,Frutas_Todas,Outros_Todos, Poçoes_Todas
 from Dados.Estadios import Estadios
+from Dados.Treinadores import Treinadores_Todos
 
 
 Pokebolas_disponiveis  = Pokebolas_Todas

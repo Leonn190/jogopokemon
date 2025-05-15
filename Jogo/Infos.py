@@ -12,7 +12,6 @@ from Visual.GeradoresVisuais import (
 def EstadioInfo(pos, tela, Mapa):
     pass
 
-
 def TreinadorInfo(pos, tela, treinador):
     pass
 
@@ -195,12 +194,15 @@ def Desenha_Barras_Status(tela, centro, largura_total, altura_maxima, pokemon):
         texto_valor = font_valor.render(f'{int(valor)}', True, (255, 255, 255))
         tela.blit(texto_valor, (x_barra + barra_largura / 2 - texto_valor.get_width() / 2, y_barra - texto_valor.get_height() - 2))
 
-def PokemonInfo(espaço, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, eventos, TiposEnergiasIMG):
+def PokemonInfo(pos, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, eventos, TiposEnergiasIMG):
     global Gif_Ativo, Gif_Ativo_Atual, AtaqueObservado, estadoOlharAtaques
 
     pokemon = ListaFormas[PokemonEvo]
 
-    x, y, w, h = espaço
+    x, y = pos
+
+    w = 380
+    h = 560
 
     setor1_h = h * 0.40
     setor2_h = h * 0.37
@@ -233,7 +235,7 @@ def PokemonInfo(espaço, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, 
     # ▪️ Esquerda (só se tiver evolução anterior)
     if PokemonEvo > 0:
         ret_esq_x = x + margem_borda
-        ret_esq_y = pos_centro_y - ret_h // 2
+        ret_esq_y = pos_centro_y - ret_h + 20
         pygame.draw.rect(tela, (100, 100, 100), (ret_esq_x, ret_esq_y, ret_w, ret_h), border_radius=6)
         pygame.draw.polygon(tela, (255, 255, 0), [
             (ret_esq_x + ret_w * 0.65, ret_esq_y + ret_h * 0.25),
@@ -244,7 +246,7 @@ def PokemonInfo(espaço, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, 
     # ▪️ Direita (só se tiver evolução seguinte)
     if PokemonEvo < PokemonEvoLim:
         ret_dir_x = x + w - margem_borda - ret_w
-        ret_dir_y = pos_centro_y - ret_h // 2
+        ret_dir_y = pos_centro_y - ret_h + 20
         pygame.draw.rect(tela, (100, 100, 100), (ret_dir_x, ret_dir_y, ret_w, ret_h), border_radius=6)
         pygame.draw.polygon(tela, (255, 255, 0), [
             (ret_dir_x + ret_w * 0.35, ret_dir_y + ret_h * 0.25),
@@ -453,6 +455,138 @@ def PokemonInfo(espaço, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, 
     if AtaqueObservado is not None:
         Mostrar_Ataque(tela,AtaqueObservado,imagens_tipos=TiposEnergiasIMG)
 
+def ItemInfo(pos, tela, item, ImagensItens):
+    x, y = pos
 
-def ItemInfo(pos, tela, item):
-    pass
+    w = 380
+    h = 560
+
+    # Calculando as alturas dos setores
+    setor1_altura = int(h * 0.45)
+    setor2_altura = int(h * 0.15)
+    setor3_altura = int(h * 0.40)
+
+    # Coordenadas Y dos setores
+    setor1_y = y
+    setor2_y = setor1_y + setor1_altura
+    setor3_y = setor2_y + setor2_altura
+
+    # Linhas divisórias pretas
+    pygame.draw.line(tela, (0, 0, 0), (x, setor2_y), (x + w, setor2_y), 2)
+    pygame.draw.line(tela, (0, 0, 0), (x, setor3_y), (x + w, setor3_y), 2)
+
+    # --- Setor 1: Nome e imagem ---
+    # Nome do item no topo do setor 1
+    texto_nome = Fonte40.render(item['nome'], True, (255, 255, 255))
+    texto_w, texto_h = texto_nome.get_size()
+    texto_x = x + (w - texto_w) // 2
+    texto_y = setor1_y + 10  # Margem superior de 10 pixels
+    tela.blit(texto_nome, (texto_x, texto_y))
+
+    # Imagem do item centralizada no restante do setor 1
+    imagem = ImagensItens.get(item['nome'])
+    if imagem:
+        img_w, img_h = imagem.get_size()
+        # Calculando área restante abaixo do nome
+        area_disponivel_altura = setor1_altura - texto_h - 20  # Margem superior e inferior de 10px
+        escala = min((w * 0.5) / img_w, (area_disponivel_altura * 0.5) / img_h)  # Ajuste de escala menor (60% da área)
+        nova_largura = int(img_w * escala)
+        nova_altura = int(img_h * escala)
+        imagem_redimensionada = pygame.transform.scale(imagem, (nova_largura, nova_altura))
+        img_x = x + (w - nova_largura) // 2
+        img_y = texto_y + texto_h + ((area_disponivel_altura - nova_altura) // 2) + 10
+        tela.blit(imagem_redimensionada, (img_x, img_y))
+    
+    # --- Setor 2: Classe centralizado, Raridade à direita ---
+
+    # Classe centralizado
+    classe_titulo = Fonte25.render("Classe:", True, (255, 255, 255))
+    classe_valor = Fonte28.render(str(item['classe']), True, (255, 255, 255))
+    classe_total_altura = classe_titulo.get_height() + 5 + classe_valor.get_height()
+    classe_x = x + (w - classe_titulo.get_width()) // 2
+    classe_y_titulo = setor2_y + (setor2_altura - classe_total_altura) // 2
+    classe_y_valor = classe_y_titulo + classe_titulo.get_height() + 5
+    tela.blit(classe_titulo, (classe_x, classe_y_titulo))
+    tela.blit(classe_valor, (x + (w - classe_valor.get_width()) // 2, classe_y_valor))
+
+   # Raridade à direita, centralizado entre titulo e valor
+    raridade_titulo = Fonte25.render("Raridade:", True, (255, 255, 255))
+    raridade_valor = Fonte28.render(str(item['raridade']), True, (255, 255, 255))
+
+    # Usamos a largura máxima dos dois textos
+    largura_max = max(raridade_titulo.get_width(), raridade_valor.get_width())
+
+    # Calculando as posições para que ambos fiquem centralizados em relação a essa largura
+    raridade_x_centro = x + w - largura_max // 2 - 20
+
+    # Corrigindo o X dos textos individualmente
+    raridade_titulo_x = raridade_x_centro - raridade_titulo.get_width() // 2
+    raridade_valor_x = raridade_x_centro - raridade_valor.get_width() // 2
+
+    # Posicionamento vertical centralizado no setor
+    raridade_total_altura = raridade_titulo.get_height() + 5 + raridade_valor.get_height()
+    raridade_y_titulo = setor2_y + (setor2_altura - raridade_total_altura) // 2
+    raridade_y_valor = raridade_y_titulo + raridade_titulo.get_height() + 5
+
+    # Desenhando
+    tela.blit(raridade_titulo, (raridade_titulo_x, raridade_y_titulo))
+    tela.blit(raridade_valor, (raridade_valor_x, raridade_y_valor))
+
+        # Quantidade à esquerda, centralizado entre titulo e valor
+    quantidade_titulo = Fonte25.render("Quantidade:", True, (255, 255, 255))
+    quantidade_valor = Fonte28.render(str(item['quantidade']), True, (255, 255, 255))
+
+    # Usamos a largura máxima dos dois textos
+    quantidade_largura_max = max(quantidade_titulo.get_width(), quantidade_valor.get_width())
+
+    # Calculando as posições para que ambos fiquem centralizados em relação a essa largura
+    quantidade_x_centro = x + quantidade_largura_max // 2 + 20
+
+    # Corrigindo o X dos textos individualmente
+    quantidade_titulo_x = quantidade_x_centro - quantidade_titulo.get_width() // 2
+    quantidade_valor_x = quantidade_x_centro - quantidade_valor.get_width() // 2
+
+    # Posicionamento vertical centralizado no setor
+    quantidade_total_altura = quantidade_titulo.get_height() + 5 + quantidade_valor.get_height()
+    quantidade_y_titulo = setor2_y + (setor2_altura - quantidade_total_altura) // 2
+    quantidade_y_valor = quantidade_y_titulo + quantidade_titulo.get_height() + 5
+
+    # Desenhando
+    tela.blit(quantidade_titulo, (quantidade_titulo_x, quantidade_y_titulo))
+    tela.blit(quantidade_valor, (quantidade_valor_x, quantidade_y_valor))
+
+    descricao_texto = item.get('DescriçãoMaior', '')
+
+    # Função auxiliar para quebrar o texto em linhas que caibam na largura do setor
+    def quebrar_texto(texto, fonte, largura_max):
+        palavras = texto.split(' ')
+        linhas = []
+        linha_atual = ''
+        for palavra in palavras:
+            teste_linha = linha_atual + (' ' if linha_atual != '' else '') + palavra
+            if fonte.size(teste_linha)[0] <= largura_max:
+                linha_atual = teste_linha
+            else:
+                if linha_atual != '':
+                    linhas.append(linha_atual)
+                linha_atual = palavra
+        if linha_atual:
+            linhas.append(linha_atual)
+        return linhas
+
+    # Preparando linhas
+    largura_texto = w - 40  # Margem lateral de 20px em cada lado
+    linhas_descricao = quebrar_texto(descricao_texto, Fonte23, largura_texto)
+
+    # Calculando altura total das linhas renderizadas
+    altura_total_texto = len(linhas_descricao) * (Fonte23.get_height() + 5)
+
+    # Começo Y centralizado no setor 3
+    descricao_y_inicial = setor3_y + (setor3_altura - altura_total_texto) // 2
+
+    # Renderizando linha por linha
+    for i, linha in enumerate(linhas_descricao):
+        linha_render = Fonte23.render(linha, True, (220, 220, 220))
+        linha_x = x + (w - linha_render.get_width()) // 2
+        linha_y = descricao_y_inicial + i * (Fonte23.get_height() + 5)
+        tela.blit(linha_render, (linha_x, linha_y))

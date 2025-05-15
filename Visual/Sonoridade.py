@@ -10,8 +10,10 @@ Sons = {
     "Bloq": lambda: pygame.mixer.Sound("Audio/Sons/Bloq.wav"),
     "Falhou": lambda: pygame.mixer.Sound("Audio/Sons/Falhou.wav"),
     "Energia": lambda: pygame.mixer.Sound("Audio/Sons/Energia.wav"),
-    "Roletar": lambda: pygame.mixer.Sound("Audio/Sons/Roletar.wav")
+    "Roletar": lambda: pygame.mixer.Sound("Audio/Sons/Roletar.wav"),
+    "Encaixe": lambda: pygame.mixer.Sound("Audio/Sons/Encaixe.wav"),
 }
+
 
 def tocar(som):
     audio = Sons[som]()

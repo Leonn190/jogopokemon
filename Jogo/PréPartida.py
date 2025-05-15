@@ -13,6 +13,13 @@ clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 Compra = pygame.mixer.Sound("Audio/Sons/Compra.wav")
 Escolha = pygame.mixer.Sound("Audio/Sons/EscolhaPoke.wav")
 
+Poke1_p1 = None
+Poke2_p1 = None
+Poke3_p1 = None
+Poke1_p2 = None
+Poke2_p2 = None
+Poke3_p2 = None
+
 estado1 = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
@@ -35,8 +42,6 @@ def TelaPréPartida(tela,eventos,estados):
     GV.Texto(tela, "Jogador 2", (1320, 50), Fonte70, PRETO)
     GV.Texto(tela, "Escreva seu Nome:", (190, 485), Fonte40, PRETO)
     GV.Texto(tela, "Escreva seu Nome:", (1170, 485), Fonte40, PRETO)
-    GV.Texto(tela, "Faça 3 compras na loja", (325, 665), Fonte40, PRETO)
-    GV.Texto(tela, "Faça 3 compras na loja", (1285, 665), Fonte40, PRETO)
     GV.Reta_Central(tela, 1920, 1080, PRETO, 4)
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
@@ -109,22 +114,8 @@ def TelaPréPartida(tela,eventos,estados):
     funcao_esquerdo=lambda:A.Pokemon_inicial("BulbasaurP2"), funcao_direito=None, 
     desfazer_esquerdo=lambda:A.Remover_inicial("BulbasaurP2"), desfazer_direito=None,
     tecla_esquerda=pygame.K_7, tecla_direita=None,som=Escolha)
-    
-    #itensp1
-    GV.Botao(tela, "", (250, 700, 200, 200), CINZA, PRETO, DOURADO,
-                 lambda: A.Loja_I(B4["ID"]), Fonte50, B4, 4, None, True, eventos,)
 
-    #pokep1
-    GV.Botao(tela, "", (510, 700, 200, 200), CINZA, PRETO, DOURADO,
-                 lambda: A.Loja_I(B3["ID"]), Fonte50, B3, 4, None, True, eventos,)
 
-    #itensp2
-    GV.Botao(tela, "", (1210, 700, 200, 200), CINZA, PRETO, DOURADO,    
-                 lambda: A.Loja_I(B5["ID"]), Fonte50, B5, 4, None, True, eventos,)
-
-    #pokep2
-    GV.Botao(tela, "", (1470, 700, 200, 200), CINZA, PRETO, DOURADO,
-                 lambda: A.Loja_I(B6["ID"]), Fonte50, B6, 4, None, True, eventos,)        
 
     GV.Botao(tela, "Iniciar Partida", (770, 880, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
                  lambda: A.Iniciar_partida(estados), Fonte70, B7, 4, None, True, eventos, clique)
@@ -145,8 +136,6 @@ def PréPartida(tela,estados,relogio):
     bulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (235,235),"PNG")
     charmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (235,235),"PNG")
     squirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (235,235),"PNG")
-    Loja_pokebolas = GV.Carregar_Imagem("imagens/icones/itens.png", (180,180),"PNG")
-    Loja_itens = GV.Carregar_Imagem("imagens/icones/poke.png", (180,180),"PNG")
 
     while estados["Rodando_PréPartida"]:
         tela.blit(Fundo_pré, (0, 0))
@@ -164,11 +153,6 @@ def PréPartida(tela,estados,relogio):
         tela.blit(bulbasaurIMG, (1060, 150))
         tela.blit(charmanderIMG, (1335, 150))
         tela.blit(squirtleIMG, (1610, 150))
-        
-        tela.blit(Loja_itens, (260, 710))
-        tela.blit(Loja_pokebolas, (520, 710))
-        tela.blit(Loja_itens, (1220, 710))
-        tela.blit(Loja_pokebolas, (1480, 710))
 
         texto1, selecionado1 = GV.Barra_De_Texto(
     tela, (500, 480, 300, 40), Fonte30, 
@@ -178,7 +162,7 @@ def PréPartida(tela,estados,relogio):
         texto2, selecionado2 = GV.Barra_De_Texto(
     tela, (1470, 480, 300, 40), Fonte30, 
     CINZA, PRETO, PRETO, eventos, texto2,
-    A.Nome_p2, AZUL,selecionado2)
+    A.Nome_p2, AZUL, selecionado2)
 
         pygame.display.update()
         relogio.tick(60)

@@ -608,10 +608,3 @@ def tooltip(area, local, texto, titulo, fonte_texto, fonte_titulo, tela):
 
     # Blita no local especificado
     tela.blit(fundo, local_rect.topleft)
-
-
-
-
-    
-
-

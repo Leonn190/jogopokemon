@@ -18,7 +18,7 @@ try:
     ctypes.windll.user32.SetProcessDPIAware()
 except:
     pass
- 
+
 pygame.init()
 pygame.mixer.init()
 
@@ -33,7 +33,7 @@ import Menu
 import PréPartida
 import Partida
 import Final
-import Decks
+import SetorDecks
 
 relogio = pygame.time.Clock()
 
@@ -51,7 +51,7 @@ while estados["Rodando_Jogo"]:
     if estados["Rodando_Menu"]:
         Menu.Menu(tela,estados,relogio)
     elif estados["Rodando_Decks"]:
-        Decks.Decks(tela,estados,relogio)
+        SetorDecks.Decks(tela,estados,relogio)
     elif estados["Rodando_PréPartida"]:
         PréPartida.PréPartida(tela,estados,relogio)
     elif estados["Rodando_Partida"]:

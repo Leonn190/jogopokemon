@@ -45,7 +45,9 @@ PokeGifs = {}
 TiposEnergiaIMG = {}
 ImagensPokemonIcons = {}
 ImagensPokemonCentro = {}
+IconesDeckIMG= {}
 ImagensItens = {}
+
 OutrosIMG = []
 FundosIMG = []
 EfeitosIMG = {}
@@ -948,7 +950,7 @@ def Inicia(tela):
     LojaEstTreP = Mapa.pLojaT
 
     ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG = Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG)
-    ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG = Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG)
+    ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,IconesDeckIMG = Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,IconesDeckIMG)
     Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
@@ -1257,8 +1259,6 @@ def TelaOpções(tela,eventos,estados):
     GV.tooltip((70, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja os pokemons que podem ser capturados", f"Centro",Fonte25,Fonte35,tela)
     GV.tooltip((0, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja suas energias e seus itens, podendo usa-los", f"Inventário",Fonte25,Fonte35,tela)
 
-
-
 def TelaOutros(tela,eventos,estados):
     global LojaItensP
     global LojaPokeP
@@ -1306,4 +1306,6 @@ def TelaTabuleiro(tela, eventos, estados):
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
     M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte23, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  
- 
+
+def VerificaVitória(estados):
+    pass

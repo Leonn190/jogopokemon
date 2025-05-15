@@ -3,19 +3,22 @@ import os
 import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
-from Infos import PokemonInfo
+from Infos import PokemonInfo, ItemInfo
 from Visual.Arrastaveis import Arrastavel
 from Visual.Imagens import Carregar_Imagens2
-from Geradores.GeradorOutros import Amplificadores_Todos,Frutas_Todas,Pokebolas_Todas,Poçoes_Todas,Estadios_Todos,Outros_Todos,Pokemons_Todos
+from Geradores.GeradorOutros import Amplificadores_Todos,Frutas_Todas,Pokebolas_Todas,Poçoes_Todas,Estadios_Todos,Outros_Todos,Pokemons_Todos,Treinadores_Todos
 from Visual.Sonoridade import tocar
 from Visual.GeradoresVisuais import (
-    Fonte15, Fonte20, Fonte25, Fonte30, Fonte40, Fonte50, Fonte70,
+    Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA, cores_raridade, energia_cores)
 
 pygame.init()
 pygame.mixer.init()
+
+selecionadoTXT = False
+TextoBara = ""
 
 Baralho_atual_pokemons = None
 Baralho_atual_itens = None
@@ -31,6 +34,8 @@ ArrastaveisEditor = []
 listaPokemon = Pokemons_Todos[1:]
 listaItens = Amplificadores_Todos + Frutas_Todas + Pokebolas_Todas + Poçoes_Todas + Estadios_Todos + Outros_Todos
 listaEnergias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
+listaTreinadores = Treinadores_Todos
+listaicones = ["icone1","icone2","icone3","icone4","icone5","icone6","icone7","icone8"]
 
 DeckSelecionado = None
 Abrir = None
@@ -38,12 +43,14 @@ ListaDecks = []
 EditorSelecionado = None
 EditorSelecionado_atual = None
 PokemonSelecionado = None
+ItemSelecionado = None
 
 Aviso_Apagar = False
 
 ImagensPokemon = {}
 ImagensItens = {}
-TiposEnergiaIMG ={}
+TiposEnergiaIMG = {}
+IconesDeckIMG = {}
 
 Areas_pokemon = []
 Areas_itens = []
@@ -60,11 +67,16 @@ ListaFormas = []
 #Botao generico
 BG = {"estado": False}
 
+def TrocaTexto(t):
+    global selecionadoTXT, DeckSelecionado
+    selecionadoTXT = False
+    DeckSelecionado["nome"] = t
+
 def Trocar(Idx1,Idx2,categoria):
     DeckSelecionado[categoria][Idx1],DeckSelecionado[categoria][Idx2] = DeckSelecionado[categoria][Idx2],DeckSelecionado[categoria][Idx1]
 
 def Executar(pos,dados,categoria,interno):    
-    
+
     if categoria == "pokemons":
         if interno == True:
             for i,area in enumerate(Areas_pokemon):
@@ -94,6 +106,22 @@ def Executar(pos,dados,categoria,interno):
                  if area.collidepoint(pos):
                      DeckSelecionado[categoria][i] = dados
                      break
+                 
+    if categoria == "energiasD":
+        if interno == True:
+            for i,area in enumerate(Areas_Energias):
+                if area.collidepoint(pos):
+                    Trocar(DeckSelecionado[categoria].index(dados),i,categoria)
+                    break
+            if AreaEditor.collidepoint(pos):
+                DeckSelecionado[categoria][DeckSelecionado[categoria].index(dados)] = None
+        
+        if interno == False:
+            for i,area in enumerate(Areas_Energias):
+                 if area.collidepoint(pos):
+                     DeckSelecionado[categoria][i] = dados
+                     break
+                 
     return False
 
 def salvar_dicionario_em_py(dicionario, nome_arquivo, pasta_destino):
@@ -128,8 +156,7 @@ def desselecionaDeck():
     global DeckSelecionado
     DeckSelecionado = None
 
-def carregar_decks(pasta):
-    global ListaDecks
+def carregar_decks(pasta,ListaDecks):
     ListaDecks.clear()
 
     for nome_arquivo in os.listdir(pasta):
@@ -150,6 +177,8 @@ def carregar_decks(pasta):
     
     for i,deck in enumerate(ListaDecks):
         deck["ID"] = f"Deck{i + 1}"
+    
+    return ListaDecks
 
 def MudaForma(sentido):
     global EvoPokemon
@@ -158,12 +187,13 @@ def MudaForma(sentido):
     else:
         EvoPokemon -= 1
 
-def desenhaBaralho(tela, Baralho):
+def desenhaBaralho(tela, Baralho, eventos):
     global Arrastaveis, Baralho_atual_pokemons, Baralho_atual_itens, Baralho_atual_energias
     global Areas_pokemon, Areas_itens, Areas_Energias, Criou_Areas_pokemon, Criou_Areas_itens, Criou_Areas_energia
+    global selecionadoTXT, TextoBara
 
     x_inicial = 120
-    y_inicial = 75
+    y_inicial = 90
     largura = 1680
     altura = 320
     largura_extra = 280  # Largura da extensão
@@ -191,6 +221,28 @@ def desenhaBaralho(tela, Baralho):
     ]
     pygame.draw.polygon(tela, cor_borda, pontos, width=5)
 
+    # === Extensão canto superior esquerdo para o ícone do baralho ===
+    largura_icon = 80
+    altura_icon = 80
+    x_icon = x_inicial - largura_icon + 80  # Fica à esquerda da área do deck
+    y_icon = y_inicial - altura_icon        # Fica acima da área do deck
+
+    # Fundo da área do ícone
+    pygame.draw.rect(tela, cor_fundo2, (x_icon, y_icon, largura_icon, altura_icon))
+
+    # Borda ao redor da área do ícone
+    pygame.draw.rect(tela, cor_borda, (x_icon, y_icon, largura_icon, altura_icon), width=4)
+
+    # --- Desenha o ícone dentro da área ---
+    icone_img = IconesDeckIMG[Baralho["icone"]]
+    icone_redimensionado = pygame.transform.smoothscale(icone_img, (75, 75))
+
+    # Calcula a posição centralizada dentro do quadrado 80x80
+    icone_x = x_icon + (largura_icon - 75) // 2
+    icone_y = y_icon + (altura_icon - 75) // 2
+
+    tela.blit(icone_redimensionado, (icone_x, icone_y))
+
     # === Linhas internas ===
     # Linha vertical separando canto direito (280px)
     x_divisao = x_inicial + largura - largura_extra
@@ -213,24 +265,70 @@ def desenhaBaralho(tela, Baralho):
     linha_esquerda_y = y_inicial + 40
     pygame.draw.line(tela, cor_linha, (x_inicial, linha_esquerda_y), (x_divisao, linha_esquerda_y), width=4)
 
+    # Área da faixa inferior do setor direito
+    faixa_y_inicial = y_inicial
+    faixa_y_final = y_linha_inferior + 287
+    faixa_altura = faixa_y_final - faixa_y_inicial
+
+    # Texto da faixa
+    texto_faixa = "Prédefinições de descarte"
+    superficie_texto_faixa = Fonte20.render(texto_faixa, True, (255, 255, 255))
+    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(
+        x_divisao + largura_extra // 2,
+        faixa_y_inicial + faixa_altura // 2
+    ))
+
+    tela.blit(superficie_texto_faixa, rect_texto_faixa)
+
+    # Área da faixa superior do setor direito
+    faixa_y_inicial = y_inicial
+    faixa_y_final = y_linha_inferior - 207
+    faixa_altura = faixa_y_final - faixa_y_inicial
+
+    # Texto da faixa
+    texto_faixa = "Treinador"
+    superficie_texto_faixa = Fonte40.render(texto_faixa, True, (255, 255, 255))
+    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(
+        x_divisao + largura_extra // 2,
+        faixa_y_inicial + faixa_altura // 2
+    ))
+
+    tela.blit(superficie_texto_faixa, rect_texto_faixa)
+
     # Nova linha vertical dentro do setor esquerdo dividindo em 60% / 40%
     largura_esquerda = x_divisao - x_inicial
     x_linha_interna_esquerda = x_inicial + int(largura_esquerda * 0.6)
     pygame.draw.line(tela, cor_linha, (x_linha_interna_esquerda, y_inicial), (x_linha_interna_esquerda, y_inicial + altura), width=4)
 
-    texto = Baralho["nome"]
-    cor_texto = (255, 255, 255)
+        # Calcula a área da extensão superior direita
+    barra_x = x_inicial + largura - largura_extra - 52
+    barra_y = y_inicial - altura_extra
+    barra_largura = largura_extra + 52
+    barra_altura = altura_extra
 
-    superficie_texto = Fonte50.render(texto, True, cor_texto)
+    # Usa a área exata da extensão como área da barra de texto
+    if Abrir is not None:
+        TextoBara, selecionadoTXT = GV.Barra_De_Texto(
+            tela, (barra_x, barra_y, barra_largura, barra_altura),
+            Fonte50, 
+            (50,50,50), PRETO, BRANCO, eventos, TextoBara,
+            TrocaTexto, AZUL, selecionadoTXT
+        )
 
-    rect_texto = superficie_texto.get_rect()
-    rect_texto.center = (
-        x_inicial + largura - ((largura_extra + 52) / 2),
-        y_inicial - (altura_extra / 2)
-    )
+    if selecionadoTXT == False:
+        texto = Baralho["nome"]
+        cor_texto = (255, 255, 255)
 
-    # Desenha o texto
-    tela.blit(superficie_texto, rect_texto)
+        superficie_texto = Fonte50.render(texto, True, cor_texto)
+
+        rect_texto = superficie_texto.get_rect()
+        rect_texto.center = (
+            x_inicial + largura - ((largura_extra + 52) / 2),
+            y_inicial - (altura_extra / 2)
+        )
+
+        # Desenha o texto
+        tela.blit(superficie_texto, rect_texto)
 
         # Cabeçalho da área de Pokémons (60%)
     area_pokemons_cabecalho_x = x_inicial
@@ -415,7 +513,7 @@ def desenhaBaralho(tela, Baralho):
 
             # Parâmetros dos círculos
     espacamento = 26
-    diametro = 35  # Já calculado anteriormente
+    diametro = 38  # Já calculado anteriormente
     raio = diametro // 2
 
     # Coordenadas iniciais do espaço onde desenharemos os círculos (canto inferior direito)
@@ -460,17 +558,17 @@ def desenhaBaralho(tela, Baralho):
             if energia and energia in energia_cores:
                 cor = energia_cores[energia]
                 pygame.draw.circle(tela, cor, (x_centro, y_circulos_inicial), raio)
-            
+
             # Desenha a posição do círculo (D1, D2, D3, D4) acima do círculo
             texto_posicao = f"D{i+1}"
-            texto_renderizado = Fonte25.render(texto_posicao, True, (0, 0, 0))  # Cor preta
+            texto_renderizado = Fonte25.render(texto_posicao, True, (255,255,255))  # Cor branca
             
             # Posição do texto acima do círculo
             texto_x = x_centro - texto_renderizado.get_width() // 2  # Centraliza o texto em relação ao círculo
             texto_y = y_circulos_inicial - raio + 12  # Posição acima do círculo
 
             tela.blit(texto_renderizado, (texto_x, texto_y))
-
+    
 def desenhaBotoesEditor(tela, eventos):    
 
     largura = 980
@@ -504,22 +602,46 @@ def desenhaBotoesEditor(tela, eventos):
                 Fonte50, BG, 2, None, True, eventos
             )
     
-    if PokemonSelecionado is not None:
-        if EvoPokemon < EvoPokemonLim:
+        if PokemonSelecionado is not None:
+            if EvoPokemon < EvoPokemonLim:
+                GV.Botao(
+                        tela, "", (355, 547, 40, 30), PRETO, PRETO, PRETO,
+                        lambda : MudaForma(True),
+                        Fonte50, BG, 2, None, True, eventos
+                    ) 
+            if EvoPokemon != 0:
+                GV.Botao(
+                        tela, "", (75, 547, 40, 30), PRETO, PRETO, PRETO,
+                        lambda: MudaForma(False),
+                        Fonte50, BG, 2, None, True, eventos
+                    )
+    
+    if EditorSelecionado == listaItens:
+        linhas = 5
+        colunas = 10
+        espacamento = 16
+
+        largura_disponivel = largura - (espacamento * (colunas + 1))
+        altura_disponivel = altura - (espacamento * (linhas + 1))
+        lado_slot = min(largura_disponivel // colunas, altura_disponivel // linhas)
+
+        for i in range(min(len(listaItens), linhas * colunas)):
+            linha = i // colunas
+            coluna = i % colunas
+
+            x_slot = x + espacamento + coluna * (lado_slot + espacamento) + 2
+            y_slot = y + espacamento + linha * (lado_slot + espacamento)
+
+            item = listaItens[i]
+
             GV.Botao(
-                    tela, "", (355, 547, 40, 30), PRETO, PRETO, PRETO,
-                    lambda : MudaForma(True),
-                    Fonte50, BG, 2, None, True, eventos
-                ) 
-        if EvoPokemon != 0:
-            GV.Botao(
-                    tela, "", (75, 547, 40, 30), PRETO, PRETO, PRETO,
-                    lambda: MudaForma(False),
-                    Fonte50, BG, 2, None, True, eventos
-                ) 
+                tela, "", (x_slot, y_slot, lado_slot, lado_slot), PRETO, PRETO, PRETO,
+                lambda i=item: SelecionaItem(i),
+                Fonte50, BG, 2, None, True, eventos
+            )
 
 def desenhaEditor(tela, eventos):
-    global EditorSelecionado, listaPokemon, Lista_atual_pokemons, ArrastaveisEditor, Lista_atual_itens
+    global EditorSelecionado, listaPokemon, Lista_atual_pokemons, ArrastaveisEditor, Lista_atual_itens, Lista_atual_energias
 
     desenhaBotoesEditor(tela, eventos)
 
@@ -651,12 +773,81 @@ def desenhaEditor(tela, eventos):
 
     if EditorSelecionado == listaEnergias:
         if Lista_atual_energias != listaEnergias:
-            pass
+            Lista_atual_energias = list(listaEnergias)  # Copia simples
+            ArrastaveisEditor.clear()
+
+            colunas = 7
+            espacamento = 60
+
+            largura_disponivel = largura - (espacamento * (colunas + 1))
+            lado_slot = largura_disponivel // colunas  # Será quadrado, mas usaremos para o círculo dentro
+
+            y_slot = y + espacamento + 2  # Linha única fixa
+
+            for i in range(min(len(listaEnergias), colunas)):
+                energia = listaEnergias[i]
+
+                x_slot = x + espacamento + i * (lado_slot + espacamento)
+
+                if energia and energia in energia_cores:
+                    cor = energia_cores[energia]
+
+                    # Cria uma superfície transparente para o círculo
+                    superficie_circulo = pygame.Surface((lado_slot, lado_slot), pygame.SRCALPHA)
+                    pygame.draw.circle(
+                        superficie_circulo,
+                        cor,
+                        (lado_slot // 2, lado_slot // 2),
+                        lado_slot // 2
+                    )
+
+                    # Cria o arrastável no mesmo padrão, categoria "energias"
+                    arrastavel = Arrastavel(superficie_circulo, (x_slot, y_slot), energia, "energiasD", False, Executar)
+                    ArrastaveisEditor.append(arrastavel)
     
-    
+    if EditorSelecionado == listaicones:
+        colunas = 4
+        linhas = 2
+        espacamento = 60
+
+        largura_disponivel = largura - (espacamento * (colunas + 1))
+        lado_slot = largura_disponivel // colunas  # Quadrado dos botões
+
+        for i, icone in enumerate(listaicones):
+            linha = i // colunas
+            coluna = i % colunas
+
+            x_slot = x + espacamento + coluna * (lado_slot + espacamento)
+            y_slot = y + espacamento + linha * (lado_slot + espacamento)
+
+            # --- Desenha o botão ---
+            GV.Botao(
+                tela, "", (x_slot, y_slot, lado_slot, lado_slot), PRETO, PRETO, PRETO,
+                lambda icone=icone: selecionaIcone(icone),
+                Fonte50, BG, 2, None, True, eventos
+            )
+
+            # --- Desenha o ícone centralizado dentro do botão ---
+            if icone in IconesDeckIMG:
+                imagem_icone = IconesDeckIMG[icone]
+                # Redimensiona para caber dentro do slot com leve margem
+                margem = 10
+                tamanho_icone = lado_slot - 2 * margem
+                imagem_redimensionada = pygame.transform.smoothscale(imagem_icone, (tamanho_icone, tamanho_icone))
+
+                # Calcula posição centralizada dentro do botão
+                icone_x = x_slot + margem
+                icone_y = y_slot + margem
+
+                tela.blit(imagem_redimensionada, (icone_x, icone_y))
+
     if EditorSelecionado == listaPokemon:
         if PokemonSelecionado is not None:
-            PokemonInfo((45,450,380,560),tela,PokemonSelecionado,EvoPokemon,EvoPokemonLim,ListaFormas, eventos, TiposEnergiaIMG)
+            PokemonInfo((45,450),tela,PokemonSelecionado,EvoPokemon,EvoPokemonLim,ListaFormas, eventos, TiposEnergiaIMG)
+    
+    if EditorSelecionado == listaItens:
+        if ItemSelecionado is not None:
+            ItemInfo((45,450),tela,ItemSelecionado,ImagensItens)
 
 def Abre(Editar):
     global Abrir, DeckSelecionado
@@ -666,7 +857,8 @@ def Abre(Editar):
                 "pokemons": [None] * 12,
                 "itens": [None] * 18,
                 "energiasD": [None] * 4,
-                "ID":f"Deck{len(ListaDecks) + 1}"
+                "ID":f"Deck{len(ListaDecks) + 1}",
+                "icone": "icone5"
             }
         DeckSelecionado = NovoDeck
     Abrir = DeckSelecionado
@@ -739,6 +931,14 @@ def SelecionaPokemon(pokemon):
 
     EvoPokemonLim = len(ListaFormas) - 1
 
+def SelecionaItem(item):
+    global ItemSelecionado
+    ItemSelecionado = item
+
+def selecionaIcone(icone):
+    global DeckSelecionado
+    DeckSelecionado["icone"] = icone
+
 estadoDecks = {"selecionado_esquerdo": None}
 estadoEditor = {"selecionado_esquerdo": None}
 
@@ -760,14 +960,10 @@ def TelaDecks(tela,eventos,estados):
     largura_ocupada = (largura_botao * 8) + (espaçamento * 7)
     
     for i, deck in enumerate(ListaDecks):
-        # Cálculo da posição x para o botão
-        linha = i // 8  # Determine em qual linha o botão estará
-        coluna = i % 8  # Determine em qual coluna o botão estará
+        linha = i // 8
+        coluna = i % 8
 
-        # Calcula a posição horizontal para o botão (de acordo com a coluna)
         pos_x = (coluna * (largura_botao + espaçamento)) + (largura_tela - largura_ocupada) // 2
-        
-        # Calcula a posição vertical para o botão (de acordo com a linha)
         pos_y = altura_inicial + (linha * (altura_botao + espaçamento_linhas))
 
         # Criação do botão
@@ -792,6 +988,11 @@ def TelaDecks(tela,eventos,estados):
             tecla_direita=None
         )
 
+        # --- Texto no topo do botão ---
+        texto_surface = Fonte28.render(deck["nome"], True, PRETO)
+        texto_rect = texto_surface.get_rect(center=(pos_x + largura_botao // 2, pos_y + texto_surface.get_height() // 2 + 5))
+        tela.blit(texto_surface, texto_rect)
+
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
     
@@ -804,7 +1005,7 @@ def TelaDecks(tela,eventos,estados):
         GV.Botao(tela, "Apagar Baralho", (1310, 450, 500, 80), VERMELHO, PRETO, AZUL,
                     lambda: Quer_Apagar(), Fonte50, B1, 3, None, True, eventos)
         
-        desenhaBaralho(tela, DeckSelecionado)
+        desenhaBaralho(tela, DeckSelecionado, eventos)
 
     else:
         GV.Botao(tela, "Editar Baralho", (710, 450, 500, 80), CINZA, PRETO, AZUL,
@@ -815,11 +1016,10 @@ def TelaDecks(tela,eventos,estados):
 
 def TelaCriador(tela,eventos,estados):
 
-    print (EvoPokemon)
-    desenhaBaralho(tela, DeckSelecionado)
+    desenhaBaralho(tela, DeckSelecionado, eventos)
 
     GV.Botao_Selecao(
-        tela, (120, 75, 843, 40),
+        tela, (120, 90, 842, 40),
         "", Fonte30,
         cor_fundo=None, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
@@ -830,7 +1030,7 @@ def TelaCriador(tela,eventos,estados):
         desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
         tecla_esquerda=None, tecla_direita=None, grossura=2)
     GV.Botao_Selecao(
-        tela, (963, 75, 558, 40),
+        tela, (962, 90, 559, 40),
         "", Fonte30,
         cor_fundo=None, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
@@ -841,18 +1041,18 @@ def TelaCriador(tela,eventos,estados):
         desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
         tecla_esquerda=None, tecla_direita=None, grossura=2)
     GV.Botao_Selecao(
-        tela, (1521, 75, 280, 260),
+        tela, (1521, 90, 280, 40),
         "", Fonte30,
         cor_fundo=None, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
-        cor_passagem=AMARELO, id_botao="Apoiador",   
+        cor_passagem=AMARELO, id_botao="Treinador",   
         estado_global=estadoEditor, eventos=eventos,
-        funcao_esquerdo=lambda: SelecionaEditor(), 
+        funcao_esquerdo=lambda: SelecionaEditor(listaTreinadores), 
         funcao_direito=None,
         desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
         tecla_esquerda=None, tecla_direita=None, grossura=2)
     GV.Botao_Selecao(
-        tela, (1521, 335, 280, 15),
+        tela, (1521, 350, 280, 15),
         "", Fonte30,
         cor_fundo=None, cor_borda_normal=PRETO,
         cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
@@ -862,14 +1062,22 @@ def TelaCriador(tela,eventos,estados):
         funcao_direito=None,
         desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
         tecla_esquerda=None, tecla_direita=None, grossura=2)
+    GV.Botao_Selecao(
+        tela, (120, 10, 80, 80),
+        "", Fonte30,
+        cor_fundo=None, cor_borda_normal=PRETO,
+        cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
+        cor_passagem=AMARELO, id_botao="icones",   
+        estado_global=estadoEditor, eventos=eventos,
+        funcao_esquerdo=lambda: SelecionaEditor(listaicones), 
+        funcao_direito=None,
+        desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
+        tecla_esquerda=None, tecla_direita=None, grossura=2)
 
     desenhaEditor(tela, eventos)
 
     GV.Botao(tela, "Salvar Deck", (1495, 910, 380, 100), AMARELO_CLARO, PRETO, AZUL,
                 lambda: salvar_dicionario_em_py(DeckSelecionado,DeckSelecionado["ID"],"Decks"), Fonte40, B1, 3, None, True, eventos)
-
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
-                lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
 
 def TelaAviso(tela,eventos,estados):
     global DeckSelecionado
@@ -906,7 +1114,7 @@ def TelaAviso(tela,eventos,estados):
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
 
 def IniciaDecks():
-    global DeckSelecionado,Abrir,EditorSelecionado,Aviso_Apagar
+    global DeckSelecionado,Abrir,EditorSelecionado,Aviso_Apagar, ListaDecks
     global Areas_pokemon, Areas_itens, Areas_Energias, Criou_Areas_pokemon, Criou_Areas_itens, Criou_Areas_energia
     global estadoDecks, estadoEditor
 
@@ -925,15 +1133,15 @@ def IniciaDecks():
     Criou_Areas_itens = 0
     Criou_Areas_energia = 0
 
-    carregar_decks("Decks")
+    carregar_decks("Decks",ListaDecks)
 
 def Decks(tela,estados,relogio):
-    global ImagensItens,ImagensPokemon,TiposEnergiaIMG
+    global ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG
     global Baralho_atual_pokemons, Baralho_atual_itens, Lista_atual_pokemons, Lista_atual_itens, Baralho_atual_energias, Lista_atual_energias
     global EditorSelecionado, EditorSelecionado_atual
 
     Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Decks.jpg", (1920,1080))
-    ImagensItens,ImagensPokemon,TiposEnergiaIMG = Carregar_Imagens2(ImagensItens,ImagensPokemon,TiposEnergiaIMG)
+    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG  = Carregar_Imagens2(ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG)
 
     pygame.mixer.music.load('Audio/Musicas/Decks.ogg')  
     pygame.mixer.music.set_volume(0.3)
