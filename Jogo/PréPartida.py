@@ -1,6 +1,9 @@
 import pygame
+import os
+import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+from Visual.Sonoridade import tocar
 from Visual.Imagens import Carregar_Imagens_Pré_Partida
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte23, Fonte30, Fonte40, Fonte50,Fonte70,
@@ -13,6 +16,7 @@ pygame.mixer.init()
 clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 Compra = pygame.mixer.Sound("Audio/Sons/Compra.wav")
 Escolha = pygame.mixer.Sound("Audio/Sons/EscolhaPoke.wav")
+Escolha.set_volume(0.5)
 
 ImagensPokemonInicial = {}
 IconesDeckIMG = {}
@@ -27,6 +31,27 @@ Poke3_p1 = None
 Poke1_p2 = None
 Poke2_p2 = None
 Poke3_p2 = None
+
+def carregar_decks(pasta,ListaDecks):
+    ListaDecks.clear()
+
+    for nome_arquivo in os.listdir(pasta):
+        if nome_arquivo.endswith(".py"):
+            caminho = os.path.join(pasta, nome_arquivo)
+            nome_modulo = nome_arquivo[:-3]
+
+            spec = importlib.util.spec_from_file_location(nome_modulo, caminho)
+            modulo = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(modulo)
+
+            # Procura diretamente no módulo por dicionários
+            for atributo in dir(modulo):
+                valor = getattr(modulo, atributo)  # Aqui ainda usamos getattr para acessar atributos, já que não há outra forma simples
+                if isinstance(valor, dict):
+                    ListaDecks.append(valor)
+                    break
+    
+    return ListaDecks
 
 def VerificaDeck(Deck):
     contagem_raridades = {
@@ -69,13 +94,60 @@ def desselecionaDeck(p):
     else:
         DeckSelecionadoP2 = None
 
-estado1 = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+def VerificaDeck(Deck):
 
-estado2 = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+    if None in Deck["pokemons"]:
+        return 1
+    if None in Deck["itens"]:
+        return 1
+    if Deck["treinador"] == None:
+        return 1
+
+    contagem_raridades = {
+    "Comum": 0,
+    "Incomum": 0,
+    "Raro": 0,
+    "Epico": 0,
+    "Mitico": 0,
+    "Lendario": 0}
+    for pokemon in Deck["pokemons"]:
+        raridade = pokemon.get("raridade", "")
+        if raridade in contagem_raridades:
+            contagem_raridades[raridade] += 1
+    
+    if contagem_raridades["Lendario"] > 2:
+        return 0
+    if contagem_raridades["Mitico"] > 2:
+        return 0
+    
+    for pokemon in Deck["pokemons"][:3]:
+        if pokemon["raridade"] not in ["Comum","Incomum"]:
+            return 0
+    
+    if len(Deck["pokemons"]) != len(set([poke["nome"] for poke in Deck["pokemons"]])):
+        return 0
+    
+    contagem_raridades = {
+    "Comum": 0,
+    "Incomum": 0,
+    "Raro": 0,
+    "Epico": 0,
+    "Mitico": 0,
+    "Lendario": 0}
+    for item in Deck["itens"]:
+        raridade = item.get("raridade", "")
+        if raridade in contagem_raridades:
+            contagem_raridades[raridade] += 1
+    
+    if contagem_raridades["Lendario"] > 3:
+        return 0
+    if contagem_raridades["Mitico"] > 3:
+        return 0
+    
+    return 2
+
+estado1 = {"selecionado_esquerdo": None,}
+estado2 = {"selecionado_esquerdo": None,}
 
 estadoDecksP1 = {"selecionado_direito": None}
 estadoDecksP2 = {"selecionado_direito": None}
@@ -119,8 +191,8 @@ def TelaPréPartida(tela,eventos,estados):
                 cor_borda_esquerda=AMARELO, cor_borda_direita=None,
                 cor_passagem=AMARELO, id_botao=pokemon["nome"] + "P1",   
                 estado_global=estado1, eventos=eventos,
-                funcao_esquerdo=lambda poke=pokemon: A.Pokemon_inicial(poke + "P1"), funcao_direito=None,
-                desfazer_esquerdo=lambda poke=pokemon: A.Remover_inicial(poke + "P1"), desfazer_direito=None,
+                funcao_esquerdo=lambda poke=pokemon: A.Pokemon_inicial(poke,DeckSelecionadoP1,1), funcao_direito=None,
+                desfazer_esquerdo=lambda poke=pokemon: A.Remover_inicial(3), desfazer_direito=None,
                 tecla_esquerda=[pygame.K_1, pygame.K_2, pygame.K_3][i],
                 tecla_direita=None, som=Escolha
             )
@@ -149,8 +221,8 @@ def TelaPréPartida(tela,eventos,estados):
                 cor_borda_esquerda=AMARELO, cor_borda_direita=None,
                 cor_passagem=AMARELO, id_botao=pokemon["nome"] + "P2",   
                 estado_global=estado2, eventos=eventos,
-                funcao_esquerdo=lambda poke=pokemon: A.Pokemon_inicial(poke + "P2"), funcao_direito=None,
-                desfazer_esquerdo=lambda poke=pokemon: A.Remover_inicial(poke + "P2"), desfazer_direito=None,
+                funcao_esquerdo=lambda poke=pokemon: A.Pokemon_inicial(poke,DeckSelecionadoP2,2), funcao_direito=None,
+                desfazer_esquerdo=lambda poke=pokemon: A.Remover_inicial(3), desfazer_direito=None,
                 tecla_esquerda=[pygame.K_7, pygame.K_8, pygame.K_9][i],
                 tecla_direita=None, som=Escolha
             )
@@ -171,7 +243,14 @@ def TelaPréPartida(tela,eventos,estados):
 
     def desenhar_decks_lado(lista_decks, offset_x, estado, player):
         largura_ocupada = (largura_botao * 5) + (espaçamento * 4)
-        for i, deck in enumerate(lista_decks):
+
+        DecksPermitidos = []
+        for deck in lista_decks:
+            Permitido = VerificaDeck(deck)
+            if Permitido == 2:
+                DecksPermitidos.append(deck)
+
+        for i, deck in enumerate(DecksPermitidos):
             
             # Caso especial: deck 16 (índice 15), queremos centralizar na linha 4, posição 3 (coluna 2)
             if len(lista_decks) == 16 and i == 15:
@@ -223,12 +302,22 @@ def TelaPréPartida(tela,eventos,estados):
     # --- Desenha decks do lado direito (Player 2)
     desenhar_decks_lado(ListaDecks, largura_meia_tela, estadoDecksP2, 2)
 
-
-    GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
-                 lambda: A.Iniciar_partida(estados), Fonte70, B3, 4, None, True, eventos, clique)
+    if DeckSelecionadoP1 is None or DeckSelecionadoP2 is None:
+        GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), CINZA, PRETO, DOURADO,
+                    lambda: tocar("Bloq"), Fonte70, B3, 4, None, True, eventos)
+    else:
+        GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
+                    lambda: A.Iniciar_partida(estados), Fonte70, B3, 4, None, True, eventos, clique)
 
 def PréPartida(tela,estados,relogio):
     global ListaDecks, ImagensPokemonInicial, IconesDeckIMG
+    global estado1, estado2, estadoDecksP1, estadoDecksP2
+
+    estado1 = {"selecionado_esquerdo": None,}
+    estado2 = {"selecionado_esquerdo": None,}
+
+    estadoDecksP1 = {"selecionado_direito": None}
+    estadoDecksP2 = {"selecionado_direito": None}
 
     # itens para deixar as barras de texto funcionais
     texto1 = ""
@@ -243,7 +332,7 @@ def PréPartida(tela,estados,relogio):
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
 
-    ListaDecks = A.carregar_decks("Decks",ListaDecks)
+    ListaDecks = carregar_decks("Decks",ListaDecks)
 
     ImagensPokemonInicial,IconesDeckIMG = Carregar_Imagens_Pré_Partida(ImagensPokemonInicial,IconesDeckIMG)
 
@@ -256,7 +345,6 @@ def PréPartida(tela,estados,relogio):
                 estados["Rodando_Jogo"] = False
 
         TelaPréPartida(tela,eventos,estados)
-
 
         texto1, selecionado1 = GV.Barra_De_Texto(
     tela, (500, 450, 300, 40), Fonte30, 

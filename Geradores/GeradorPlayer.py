@@ -7,11 +7,16 @@ import Visual.GeradoresVisuais as GV
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
-        self.pokemons = [Gerador_final(informaçoes[1],1,self)]
+        self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
         self.inventario = []
-        self.energias = {"vermelha": 10, "azul": 10, "amarela": 10, "verde": 10, "roxa": 10, "laranja": 10, "preta": 10}
+        self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
         self.energiasDesc = []
         self.ouro = 10
+        self.deck = informaçoes[2]
+
+        for energia in self.deck["energiasD"]:
+            if energia is not None:
+                self.energiasDesc.append(energia)
     
     def usar_item(self,item,Pokemon,tela,Mapa,ataque,EstadoDaPergunta, Baralho):
             if item["classe"] in ["pokebola", "fruta"]:

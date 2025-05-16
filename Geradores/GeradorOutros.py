@@ -19,40 +19,18 @@ Pokedex = Pokemons_Todos
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 
 class Baralho:
-    def __init__(self):
-        self.pokemons = []
-        self.pokebolas = []
-        self.frutas = []
-        self.amplificadores = []
-        self.estadios = []
-        self.poçoes = []
-        self.outros = []
+    def __init__(self,Deck1,Deck2):
 
-        for pokebola in Pokebolas_disponiveis:
-            for _ in range(pokebola["quantidade"]):
-                self.pokebolas.append(pokebola)
+        self.baralho = []
 
-        for fruta in Frutas_disponiveis:
-            for _ in range(fruta["quantidade"]):
-                self.frutas.append(fruta)
-
-        for amplificador in Amplificadores_disponiveis:
-            for _ in range(amplificador["quantidade"]):
-                self.amplificadores.append(amplificador)
-
-        for estadio in Estadios_disponiveis:
-            for _ in range(estadio["quantidade"]):
-                self.estadios.append(estadio)
-
-        for poçao in Poçoes_disponiveis:
-            for _ in range(poçao["quantidade"]):
-                self.poçoes.append(poçao)
-
-        for outro in Outros_disponiveis:
-            for _ in range(outro["quantidade"]):
-                self.outros.append(outro)
+        for item in Deck1["itens"]:
+            for i in range(item["quantidade"]):
+                self.baralho.append(item)
         
-        self.baralho = self.pokebolas + self.amplificadores + self.frutas + self.poçoes + self.estadios + self.outros
+        for item in Deck2["itens"]:
+            for i in range(item["quantidade"]):
+                self.baralho.append(item)
+                
         self.Comuns = []
         self.Incomuns = []
         self.Raros = []
@@ -75,7 +53,7 @@ class Baralho:
             elif item["raridade"] == "Lendario":
                 self.Lendarios.append(item)
         
-        for pokemon in Pokedex:
+        for pokemon in Deck1["pokemons"] + Deck2["pokemons"]:
             if pokemon != 0:
                 if pokemon["raridade"] == "Comum":
                     self.PokeComuns.append(pokemon)
@@ -209,8 +187,8 @@ def coletor():
 def Gera_Mapa(i):
     return Mapa(Estadios[i])
 
-def Gera_Baralho():
-    return Baralho()
+def Gera_Baralho(Deck1,Deck2):
+    return Baralho(Deck1,Deck2)
 
 class Mapa:
     def __init__(self, Info):

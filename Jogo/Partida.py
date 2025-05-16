@@ -69,13 +69,8 @@ Perdedor = None
 
 Pausa = False
 
-# variaveis do mapa
+# variaveis do mapaH
 
-LojaItensP = None
-LojaPokeP = None
-LojaAmpliP = None
-LojaEnerP = None
-LojaEstTreP = None
 Musica_Estadio_atual = None
 
 def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor_tempo, ao_terminar, turno_atual):
@@ -914,11 +909,6 @@ def Inicia(tela):
     global Centro
     global Mapa
     global Musica_Estadio_atual
-    global LojaItensP
-    global LojaPokeP
-    global LojaEnerP
-    global LojaAmpliP
-    global LojaEstTreP
     global Tela
     global Baralho
 
@@ -936,20 +926,14 @@ def Inicia(tela):
 
     Tela = tela
     Mapa = GO.Gera_Mapa(0)
-    Baralho = GO.Gera_Baralho()
 
     fechar_tudo()
 
     GV.limpa_terminal()
 
     Musica_Estadio_atual = 0
-    LojaItensP = Mapa.PlojaI
-    LojaPokeP = Mapa.PlojaP
-    LojaAmpliP = Mapa.PlojaA
-    LojaEnerP = Mapa.PlojaE
-    LojaEstTreP = Mapa.pLojaT
 
-    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG = Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG)
+    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG = Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG)
     Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
@@ -965,6 +949,8 @@ def Inicia(tela):
 
     AddLocalPokemonINIC(Jogador2.pokemons[0],Jogador2)
     AddLocalPokemonINIC(Jogador1.pokemons[0],Jogador1)
+
+    Baralho = GO.Gera_Baralho(Jogador1.deck,Jogador2.deck)
 
     player = Jogador1
     inimigo = Jogador2
@@ -1259,11 +1245,6 @@ def TelaOpções(tela,eventos,estados):
     GV.tooltip((0, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja suas energias e seus itens, podendo usa-los", f"Inventário",Fonte25,Fonte35,tela)
 
 def TelaOutros(tela,eventos,estados):
-    global LojaItensP
-    global LojaPokeP
-    global LojaAmpliP
-    global LojaEnerP
-    global LojaEstTreP
     global player
     global inimigo
     global Baralho
@@ -1291,17 +1272,6 @@ def Telapausa(tela,eventos,estados):
 
 def TelaTabuleiro(tela, eventos, estados):
     global Musica_Estadio_atual
-    global LojaItensP
-    global LojaPokeP
-    global LojaEnerP
-    global LojaAmpliP
-    global LojaEstTreP
-
-    LojaItensP = Mapa.PlojaI
-    LojaPokeP = Mapa.PlojaP
-    LojaAmpliP = Mapa.PlojaA
-    LojaEnerP = Mapa.PlojaE
-    LojaEstTreP = Mapa.pLojaT
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
     M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte23, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  

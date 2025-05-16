@@ -1,6 +1,9 @@
+def vitoriaAsh(player,inimigo,):
+    pass
+
 Ash = {
     "nome": "Ash",
-    "tempo": "",
+    "tempo": 180,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -10,7 +13,7 @@ Ash = {
 
 Misty = {
     "nome": "Misty",
-    "tempo": "",
+    "tempo": 160,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -20,7 +23,7 @@ Misty = {
 
 Brock = {
     "nome": "Brock",
-    "tempo": "",
+    "tempo": 190,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -30,7 +33,7 @@ Brock = {
 
 Jessie = {
     "nome": "Jessie",
-    "tempo": "",
+    "tempo": 190,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -40,7 +43,7 @@ Jessie = {
 
 James = {
     "nome": "James",
-    "tempo": "",
+    "tempo": 170,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -50,7 +53,7 @@ James = {
 
 Giovanni = {
     "nome": "Giovanni",
-    "tempo": "",
+    "tempo": 200,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -60,7 +63,7 @@ Giovanni = {
 
 Red = {
     "nome": "Red",
-    "tempo": "",
+    "tempo": 180,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",
@@ -70,7 +73,7 @@ Red = {
 
 Professor_Carvalho = {
     "nome": "Professor Carvalho",
-    "tempo": "",
+    "tempo": 210,
     "vitoria": "",
     "derrota": "",
     "passiva1": "",

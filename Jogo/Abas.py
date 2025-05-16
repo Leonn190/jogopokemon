@@ -7,6 +7,8 @@ from Funções2 import VAcerta,VCusto
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO, energia_cores
 
+
+
 AtaqueS = None
 AtaqueSV = None
 AtaqueV = None
@@ -157,11 +159,11 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
         # SETOR 2 – Atributos com IVs e barras
         atributos = [
             ("HP", pokemon.VidaMax, pokemon.IV_vida, 350),
-            ("Attack", pokemon.Atk, pokemon.IV_atk, 120),
-            ("Defense", pokemon.Def, pokemon.IV_def, 120),
-            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 120),
-            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 120),
-            ("Speed", pokemon.vel, pokemon.IV_vel, 120)
+            ("Attack", pokemon.Atk, pokemon.IV_atk, 110),
+            ("Defense", pokemon.Def, pokemon.IV_def, 110),
+            ("Sp. Atk", pokemon.Atk_sp, pokemon.IV_atkSP, 110),
+            ("Sp. Def", pokemon.Def_sp, pokemon.IV_defSP, 110),
+            ("Speed", pokemon.vel, pokemon.IV_vel, 110)
         ]
 
         altura_total = 238 - 48  # altura disponível: 178px
@@ -438,16 +440,6 @@ Fonte = pygame.font.SysFont("arial", 22, True)
 
 fonte_ = pygame.font.SysFont(None, 24)
 fonte_titulo_ = pygame.font.SysFont(None, 28)
-
-# botao_compra_x = x + largura - 40  # 10px de margem da borda direita
-#     GV.Botao(
-#         tela, "", (botao_compra_x, y + 5, 28, 28),
-#         (50, 50, 50), (255, 255, 255), (80, 80, 80),
-#         lambda: Comprar_Energias(player, 1),
-#         fonte_, BotaoCompraEnergia,
-#         grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
-#     )
-#     tela.blit(Imagem,(botao_compra_x, y + 5))
 
 def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Mapa, Baralho, estadoEnergias):
     x, y = local
@@ -921,3 +913,15 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
                 tela, str(preco), (bx + 15, by + 80, 50, 20),
                 Fonte20, AMARELO, PRETO, 2
             )
+
+
+
+    # botao_compra_x = x + largura - 40  # 10px de margem da borda direita
+    # GV.Botao(
+    #     tela, "", (botao_compra_x, y + 5, 28, 28),
+    #     (50, 50, 50), (255, 255, 255), (80, 80, 80),
+    #     lambda: Comprar_Energias(player, 1),
+    #     fonte_, BotaoCompraEnergia,
+    #     grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
+    # )
+    # tela.blit(Imagem,(botao_compra_x, y + 5))

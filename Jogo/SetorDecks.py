@@ -3,6 +3,7 @@ import os
 import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+import random
 from Infos import PokemonInfo, ItemInfo
 from Visual.Arrastaveis import Arrastavel
 from Visual.Imagens import Carregar_Imagens_Decks
@@ -75,9 +76,9 @@ def VerificaDeck(Deck):
 
     if None in Deck["pokemons"]:
         return 1
-    if None in Deck["items"]:
+    if None in Deck["itens"]:
         return 1
-    if Deck["Treinador"] == None:
+    if Deck["treinador"] == None:
         return 1
 
     contagem_raridades = {
@@ -101,10 +102,27 @@ def VerificaDeck(Deck):
         if pokemon["raridade"] not in ["Comum","Incomum"]:
             return 0
     
-    if len(Deck["pokemons"]) != len(set(Deck["pokemons"])):
+    if len(Deck["pokemons"]) != len(set([poke["nome"] for poke in Deck["pokemons"]])):
         return 0
     
-    return True
+    contagem_raridades = {
+    "Comum": 0,
+    "Incomum": 0,
+    "Raro": 0,
+    "Epico": 0,
+    "Mitico": 0,
+    "Lendario": 0}
+    for item in Deck["itens"]:
+        raridade = item.get("raridade", "")
+        if raridade in contagem_raridades:
+            contagem_raridades[raridade] += 1
+    
+    if contagem_raridades["Lendario"] > 3:
+        return 0
+    if contagem_raridades["Mitico"] > 3:
+        return 0
+    
+    return 2
 
 def TrocaTexto(t):
     global selecionadoTXT, DeckSelecionado
@@ -122,6 +140,7 @@ def Executar(pos,dados,categoria,interno):
             for i,area in enumerate(Areas_pokemon):
                 if area.collidepoint(pos):
                     Trocar(DeckSelecionado[categoria].index(dados),i,categoria)
+                    tocar("Encaixe")
                     break
             if AreaEditor.collidepoint(pos):
                 DeckSelecionado[categoria][DeckSelecionado[categoria].index(dados)] = None
@@ -130,6 +149,7 @@ def Executar(pos,dados,categoria,interno):
             for i,area in enumerate(Areas_pokemon):
                  if area.collidepoint(pos):
                      DeckSelecionado[categoria][i] = dados
+                     tocar("Encaixe")
                      break
                  
     if categoria == "itens":
@@ -137,6 +157,7 @@ def Executar(pos,dados,categoria,interno):
             for i,area in enumerate(Areas_itens):
                 if area.collidepoint(pos):
                     Trocar(DeckSelecionado[categoria].index(dados),i,categoria)
+                    tocar("Encaixe")
                     break
             if AreaEditor.collidepoint(pos):
                 DeckSelecionado[categoria][DeckSelecionado[categoria].index(dados)] = None
@@ -145,6 +166,7 @@ def Executar(pos,dados,categoria,interno):
             for i,area in enumerate(Areas_itens):
                  if area.collidepoint(pos):
                      DeckSelecionado[categoria][i] = dados
+                     tocar("Encaixe")
                      break
                  
     if categoria == "energiasD":
@@ -152,6 +174,7 @@ def Executar(pos,dados,categoria,interno):
             for i,area in enumerate(Areas_Energias):
                 if area.collidepoint(pos):
                     Trocar(DeckSelecionado[categoria].index(dados),i,categoria)
+                    tocar("Encaixe")
                     break
             if AreaEditor.collidepoint(pos):
                 DeckSelecionado[categoria][DeckSelecionado[categoria].index(dados)] = None
@@ -160,6 +183,7 @@ def Executar(pos,dados,categoria,interno):
             for i,area in enumerate(Areas_Energias):
                  if area.collidepoint(pos):
                      DeckSelecionado[categoria][i] = dados
+                     tocar("Encaixe")
                      break
     
     if categoria == "treinador":
@@ -170,6 +194,7 @@ def Executar(pos,dados,categoria,interno):
         if interno == False:
             if AreaTreinador.collidepoint(pos):
                 DeckSelecionado[categoria] = dados
+                tocar("Encaixe")
                  
     return False
 
@@ -189,12 +214,15 @@ def salvar_dicionario_em_py(dicionario, nome_arquivo, pasta_destino):
     with open(caminho_arquivo, 'w', encoding='utf-8') as arquivo:
         arquivo.write(f"# Arquivo gerado automaticamente\n\n")
         arquivo.write(f"{nome_arquivo} = {repr(dicionario)}\n")
+    
+    tocar("Salvou")
 
     IniciaDecks()
 
 def Apagar_Deck(nome_arquivo, pasta):
     caminho_arquivo = os.path.join(pasta, f"{nome_arquivo}.py")
     os.remove(caminho_arquivo)
+    tocar("Apagou")
     IniciaDecks()
 
 def selecionaDeck(deck):
@@ -223,9 +251,6 @@ def carregar_decks(pasta,ListaDecks):
                 if isinstance(valor, dict):
                     ListaDecks.append(valor)
                     break
-    
-    for i,deck in enumerate(ListaDecks):
-        deck["ID"] = f"Deck{i + 1}"
     
     return ListaDecks
 
@@ -993,14 +1018,19 @@ def desenhaEditor(tela, eventos):
 
 def Abre(Editar):
     global Abrir, DeckSelecionado
+    tocar("Clique2")
     if Editar is False:
+        for i in range(1, 17):
+            if f"Deck{i}" not in [deck["ID"] for deck in ListaDecks]:
+                ID = f"Deck{i}"
+                break
         NovoDeck = {
                 "nome": "Novo Deck",
                 "pokemons": [None] * 12,
                 "itens": [None] * 18,
                 "energiasD": [None] * 4,
-                "ID":f"Deck{len(ListaDecks) + 1}",
-                "treinador": listaTreinadores[3],
+                "ID":ID,
+                "treinador": None,
                 "icone": "icone5"
             }
         DeckSelecionado = NovoDeck
@@ -1110,6 +1140,14 @@ def TelaDecks(tela,eventos,estados):
 
         pos_x = (coluna * (largura_botao + espaçamento)) + (largura_tela - largura_ocupada) // 2
         pos_y = altura_inicial + (linha * (altura_botao + espaçamento_linhas))
+    	
+        Valido = VerificaDeck(deck)
+        if Valido == 0:
+            cor = VERMELHO_CLARO
+        elif Valido == 1:
+            cor = AMARELO_CLARO
+        else:
+            cor = VERDE_CLARO
 
         # Criação do botão
         GV.Botao_Selecao(
@@ -1117,7 +1155,7 @@ def TelaDecks(tela,eventos,estados):
             (pos_x, pos_y, largura_botao, altura_botao),
             "", 
             Fonte30,
-            cor_fundo=AZUL_CLARO, 
+            cor_fundo=cor, 
             cor_borda_normal=PRETO,
             cor_borda_esquerda=VERDE, 
             cor_borda_direita=None,
@@ -1159,9 +1197,13 @@ def TelaDecks(tela,eventos,estados):
 
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
-    
-    GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), AMARELO, PRETO, AZUL,
-                lambda: Abre(False), Fonte50, B1, 3, None, True, eventos)
+    if len(ListaDecks) < 16:
+        GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), AMARELO, PRETO, AZUL,
+                    lambda: Abre(False), Fonte50, B1, 3, None, True, eventos)
+    else:
+        GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), CINZA, PRETO, AZUL,
+                    lambda: tocar("Bloq"), Fonte50, B1, 3, None, True, eventos)
+        
     if DeckSelecionado is not None:
         GV.Botao(tela, "Editar Baralho", (710, 450, 500, 80), VERDE, PRETO, AZUL,
                     lambda: Abre(True), Fonte50, B1, 3, None, True, eventos)

@@ -12,6 +12,9 @@ Sons = {
     "Energia": lambda: pygame.mixer.Sound("Audio/Sons/Energia.wav"),
     "Roletar": lambda: pygame.mixer.Sound("Audio/Sons/Roletar.wav"),
     "Encaixe": lambda: pygame.mixer.Sound("Audio/Sons/Encaixe.wav"),
+    "Salvou": lambda: pygame.mixer.Sound("Audio/Sons/Salvou.wav"),
+    "Clique2": lambda: pygame.mixer.Sound("Audio/Sons/Clique2.wav"),
+    "Apagou": lambda: pygame.mixer.Sound("Audio/Sons/Apagou.wav"),
 }
 
 
