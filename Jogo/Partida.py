@@ -1,6 +1,6 @@
 import pygame
 import random
-from Visual.Imagens import Carregar_Imagens1,Carregar_Imagens2, Carrega_Gif_pokemon
+from Visual.Imagens import Carregar_Imagens_Partida, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
@@ -949,8 +949,7 @@ def Inicia(tela):
     LojaEnerP = Mapa.PlojaE
     LojaEstTreP = Mapa.pLojaT
 
-    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG = Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG)
-    ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,IconesDeckIMG = Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,IconesDeckIMG)
+    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG = Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG)
     Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2

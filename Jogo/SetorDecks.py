@@ -5,7 +5,7 @@ import Visual.GeradoresVisuais as GV
 import PygameAções as A
 from Infos import PokemonInfo, ItemInfo
 from Visual.Arrastaveis import Arrastavel
-from Visual.Imagens import Carregar_Imagens2
+from Visual.Imagens import Carregar_Imagens_Decks
 from Geradores.GeradorOutros import Amplificadores_Todos,Frutas_Todas,Pokebolas_Todas,Poçoes_Todas,Estadios_Todos,Outros_Todos,Pokemons_Todos,Treinadores_Todos
 from Visual.Sonoridade import tocar
 from Visual.GeradoresVisuais import (
@@ -23,10 +23,12 @@ TextoBara = ""
 Baralho_atual_pokemons = None
 Baralho_atual_itens = None
 Baralho_atual_energias = None
+Baralho_atual_treinador = None
 
 Lista_atual_pokemons = None
 Lista_atual_itens = None
 Lista_atual_energias = None
+Lista_atual_treinadores = None
 
 Arrastaveis = []
 ArrastaveisEditor = []
@@ -51,6 +53,7 @@ ImagensPokemon = {}
 ImagensItens = {}
 TiposEnergiaIMG = {}
 IconesDeckIMG = {}
+ImagensTreinadores = {}
 
 Areas_pokemon = []
 Areas_itens = []
@@ -59,6 +62,7 @@ Criou_Areas_pokemon = 0
 Criou_Areas_itens = 0
 Criou_Areas_energia = 0
 AreaEditor = pygame.Rect(470,450,980,560)
+AreaTreinador = pygame.Rect(1585, 165, 150, 150)
 
 EvoPokemon = 0
 EvoPokemonLim = 0
@@ -66,6 +70,41 @@ ListaFormas = []
 
 #Botao generico
 BG = {"estado": False}
+
+def VerificaDeck(Deck):
+
+    if None in Deck["pokemons"]:
+        return 1
+    if None in Deck["items"]:
+        return 1
+    if Deck["Treinador"] == None:
+        return 1
+
+    contagem_raridades = {
+    "Comum": 0,
+    "Incomum": 0,
+    "Raro": 0,
+    "Epico": 0,
+    "Mitico": 0,
+    "Lendario": 0}
+    for pokemon in Deck["pokemons"]:
+        raridade = pokemon.get("raridade", "")
+        if raridade in contagem_raridades:
+            contagem_raridades[raridade] += 1
+    
+    if contagem_raridades["Lendario"] > 2:
+        return 0
+    if contagem_raridades["Mitico"] > 2:
+        return 0
+    
+    for pokemon in Deck["pokemons"][:3]:
+        if pokemon["raridade"] not in ["Comum","Incomum"]:
+            return 0
+    
+    if len(Deck["pokemons"]) != len(set(Deck["pokemons"])):
+        return 0
+    
+    return True
 
 def TrocaTexto(t):
     global selecionadoTXT, DeckSelecionado
@@ -76,6 +115,7 @@ def Trocar(Idx1,Idx2,categoria):
     DeckSelecionado[categoria][Idx1],DeckSelecionado[categoria][Idx2] = DeckSelecionado[categoria][Idx2],DeckSelecionado[categoria][Idx1]
 
 def Executar(pos,dados,categoria,interno):    
+    global Arrastaveis
 
     if categoria == "pokemons":
         if interno == True:
@@ -121,6 +161,15 @@ def Executar(pos,dados,categoria,interno):
                  if area.collidepoint(pos):
                      DeckSelecionado[categoria][i] = dados
                      break
+    
+    if categoria == "treinador":
+        if interno == True:
+            if AreaEditor.collidepoint(pos):
+                DeckSelecionado[categoria] = None
+                Arrastaveis.clear()
+        if interno == False:
+            if AreaTreinador.collidepoint(pos):
+                DeckSelecionado[categoria] = dados
                  
     return False
 
@@ -188,7 +237,7 @@ def MudaForma(sentido):
         EvoPokemon -= 1
 
 def desenhaBaralho(tela, Baralho, eventos):
-    global Arrastaveis, Baralho_atual_pokemons, Baralho_atual_itens, Baralho_atual_energias
+    global Arrastaveis, Baralho_atual_pokemons, Baralho_atual_itens, Baralho_atual_energias, Baralho_atual_treinador
     global Areas_pokemon, Areas_itens, Areas_Energias, Criou_Areas_pokemon, Criou_Areas_itens, Criou_Areas_energia
     global selecionadoTXT, TextoBara
 
@@ -196,8 +245,8 @@ def desenhaBaralho(tela, Baralho, eventos):
     y_inicial = 90
     largura = 1680
     altura = 320
-    largura_extra = 280  # Largura da extensão
-    altura_extra = 55    # Altura da extensão
+    largura_extra = 280
+    altura_extra = 55
 
     cor_fundo = (50, 50, 50)
     cor_fundo2 = (25, 25, 25)
@@ -207,92 +256,75 @@ def desenhaBaralho(tela, Baralho, eventos):
     # Desenha o fundo principal
     pygame.draw.rect(tela, cor_fundo, (x_inicial, y_inicial, largura, altura))
 
-    # Desenha a extensão superior direita
-    pygame.draw.rect(tela, cor_fundo2, (x_inicial + largura - largura_extra - 52, y_inicial - altura_extra, largura_extra + 52, altura_extra))
+    # NOVO: Desenha a extensão superior direita centralizada
+    barra_largura = largura_extra + 52
+    barra_x = x_inicial + (largura - barra_largura) // 2
+    barra_y = y_inicial - altura_extra
+    pygame.draw.rect(tela, cor_fundo2, (barra_x, barra_y, barra_largura, altura_extra))
 
-    # Desenha a borda ao redor
+    # Desenha a borda ao redor (ajustado para conectar ao novo posicionamento da barra superior)
     pontos = [
         (x_inicial, y_inicial),
-        (x_inicial + largura - largura_extra - 52, y_inicial),
-        (x_inicial + largura - largura_extra - 52, y_inicial - altura_extra),
-        (x_inicial + largura, y_inicial - altura_extra),
+        (x_inicial + largura, y_inicial),
         (x_inicial + largura, y_inicial + altura),
         (x_inicial, y_inicial + altura)
     ]
     pygame.draw.polygon(tela, cor_borda, pontos, width=5)
 
-    # === Extensão canto superior esquerdo para o ícone do baralho ===
+    # Desenha o ícone à esquerda
     largura_icon = 80
     altura_icon = 80
-    x_icon = x_inicial - largura_icon + 80  # Fica à esquerda da área do deck
-    y_icon = y_inicial - altura_icon        # Fica acima da área do deck
-
-    # Fundo da área do ícone
+    x_icon = x_inicial - largura_icon + 80
+    y_icon = y_inicial - altura_icon
     pygame.draw.rect(tela, cor_fundo2, (x_icon, y_icon, largura_icon, altura_icon))
-
-    # Borda ao redor da área do ícone
     pygame.draw.rect(tela, cor_borda, (x_icon, y_icon, largura_icon, altura_icon), width=4)
-
-    # --- Desenha o ícone dentro da área ---
     icone_img = IconesDeckIMG[Baralho["icone"]]
     icone_redimensionado = pygame.transform.smoothscale(icone_img, (75, 75))
-
-    # Calcula a posição centralizada dentro do quadrado 80x80
     icone_x = x_icon + (largura_icon - 75) // 2
     icone_y = y_icon + (altura_icon - 75) // 2
-
     tela.blit(icone_redimensionado, (icone_x, icone_y))
 
-    # === Linhas internas ===
-    # Linha vertical separando canto direito (280px)
+    # === Desenha o ícone à direita ===
+    largura_icon = 80
+    altura_icon = 80
+    x_icon_direita = x_inicial + largura - largura_icon
+    y_icon_direita = y_inicial - altura_icon
+    pygame.draw.rect(tela, cor_fundo2, (x_icon_direita, y_icon_direita, largura_icon, altura_icon))
+    pygame.draw.rect(tela, cor_borda, (x_icon_direita, y_icon_direita, largura_icon, altura_icon), width=4)
+    icone_img = IconesDeckIMG[Baralho["icone"]]
+    icone_redimensionado = pygame.transform.smoothscale(icone_img, (75, 75))
+    icone_x_direita = x_icon_direita + (largura_icon - 75) // 2
+    icone_y_direita = y_icon_direita + (altura_icon - 75) // 2
+    tela.blit(icone_redimensionado, (icone_x_direita, icone_y_direita))
+
+    # Linhas internas e divisões
     x_divisao = x_inicial + largura - largura_extra
     pygame.draw.line(tela, cor_linha, (x_divisao, y_inicial), (x_divisao, y_inicial + altura), width=4)
-
-    # Linha horizontal dentro do setor direito separando a extensão superior
-    pygame.draw.line(tela, cor_linha, (x_divisao - 52, y_inicial), (x_inicial + largura, y_inicial), width=4)
-
-    # Linha horizontal 280px abaixo da linha horizontal superior, dentro do setor direito
+    pygame.draw.line(tela, cor_linha, (barra_x, y_inicial), (barra_x + barra_largura, y_inicial), width=4)
     y_linha_inferior = y_inicial - altura_extra + 70
     pygame.draw.line(tela, cor_linha, (x_divisao, y_linha_inferior + 25), (x_inicial + largura, y_linha_inferior + 25), width=4)
-
     y_linha_inferior = y_inicial - altura_extra + 290
     pygame.draw.line(tela, cor_linha, (x_divisao, y_linha_inferior + 25), (x_inicial + largura, y_linha_inferior + 25), width=4)
-
     y_linha_inferior = y_inicial - altura_extra + 305
     pygame.draw.line(tela, cor_linha, (x_divisao, y_linha_inferior + 25), (x_inicial + largura, y_linha_inferior + 25), width=4)
-
-    # Linha horizontal dentro do setor esquerdo dividindo 120px em cima e 200px em baixo
     linha_esquerda_y = y_inicial + 40
     pygame.draw.line(tela, cor_linha, (x_inicial, linha_esquerda_y), (x_divisao, linha_esquerda_y), width=4)
 
-    # Área da faixa inferior do setor direito
+    # Faixa inferior do setor direito
     faixa_y_inicial = y_inicial
     faixa_y_final = y_linha_inferior + 287
     faixa_altura = faixa_y_final - faixa_y_inicial
-
-    # Texto da faixa
     texto_faixa = "Prédefinições de descarte"
     superficie_texto_faixa = Fonte20.render(texto_faixa, True, (255, 255, 255))
-    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(
-        x_divisao + largura_extra // 2,
-        faixa_y_inicial + faixa_altura // 2
-    ))
-
+    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(x_divisao + largura_extra // 2, faixa_y_inicial + faixa_altura // 2))
     tela.blit(superficie_texto_faixa, rect_texto_faixa)
 
-    # Área da faixa superior do setor direito
-    faixa_y_inicial = y_inicial
+    # Faixa superior do setor direito
     faixa_y_final = y_linha_inferior - 207
     faixa_altura = faixa_y_final - faixa_y_inicial
-
-    # Texto da faixa
     texto_faixa = "Treinador"
     superficie_texto_faixa = Fonte40.render(texto_faixa, True, (255, 255, 255))
-    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(
-        x_divisao + largura_extra // 2,
-        faixa_y_inicial + faixa_altura // 2
-    ))
-
+    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(x_divisao + largura_extra // 2, faixa_y_inicial + faixa_altura // 2))
     tela.blit(superficie_texto_faixa, rect_texto_faixa)
 
     # Nova linha vertical dentro do setor esquerdo dividindo em 60% / 40%
@@ -300,34 +332,22 @@ def desenhaBaralho(tela, Baralho, eventos):
     x_linha_interna_esquerda = x_inicial + int(largura_esquerda * 0.6)
     pygame.draw.line(tela, cor_linha, (x_linha_interna_esquerda, y_inicial), (x_linha_interna_esquerda, y_inicial + altura), width=4)
 
-        # Calcula a área da extensão superior direita
-    barra_x = x_inicial + largura - largura_extra - 52
-    barra_y = y_inicial - altura_extra
-    barra_largura = largura_extra + 52
-    barra_altura = altura_extra
-
-    # Usa a área exata da extensão como área da barra de texto
+    # Barra de texto dentro da área superior centralizada
     if Abrir is not None:
         TextoBara, selecionadoTXT = GV.Barra_De_Texto(
-            tela, (barra_x, barra_y, barra_largura, barra_altura),
-            Fonte50, 
-            (50,50,50), PRETO, BRANCO, eventos, TextoBara,
+            tela, (barra_x, barra_y, barra_largura, altura_extra),
+            Fonte50, (50,50,50), PRETO, BRANCO, eventos, TextoBara,
             TrocaTexto, AZUL, selecionadoTXT
         )
 
     if selecionadoTXT == False:
         texto = Baralho["nome"]
         cor_texto = (255, 255, 255)
-
         superficie_texto = Fonte50.render(texto, True, cor_texto)
-
-        rect_texto = superficie_texto.get_rect()
-        rect_texto.center = (
-            x_inicial + largura - ((largura_extra + 52) / 2),
-            y_inicial - (altura_extra / 2)
-        )
-
-        # Desenha o texto
+        rect_texto = superficie_texto.get_rect(center=(
+            barra_x + barra_largura // 2,
+            barra_y + altura_extra // 2
+        ))
         tela.blit(superficie_texto, rect_texto)
 
         # Cabeçalho da área de Pokémons (60%)
@@ -569,8 +589,45 @@ def desenhaBaralho(tela, Baralho, eventos):
 
             tela.blit(texto_renderizado, (texto_x, texto_y))
     
-def desenhaBotoesEditor(tela, eventos):    
+    # Faixa superior do setor direito
+    faixa_y_final = y_linha_inferior - 207
+    faixa_altura = faixa_y_final - faixa_y_inicial
+    texto_faixa = "Treinador"
+    superficie_texto_faixa = Fonte40.render(texto_faixa, True, (255, 255, 255))
+    rect_texto_faixa = superficie_texto_faixa.get_rect(center=(x_divisao + largura_extra // 2, faixa_y_inicial + faixa_altura // 2))
+    tela.blit(superficie_texto_faixa, rect_texto_faixa)
 
+    # Desenha a área do treinador (centralizada entre as faixas superior e inferior)
+    area_treinador_topo = faixa_y_inicial + 55
+    area_treinador_base = y_linha_inferior + 25
+    area_treinador_centro_y = (area_treinador_topo + area_treinador_base - 30) // 2
+    area_treinador_centro_x = x_divisao + largura_extra // 2
+
+    # Primeiro o quadrado cinza claro (150x150) atrás
+    tamanho_quadrado = 150
+    rect_cinza = pygame.Rect(0, 0, tamanho_quadrado, tamanho_quadrado)
+    rect_cinza.center = (area_treinador_centro_x, area_treinador_centro_y)
+    pygame.draw.rect(tela, (80, 80, 80), rect_cinza)
+
+    if Baralho["treinador"] is not None:
+        img_treinador = ImagensTreinadores[Baralho["treinador"]["nome"]]
+
+        if EditorSelecionado == listaTreinadores:
+            if Baralho_atual_treinador != Baralho["treinador"]:
+                Baralho_atual_treinador = Baralho["treinador"]
+                Arrastaveis.clear()
+                # Calcula o topleft correto baseado no centro
+                rect_temp = img_treinador.get_rect(center=(area_treinador_centro_x, area_treinador_centro_y))
+                pos_topleft = rect_temp.topleft
+
+                arrastavel = Arrastavel(img_treinador, pos_topleft, Baralho["treinador"], "treinador", True, Executar)
+                Arrastaveis.append(arrastavel)
+        else:
+            # Apenas exibe imagem fixa no centro
+            rect_img = img_treinador.get_rect(center=(area_treinador_centro_x, area_treinador_centro_y))
+            tela.blit(img_treinador, rect_img)
+
+def desenhaBotoesEditor(tela, eventos):    
     largura = 980
     altura = 560
     x = 470
@@ -641,7 +698,7 @@ def desenhaBotoesEditor(tela, eventos):
             )
 
 def desenhaEditor(tela, eventos):
-    global EditorSelecionado, listaPokemon, Lista_atual_pokemons, ArrastaveisEditor, Lista_atual_itens, Lista_atual_energias
+    global EditorSelecionado, listaPokemon, Lista_atual_pokemons, ArrastaveisEditor, Lista_atual_itens, Lista_atual_energias, Lista_atual_treinadores
 
     desenhaBotoesEditor(tela, eventos)
 
@@ -656,19 +713,70 @@ def desenhaEditor(tela, eventos):
     pygame.draw.line(tela, (0,0,0), (x, y + 45), (x + largura, y + 45), width=4)
     if EditorSelecionado == listaPokemon:
         texto = "Editor De Pokemons"
+        regras = [
+            "- As 3 primeiras casas são reservadas para os inciais",
+            "- Para o pokemon ser inicial ele deve ter raridade incomum ou inferior",
+            "- Deve haver ao menos 1 pokemon de cada raridade",
+            "- Não pode colocar mais de 2 lendários ou Miticos",
+            "- Se alguma das regras não for cumprida o baralho não poderá entrar em jogo"
+        ]
     elif EditorSelecionado == listaItens:
         texto = "Editor De Itens"
+        regras = [
+            "- Não pode ter mais de 2 cópias do item",
+            "- Deve haver pelo menos 2 itens de cada raridade",
+            "- Não pode colocar mais de 3 itens lendários ou Miticos",
+            "- Se alguma das regras não for cumprida o baralho não poderá entrar em jogo"
+        ]
     elif EditorSelecionado == listaEnergias:
         texto = "Editor De Energias"
+        regras = ["- Sem regras para as energias"]
+    elif EditorSelecionado == listaicones:
+        texto = "Editor de Icones"
+        regras = ["- Sem regras para os Icones"]
+    elif EditorSelecionado == listaTreinadores:
+        texto = "Editor de Treinadores"
+        regras = ["- Sem regras para os Treinadores"]
     else:
         texto = ""
+        regras = []
 
+    # --- Texto do título ---
     superficie_texto = Fonte40.render(texto, True, (250,250,250))
-
-    rect_texto = superficie_texto.get_rect()
-    rect_texto.center = (x + largura // 2, y + 46 // 2)
-
+    rect_texto = superficie_texto.get_rect(center=(x + largura // 2, y + 46 // 2))
     tela.blit(superficie_texto, rect_texto)
+
+    # --- Função para quebrar linha ---
+    def quebra_linha(texto, fonte, max_largura):
+        palavras = texto.split()
+        linhas = []
+        linha_atual = ""
+        for palavra in palavras:
+            teste_linha = linha_atual + ("" if linha_atual == "" else " ") + palavra
+            if fonte.size(teste_linha)[0] <= max_largura:
+                linha_atual = teste_linha
+            else:
+                if linha_atual != "":
+                    linhas.append(linha_atual)
+                linha_atual = palavra
+        if linha_atual:
+            linhas.append(linha_atual)
+        return linhas
+
+    # --- Regras com quebra de linha ---
+    margem_superior = rect_texto.bottom + 30  # Iniciar abaixo do título
+    espacamento_linha = 25
+    espacamento_regra = 50
+    y_atual = margem_superior
+
+    for regra in regras:
+        linhas_regra = quebra_linha(regra, Fonte25, 360)
+        for linha in linhas_regra:
+            superficie_regra = Fonte25.render(linha, True, (230,230,230))
+            rect_regra = superficie_regra.get_rect(center=(x + largura // 2, y_atual))
+            tela.blit(superficie_regra, rect_regra)
+            y_atual += espacamento_linha
+        y_atual += espacamento_regra - espacamento_linha  # Espaço entre regras (já contou a última linha)
 
     largura = 380
     altura = 560
@@ -840,6 +948,40 @@ def desenhaEditor(tela, eventos):
                 icone_y = y_slot + margem
 
                 tela.blit(imagem_redimensionada, (icone_x, icone_y))
+    
+    if EditorSelecionado == listaTreinadores:
+        if Lista_atual_treinadores != listaTreinadores:
+            Lista_atual_treinadores = list(listaTreinadores)  # Cópia simples
+            ArrastaveisEditor.clear()
+
+            linhas = 2
+            colunas = 4
+            espacamento = 20
+
+            largura_treinador = 230
+            altura_treinador = 160
+
+            # Calcula área útil considerando o número de colunas/linhas e o tamanho fixo dos treinadores
+            largura_disponivel = largura - (espacamento * (colunas + 1))
+            altura_disponivel = altura - (espacamento * (linhas + 1))
+
+            # Calcula a margem inicial para centralizar a grid se desejar
+            x_inicial = x + (largura_disponivel - (colunas * largura_treinador)) // 2 + espacamento
+            y_inicial = y + (altura_disponivel - (linhas * altura_treinador)) // 2 + espacamento
+
+            for i in range(min(len(listaTreinadores), linhas * colunas)):
+                linha = i // colunas
+                coluna = i % colunas
+
+                x_slot = x_inicial + coluna * (largura_treinador + espacamento)
+                y_slot = y_inicial + linha * (altura_treinador + espacamento)
+
+                treinador = listaTreinadores[i]
+                imagem_treinador = ImagensTreinadores.get(treinador["nome"])  # Imagem original sem redimensionar
+
+                if imagem_treinador:
+                    arrastavel = Arrastavel(imagem_treinador, (x_slot, y_slot), treinador, "treinador", False, Executar)
+                    ArrastaveisEditor.append(arrastavel)
 
     if EditorSelecionado == listaPokemon:
         if PokemonSelecionado is not None:
@@ -858,6 +1000,7 @@ def Abre(Editar):
                 "itens": [None] * 18,
                 "energiasD": [None] * 4,
                 "ID":f"Deck{len(ListaDecks) + 1}",
+                "treinador": listaTreinadores[3],
                 "icone": "icone5"
             }
         DeckSelecionado = NovoDeck
@@ -871,8 +1014,10 @@ def Quer_Apagar():
         Aviso_Apagar = False
 
 def SelecionaEditor(lista):
-    global EditorSelecionado
+    global EditorSelecionado, PokemonSelecionado, ItemSelecionado
     EditorSelecionado = lista
+    PokemonSelecionado = None
+    ItemSelecionado = None
 
 def DesselecionaEditor():
     global EditorSelecionado
@@ -993,6 +1138,25 @@ def TelaDecks(tela,eventos,estados):
         texto_rect = texto_surface.get_rect(center=(pos_x + largura_botao // 2, pos_y + texto_surface.get_height() // 2 + 5))
         tela.blit(texto_surface, texto_rect)
 
+            # --- Imagem do ícone no centro ---
+        if deck["icone"] in IconesDeckIMG:
+            icone_original = IconesDeckIMG[deck["icone"]]
+            icone_redimensionado = pygame.transform.smoothscale(icone_original, (110, 110))
+
+            # Centralizar horizontalmente no botão
+            icone_x = pos_x + (largura_botao - 110) // 2
+
+            # Ajuste para ficar abaixo do texto ou centralizado no botão
+            # Exemplo centralizado no espaço restante abaixo do texto:
+            icone_y = texto_rect.bottom + 15  # 5 pixels abaixo do texto
+
+            # Evitar que a imagem ultrapasse o botão (opcional: ajuste automático)
+            if icone_y + 110 > pos_y + altura_botao:
+                icone_y = pos_y + (altura_botao - 110) // 2
+
+            tela.blit(icone_redimensionado, (icone_x, icone_y))
+
+
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
     
@@ -1073,6 +1237,17 @@ def TelaCriador(tela,eventos,estados):
         funcao_direito=None,
         desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
         tecla_esquerda=None, tecla_direita=None, grossura=2)
+    GV.Botao_Selecao(
+        tela, (1720, 10, 80, 80),
+        "", Fonte30,
+        cor_fundo=None, cor_borda_normal=PRETO,
+        cor_borda_esquerda=VERMELHO, cor_borda_direita=None,
+        cor_passagem=AMARELO, id_botao="icones",   
+        estado_global=estadoEditor, eventos=eventos,
+        funcao_esquerdo=lambda: SelecionaEditor(listaicones), 
+        funcao_direito=None,
+        desfazer_esquerdo=lambda: DesselecionaEditor(), desfazer_direito=None,
+        tecla_esquerda=None, tecla_direita=None, grossura=2)
 
     desenhaEditor(tela, eventos)
 
@@ -1136,12 +1311,13 @@ def IniciaDecks():
     carregar_decks("Decks",ListaDecks)
 
 def Decks(tela,estados,relogio):
-    global ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG
+    global ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores
     global Baralho_atual_pokemons, Baralho_atual_itens, Lista_atual_pokemons, Lista_atual_itens, Baralho_atual_energias, Lista_atual_energias
-    global EditorSelecionado, EditorSelecionado_atual
+    global EditorSelecionado, EditorSelecionado_atual, Lista_atual_treinadores, Baralho_atual_treinador
 
     Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Decks.jpg", (1920,1080))
-    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG  = Carregar_Imagens2(ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG)
+    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG,ImagensTreinadores = Carregar_Imagens_Decks(
+    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores)
 
     pygame.mixer.music.load('Audio/Musicas/Decks.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -1197,6 +1373,8 @@ def Decks(tela,estados,relogio):
             Lista_atual_itens = None
             Baralho_atual_energias = None
             Lista_atual_energias = None
+            Baralho_atual_treinador = None
+            Lista_atual_treinadores = None
 
         pygame.display.update()
         relogio.tick(120)

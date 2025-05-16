@@ -201,7 +201,7 @@ def Carrega_Gif_pokemon(nome):
     frames = PokeGifs[nome]()
     return frames
 
-def Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG):
+def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG):
 
     RegeneraçãoIMG = GV.Carregar_Imagem("imagens/icones/regeneraçao.png", (24, 24), "PNG")
     ConfusoIMG = GV.Carregar_Imagem("imagens/icones/confuso.png", (24, 24), "PNG")
@@ -257,6 +257,188 @@ def Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEner
 
     Alvo = GV.carregar_frames('imagens/efeitos/Alvo_frames')
 
+    EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (62, 62), "PNG")
+    CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (62, 62), "PNG")
+    RubiIMG = GV.Carregar_Imagem("imagens/itens/rubi.png", (62, 62), "PNG")
+    SafiraIMG = GV.Carregar_Imagem("imagens/itens/safira.png", (62, 62), "PNG")
+    AmetistaIMG = GV.Carregar_Imagem("imagens/itens/ametista.png", (62, 62), "PNG")
+    RubelitaIMG = GV.Carregar_Imagem("imagens/itens/rubelita.png", (62, 62), "PNG")
+    DiamanteIMG = GV.Carregar_Imagem("imagens/itens/diamante.png", (62, 62), "PNG")
+    ColetorIMG = GV.Carregar_Imagem("imagens/itens/coletor.png", (62, 62), "PNG")
+    CaixaIMG = GV.Carregar_Imagem("imagens/itens/caixa.png", (62, 62), "PNG")
+    CaixoteIMG = GV.Carregar_Imagem("imagens/itens/caixote.png", (62, 62), "PNG")
+    PocaoIMG = GV.Carregar_Imagem("imagens/itens/poçao.png", (62, 62), "PNG")
+    SuperPocaoIMG = GV.Carregar_Imagem("imagens/itens/super_poçao.png", (62, 62), "PNG")
+    HiperPocaoIMG = GV.Carregar_Imagem("imagens/itens/hiper_poçao.png", (62, 62), "PNG")
+    MegaPocaoIMG = GV.Carregar_Imagem("imagens/itens/mega_poçao.png", (62, 62), "PNG")
+    PokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (62, 62), "PNG")
+    GreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (62, 62), "PNG")
+    UltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (62, 62), "PNG")
+    MasterBallIMG = GV.Carregar_Imagem("imagens/itens/MasterBall.png", (62, 62), "PNG")
+    FramboIMG = GV.Carregar_Imagem("imagens/itens/frambo.png", (62, 62), "PNG")
+    FramboDouradaIMG = GV.Carregar_Imagem("imagens/itens/frambo_dourada.png", (62, 62), "PNG")
+    CaxiIMG = GV.Carregar_Imagem("imagens/itens/caxi.png", (62, 62), "PNG")
+    CaxiPrateadaIMG = GV.Carregar_Imagem("imagens/itens/caxi_prateada.png", (62, 62), "PNG")
+    EstadioIMG = GV.Carregar_Imagem("imagens/itens/TP.png", (62, 62), "PNG")
+    MegaIMG = GV.Carregar_Imagem("imagens/itens/mega.png", (62, 62), "PNG")
+    VMaxIMG = GV.Carregar_Imagem("imagens/itens/Vmax.png", (62, 62), "PNG")
+    VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (62, 62), "PNG")
+    TrocadorAtaqueIMG = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (62, 62), "PNG")
+    RemovedorIMG = GV.Carregar_Imagem("imagens/itens/removedor.png", (62, 62), "PNG")
+    CompraEnergia = GV.Carregar_Imagem("imagens/icones/CompraEnergia.png", (28, 28), "PNG")
+    UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
+    UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
+    UUltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (55,55),"PNG")
+    UMasterBallIMG = GV.Carregar_Imagem("imagens/itens/MasterBall.png", (55,55),"PNG")
+    UFramboIMG = GV.Carregar_Imagem("imagens/itens/frambo.png", (48, 48), "PNG")
+    UFramboDouradaIMG = GV.Carregar_Imagem("imagens/itens/frambo_dourada.png", (48, 48), "PNG")
+    UCaxiIMG = GV.Carregar_Imagem("imagens/itens/caxi.png", (48, 48), "PNG")
+    UCaxiPrateadaIMG = GV.Carregar_Imagem("imagens/itens/caxi_prateada.png", (48, 48), "PNG")
+
+    MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (88, 88), "PNG")
+    McharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (88, 88), "PNG")
+    MsquirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (88, 88), "PNG")
+    MmachopIMG = GV.Carregar_Imagem("imagens/pokemons/machop.png", (88, 88), "PNG")
+    MgastlyIMG = GV.Carregar_Imagem("imagens/pokemons/gastly.png", (88, 88), "PNG")
+    MgeodudeIMG = GV.Carregar_Imagem("imagens/pokemons/geodude.png", (88, 88), "PNG")
+    McaterpieIMG = GV.Carregar_Imagem("imagens/pokemons/caterpie.png", (88, 88), "PNG")
+    MabreIMG = GV.Carregar_Imagem("imagens/pokemons/abra.png", (88, 88), "PNG")
+    MdratiniIMG = GV.Carregar_Imagem("imagens/pokemons/dratini.png", (88, 88), "PNG")
+    MzoruaIMG = GV.Carregar_Imagem("imagens/pokemons/zorua.png", (88, 88), "PNG")
+    MpikachuIMG = GV.Carregar_Imagem("imagens/pokemons/pikachu.png", (88, 88), "PNG")
+    MmagikarpIMG = GV.Carregar_Imagem("imagens/pokemons/magikarp.png", (88, 88), "PNG")
+    MjigglypuffIMG = GV.Carregar_Imagem("imagens/pokemons/jigglypuff.png", (88, 88), "PNG")
+    MmagnemiteIMG = GV.Carregar_Imagem("imagens/pokemons/magnemite.png", (88, 88), "PNG")
+    MsnorlaxIMG = GV.Carregar_Imagem("imagens/pokemons/snorlax.png", (88, 88), "PNG")
+    MaerodactylIMG = GV.Carregar_Imagem("imagens/pokemons/aerodactyl.png", (88, 88), "PNG")
+    MjynxIMG = GV.Carregar_Imagem("imagens/pokemons/jynx.png", (88, 88), "PNG")
+    MmewtwoIMG = GV.Carregar_Imagem("imagens/pokemons/mewtwo.png", (88, 88), "PNG")
+    MmeowthIMG = GV.Carregar_Imagem("imagens/pokemons/meowth.png", (88, 88), "PNG")
+    McuboneIMG = GV.Carregar_Imagem("imagens/pokemons/cubone.png", (88, 88), "PNG")
+    MshellderIMG = GV.Carregar_Imagem("imagens/pokemons/shellder.png", (88, 88), "PNG")
+    MarticunoIMG = GV.Carregar_Imagem("imagens/pokemons/articuno.png", (88, 88), "PNG")
+    MmoltresIMG = GV.Carregar_Imagem("imagens/pokemons/moltres.png", (88, 88), "PNG")
+    MzapdosIMG = GV.Carregar_Imagem("imagens/pokemons/zapdos.png", (88, 88), "PNG")
+    MclefairyIMG = GV.Carregar_Imagem("imagens/pokemons/clefairy.png", (88, 88), "PNG")
+    MrattataIMG = GV.Carregar_Imagem("imagens/pokemons/rattata.png", (88, 88), "PNG")
+    MweedleIMG = GV.Carregar_Imagem("imagens/pokemons/weedle.png", (88, 88), "PNG")
+    MpinsirIMG = GV.Carregar_Imagem("imagens/pokemons/pinsir.png", (88, 88), "PNG")
+
+    Efogo = GV.Carregar_Imagem("imagens/icones/fogo.png", (30,30), "PNG")
+    Eagua = GV.Carregar_Imagem("imagens/icones/agua.png", (30,30), "PNG")
+    Eplanta = GV.Carregar_Imagem("imagens/icones/planta.png", (30,30), "PNG")
+    Eeletrico = GV.Carregar_Imagem("imagens/icones/eletrico.png", (30,30), "PNG")
+    Epsiquico = GV.Carregar_Imagem("imagens/icones/psiquico.png", (30,30), "PNG")
+    Efantasma = GV.Carregar_Imagem("imagens/icones/fantasma.png", (30,30), "PNG")
+    Epedra = GV.Carregar_Imagem("imagens/icones/pedra.png", (30,30), "PNG")
+    Eterrestre = GV.Carregar_Imagem("imagens/icones/terrestre.png", (30,30), "PNG")
+    Evoador = GV.Carregar_Imagem("imagens/icones/voador.png", (30,30), "PNG")
+    Enormal = GV.Carregar_Imagem("imagens/icones/normal.png", (30,30), "PNG")
+    Evenenoso = GV.Carregar_Imagem("imagens/icones/venenoso.png", (30,30), "PNG")
+    Einseto = GV.Carregar_Imagem("imagens/icones/inseto.png", (30,30), "PNG")
+    Elutador = GV.Carregar_Imagem("imagens/icones/lutador.png", (30,30), "PNG")
+    Edragao = GV.Carregar_Imagem("imagens/icones/dragao.png", (30,30), "PNG")
+    Egelo = GV.Carregar_Imagem("imagens/icones/gelo.png", (30,30), "PNG")
+    Efada = GV.Carregar_Imagem("imagens/icones/fada.png", (30,30), "PNG")
+    Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
+    Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
+
+    TiposEnergiaIMG = {
+    "fogo": Efogo,
+    "agua": Eagua,
+    "planta": Eplanta,
+    "eletrico": Eeletrico,
+    "psiquico": Epsiquico,
+    "fantasma": Efantasma,
+    "pedra": Epedra,
+    "terrestre": Eterrestre,
+    "voador": Evoador,
+    "normal": Enormal,
+    "venenoso": Evenenoso,
+    "inseto": Einseto,
+    "lutador": Elutador,
+    "dragao": Edragao,
+    "gelo": Egelo,
+    "fada": Efada,
+    "metal": Emetal,
+    "sombrio": Esombrio
+}
+    
+    ImagensItens = {
+    "Esmeralda": EsmeraldaIMG,
+    "Citrino": CitrinoIMG,
+    "Rubi": RubiIMG,
+    "Safira": SafiraIMG,
+    "Ametista": AmetistaIMG,
+    "Rubelita": RubelitaIMG,
+    "Diamante": DiamanteIMG,
+    "Coletor": ColetorIMG,
+    "Caixa": CaixaIMG,
+    "Caixote": CaixoteIMG,
+    "Poção": PocaoIMG,
+    "Super Poção": SuperPocaoIMG,
+    "Hiper Poção": HiperPocaoIMG,
+    "Mega Poção": MegaPocaoIMG,
+    "Pokebola": PokeballIMG,
+    "Greatball": GreatBallIMG,
+    "Ultraball": UltraBallIMG,
+    "Masterball": MasterBallIMG,
+    "Fruta Frambo": FramboIMG,
+    "Fruta Frambo Dourada": FramboDouradaIMG,
+    "Fruta Caxi": CaxiIMG,
+    "Fruta Caxi Prateada": CaxiPrateadaIMG,
+    "Energia Mega": MegaIMG,
+    "Energia Vstar": VStarIMG,
+    "Energia GigantaMax": VMaxIMG,
+    "Trocador de Ataque": TrocadorAtaqueIMG,
+    "Removedor": RemovedorIMG,
+    "Estádio Mer": EstadioIMG,
+    "Cidade Shivre": EstadioIMG,
+    "Parque Auroma": EstadioIMG,
+    "Estádio Kalos": EstadioIMG,
+    "Skyloft": EstadioIMG,
+    "Porto Molgera": EstadioIMG,
+    "CompraEnergia": CompraEnergia,
+    "Pokebola": UPokeballIMG,
+    "Greatball": UGreatBallIMG,
+    "Ultraball": UUltraBallIMG,
+    "Masterball": UMasterBallIMG,
+    "Fruta Frambo": UFramboIMG,
+    "Fruta Frambo Dourada": UFramboDouradaIMG,
+    "Fruta Caxi": UCaxiIMG,
+    "Fruta Caxi Prateada": UCaxiPrateadaIMG}
+
+    ImagensPokemonCentro = {
+    "Bulbasaur": MbulbasaurIMG,
+    "Charmander": McharmanderIMG,
+    "Squirtle": MsquirtleIMG,
+    "Machop": MmachopIMG,
+    "Gastly": MgastlyIMG,
+    "Geodude": MgeodudeIMG,
+    "Caterpie": McaterpieIMG,
+    "Abra": MabreIMG,
+    "Dratini": MdratiniIMG,
+    "Zorua": MzoruaIMG,
+    "Pikachu": MpikachuIMG,
+    "Magikarp": MmagikarpIMG,
+    "Jigglypuff": MjigglypuffIMG,
+    "Magnemite": MmagnemiteIMG,
+    "Snorlax": MsnorlaxIMG,
+    "Aerodactyl": MaerodactylIMG,
+    "Jynx": MjynxIMG,
+    "Mewtwo": MmewtwoIMG,
+    "Meowth": MmeowthIMG,
+    "Cubone": McuboneIMG,
+    "Shellder": MshellderIMG,
+    "Articuno": MarticunoIMG,
+    "Moltres": MmoltresIMG,
+    "Zapdos": MzapdosIMG,
+    "Clefairy": MclefairyIMG,
+    "Rattata": MrattataIMG,
+    "Weedle": MweedleIMG,
+    "Pinsir": MpinsirIMG
+}
+
     EfeitosIMG = {
     "Confuso": ConfusoIMG,
     "Bloqueado": BloqueadoIMG,
@@ -292,9 +474,9 @@ def Carregar_Imagens1(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEner
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
-    return ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
+    return ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG
 
-def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIconesIMG):
+def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIconesIMG,ImagensTreinadores):
     
     EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (62, 62), "PNG")
     CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (62, 62), "PNG")
@@ -390,6 +572,26 @@ def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIcon
     Icon6 = GV.Carregar_Imagem("imagens/Deck_icones/icon6.png", (80, 80), "PNG")
     Icon7 = GV.Carregar_Imagem("imagens/Deck_icones/icon7.png", (80, 80), "PNG")
     Icon8 = GV.Carregar_Imagem("imagens/Deck_icones/icon8.png", (80, 80), "PNG")
+
+    AshIMG = GV.Carregar_Imagem("imagens/Treinadores/Ash.png", (230, 160), "PNG")
+    BrockIMG = GV.Carregar_Imagem("imagens/Treinadores/Brock.png", (230, 160), "PNG")
+    MistyIMG = GV.Carregar_Imagem("imagens/Treinadores/Misty.png", (230, 160), "PNG")
+    GiovanniIMG = GV.Carregar_Imagem("imagens/Treinadores/Giovanni.png", (230, 160), "PNG")
+    JessieIMG = GV.Carregar_Imagem("imagens/Treinadores/Jessie.png", (230, 160), "PNG")
+    JamesIMG = GV.Carregar_Imagem("imagens/Treinadores/James.png", (230, 160), "PNG")
+    CarvalhoIMG = GV.Carregar_Imagem("imagens/Treinadores/Carvalho.png", (230, 160), "PNG")
+    RedIMG = GV.Carregar_Imagem("imagens/Treinadores/Red.png", (230, 160), "PNG")
+
+    ImagensTreinadores = {
+        "Ash": AshIMG,
+        "Brock": BrockIMG,
+        "Misty": MistyIMG,
+        "Giovanni": GiovanniIMG,
+        "Jessie": JessieIMG,
+        "James": JamesIMG,
+        "Professor Carvalho": CarvalhoIMG,
+        "Red": RedIMG,
+}
 
     DeckIconesIMG = {
     "icone1": Icon1,
@@ -498,4 +700,62 @@ def Carregar_Imagens2(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIcon
     "Pinsir": MpinsirIMG
 }
 
-    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG, DeckIconesIMG
+    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG, DeckIconesIMG, ImagensTreinadores
+
+def Carregar_Imagens_Pré_Partida(ImagensPokemonInicial,IconesDeckIMG):
+
+    MbulbasaurIMG = GV.Carregar_Imagem("imagens/pokemons/bulbasaur.png", (235, 235), "PNG")
+    McharmanderIMG = GV.Carregar_Imagem("imagens/pokemons/charmander.png", (235, 235), "PNG")
+    MsquirtleIMG = GV.Carregar_Imagem("imagens/pokemons/squirtle.png", (235, 235), "PNG")
+    MmachopIMG = GV.Carregar_Imagem("imagens/pokemons/machop.png", (235, 235), "PNG")
+    MgastlyIMG = GV.Carregar_Imagem("imagens/pokemons/gastly.png", (235, 235), "PNG")
+    MgeodudeIMG = GV.Carregar_Imagem("imagens/pokemons/geodude.png", (235, 235), "PNG")
+    McaterpieIMG = GV.Carregar_Imagem("imagens/pokemons/caterpie.png", (235, 235), "PNG")
+    MmagikarpIMG = GV.Carregar_Imagem("imagens/pokemons/magikarp.png", (235, 235), "PNG")
+    MjigglypuffIMG = GV.Carregar_Imagem("imagens/pokemons/jigglypuff.png", (235, 235), "PNG")
+    MmagnemiteIMG = GV.Carregar_Imagem("imagens/pokemons/magnemite.png", (235, 235), "PNG")
+    MmeowthIMG = GV.Carregar_Imagem("imagens/pokemons/meowth.png", (235, 235), "PNG")
+    McuboneIMG = GV.Carregar_Imagem("imagens/pokemons/cubone.png", (235, 235), "PNG")
+    MclefairyIMG = GV.Carregar_Imagem("imagens/pokemons/clefairy.png", (235, 235), "PNG")
+    MrattataIMG = GV.Carregar_Imagem("imagens/pokemons/rattata.png", (235, 235), "PNG")
+    MweedleIMG = GV.Carregar_Imagem("imagens/pokemons/weedle.png", (235, 235), "PNG")
+
+    Icon1 = GV.Carregar_Imagem("imagens/Deck_icones/icon1.png", (80, 80), "PNG")
+    Icon2 = GV.Carregar_Imagem("imagens/Deck_icones/icon2.png", (80, 80), "PNG")
+    Icon3 = GV.Carregar_Imagem("imagens/Deck_icones/icon3.png", (80, 80), "PNG")
+    Icon4 = GV.Carregar_Imagem("imagens/Deck_icones/icon4.png", (80, 80), "PNG")
+    Icon5 = GV.Carregar_Imagem("imagens/Deck_icones/icon5.png", (80, 80), "PNG")
+    Icon6 = GV.Carregar_Imagem("imagens/Deck_icones/icon6.png", (80, 80), "PNG")
+    Icon7 = GV.Carregar_Imagem("imagens/Deck_icones/icon7.png", (80, 80), "PNG")
+    Icon8 = GV.Carregar_Imagem("imagens/Deck_icones/icon8.png", (80, 80), "PNG")
+
+    ImagensPokemonInicial = {
+    "Bulbasaur": MbulbasaurIMG,
+    "Charmander": McharmanderIMG,
+    "Squirtle": MsquirtleIMG,
+    "Machop": MmachopIMG,
+    "Gastly": MgastlyIMG,
+    "Geodude": MgeodudeIMG,
+    "Caterpie": McaterpieIMG,
+    "Magikarp": MmagikarpIMG,
+    "Jigglypuff": MjigglypuffIMG,
+    "Magnemite": MmagnemiteIMG,
+    "Meowth": MmeowthIMG,
+    "Cubone": McuboneIMG,
+    "Clefairy": MclefairyIMG,
+    "Rattata": MrattataIMG,
+    "Weedle": MweedleIMG,
+}
+    
+    DeckIconesIMG = {
+    "icone1": Icon1,
+    "icone2": Icon2,
+    "icone3": Icon3,
+    "icone4": Icon4,
+    "icone5": Icon5,
+    "icone6": Icon6,
+    "icone7": Icon7,
+    "icone8": Icon8,
+}
+    
+    return ImagensPokemonInicial, DeckIconesIMG

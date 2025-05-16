@@ -285,7 +285,7 @@ Clefable = {
     "velocidade": 21,
     "custo": 3,
     "XP": 0,
-    "movelist": ["Constelação Mágica", "Vento Fada", "Brilho", "Benção", "Cura Natural", "EXPlosão Lunar"],
+    "movelist": ["Constelação Mágica", "Vento Fada", "Brilho", "Benção", "Cura Natural", "Explosão Lunar"],
     "moves": 4,
     "H": 1.2,
     "W": 48
