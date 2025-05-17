@@ -1,7 +1,7 @@
 from Geradores.GeradorPokemon import Gerador_final
 from Visual.Sonoridade import tocar
 from Jogo.Abas import Trocar_Ataque_Pergunta
-from Geradores.GeradorOutros import Pokebolas_disponiveis,coletor
+from Dados.Treinadores import Derrotas,Vitorias,Passivas,Habilidades
 import Visual.GeradoresVisuais as GV
 
 class Jogador:
@@ -10,9 +10,19 @@ class Jogador:
         self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
         self.inventario = []
         self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
+        self.energiasMax = 15
         self.energiasDesc = []
         self.ouro = 10
         self.deck = informaçoes[2]
+        self.treinador = informaçoes[2]["treinador"]
+        self.tempo = self.treinador["tempo"]
+        self.AtivaPassiva = self.treinador[""]
+        self.Derrota = Derrotas[self.treinador["nome"]]
+        self.Vitoria = Vitorias[self.treinador["nome"]]
+        self.Passiva = Passivas[self.treinador["nome"]]
+        self.Habilidades = Habilidades[self.treinador["nome"]]
+        self.NocautesSofridos = 0
+        self.NocautesRealizados = 0
 
         for energia in self.deck["energiasD"]:
             if energia is not None:

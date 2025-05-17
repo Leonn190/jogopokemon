@@ -179,3 +179,20 @@ class GifCondicional:
 
 def gerar_gif(frames, posicao, intervalo=80):
     return GifCondicional(frames, posicao, intervalo)
+
+
+class Fundo:
+    def __init__(self, frames):
+        """
+        frames: lista de surfaces do pygame (imagens)
+        """
+        self.frames = frames
+        self.index = 0  # frame atual
+
+    def atualizar(self):
+        """Avança para o próximo frame, em loop"""
+        self.index = (self.index + 1) % len(self.frames)
+
+    def desenhar(self, tela):
+        """Desenha o frame atual na posição 0,0 da tela"""
+        tela.blit(self.frames[self.index], (0, 0))

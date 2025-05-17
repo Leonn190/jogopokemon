@@ -31,7 +31,7 @@ def extrair_frames_video(caminho_video, multiplicador=1):
     print(f"{frame} frame(s) extraído(s) de '{caminho_video}' para a pasta '{pasta_destino}'.")
 
 # Exemplo de uso:
-extrair_frames_video("imagens/FundosAnimados/test2.mp4", multiplicador=1)
+extrair_frames_video("imagens/FundosAnimados/fundovid.mp4", multiplicador=1)
 
 
 

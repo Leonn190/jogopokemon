@@ -7,6 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 import pygame
 from Visual import GeradoresVisuais as GV
 import PygameAções as A
+from Visual.Efeitos import Fundo
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
@@ -53,7 +54,8 @@ def Menu(tela,estados,relogio):
     Parte2 = False
     Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Menu.png", (1920,1080))
     Logo_Menu = GV.Carregar_Imagem("imagens/fundos/logo.png", (800,800),"PNG")
-
+    # Fundot = GV.carregar_frames2("imagens/FundosAnimados/fundovid_frames")
+    # Fundot = Fundo(Fundot)
 
     pygame.mixer.music.load('Audio/Musicas/Menu.ogg')  
     pygame.mixer.music.set_volume(0.3)
@@ -61,6 +63,8 @@ def Menu(tela,estados,relogio):
 
     while estados["Rodando_Menu"]:
         tela.blit(Fundo_Menu, (0, 0))
+        # Fundot.atualizar()
+        # Fundot.desenhar(tela)
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:
@@ -70,5 +74,4 @@ def Menu(tela,estados,relogio):
         TelaMenu(tela,eventos, estados, Logo_Menu)
 
         pygame.display.update()
-        relogio.tick(60)
-
+        relogio.tick(20)

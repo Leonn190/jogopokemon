@@ -230,12 +230,12 @@ def PokemonInfo(pos, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, even
     ret_w = 40  # largura dos retângulos pequenos
     ret_h = 30  # altura dos retângulos pequenos
 
-    margem_borda = 30  # distância mínima das bordas esquerda/direita da ficha
+    margem_borda = 20  # distância mínima das bordas esquerda/direita da ficha
 
     # ▪️ Esquerda (só se tiver evolução anterior)
     if PokemonEvo > 0:
         ret_esq_x = x + margem_borda
-        ret_esq_y = pos_centro_y - ret_h + 20
+        ret_esq_y = pos_centro_y - ret_h + 30
         pygame.draw.rect(tela, (100, 100, 100), (ret_esq_x, ret_esq_y, ret_w, ret_h), border_radius=6)
         pygame.draw.polygon(tela, (255, 255, 0), [
             (ret_esq_x + ret_w * 0.65, ret_esq_y + ret_h * 0.25),
@@ -246,7 +246,7 @@ def PokemonInfo(pos, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, even
     # ▪️ Direita (só se tiver evolução seguinte)
     if PokemonEvo < PokemonEvoLim:
         ret_dir_x = x + w - margem_borda - ret_w
-        ret_dir_y = pos_centro_y - ret_h + 20
+        ret_dir_y = pos_centro_y - ret_h + 30
         pygame.draw.rect(tela, (100, 100, 100), (ret_dir_x, ret_dir_y, ret_w, ret_h), border_radius=6)
         pygame.draw.polygon(tela, (255, 255, 0), [
             (ret_dir_x + ret_w * 0.35, ret_dir_y + ret_h * 0.25),

@@ -348,6 +348,7 @@ class Pokemon:
 
         if self.Vida == 0:
             GuardarPosicionar(self,player,0,Mapa.Zona)
+            
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
     def curar(self,cura,player,tela):

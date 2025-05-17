@@ -33,7 +33,7 @@ AzulClaroRar = (173, 216, 230)
 VerdeClaroRar = (144, 238, 144)
 CinzaClaroRar = (211, 211, 211)
 VermelhoClaroRar = (255, 182, 193)
-RoxoClaroRar = (216, 191, 216)
+RoxoClaroRar = (180, 110, 220)
 
 cores_raridade = {
     "Comum": CinzaClaroRar,
@@ -527,6 +527,25 @@ def carregar_frames(pasta):
             caminho = os.path.join(pasta, nome)
             imagem = pygame.image.load(caminho).convert_alpha()
             frames.append(imagem)
+    return frames
+
+import re
+import os
+
+def ordenacao_natural(texto):
+    return [int(c) if c.isdigit() else c.lower() for c in re.split('(\d+)', texto)]
+
+def carregar_frames2(pasta):
+    frames = []
+    arquivos = sorted([f for f in os.listdir(pasta) if f.endswith(".png")], key=ordenacao_natural)
+    
+    # Pula de 0, 2, 4... (índices pares, que correspondem aos arquivos ímpares se numerados corretamente)
+    for i, nome in enumerate(arquivos[::2], start=1):
+        caminho = os.path.join(pasta, nome)
+        imagem = pygame.image.load(caminho).convert_alpha()
+        frames.append(imagem)
+        print(i)
+    
     return frames
 
 def animar(D_inicial,D_final,anima,tempo=200):

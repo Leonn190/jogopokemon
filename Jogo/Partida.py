@@ -325,17 +325,19 @@ def Abre(ID,player,inimigo):
         A1 = -382
         A2 = 0
         animaAI = pygame.time.get_ticks()
-        A7 = -480
-        A8 = 0
-        animaAL = pygame.time.get_ticks()
+        if A8 != 0:
+            A7 = -480
+            A8 = 0
+            animaAL = pygame.time.get_ticks()
     elif ID == "Centro":
         global A5, A6, animaAC
         A5 = -400
         A6 = 0
         animaAC = pygame.time.get_ticks()
-        A7 = -480
-        A8 = 0
-        animaAL = pygame.time.get_ticks()
+        if A8 != 0:
+            A7 = -480
+            A8 = 0
+            animaAL = pygame.time.get_ticks()
     
 def Fecha():
     global A1, A2, animaAI
@@ -347,17 +349,11 @@ def Fecha():
         A1 = 0
         A2 = -382
         animaAI = pygame.time.get_ticks()
-        A7 = 0
-        A8 = -480
-        animaAL = pygame.time.get_ticks()
-    elif A4 == 0:
-        A3 = 0
-        A4 = -382
-        animaAE = pygame.time.get_ticks()
     elif A6 == 0:
         A5 = 0
         A6 = -400
         animaAC = pygame.time.get_ticks()
+    if A2 == 0 and A5 == 0:
         A7 = 0
         A8 = -480
         animaAL = pygame.time.get_ticks()
@@ -862,18 +858,7 @@ def Partida(tela,estados,relogio):
             TelaOpções(tela,eventos,estados)
             TelaOutros(tela,eventos,estados)
             TelaPokemons(tela,eventos,estados)
-
-            VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
-            if VidaTotal1 <= 0:
-                Vencedor = Jogador2
-                Perdedor = Jogador1
-                A.Fim_da_partida(estados)
-
-            VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
-            if VidaTotal2 <= 0:
-                Vencedor = Jogador1
-                Perdedor = Jogador2
-                A.Fim_da_partida(estados)
+            VerificaVitória(estados,Jogador1,Jogador2)
 
             for mensagem in mensagens_passageiras[:]:
                 mensagem.desenhar(tela)
@@ -1255,7 +1240,7 @@ def TelaOutros(tela,eventos,estados):
 
     GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: passar_turno(),Fonte40, B7, 3, None, True, eventos)
     
-    cronometro(tela, (0, 60, 360, 30), Mapa.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
+    cronometro(tela, (0, 60, 360, 30), player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:passar_turno(),Turno)
 
     GV.Texto_caixa(tela,f"Turno: {Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO) 
     GV.Texto_caixa(tela,inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
@@ -1276,5 +1261,38 @@ def TelaTabuleiro(tela, eventos, estados):
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
     M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte23, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  
 
-def VerificaVitória(estados):
-    pass
+def VerificaVitória(estados, Jogador1, Jogador2):
+    global Vencedor
+    global Perdedor
+
+    VidaTotal1 = sum(p.Vida for p in Jogador1.pokemons)
+    if VidaTotal1 <= 0:
+        Vencedor = Jogador2
+        Perdedor = Jogador1
+        A.Fim_da_partida(estados)
+
+    VidaTotal2 = sum(p.Vida for p in Jogador2.pokemons)
+    if VidaTotal2 <= 0:
+        Vencedor = Jogador1
+        Perdedor = Jogador2
+        A.Fim_da_partida(estados)
+
+    if Jogador1.Vitoria(Jogador1, Jogador2, Mapa, Baralho) == True:
+        Vencedor = Jogador1
+        Perdedor = Jogador2
+        A.Fim_da_partida(estados)
+    
+    if Jogador1.Derrota(Jogador1, Jogador2, Mapa, Baralho) == True:
+        Vencedor = Jogador2
+        Perdedor = Jogador1
+        A.Fim_da_partida(estados)
+    
+    if Jogador2.Vitoria(Jogador2, Jogador1, Mapa, Baralho) == True:
+        Vencedor = Jogador2
+        Perdedor = Jogador1
+        A.Fim_da_partida(estados)
+    
+    if Jogador2.Derrota(Jogador2, Jogador1, Mapa, Baralho) == True:
+        Vencedor = Jogador1
+        Perdedor = Jogador2
+        A.Fim_da_partida(estados)

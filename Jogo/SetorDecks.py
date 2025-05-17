@@ -452,8 +452,7 @@ def desenhaBaralho(tela, Baralho, eventos):
 
                     imagem_pokemon = ImagensPokemon.get(pokemon["nome"])
                     if imagem_pokemon:
-                        imagem_redimensionada = pygame.transform.smoothscale(imagem_pokemon, (lado_slot, lado_slot))
-                        imagem_fundo.blit(imagem_redimensionada, (0, 0))
+                        imagem_fundo.blit(imagem_pokemon, (0, 0))
 
                     arrastavel = Arrastavel(imagem_fundo, (x_slot, y_slot), pokemon, "pokemons", True, Executar)
                     Arrastaveis.append(arrastavel)
@@ -476,8 +475,7 @@ def desenhaBaralho(tela, Baralho, eventos):
 
                 imagem_pokemon = ImagensPokemon.get(pokemon["nome"])
                 if imagem_pokemon:
-                    imagem_redimensionada = pygame.transform.smoothscale(imagem_pokemon, (lado_slot, lado_slot))
-                    tela.blit(imagem_redimensionada, (x_slot, y_slot))
+                    tela.blit(imagem_pokemon, (x_slot, y_slot))
 
     
     area_itens_x = x_linha_interna_esquerda + 5
@@ -531,8 +529,7 @@ def desenhaBaralho(tela, Baralho, eventos):
 
                     imagem_item = ImagensItens.get(item["nome"])
                     if imagem_item:
-                        imagem_redimensionada = pygame.transform.smoothscale(imagem_item, (lado_slot_item, lado_slot_item))
-                        imagem_fundo.blit(imagem_redimensionada, (0, 0))
+                        imagem_fundo.blit(imagem_item, (0, 0))
 
                     arrastavel = Arrastavel(imagem_fundo, (x_slot, y_slot), item, "itens", True, Executar)
                     Arrastaveis.append(arrastavel)
@@ -553,8 +550,7 @@ def desenhaBaralho(tela, Baralho, eventos):
 
                 imagem_item = ImagensItens.get(item["nome"])
                 if imagem_item:
-                    imagem_redimensionada = pygame.transform.smoothscale(imagem_item, (lado_slot_item, lado_slot_item))
-                    tela.blit(imagem_redimensionada, (x_slot, y_slot))
+                    tela.blit(imagem_item, (x_slot, y_slot))
 
             # Parâmetros dos círculos
     espacamento = 26
@@ -687,13 +683,13 @@ def desenhaBotoesEditor(tela, eventos):
         if PokemonSelecionado is not None:
             if EvoPokemon < EvoPokemonLim:
                 GV.Botao(
-                        tela, "", (355, 547, 40, 30), PRETO, PRETO, PRETO,
+                        tela, "", (355, 560, 40, 30), PRETO, PRETO, PRETO,
                         lambda : MudaForma(True),
                         Fonte50, BG, 2, None, True, eventos
                     ) 
             if EvoPokemon != 0:
                 GV.Botao(
-                        tela, "", (75, 547, 40, 30), PRETO, PRETO, PRETO,
+                        tela, "", (75, 560, 40, 30), PRETO, PRETO, PRETO,
                         lambda: MudaForma(False),
                         Fonte50, BG, 2, None, True, eventos
                     )
@@ -860,8 +856,7 @@ def desenhaEditor(tela, eventos):
 
                     imagem_pokemon = ImagensPokemon.get(pokemon["nome"])
                     if imagem_pokemon:
-                        imagem_redimensionada = pygame.transform.smoothscale(imagem_pokemon, (lado_slot, lado_slot))
-                        imagem_fundo.blit(imagem_redimensionada, (0, 0))
+                        imagem_fundo.blit(imagem_pokemon, (0, 0))
 
                     # Cria o arrastável, definindo categoria "pokemon", interno True e função Executar
                     arrastavel = Arrastavel(imagem_fundo, (x_slot, y_slot), pokemon, "pokemons", False, Executar)
@@ -897,8 +892,7 @@ def desenhaEditor(tela, eventos):
 
                     imagem_item = ImagensItens.get(item["nome"])  # Use seu dicionário de imagens
                     if imagem_item:
-                        imagem_redimensionada = pygame.transform.smoothscale(imagem_item, (lado_slot, lado_slot))
-                        imagem_fundo.blit(imagem_redimensionada, (0, 0))
+                        imagem_fundo.blit(imagem_item, (0, 0))
 
                     # Cria o arrastável no mesmo padrão, categoria "item"
                     arrastavel = Arrastavel(imagem_fundo, (x_slot, y_slot), item, "itens", False, Executar)
@@ -955,7 +949,7 @@ def desenhaEditor(tela, eventos):
 
             # --- Desenha o botão ---
             GV.Botao(
-                tela, "", (x_slot, y_slot, lado_slot, lado_slot), PRETO, PRETO, PRETO,
+                tela, "", (x_slot, y_slot, lado_slot, lado_slot), AZUL_CLARO, PRETO, AMARELO,
                 lambda icone=icone: selecionaIcone(icone),
                 Fonte50, BG, 2, None, True, eventos
             )
@@ -1046,6 +1040,7 @@ def Quer_Apagar():
 def SelecionaEditor(lista):
     global EditorSelecionado, PokemonSelecionado, ItemSelecionado
     EditorSelecionado = lista
+    tocar("Seleciona")
     PokemonSelecionado = None
     ItemSelecionado = None
 
@@ -1371,6 +1366,11 @@ def Decks(tela,estados,relogio):
         tela.blit(Fundo_Menu, (0, 0))
         eventos = pygame.event.get()
         for evento in eventos:
+            if evento.type == pygame.QUIT:
+                estados["Rodando_Menu"] = False
+                estados["Rodando_Jogo"] = False
+                estados["Rodando_Decks"] = False
+
             if evento.type == pygame.MOUSEBUTTONDOWN:
                 for arrastavel in Arrastaveis + ArrastaveisEditor:
                     arrastavel.verificar_clique(evento.pos)
@@ -1382,10 +1382,6 @@ def Decks(tela,estados,relogio):
             if evento.type == pygame.MOUSEMOTION:
                 for arrastavel in Arrastaveis + ArrastaveisEditor:
                         arrastavel.arrastar(evento.pos)
-
-            if evento.type == pygame.QUIT:
-                estados["Rodando_Menu"] = False
-                estados["Rodando_Jogo"] = False
         
         if Aviso_Apagar is False:
             if Abrir is None:
@@ -1420,4 +1416,3 @@ def Decks(tela,estados,relogio):
 
         pygame.display.update()
         relogio.tick(120)
-
