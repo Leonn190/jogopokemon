@@ -35,7 +35,7 @@ def PassivaMisty(player, inimigo, Mapa, Baralho):
         player.energias[chave] += 1
 
 def HabilidadeMisty(player, inimigo, Mapa, Baralho):
-    pass
+    player.energiasMax = 25
 
 def VitoriaBrock(player, inimigo, Mapa, Baralho):
     pass

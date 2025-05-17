@@ -1109,6 +1109,10 @@ def selecionaIcone(icone):
     global DeckSelecionado
     DeckSelecionado["icone"] = icone
 
+def SaiEditor():
+    global Abrir
+    Abrir = None
+
 estadoDecks = {"selecionado_esquerdo": None}
 estadoEditor = {"selecionado_esquerdo": None}
 
@@ -1192,6 +1196,7 @@ def TelaDecks(tela,eventos,estados):
 
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
+    
     if len(ListaDecks) < 16:
         GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), AMARELO, PRETO, AZUL,
                     lambda: Abre(False), Fonte50, B1, 3, None, True, eventos)
@@ -1290,6 +1295,9 @@ def TelaCriador(tela,eventos,estados):
 
     GV.Botao(tela, "Salvar Deck", (1495, 910, 380, 100), AMARELO_CLARO, PRETO, AZUL,
                 lambda: salvar_dicionario_em_py(DeckSelecionado,DeckSelecionado["ID"],"Decks"), Fonte40, B1, 3, None, True, eventos)
+    
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
+                lambda: SaiEditor(), Fonte40, B1, 3, None, True, eventos)
 
 def TelaAviso(tela,eventos,estados):
     global DeckSelecionado
@@ -1319,7 +1327,7 @@ def TelaAviso(tela,eventos,estados):
     GV.Botao(tela, "Apagar", (585, 720, 350, 90), VERMELHO, PRETO, AZUL,
                     lambda: Apagar_Deck(DeckSelecionado["ID"],"Decks"), Fonte50, B1, 3, None, True, eventos)
 
-    GV.Botao(tela, "Cancelar", (985, 720, 350, 90), VERMELHO, PRETO, AZUL,
+    GV.Botao(tela, "Cancelar", (985, 720, 350, 90), AMARELO_CLARO, PRETO, AZUL,
                     lambda: Quer_Apagar(), Fonte50, B1, 3, None, True, eventos)
 
     GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
