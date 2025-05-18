@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move
+from Jogo.Mapa import mover
 from Geradores.GeradorOutros import Gera_item, coletor
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random

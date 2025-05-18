@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move, GuardarPosicionar
+from Jogo.Mapa import mover, PosicionarGuardar
 from Geradores.GeradorOutros import Gera_item, coletor
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
@@ -70,7 +70,7 @@ def FF_Minhocagem(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,
                  player.energias["verde"] += inimigo.energias["verde"]
                  inimigo.energias["verde"] = 0
         else:
-            GuardarPosicionar(PokemonS,player,3,Mapa.Zona)
+            PosicionarGuardar(PokemonS,2)
 
         Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)

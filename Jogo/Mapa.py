@@ -1,0 +1,247 @@
+import pygame
+import math
+import random
+
+terreno = None
+Mapa = None
+x_terreno = 0
+y_terreno = 0
+largura_terreno = 0
+altura_terreno = 0
+
+class PecaArrastavel:
+    def __init__(self, pokemon, tela, imagem):
+        self.pokemon = pokemon
+        self.tela = tela
+        self.imagem = imagem  # imagem da peça arrastável (ex: círculo azul + ícone)
+        self.arrastando = False
+        self.offset_x = 0
+        self.offset_y = 0
+        self.pos_inicial = pokemon.local  # (x, y)
+        self.moveu = False  # Controla se o movimento foi válido
+
+    def iniciar_arraste(self, pos_mouse):
+        if not self.pokemon.PodeMover:
+            return False
+        x_p, y_p = self.pokemon.local
+        rect = self.imagem.get_rect(center=(int(x_p), int(y_p)))
+        if rect.collidepoint(pos_mouse):
+            self.arrastando = True
+            self.offset_x = x_p - pos_mouse[0]
+            self.offset_y = y_p - pos_mouse[1]
+            self.pos_inicial = self.pokemon.local
+            return True
+        return False
+
+    def soltar(self, pos_mouse):
+        if not self.arrastando:
+            return
+
+        self.arrastando = False
+        x_ini, y_ini = self.pos_inicial
+        x_fim = pos_mouse[0] + self.offset_x
+        y_fim = pos_mouse[1] + self.offset_y
+
+        distancia = math.hypot(x_fim - x_ini, y_fim - y_ini)
+        raio_movimento = self.pokemon.vel * Mapa.Metros
+
+        if distancia <= raio_movimento + self.pokemon.raio and self.pokemon.PodeMover == True:
+            if not ponto_valido(x_fim, y_fim, self.pokemon):
+                self.pokemon.local = self.pos_inicial
+                return
+
+            player = self.pokemon.dono
+            custo = self.pokemon.custo
+            if self.pokemon.efeitosNega.get("Encharcado"):
+                custo += 2
+
+            pagou = 0
+            gastas = []
+            for _ in range(custo):
+                for cor in player.energiasDesc:
+                    if player.energias.get(cor, 0) >= 1:
+                        player.energias[cor] -= 1
+                        gastas.append(cor)
+                        pagou += 1
+                        break
+
+            if pagou == custo:
+                Mapa.mudança = True
+                self.pokemon.moveu = True
+                self.pokemon.local = (x_fim, y_fim)
+                return
+            else:
+                for cor in gastas:
+                    player.energias[cor] += 1
+
+        # Caso inválido, volta ao início
+        self.pokemon.local = self.pos_inicial
+
+    def desenhar_raio_velocidade(self):
+        if not self.arrastando:
+            return
+        x_p, y_p = map(int, self.pos_inicial)
+        raio = int(self.pokemon.vel * Mapa.Metros + self.pokemon.raio)
+
+        superficie = pygame.Surface((raio*2, raio*2), pygame.SRCALPHA)
+        pygame.draw.circle(superficie, (0, 255, 0, 60), (raio, raio), raio)
+        self.tela.blit(superficie, (x_p - raio, y_p - raio))
+
+    def desenhar(self, pos_mouse=None):
+        if self.arrastando and pos_mouse is not None:
+            x_m, y_m = pos_mouse
+            rect = self.imagem.get_rect(center=(x_m, y_m))
+        else:
+            x_p, y_p = map(int, self.pokemon.local)
+            rect = self.imagem.get_rect(center=(x_p, y_p))
+
+        self.tela.blit(self.imagem, rect)
+
+def verifica_colisao(x, y, pokemon):
+    """Verifica se a posição (x,y) do pokemon colide com áreas ocupadas (exceto ele mesmo)."""
+    raio = int(pokemon.raio)
+    
+    ocupados_pokemon = set()
+    if pokemon.local is not None:
+        cx, cy = pokemon.local
+        for dx in range(-raio, raio + 1):
+            for dy in range(-raio, raio + 1):
+                if dx * dx + dy * dy <= raio * raio:
+                    ocupados_pokemon.add((cx + dx, cy + dy))
+    
+    for dx in range(-raio, raio + 1):
+        for dy in range(-raio, raio + 1):
+            if dx * dx + dy * dy <= raio * raio:
+                px = x + dx
+                py = y + dy
+
+                # Verifica colisão com outras áreas ocupadas, ignorando o próprio pokemon
+                if (px, py) in Mapa.Ocupadas and (px, py) not in ocupados_pokemon:
+                    return False
+    return True
+
+def ponto_valido(x, y, pokemon, ignorar_limites=False, ignora_colisão=False):
+    raio = int(pokemon.raio - 2)
+
+    # Se não ignorar limites, verifica se o ponto está dentro do terreno e alfa > 0
+    if not ignorar_limites:
+        for dx in range(-raio, raio + 1):
+            for dy in range(-raio, raio + 1):
+                if dx * dx + dy * dy <= raio * raio:
+                    px = x + dx
+                    py = y + dy
+                    local_x = px - x_terreno
+                    local_y = py - y_terreno
+
+                    # Verifica se está dentro dos limites do terreno
+                    if not (0 <= local_x < largura_terreno and 0 <= local_y < altura_terreno):
+                        return False
+
+                    # Verifica se é terreno válido (alpha > 0)
+                    if terreno.get_at((local_x, local_y)).a <= 0:
+                        return False
+
+    if not ignora_colisão:
+        if not verifica_colisao(x, y, pokemon):
+            return False
+
+    return True
+
+def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, pecas_arrastaveis):
+    global terreno, x_terreno, y_terreno, largura_terreno, altura_terreno, Mapa
+    Mapa = mapa
+    
+    terreno = Mapa.terreno
+    largura_terreno, altura_terreno = terreno.get_size()
+
+    # Centralizar o terreno
+    largura_tela, altura_tela = tela.get_size()
+    x_terreno = (largura_tela - largura_terreno) // 2
+    y_terreno = (altura_tela - altura_terreno) // 2
+
+    # Só desenha o terreno aqui
+    tela.blit(terreno, (x_terreno, y_terreno))
+
+    def criar_imagem_peca(pokemon, cor_circulo):
+        raio = int(pokemon.raio)
+        diametro = raio * 2
+
+        superficie = pygame.Surface((diametro, diametro), pygame.SRCALPHA)
+
+        # Círculo com a cor passada (azul ou vermelho)
+        pygame.draw.circle(superficie, cor_circulo, (raio, raio), raio)
+
+        icone = pokemon.icone.convert_alpha()
+        largura_icone, altura_icone = icone.get_size()
+        pos_icone = (raio - largura_icone // 2, raio - altura_icone // 2)
+        superficie.blit(icone, pos_icone)
+
+        return superficie
+
+    def desenhar_pokemons(jogador, criar_pecas, cor_circulo):
+        pokemons_validos = [pokemon for pokemon in jogador.pokemons if pokemon.local is not None and ponto_valido(*pokemon.local, pokemon, ignora_colisão=True)]
+
+        if criar_pecas and len(pecas_arrastaveis) < len(pokemons_validos):
+                for pokemon in pokemons_validos:
+                    if not any(p.pokemon is pokemon for p in pecas_arrastaveis):
+                        imagem_peca = criar_imagem_peca(pokemon, cor_circulo)
+                        nova_peca = PecaArrastavel(pokemon, tela, imagem=imagem_peca)
+                        pecas_arrastaveis.append(nova_peca)
+
+        else:
+            for pokemon in jogador.pokemons:
+                if pokemon.local is not None:
+                    x, y = pokemon.local
+                    if ponto_valido(x, y, pokemon,ignora_colisão=True):
+                        imagem_peca = criar_imagem_peca(pokemon, cor_circulo)
+                        largura_img, altura_img = imagem_peca.get_size()
+                        x_img = x - largura_img // 2
+                        y_img = y - altura_img // 2
+                        tela.blit(imagem_peca, (x_img, y_img))
+                    else:
+                        PosicionarGuardar(pokemon, 0)
+
+    # No corpo principal da função:
+    desenhar_pokemons(player, criar_pecas=True, cor_circulo=(0, 0, 255))  # azul para player
+    desenhar_pokemons(inimigo, criar_pecas=False, cor_circulo=(255, 0, 0))  # vermelho para inimigos
+
+def PosicionarGuardar(pokemon, tempo):
+    if pokemon.local is None:
+        tentativas = 200  # evita loop infinito
+
+        for _ in range(tentativas):
+            x = random.randint(x_terreno, x_terreno + largura_terreno - 1)
+            y_min = y_terreno + int(altura_terreno * 0.75)
+            y_max = y_terreno + altura_terreno - 1
+            y = random.randint(y_min, y_max)
+
+            if ponto_valido(x, y, pokemon):
+                pokemon.local = (x, y, pokemon)
+                Mapa.mudança = True
+                return
+        
+    else:
+        Mapa.mudança = True
+        pokemon.local = None
+        pokemon.guardado = tempo
+
+def mover(pokemon,pos):
+    x, y = pos
+    
+    if ponto_valido(x,y,pokemon) == True:
+        Mapa.mudança = True
+        pokemon.local = (x, y)
+
+def inverter_tabuleiro(player, inimigo):
+    for treinador in [player, inimigo]:
+        for poke in treinador.pokemons:
+            if poke.local is not None:
+                x, y = poke.local
+
+                # Inverte posição no tabuleiro com base nas dimensões do terreno
+                novo_x = x_terreno + (largura_terreno - 1) - (x - x_terreno)
+                novo_y = y_terreno + (altura_terreno - 1) - (y - y_terreno)
+
+                poke.local = (novo_x, novo_y)
+
+    Mapa.mudança = True

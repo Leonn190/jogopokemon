@@ -1,12 +1,11 @@
 import Visual.GeradoresVisuais as GV
 import random
-import Jogo.Funções2 as FU
 from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
 from Visual.Imagens import Carrega_Icone_pokemon
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
-from Jogo.Tabuleiro import GuardarPosicionar
+from Jogo.Mapa import PosicionarGuardar
 from Jogo.Partida import VerificaGIF
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import (
@@ -93,6 +92,11 @@ class Pokemon:
         self.Estagio = pokemon["estagio"]
         self.Altura = pokemon["altura"]
         self.Peso = pokemon["peso"]
+        self.dono = player
+
+        self.raio = 0
+        self.tamanho = 8
+        self.raioAtual = self.raio
 
         self.barreira = 0
         self.amplificações = 0
@@ -168,7 +172,8 @@ class Pokemon:
 
         self.guardado = 0
         self.local = None
-        self.icone = Carrega_Icone_pokemon(self.nome)
+        self.locall = 960,540
+        self.icone = Carrega_Icone_pokemon(self.nome,self.tamanho - 2)
         self.efeitosPosi = EfeitosPositivos.copy()
         self.efeitosNega = EfeitosNegativos.copy()
         self.descrição = EfeitosDescrição
@@ -180,6 +185,8 @@ class Pokemon:
             self.pos = None
         
         self.atacou = False
+        self.moveu = False
+        self.PodeMover = True
         self.PodeEvoluir = True
         self.PodeAtacar = True
         self.PodeSerAtacado = True
@@ -347,7 +354,7 @@ class Pokemon:
             adicionar_mensagem_passageira(tela,f"-{DanoOriginal}",VERMELHO,Fonte35,((425 + i * 190),975))
 
         if self.Vida == 0:
-            GuardarPosicionar(self,player,0,Mapa.Zona)
+            PosicionarGuardar(self,0)
             
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
 
@@ -488,17 +495,32 @@ def Gerador_final(code,P,player):
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 
-def VerificaSituaçãoPokemon(player, inimigo):
+def VerificaSituaçãoPokemon(player, inimigo, Mapa):
     for pokemon in player.pokemons:
         if pokemon.atacou == True or pokemon.efeitosNega["Incapacitado"] > 0 or pokemon.efeitosNega["Congelado"] > 0 or pokemon.local is None:
             pokemon.PodeAtacar = False
         else:
             pokemon.PodeAtacar = True
+
+        if pokemon.moveu == True or pokemon.efeitosNega["Congelado"] > 0 or pokemon.efeitosNega["Paralisado"] > 0:
+            pokemon.PodeMover = False
+        else:
+            pokemon.PodeMover = True
+        
         if pokemon.PodeEvoluir is True:
             if pokemon.local is None:
                 pokemon.PodeEvoluir = False
 
+
     for pokemon in player.pokemons + inimigo.pokemons:
+
+        pokemon.raio = pokemon.tamanho * Mapa.Metros
+        if pokemon.raio != pokemon.raioAtual:
+            pokemon.raioAtual = pokemon.raio
+            pokemon.icone = Carrega_Icone_pokemon(pokemon.nome,pokemon.raio * 2 - 2)
+            largura, altura = pokemon.icone.get_size()
+            print (largura,altura)
+
         # --- Resetar apenas os modificadores TEMPORÁRIOS ---
         pokemon.VarAtk_temp = 0
         pokemon.VarAtk_sp_temp = 0

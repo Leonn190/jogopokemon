@@ -1,5 +1,6 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move
+from Jogo.Mapa import mover, verifica_colisao
+import math
 from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
@@ -108,14 +109,45 @@ Coleta_Gananciosa = {
     "irregularidade": False
     }
 
-def FI_Mao_Espectral(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
-    linhaS, colunaS = PokemonS.local["id"]
-    linhaA, colunaA = Alvo.local["id"]
+def FI_Mao_Espectral(Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta):
+    if PokemonS.local is None or Alvo.local is None:
+        return
 
-    if linhaS > linhaA:
-        Move(Alvo,linhaS - 1, colunaS,Mapa.Zona)
-    else:
-        Move(Alvo,linhaS + 1, colunaS,Mapa.Zona)
+    xS, yS = PokemonS.local
+    xA, yA = Alvo.local
+
+    distancia = math.hypot(xA - xS, yA - yS)
+
+    if distancia <= (PokemonS.raio + Alvo.raio):
+        return  # Já estão colidindo ou próximos demais para puxar
+
+    # Define o vetor unitário de direção do atacante para o alvo (sentido reverso pois queremos puxar)
+    dx = xS - xA
+    dy = yS - yA
+    dist_total = math.hypot(dx, dy)
+
+    if dist_total == 0:
+        return  # Mesma posição, não faz sentido puxar
+
+    direcao_x = dx / dist_total
+    direcao_y = dy / dist_total
+
+    # Tenta mover o alvo ao longo da direção contrária ao vetor
+    passo = 1  # pixels por iteração
+    nova_x = xA
+    nova_y = yA
+
+    for i in range(int(dist_total)):
+        nova_x += direcao_x * passo
+        nova_y += direcao_y * passo
+
+        if math.hypot(nova_x - xS, nova_y - yS) <= (PokemonS.raio + Alvo.raio):
+            break  # Próximo o suficiente, para antes de colidir
+
+        if verifica_colisao(int(nova_x), int(nova_y), Alvo):
+            # Encontrou posição válida mais próxima sem colisão
+            mover(Alvo, (int(nova_x), int(nova_y)))
+            break
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 

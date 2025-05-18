@@ -1,6 +1,7 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move
+from Jogo.Mapa import mover, verifica_colisao
 from Geradores.GeradorOutros import Gera_item
+import math
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
 
@@ -107,44 +108,55 @@ Bico_Broca = {
     "irregularidade": FI_Bico_Broca
     }
 
-def FI_Vento_Forte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
-    linhaS, colunaS = PokemonS.local["id"]
-    linhaA, colunaA = Alvo.local["id"]
+def FI_Vento_Forte(Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta):
+    if PokemonS.local is None or Alvo.locall is None:
+        return
 
-    intensidade = 2 if Alvo.Peso < 200 else 1
+    xS, yS = PokemonS.local
+    xA, yA = Alvo.locall
 
-    deslocamento_linha = 0
-    deslocamento_coluna = 0
+    dx = xA - xS
+    dy = yA - yS
+    dist_total = math.hypot(dx, dy)
 
-    if colunaS == colunaA:
+    if dist_total == 0:
+        return  # Não há direção para empurrar
 
-        if linhaA > linhaS:
-            deslocamento_linha = intensidade  
-        else:
-            deslocamento_linha = -intensidade  
+    direcao_x = dx / dist_total
+    direcao_y = dy / dist_total
 
-    elif linhaS == linhaA:
-        if colunaA > colunaS:
-            deslocamento_coluna = intensidade  
-        else:
-            deslocamento_coluna = -intensidade  
-
+    # Define empurrão em metros
+    peso = Alvo.Peso
+    if peso > 400:
+        return
+    elif peso > 300:
+        metros = 5
+    elif peso > 200:
+        metros = 10
+    elif peso > 100:
+        metros = 20
+    elif peso > 30:
+        metros = 30
     else:
+        metros = 35
 
-        if linhaA > linhaS:
-            deslocamento_linha = intensidade  
-        else:
-            deslocamento_linha = -intensidade 
+    alcance_px = metros * Mapa.Metros
 
-        if colunaA > colunaS:
-            deslocamento_coluna = intensidade  
-        else:
-            deslocamento_coluna = -intensidade  
+    # Gera lista de possíveis posições ao longo da direção
+    possiveis_posicoes = []
+    nova_x = xA
+    nova_y = yA
 
-    nova_linha = linhaA + deslocamento_linha
-    nova_coluna = colunaA + deslocamento_coluna
+    for i in range(int(alcance_px)):
+        nova_x += direcao_x
+        nova_y += direcao_y
+        possiveis_posicoes.append((int(nova_x), int(nova_y)))
 
-    Move(Alvo, nova_linha, nova_coluna, Mapa.Zona)
+    # Busca a posição mais distante possível que não colida
+    for pos in reversed(possiveis_posicoes):
+        if not verifica_colisao(pos[0], pos[1], Alvo):
+            mover(Alvo, pos)
+            return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
@@ -156,7 +168,7 @@ Vento_Forte = {
     "dano": 1.1,
     "alcance": 25,
     "precisão": 100, 
-    "descrição": "Mova o alvo 2 casas para longe, caso ele tenha mais de 200kg mova apenas 1 casa",
+    "descrição": "Mova o alvo para longe, o movimento varia do peso do inimigo, porém se ele tiver mais de 400kg ele não se move, se tiver menos de 30 se move 35 metros",
     "efeito": "Estouro",
     "extra": "A",
     "funçao": Regular,

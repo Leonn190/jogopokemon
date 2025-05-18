@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move, GuardarPosicionar
+from Jogo.Mapa import mover, PosicionarGuardar
 from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade
 import random
@@ -217,7 +217,7 @@ Esmagar = {
     }
 
 def F_Descansar(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
-    GuardarPosicionar(PokemonS,player,4,Mapa.Zona)
+    PosicionarGuardar(PokemonS,4)
     cura = (PokemonS.VidaMax - PokemonS.Vida) * 0.35
     PokemonS.curar(cura,player,tela)
 

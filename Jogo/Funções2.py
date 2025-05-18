@@ -69,16 +69,19 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,AlvoLoc):
 
     return multiplicador
 
-def distancia_entre_pokemons(poke1, poke2, tamanho_casa):
-    linha1, coluna1 = poke1.local["id"]
-    linha2, coluna2 = poke2.local["id"]
+def distancia_entre_pokemons(poke1, poke2, Metros):
+    x1, y1 = poke1.local
+    x2, y2 = poke2.local
 
-    dx = (coluna1 - coluna2) * tamanho_casa
-    dy = (linha1 - linha2) * tamanho_casa
+    dx = x1 - x2
+    dy = y1 - y2
+    distancia_px = math.hypot(dx, dy)
 
-    distancia_centros = math.hypot(dx, dy)
+    # Subtrai os raios dos dois Pokémon (em pixels)
+    distancia_real = max(0, distancia_px - poke1.raio - poke2.raio)
 
-    return max(0, distancia_centros - (tamanho_casa / 2))
+    # Converte a distância para a unidade do mapa (ex: metros)
+    return distancia_real / Metros
 
 def Aliado_menos_vida(pokemon,player,numero=1):
     selecionados = []
@@ -199,37 +202,30 @@ def inimigo_mais_longe(pokemon, playerinimigo, mapa, numero=1):
         selecionados.append(mais_longe)
     return selecionados
 
-def pokemons_nos_arredores(pokemon, player, inimigo, arredores, Mapa):
-    if pokemon.local is None:
+def pokemons_nos_arredores(pokemon, player, inimigo, arredores_metros, Mapa):
+    if pokemon.locall is None:
         return [], []
 
-    linha, coluna = map(int, pokemon.local["id"])
+    x0, y0 = pokemon.locall
+    raio_busca = arredores_metros * Mapa.Metros + pokemon.raio
+
     aliados_encontrados = []
     inimigos_encontrados = []
 
-    for dx in range(-arredores, arredores + 1):
-        for dy in range(-arredores, arredores + 1):
-            nova_linha = linha + dx
-            nova_coluna = coluna + dy
+    def dentro_do_raio(p):
+        if p.locall is None or p is pokemon:
+            return False
+        x, y = p.locall
+        distancia = math.hypot(x - x0, y - y0)
+        return distancia <= (raio_busca + p.raio)
 
-            # Ignora a própria posição
-            if dx == 0 and dy == 0:
-                continue
+    for p in player.pokemons:
+        if dentro_do_raio(p):
+            aliados_encontrados.append(p)
 
-            # Verifica se está dentro dos limites do mapa
-            if 0 <= nova_linha < len(Mapa) and 0 <= nova_coluna < len(Mapa[0]):
-                ocupante = Mapa[nova_linha][nova_coluna]["ocupado"]
-                if ocupante is not None:
-                    # Procura nos aliados
-                    for p in player.pokemons:
-                        if p.ID == ocupante:
-                            aliados_encontrados.append(p)
-                            break
-                    # Procura nos inimigos
-                    for p in inimigo.pokemons:
-                        if p.ID == ocupante:
-                            inimigos_encontrados.append(p)
-                            break
+    for p in inimigo.pokemons:
+        if dentro_do_raio(p):
+            inimigos_encontrados.append(p)
 
     return aliados_encontrados, inimigos_encontrados
 

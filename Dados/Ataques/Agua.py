@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move, GuardarPosicionar
+from Jogo.Mapa import mover, PosicionarGuardar
 from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
@@ -70,16 +70,17 @@ Bolhas = {
 
 def FF_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,Escolha):
         
-        linhaA, colunaA = AlvoS.local["id"]
+        x, y = AlvoS.local
+        movimento = 15 * Mapa.Metros
 
         if Escolha == "Norte":
-            Move(AlvoS,linhaA-2,colunaA,Mapa.Zona)
+            mover(AlvoS,(x,y - movimento))
         elif Escolha == "Sul":
-            Move(AlvoS,linhaA+2,colunaA,Mapa.Zona)
+            mover(AlvoS,(x,y + movimento))
         elif Escolha == "Leste":
-            Move(AlvoS,linhaA,colunaA+2,Mapa.Zona)
+            mover(AlvoS,(x + movimento,y))
         elif Escolha == "Oeste":
-            Move(AlvoS,linhaA,colunaA-2,Mapa.Zona)
+            mover(AlvoS,(x - movimento,y))
 
         Dano, Defesa = VEstilo(PokemonS,AlvoS,Ataque)
         Dano = Vsteb(PokemonS,Dano,Ataque)
@@ -108,7 +109,7 @@ Controle_do_Oceano = {
     "dano": 0.7,
     "alcance": 60,
     "precisão": 100, 
-    "descrição": "Escolha para qual direçao irá mover o pokemon inimigo em 2 posições",
+    "descrição": "Escolha para qual direçao irá mover o pokemon 15 metros",
     "efeito": "TornadoAgua",
     "extra": "A",
     "funçao": F_Controle_do_Oceano,
@@ -220,7 +221,7 @@ Bola_de_Agua = {
 
 def FI_Cachoeira(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
     if random.randint(0,100) <= 25:
-        GuardarPosicionar(Alvo,player,3,Mapa.Zona)
+        PosicionarGuardar(Alvo,3)
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 

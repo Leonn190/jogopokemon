@@ -1109,10 +1109,6 @@ def selecionaIcone(icone):
     global DeckSelecionado
     DeckSelecionado["icone"] = icone
 
-def SaiEditor():
-    global Abrir
-    Abrir = None
-
 estadoDecks = {"selecionado_esquerdo": None}
 estadoEditor = {"selecionado_esquerdo": None}
 
@@ -1295,9 +1291,6 @@ def TelaCriador(tela,eventos,estados):
 
     GV.Botao(tela, "Salvar Deck", (1495, 910, 380, 100), AMARELO_CLARO, PRETO, AZUL,
                 lambda: salvar_dicionario_em_py(DeckSelecionado,DeckSelecionado["ID"],"Decks"), Fonte40, B1, 3, None, True, eventos)
-    
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
-                lambda: SaiEditor(), Fonte40, B1, 3, None, True, eventos)
 
 def TelaAviso(tela,eventos,estados):
     global DeckSelecionado

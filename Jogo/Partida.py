@@ -5,7 +5,7 @@ from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
 from Abas import Status_Pokemon,Inventario,Atacar, Loja
-import Tabuleiro as M
+import Mapa as M
 import Geradores.GeradorPlayer as GPA
 import Geradores.GeradorPokemon as GPO
 import Geradores.GeradorOutros as GO
@@ -17,6 +17,8 @@ from Visual.GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA, cores_raridade)
 
+peca_em_uso = None
+
 pygame.mixer.init()
 selecionaSOM = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 
@@ -25,6 +27,7 @@ Mapa = None
 Baralho = None
 
 Gifs_ativos = []
+PeçasArrastaveis = []
 
 Mute = False
 PeçaS = None
@@ -140,13 +143,17 @@ def passar_turno():
     global Centro
     global player
     global inimigo
+    global PeçasArrastaveis
 
     player.ouro += 2 + (tempo_restante // 25)
     GV.limpa_terminal()
-    Mapa.Zona = M.Inverter_Tabuleiro(player, inimigo, Mapa.Zona)
+    M.inverter_tabuleiro(player,inimigo)
+
+    PeçasArrastaveis = []
 
     for pokemon in player.pokemons:
         pokemon.atacou = False
+        pokemon.moveu = False
         pokemon.PodeEvoluir = True
         if pokemon.guardado != 0:
             pokemon.guardado -= 1
@@ -456,7 +463,7 @@ def PokemonCentro(pokemon,player):
         if maestria >= pokemon["dificuldade"]:
             if len(player.pokemons) < 6:
                 novo_pokemon = GPO.Gerador_final(pokemon["code"],AIV,player)
-                M.GuardarPosicionar(novo_pokemon,player,0,Mapa.Zona)
+                M.PosicionarGuardar(novo_pokemon,0)
                 GV.adicionar_mensagem(f"Parabens! Capturou um {novo_pokemon.nome} usando uma {Pokebola_usada['nome']}")
                 VerificaGIF(player,inimigo)
                 tocar("Bom")
@@ -551,19 +558,12 @@ def barra_vida(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, 
 
 def pausarEdespausar():
     global Pausa
-    print (Pausa)
     if Pausa == True:
         pausaEdespausaCronometro()
         Pausa = False
     else:
         Pausa = True
         pausaEdespausaCronometro()
-
-def AddLocalPokemonINIC(pokemon,jogador):
-    if jogador == Jogador1:
-        M.Move(pokemon,11,12,Mapa.Zona)
-    else:
-        M.Move(pokemon,3,12,Mapa.Zona)
 
 def Muter():
     global Mute
@@ -840,34 +840,63 @@ BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 def Partida(tela,estados,relogio):
     global Vencedor
     global Perdedor
+    global peca_em_uso
 
     Inicia(tela)
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
         eventos = pygame.event.get()
+
+        pos_mouse = pygame.mouse.get_pos()
+
         for evento in eventos:
             if evento.type == pygame.QUIT:
                 estados["Rodando_Partida"] = False
                 estados["Rodando_Jogo"] = False
-        
+
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                if evento.button == 1:  # Clique esquerdo
+                    for peca in PeçasArrastaveis:
+                        if peca.pokemon.PodeMover:
+                            if peca.iniciar_arraste(pos_mouse):
+                                peca_em_uso = peca
+                                break
+
+            elif evento.type == pygame.MOUSEBUTTONUP:
+                if evento.button == 1 and peca_em_uso is not None:
+                    peca_em_uso.soltar(pos_mouse)
+                    peca_em_uso = None
+
         tocar_musica_do_estadio()
 
-        if Pausa == False:
-            TelaTabuleiro(tela,eventos,estados)
-            TelaOpções(tela,eventos,estados)
-            TelaOutros(tela,eventos,estados)
-            TelaPokemons(tela,eventos,estados)
-            VerificaVitória(estados,Jogador1,Jogador2)
+        if not Pausa:
+            # Atualiza as telas do jogo
+            TelaTabuleiro(tela, eventos, estados)
+            TelaOpções(tela, eventos, estados)
+            TelaOutros(tela, eventos, estados)
+            TelaPokemons(tela, eventos, estados)
 
+            # Verifica condição de vitória
+            VerificaVitória(estados, Jogador1, Jogador2)
+
+            # Desenha as peças
+            for peca in PeçasArrastaveis:
+                peca.desenhar(pos_mouse)
+
+            # Desenha mensagens passageiras
             for mensagem in mensagens_passageiras[:]:
                 mensagem.desenhar(tela)
                 mensagem.atualizar()
                 if not mensagem.ativa:
                     mensagens_passageiras.remove(mensagem)
         else:
-            tela.blit(FundosIMG[0],(0,0))
-            Telapausa(tela,eventos,estados)
+            tela.blit(FundosIMG[0], (0, 0))
+            Telapausa(tela, eventos, estados)
+
+        # Se tiver uma peça sendo usada, desenha o raio de alcance dela
+        if peca_em_uso is not None:
+            peca_em_uso.desenhar_raio_velocidade()
 
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
@@ -919,7 +948,6 @@ def Inicia(tela):
     Musica_Estadio_atual = 0
 
     ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG = Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG)
-    Mapa.Zona = M.Gerar_Mapa()
 
     from PygameAções import informaçoesp1, informaçoesp2
     Jogador1 = GPA.Gerador_player(informaçoesp1)
@@ -932,8 +960,10 @@ def Inicia(tela):
         Jogador1.energias[GO.coletor()] += 1
         Jogador2.energias[GO.coletor()] += 1
 
-    AddLocalPokemonINIC(Jogador2.pokemons[0],Jogador2)
-    AddLocalPokemonINIC(Jogador1.pokemons[0],Jogador1)
+    largura, altura = Mapa.terreno.get_size()
+
+    Jogador2.pokemons[0].local = 960, 570 - altura // 2
+    Jogador1.pokemons[0].local = 960, 510 + altura // 2
 
     Baralho = GO.Gera_Baralho(Jogador1.deck,Jogador2.deck)
 
@@ -969,6 +999,7 @@ def TelaPokemons(tela,eventos,estados):
             provocar = True
 
     VerificaGIF(player,inimigo)
+    print (player.pokemons[0].moveu,player.pokemons[0].PodeMover)
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
@@ -993,13 +1024,13 @@ def TelaPokemons(tela,eventos,estados):
     try:
         if PokemonS.local is not None:
             
-            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,2,Mapa.Zona),Fonte40, B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.PosicionarGuardar(PokemonS,2),Fonte40, B23, 3, None, True, eventos)
 
         else:
             if PokemonS.guardado > 0:
                 GV.Botao(tela, f"Posicione em {PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, B23, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.GuardarPosicionar(PokemonS,player,0,Mapa.Zona),Fonte40, B23, 3, None, True, eventos)
+                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.PosicionarGuardar(PokemonS,0),Fonte40, B23, 3, None, True, eventos)
 
     except AttributeError:
         pass
@@ -1174,7 +1205,7 @@ def TelaPokemons(tela,eventos,estados):
                     j +=1
 
     atualizar_efeitos(tela)
-    GPO.VerificaSituaçãoPokemon(player,inimigo)
+    GPO.VerificaSituaçãoPokemon(player,inimigo,Mapa)
 
 def TelaOpções(tela,eventos,estados):
     global PokemonS
@@ -1259,7 +1290,9 @@ def TelaTabuleiro(tela, eventos, estados):
     global Musica_Estadio_atual
 
     tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela, Mapa, player, inimigo, Fonte23, eventos, seleciona_peça, desseleciona_peça, PeçaS, estadoTabuleiro)  
+    M.Desenhar_Casas_Disponiveis(tela,Mapa,player,inimigo,PeçasArrastaveis)
+    if Mapa.mudança == True:
+        Mapa.Verifica(player,inimigo,tela)
 
 def VerificaVitória(estados, Jogador1, Jogador2):
     global Vencedor

@@ -1,5 +1,5 @@
 from Geradores.GeradorAtaques import Regular
-from Jogo.Tabuleiro import Move, GuardarPosicionar
+from Jogo.Mapa import mover, PosicionarGuardar
 from Geradores.GeradorOutros import Gera_item
 from Jogo.Funções2 import VEstilo, VEfeitos, Vsteb, efetividade, pokemons_nos_arredores
 import random
@@ -50,13 +50,13 @@ Bola_Psiquica = {
     }
 
 def FI_Teleporte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
-    linhaA, colunaA = Alvo.local["id"]
-    linhaS, colunaS = PokemonS.local["id"]
+    xA, yA = Alvo.local
+    xS, yS = PokemonS.local
     
-    GuardarPosicionar(Alvo,player,1,Mapa.Zona)
-    GuardarPosicionar(Alvo,player,1,Mapa.Zona)
-    Move(PokemonS,linhaA,colunaA,Mapa.Zona)
-    Move(Alvo,linhaS,colunaS,Mapa.Zona)
+    PosicionarGuardar(Alvo,1)
+    PosicionarGuardar(Alvo,1)
+    mover(PokemonS,(xA,yA))
+    mover(Alvo,(xS,yS))
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
@@ -209,13 +209,13 @@ Transferencia_Psiquica = {
     }
 
 def FI_Teletransporte(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
-    linhaA, colunaA = Alvo.local["id"]
-    linhaS, colunaS = PokemonV.local["id"]
+    xA, yA = Alvo.local
+    xS, yS = PokemonV.local
     
-    GuardarPosicionar(Alvo,player,1,Mapa.Zona)
-    GuardarPosicionar(Alvo,player,1,Mapa.Zona)
-    Move(PokemonV,linhaA,colunaA,Mapa.Zona)
-    Move(Alvo,linhaS,colunaS,Mapa.Zona)
+    PosicionarGuardar(Alvo,1)
+    PosicionarGuardar(Alvo,1)
+    mover(PokemonS,(xA,yA))
+    mover(Alvo,(xS,yS))
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 

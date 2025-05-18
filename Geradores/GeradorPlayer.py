@@ -16,7 +16,7 @@ class Jogador:
         self.deck = informaçoes[2]
         self.treinador = informaçoes[2]["treinador"]
         self.tempo = self.treinador["tempo"]
-        self.AtivaPassiva = self.treinador[""]
+        self.AtivaPassiva = 2
         self.Derrota = Derrotas[self.treinador["nome"]]
         self.Vitoria = Vitorias[self.treinador["nome"]]
         self.Passiva = Passivas[self.treinador["nome"]]

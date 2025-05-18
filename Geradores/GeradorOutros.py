@@ -192,30 +192,36 @@ def Gera_Baralho(Deck1,Deck2):
 
 class Mapa:
     def __init__(self, Info):
-        self.tempo = Info["Tempo"]
-        self.area = Info["zona"]
-        self.cores = Info["cores"]
-        self.PlojaI = Info["LojaItens"]
-        self.PlojaP = Info["LojaPokebolas"]
-        self.PlojaE = Info["LojaEnergias"]
-        self.PlojaA = Info["LojaAmplificadores"]
-        self.pLojaT = Info["LojaTreEst"]
+        self.terreno = GV.Carregar_Imagem("imagens/Mapas/Mapa1.jpg", (400, 330))
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
         self.Metros = Info["Metros"]
+        self.mudança = False
+        self.Ocupadas = []
 
     def MudarEstagio(self,i):
         
         Info = Estadios[i]
-
-        self.tempo = Info["Tempo"]
-        self.area = Info["zona"]
-        self.cores = Info["cores"]
-        self.PlojaI = Info["LojaItens"]
-        self.PlojaP = Info["LojaPokebolas"]
-        self.PlojaE = Info["LojaEnergias"]
-        self.PlojaA = Info["LojaAmplificadores"]
-        self.pLojaT = Info["LojaTreEst"]
+        self.terreno = Info["zona"]
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
         self.Metros = Info["Metros"]
+        self.Ocupadas = []
+
+    def Verifica(self, player, inimigo, tela): 
+        self.Ocupadas = []
+
+        self.mudança = False
+
+        for pokemon in player.pokemons + inimigo.pokemons:
+            if pokemon.local is not None:
+                cx, cy = pokemon.local
+                raio_int = int(pokemon.raio)
+
+                # Percorre o quadrado que envolve o círculo do pokemon
+                for dx in range(-raio_int, raio_int + 1):
+                    for dy in range(-raio_int, raio_int + 1):
+                        px = cx + dx
+                        py = cy + dy
+                        self.Ocupadas.append((px, py))
+
