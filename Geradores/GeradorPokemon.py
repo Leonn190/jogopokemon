@@ -1,5 +1,6 @@
 import Visual.GeradoresVisuais as GV
 import random
+import pygame
 from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
 from Visual.Imagens import Carrega_Icone_pokemon
@@ -95,7 +96,7 @@ class Pokemon:
         self.dono = player
 
         self.raio = 0
-        self.tamanho = 8
+        self.tamanho = 3
         self.raioAtual = self.raio
 
         self.barreira = 0
@@ -172,8 +173,7 @@ class Pokemon:
 
         self.guardado = 0
         self.local = None
-        self.locall = 960,540
-        self.icone = Carrega_Icone_pokemon(self.nome,self.tamanho - 2)
+        self.icone = Carrega_Icone_pokemon(self.nome,self.tamanho)
         self.efeitosPosi = EfeitosPositivos.copy()
         self.efeitosNega = EfeitosNegativos.copy()
         self.descrição = EfeitosDescrição
@@ -375,6 +375,11 @@ class Pokemon:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((510 + i * 190),1010))
             else:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1410 - i * 190),180))
+    
+    def atualizar_rect(self):
+        if self.local:
+            x, y = self.local
+            self.rect = pygame.Rect(x - self.raio, y - self.raio, self.raio * 2, self.raio * 2)
 
 IDpoke = 0
 
@@ -514,12 +519,10 @@ def VerificaSituaçãoPokemon(player, inimigo, Mapa):
 
     for pokemon in player.pokemons + inimigo.pokemons:
 
-        pokemon.raio = pokemon.tamanho * Mapa.Metros
+        pokemon.raio = pokemon.tamanho * Mapa.Metros // 2
         if pokemon.raio != pokemon.raioAtual:
             pokemon.raioAtual = pokemon.raio
             pokemon.icone = Carrega_Icone_pokemon(pokemon.nome,pokemon.raio * 2 - 2)
-            largura, altura = pokemon.icone.get_size()
-            print (largura,altura)
 
         # --- Resetar apenas os modificadores TEMPORÁRIOS ---
         pokemon.VarAtk_temp = 0

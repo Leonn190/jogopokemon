@@ -2,7 +2,7 @@ Normal = {
     "nome": "Arena Inicial",
     "Code Musica": 0,
     "Code Tela": 0,
-    "Metros": 2
+    "Metros": 15
 }
 
 Mer = {

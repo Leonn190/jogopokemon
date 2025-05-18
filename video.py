@@ -1,7 +1,14 @@
 import os
 import cv2
+import psutil
+import time
 
-def extrair_frames_video(caminho_video, multiplicador=1):
+def ram_disponivel_gb():
+    ram_bytes = psutil.virtual_memory().available
+    ram_gb = ram_bytes / (1024 ** 3)  # Converte bytes para gigabytes
+    return round(ram_gb, 2)
+
+def extrair_frames_video(caminho_video, multiplicador=1, qualidade_jpg=85):
     if not os.path.exists(caminho_video):
         print(f"Vídeo '{caminho_video}' não encontrado.")
         return
@@ -11,7 +18,7 @@ def extrair_frames_video(caminho_video, multiplicador=1):
     os.makedirs(pasta_destino, exist_ok=True)
 
     cap = cv2.VideoCapture(caminho_video)
-    frame = 0
+    frame = 1  # Começa em 1 agora
 
     while True:
         ret, img = cap.read()
@@ -23,16 +30,24 @@ def extrair_frames_video(caminho_video, multiplicador=1):
             nova_altura = int(img.shape[0] * multiplicador)
             img = cv2.resize(img, (nova_largura, nova_altura), interpolation=cv2.INTER_LANCZOS4)
 
-        caminho_frame = os.path.join(pasta_destino, f"frame_{frame:03}.png")
-        cv2.imwrite(caminho_frame, img)
+        if isinstance(qualidade_jpg, str) and qualidade_jpg.lower() == "png":
+            caminho_frame = os.path.join(pasta_destino, f"{frame}.png")
+            cv2.imwrite(caminho_frame, img)  # PNG salva sem parâmetros extras
+        else:
+            caminho_frame = os.path.join(pasta_destino, f"{frame}.jpg")
+            cv2.imwrite(caminho_frame, img, [int(cv2.IMWRITE_JPEG_QUALITY), qualidade_jpg])
+
         frame += 1
 
     cap.release()
-    print(f"{frame} frame(s) extraído(s) de '{caminho_video}' para a pasta '{pasta_destino}'.")
+    print(f"{frame - 1} frame(s) extraído(s) de '{caminho_video}' para a pasta '{pasta_destino}'.")
 
-# Exemplo de uso:
-extrair_frames_video("imagens/FundosAnimados/fundovid.mp4", multiplicador=1)
+ram = ram_disponivel_gb()
 
+if ram > 8:
+    qualidade = 95
+else:
+    qualidade = 80
 
-
-
+while True:
+    extrair_frames_video("imagens/FundosAnimados/VID.mp4", 1, qualidade)

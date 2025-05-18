@@ -275,7 +275,7 @@ def VAcerta(pokemon,alvo,ataque,metros):
 
     distancia = distancia_entre_pokemons(pokemon,alvo,metros)
     print(distancia)
-    Over = alcance - distancia * 2
+    Over = alcance - distancia * 5
     if alvo.efeitosPosi["Voando"] > 0:
         Over = Over - 45
     if Over < 0:

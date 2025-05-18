@@ -197,7 +197,6 @@ PokeGifs = {
 def Carrega_Icone_pokemon(nome,S):
     global Size
     Size = S
-    print(Size)
     imagem = pokeiconsrecortados[nome]()
     return imagem
 

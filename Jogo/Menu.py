@@ -1,5 +1,8 @@
 import sys
 import os
+import subprocess
+import time
+import shutil
 
 # Adiciona a pasta 'GitHub/jogopokemon' ao sys.path
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
@@ -48,30 +51,50 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
 
-def Menu(tela,estados,relogio):
+def Menu(tela, estados, relogio):
     global Parte2
 
+    # Inicia subprocesso que gera os frames
+    processo_video = subprocess.Popen(["python", "video.py"])
+    time.sleep(0.2)
+
     Parte2 = False
-    Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Menu.png", (1920,1080))
-    Logo_Menu = GV.Carregar_Imagem("imagens/fundos/logo.png", (800,800),"PNG")
-    # Fundot = GV.carregar_frames2("imagens/FundosAnimados/fundovid_frames")
-    # Fundot = Fundo(Fundot)
+    Logo_Menu = GV.Carregar_Imagem("imagens/fundos/logo.png", (800, 800), "PNG")
 
     pygame.mixer.music.load('Audio/Musicas/Menu.ogg')  
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
-    while estados["Rodando_Menu"]:
-        tela.blit(Fundo_Menu, (0, 0))
-        # Fundot.atualizar()
-        # Fundot.desenhar(tela)
-        eventos = pygame.event.get()
-        for evento in eventos:
-            if evento.type == pygame.QUIT:
-                estados["Rodando_Menu"] = False
-                estados["Rodando_Jogo"] = False
+    i = 1
+    frame = 0
 
-        TelaMenu(tela,eventos, estados, Logo_Menu)
+    try:
+        while estados["Rodando_Menu"]:
+        
+            if frame % 2 == 0:
+                tela.fill((255, 255, 255)) 
+                fundo = GV.Carregar_Imagem(f"imagens/FundosAnimados/VID_frames/{i}.jpg", (1920,1080))
+                tela.blit(fundo,(0,0))
+                os.remove(f"imagens/FundosAnimados/VID_frames/{i}.jpg")
+                i += 1
+                if i > 8800:
+                    i = 1
+            eventos = pygame.event.get()
+            for evento in eventos:
+                if evento.type == pygame.QUIT:
+                    estados["Rodando_Menu"] = False
+                    estados["Rodando_Jogo"] = False
 
-        pygame.display.update()
-        relogio.tick(20)
+            TelaMenu(tela, eventos, estados, Logo_Menu)
+            pygame.display.update()
+            relogio.tick(175)
+            print (i)
+            frame += 1
+
+    finally:
+        # Encerra os subprocessos
+        if processo_video.poll() is None:
+            processo_video.terminate()
+
+        if os.path.exists("imagens/FundosAnimados/VID_frames"):
+            shutil.rmtree("imagens/FundosAnimados/VID_frames")

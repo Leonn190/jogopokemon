@@ -1,6 +1,8 @@
 import pygame
 import math
 import random
+from Visual.Sonoridade import tocar
+import Visual.GeradoresVisuais as GV
 
 terreno = None
 Mapa = None
@@ -71,10 +73,12 @@ class PecaArrastavel:
                 self.pokemon.local = (x_fim, y_fim)
                 return
             else:
+                GV.adicionar_mensagem("Sem energias")
                 for cor in gastas:
                     player.energias[cor] += 1
 
         # Caso inválido, volta ao início
+        tocar("Bloq")
         self.pokemon.local = self.pos_inicial
 
     def desenhar_raio_velocidade(self):
@@ -98,27 +102,19 @@ class PecaArrastavel:
         self.tela.blit(self.imagem, rect)
 
 def verifica_colisao(x, y, pokemon):
-    """Verifica se a posição (x,y) do pokemon colide com áreas ocupadas (exceto ele mesmo)."""
+    """Verifica se o círculo em (x, y) com raio do Pokémon colide com áreas ocupadas."""
+    
     raio = int(pokemon.raio)
-    
-    ocupados_pokemon = set()
-    if pokemon.local is not None:
-        cx, cy = pokemon.local
-        for dx in range(-raio, raio + 1):
-            for dy in range(-raio, raio + 1):
-                if dx * dx + dy * dy <= raio * raio:
-                    ocupados_pokemon.add((cx + dx, cy + dy))
-    
-    for dx in range(-raio, raio + 1):
-        for dy in range(-raio, raio + 1):
-            if dx * dx + dy * dy <= raio * raio:
-                px = x + dx
-                py = y + dy
+    novo_rect = pygame.Rect(x - raio, y - raio, raio * 2, raio * 2)
 
-                # Verifica colisão com outras áreas ocupadas, ignorando o próprio pokemon
-                if (px, py) in Mapa.Ocupadas and (px, py) not in ocupados_pokemon:
-                    return False
-    return True
+    for rect in Mapa.Ocupadas:
+        # Ignora o próprio Pokémon, se estiver na lista
+        if hasattr(pokemon, "rect") and rect == pokemon.rect:
+            continue
+
+        if rect.colliderect(novo_rect):
+            return False  # Colidiu
+    return True  # Espaço livre
 
 def ponto_valido(x, y, pokemon, ignorar_limites=False, ignora_colisão=False):
     raio = int(pokemon.raio - 2)
@@ -147,7 +143,7 @@ def ponto_valido(x, y, pokemon, ignorar_limites=False, ignora_colisão=False):
 
     return True
 
-def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, pecas_arrastaveis):
+def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo):
     global terreno, x_terreno, y_terreno, largura_terreno, altura_terreno, Mapa
     Mapa = mapa
     
@@ -159,7 +155,12 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, pecas_arrastaveis):
     x_terreno = (largura_tela - largura_terreno) // 2
     y_terreno = (altura_tela - altura_terreno) // 2
 
-    # Só desenha o terreno aqui
+    # Desenhar borda preta
+    margem = 3  # Tamanho da borda em pixels
+    pygame.draw.rect(tela, (0, 0, 0), (x_terreno - margem, y_terreno - margem,
+                                       largura_terreno + 2 * margem, altura_terreno + 2 * margem))
+
+    # Desenhar o terreno sobre a borda
     tela.blit(terreno, (x_terreno, y_terreno))
 
     def criar_imagem_peca(pokemon, cor_circulo):
@@ -181,12 +182,12 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, pecas_arrastaveis):
     def desenhar_pokemons(jogador, criar_pecas, cor_circulo):
         pokemons_validos = [pokemon for pokemon in jogador.pokemons if pokemon.local is not None and ponto_valido(*pokemon.local, pokemon, ignora_colisão=True)]
 
-        if criar_pecas and len(pecas_arrastaveis) < len(pokemons_validos):
+        if criar_pecas is True:
+            if Mapa.Peças == []:
                 for pokemon in pokemons_validos:
-                    if not any(p.pokemon is pokemon for p in pecas_arrastaveis):
                         imagem_peca = criar_imagem_peca(pokemon, cor_circulo)
                         nova_peca = PecaArrastavel(pokemon, tela, imagem=imagem_peca)
-                        pecas_arrastaveis.append(nova_peca)
+                        Mapa.Peças.append(nova_peca)
 
         else:
             for pokemon in jogador.pokemons:
@@ -207,7 +208,7 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, pecas_arrastaveis):
 
 def PosicionarGuardar(pokemon, tempo):
     if pokemon.local is None:
-        tentativas = 200  # evita loop infinito
+        tentativas = 500  # evita loop infinito
 
         for _ in range(tentativas):
             x = random.randint(x_terreno, x_terreno + largura_terreno - 1)
@@ -216,8 +217,9 @@ def PosicionarGuardar(pokemon, tempo):
             y = random.randint(y_min, y_max)
 
             if ponto_valido(x, y, pokemon):
-                pokemon.local = (x, y, pokemon)
+                pokemon.local = (x, y)
                 Mapa.mudança = True
+                Mapa.Peças = []
                 return
         
     else:

@@ -3,7 +3,7 @@ import random
 import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
-from Funções2 import VAcerta,VCusto
+from Funções2 import VAcerta,VCusto, distancia_entre_pokemons
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO, energia_cores
 
@@ -75,7 +75,7 @@ fonte_pequena = pygame.font.SysFont("arial", 18)
 fonte_iv = pygame.font.SysFont("arial", 18, True)
 fonte_iv_destaque = pygame.font.SysFont("arial", 22, True)
 
-def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=None):
+def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos, SoV, Mapa, Alvo):
     x, y = pos
     largura, altura = 380, 385  # Aumentado de 368 para 385
     global AtaqueSV
@@ -293,15 +293,15 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos=None, SoV=
 
         if SoV == "S":
             if AtaqueV is not None:
-                Mostrar_Ataque(tela, AtaqueV, (1540, y + 60), imagens_tipos)
+                Mostrar_Ataque(tela, AtaqueV, Mapa, (1540, y + 60), imagens_tipos, Alvo, pokemon)
             if AtaqueS is not None:
-                Desenhar_Alcance(tela,pokemon,AtaqueS["alcance"],10)
+                Desenhar_Alcance(tela,pokemon,AtaqueS["alcance"],Mapa.Metros, Alvo, AtaqueS["precisão"], Mapa)
 
         else:
             if AtaqueSV is not None:
-                Mostrar_Ataque(tela, AtaqueSV, (1540, y + 60), imagens_tipos)
+                Mostrar_Ataque(tela, AtaqueSV, Mapa, (1540, y + 60), imagens_tipos)
 
-def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
+def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, Alvo=None, Pokemon=None):
     FUNDO = (35, 35, 35)
     BORDA = (255, 255, 255)
     TEXTO = (255, 255, 255)
@@ -313,7 +313,7 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
         "amarela": (255, 255, 0), "verde": (0, 200, 0),
         "roxa": (128, 0, 128), 
         "laranja": (255, 140, 0), 
-        "preta": (0, 0, 0), "cinza": (160, 160, 160)
+        "preta": (0, 0, 0),
     }
 
     # Fontes menores para caber melhor na ficha reduzida
@@ -385,17 +385,26 @@ def Mostrar_Ataque(tela, ataque, posicao=(100, 100), imagens_tipos=None):
         pygame.draw.line(tela, LINHA, (x + 10, y_divisoria), (x + largura_total - 10, y_divisoria), 2)
 
         # Status
+        alcance = ataque["alcance"]
+        precisao = ataque["precisão"]
+
+        if Alvo is not None:
+            distancia = distancia_entre_pokemons(Alvo,Pokemon,Mapa.Metros)
+            if distancia > alcance:
+                over = distancia - alcance
+                precisao -= over * 5
+        
         infos = [
             f"Dano: {round(ataque['dano'] * 100)}%",
-            f"Alcance: {ataque['alcance']}m",
-            f"Precisão: {ataque['precisão']}%"
+            f"Alcance: {round(alcance)}m",
+            f"Precisão: {round(precisao)}%"
         ]
 
         def obter_cor_status(status, tipo):
             if tipo == "dano":
-                if status < 0.8: return (255, 0, 0)
-                elif status < 1.2: return (255, 255, 0)
-                elif status < 1.6: return (0, 200, 0)
+                if status < 80: return (255, 0, 0)
+                elif status < 120: return (255, 255, 0)
+                elif status < 160: return (0, 200, 0)
                 else: return (180, 90, 255)
             elif tipo == "alcance":
                 if status < 20: return (255, 0, 0)
@@ -750,31 +759,43 @@ def Trocar_Ataque_Pergunta(Pokemon,Ataque,EstadoDaPergunta):
             EstadoDaPergunta["opçoes"].append(move)
             contador += 1
 
-def Desenhar_Alcance(tela, PeçaS, alcance_metros, metros_por_casa, tamanho_casa=40):
+def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, precisao, Mapa):
     if PeçaS is None or PeçaS.local is None:
         return
 
-    linha, coluna = PeçaS.local["id"]
+    centro_x, centro_y = PeçaS.local
+    raio = int(alcance_metros * pixels_por_metro + PeçaS.raio)
 
-    # Centro do círculo (em pixels)
-    x_inicial = (1920 - 25 * tamanho_casa) // 2
-    y_inicial = (1080 - 15 * tamanho_casa) // 2
+    superficie_transparente = pygame.Surface(tela.get_size(), pygame.SRCALPHA)
 
-    centro_x = x_inicial + coluna * tamanho_casa + tamanho_casa // 2
-    centro_y = y_inicial + linha * tamanho_casa + tamanho_casa // 2
+    # Círculo de alcance
+    pygame.draw.circle(superficie_transparente, (255, 0, 0, 150), (centro_x, centro_y), raio + 5)
+    pygame.draw.circle(superficie_transparente, (255, 0, 0, 70), (centro_x, centro_y), raio)
 
-    # Raio em pixels
-    raio = int((alcance_metros / metros_por_casa) * tamanho_casa)
+    # Reta até o alvo, se houver
+    if Alvo is not None and hasattr(Alvo, 'local') and Alvo.local is not None:
+        alvo_x, alvo_y = Alvo.local
 
-    superficie_transparente = pygame.Surface((1920, 1080), pygame.SRCALPHA)
+        # Distância real entre os Pokémon
+        distancia = distancia_entre_pokemons(PeçaS, Alvo, Mapa.Metros)
 
-    # Desenhar borda (vermelha com mais opacidade)
-    pygame.draw.circle(superficie_transparente, (255, 0, 0, 150), (centro_x, centro_y), raio + 5)  # Bordo mais grossa e opaca
+        # Ajustar a precisão com base na distância fora do alcance
+        if distancia > alcance_metros:
+            over = distancia - alcance_metros
+            print (over)
+            reducao = over * 5  # 5% por metro extra
+            precisao = max(0, precisao - reducao)
 
-    # Desenhar área interna (vermelha com menos opacidade)
-    pygame.draw.circle(superficie_transparente, (255, 0, 0, 70), (centro_x, centro_y), raio)  # Área com menos opacidade
+        # Definir cor da linha com base na precisão
+        if precisao == 0:
+            cor = (255, 0, 0, 200)  # vermelho
+        elif distancia > alcance_metros:
+            cor = (255, 255, 0, 200)  # amarelo
+        else:
+            cor = (0, 255, 0, 200)  # verde
 
-    # Desenha por cima da tela
+        pygame.draw.line(superficie_transparente, cor, (centro_x, centro_y), (alvo_x, alvo_y), 4)
+
     tela.blit(superficie_transparente, (0, 0))
 
 botao_RR = {"estado": False}

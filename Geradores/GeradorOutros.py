@@ -1,4 +1,5 @@
 import random
+import pygame
 from Visual.Sonoridade import tocar
 import Visual.GeradoresVisuais as GV
 from Geradores.GeradorPokemon import Pokemons_Todos
@@ -192,11 +193,12 @@ def Gera_Baralho(Deck1,Deck2):
 
 class Mapa:
     def __init__(self, Info):
-        self.terreno = GV.Carregar_Imagem("imagens/Mapas/Mapa1.jpg", (400, 330))
+        self.terreno = GV.Carregar_Imagem("imagens/Mapas/Mapa1.png", (600, 600), "PNG")
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
         self.Metros = Info["Metros"]
         self.mudança = False
+        self.Peças = []
         self.Ocupadas = []
 
     def MudarEstagio(self,i):
@@ -208,20 +210,12 @@ class Mapa:
         self.Metros = Info["Metros"]
         self.Ocupadas = []
 
-    def Verifica(self, player, inimigo, tela): 
+    def Verifica(self, player, inimigo): 
         self.Ocupadas = []
-
         self.mudança = False
 
         for pokemon in player.pokemons + inimigo.pokemons:
             if pokemon.local is not None:
-                cx, cy = pokemon.local
-                raio_int = int(pokemon.raio)
-
-                # Percorre o quadrado que envolve o círculo do pokemon
-                for dx in range(-raio_int, raio_int + 1):
-                    for dy in range(-raio_int, raio_int + 1):
-                        px = cx + dx
-                        py = cy + dy
-                        self.Ocupadas.append((px, py))
+                pokemon.atualizar_rect()
+                self.Ocupadas.append(pokemon.rect)
 

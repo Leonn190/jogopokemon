@@ -143,13 +143,12 @@ def passar_turno():
     global Centro
     global player
     global inimigo
-    global PeçasArrastaveis
 
     player.ouro += 2 + (tempo_restante // 25)
     GV.limpa_terminal()
     M.inverter_tabuleiro(player,inimigo)
 
-    PeçasArrastaveis = []
+    Mapa.Peças = []
 
     for pokemon in player.pokemons:
         pokemon.atacou = False
@@ -211,13 +210,11 @@ def seleciona_peça(p,dono,player):
             else:
                 GV.adicionar_mensagem("Esse pokemon está congelado ou paralisado")
     else:
-        print (p)
         selecionaAlvo(p)
 
 def desseleciona_peça():
     global PeçaS, estadoTabuleiro, PokemonA
     if PeçaS == None:
-        print ("jujuba")
         desselecionaAlvo()
     PeçaS = None
     estadoTabuleiro["selecionado_esquerdo"] =  False
@@ -360,11 +357,7 @@ def Fecha():
         A5 = 0
         A6 = -400
         animaAC = pygame.time.get_ticks()
-    if A2 == 0 and A5 == 0:
-        A7 = 0
-        A8 = -480
-        animaAL = pygame.time.get_ticks()
-    estadoOutros["selecionado_esquerdo"] =  False
+    estadoOutros["selecionado_esquerdo"] = None
 
 def seleciona_pokebola(pokebola):
     global PokebolaSelecionada
@@ -779,9 +772,8 @@ estadoInfo = {
     "selecionado_esquerdo": None,
     "selecionado_direito": None}
 
-estadoOutros = {
-    "selecionado_esquerdo": None,
-    "selecionado_direito": None}
+estadoOutros = {"selecionado_esquerdo": None,}
+EstadoOutrosAtual = None
 
 estadoPokebola = {"selecionado_esquerdo": None,}
 
@@ -846,6 +838,7 @@ def Partida(tela,estados,relogio):
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
+        tela.blit(FundosIMG[Mapa.Fundo],(0,0))
         eventos = pygame.event.get()
 
         pos_mouse = pygame.mouse.get_pos()
@@ -857,7 +850,7 @@ def Partida(tela,estados,relogio):
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Clique esquerdo
-                    for peca in PeçasArrastaveis:
+                    for peca in Mapa.Peças:
                         if peca.pokemon.PodeMover:
                             if peca.iniciar_arraste(pos_mouse):
                                 peca_em_uso = peca
@@ -867,7 +860,7 @@ def Partida(tela,estados,relogio):
                 if evento.button == 1 and peca_em_uso is not None:
                     peca_em_uso.soltar(pos_mouse)
                     peca_em_uso = None
-
+        
         tocar_musica_do_estadio()
 
         if not Pausa:
@@ -881,7 +874,7 @@ def Partida(tela,estados,relogio):
             VerificaVitória(estados, Jogador1, Jogador2)
 
             # Desenha as peças
-            for peca in PeçasArrastaveis:
+            for peca in Mapa.Peças:
                 peca.desenhar(pos_mouse)
 
             # Desenha mensagens passageiras
@@ -901,7 +894,7 @@ def Partida(tela,estados,relogio):
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         pygame.display.update()
-        relogio.tick(170)
+        relogio.tick(175)
 
 def Inicia(tela):
     global Turno
@@ -984,6 +977,9 @@ def Inicia(tela):
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
 
+    GPO.VerificaSituaçãoPokemon(player,inimigo,Mapa)
+    Mapa.Verifica(player,inimigo)
+
 def TelaPokemons(tela,eventos,estados):
     global PokemonS
     global PokemonV
@@ -999,7 +995,6 @@ def TelaPokemons(tela,eventos,estados):
             provocar = True
 
     VerificaGIF(player,inimigo)
-    print (player.pokemons[0].moveu,player.pokemons[0].PodeMover)
 
     YO = GV.animar(OP1,OP2,animaOP,tempo=250)
 
@@ -1106,12 +1101,12 @@ def TelaPokemons(tela,eventos,estados):
     XstatusS = GV.animar(S1,S2,animaS)
 
     if XstatusS != 1920:
-        Status_Pokemon((XstatusS,502), tela, PokemonSV,TiposEnergiaIMG, player, eventos,"S")
+        Status_Pokemon((XstatusS,502), tela, PokemonSV,TiposEnergiaIMG, player, eventos,"S", Mapa, PokemonA)
 
     XstatusV = GV.animar(V1,V2,animaV)
 
     if XstatusV != 1920:
-        Status_Pokemon((XstatusV,115), tela, PokemonVV,TiposEnergiaIMG, player, eventos,"V")
+        Status_Pokemon((XstatusV,115), tela, PokemonVV,TiposEnergiaIMG, player, eventos,"V", Mapa, PokemonA)
 
     try:
         if alvo.ativo:
@@ -1214,6 +1209,7 @@ def TelaOpções(tela,eventos,estados):
     global inimigo
     global ver_centro
     global Centro
+    global EstadoOutrosAtual, A7, A8, animaAL
 
     YT = GV.animar(T1,T2,animaT,300)
 
@@ -1243,6 +1239,13 @@ def TelaOpções(tela,eventos,estados):
     tela.blit(OutrosIMG[2], (69, (YT - 65)))    # Centro
     tela.blit(OutrosIMG[13], (150, (YT - 55)))  # Treinador
     tela.blit(OutrosIMG[3], (217, (YT - 58)))   # Estadio
+
+    if EstadoOutrosAtual != estadoOutros["selecionado_esquerdo"]:
+        EstadoOutrosAtual = estadoOutros["selecionado_esquerdo"]
+        if estadoOutros["selecionado_esquerdo"] == None:
+            A7 = 0
+            A8 = -480
+            animaAL = pygame.time.get_ticks()
 
     XInvetario = GV.animar(A1,A2,animaAI)
 
@@ -1289,10 +1292,9 @@ def Telapausa(tela,eventos,estados):
 def TelaTabuleiro(tela, eventos, estados):
     global Musica_Estadio_atual
 
-    tela.blit(FundosIMG[Mapa.Fundo],(0,0))
-    M.Desenhar_Casas_Disponiveis(tela,Mapa,player,inimigo,PeçasArrastaveis)
+    M.Desenhar_Casas_Disponiveis(tela,Mapa,player,inimigo)
     if Mapa.mudança == True:
-        Mapa.Verifica(player,inimigo,tela)
+        Mapa.Verifica(player,inimigo)
 
 def VerificaVitória(estados, Jogador1, Jogador2):
     global Vencedor
