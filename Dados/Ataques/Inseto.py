@@ -108,7 +108,7 @@ Minhocagem = {
 
 def F_Coleta(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):
     for i in range(4):
-        player.energias[coletor()] += 1
+        coletor(player)
 
 Coleta = {
     "nome": "Coleta",

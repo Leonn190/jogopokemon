@@ -204,7 +204,7 @@ def Carrega_Gif_pokemon(nome):
     frames = PokeGifs[nome]()
     return frames
 
-def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG):
+def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG, ImagensFichas):
 
     RegeneraçãoIMG = GV.Carregar_Imagem("imagens/icones/regeneraçao.png", (24, 24), "PNG")
     ConfusoIMG = GV.Carregar_Imagem("imagens/icones/confuso.png", (24, 24), "PNG")
@@ -268,8 +268,6 @@ def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,Ef
     RubelitaIMG = GV.Carregar_Imagem("imagens/itens/rubelita.png", (62, 62), "PNG")
     DiamanteIMG = GV.Carregar_Imagem("imagens/itens/diamante.png", (62, 62), "PNG")
     ColetorIMG = GV.Carregar_Imagem("imagens/itens/coletor.png", (62, 62), "PNG")
-    CaixaIMG = GV.Carregar_Imagem("imagens/itens/caixa.png", (62, 62), "PNG")
-    CaixoteIMG = GV.Carregar_Imagem("imagens/itens/caixote.png", (62, 62), "PNG")
     PocaoIMG = GV.Carregar_Imagem("imagens/itens/poçao.png", (62, 62), "PNG")
     SuperPocaoIMG = GV.Carregar_Imagem("imagens/itens/super_poçao.png", (62, 62), "PNG")
     HiperPocaoIMG = GV.Carregar_Imagem("imagens/itens/hiper_poçao.png", (62, 62), "PNG")
@@ -288,6 +286,7 @@ def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,Ef
     VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (62, 62), "PNG")
     TrocadorAtaqueIMG = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (62, 62), "PNG")
     RemovedorIMG = GV.Carregar_Imagem("imagens/itens/removedor.png", (62, 62), "PNG")
+    GosmaIMG = GV.Carregar_Imagem("imagens/itens/Gosma.png", (62, 62), "PNG")
     CompraEnergia = GV.Carregar_Imagem("imagens/icones/CompraEnergia.png", (28, 28), "PNG")
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (55,55),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (55,55),"PNG")
@@ -346,6 +345,25 @@ def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,Ef
     Emetal = GV.Carregar_Imagem("imagens/icones/metal.png", (30,30), "PNG")
     Esombrio = GV.Carregar_Imagem("imagens/icones/sombrio.png", (30,30), "PNG")
 
+    AshFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/AshFicha.png", (380, 560), "PNG")
+    BrockFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/BrockFicha.png", (380, 560), "PNG")
+    MistyFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/MistyFicha.png", (380, 560), "PNG")
+    GiovanniFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/GiovanniFicha.png", (380, 560), "PNG")
+    JessieFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/JessieFicha.png", (380, 560), "PNG")
+    JamesFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/JamesFicha.png", (380, 560), "PNG")
+    CarvalhoFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/CarvalhoFicha.png", (380, 560), "PNG")
+    RedFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/RedFicha.png", (380, 560), "PNG")
+    
+    ImagensFichas = {
+        "Ash": AshFichaIMG,
+        "Brock": BrockFichaIMG,
+        "Misty": MistyFichaIMG,
+        "Giovanni": GiovanniFichaIMG,
+        "Jessie": JessieFichaIMG,
+        "James": JamesFichaIMG,
+        "Professor Carvalho": CarvalhoFichaIMG,
+        "Red": RedFichaIMG,}
+
     TiposEnergiaIMG = {
     "fogo": Efogo,
     "agua": Eagua,
@@ -376,8 +394,6 @@ def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,Ef
     "Rubelita": RubelitaIMG,
     "Diamante": DiamanteIMG,
     "Coletor": ColetorIMG,
-    "Caixa": CaixaIMG,
-    "Caixote": CaixoteIMG,
     "Poção": PocaoIMG,
     "Super Poção": SuperPocaoIMG,
     "Hiper Poção": HiperPocaoIMG,
@@ -395,6 +411,7 @@ def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,Ef
     "Energia GigantaMax": VMaxIMG,
     "Trocador de Ataque": TrocadorAtaqueIMG,
     "Removedor": RemovedorIMG,
+    "Gosma Desagradável": GosmaIMG,
     "Estádio Mer": EstadioIMG,
     "Cidade Shivre": EstadioIMG,
     "Parque Auroma": EstadioIMG,
@@ -477,9 +494,9 @@ def Carregar_Imagens_Partida(ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,Ef
 
     FundosIMG = [Fundo,MerFundo,ShivreFundo,AuromaFundo,KalosFundo,SkyloftFundo,PortoFundo]
 
-    return ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG
+    return ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG, ImagensFichas
 
-def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIconesIMG,ImagensTreinadores):
+def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,DeckIconesIMG,ImagensTreinadores,ImagensFichas):
     
     EsmeraldaIMG = GV.Carregar_Imagem("imagens/itens/esmeralda.png", (79, 79), "PNG")
     CitrinoIMG = GV.Carregar_Imagem("imagens/itens/citrino.png", (79, 79), "PNG")
@@ -489,8 +506,6 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
     RubelitaIMG = GV.Carregar_Imagem("imagens/itens/rubelita.png", (79, 79), "PNG")
     DiamanteIMG = GV.Carregar_Imagem("imagens/itens/diamante.png", (79, 79), "PNG")
     ColetorIMG = GV.Carregar_Imagem("imagens/itens/coletor.png", (79, 79), "PNG")
-    CaixaIMG = GV.Carregar_Imagem("imagens/itens/caixa.png", (79, 79), "PNG")
-    CaixoteIMG = GV.Carregar_Imagem("imagens/itens/caixote.png", (79, 79), "PNG")
     PocaoIMG = GV.Carregar_Imagem("imagens/itens/poçao.png", (79, 79), "PNG")
     SuperPocaoIMG = GV.Carregar_Imagem("imagens/itens/super_poçao.png", (79, 79), "PNG")
     HiperPocaoIMG = GV.Carregar_Imagem("imagens/itens/hiper_poçao.png", (79, 79), "PNG")
@@ -509,6 +524,7 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
     VStarIMG = GV.Carregar_Imagem("imagens/itens/VStar.png", (79, 79), "PNG")
     TrocadorAtaqueIMG = GV.Carregar_Imagem("imagens/itens/TrocadorAtaque.png", (79, 79), "PNG")
     RemovedorIMG = GV.Carregar_Imagem("imagens/itens/removedor.png", (79, 79), "PNG")
+    GosmaIMG = GV.Carregar_Imagem("imagens/itens/Gosma.png", (62, 62), "PNG")
     UPokeballIMG = GV.Carregar_Imagem("imagens/itens/PokeBall.png", (79,79),"PNG")
     UGreatBallIMG = GV.Carregar_Imagem("imagens/itens/GreatBall.png", (79,79),"PNG")
     UUltraBallIMG = GV.Carregar_Imagem("imagens/itens/UltraBall.png", (79,79),"PNG")
@@ -576,13 +592,23 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
     Icon8 = GV.Carregar_Imagem("imagens/Deck_icones/icon8.png", (80, 80), "PNG")
 
     AshIMG = GV.Carregar_Imagem("imagens/Treinadores/Ash.png", (230, 160), "PNG")
-    BrockIMG = GV.Carregar_Imagem("imagens/Treinadores/Brock.png", (230, 160), "PNG")
+    BrockIMG = GV.Carregar_Imagem("imagens/Treinadores/Brock.jpg", (230, 160), "PNG")
     MistyIMG = GV.Carregar_Imagem("imagens/Treinadores/Misty.png", (230, 160), "PNG")
     GiovanniIMG = GV.Carregar_Imagem("imagens/Treinadores/Giovanni.png", (230, 160), "PNG")
     JessieIMG = GV.Carregar_Imagem("imagens/Treinadores/Jessie.png", (230, 160), "PNG")
     JamesIMG = GV.Carregar_Imagem("imagens/Treinadores/James.png", (230, 160), "PNG")
     CarvalhoIMG = GV.Carregar_Imagem("imagens/Treinadores/Carvalho.png", (230, 160), "PNG")
     RedIMG = GV.Carregar_Imagem("imagens/Treinadores/Red.png", (230, 160), "PNG")
+
+    AshFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/AshFicha.png", (380, 560), "PNG")
+    BrockFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/BrockFicha.png", (380, 560), "PNG")
+    MistyFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/MistyFicha.png", (380, 560), "PNG")
+    GiovanniFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/GiovanniFicha.png", (380, 560), "PNG")
+    JessieFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/JessieFicha.png", (380, 560), "PNG")
+    JamesFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/JamesFicha.png", (380, 560), "PNG")
+    CarvalhoFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/CarvalhoFicha.png", (380, 560), "PNG")
+    RedFichaIMG = GV.Carregar_Imagem("imagens/Treinadores/RedFicha.png", (380, 560), "PNG")
+
 
     ImagensTreinadores = {
         "Ash": AshIMG,
@@ -592,8 +618,17 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
         "Jessie": JessieIMG,
         "James": JamesIMG,
         "Professor Carvalho": CarvalhoIMG,
-        "Red": RedIMG,
-}
+        "Red": RedIMG,}
+    
+    ImagensFichas = {
+        "Ash": AshFichaIMG,
+        "Brock": BrockFichaIMG,
+        "Misty": MistyFichaIMG,
+        "Giovanni": GiovanniFichaIMG,
+        "Jessie": JessieFichaIMG,
+        "James": JamesFichaIMG,
+        "Professor Carvalho": CarvalhoFichaIMG,
+        "Red": RedFichaIMG,}
 
     DeckIconesIMG = {
     "icone1": Icon1,
@@ -636,8 +671,6 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
     "Rubelita": RubelitaIMG,
     "Diamante": DiamanteIMG,
     "Coletor": ColetorIMG,
-    "Caixa": CaixaIMG,
-    "Caixote": CaixoteIMG,
     "Poção": PocaoIMG,
     "Super Poção": SuperPocaoIMG,
     "Hiper Poção": HiperPocaoIMG,
@@ -655,6 +688,7 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
     "Energia GigantaMax": VMaxIMG,
     "Trocador de Ataque": TrocadorAtaqueIMG,
     "Removedor": RemovedorIMG,
+    "Gosma Desagradável": GosmaIMG,
     "Estádio Mer": EstadioIMG,
     "Cidade Shivre": EstadioIMG,
     "Parque Auroma": EstadioIMG,
@@ -701,7 +735,7 @@ def Carregar_Imagens_Decks(ImagensItens,ImagensPokemonCentro,TiposEnergiaIMG,Dec
     "Pinsir": MpinsirIMG
 }
 
-    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG, DeckIconesIMG, ImagensTreinadores
+    return ImagensItens,ImagensPokemonCentro, TiposEnergiaIMG, DeckIconesIMG, ImagensTreinadores, ImagensFichas
 
 def Carregar_Imagens_Pré_Partida(ImagensPokemonInicial,IconesDeckIMG):
 

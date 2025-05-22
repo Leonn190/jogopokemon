@@ -73,7 +73,7 @@ def FF_Busca_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tel
         PokemonS.curar(4*num,player,tela)
     
     for i in range(5-num):
-        player.energias[coletor()] += 1
+        coletor(player)
     EstadoDaPergunta["estado"] = False
 
 def F_Busca_Alegre(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,I):

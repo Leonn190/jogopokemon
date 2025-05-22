@@ -1,13 +1,12 @@
 import pygame
 import random
+import math
 import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Funções2 import VAcerta,VCusto, distancia_entre_pokemons
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO, energia_cores
-
-
 
 AtaqueS = None
 AtaqueSV = None
@@ -127,7 +126,7 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos, SoV, Mapa
         barreira = max(getattr(pokemon, "barreira", 0), 0)
 
         vida_pct = vida / vida_max * 100
-        vida_str = f"HP: {int(vida)}/{int(vida_max)}"
+        vida_str = f"HP: {int(vida) + barreira}/{int(vida_max)}"
         vida_txt = fonte_HP.render(vida_str, True, (255, 255, 255))
         tela.blit(vida_txt, (x + largura - vida_txt.get_width() - 10, y + 8))
 
@@ -301,6 +300,13 @@ def Status_Pokemon(pos, tela, pokemon, imagens_tipos, player, eventos, SoV, Mapa
             if AtaqueSV is not None:
                 Mostrar_Ataque(tela, AtaqueSV, Mapa, (1540, y + 60), imagens_tipos)
 
+
+    # Fontes menores para caber melhor na ficha reduzida
+fonte_titulo = pygame.font.SysFont("arial", 22, bold=True)
+fonte_desc = pygame.font.SysFont("arial", 17)
+fonte_info = pygame.font.SysFont("arial", 15)
+fonte_infoStat = pygame.font.SysFont("arial", 15, bold=True)
+
 def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, Alvo=None, Pokemon=None):
     FUNDO = (35, 35, 35)
     BORDA = (255, 255, 255)
@@ -315,12 +321,6 @@ def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, A
         "laranja": (255, 140, 0), 
         "preta": (0, 0, 0),
     }
-
-    # Fontes menores para caber melhor na ficha reduzida
-    fonte_titulo = pygame.font.SysFont("arial", 22, bold=True)
-    fonte_desc = pygame.font.SysFont("arial", 17)
-    fonte_info = pygame.font.SysFont("arial", 15)
-    fonte_infoStat = pygame.font.SysFont("arial", 15, bold=True)
 
     # Novo tamanho da ficha
     largura_total = 380
@@ -759,18 +759,27 @@ def Trocar_Ataque_Pergunta(Pokemon,Ataque,EstadoDaPergunta):
             EstadoDaPergunta["opçoes"].append(move)
             contador += 1
 
+superficie_transparente = None
+
 def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, precisao, Mapa):
+    global superficie_transparente
     if PeçaS is None or PeçaS.local is None:
         return
+
+    if superficie_transparente == None:
+        superficie_transparente = pygame.Surface(tela.get_size(), pygame.SRCALPHA).convert_alpha()
+
+    superficie_transparente.fill((0, 0, 0, 0))  # limpar a surface com transparência
 
     centro_x, centro_y = PeçaS.local
     raio = int(alcance_metros * pixels_por_metro + PeçaS.raio)
 
-    superficie_transparente = pygame.Surface(tela.get_size(), pygame.SRCALPHA)
+    centro_x, centro_y = PeçaS.local
+    raio = int(alcance_metros * pixels_por_metro + PeçaS.raio)
 
     # Círculo de alcance
-    pygame.draw.circle(superficie_transparente, (255, 0, 0, 150), (centro_x, centro_y), raio + 5)
-    pygame.draw.circle(superficie_transparente, (255, 0, 0, 70), (centro_x, centro_y), raio)
+    pygame.draw.circle(superficie_transparente, (255, 0, 0, 120), (centro_x, centro_y), raio + 5)
+    pygame.draw.circle(superficie_transparente, (255, 0, 0, 50), (centro_x, centro_y), raio)
 
     # Reta até o alvo, se houver
     if Alvo is not None and hasattr(Alvo, 'local') and Alvo.local is not None:
@@ -782,19 +791,81 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
         # Ajustar a precisão com base na distância fora do alcance
         if distancia > alcance_metros:
             over = distancia - alcance_metros
-            print (over)
             reducao = over * 5  # 5% por metro extra
             precisao = max(0, precisao - reducao)
 
-        # Definir cor da linha com base na precisão
-        if precisao == 0:
-            cor = (255, 0, 0, 200)  # vermelho
-        elif distancia > alcance_metros:
-            cor = (255, 255, 0, 200)  # amarelo
-        else:
-            cor = (0, 255, 0, 200)  # verde
+                # Coordenadas de início e fim
+        x1, y1 = centro_x, centro_y
+        x2, y2 = alvo_x, alvo_y
 
-        pygame.draw.line(superficie_transparente, cor, (centro_x, centro_y), (alvo_x, alvo_y), 4)
+        dx, dy = x2 - x1, y2 - y1
+        dist_total = math.hypot(dx, dy)
+
+        if dist_total == 0:
+            return  # evita divisão por zero se o Pokémon tentar mirar a si mesmo
+
+        num_pontos = int(dist_total // 3)  # Número de segmentos (quanto menor, mais suave)
+
+        # Normalizar direção
+        dir_x = dx / dist_total
+        dir_y = dy / dist_total
+
+        # Tempo atual (para animar o pulso)
+        t = pygame.time.get_ticks() / 1000  # segundos
+        frequencia = 4  # quantidade de pulsos na linha
+        velocidade = 3  # velocidade da onda
+
+        for i in range(num_pontos):
+            # Posição ao longo da linha
+            fator = i / num_pontos
+            px = int(x1 + dir_x * fator * dist_total)
+            py = int(y1 + dir_y * fator * dist_total)
+
+            # Cálculo da intensidade da onda (vai de 0 a 1)
+            onda = 0.5 + 0.5 * math.sin(2 * math.pi * frequencia * fator - velocidade * t)
+            onda2 = 0.85 + 0.15 * math.sin(2 * math.pi * frequencia * fator - velocidade * t)
+
+            # Determinar cor com base na precisão
+            if precisao == 0:
+                base_cor = (255, 0, 0)  # vermelho
+            elif distancia > alcance_metros:
+                base_cor = (255, 255, 0)  # amarelo
+            else:
+                base_cor = (0, 255, 0)  # verde
+
+            # Aplicar onda como alpha
+            alpha2 = (onda2 * 255)
+            alpha = int(onda * 255)
+            cor_pulso = (*base_cor, alpha)
+            cor_seta = (*base_cor,alpha2)
+
+            # Desenhar ponto/trecho
+            pygame.draw.circle(superficie_transparente, cor_pulso, (px, py), 3)
+
+        texto = Fonte20.render(f"{int(distancia)}m", True, (255, 255, 255))
+
+        # Animação da seta: sobe e desce suavemente com o tempo
+        offset = int(8 * math.sin(t * 7))  # frequência da oscilação
+
+        # Posição do texto (acima do inimigo)
+        texto_x = alvo_x - texto.get_width() // 2
+        texto_y = alvo_y - 45 + offset # ajustável
+
+        # Desenhar o texto
+        superficie_transparente.blit(texto, (texto_x, texto_y))
+
+        # Pontos da seta (triângulo) apontando para o inimigo
+        seta_x = alvo_x
+        seta_y = alvo_y - 18 + offset # base da seta animada
+
+        pontos_seta = [
+            (seta_x, seta_y),         # ponta da seta
+            (seta_x - 5, seta_y - 10),
+            (seta_x + 5, seta_y - 10)
+        ]
+
+        # Desenhar a seta branca
+        pygame.draw.polygon(superficie_transparente, cor_seta, pontos_seta)
 
     tela.blit(superficie_transparente, (0, 0))
 

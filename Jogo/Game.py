@@ -38,6 +38,17 @@ import SetorDecks
 
 relogio = pygame.time.Clock()
 
+# Config = {
+#     "Volume": 0.35,
+#     "Fps": 100,
+#     "Claridade": 50,
+#     "Modo rápido": False,
+#     "Dicas": True,
+#     "Modo silencioso": False,
+#     "Mostrar Fps": True
+#     "Versão"
+# }
+
 estados = {
     "Rodando_Jogo": True,
     "Rodando_Menu": True,

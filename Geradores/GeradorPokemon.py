@@ -1,6 +1,7 @@
 import Visual.GeradoresVisuais as GV
 import random
 import pygame
+import json
 from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
 from Visual.Imagens import Carrega_Icone_pokemon
@@ -95,8 +96,11 @@ class Pokemon:
         self.Peso = pokemon["peso"]
         self.dono = player
 
+        self.CoefPeso = pokemon["coefP"]
+        self.CoefAltura = pokemon["coefA"]
+
         self.raio = 0
-        self.tamanho = 3
+        self.tamanho = 1.4
         self.raioAtual = self.raio
 
         self.barreira = 0
@@ -357,6 +361,9 @@ class Pokemon:
             PosicionarGuardar(self,0)
             
             GV.adicionar_mensagem(f"{self.nome} foi nocauteado")
+            player.NocautesSofridos += 1
+            player.PokemonsNocauteados += 1
+            inimigo.NocautesRealizados += 1
 
     def curar(self,cura,player,tela):
             if self.efeitosPosi["Abençoado"] != 0:
@@ -433,10 +440,13 @@ def Gerador(Pokemon,P):
 
     IV = round((IVV + IVA + IVAS + IVD + IVDS + IVVE) / 6, 2)
 
-    Coef_Genetico = random.uniform(0.75,1.15)
+    Coef_Genetico = random.uniform(0.75,1.1)
 
-    Altura = Pok["H"] * (Coef_Genetico + (IVV/200) + (IVA/300) + (IVAS/300))
-    Peso = Pok["W"] * (Coef_Genetico + (IVV/200) + (IVD/200) + (IVDS/200) - (IVVE/250))
+    Altura = Pok["H"] * (Coef_Genetico + (IVV/800) + (IVA/900) + (IVAS/900))
+    Peso = Pok["W"] * (Coef_Genetico + (IVV/700) + (IVD/700) + (IVDS/700) - (IVVE/400))
+
+    CoefPeso = (Coef_Genetico + (IVV/800) + (IVA/900) + (IVAS/900))
+    CoefAltura = (Coef_Genetico + (IVV/700) + (IVD/700) + (IVDS/700) - (IVVE/400))
 
     if Altura > 9.9:
         Altura = round(Altura,1)
@@ -457,6 +467,8 @@ def Gerador(Pokemon,P):
         "estagio": 1,
         "altura": Altura,
         "peso": Peso,
+        "coefP": CoefPeso,
+        "coefA": CoefAltura,
         "atk": Atk,
         "atk SP": Atk_SP,
         "def": Def,

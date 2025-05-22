@@ -93,7 +93,16 @@ Trocador_de_Ataque = {
     "DescriçãoMaior": "Uma técnologia capaz de mudar o movimento aprendido pelo pokemon para outro de sua lista de movimentos",
     "quantidade": 9,
     "raridade": "Comum",
-    "compra": 0,
+    "preço": 3
+}
+
+Gosma_Desagradável = {
+    "nome": "Gosma Desagradável",
+    "classe": "Outros",
+    "Descrição": "Remova um pokemon, só pode ser usada uma vez",
+    "DescriçãoMaior": "Um composto natural que quando usado em um pokemon, é tão deságradavel que quebra certos vincúlos de um pokemon com o treinador",
+    "quantidade": 9,
+    "raridade": "Incomum",
     "preço": 3
 }
 
@@ -325,5 +334,37 @@ Amplificadores_Todos = [Citrino,Safira,Rubi,Ametista,Esmeralda,Rubelita,Diamante
 Estadios_Todos = [Removedor_de_estadio,Mer_stadium,Shivre_city,Auroma_park,Kalos_Stadium,Skyloft,Porto_Molgera]
 Poçoes_Todas = [Poçao,Super_Poçao,Hiper_Poçao,Mega_poção]
 Frutas_Todas = [Fruta_frambo,Fruta_frambo_dourada,Fruta_Caxi,Fruta_caxi_prateada]
-Outros_Todos = [Trocador_de_Ataque]
-        
+Outros_Todos = [Trocador_de_Ataque, Gosma_Desagradável]
+
+dicionario_itens = {
+    "Pokebola": Pokebola,
+    "Greatball": Gratball,
+    "Ultraball": Ultraball,
+    "Masterball": Masterball,
+    "Poção": Poçao,
+    "Super Poção": Super_Poçao,
+    "Hiper Poção": Hiper_Poçao,
+    "Mega Poção": Mega_poção,
+    "Trocador de Ataque": Trocador_de_Ataque,
+    "Fruta Frambo": Fruta_frambo,
+    "Fruta Frambo Dourada": Fruta_frambo_dourada,
+    "Fruta Caxi": Fruta_Caxi,
+    "Fruta Caxi Prateada": Fruta_caxi_prateada,
+    "Citrino": Citrino,
+    "Safira": Safira,
+    "Rubi": Rubi,
+    "Ametista": Ametista,
+    "Diamante": Diamante,
+    "Rubelita": Rubelita,
+    "Esmeralda": Esmeralda,
+    "Energia Mega": Energia_Mega,
+    "Energia Vstar": Energia_Vstar,
+    "Energia GigantaMax": Energia_Vmax,
+    "Removedor": Removedor_de_estadio,
+    "Estádio Mer": Mer_stadium,
+    "Cidade Shivre": Shivre_city,
+    "Parque Auroma": Auroma_park,
+    "Estádio Kalos": Kalos_Stadium,
+    "Skyloft": Skyloft,
+    "Porto Molgera": Porto_Molgera
+}

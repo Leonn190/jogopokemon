@@ -3,8 +3,7 @@ import os
 import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
-import random
-from Infos import PokemonInfo, ItemInfo
+from Infos import PokemonInfo, ItemInfo, TreinadorInfo
 from Visual.Arrastaveis import Arrastavel
 from Visual.Imagens import Carregar_Imagens_Decks
 from Geradores.GeradorOutros import Amplificadores_Todos,Frutas_Todas,Pokebolas_Todas,Poçoes_Todas,Estadios_Todos,Outros_Todos,Pokemons_Todos,Treinadores_Todos
@@ -47,6 +46,7 @@ EditorSelecionado = None
 EditorSelecionado_atual = None
 PokemonSelecionado = None
 ItemSelecionado = None
+TreinadorSelecionado = None
 
 Aviso_Apagar = False
 
@@ -55,6 +55,7 @@ ImagensItens = {}
 TiposEnergiaIMG = {}
 IconesDeckIMG = {}
 ImagensTreinadores = {}
+ImagensFichas = {}
 
 Areas_pokemon = []
 Areas_itens = []
@@ -718,6 +719,37 @@ def desenhaBotoesEditor(tela, eventos):
                 Fonte50, BG, 2, None, True, eventos
             )
 
+    if EditorSelecionado == listaTreinadores:
+            linhas = 2
+            colunas = 4
+            espacamento = 12
+
+            largura_treinador = 230
+            altura_treinador = 160
+
+            # Calcula área útil considerando o número de colunas/linhas e o tamanho fixo dos treinadores
+            largura_disponivel = largura - (espacamento * (colunas + 1))
+            altura_disponivel = altura - (espacamento * (linhas + 1))
+
+            # Calcula a margem inicial para centralizar a grid se desejar
+            x_inicial = x + (largura_disponivel - (colunas * largura_treinador)) // 2 + espacamento
+            y_inicial = y + (altura_disponivel - (linhas * altura_treinador)) // 2 + espacamento
+
+            for i in range(min(len(listaTreinadores), linhas * colunas)):
+                linha = i // colunas
+                coluna = i % colunas
+
+                x_slot = x_inicial + coluna * (largura_treinador + espacamento)
+                y_slot = y_inicial + linha * (altura_treinador + espacamento)
+
+                treinador = listaTreinadores[i]
+
+                GV.Botao(
+                tela, "", (x_slot, y_slot, largura_treinador, altura_treinador), PRETO, PRETO, PRETO,
+                lambda i=treinador: SelecionaTreinador(i),
+                Fonte50, BG, 2, None, True, eventos
+            )
+
 def desenhaEditor(tela, eventos):
     global EditorSelecionado, listaPokemon, Lista_atual_pokemons, ArrastaveisEditor, Lista_atual_itens, Lista_atual_energias, Lista_atual_treinadores
 
@@ -798,17 +830,18 @@ def desenhaEditor(tela, eventos):
             tela.blit(superficie_regra, rect_regra)
             y_atual += espacamento_linha
         y_atual += espacamento_regra - espacamento_linha  # Espaço entre regras (já contou a última linha)
+    
+    if TreinadorSelecionado is None:
+        largura = 380
+        altura = 560
+        x = 45
+        y = 450
 
-    largura = 380
-    altura = 560
-    x = 45
-    y = 450
+        retangulo = pygame.Rect(x, y, largura, altura)
+        pygame.draw.rect(tela, (50, 50, 50), retangulo)
+        pygame.draw.rect(tela, (0, 0, 0), retangulo, 3)
 
-    retangulo = pygame.Rect(x, y, largura, altura)
-    pygame.draw.rect(tela, (50, 50, 50), retangulo)
-    pygame.draw.rect(tela, (0, 0, 0), retangulo, 3)
-
-    pygame.draw.line(tela, (0,0,0), (x, y + 45), (x + largura, y + 45), width=4)
+        pygame.draw.line(tela, (0,0,0), (x, y + 45), (x + largura, y + 45), width=4)
 
     # Define as dimensões e posição do retângulo principal do editor
     largura = 980
@@ -975,7 +1008,7 @@ def desenhaEditor(tela, eventos):
 
             linhas = 2
             colunas = 4
-            espacamento = 20
+            espacamento = 12
 
             largura_treinador = 230
             altura_treinador = 160
@@ -1010,6 +1043,10 @@ def desenhaEditor(tela, eventos):
         if ItemSelecionado is not None:
             ItemInfo((45,450),tela,ItemSelecionado,ImagensItens)
 
+    if EditorSelecionado == listaTreinadores:
+        if TreinadorSelecionado is not None:
+            TreinadorInfo((45,450),tela,TreinadorSelecionado,ImagensFichas, "D")
+
 def Abre(Editar):
     global Abrir, DeckSelecionado
     tocar("Clique2")
@@ -1038,11 +1075,13 @@ def Quer_Apagar():
         Aviso_Apagar = False
 
 def SelecionaEditor(lista):
-    global EditorSelecionado, PokemonSelecionado, ItemSelecionado
+    global EditorSelecionado, PokemonSelecionado, ItemSelecionado, TreinadorSelecionado
     EditorSelecionado = lista
     tocar("Seleciona")
     PokemonSelecionado = None
     ItemSelecionado = None
+    TreinadorSelecionado = None
+
 
 def DesselecionaEditor():
     global EditorSelecionado
@@ -1104,6 +1143,10 @@ def SelecionaPokemon(pokemon):
 def SelecionaItem(item):
     global ItemSelecionado
     ItemSelecionado = item
+
+def SelecionaTreinador(treinador):
+    global TreinadorSelecionado
+    TreinadorSelecionado = treinador
 
 def selecionaIcone(icone):
     global DeckSelecionado
@@ -1349,13 +1392,13 @@ def IniciaDecks():
     carregar_decks("Decks",ListaDecks)
 
 def Decks(tela,estados,relogio):
-    global ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores
+    global ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas
     global Baralho_atual_pokemons, Baralho_atual_itens, Lista_atual_pokemons, Lista_atual_itens, Baralho_atual_energias, Lista_atual_energias
     global EditorSelecionado, EditorSelecionado_atual, Lista_atual_treinadores, Baralho_atual_treinador
 
     Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Decks.jpg", (1920,1080))
-    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG,ImagensTreinadores = Carregar_Imagens_Decks(
-    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores)
+    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG,ImagensTreinadores, ImagensFichas = Carregar_Imagens_Decks(
+    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas)
 
     pygame.mixer.music.load('Audio/Musicas/Decks.ogg')  
     pygame.mixer.music.set_volume(0.3)

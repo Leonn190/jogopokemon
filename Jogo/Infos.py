@@ -12,10 +12,33 @@ from Visual.GeradoresVisuais import (
 def EstadioInfo(pos, tela, Mapa):
     pass
 
-def TreinadorInfo(pos, tela, treinador):
-    pass
+def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo):
+    if estilo == "D":
+        largura = 380
+        altura = 560
+    else:
+        largura = 380
+        altura = 420
 
-AtaqueObservado = None
+    nome = treinador["nome"]
+    imagem = ImagensFichas.get(nome)
+
+    if imagem:
+        # Criar retângulo da área que será exibida (com base na largura e altura desejadas)
+        area_visivel = pygame.Rect(0, 0, largura, altura)
+
+        # Criar subsurface da imagem original (recorte)
+        imagem_recortada = imagem.subsurface(area_visivel)
+
+        # Criar retângulo de destino na tela com base na posição
+        img_rect = imagem_recortada.get_rect(topleft=pos)
+
+        # Desenhar borda ao redor da imagem
+        pygame.draw.rect(tela, (0, 0, 0), img_rect.inflate(6, 6), border_radius=10)
+
+        # Blitar a imagem recortada
+        tela.blit(imagem_recortada, pos)
+
 
 def OlhaAtaque(ataque):
     global AtaqueObservado
@@ -157,12 +180,12 @@ Gif_Ativo_Atual = None
 def Desenha_Barras_Status(tela, centro, largura_total, altura_maxima, pokemon):
     # Lista dos atributos com nomes abreviados, máximos conhecidos e cores
     atributos = [
-        ('Vid', pokemon.get('vida', 0), 350, (100, 255, 100)),
-        ('Atk', pokemon.get('atk', 0), 110, (255, 100, 100)),
-        ('Def', pokemon.get('def', 0), 110, (255, 220, 100)),
-        ('Spa', pokemon.get('atk SP', 0), 110, (200, 100, 255)),
-        ('Spd', pokemon.get('def SP', 0), 110, (100, 150, 255)),
-        ('Vel', pokemon.get('velocidade', 0), 110, (255, 100, 200))
+        ('Vid', pokemon.get('vida', 0), 300, (100, 255, 100)),
+        ('Atk', pokemon.get('atk', 0), 100, (255, 100, 100)),
+        ('Def', pokemon.get('def', 0), 100, (255, 220, 100)),
+        ('Spa', pokemon.get('atk SP', 0), 100, (200, 100, 255)),
+        ('Spd', pokemon.get('def SP', 0), 100, (100, 150, 255)),
+        ('Vel', pokemon.get('velocidade', 0), 100, (255, 100, 200))
     ]
 
     num_atributos = len(atributos)

@@ -3,7 +3,7 @@ import pygame
 from Visual.Sonoridade import tocar
 import Visual.GeradoresVisuais as GV
 from Geradores.GeradorPokemon import Pokemons_Todos
-from Dados.itens import Pokebolas_Todas,Estadios_Todos,Amplificadores_Todos,Frutas_Todas,Outros_Todos, Poçoes_Todas
+from Dados.itens import Pokebolas_Todas,Estadios_Todos,Amplificadores_Todos,Frutas_Todas,Outros_Todos, Poçoes_Todas, dicionario_itens
 from Dados.Estadios import Estadios
 from Dados.Treinadores import Treinadores_Todos
 
@@ -166,24 +166,46 @@ def spawn_do_centro(centro,Baralho,turnos):
 def Compra_Energia(player,custo=0):
     if player.ouro >= custo:
         tocar("Energia")
-        player.ouro -= custo
-        energia_sorteada = random.choice(Energias)
-        player.energias[energia_sorteada] += 1
-        energia_sorteada = random.choice(Energias)
-        player.energias[energia_sorteada] += 1
+        energia_sorteada = None
+
+        for i in range(30):
+            energia_sorteada = random.choice(Energias)
+            if player.energias[energia_sorteada] < player.energiasMax:
+                break
+
+        if energia_sorteada is not None:
+            player.energias[energia_sorteada] += 1
+
+
+        for i in range(30):
+            energia_sorteada = random.choice(Energias)
+            if player.energias[energia_sorteada] < player.energiasMax:
+                break
+
+        if energia_sorteada is not None:
+            player.energias[energia_sorteada] += 1
+
     else:
         tocar("Bloq")
         GV.adicionar_mensagem("Sem ouro para comprar energias")
-        
 
 def Gera_item(Lista,Baralho):
-        item = random.choice(Lista)
-        Baralho.tira_item(item)
-        return item
+    item = random.choice(Lista)
+    Baralho.tira_item(item)
+    return item
 
-def coletor():
-    energia_sorteada = random.choice(Energias)
-    return energia_sorteada
+def item_extra(player,item):
+    ItemExtra = dicionario_itens[item]
+    ItemExtra["extra"] = True
+    player.inventario.append(ItemExtra)
+
+def coletor(player):
+    for i in range(30):
+        energia_sorteada = random.choice(Energias)
+        if player.energias[energia_sorteada] < player.energiasMax:
+            break
+    if energia_sorteada is not None:
+        player.energias[energia_sorteada] += 1
 
 def Gera_Mapa(i):
     return Mapa(Estadios[i])

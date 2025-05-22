@@ -16,13 +16,26 @@ class Jogador:
         self.deck = informaçoes[2]
         self.treinador = informaçoes[2]["treinador"]
         self.tempo = self.treinador["tempo"]
-        self.AtivaPassiva = 2
+        self.AtivaPassiva = self.treinador["ativaTurno"]
+        self.ContaPassiva = self.treinador["ativaTurno"]
+        self.PoderCaptura = self.treinador["Poder"]
         self.Derrota = Derrotas[self.treinador["nome"]]
         self.Vitoria = Vitorias[self.treinador["nome"]]
         self.Passiva = Passivas[self.treinador["nome"]]
-        self.Habilidades = Habilidades[self.treinador["nome"]]
+        self.Habilidade = Habilidades[self.treinador["nome"]]
         self.NocautesSofridos = 0
         self.NocautesRealizados = 0
+        self.PokemonsNocauteados = 0
+        self.PokemonsCapturados = 0
+        self.PontosSofridos = 0
+        self.Pontos = 0
+        self.PontosVitoria = self.treinador["Vitoria"]
+        self.PontosDerrota = self.treinador["Derrota"]
+        self.Megas = 0
+        self.Ultras = 0
+        self.Vstars = 0
+        self.Vmaxs = 0
+        self.MultiplicaIV = 1
 
         for energia in self.deck["energiasD"]:
             if energia is not None:
@@ -37,7 +50,8 @@ class Jogador:
                         if Pokemon.Vida > 0:
                             cura = item["cura"]
                             tocar("Usou")
-                            Baralho.devolve_item(item)
+                            if not item.get("extra"):
+                                Baralho.devolve_item(item)
                             self.inventario.remove(item)
                             Pokemon.curar(cura,self,tela)
                             return
@@ -52,7 +66,8 @@ class Jogador:
                             elif tipo == "XP":
                                 Pokemon.Ganhar_XP(5,self)
                                 GV.adicionar_mensagem(f"{Pokemon.nome} Ganhou 5 de XP")
-                                Baralho.devolve_item(item)
+                                if not item.get("extra"):
+                                    Baralho.devolve_item(item)
                                 self.inventario.remove(item)
                                 return
                             elif Pokemon.amplificações > 5:
@@ -60,7 +75,8 @@ class Jogador:
                                 return
                             else:
                                 tocar("Usou")
-                                Baralho.devolve_item(item)
+                                if not item.get("extra"):
+                                    Baralho.devolve_item(item)
                                 self.inventario.remove(item)
                                 Pokemon.amplificar(tipo,tela,self)
                                 return
@@ -70,19 +86,37 @@ class Jogador:
                 elif item["classe"] == "estadio":
                     tocar("Usou")
                     Mapa.MudarEstagio(item["ST Code"])
-                    Baralho.devolve_item(item)
+                    if not item.get("extra"):
+                        Baralho.devolve_item(item)
                     self.inventario.remove(item)
                     return
                 elif item["classe"] == "Outros":
-                    if item["nome"] == "Trocador de Ataque" and ataque is not None:
-                        tocar("Usou")
-                        Trocar_Ataque_Pergunta(Pokemon,ataque,EstadoDaPergunta)
-                        Baralho.devolve_item(item)
-                        self.inventario.remove(item)
-                        return
+                    if item["nome"] == "Trocador de Ataque":
+                        if ataque is not None:
+                            tocar("Usou")
+                            Trocar_Ataque_Pergunta(Pokemon,ataque,EstadoDaPergunta)
+                            if not item.get("extra"):
+                                Baralho.devolve_item(item)
+                            self.inventario.remove(item)
+                            return
+                        else:
+                            tocar("Bloq")
+                            GV.adicionar_mensagem("selecione um ataque para usar um item")
                     else:
-                        tocar("Bloq")
-                        GV.adicionar_mensagem("selecione um ataque para usar um item")
+                        if Pokemon is not None:
+                            if not getattr(self, "RemoveuPokemon", None):
+                                GV.adicionar_mensagem(f"seu {Pokemon.nome} foi embora")
+                                self.pokemons.remove(Pokemon)
+                                self.RemoveuPokemon = True
+                                if not item.get("extra"):
+                                    Baralho.devolve_item(item)
+                                self.inventario.remove(item)
+                            else:
+                                tocar("Bloq")
+                                GV.adicionar_mensagem("Não é possivel usar esse item novamente")
+                        else:
+                            tocar("Bloq")
+                            GV.adicionar_mensagem("selecione um pokemon para usar um item")
                 else:
                     tocar("Bloq")
                     GV.adicionar_mensagem("selecione um pokemon para usar um item")

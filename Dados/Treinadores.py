@@ -1,113 +1,120 @@
-def VitoriaAsh(player, inimigo, Mapa, Baralho):
-    if player.NocautesRealizados > 4:
-        return True
-    return False
+import random
 
-def DerrotaAsh(player, inimigo, Mapa, Baralho):
-    if player.NocautesSofridos > 4:
-        return True
-    return False
+def VitoriaAsh(player, inimigo, Mapa, Baralho, Turno):
+    player.Pontos = player.NocautesRealizados
 
-def PassivaAsh(player, inimigo, Mapa, Baralho):
-    for pokemon in player.pokemons:
-        pokemon.Ganhar_XP(5,player)
+def DerrotaAsh(player, inimigo, Mapa, Baralho, Turno):
+    player.PontosSofridos = player.NocautesSofridos
 
-def HabilidadeAsh(player, inimigo, Mapa, Baralho):
-    player.PoderCaptura = 2
+def PassivaAsh(player, inimigo, Mapa, Baralho, Turno):
+    player.PoderCaptura += 1
 
-def VitoriaMisty(player, inimigo, Mapa, Baralho):
-    Nocauteados = 0
-    for pokemon in inimigo.pokemons:
-        if pokemon.Vida == 0:
-            Nocauteados += 1
-    if Nocauteados > 2:
-        return True
-    return False
+def HabilidadeAsh(player, inimigo, Mapa, Baralho, Turno):
+    player.pokemon[0].Ganhar_XP(10,player)
 
-def DerrotaMisty(player, inimigo, Mapa, Baralho):
+def VitoriaMisty(player, inimigo, Mapa, Baralho, Turno):
+    if inimigo.PokemonsNocauteados > 1:
+        player.Pontos += 1
+
+def DerrotaMisty(player, inimigo, Mapa, Baralho, Turno):
     total = sum(player.energias.values())
-    if total < 7:
-        return True
-    return False
+    if total < 10:
+        player.PontosSofridos += 1
 
-def PassivaMisty(player, inimigo, Mapa, Baralho):
+def PassivaMisty(player, inimigo, Mapa, Baralho, Turno):
     for chave in list(player.energias.keys()):
         player.energias[chave] += 1
 
-def HabilidadeMisty(player, inimigo, Mapa, Baralho):
+def HabilidadeMisty(player, inimigo, Mapa, Baralho, Turno):
     player.energiasMax = 25
 
-def VitoriaBrock(player, inimigo, Mapa, Baralho):
+def VitoriaBrock(player, inimigo, Mapa, Baralho, Turno):
+    player.Pontos = Turno
+
+def DerrotaBrock(player, inimigo, Mapa, Baralho, Turno):
+    player.NocautesSofridos = player.PontosSofridos
+
+def PassivaBrock(player, inimigo, Mapa, Baralho, Turno):
+    for pokemon in player.pokemons:
+        if pokemon.local is not None:
+            pokemon.barreira += 5
+
+def HabilidadeBrock(player, inimigo, Mapa, Baralho, Turno):
+    player.pokemons[0].barreira += 30
+
+def VitoriaJessie(player, inimigo, Mapa, Baralho, Turno):
+    player.Pontos = player.NocautesRealizados
+
+def DerrotaJessie(player, inimigo, Mapa, Baralho, Turno):
+    player.PontosSofridos = player.NocautesSofridos
+
+def PassivaJessie(player, inimigo, Mapa, Baralho, Turno):
+    if inimigo.itens != []:
+        item = random.choice(inimigo.itens)
+        player.inventario.append(item)
+        inimigo.inventario.remove(item)
+
+def HabilidadeJessie(player, inimigo, Mapa, Baralho, Turno):
+    from Geradores.GeradorOutros import item_extra
+    item_extra(player,"Masterball")
+
+def VitoriaJames(player, inimigo, Mapa, Baralho, Turno):
+    player.Pontos = min(9,player.PokemonsCapturados)
+    player.Pontos += player.NocautesRealizados
+
+def DerrotaJames(player, inimigo, Mapa, Baralho, Turno):
+    if player.PokemonsNocauteados > 1:
+        player.PontosSofridos += 1
+
+def PassivaJames(player, inimigo, Mapa, Baralho, Turno):
+    from Geradores.GeradorOutros import item_extra
+    item_extra(player,"Gosma Desagradável")
+    if getattr(player, "RemoveuPokemon", None):
+        player.RemoveuPokemon = False
+
+def HabilidadeJames(player, inimigo, Mapa, Baralho, Turno):
     pass
 
-def DerrotaBrock(player, inimigo, Mapa, Baralho):
+def VitoriaGiovanni(player, inimigo, Mapa, Baralho, Turno):
+    player.Pontos = min(48,player.ouro)
+    player.Pontos += player.NocautesRealizados
+
+def DerrotaGiovanni(player, inimigo, Mapa, Baralho, Turno):
+    player.PontosSofridos = player.PokemonsNocauteados
+
+def PassivaGiovanni(player, inimigo, Mapa, Baralho, Turno):
+    ganho = (player.ouro // 10) * 4
+    player.ouro += ganho
+
+def HabilidadeGiovanni(player, inimigo, Mapa, Baralho, Turno):
+    player.ouro += player.ouro
+
+def VitoriaRed(player, inimigo, Mapa, Baralho, Turno):
+    player.Pontos = player.NocautesRealizados
+
+def DerrotaRed(player, inimigo, Mapa, Baralho, Turno):
     pass
 
-def PassivaBrock(player, inimigo, Mapa, Baralho):
+def PassivaRed(player, inimigo, Mapa, Baralho, Turno):
+    from Geradores.GeradorOutros import item_extra
+    item_extra(player,"Mega Energia")
+
+def HabilidadeRed(player, inimigo, Mapa, Baralho, Turno):
+    player.Megas = -5
+
+def VitoriaCarvalho(player, inimigo, Mapa, Baralho, Turno):
     pass
 
-def HabilidadeBrock(player, inimigo, Mapa, Baralho):
-    pass
+def DerrotaCarvalho(player, inimigo, Mapa, Baralho, Turno):
+    player.PontosSofridos = player.NocautesSofridos
 
-def VitoriaJessie(player, inimigo, Mapa, Baralho):
-    pass
+def PassivaCarvalho(player, inimigo, Mapa, Baralho, Turno):
+    for pokemon in player.pokemons:
+        if pokemon.local is not None:
+            pokemon.Ganhar_XP(12,player)
 
-def DerrotaJessie(player, inimigo, Mapa, Baralho):
-    pass
-
-def PassivaJessie(player, inimigo, Mapa, Baralho):
-    pass
-
-def HabilidadeJessie(player, inimigo, Mapa, Baralho):
-    pass
-
-def VitoriaJames(player, inimigo, Mapa, Baralho):
-    pass
-
-def DerrotaJames(player, inimigo, Mapa, Baralho):
-    pass
-
-def PassivaJames(player, inimigo, Mapa, Baralho):
-    pass
-
-def HabilidadeJames(player, inimigo, Mapa, Baralho):
-    pass
-
-def VitoriaGiovanni(player, inimigo, Mapa, Baralho):
-    pass
-
-def DerrotaGiovanni(player, inimigo, Mapa, Baralho):
-    pass
-
-def PassivaGiovanni(player, inimigo, Mapa, Baralho):
-    pass
-
-def HabilidadeGiovanni(player, inimigo, Mapa, Baralho):
-    pass
-
-def VitoriaRed(player, inimigo, Mapa, Baralho):
-    pass
-
-def DerrotaRed(player, inimigo, Mapa, Baralho):
-    pass
-
-def PassivaRed(player, inimigo, Mapa, Baralho):
-    pass
-
-def HabilidadeRed(player, inimigo, Mapa, Baralho):
-    pass
-
-def VitoriaCarvalho(player, inimigo, Mapa, Baralho):
-    pass
-
-def DerrotaCarvalho(player, inimigo, Mapa, Baralho):
-    pass
-
-def PassivaCarvalho(player, inimigo, Mapa, Baralho):
-    pass
-
-def HabilidadeCarvalho(player, inimigo, Mapa, Baralho):
-    pass
+def HabilidadeCarvalho(player, inimigo, Mapa, Baralho, Turno):
+    player.MultiplicaIV = 1.3
 
 Habilidades = {
     "Ash": HabilidadeAsh,
@@ -155,50 +162,74 @@ Derrotas = {
 
 Ash = {
     "nome": "Ash",
-    "tempo": 180,
-    "ativaTurno": 3
+    "tempo": 170,
+    "ativaTurno": 3,
+    "Poder": 1,
+    "Vitoria": 4,
+    "Derrota": 4,
 }
 
 Misty = {
     "nome": "Misty",
-    "tempo": 160,
-    "ativaTurno": 3
+    "tempo": 150,
+    "ativaTurno": 3,
+    "Poder": 2,
+    "Vitoria": 3,
+    "Derrota": 3
 }
 
 Brock = {
     "nome": "Brock",
-    "tempo": 190,
-    "ativaTurno": 5
+    "tempo": 160,
+    "ativaTurno": 5,
+    "Poder": 2,
+    "Vitoria": 30,
+    "Derrota": 5,
 }
 
 Jessie = {
     "nome": "Jessie",
-    "tempo": 190,
-    "ativaTurno": 5
+    "tempo": 150,
+    "ativaTurno": 5,
+    "Poder": 1,
+    "Vitoria": 3,
+    "Derrota": 3
 }
 
 James = {
     "nome": "James",
-    "tempo": 170,
-    "ativaTurno": 5
+    "tempo": 160,
+    "ativaTurno": 5,
+    "Poder": 1,
+    "Vitoria": 10,
+    "Derrota": 3
 }
 
 Giovanni = {
     "nome": "Giovanni",
-    "tempo": 200,
-    "ativaTurno": 7
+    "tempo": 180,
+    "ativaTurno": 7,
+    "Poder": 2,
+    "Vitoria": 60,
+    "Derrota": 3,
 }
 
 Red = {
     "nome": "Red",
-    "tempo": 180,
-    "ativaTurno": 7
+    "tempo": 140,
+    "ativaTurno": 7,
+    "Poder": 3,
+    "Vitoria": 5,
+    "Derrota": 1
 }
 
 Professor_Carvalho = {
     "nome": "Professor Carvalho",
-    "tempo": 210,
-    "ativaTurno": 7
+    "tempo": 190,
+    "ativaTurno": 7,
+    "Poder": 2,
+    "Vitoria": 1,
+    "Derrota": 4,
 }
 
 Treinadores_Todos = [Ash,Misty,Brock,Jessie,James,Giovanni,Red,Professor_Carvalho]

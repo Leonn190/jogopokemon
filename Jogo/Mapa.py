@@ -11,10 +11,12 @@ y_terreno = 0
 largura_terreno = 0
 altura_terreno = 0
 
+B1 = {"estado": False}
+
 class PecaArrastavel:
-    def __init__(self, pokemon, tela, imagem):
+    def __init__(self, pokemon, camera, imagem):
         self.pokemon = pokemon
-        self.tela = tela
+        self.tela = camera
         self.imagem = imagem  # imagem da peça arrastável (ex: círculo azul + ícone)
         self.arrastando = False
         self.offset_x = 0
@@ -25,15 +27,39 @@ class PecaArrastavel:
     def iniciar_arraste(self, pos_mouse):
         if not self.pokemon.PodeMover:
             return False
+
         x_p, y_p = self.pokemon.local
         rect = self.imagem.get_rect(center=(int(x_p), int(y_p)))
+
         if rect.collidepoint(pos_mouse):
             self.arrastando = True
             self.offset_x = x_p - pos_mouse[0]
             self.offset_y = y_p - pos_mouse[1]
             self.pos_inicial = self.pokemon.local
+            self.pokemon.local = (pos_mouse[0], pos_mouse[1])
             return True
+
         return False
+
+    def atualizar_local_durante_arrasto(self, pos_mouse):
+        if self.arrastando:
+            novo_x = pos_mouse[0] + self.offset_x
+            novo_y = pos_mouse[1] + self.offset_y
+
+            x_ini, y_ini = self.pos_inicial
+            distancia = math.hypot(novo_x - x_ini, novo_y - y_ini)
+            raio_movimento = self.pokemon.vel * Mapa.Metros // 2 + self.pokemon.raio + 15
+
+            if distancia > raio_movimento:
+                # Muito longe: cancelar arrasto
+                self.arrastando = False
+                self.pokemon.local = self.pos_inicial
+                tocar("Bloq")  # Som de bloqueio opcional
+                GV.adicionar_mensagem("Distância de movimento excedida")
+                return
+
+            # Atualiza a posição do Pokémon em tempo real
+            self.pokemon.local = (novo_x, novo_y)
 
     def soltar(self, pos_mouse):
         if not self.arrastando:
@@ -45,7 +71,7 @@ class PecaArrastavel:
         y_fim = pos_mouse[1] + self.offset_y
 
         distancia = math.hypot(x_fim - x_ini, y_fim - y_ini)
-        raio_movimento = self.pokemon.vel * Mapa.Metros
+        raio_movimento = self.pokemon.vel * Mapa.Metros // 2
 
         if distancia <= raio_movimento + self.pokemon.raio and self.pokemon.PodeMover == True:
             if not ponto_valido(x_fim, y_fim, self.pokemon):
@@ -85,7 +111,7 @@ class PecaArrastavel:
         if not self.arrastando:
             return
         x_p, y_p = map(int, self.pos_inicial)
-        raio = int(self.pokemon.vel * Mapa.Metros + self.pokemon.raio)
+        raio = int((self.pokemon.vel//2) * Mapa.Metros + self.pokemon.raio)
 
         superficie = pygame.Surface((raio*2, raio*2), pygame.SRCALPHA)
         pygame.draw.circle(superficie, (0, 255, 0, 60), (raio, raio), raio)
@@ -94,11 +120,19 @@ class PecaArrastavel:
     def desenhar(self, pos_mouse=None):
         if self.arrastando and pos_mouse is not None:
             x_m, y_m = pos_mouse
-            rect = self.imagem.get_rect(center=(x_m, y_m))
+            center = (x_m + self.offset_x, y_m + self.offset_y)
         else:
             x_p, y_p = map(int, self.pokemon.local)
-            rect = self.imagem.get_rect(center=(x_p, y_p))
+            center = (x_p, y_p)
 
+        rect = self.imagem.get_rect(center=center)
+
+        # Desenha a borda verde se puder mover
+        if self.pokemon.PodeMover:
+            raio = max(rect.width, rect.height) // 2 + 3  # raio levemente maior que o da imagem
+            pygame.draw.circle(self.tela, (0, 255, 0), center, raio, width=3)
+
+        # Desenha a imagem da peça
         self.tela.blit(self.imagem, rect)
 
 def verifica_colisao(x, y, pokemon):
@@ -143,7 +177,7 @@ def ponto_valido(x, y, pokemon, ignorar_limites=False, ignora_colisão=False):
 
     return True
 
-def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo):
+def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, eventos, estadoAlvo, estadoVisualiza, selecionaAlvo, desselecionaAlvo, oculta, visualiza):
     global terreno, x_terreno, y_terreno, largura_terreno, altura_terreno, Mapa
     Mapa = mapa
     
@@ -179,32 +213,49 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo):
 
         return superficie
 
-    def desenhar_pokemons(jogador, criar_pecas, cor_circulo):
+    def desenhar_pokemons(jogador, criar_pecas, cor_circulo, ):
         pokemons_validos = [pokemon for pokemon in jogador.pokemons if pokemon.local is not None and ponto_valido(*pokemon.local, pokemon, ignora_colisão=True)]
 
         if criar_pecas is True:
             if Mapa.Peças == []:
                 for pokemon in pokemons_validos:
-                        imagem_peca = criar_imagem_peca(pokemon, cor_circulo)
-                        nova_peca = PecaArrastavel(pokemon, tela, imagem=imagem_peca)
-                        Mapa.Peças.append(nova_peca)
+                    imagem_peca = criar_imagem_peca(pokemon, cor_circulo)
+                    nova_peca = PecaArrastavel(pokemon, tela, imagem=imagem_peca)
+                    Mapa.Peças.append(nova_peca)
 
         else:
             for pokemon in jogador.pokemons:
                 if pokemon.local is not None:
                     x, y = pokemon.local
-                    if ponto_valido(x, y, pokemon,ignora_colisão=True):
+                    if ponto_valido(x, y, pokemon, ignora_colisão=True):
                         imagem_peca = criar_imagem_peca(pokemon, cor_circulo)
                         largura_img, altura_img = imagem_peca.get_size()
                         x_img = x - largura_img // 2
                         y_img = y - altura_img // 2
+
+                        espaço = pygame.Rect(x_img + 1, y_img + 1, largura_img - 2, altura_img - 2)
+                
+                        GV.Botao_Selecao2(
+                        tela, espaço,
+                        "", GV.Fonte20,
+                        cor_fundo=(180, 0, 0), cor_borda_normal=(0, 0, 0),
+                        cor_borda_esquerda=GV.VERMELHO, cor_borda_direita=GV.AZUL,
+                        cor_passagem=GV.AMARELO, id_botao=pokemon,
+                        estado_global_esquerdo=estadoAlvo ,estado_global_direito=estadoVisualiza, eventos=eventos,
+                        funcao_esquerdo=lambda poke=pokemon: selecionaAlvo(poke),
+                        funcao_direito=lambda poke=pokemon: visualiza(poke),
+                        desfazer_esquerdo=lambda: desselecionaAlvo(), desfazer_direito=lambda: oculta(),
+                        tecla_esquerda=pygame.K_1, tecla_direita=None)
+
                         tela.blit(imagem_peca, (x_img, y_img))
                     else:
                         PosicionarGuardar(pokemon, 0)
 
+
     # No corpo principal da função:
     desenhar_pokemons(player, criar_pecas=True, cor_circulo=(0, 0, 255))  # azul para player
     desenhar_pokemons(inimigo, criar_pecas=False, cor_circulo=(255, 0, 0))  # vermelho para inimigos
+
 
 def PosicionarGuardar(pokemon, tempo):
     if pokemon.local is None:
@@ -247,3 +298,4 @@ def inverter_tabuleiro(player, inimigo):
                 poke.local = (novo_x, novo_y)
 
     Mapa.mudança = True
+    

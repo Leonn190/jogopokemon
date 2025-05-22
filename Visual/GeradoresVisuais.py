@@ -1,6 +1,5 @@
 import pygame
 import os
-import cv2
 
 pygame.font.init()
 
@@ -629,38 +628,3 @@ def tooltip(area, local, texto, titulo, fonte_texto, fonte_titulo, tela):
     # Blita no local especificado
     tela.blit(fundo, local_rect.topleft)
 
-def extrair_frame_video(caminho_video, indice=1, multiplicador=1, qualidade_jpg=85):
-    if not os.path.exists(caminho_video):
-        print(f"Vídeo '{caminho_video}' não encontrado.")
-        return
-
-    cap = cv2.VideoCapture(caminho_video)
-    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-
-    if indice < 1 or indice > total_frames:
-        print(f"Índice {indice} inválido. O vídeo tem {total_frames} frames.")
-        cap.release()
-        return
-
-    # Posiciona o vídeo no frame desejado (indices começam em 1)
-    cap.set(cv2.CAP_PROP_POS_FRAMES, indice - 1)
-
-    ret, img = cap.read()
-    if not ret:
-        print(f"Não foi possível ler o frame {indice}.")
-        cap.release()
-        return
-
-    if multiplicador != 1:
-        nova_largura = int(img.shape[1] * multiplicador)
-        nova_altura = int(img.shape[0] * multiplicador)
-        img = cv2.resize(img, (nova_largura, nova_altura), interpolation=cv2.INTER_LANCZOS4)
-
-    pasta_destino = os.path.dirname(caminho_video)
-    nome_video = os.path.splitext(os.path.basename(caminho_video))[0]
-    caminho_frame = os.path.join(pasta_destino, f"{nome_video}_frame_{indice}.jpg")
-
-    cv2.imwrite(caminho_frame, img, [int(cv2.IMWRITE_JPEG_QUALITY), qualidade_jpg])
-    cap.release()
-
-    print(f"Frame {indice} extraído de '{caminho_video}' para '{caminho_frame}'.")

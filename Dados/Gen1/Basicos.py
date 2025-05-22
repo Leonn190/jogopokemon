@@ -20,6 +20,7 @@ Bulbasaur = {
     "custo": 1,
     "movelist": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
     "moves": 2,
+    "Tamanho": 1.8,
     "H": 0.58,
     "W": 7.5
 }
@@ -42,6 +43,7 @@ Charmander = {
     "custo": 1,
     "movelist": ["Tapa", "Queimar", "Superaquecer", "Mordida", "Crescer", "Brasa"],
     "moves": 2,
+    "Tamanho": 1.7,
     "H": 0.7,   
     "W": 8.5
 }
@@ -64,6 +66,7 @@ Squirtle = {
     "custo": 1,
     "movelist": ["Investida", "Jato de Água", "Bolhas", "Vasculhar no Rio", "Provocar", "Crescer"],
     "moves": 2,
+    "Tamanho": 1.7,
     "H": 0.67,
     "W": 10
 }
@@ -86,6 +89,7 @@ Machop = {
     "custo": 2,
     "movelist": ["Treinar", "Soco", "Provocar", "Pedregulho", "Crescer", "Tapa Especial"],
     "moves": 2,
+    "Tamanho": 1.7,
     "H": 0.9,
     "W": 20
 }
@@ -108,6 +112,7 @@ Gastly = {
     "custo": 0,
     "movelist": ["Lambida", "Ácido", "Envenenar", "Assombrar", "Energia", "Atravessar"],
     "moves": 2,
+    "Tamanho": 1.6,
     "H": 0.6,
     "W": 0.2
 }
@@ -130,6 +135,7 @@ Geodude = {
     "custo": 2,
     "movelist": ["Soco", "Pedregulho", "Provocar", "Investida", "Esbravejar", "Tremor"],
     "moves": 2,
+    "Tamanho": 1.6,
     "H": 0.51,
     "W": 23
 }
@@ -152,6 +158,7 @@ Caterpie = {
     "custo": 1,
     "movelist": ["Seda", "Cabeçada", "Mordida", "Minhocagem", "Coleta", "Energia"],
     "moves": 2,
+    "Tamanho": 1.3,
     "H": 0.31,
     "W": 3.3
 }
@@ -174,6 +181,7 @@ Abra = {
     "custo": 0,
     "movelist": ["Teleporte", "Ampliação Mental", "Confusão", "Psíquico Desgastante", "Tapa Especial", "Tapa"],
     "moves": 2,
+    "Tamanho": 1.5,
     "H": 1,
     "W": 20
 }
@@ -196,6 +204,7 @@ Dratini = {
     "custo": 1,
     "movelist": ["Ultraje", "Sopro do Dragão", "Cabeçada", "Mordida", "Crescer", "Bolhas"],
     "moves": 2,
+    "Tamanho": 1.7,
     "H": 1.81,
     "W": 3.4
 }
@@ -218,6 +227,7 @@ Pikachu = {
     "custo": 1,
     "movelist": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
     "moves": 3,
+    "Tamanho": 1.6,
     "H": 0.51,
     "W": 6.3
 }
@@ -240,6 +250,7 @@ Zorua = {
     "custo": 1,
     "movelist": ["Investida", "Nas Sombras", "Bola Sombria", "Vasculhar", "Energia", "Crescer"],
     "moves": 2,
+    "Tamanho": 1.7,
     "H": 0.68,
     "W": 10.2
 }
@@ -262,6 +273,7 @@ Magikarp = {
     "custo": 1,
     "movelist": ["Splash", "Vasculhar", "Vasculhar no Rio", "Splash", "Splash", "Splash"],
     "moves": 2,
+    "Tamanho": 1.8,
     "H": 0.85,
     "W": 9.1
 }
@@ -284,6 +296,7 @@ Jigglypuff = {
     "custo": 1,
     "movelist": ["Tapa", "Cura Natural", "Brilho", "Energia", "Busca Alegre", "Tapa Especial"],
     "moves": 2,
+    "Tamanho": 1.8,
     "H": 0.56,
     "W": 6.7
 }
@@ -306,6 +319,7 @@ Clefairy = {
     "custo": 2,
     "movelist": ["Provocar", "Vento Fada", "Brilho", "Benção", "Investida", "Energia"],
     "moves": 2,
+    "Tamanho": 1.9,
     "H": 0.62,
     "W": 8.9
 }
@@ -328,6 +342,7 @@ Meowth = {
     "custo": 1,
     "movelist": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
     "moves": 2,
+    "Tamanho": 1.5,
     "H": 0.63,
     "W": 5.1
 }
@@ -350,6 +365,7 @@ Cubone = {
     "custo": 1,
     "movelist": ["Provocar", "Pedregulho", "Soco", "Arremesso de Terra", "Tremor", "Crescer"],
     "moves": 2,
+    "Tamanho": 1.6,
     "H": 0.42,
     "W": 7.1
 
@@ -373,6 +389,7 @@ Shellder = {
     "custo": 1,
     "movelist": ["Lambida", "Provocar", "Jato de Água", "Bolhas", "Energia", "Golpe de Concha"],
     "moves": 2,
+    "Tamanho": 1.5,
     "H": 0.33,
     "W": 4
 
@@ -396,6 +413,7 @@ Magnemite = {
     "custo": 1,
     "movelist": ["Reforçar", "Faisca", "Energia", "Energizar", "Projétil Metálico", "Onda Elétrica"],
     "moves": 2,
+    "Tamanho": 1.3,
     "H": 0.29,
     "W": 6.7
 
@@ -419,6 +437,7 @@ Rattata = {
     "custo": 0,
     "movelist": ["Mordida", "Investida", "Nas Sombras", "Vasculhar", "Crescer", "Envenenar"],
     "moves": 2,
+    "Tamanho": 1.4,
     "H": 0.34,
     "W": 3.3
 }
@@ -441,6 +460,7 @@ Weedle = {
     "custo": 1,
     "movelist": ["Minhocagem", "Seda", "Picada", "Vasculhar", "Envenenar", "Coleta"],
     "moves": 2,
+    "Tamanho": 1.3,
     "H": 0.26,
     "W": 2.5
 
@@ -464,6 +484,7 @@ Snorlax = {
     "custo": 4,
     "movelist": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
     "moves": 4,
+    "Tamanho": 2.7,
     "H": 2.15,
     "W": 485
 
@@ -487,6 +508,7 @@ Aerodactyl = {
     "custo": 3,
     "movelist": ["Voar", "Ataque de Asa", "Investida Aérea", "Pedra Especial", "Barragem Rochosa", "Mordida"],
     "moves": 4,
+    "Tamanho": 2.2,
     "H": 1.8,
     "W": 60
 
@@ -510,6 +532,7 @@ Jynx = {
     "custo": 2,
     "movelist": ["Cristalizar", "Reinado de Gelo", "Magia de Gelo", "Bola Psíquica", "Mente Forte", "Tapa Especial"],
     "moves": 4,
+    "Tamanho": 1.9,
     "H": 1.34,
     "W": 38.8
 }
@@ -532,6 +555,7 @@ Pinsir = {
     "custo": 2,
     "movelist": ["Seda", "Mordida", "Tesoura X", "Arranhar", "Esbravejar", "Treinar"],
     "moves": 4,
+    "Tamanho": 1.9,
     "H": 1.55,
     "W": 53
 
@@ -555,6 +579,7 @@ Mewtwo = {
     "custo": 3,
     "movelist": ["Teleporte", "Corrosão Psíquica", "Psicorte Duplo", "Ampliação Mental", "Mente Forte", "Cauda Violenta"],
     "moves": 4,
+    "Tamanho": 2.4,
     "H": 1.9,
     "W": 95
 }
@@ -577,6 +602,7 @@ Articuno = {
     "custo": 4,
     "movelist": ["Raio de Gelo", "Reinado de Gelo", "Voar", "Ataque de Asa", "Provocar", "Gelo Verdadeiro"],
     "moves": 4,
+    "Tamanho": 2.3,
     "H": 1.83,
     "W": 73
 }
@@ -599,6 +625,7 @@ Moltres = {
     "custo": 3,
     "movelist": ["Ondas de Calor", "Raio de Fogo", "Voar", "Investida Aérea", "Provocar", "Superaquecer"],
     "moves": 4,
+    "Tamanho": 2.5,
     "H": 1.98,
     "W": 81
 }
@@ -621,6 +648,7 @@ Zapdos = {
     "custo": 3,
     "movelist": ["Tempestade de Raios", "Choque do Trovão", "Voar", "Rasante", "Bola Elétrica", "Bico Broca"],
     "moves": 4,
+    "Tamanho": 2.1,
     "H": 1.72,
     "W": 69
 }

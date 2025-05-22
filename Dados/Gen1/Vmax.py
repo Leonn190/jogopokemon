@@ -13,8 +13,8 @@ Venusaur_Vmax = {
     "custo": 6,
     "XP": 0,
     "movelist": ["Mega Dreno", "Ácido", "Raio Solar", "Folha Navalha", "Cura Natural", "Bomba de Lodo"],
-    "H": 0,
-    "W": 0
+    "H": 14,
+    "W": 999,
 }
 
 Charizard_Vmax = { 
@@ -32,8 +32,8 @@ Charizard_Vmax = {
     "custo": 7,
     "XP": 0,
     "movelist": ["Ataque de Asa", "Mordida", "Raio de Fogo", "Cauda Violenta", "Bola de Fogo", "Ataque de Chamas"],
-    "H": 0,
-    "W": 0
+    "H": 19,
+    "W": 999,
 }
 
 Blastoise_Vmax = { 
@@ -49,10 +49,10 @@ Blastoise_Vmax = {
     "def SP": 51,
     "velocidade": 10,
     "custo": 7,
-    "XP": 0,
+    "XP": 16,
     "movelist": ["Jato Duplo", "Provocar", "Bola de Água", "Golpe de Concha", "Golpe Territorial", "Gota Pesada"],
-    "H": 0,
-    "W": 0
+    "H": 16,
+    "W": 999,
     
 }
 
@@ -71,8 +71,8 @@ Machamp_Vmax = {
     "custo": 6,
     "XP": 0,
     "movelist": ["Soco", "Combate Próximo", "Treinar", "Submissão", "Chamar para Briga", "Punho Míssil"],
-    "H": 0,
-    "W": 0
+    "H": 21,
+    "W": 999
 }
 
 Gengar_Vmax = { 
@@ -90,8 +90,8 @@ Gengar_Vmax = {
     "custo": 6,
     "XP": 0,
     "movelist": ["Maldade", "Bola Sombria", "Massacre Fantasmagórico", "Coleta Gananciosa", "Nas Sombras", "Extração"],
-    "H": 0,
-    "W": 0
+    "H": 15,
+    "W": 999
 }
 
 Butterfree_Vmax = { 
@@ -109,8 +109,8 @@ Butterfree_Vmax = {
     "custo": 5,
     "XP": 0,
     "movelist": ["Vento Forte", "Brilho", "Benção", "Cura Natural", "Seda", "Voar"],
-    "H": 0,
-    "W": 0
+    "H": 11,
+    "W": 999
 }
 
 Snorlax_Vmax = { 
@@ -128,8 +128,8 @@ Snorlax_Vmax = {
     "custo": 0,
     "XP": 0,
     "movelist": ["Arranhar", "Tapa", "Tapa Especial", "Provocar", "Esmagar", "Descansar"],
-    "H": 0,
-    "W": 0
+    "H": 20,
+    "W": 999
 }
 
 Meowth_Vmax = { 
@@ -147,8 +147,8 @@ Meowth_Vmax = {
     "custo": 4,
     "XP": 0,
     "movelist": ["Tapa", "Tapa Especial", "Vasculhar", "Arranhar", "Crescer", "Coleta Gananciosa"],
-    "H": 0,
-    "W": 0
+    "H": 13,
+    "W": 999
 }
 
 Pikachu_Vmax = { 
@@ -166,6 +166,6 @@ Pikachu_Vmax = {
     "custo": 4,
     "XP": 0,
     "movelist": ["Cauda de Ferro", "Ataque Rápido", "Choque do Trovão", "Faisca", "Bola Elétrica", "Energizar"],
-    "H": 0,
-    "W": 0
+    "H": 9,
+    "W": 999
 }
