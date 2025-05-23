@@ -2,6 +2,7 @@ import pygame
 import os
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+from Visual.Sonoridade import VerificaModoSilencioso
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte23, Fonte25, Fonte28, Fonte30, Fonte35, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
@@ -13,8 +14,17 @@ Config = None
 modulador = True
 ConfigAntiga = None
 
+ConfigAvançada = False
+
+
 B1 = {"estado": False}
 B2 = {"estado": False}
+B3 = {"estado": False}
+B4 = {"estado": False}
+B5 = {"estado": False}
+B6 = {"estado": False}
+
+estadoConfigAvançada = {"selecionado_esquerdo": None}
 
 def aplicar_claridade(tela, claridade):
     """
@@ -38,6 +48,40 @@ def aplicar_claridade(tela, claridade):
         surface.fill((255, 255, 255, alfa))
 
     tela.blit(surface, (0, 0))
+
+def TrocaModoRapido(config):
+    if config["Modo rápido"]:
+        config["Modo rápido"] = False
+    else:
+        config["Modo rápido"] = True
+
+def TrocaModoSilencioso(config):
+    if config["Modo silencioso"]:
+        config["Modo silencioso"] = False
+    else:
+        config["Modo silencioso"] = True
+    
+    VerificaModoSilencioso(config)
+
+def TrocaMostraFpsPartida(config):
+    if config["Mostrar Fps"]:
+        config["Mostrar Fps"] = False
+    else:
+        config["Mostrar Fps"] = True
+
+def TrocaDicas(config):
+    if config["Dicas"]:
+        config["Dicas"] = False
+    else:
+        config["Dicas"] = True
+
+def AbreConfigAvançada():
+    global ConfigAvançada
+    ConfigAvançada = True
+
+def FechaConfigAvançada():
+    global ConfigAvançada
+    ConfigAvançada = False
 
 def SalvarConfig():
     global Config, modulador, AntigaSalva
@@ -80,14 +124,65 @@ def Configuraçoes(tela, eventos, config):
     tela.blit(texto_titulo, rect_titulo)
 
     # Sliders
-    Config["Volume"] = GV.Slider(tela, "Volume", x + 50, y + 140, 660, Config["Volume"], 0.0, 0.8, (180, 180, 180), (255, 255, 255), eventos, "%")
-    Config["Claridade"] = GV.Slider(tela, "Claridade", x + 50, y + 240, 660, Config["Claridade"], 0, 100, (180, 180, 180), (255, 255, 255), eventos, "%")
-    Config["FPS"] = GV.Slider(tela, "FPS", x + 50, y + 340, 660, Config["FPS"], 20, 240, (180, 180, 180), (255, 255, 255), eventos)
+    if ConfigAvançada is False:
+        Config["Volume"] = GV.Slider(tela, "Volume", x + 50, y + 150, 670, Config["Volume"], 0.0, 0.8, (180, 180, 180), (255, 255, 255), eventos, "%")
+        Config["Claridade"] = GV.Slider(tela, "Claridade", x + 50, y + 250, 670, Config["Claridade"], 0, 100, (180, 180, 180), (255, 255, 255), eventos, "%")
+        Config["FPS"] = GV.Slider(tela, "FPS", x + 50, y + 350, 670, Config["FPS"], 20, 240, (180, 180, 180), (255, 255, 255), eventos)
+    else:
 
+        if config["Modo rápido"]:
+            cor1 = VERDE
+        else:
+            cor1 = CINZA
+
+        if config["Modo silencioso"]:
+            cor2 = VERDE
+        else:
+            cor2 = CINZA
+
+        if config["Mostrar Fps"]:
+            cor3 = VERDE
+        else:
+            cor3 = CINZA
+
+        if config["Dicas"]:
+            cor4 = VERDE
+        else:
+            cor4 = CINZA
+        
+        GV.Botao(tela, "Modo Rápido", (x + 180, y + 140, 550, 50), cor1, PRETO, AZUL,
+                lambda: TrocaModoRapido(config), Fonte40, B3, 3, None, True, eventos)
+        GV.Botao(tela, "Modo Silencioso", (x + 180, y + 210, 550, 50), cor2, PRETO, AZUL,
+                lambda: TrocaModoSilencioso(config), Fonte40, B4, 3, None, True, eventos)
+        GV.Botao(tela, "Mostrar FPS Na Partida", (x + 180, y + 280, 550, 50), cor3, PRETO, AZUL,
+                lambda: TrocaMostraFpsPartida(config), Fonte40, B5, 3, None, True, eventos)
+        GV.Botao(tela, "Mostrar Dicas", (x + 180, y + 350, 550, 50), cor4, PRETO, AZUL,
+                lambda: TrocaDicas(config), Fonte40, B6, 3, None, True, eventos)
+        
     GV.Botao(tela, "Voltar", (x + largura - 470 - 390, y + altura - 85, 390, 70), VERDE_CLARO, PRETO, AZUL,
                     lambda: Cancelar(), Fonte50, B1, 3, None, True, eventos)
         
     GV.Botao(tela, "Salvar", (x + largura - 40 - 390, y + altura - 85, 390, 70), VERDE_CLARO, PRETO, AZUL,
                 lambda: SalvarConfig(), Fonte50, B2, 3, None, True, eventos)
+    
+    GV.Botao_Selecao(
+                tela, 
+                (x + largura - 75, y + 15, 60,60),
+                "+", 
+                Fonte50,
+                cor_fundo=CINZA, 
+                cor_borda_normal=PRETO,
+                cor_borda_esquerda=VERDE, 
+                cor_borda_direita=None,
+                cor_passagem=AMARELO, 
+                id_botao="ConfigAvançada",   
+                estado_global=estadoConfigAvançada, 
+                eventos=eventos,
+                funcao_esquerdo=lambda: AbreConfigAvançada(), 
+                funcao_direito=None,
+                desfazer_esquerdo=lambda: FechaConfigAvançada(), 
+                desfazer_direito=None,
+                tecla_esquerda=pygame.K_1, 
+                tecla_direita=None)
     
     return modulador

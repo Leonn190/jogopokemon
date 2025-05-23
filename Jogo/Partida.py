@@ -21,9 +21,6 @@ from Visual.GeradoresVisuais import (
 
 peca_em_uso = None
 
-pygame.mixer.init()
-selecionaSOM = pygame.mixer.Sound("Audio/Sons/Som1.wav")
-
 Tela = None
 Mapa = None
 Baralho = None
@@ -931,7 +928,8 @@ def Partida(tela,estados,relogio,config):
             peca_em_uso.atualizar_local_durante_arrasto(pos_mouse)
             peca_em_uso.desenhar_raio_velocidade()
 
-        tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
+        if config["Mostrar Fps"]:
+            tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
@@ -1101,7 +1099,7 @@ def TelaPokemons(tela,eventos,estados):
             funcao_esquerdo=lambda i=i: seleciona(id_poke),
             funcao_direito=lambda i=i: visualiza(id_poke),
             desfazer_esquerdo=lambda: desseleciona(), desfazer_direito=lambda: oculta(),
-            tecla_esquerda=pygame.K_1, tecla_direita=None, som=selecionaSOM)
+            tecla_esquerda=pygame.K_1, tecla_direita=None, som="clique")
 
     for i in range(6):
         x = 1310 - i * 190  # ajusta a posição horizontal
@@ -1119,7 +1117,7 @@ def TelaPokemons(tela,eventos,estados):
             funcao_esquerdo=lambda i=i: selecionaAlvo(id_poke),
             funcao_direito=lambda i=i: visualiza(id_poke),
             desfazer_esquerdo=lambda: desselecionaAlvo(), desfazer_direito=lambda: oculta(),
-            tecla_esquerda=pygame.K_1, tecla_direita=None, som=selecionaSOM)
+            tecla_esquerda=pygame.K_1, tecla_direita=None, som="clique")
         
         if not isinstance(id_poke,str):
             j = 0

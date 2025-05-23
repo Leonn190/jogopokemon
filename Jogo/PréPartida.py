@@ -14,11 +14,6 @@ from Visual.GeradoresVisuais import (
 
 pygame.mixer.init()
 
-clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
-Compra = pygame.mixer.Sound("Audio/Sons/Compra.wav")
-Escolha = pygame.mixer.Sound("Audio/Sons/EscolhaPoke.wav")
-Escolha.set_volume(0.5)
-
 ImagensPokemonInicial = {}
 IconesDeckIMG = {}
 
@@ -195,7 +190,7 @@ def TelaPréPartida(tela,eventos,estados):
                 funcao_esquerdo=lambda poke=pokemon: A.Pokemon_inicial(poke,DeckSelecionadoP1,1), funcao_direito=None,
                 desfazer_esquerdo=lambda poke=pokemon: A.Remover_inicial(3), desfazer_direito=None,
                 tecla_esquerda=[pygame.K_1, pygame.K_2, pygame.K_3][i],
-                tecla_direita=None, som=Escolha
+                tecla_direita=None, som="Seleciona"
             )
             # Desenha a imagem do Pokémon centralizada no botão
             imagem = ImagensPokemonInicial[pokemon["nome"]]
@@ -225,7 +220,7 @@ def TelaPréPartida(tela,eventos,estados):
                 funcao_esquerdo=lambda poke=pokemon: A.Pokemon_inicial(poke,DeckSelecionadoP2,2), funcao_direito=None,
                 desfazer_esquerdo=lambda poke=pokemon: A.Remover_inicial(3), desfazer_direito=None,
                 tecla_esquerda=[pygame.K_7, pygame.K_8, pygame.K_9][i],
-                tecla_direita=None, som=Escolha
+                tecla_direita=None, som="Seleciona"
             )
             # Desenha a imagem do Pokémon centralizada no botão
             imagem = ImagensPokemonInicial[pokemon["nome"]]
@@ -308,7 +303,7 @@ def TelaPréPartida(tela,eventos,estados):
                     lambda: tocar("Bloq"), Fonte70, B3, 4, None, True, eventos)
     else:
         GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
-                    lambda: A.Iniciar_partida(estados), Fonte70, B3, 4, None, True, eventos, clique)
+                    lambda: A.Iniciar_partida(estados), Fonte70, B3, 4, None, True, eventos, "clique")
 
 def PréPartida(tela,estados,relogio,Config):
     global ListaDecks, ImagensPokemonInicial, IconesDeckIMG

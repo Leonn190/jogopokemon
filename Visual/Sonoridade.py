@@ -1,6 +1,14 @@
 import pygame
-
 pygame.mixer.init()
+
+silencio = {"Sim": False}
+
+def VerificaModoSilencioso(config):
+    global silencio
+    if config["Modo silencioso"]:
+        silencio["Sim"] = True
+    else:
+        silencio["Sim"] = False
 
 Sons = {
     "clique": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Som1.wav"), "Volume": 1},
@@ -22,6 +30,12 @@ Sons = {
 def tocar(som):
     audio = Sons[som]["Som"]()
     volume = Sons[som]["Volume"]
+    
+    print(silencio["Sim"])
+
+    if silencio["Sim"]:
+        volume = 0
+
     audio.set_volume(min(volume, 1))  # Garante que não passa de 1
     audio.play()
     if volume > 1:

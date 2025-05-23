@@ -60,6 +60,9 @@ if os.path.exists("ConfigFixa.py"):
     except Exception as e:
         pass
 
+from Visual.Sonoridade import VerificaModoSilencioso
+VerificaModoSilencioso(Config)
+
 estados = {
     "Rodando_Jogo": True,
     "Rodando_Menu": True,

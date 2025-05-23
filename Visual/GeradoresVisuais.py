@@ -1,4 +1,5 @@
 import pygame
+from Visual.Sonoridade import tocar
 import os
 
 pygame.font.init()
@@ -70,7 +71,7 @@ Cores = [PRETO,BRANCO,CINZA,AZUL,AZUL_CLARO,AMARELO,VERMELHO,VERDE,VERDE_CLARO,L
 def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
            acao, Fonte, estado_clique, grossura=2, tecla_atalho=None,
            mostrar_na_tela=True, eventos=None, som=None):
-    
+
     x, y, largura, altura = espaço
 
     mouse = pygame.mouse.get_pos()
@@ -78,19 +79,21 @@ def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
 
     mouse_sobre = x <= mouse[0] <= x + largura and y <= mouse[1] <= y + altura
 
-    # Detecta se a tecla foi pressionada agora (não está segurada)
     tecla_ativada = False
     if tecla_atalho and eventos:
         for evento in eventos:
             if evento.type == pygame.KEYDOWN and evento.key == tecla_atalho:
                 tecla_ativada = True
 
-    # Piscar a borda se ativado por tecla
     cor_borda_atual = cor_passagem if mouse_sobre or tecla_ativada else cor_borda
 
-    # Desenha botão (se for visual)
     if mostrar_na_tela:
-        pygame.draw.rect(tela, cor_normal, (x, y, largura, altura))
+        if isinstance(cor_normal, pygame.Surface):
+            imagem = pygame.transform.scale(cor_normal, (largura, altura))
+            tela.blit(imagem, (x, y))
+        else:
+            pygame.draw.rect(tela, cor_normal, (x, y, largura, altura))
+
         pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
 
         if texto:
@@ -98,26 +101,23 @@ def Botao(tela, texto, espaço, cor_normal, cor_borda, cor_passagem,
             texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
             tela.blit(texto_render, texto_rect)
 
-    # Clique do mouse (somente uma vez)
     if mostrar_na_tela and mouse_sobre and clique[0] == 1 and not estado_clique.get("pressionado", False):
         estado_clique["pressionado"] = True
         if som:
-            som.play()
+            tocar(som)
         if acao:
             acao()
 
     if clique[0] == 0:
         estado_clique["pressionado"] = False
 
-    # Clique pela tecla (evento único)
     if tecla_ativada and not estado_clique.get("pressionado_tecla", False):
         estado_clique["pressionado_tecla"] = True
         if som:
-            som.play()
+            tocar(som)
         if acao:
             acao()
 
-    # Resetar após a tecla ser solta
     if tecla_atalho and eventos:
         for evento in eventos:
             if evento.type == pygame.KEYUP and evento.key == tecla_atalho:
@@ -169,8 +169,14 @@ def Botao_Selecao(
     elif mouse_sobre and cor_passagem:
         cor_borda_atual = cor_passagem
 
+    # Desenhar fundo como imagem ou cor
     if cor_fundo is not None:
-        pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+        if isinstance(cor_fundo, pygame.Surface):
+            imagem_redimensionada = pygame.transform.scale(cor_fundo, (largura, altura))
+            tela.blit(imagem_redimensionada, (x, y))
+        else:
+            pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+
     pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
 
     texto_render = Fonte.render(texto, True, (0, 0, 0))
@@ -194,8 +200,8 @@ def Botao_Selecao(
                 estado_global["selecionado_esquerdo"] = id_botao
                 if funcao_esquerdo:
                     funcao_esquerdo()
-                if som:  # ← Som ao selecionar
-                    som.play()
+                if som:
+                    tocar(som)
 
         elif modo == "direito":
             if estado_global["selecionado_direito"] == id_botao:
@@ -213,8 +219,8 @@ def Botao_Selecao(
                 estado_global["selecionado_direito"] = id_botao
                 if funcao_direito:
                     funcao_direito()
-                if som:  # ← Som ao selecionar
-                    som.play()
+                if som:
+                    tocar(som)
 
     if eventos:
         for evento in eventos:
@@ -288,7 +294,12 @@ def Botao_Selecao2(
     elif mouse_sobre and cor_passagem:
         cor_borda_atual = cor_passagem
 
-    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+    if isinstance(cor_fundo, pygame.Surface):
+        imagem_redimensionada = pygame.transform.scale(cor_fundo, (largura, altura))
+        tela.blit(imagem_redimensionada, (x, y))
+    else:
+        pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+        
     pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
 
     texto_render = Fonte.render(texto, True, (0, 0, 0))
@@ -313,7 +324,7 @@ def Botao_Selecao2(
                 if funcao_esquerdo:
                     funcao_esquerdo()
                 if som:
-                    som.play()
+                    tocar(som)
 
         elif modo == "direito":
             if estado_global_direito["selecionado"] == id_botao:
@@ -332,7 +343,7 @@ def Botao_Selecao2(
                 if funcao_direito:
                     funcao_direito()
                 if som:
-                    som.play()
+                    tocar(som)
 
     if eventos:
         for evento in eventos:

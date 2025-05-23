@@ -13,7 +13,7 @@ from Config import Configuraçoes, aplicar_claridade
 import PygameAções as A
 from Visual.Efeitos import Fundo
 from Visual.GeradoresVisuais import (
-    Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
+    Fonte15, Fonte20, Fonte30, Fonte40, Fonte50, Fonte60, Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
@@ -21,7 +21,7 @@ from Visual.GeradoresVisuais import (
 pygame.init()
 pygame.mixer.init()
 
-clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
+Textura = GV.Carregar_Imagem("imagens/texturas/fundoamarelo.jpg",(700,410))
 
 B1 = {"estado": False}
 B2 = {"estado": False}
@@ -44,21 +44,21 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
 
     if Parte2 is False:
 
-        GV.Botao(tela, "Jogar", (700, 600, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: LigarParte2(), Fonte70, B1, 4, None, True, eventos,clique)
+        GV.Botao(tela, "Jogar", (700, 600, 520, 150), Textura, PRETO, DOURADO,
+                 lambda: LigarParte2(), Fonte70, B1, 4, None, True, eventos,"clique")
     
         tela.blit(Logo_Menu, (560, -200))
 
     else:
 
         GV.Botao(tela, "Jogar", (700, 400, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: A.iniciar_prépartida(estados), Fonte70, B1, 4, None, True, eventos,clique)
+                 lambda: A.iniciar_prépartida(estados), Fonte70, B1, 4, None, True, eventos,"clique")
     
         GV.Botao(tela, "Decks", (700, 600, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: A.iniciar_decks(estados), Fonte70, B1, 4, None, True, eventos,clique)
+                 lambda: A.iniciar_decks(estados), Fonte70, B1, 4, None, True, eventos,"clique")
         
         GV.Botao(tela, "Configurações", (700, 800, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: TrocaConfig(), Fonte70, B1, 4, None, True, eventos,clique)
+                 lambda: TrocaConfig(), Fonte70, B1, 4, None, True, eventos,"clique")
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)
@@ -106,8 +106,8 @@ def Menu(tela, estados, relogio, config):
         else:
             TelaMenu(tela, eventos, estados, Logo_Menu)
 
-        texto = Fonte70.render(f"Ver: {config["Versão"]}", True, BRANCO)  # Branco
-        tela.blit(texto, (10, 1080 - texto.get_height() - 10))
+        texto = Fonte60.render(f"Versão: {config["Versão"]}", True, BRANCO)  # Branco
+        tela.blit(texto, (10, 1080 - texto.get_height()))
         
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
