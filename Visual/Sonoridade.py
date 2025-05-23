@@ -16,7 +16,7 @@ Sons = {
     "Clique2": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Clique2.wav"), "Volume": 1.8},
     "Apagou": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Apagou.wav"), "Volume": 1.8},
     "Seleciona": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/EscolhaPoke.wav"), "Volume": 0.3},
-    "Alvo": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Alvo.wav"), "Volume": 0.5},
+    "Alvo": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Alvo.wav"), "Volume": 0.4},
 }
 
 def tocar(som):

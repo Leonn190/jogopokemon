@@ -3,6 +3,7 @@ import os
 import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+from Config import aplicar_claridade
 from Infos import PokemonInfo, ItemInfo, TreinadorInfo
 from Visual.Arrastaveis import Arrastavel
 from Visual.Imagens import Carregar_Imagens_Decks
@@ -1391,7 +1392,7 @@ def IniciaDecks():
 
     carregar_decks("Decks",ListaDecks)
 
-def Decks(tela,estados,relogio):
+def Decks(tela,estados,relogio,Config):
     global ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas
     global Baralho_atual_pokemons, Baralho_atual_itens, Lista_atual_pokemons, Lista_atual_itens, Baralho_atual_energias, Lista_atual_energias
     global EditorSelecionado, EditorSelecionado_atual, Lista_atual_treinadores, Baralho_atual_treinador
@@ -1401,7 +1402,7 @@ def Decks(tela,estados,relogio):
     ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas)
 
     pygame.mixer.music.load('Audio/Musicas/Decks.ogg')  
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(Config["Volume"])
     pygame.mixer.music.play(-1)
 
     IniciaDecks()
@@ -1458,5 +1459,6 @@ def Decks(tela,estados,relogio):
             Baralho_atual_treinador = None
             Lista_atual_treinadores = None
 
+        aplicar_claridade(tela,Config["Claridade"])
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(Config["FPS"])

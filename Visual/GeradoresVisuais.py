@@ -53,6 +53,7 @@ energia_cores = {
     }
 
 Fonte70 = pygame.font.SysFont(None, 70)
+Fonte60 = pygame.font.SysFont(None, 60)
 Fonte50 = pygame.font.SysFont(None, 50)
 Fonte40 = pygame.font.SysFont(None, 40)
 Fonte35 = pygame.font.SysFont(None, 35)
@@ -628,3 +629,43 @@ def tooltip(area, local, texto, titulo, fonte_texto, fonte_titulo, tela):
     # Blita no local especificado
     tela.blit(fundo, local_rect.topleft)
 
+def Slider(tela, nome, x, y, largura, valor, min_val, max_val, cor_base, cor_botao, eventos, Mostragem=None):
+    # Desenha a linha base
+    pygame.draw.line(tela, cor_base, (x, y), (x + largura, y), 13)
+    
+    # Converte valor para posição
+    proporcao = (valor - min_val) / (max_val - min_val)
+    pos_botao = x + proporcao * largura
+    
+    # Desenha o botão do slider
+    pygame.draw.circle(tela, cor_botao, (int(pos_botao), y), 20)
+    
+    # Nome e valor
+    fonte = pygame.font.SysFont(None, 24)
+    if Mostragem == "%":
+        texto = fonte.render(f"{nome}: {int(proporcao * 100)}%", True, BRANCO)
+    else:
+        texto = fonte.render(f"{nome}: {int(valor)}", True, BRANCO)
+    
+    tela.blit(texto, (x + largura + 25, y - 10))
+
+    # Verifica se está arrastando
+    mouse = pygame.mouse.get_pos()
+    clicando = pygame.mouse.get_pressed()[0]
+
+    for evento in eventos:
+        if evento.type == pygame.MOUSEBUTTONDOWN and abs(mouse[0] - pos_botao) < 15 and abs(mouse[1] - y) < 15:
+            Slider.arrastando = nome  # Define qual slider está sendo arrastado
+        if evento.type == pygame.MOUSEBUTTONUP:
+            Slider.arrastando = None
+
+    if Slider.arrastando == nome and clicando:
+        # Atualiza valor com base no mouse
+        novo_pos = max(x, min(mouse[0], x + largura))
+        nova_proporcao = (novo_pos - x) / largura
+        return min_val + nova_proporcao * (max_val - min_val)
+
+    return valor
+
+# Atributo estático para controlar arraste
+Slider.arrastando = None

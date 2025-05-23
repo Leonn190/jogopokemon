@@ -6,6 +6,7 @@ from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
 from Abas import Status_Pokemon,Inventario,Atacar, Loja
 from Infos import TreinadorInfo
+from Config import Configuraçoes, aplicar_claridade
 import Mapa as M
 import Geradores.GeradorPlayer as GPA
 import Geradores.GeradorPokemon as GPO
@@ -29,9 +30,6 @@ Baralho = None
 
 Gifs_ativos = []
 PeçasArrastaveis = []
-
-Zoom = 1
-camera = pygame.Surface((1920,1080))
 
 Mute = False
 PeçaS = None
@@ -76,8 +74,16 @@ Vencedor = None
 Perdedor = None
 
 Pausa = False
+Config = False
 
 Musica_Estadio_atual = None
+
+def TrocaConfig():
+    global Config
+    if Config == False:
+        Config = True
+    else:
+        Config = False
 
 def cronometro(tela, espaço, duracao_segundos, fonte, cor_fundo, cor_borda, cor_tempo, ao_terminar, turno_atual):
     global tempo_restante
@@ -861,18 +867,17 @@ B23 = {"estado": False}
 BA = [B8, B9, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19,]
 #botoes de clique unico = B6
 
-def Partida(tela,estados,relogio):
+def Partida(tela,estados,relogio,config):
     global Vencedor
     global Perdedor
-    global peca_em_uso
-    global Zoom
-    global camera
+    global peca_em_uso, Config
 
-    Inicia(tela)
+    Inicia(tela,config)
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
         tela.blit(FundosIMG[Mapa.Fundo],(0,0))
+        pygame.mixer.music.set_volume(config["Volume"])
         eventos = pygame.event.get()
 
         pos_mouse = pygame.mouse.get_pos()
@@ -915,8 +920,11 @@ def Partida(tela,estados,relogio):
                 if not mensagem.ativa:
                     mensagens_passageiras.remove(mensagem)
         else:
-            tela.blit(FundosIMG[0], (0, 0))
-            Telapausa(tela, eventos, estados)
+            if Config == False:
+                tela.blit(FundosIMG[0], (0, 0))
+                Telapausa(tela, eventos, estados)
+            else:
+                Config = Configuraçoes(tela,eventos,config)
 
         # Se tiver uma peça sendo usada, desenha o raio de alcance dela
         if peca_em_uso is not None:
@@ -925,10 +933,11 @@ def Partida(tela,estados,relogio):
 
         tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
+        aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
-        relogio.tick(120)
+        relogio.tick(config["FPS"])
 
-def Inicia(tela):
+def Inicia(tela, config):
     global Turno
     global ImagensPokemonCentro
     global ImagensPokemonIcons
@@ -960,7 +969,6 @@ def Inicia(tela):
     pygame.display.update()
 
     pygame.mixer.music.load('Audio/Musicas/Carregamento.ogg')  
-    pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
 
     Tela = tela
@@ -1329,9 +1337,10 @@ def TelaOutros(tela,eventos,estados):
 
 def Telapausa(tela,eventos,estados):
 
-    GV.Botao(tela, "Despausar partida", (600, 200, 720, 130), CINZA, PRETO, AZUL,lambda: pausarEdespausar(),Fonte70, B6, 5, pygame.K_ESCAPE, True, eventos)
-    GV.Botao(tela, "Sair da partida", (600, 425, 720, 130), CINZA, PRETO, AZUL,lambda: A.Voltar(estados),Fonte70, B6, 5, None, True, eventos)
-    GV.Botao(tela, "Sair do jogo", (600, 650, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, B6, 5, None, True, eventos)
+    GV.Botao(tela, "Despausar partida", (600, 160, 720, 130), CINZA, PRETO, AZUL,lambda: pausarEdespausar(),Fonte70, B6, 5, pygame.K_ESCAPE, True, eventos)
+    GV.Botao(tela, "Sair da partida", (600, 385, 720, 130), CINZA, PRETO, AZUL,lambda: A.Voltar(estados),Fonte70, B6, 5, None, True, eventos)
+    GV.Botao(tela, "Sair do jogo", (600, 610, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, B6, 5, None, True, eventos)
+    GV.Botao(tela, "Configuraçoes", (600, 835, 720, 130), CINZA, PRETO, AZUL,lambda: TrocaConfig(),Fonte70, B6, 5, None, True, eventos)
 
 def TelaTabuleiro(tela, eventos, estados):
     global Musica_Estadio_atual, camera

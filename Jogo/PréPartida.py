@@ -3,6 +3,7 @@ import os
 import importlib
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+from Config import aplicar_claridade
 from Visual.Sonoridade import tocar
 from Visual.Imagens import Carregar_Imagens_Pré_Partida
 from Visual.GeradoresVisuais import (
@@ -309,7 +310,7 @@ def TelaPréPartida(tela,eventos,estados):
         GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
                     lambda: A.Iniciar_partida(estados), Fonte70, B3, 4, None, True, eventos, clique)
 
-def PréPartida(tela,estados,relogio):
+def PréPartida(tela,estados,relogio,Config):
     global ListaDecks, ImagensPokemonInicial, IconesDeckIMG
     global estado1, estado2, estadoDecksP1, estadoDecksP2
 
@@ -327,7 +328,7 @@ def PréPartida(tela,estados,relogio):
     selecionado2 = False
 
     pygame.mixer.music.load('Audio/Musicas/PréPartida.ogg')
-    pygame.mixer.music.set_volume(0.4)
+    pygame.mixer.music.set_volume(Config["Volume"] + 0.2)
     pygame.mixer.music.play(-1)
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
@@ -356,6 +357,7 @@ def PréPartida(tela,estados,relogio):
     CINZA, PRETO, PRETO, eventos, texto2,
     A.Nome_p2, AZUL, selecionado2)
 
+        aplicar_claridade(tela,Config["Claridade"])
         pygame.display.update()
-        relogio.tick(60)
+        relogio.tick(Config["FPS"])
 

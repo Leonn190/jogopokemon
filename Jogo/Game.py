@@ -1,6 +1,7 @@
 import pygame
 import sys
 import ctypes
+import os
 import subprocess
 
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
@@ -26,6 +27,9 @@ pygame.mixer.init()
 tela = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 pygame.display.set_caption("Jogo Pokémon")
 
+surface = pygame.Surface(tela.get_size())
+surface = surface.convert_alpha()
+
 # Ícone da janela (comum)
 icone_surface = pygame.image.load("imagens/icones/Icone.png")
 pygame.display.set_icon(icone_surface)
@@ -38,16 +42,23 @@ import SetorDecks
 
 relogio = pygame.time.Clock()
 
-# Config = {
-#     "Volume": 0.35,
-#     "Fps": 100,
-#     "Claridade": 50,
-#     "Modo rápido": False,
-#     "Dicas": True,
-#     "Modo silencioso": False,
-#     "Mostrar Fps": True
-#     "Versão"
-# }
+Config = {
+    "Volume": 0.4,
+    "FPS": 130,
+    "Claridade": 50,
+    "Modo rápido": False,
+    "Dicas": True,
+    "Modo silencioso": False,
+    "Mostrar Fps": True,
+    "Versão": "Beta 1.1.1"
+}
+
+if os.path.exists("ConfigFixa.py"):
+    try:
+        from ConfigFixa import Config as ConfigSalva
+        Config = ConfigSalva
+    except Exception as e:
+        pass
 
 estados = {
     "Rodando_Jogo": True,
@@ -61,15 +72,15 @@ estados = {
 while estados["Rodando_Jogo"]:
 
     if estados["Rodando_Menu"]:
-        Menu.Menu(tela,estados,relogio)
+        Menu.Menu(tela,estados,relogio,Config)
     elif estados["Rodando_Decks"]:
-        SetorDecks.Decks(tela,estados,relogio)
+        SetorDecks.Decks(tela,estados,relogio,Config)
     elif estados["Rodando_PréPartida"]:
-        PréPartida.PréPartida(tela,estados,relogio)
+        PréPartida.PréPartida(tela,estados,relogio,Config)
     elif estados["Rodando_Partida"]:
-        Partida.Partida(tela,estados,relogio)
+        Partida.Partida(tela,estados,relogio,Config)
     elif estados["Rodando_Final"]:
-        Final.Final(tela,estados,relogio)
+        Final.Final(tela,estados,relogio,Config)
 
 pygame.quit()
 sys.exit()  

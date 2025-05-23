@@ -1,6 +1,7 @@
 import pygame
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+from Config import aplicar_claridade
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
@@ -11,7 +12,7 @@ clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
 
 B1 = {"estado": False}
 
-def Final(tela,estados,relogio):
+def Final(tela,estados,relogio,Config):
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
 
@@ -24,7 +25,7 @@ def Final(tela,estados,relogio):
     pygame.display.update()
 
     pygame.mixer.music.load('Audio/Musicas/pos.ogg')  
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(Config["Volume"])
     pygame.mixer.music.play(-1)
 
     pygame.time.wait(8800)
@@ -56,5 +57,6 @@ def Final(tela,estados,relogio):
         GV.Botao(tela, "Voltar para o inicio", (700, 600, 520, 150), CINZA, PRETO, DOURADO,
                  lambda: A.Voltar(estados), Fonte70, B1, 4, None, True, eventos, clique)
 
+        aplicar_claridade(tela,Config["Claridade"])
         pygame.display.update()
-        relogio.tick(60)
+        relogio.tick(Config["FPS"])
