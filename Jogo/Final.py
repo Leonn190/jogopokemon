@@ -35,7 +35,7 @@ def Final(tela,estados,relogio,Config):
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)
 
-    from Partida import Perdedor,Vencedor
+    from Jogo.Partida.Partida import Perdedor,Vencedor
 
     while estados["Rodando_Final"]:
         tela.blit(Fundo_pré,(0,0))

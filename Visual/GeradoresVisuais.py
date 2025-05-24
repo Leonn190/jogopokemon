@@ -1,5 +1,6 @@
 import pygame
 from Visual.Sonoridade import tocar
+from Visual.Imagens import CarregarTexturas
 import os
 
 pygame.font.init()
@@ -680,3 +681,6 @@ def Slider(tela, nome, x, y, largura, valor, min_val, max_val, cor_base, cor_bot
 
 # Atributo estático para controlar arraste
 Slider.arrastando = None
+
+TexturasDic = {}
+TexturasDic = CarregarTexturas(TexturasDic)

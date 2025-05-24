@@ -16,12 +16,10 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30, Fonte40, Fonte50, Fonte60, Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
-    LARANJA, ROXO, ROSA, DOURADO, PRATA,)
+    LARANJA, ROXO, ROSA, DOURADO, PRATA, TexturasDic)
 
 pygame.init()
 pygame.mixer.init()
-
-Textura = GV.Carregar_Imagem("imagens/texturas/fundoamarelo.jpg",(700,410))
 
 B1 = {"estado": False}
 B2 = {"estado": False}
@@ -44,7 +42,7 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
 
     if Parte2 is False:
 
-        GV.Botao(tela, "Jogar", (700, 600, 520, 150), Textura, PRETO, DOURADO,
+        GV.Botao(tela, "Jogar", (700, 600, 520, 150), TexturasDic["FundoAmarelo1"], PRETO, DOURADO,
                  lambda: LigarParte2(), Fonte70, B1, 4, None, True, eventos,"clique")
     
         tela.blit(Logo_Menu, (560, -200))
@@ -52,7 +50,7 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
     else:
 
         GV.Botao(tela, "Jogar", (700, 400, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: A.iniciar_prépartida(estados), Fonte70, B1, 4, None, True, eventos,"clique")
+                 lambda: A.iniciar_seleção(estados), Fonte70, B1, 4, None, True, eventos,"clique")
     
         GV.Botao(tela, "Decks", (700, 600, 520, 150), CINZA, PRETO, DOURADO,
                  lambda: A.iniciar_decks(estados), Fonte70, B1, 4, None, True, eventos,"clique")
@@ -77,6 +75,8 @@ def Menu(tela, estados, relogio, config):
     pygame.mixer.music.load('Audio/Musicas/Menu.ogg')  
     pygame.mixer.music.set_volume(config["Volume"])
     pygame.mixer.music.play(-1)
+
+    config["Modo"] = None
 
     i = 1
     frame = 0

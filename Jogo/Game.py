@@ -36,9 +36,11 @@ pygame.display.set_icon(icone_surface)
 
 import Menu 
 import PréPartida
-import Partida
+import Jogo.Partida.Partida as Partida
 import Final
 import SetorDecks
+import SeleçãoJogo
+import Fila
 
 relogio = pygame.time.Clock()
 
@@ -50,7 +52,8 @@ Config = {
     "Dicas": True,
     "Modo silencioso": False,
     "Mostrar Fps": True,
-    "Versão": "Beta 1.1.1"
+    "Versão": "Beta 1.1.1",
+    "Modo": None
 }
 
 if os.path.exists("ConfigFixa.py"):
@@ -60,13 +63,17 @@ if os.path.exists("ConfigFixa.py"):
     except Exception as e:
         pass
 
+Config["Modo"] = None
+
 from Visual.Sonoridade import VerificaModoSilencioso
 VerificaModoSilencioso(Config)
 
 estados = {
     "Rodando_Jogo": True,
     "Rodando_Menu": True,
+    "Rodando_Seleção": False,
     "Rodando_PréPartida": False,
+    "Rodando_Fila": False,
     "Rodando_Partida": False,
     "Rodando_Final": False,
     "Rodando_Decks": False
@@ -78,8 +85,12 @@ while estados["Rodando_Jogo"]:
         Menu.Menu(tela,estados,relogio,Config)
     elif estados["Rodando_Decks"]:
         SetorDecks.Decks(tela,estados,relogio,Config)
+    elif estados["Rodando_Seleção"]:
+        SeleçãoJogo.Seleção(tela,estados,relogio,Config)
     elif estados["Rodando_PréPartida"]:
         PréPartida.PréPartida(tela,estados,relogio,Config)
+    elif estados["Rodando_Fila"]:
+        Fila.Fila(tela,estados,relogio,Config)
     elif estados["Rodando_Partida"]:
         Partida.Partida(tela,estados,relogio,Config)
     elif estados["Rodando_Final"]:

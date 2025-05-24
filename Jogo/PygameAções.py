@@ -14,14 +14,15 @@ informaçoesp2 = [random.choice(["Jogador Astuto","Jogador Habil","Jogador Feliz
 Contador1 = 0
 Contador2 = 0 
 
-def iniciar_prépartida(estados):
+def iniciar_prépartida(estados,Config,Modo):
     global informaçoesp1, informaçoesp2,Contador1,Contador2
-    estados["Rodando_Menu"] = False
+    estados["Rodando_Seleção"] = False
     estados["Rodando_PréPartida"] = True
     informaçoesp1 = [random.choice(["Jogador Legal","Jogador Bacanudo","Jogador Estratégico","Jogador Habilidoso"]),None,None]
     informaçoesp2 = [random.choice(["Jogador Astuto","Jogador Habil","Jogador Feliz","Jogador Irado"]),None,None]
     Contador1 = 0
     Contador2 = 0
+    Config["Modo"] = Modo
 
 def fechar_jogo(estados):
     estados["Rodando_Menu"] = False
@@ -32,6 +33,19 @@ def fechar_jogo(estados):
 def iniciar_decks(estados):
     estados["Rodando_Menu"] = False
     estados["Rodando_Decks"] = True
+
+def iniciar_seleção(estados):
+    estados["Rodando_Menu"] = False
+    estados["Rodando_Seleção"] = True
+
+def EnviaDeck(Deck, player):
+    global informaçoesp1
+    global informaçoesp2
+    
+    if player == 1:
+        informaçoesp1[2] = Deck
+    else:
+        informaçoesp2[2] = Deck
 
 def Pokemon_inicial(pokemon,Deck,player):
     global informaçoesp1
@@ -53,6 +67,8 @@ def Voltar(estados):
     estados["Rodando_Partida"] = False
     estados["Rodando_Final"] = False
     estados["Rodando_Decks"] = False
+    estados["Rodando_Seleção"] = False
+    estados["Rodando_Fila"] = False
     estados["Rodando_Menu"] = True
 
 def Remover_inicial(id_botao):
@@ -86,6 +102,10 @@ def Loja_I(ID):
 def Iniciar_partida(estados):
     estados["Rodando_PréPartida"] = False
     estados["Rodando_Partida"] = True
+
+def Entrar_Fila(estados):
+    estados["Rodando_PréPartida"] = False
+    estados["Rodando_Fila"] = True
 
 def Nome_p1(texto):
     global informaçoesp1

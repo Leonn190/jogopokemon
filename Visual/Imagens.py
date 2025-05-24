@@ -794,3 +794,14 @@ def Carregar_Imagens_Pré_Partida(ImagensPokemonInicial,IconesDeckIMG):
 }
     
     return ImagensPokemonInicial, DeckIconesIMG
+
+
+def CarregarTexturas(TexturasDic):
+
+    FundoAmarelo1 = GV.Carregar_Imagem("imagens/Texturas/FundoAmarelo1.jpg", (700, 410),)
+
+    TexturasDic = {
+        "FundoAmarelo1": FundoAmarelo1
+    }
+
+    return TexturasDic

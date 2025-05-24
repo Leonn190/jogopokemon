@@ -8,7 +8,6 @@ from Visual.Imagens import Carrega_Icone_pokemon
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Jogo.Mapa import PosicionarGuardar
-from Jogo.Partida import VerificaGIF
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte30,Fonte35, Fonte40, Fonte50,Fonte70,
@@ -226,6 +225,7 @@ class Pokemon:
             return
         
     def Evoluir_Final(self,i,player):
+        from Jogo.Partida.Partida import VerificaGIF
         nome_antigo = self.nome
         self.nome = self.FF[i]["nome"]
         self.VidaMaxB = round(self.CoefVida * self.FF[i]["vida"])
@@ -260,6 +260,7 @@ class Pokemon:
         GV.adicionar_mensagem("Seu pokemon não pode evoluir")
 
     def Evoluir_de_fato(self,player):
+        from Jogo.Partida.Partida import VerificaGIF
         nome_antigo = self.nome
 
         if self.evolucao["moves"] >= 3 and self.movimento3 is None:

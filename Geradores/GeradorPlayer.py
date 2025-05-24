@@ -3,11 +3,16 @@ from Visual.Sonoridade import tocar
 from Jogo.Abas import Trocar_Ataque_Pergunta
 from Dados.Treinadores import Derrotas,Vitorias,Passivas,Habilidades
 import Visual.GeradoresVisuais as GV
+import random
 
 class Jogador:
     def __init__(self, informaçoes):
         self.nome = informaçoes[0]
-        self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
+        if informaçoes[1] is not None:
+            self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
+        else:
+            informaçoes[1] = informaçoes[2]["pokemons"][random.choice([0,1,2])]
+            self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
         self.inventario = []
         self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
         self.energiasMax = 15

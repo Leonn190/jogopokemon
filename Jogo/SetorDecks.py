@@ -1401,7 +1401,7 @@ def Decks(tela,estados,relogio,Config):
     ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG,ImagensTreinadores, ImagensFichas = Carregar_Imagens_Decks(
     ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas)
 
-    pygame.mixer.music.load('Audio/Musicas/Decks.ogg')  
+    pygame.mixer.music.load('Audio/Musicas/Decks.mp3')  
     pygame.mixer.music.set_volume(Config["Volume"])
     pygame.mixer.music.play(-1)
 
@@ -1412,7 +1412,6 @@ def Decks(tela,estados,relogio,Config):
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:
-                estados["Rodando_Menu"] = False
                 estados["Rodando_Jogo"] = False
                 estados["Rodando_Decks"] = False
 

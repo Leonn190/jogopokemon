@@ -1,3 +1,3 @@
 # Arquivo gerado automaticamente para armazenar configurações fixas
 
-Config = {'Volume': 0.1528358208955224, 'FPS': 130.3283582089552, 'Claridade': 50.0, 'Modo rápido': False, 'Dicas': True, 'Modo silencioso': True, 'Mostrar Fps': True, 'Versão': '1.1.0'}
+Config = {'Volume': 0.8, 'FPS': 180.8955223880597, 'Claridade': 50.0, 'Modo rápido': False, 'Dicas': True, 'Modo silencioso': False, 'Mostrar Fps': True, 'Versão': '1.1.0', 'Modo': 'Padrão'}
