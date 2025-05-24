@@ -36,7 +36,7 @@ pygame.display.set_icon(icone_surface)
 
 import Menu 
 import PréPartida
-import Jogo.Partida.Partida as Partida
+import Jogo.Partida.Local as Partida
 import Final
 import SetorDecks
 import SeleçãoJogo
