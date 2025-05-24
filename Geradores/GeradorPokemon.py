@@ -4,7 +4,6 @@ import pygame
 import json
 from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
-from Visual.Imagens import Carrega_Icone_pokemon
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Jogo.Mapa import PosicionarGuardar
@@ -83,6 +82,12 @@ EfeitosDescrição = {
 def calcular_coef(iv):
             return 0.8 + (iv / 100) * 0.4
 
+def remover_funcoes_do_dicionario(d):
+    if d is not None:
+        return {k: v for k, v in d.items() if not callable(v)}
+    else:
+        return None
+
 class Pokemon:
     def __init__(self, pokemon, player):
 
@@ -100,7 +105,6 @@ class Pokemon:
 
         self.raio = 0
         self.tamanho = 1.4
-        self.raioAtual = self.raio
 
         self.barreira = 0
         self.amplificações = 0
@@ -156,27 +160,17 @@ class Pokemon:
         self.CoefVel = calcular_coef(self.IV_vel)
 
         self.movimento1 = pokemon["Move1"]
-        self.movimento1["num"] = 1
         self.movimento2 = pokemon["Move2"]
-        self.movimento1["num"] = 2
         self.movimento3 = pokemon["Move3"]
-        self.movimento1["num"] = 3
         self.movimento4 = pokemon["Move4"]
-        self.movimento1["num"] = 4
         self.moveList = pokemon["MoveList"]
         self.movePossiveis = pokemon["possiveis"]
-
-        self.PodeMovimento1 = 0
-        self.PodeMovimento2 = 0
-        self.PodeMovimento3 = 0
-        self.PodeMovimento4 = 0
 
         self.code = pokemon["code"]
         self.ID = pokemon["ID"] #unico
 
         self.guardado = 0
         self.local = None
-        self.icone = Carrega_Icone_pokemon(self.nome,self.tamanho)
         self.efeitosPosi = EfeitosPositivos.copy()
         self.efeitosNega = EfeitosNegativos.copy()
         self.descrição = EfeitosDescrição
@@ -294,7 +288,6 @@ class Pokemon:
         self.FF = self.evolucao["FF"]
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]
-        self.icone = Carrega_Icone_pokemon(self.nome,self.tamanho)
         VerificaGIF(player)
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
 
@@ -388,6 +381,116 @@ class Pokemon:
         if self.local:
             x, y = self.local
             self.rect = pygame.Rect(x - self.raio, y - self.raio, self.raio * 2, self.raio * 2)
+
+    def ToDic_Inicial(self):
+        return {
+            "origem": self.origem,
+            "nome": self.nome,
+            "tipo": self.tipo,
+            "raridade": self.raridade,
+            "estagio": self.Estagio,
+            "altura": self.Altura,
+            "peso": self.Peso,
+            "raio": self.raio,
+            "tamanho": self.tamanho,
+            "barreira": self.barreira,
+            "amplificações": self.amplificações,
+            "vida": self.Vida,
+            "vida_max_base": self.VidaMaxB,
+            "vida_max": self.VidaMax,
+            "var_vida": self.VarVida,
+            "atk": self.Atk,
+            "atk_sp": self.Atk_sp,
+            "def": self.Def,
+            "def_sp": self.Def_sp,
+            "vel": self.vel,
+            "atkB": self.AtkB,
+            "atk_spB": self.Atk_spB,
+            "defB": self.DefB,
+            "def_spB": self.Def_spB,
+            "velB": self.velB,
+            "var_atk_temp": self.VarAtk_temp,
+            "var_atk_sp_temp": self.VarAtk_sp_temp,
+            "var_def_temp": self.VarDef_temp,
+            "var_def_sp_temp": self.VarDef_sp_temp,
+            "var_vel_temp": self.Varvel_temp,
+            "var_atk_perm": self.VarAtk_perm,
+            "var_atk_sp_perm": self.VarAtk_sp_perm,
+            "var_def_perm": self.VarDef_perm,
+            "var_def_sp_perm": self.VarDef_sp_perm,
+            "var_vel_perm": self.Varvel_perm,
+            "custo": self.custo,
+            "XP atu": self.xp_atu,
+            "XP": self.xp_total,
+            "IV": self.IV,
+            "IV vida": self.IV_vida,
+            "IV atk": self.IV_atk,
+            "IV atk SP": self.IV_atkSP,
+            "IV def": self.IV_def,
+            "IV def SP": self.IV_defSP,
+            "IV vel": self.IV_vel,
+            "Move1": remover_funcoes_do_dicionario(self.movimento1),
+            "Move2": remover_funcoes_do_dicionario(self.movimento2),
+            "Move3": remover_funcoes_do_dicionario(self.movimento3),
+            "Move4": remover_funcoes_do_dicionario(self.movimento4),
+            "MoveList": self.moveList,
+            "possiveis": self.movePossiveis,
+            "guardado": self.guardado,
+            "local": self.local,
+            "efeitosPositivos": self.efeitosPosi,
+            "efeitosNegativos": self.efeitosNega,
+            "PodeSerAtacado": self.PodeSerAtacado,
+        }
+    
+    def ToDic_Atualiza(self):
+        return {
+            "nome": self.nome,
+            "tipo": self.tipo,
+            "estagio": self.Estagio,
+            "altura": self.Altura,
+            "peso": self.Peso,
+            "raio": self.raio,
+            "tamanho": self.tamanho,
+            "barreira": self.barreira,
+            "amplificações": self.amplificações,
+            "vida": self.Vida,
+            "vida_max_base": self.VidaMaxB,
+            "vida_max": self.VidaMax,
+            "var_vida": self.VarVida,
+            "atk": self.Atk,
+            "atk_sp": self.Atk_sp,
+            "def": self.Def,
+            "def_sp": self.Def_sp,
+            "vel": self.vel,
+            "atkB": self.AtkB,
+            "atk_spB": self.Atk_spB,
+            "defB": self.DefB,
+            "def_spB": self.Def_spB,
+            "velB": self.velB,
+            "var_atk_temp": self.VarAtk_temp,
+            "var_atk_sp_temp": self.VarAtk_sp_temp,
+            "var_def_temp": self.VarDef_temp,
+            "var_def_sp_temp": self.VarDef_sp_temp,
+            "var_vel_temp": self.Varvel_temp,
+            "var_atk_perm": self.VarAtk_perm,
+            "var_atk_sp_perm": self.VarAtk_sp_perm,
+            "var_def_perm": self.VarDef_perm,
+            "var_def_sp_perm": self.VarDef_sp_perm,
+            "var_vel_perm": self.Varvel_perm,
+            "custo": self.custo,
+            "XP atu": self.xp_atu,
+            "XP": self.xp_total,
+            "Move1": remover_funcoes_do_dicionario(self.movimento1),
+            "Move2": remover_funcoes_do_dicionario(self.movimento2),
+            "Move3": remover_funcoes_do_dicionario(self.movimento3),
+            "Move4": remover_funcoes_do_dicionario(self.movimento4),
+            "possiveis": self.movePossiveis,
+            "guardado": self.guardado,
+            "local": self.local,
+            "efeitosPositivos": self.efeitosPosi,
+            "efeitosNegativos": self.efeitosNega,
+            "PodeSerAtacado": self.PodeSerAtacado,
+        }
 
 IDpoke = 0
 
@@ -533,9 +636,6 @@ def VerificaSituaçãoPokemon(player, inimigo, Mapa):
     for pokemon in player.pokemons + inimigo.pokemons:
 
         pokemon.raio = pokemon.tamanho * Mapa.Metros // 2
-        if pokemon.raio != pokemon.raioAtual:
-            pokemon.raioAtual = pokemon.raio
-            pokemon.icone = Carrega_Icone_pokemon(pokemon.nome,pokemon.raio * 2 - 2)
 
         # --- Resetar apenas os modificadores TEMPORÁRIOS ---
         pokemon.VarAtk_temp = 0

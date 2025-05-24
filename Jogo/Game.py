@@ -37,6 +37,7 @@ pygame.display.set_icon(icone_surface)
 import Menu 
 import PréPartida
 import Jogo.Partida.Local as Partida
+import Jogo.Partida.Online as Online
 import Final
 import SetorDecks
 import SeleçãoJogo
@@ -52,8 +53,6 @@ Config = {
     "Dicas": True,
     "Modo silencioso": False,
     "Mostrar Fps": True,
-    "Versão": "Beta 1.1.1",
-    "Modo": None
 }
 
 if os.path.exists("ConfigFixa.py"):
@@ -64,6 +63,7 @@ if os.path.exists("ConfigFixa.py"):
         pass
 
 Config["Modo"] = None
+Config["Versão"] = "Beta 1.1.3"
 
 from Visual.Sonoridade import VerificaModoSilencioso
 VerificaModoSilencioso(Config)
@@ -75,6 +75,7 @@ estados = {
     "Rodando_PréPartida": False,
     "Rodando_Fila": False,
     "Rodando_Partida": False,
+    "Rodando_PartidaOnline": False,
     "Rodando_Final": False,
     "Rodando_Decks": False
 }
@@ -91,6 +92,8 @@ while estados["Rodando_Jogo"]:
         PréPartida.PréPartida(tela,estados,relogio,Config)
     elif estados["Rodando_Fila"]:
         Fila.Fila(tela,estados,relogio,Config)
+    elif estados["Rodando_PartidaOnline"]:
+        Online.PartidaOnlineLoop(tela,estados,relogio,Config)
     elif estados["Rodando_Partida"]:
         Partida.PartidaLoop(tela,estados,relogio,Config)
     elif estados["Rodando_Final"]:

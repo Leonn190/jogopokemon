@@ -784,7 +784,7 @@ def PartidaLoop(tela,estados,relogio,config):
 
 def Inicia(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
-    global player, inimigo, Tela, Musica_Estadio_atual, Partida
+    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
     tela.blit(Carregar,(0,0))
@@ -1140,7 +1140,6 @@ def Telapausa(tela, eventos,estados, config):
     GV.Botao(tela, "Sair do jogo", (600, 835, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, B6, 5, None, True, eventos)
 
 def TelaTabuleiro(tela, eventos, estados, config):
-    global Musica_Estadio_atual
 
     M.Desenhar_Casas_Disponiveis(tela,Partida.Mapa,player,inimigo,eventos,estadoAlvo,estadoVisualiza,selecionaAlvo,desselecionaAlvo,oculta,visualiza)
     if Partida.Mapa.mudança == True:

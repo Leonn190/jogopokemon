@@ -21,16 +21,6 @@ Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 
 class Baralho:
     def __init__(self,Deck1,Deck2):
-
-        self.baralho = []
-
-        for item in Deck1["itens"]:
-            for i in range(item["quantidade"]):
-                self.baralho.append(item)
-        
-        for item in Deck2["itens"]:
-            for i in range(item["quantidade"]):
-                self.baralho.append(item)
                 
         self.Comuns = []
         self.Incomuns = []
@@ -44,7 +34,7 @@ class Baralho:
         self.PokeMiticos = []
         self.PokeLendarios = []
 
-        for item in self.baralho:
+        for item in Deck1["itens"] + Deck2["itens"]:
             if item["raridade"] == "Comum":
                 self.Comuns.append(item)
             elif item["raridade"] == "Incomum":
@@ -102,6 +92,21 @@ class Baralho:
             self.PokeMiticos.append(pokemon)
         elif pokemon["raridade"] == "Lendario":
             self.PokeLendarios.append(pokemon)
+
+    def ToDic(self):
+        return {
+            "Comuns": self.Comuns,
+            "Incomuns": self.Incomuns,
+            "Raros": self.Raros,
+            "Lendarios": self.Lendarios,
+            "PokeComuns": self.PokeComuns,
+            "PokeIncomuns": self.PokeIncomuns,
+            "PokeRaros": self.PokeRaros,
+            "PokeEpicos": self.PokeEpicos,
+            "PokeMiticos": self.PokeMiticos,
+            "PokeLendarios": self.PokeLendarios,
+        }
+
 
 def spawn_do_centro(centro,Baralho,turnos):
 
@@ -230,6 +235,7 @@ class Mapa:
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
         self.Metros = Info["Metros"]
+        self.mudança = True
         self.Ocupadas = []
 
     def Verifica(self, player, inimigo): 
@@ -245,3 +251,13 @@ class Mapa:
                 pokemon.atualizar_rect()
                 self.Ocupadas.append(pokemon.rect)
 
+    def ToDic(self):
+        return {
+            # "terreno": self.terreno,
+            "Musica": self.Musica,
+            "Fundo": self.Fundo,
+            "Metros": self.Metros,
+            "mudança": self.mudança,
+            # "Peças": self.Peças,
+            # "Ocupadas": self.Ocupadas,
+    }

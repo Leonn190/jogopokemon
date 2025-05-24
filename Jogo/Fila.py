@@ -1,9 +1,12 @@
 import pygame
 import requests
+import json
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
 from Config import aplicar_claridade
 from Geradores.GeradorPlayer import Gerador_player
+from Geradores.GeradorPartida import GeraPartidaOnline
+from Geradores.GeradorOutros import Gera_Baralho, Gera_Mapa
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import gerar_gif
 from Visual.GeradoresVisuais import (
@@ -18,15 +21,24 @@ Url = "https://apipokemon-i9bb.onrender.com"
 
 B1 = {"estado": False}
 
+def CriaPartidaOnline(player1,player2):
+
+    Mapa = Gera_Mapa(0)
+    Baralho = Gera_Baralho(player1.deck,player2.deck)
+    Partida = GeraPartidaOnline(player1,player2,Baralho,Mapa)
+
+    return Partida
+
 def Fila(tela, estados, relogio, Config):
     pygame.mixer.music.load('Audio/Musicas/Carregamento.ogg')
     pygame.mixer.music.set_volume(Config["Volume"])
     pygame.mixer.music.play(-1)
     
-    # from PygameAções import informaçoesp1
-    # Jogador1 = Gerador_player(informaçoesp1)
+    from PygameAções import informaçoesp1
+    Jogador = Gerador_player(informaçoesp1)
 
-    # resposta = requests.post(Url, json=Jogador1)
+    resposta = requests.post("https://apipokemon-i9bb.onrender.com/entrar_partida", json=Jogador)
+    data = resposta.json()
 
     Gif = gerar_gif(Carregando_Frames,(1765,930), 62)
 
@@ -42,7 +54,29 @@ def Fila(tela, estados, relogio, Config):
             if evento.type == pygame.QUIT:
                 estados["Rodando_Fila"] = False
                 estados["Rodando_Jogo"] = False
+        
+        if data["estado"] == "criou":
+            resposta = requests.get("https://apipokemon-i9bb.onrender.com/buscar_jogador", json=data)
+            pronto = resposta.json
+            if pronto["pronto"] == True:
+                PartidaOn = CriaPartidaOnline(Jogador,pronto["jogador2"])
+                envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
+                resposta = requests.get("https://apipokemon-i9bb.onrender.com//inicializar_partida", json=envio)
 
+            else:
+                pass
+
+        elif data["estado"] == "entrou":
+            resposta = requests.get("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
+            pronto = resposta.json
+            if pronto["pronto"] == True:
+                pass
+            else:
+                pass
+
+        else:
+            pass
+            
         tela.fill((0, 0, 0))  # Fundo preto
         tela.blit(texto, pos_texto)
 

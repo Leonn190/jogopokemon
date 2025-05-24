@@ -150,5 +150,57 @@ class Jogador:
                 Baralho.devolve_item(item)
                 return False
 
+    def ToDic_Inicial(self):
+        return {
+            "nome": self.nome,
+            "pokemons": [p.ToDic_Inicial() for p in self.pokemons],  # Pressupõe que cada Pokémon tem Todic()
+            "inventario": self.inventario,
+            "energias": self.energias.copy(),
+            "energiasMax": self.energiasMax,
+            "ouro": self.ouro,
+            "deck": self.deck,
+            "treinador": self.treinador,
+            "tempo": self.tempo,
+            "AtivaPassiva": self.AtivaPassiva,
+            "ContaPassiva": self.ContaPassiva,
+            "PoderCaptura": self.PoderCaptura,
+            "NocautesSofridos": self.NocautesSofridos,
+            "NocautesRealizados": self.NocautesRealizados,
+            "PokemonsNocauteados": self.PokemonsNocauteados,
+            "PokemonsCapturados": self.PokemonsCapturados,
+            "PontosSofridos": self.PontosSofridos,
+            "Pontos": self.Pontos,
+            "PontosVitoria": self.PontosVitoria,
+            "PontosDerrota": self.PontosDerrota,
+            "Megas": self.Megas,
+            "Ultras": self.Ultras,
+            "Vstars": self.Vstars,
+            "Vmaxs": self.Vmaxs,
+        }
+    
+    def ToDic_Atualiza(self):
+        return {
+            "pokemons": [p.ToDic_Atualiza() for p in self.pokemons],  # Pressupõe que cada Pokémon tem Todic()
+            "inventario": self.inventario,
+            "energias": self.energias.copy(),
+            "energiasMax": self.energiasMax,
+            "ouro": self.ouro,
+            "tempo": self.tempo,
+            "ContaPassiva": self.ContaPassiva,
+            "PoderCaptura": self.PoderCaptura,
+            "NocautesSofridos": self.NocautesSofridos,
+            "NocautesRealizados": self.NocautesRealizados,
+            "PokemonsNocauteados": self.PokemonsNocauteados,
+            "PokemonsCapturados": self.PokemonsCapturados,
+            "PontosSofridos": self.PontosSofridos,
+            "Pontos": self.Pontos,
+            "Megas": self.Megas,
+            "Ultras": self.Ultras,
+            "Vstars": self.Vstars,
+            "Vmaxs": self.Vmaxs,
+        }
+    
+    
+
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)

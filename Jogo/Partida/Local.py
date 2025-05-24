@@ -20,11 +20,10 @@ from Visual.GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA, cores_raridade)
 
-import Compartilhados as C
-import Telas as T
+import Partida.Compartilhados as C
+import Partida.Telas as T
 
 def PartidaLoop(tela,estados,relogio,config):
-    global peca_em_uso, Config
 
     C.IniciaLocal(tela,config)
 
@@ -45,13 +44,13 @@ def PartidaLoop(tela,estados,relogio,config):
                     for peca in C.Partida.Mapa.Peças:
                         if peca.pokemon.PodeMover:
                             if peca.iniciar_arraste(pos_mouse):
-                                peca_em_uso = peca
+                                C.peca_em_uso = peca
                                 break
 
             elif evento.type == pygame.MOUSEBUTTONUP:
-                if evento.button == 1 and peca_em_uso is not None:
-                    peca_em_uso.soltar(pos_mouse)
-                    peca_em_uso = None
+                if evento.button == 1 and C.peca_em_uso is not None:
+                    C.peca_em_uso.soltar(pos_mouse)
+                    C.peca_em_uso = None
         
         C.tocar_musica_do_estadio()
 
@@ -74,16 +73,16 @@ def PartidaLoop(tela,estados,relogio,config):
                 if not mensagem.ativa:
                     mensagens_passageiras.remove(mensagem)
         else:
-            if Config == False:
+            if C.Config == False:
                 tela.blit(C.FundosIMG[0], (0, 0))
                 T.Telapausa(tela, eventos, estados, config)
             else:
-                Config = Configuraçoes(tela,eventos,config)
+                C.Config = Configuraçoes(tela,eventos,config)
 
         # Se tiver uma peça sendo usada, desenha o raio de alcance dela
-        if peca_em_uso is not None:
-            peca_em_uso.atualizar_local_durante_arrasto(pos_mouse)
-            peca_em_uso.desenhar_raio_velocidade()
+        if C.peca_em_uso is not None:
+            C.peca_em_uso.atualizar_local_durante_arrasto(pos_mouse)
+            C.peca_em_uso.desenhar_raio_velocidade()
 
         if config["Mostrar Fps"]:
             tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))

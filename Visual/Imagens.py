@@ -1,98 +1,5 @@
 import Visual.GeradoresVisuais as GV
 
-Size = 0
-
-pokeiconsrecortados = {
-    "Bulbasaur": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/bulbasaur.png", (Size, Size), "PNG"),
-    "Ivysaur": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/ivysaur.png", (Size, Size), "PNG"),
-    "Venusaur": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/venusaur.png", (Size, Size), "PNG"),
-    "Charmander": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charmander.png", (Size, Size), "PNG"),
-    "Charmeleon": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charmeleon.png", (Size, Size), "PNG"),
-    "Charizard": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charizard.png", (Size, Size), "PNG"),
-    "Squirtle": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/squirtle.png", (Size, Size), "PNG"),
-    "Wartortle": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/wartortle.png", (Size, Size), "PNG"),
-    "Blastoise": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/blastoise.png", (Size, Size), "PNG"),
-    "Machop": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/machop.png", (Size, Size), "PNG"),
-    "Machoke": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/machoke.png", (Size, Size), "PNG"),
-    "Machamp": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/machamp.png", (Size, Size), "PNG"),
-    "Gastly": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/gastly.png", (Size, Size), "PNG"),
-    "Haunter": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/haunter.png", (Size, Size), "PNG"),
-    "Gengar": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/gengar.png", (Size, Size), "PNG"),
-    "Geodude": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/geodude.png", (Size, Size), "PNG"),
-    "Graveler": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/graveler.png", (Size, Size), "PNG"),
-    "Golem": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/golem.png", (Size, Size), "PNG"),
-    "Caterpie": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/caterpie.png", (Size, Size), "PNG"),
-    "Metapod": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/metapod.png", (Size, Size), "PNG"),
-    "Butterfree": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/butterfree.png", (Size, Size), "PNG"),
-    "Abra": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/abra.png", (Size, Size), "PNG"),
-    "Kadabra": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/kadabra.png", (Size, Size), "PNG"),
-    "Alakazam": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/alakazam.png", (Size, Size), "PNG"),
-    "Dratini": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/dratini.png", (Size, Size), "PNG"),
-    "Dragonair": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/dragonair.png", (Size, Size), "PNG"),
-    "Dragonite": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/dragonite.png", (Size, Size), "PNG"),
-    "Zorua": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/zorua.png", (Size, Size), "PNG"),
-    "Zoroark": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/zoroark.png", (Size, Size), "PNG"),
-    "Pikachu": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/pikachu.png", (Size, Size), "PNG"),
-    "Raichu": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/raichu.png", (Size, Size), "PNG"),
-    "Magikarp": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/magikarp.png", (Size, Size), "PNG"),
-    "Gyarados": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/gyarados.png", (Size, Size), "PNG"),
-    "Jigglypuff": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/jigglypuff.png", (Size, Size), "PNG"),
-    "Wigglytuff": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/wigglytuff.png", (Size, Size), "PNG"),
-    "Magnemite": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/magnemite.png", (Size, Size), "PNG"),
-    "Magneton": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/magneton.png", (Size, Size), "PNG"),
-    "Snorlax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/snorlax.png", (Size, Size), "PNG"),
-    "Aerodactyl": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/aerodactyl.png", (Size, Size), "PNG"),
-    "Jynx": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/jynx.png", (Size, Size), "PNG"),
-    "Mewtwo": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/mewtwo.png", (Size, Size), "PNG"),
-    "Mega Aerodactyl": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/aerodactyl.png", (Size, Size), "PNG"),
-    "Mega Alakazam": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/alakazam.png", (Size, Size), "PNG"),
-    "Articuno": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/articuno.png", (Size, Size), "PNG"),
-    "Beedrill": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/beedrill.png", (Size, Size), "PNG"),
-    "Mega Beedrill": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/beedrill.png", (Size, Size), "PNG"),
-    "Blastoise Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/blastoise.png", (Size, Size), "PNG"),
-    "Mega Blastoise": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/blastoise.png", (Size, Size), "PNG"),
-    "Butterfree Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/butterfree.png", (Size, Size), "PNG"),
-    "Charizard Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charizard.png", (Size, Size), "PNG"),
-    "Mega Charizard X": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charizard.png", (Size, Size), "PNG"),
-    "Mega Charizard Y": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charizard.png", (Size, Size), "PNG"),
-    "Clefable": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/clefable.png", (Size, Size), "PNG"),
-    "Clefairy": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/clefairy.png", (Size, Size), "PNG"),
-    "Cloyster": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/cloyster.png", (Size, Size), "PNG"),
-    "Cubone": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/cubone.png", (Size, Size), "PNG"),
-    "Gengar Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/gengar.png", (Size, Size), "PNG"),
-    "Mega Gengar": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/gengar.png", (Size, Size), "PNG"),
-    "Golem-alola": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/golem.png", (Size, Size), "PNG"),
-    "Mega Gyarados": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/gyarados.png", (Size, Size), "PNG"),
-    "Kakuna": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/kakuna.png", (Size, Size), "PNG"),
-    "Machamp Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/machamp.png", (Size, Size), "PNG"),
-    "Marowak": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/marowak.png", (Size, Size), "PNG"),
-    "Meowth": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/meowth.png", (Size, Size), "PNG"),
-    "Meowth Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/meowth.png", (Size, Size), "PNG"),
-    "Mega Mewtwo X": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/mewtwo.png", (Size, Size), "PNG"),
-    "Mega Mewtwo Y": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/mewtwo.png", (Size, Size), "PNG"),
-    "Moltres": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/moltres.png", (Size, Size), "PNG"),
-    "Persian": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/persian.png", (Size, Size), "PNG"),
-    "Pikachu Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/pikachu.png", (Size, Size), "PNG"),
-    "Pinsir": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/pinsir.png", (Size, Size), "PNG"),
-    "Mega Pinsir": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/pinsir.png", (Size, Size), "PNG"),
-    "Raticate": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/raticate.png", (Size, Size), "PNG"),
-    "Rattata": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/rattata.png", (Size, Size), "PNG"),
-    "Shellder": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/shellder.png", (Size, Size), "PNG"),
-    "Snorlax Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/snorlax.png", (Size, Size), "PNG"),
-    "Venusaur Vmax": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/venusaur.png", (Size, Size), "PNG"),
-    "Zapdos": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/zapdos.png", (Size, Size), "PNG"),
-    "Weedle": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/weedle.png", (Size, Size), "PNG"),
-    "Charizard V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/charizard.png", (Size, Size), "PNG"),
-    "Blastoise V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/blastoise.png", (Size, Size), "PNG"),
-    "Venusaur V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/venusaur.png", (Size, Size), "PNG"),
-    "Machamp V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/machamp.png", (Size, Size), "PNG"),
-    "Gengar V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/machoke.png", (Size, Size), "PNG"),
-    "Butterfree V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/butterfree.png", (Size, Size), "PNG"),
-    "Pikachu V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/pikachu.png", (Size, Size), "PNG"),
-    "Meowth V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/meowth.png", (Size, Size), "PNG"),
-    "Snorlax V": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/snorlax.png", (Size, Size), "PNG")
-}
-
 PokeGifs = {
     "Bulbasaur": lambda: GV.carregar_frames('imagens/gifs/bulbasaur_frames'),
     "Ivysaur": lambda: GV.carregar_frames('imagens/gifs/ivysaur_frames'),
@@ -193,12 +100,6 @@ PokeGifs = {
     "Meowth Vstar": lambda: GV.carregar_frames('imagens/gifs/meowth_frames'),
     "Snorlax Vstar": lambda: GV.carregar_frames('imagens/gifs/snorlax_frames')
 }
-
-def Carrega_Icone_pokemon(nome,S):
-    global Size
-    Size = S
-    imagem = pokeiconsrecortados[nome]()
-    return imagem
 
 def Carrega_Gif_pokemon(nome):
     frames = PokeGifs[nome]()

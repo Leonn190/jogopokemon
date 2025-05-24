@@ -107,6 +107,10 @@ def Entrar_Fila(estados):
     estados["Rodando_PréPartida"] = False
     estados["Rodando_Fila"] = True
 
+def Iniciar_partida_online(estados):
+    estados["Rodando_Fila"] = False
+    estados["Rodando_PartidaOnline"] = True
+
 def Nome_p1(texto):
     global informaçoesp1
     informaçoesp1[0] = texto

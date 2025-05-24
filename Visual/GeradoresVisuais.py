@@ -666,7 +666,7 @@ def Slider(tela, nome, x, y, largura, valor, min_val, max_val, cor_base, cor_bot
     clicando = pygame.mouse.get_pressed()[0]
 
     for evento in eventos:
-        if evento.type == pygame.MOUSEBUTTONDOWN and abs(mouse[0] - pos_botao) < 15 and abs(mouse[1] - y) < 15:
+        if evento.type == pygame.MOUSEBUTTONDOWN and abs(mouse[0] - pos_botao) < 20 and abs(mouse[1] - y) < 20:
             Slider.arrastando = nome  # Define qual slider está sendo arrastado
         if evento.type == pygame.MOUSEBUTTONUP:
             Slider.arrastando = None

@@ -20,9 +20,11 @@ from Visual.GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
     LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA, cores_raridade)
 
-import Compartilhados as C
+import Partida.Compartilhados as C
 
 def TelaPokemons(tela, eventos,estados, config):
+
+    GV.Botao(tela, "Atacar", (1200, 400, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: C.Partida.salvar_como_json(),Fonte40, C.B22, 3, None, True, eventos)
 
     for pokemon in C.inimigo.pokemons:
         if pokemon.efeitosPosi["Provocando"] > 0:
@@ -127,20 +129,20 @@ def TelaPokemons(tela, eventos,estados, config):
         C.barra_vida(tela, 1315 - i * 190, 190, 180, 15, C.inimigo.pokemons[i].Vida, C.inimigo.pokemons[i].VidaMax,(100,100,100),C.inimigo.pokemons[i].ID,C.inimigo.pokemons[i].barreira)
 
     if C.PokemonS is not None:
-        PokemonSV = C.PokemonS
+        C.PokemonSV = C.PokemonS
 
     if C.PokemonV is not None:
-        PokemonVV = C.PokemonV
+        C.PokemonVV = C.PokemonV
 
     XstatusS = GV.animar(C.S1,C.S2,C.animaS)
 
     if XstatusS != 1920:
-        Status_Pokemon((XstatusS,502), tela, PokemonSV,C.TiposEnergiaIMG, C.player, eventos,"S", C.Partida.Mapa, C.PokemonA)
+        Status_Pokemon((XstatusS,502), tela, C.PokemonSV,C.TiposEnergiaIMG, C.player, eventos,"S", C.Partida.Mapa, C.PokemonA)
 
     XstatusV = GV.animar(C.V1,C.V2,C.animaV)
 
     if XstatusV != 1920:
-        Status_Pokemon((XstatusV,115), tela, PokemonVV,C.TiposEnergiaIMG, C.player, eventos,"V", C.Partida.Mapa, C.PokemonA)
+        Status_Pokemon((XstatusV,115), tela, C.PokemonVV,C.TiposEnergiaIMG, C.player, eventos,"V", C.Partida.Mapa, C.PokemonA)
 
     try:
         if C.alvo.ativo:
@@ -237,7 +239,6 @@ def TelaPokemons(tela, eventos,estados, config):
     GPO.VerificaSituaçãoPokemon(C.player,C.inimigo,C.Partida.Mapa)
 
 def TelaOpções(tela, eventos,estados,config):
-    global EstadoOutrosAtual, A7, A8, animaAL
 
     YT = GV.animar(C.T1,C.T2,C.animaT,300)
     GV.Botao(tela, "", (0, YT, 420, 50), PRETO, PRETO, PRETO,lambda: C.Troca_Terminal(),Fonte40, C.B24, 3, None, True, eventos)
@@ -267,18 +268,18 @@ def TelaOpções(tela, eventos,estados,config):
     tela.blit(C.OutrosIMG[13], (150, (YT - 55)))  # Treinador
     tela.blit(C.OutrosIMG[3], (217, (YT - 58)))   # Estadio
 
-    if EstadoOutrosAtual != C.estadoOutros["selecionado_esquerdo"]:
-        EstadoOutrosAtual = C.estadoOutros["selecionado_esquerdo"]
+    if C.EstadoOutrosAtual != C.estadoOutros["selecionado_esquerdo"]:
+        C.EstadoOutrosAtual = C.estadoOutros["selecionado_esquerdo"]
         if C.estadoOutros["selecionado_esquerdo"] == None:
-            if A8 == 1:
-                A7 = 1
-                A8 = -480
-                animaAL = pygame.time.get_ticks()
+            if C.A8 == 1:
+                C.A7 = 1
+                C.A8 = -480
+                C.animaAL = pygame.time.get_ticks()
 
     XInvetario = GV.animar(C.A1,C.A2,C.animaAI)
 
     if XInvetario != -385:
-        Inventario((XInvetario,310),tela,C.player,C.ImagensItens,C.estadoItens,eventos,C.PokemonS, C.Partida.Mapa, C.Partida.Baralho, C.stadoEnergias)
+        Inventario((XInvetario,310),tela,C.player,C.ImagensItens,C.estadoItens,eventos,C.PokemonS, C.Partida.Mapa, C.Partida.Baralho, C.estadoEnergias)
 
     XCentro = GV.animar(C.A5,C.A6,C.animaAC)
 
@@ -306,7 +307,7 @@ def TelaOutros(tela, eventos,estados, config):
 
     C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.passar_turno(estados),C.Partida.Turno)
 
-    XL = GV.animar(A7,A8,animaAL)
+    XL = GV.animar(C.A7,C.A8,C.animaAL)
 
     Loja((XL,195),tela,C.Partida.Baralho,C.ImagensItens,C.Partida.Turno,eventos,C.player,2,C.Partida.Loja)
 
@@ -317,7 +318,6 @@ def Telapausa(tela, eventos,estados, config):
     GV.Botao(tela, "Sair do jogo", (600, 835, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, C.B6, 5, None, True, eventos)
 
 def TelaTabuleiro(tela, eventos, estados, config):
-    global Musica_Estadio_atual
 
     M.Desenhar_Casas_Disponiveis(tela,C.Partida.Mapa,C.player,C.inimigo,eventos,C.estadoAlvo,C.estadoVisualiza,C.selecionaAlvo,C.desselecionaAlvo,C.oculta,C.visualiza)
     if C.Partida.Mapa.mudança == True:
