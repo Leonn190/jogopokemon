@@ -21,6 +21,8 @@ Url = "https://apipokemon-i9bb.onrender.com"
 
 B1 = {"estado": False}
 
+DadosGerais = [None,None]
+
 def CriaPartidaOnline(player1,player2):
 
     Mapa = Gera_Mapa(0)
@@ -62,7 +64,8 @@ def Fila(tela, estados, relogio, Config):
                 PartidaOn = CriaPartidaOnline(Jogador,pronto["jogador2"])
                 envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
                 resposta = requests.get("https://apipokemon-i9bb.onrender.com//inicializar_partida", json=envio)
-
+                DadosGerais = []
+                A.Iniciar_partida_online(estados)
             else:
                 pass
 
@@ -73,6 +76,7 @@ def Fila(tela, estados, relogio, Config):
                 pass
             else:
                 pass
+
 
         else:
             pass
