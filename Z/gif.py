@@ -1,7 +1,10 @@
 import os
 from PIL import Image
 
-def extrair_gifs_para_frames(pasta_gifs, multiplicador=1):
+def extrair_gifs_para_frames(pasta_gifs, multiplicador=1.488):
+    from PIL import Image
+    import os
+
     # Garante que a pasta existe
     if not os.path.exists(pasta_gifs):
         print(f"Pasta '{pasta_gifs}' não encontrada.")
@@ -22,9 +25,11 @@ def extrair_gifs_para_frames(pasta_gifs, multiplicador=1):
                     img.seek(frame)
                     frame_atual = img.convert("RGBA")
 
-                    # Redimensiona
-                    nova_largura = int(300)
-                    nova_altura = int(300)
+                    # Calcula novo tamanho com base no multiplicador
+                    largura_original, altura_original = frame_atual.size
+                    nova_largura = int(largura_original * multiplicador)
+                    nova_altura = int(altura_original * multiplicador)
+
                     redimensionada = frame_atual.resize((nova_largura, nova_altura), Image.LANCZOS)
 
                     # Salva o frame
@@ -35,5 +40,5 @@ def extrair_gifs_para_frames(pasta_gifs, multiplicador=1):
                 print(f"{arquivo}: {frame} frame(s) extraído(s).")
             except Exception as e:
                 print(f"Erro ao processar {arquivo}: {e}")
-
-extrair_gifs_para_frames("imagens/Efeitos/Z")
+                
+extrair_gifs_para_frames("imagens/Gen 2")

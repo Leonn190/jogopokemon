@@ -294,7 +294,7 @@ class Pokemon:
         self.FF = self.evolucao["FF"]
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]
-        self.icone = Carrega_Icone_pokemon(self.nome)
+        self.icone = Carrega_Icone_pokemon(self.nome,self.tamanho)
         VerificaGIF(player)
         GV.adicionar_mensagem(f"{nome_antigo} Evoluiu para um {self.nome}. Incrivel!")
 

@@ -12,7 +12,7 @@ from Visual.GeradoresVisuais import (
 def EstadioInfo(pos, tela, Mapa):
     pass
 
-def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo):
+def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo, player=None):
     if estilo == "D":
         largura = 380
         altura = 560
@@ -22,6 +22,8 @@ def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo):
 
     nome = treinador["nome"]
     imagem = ImagensFichas.get(nome)
+
+    x, y = pos
 
     if imagem:
         # Criar retângulo da área que será exibida (com base na largura e altura desejadas)
@@ -38,6 +40,24 @@ def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo):
 
         # Blitar a imagem recortada
         tela.blit(imagem_recortada, pos)
+
+    if player is not None:
+
+        # Texto com os pontos
+        texto_pontos = str(player.Pontos)
+        texto_sofridos = str(player.PontosSofridos)
+
+        # Renderizar o texto
+        render_pontos = Fonte30.render(texto_pontos, True, AMARELO)
+        render_sofridos = Fonte30.render(texto_sofridos, True, AMARELO)
+
+        # Posição ao lado direito da imagem
+        x_texto = x + 28
+        y_texto = y + 180
+
+        # Blitar os textos na tela
+        tela.blit(render_pontos, (x_texto, y_texto))
+        tela.blit(render_sofridos, (x_texto + 313, y_texto))
 
 
 def OlhaAtaque(ataque):

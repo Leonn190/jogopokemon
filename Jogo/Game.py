@@ -92,7 +92,7 @@ while estados["Rodando_Jogo"]:
     elif estados["Rodando_Fila"]:
         Fila.Fila(tela,estados,relogio,Config)
     elif estados["Rodando_Partida"]:
-        Partida.Partida(tela,estados,relogio,Config)
+        Partida.PartidaLoop(tela,estados,relogio,Config)
     elif estados["Rodando_Final"]:
         Final.Final(tela,estados,relogio,Config)
 

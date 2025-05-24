@@ -871,10 +871,8 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
 
 botao_RR = {"estado": False}
 botaoitem = {"estado": False}
-itens_loja = [None, None, None, None]
 
-def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco):
-    global itens_loja
+def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco, itens_loja):
     x, y = pos
     largura = 480
     altura = 110

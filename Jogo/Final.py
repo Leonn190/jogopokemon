@@ -8,14 +8,11 @@ from Visual.GeradoresVisuais import (
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
     LARANJA, ROXO, ROSA, DOURADO, PRATA,)
 
-clique = pygame.mixer.Sound("Audio/Sons/Som1.wav")
-
 B1 = {"estado": False}
 
 def Final(tela,estados,relogio,Config):
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
-
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
 
     tela.blit(Carregar,(0,0))
@@ -31,11 +28,11 @@ def Final(tela,estados,relogio,Config):
     pygame.time.wait(8800)
 
     pygame.mixer.music.load('Audio/Musicas/resultados.ogg')  
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(Config["Volume"])
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)
 
-    from Jogo.Partida.Partida import Perdedor,Vencedor
+    from Jogo.Partida.Partida import Partida
 
     while estados["Rodando_Final"]:
         tela.blit(Fundo_pré,(0,0))
@@ -49,13 +46,13 @@ def Final(tela,estados,relogio,Config):
                 pygame.mixer.music.load('Audio/Musicas/Menu.ogg')
                 pygame.mixer.music.play()
         
-        GV.Texto_caixa(tela,f"{Vencedor.nome} Venceu, Parabens!", (450,200,1020,260),Fonte70, DOURADO,PRETO,4)
+        GV.Texto_caixa(tela,f"{Partida.Vencedor.nome} Venceu, Parabens!", (450,200,1020,260),Fonte70, DOURADO,PRETO,4)
 
         GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)  
         
         GV.Botao(tela, "Voltar para o inicio", (700, 600, 520, 150), CINZA, PRETO, DOURADO,
-                 lambda: A.Voltar(estados), Fonte70, B1, 4, None, True, eventos, clique)
+                 lambda: A.Voltar(estados), Fonte70, B1, 4, None, True, eventos, "clique")
 
         aplicar_claridade(tela,Config["Claridade"])
         pygame.display.update()

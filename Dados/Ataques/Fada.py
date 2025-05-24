@@ -58,7 +58,7 @@ Bençao = {
     "dano": 0.0,
     "alcance": 0,
     "precisão": 100, 
-    "descrição": "Selecione um pokemon como vizualizado, ele será abençoado por 3 turnos",
+    "descrição": "Selecione um pokemon como visualizado, ele será abençoado por 3 turnos",
     "efeito": "MarcaBrilhosa",
     "extra": "V",
     "funçao": F_Bençao,

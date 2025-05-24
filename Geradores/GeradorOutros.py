@@ -236,6 +236,10 @@ class Mapa:
         self.Ocupadas = []
         self.mudança = False
 
+        for Peça in self.Peças:
+            if Peça.pokemon.local is None:
+                self.Peças.remove(Peça)
+
         for pokemon in player.pokemons + inimigo.pokemons:
             if pokemon.local is not None:
                 pokemon.atualizar_rect()
