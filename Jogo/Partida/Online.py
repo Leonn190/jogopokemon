@@ -42,9 +42,11 @@ def coletar_diffs(partida_id, ID, callback):
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
+    print (75)
     C.IniciaOnline(tela,config)
+    print (5)
 
-    while estados["Rodando_Partida"]:
+    while estados["Rodando_PartidaOnline"]:
         tela.fill(BRANCO)
         tela.blit(C.FundosIMG[C.Partida.Mapa.Fundo],(0,0))
         pygame.mixer.music.set_volume(config["Volume"])
@@ -53,7 +55,7 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
         pos_mouse = pygame.mouse.get_pos()
         for evento in eventos:
             if evento.type == pygame.QUIT:
-                estados["Rodando_Partida"] = False
+                estados["Rodando_PartidaOnline"] = False
                 estados["Rodando_Jogo"] = False
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:

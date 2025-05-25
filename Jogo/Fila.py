@@ -90,8 +90,10 @@ def Fila(tela, estados, relogio, Config):
                     pronto = resposta.json()
                     print (pronto)
                     if pronto["criada"]:
-                        PartidaOn = GeraPartidaOnlineClone(pronto["dados"])
+                        print (1)
+                        PartidaOn = GeraPartidaOnlineClone(pronto["dados"], data["partida"])
                         PartidaOn.Jogador2 = Jogador
+                        print (1.5)
                         DadosGerais = [PartidaOn, 2]
                         A.Iniciar_partida_online(estados)
                         break  # Finaliza a thread após iniciar

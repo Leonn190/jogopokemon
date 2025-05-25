@@ -69,32 +69,78 @@ class PartidaOnline:
             self.Vencedor = None
             self.Perdedor = None
             self.anterior = self.ToDic_Inic()
+
         else:
+
+            # Demais atributos simples
             self.Turno = 1
             self.tempo_restante = 0
             self.Centro = [None,None,None,None,None,None,None,None]
             self.Loja = [None,None,None,None]
-            self.Baralho = GeraBaralhoClone(Dados["Baralho"])
-            self.Mapa = Gera_Mapa(Dados["Mapa"])
-            self.Jogador1 = Gerador_player_clone(Dados["Jogador1"])
-            self.Jogador2 = Gerador_player_clone(Dados["Jogador2"])
             self.Vencedor = None
             self.Perdedor = None
+            self.ID = 2
+
+            print("DEBUG: Criando Baralho...")
+            self.Baralho = GeraBaralhoClone(Dados["Baralho"])
+            print("DEBUG: Baralho criado com sucesso.")
+
+            print("DEBUG: Gerando Mapa...")
+            self.Mapa = Gera_Mapa(Dados["Mapa"]["Code"])
+            print("DEBUG: Mapa gerado com sucesso.")
+
+            print("DEBUG: Gerando Jogador 1...")
+            self.Jogador1 = Gerador_player_clone(Dados["Jogador1"])
+            print("DEBUG: Jogador 1 criado com sucesso.")
+
+            print("DEBUG: Gerando Jogador 2...")
+            self.Jogador2 = Gerador_player_clone(Dados["Jogador2"])
+            print("DEBUG: Jogador 2 criado com sucesso.")
+
+            print("DEBUG: Convertendo partida para dicionário...")
             self.anterior = self.ToDic_Inic()
+            print("DEBUG: Conversão para dicionário finalizada com sucesso.")
 
     def ToDic_Inic(self):
-        return {
+        print("DEBUG ToDic_Inic: Convertendo Turno, tempo, Centro, Loja, Vencedor e Perdedor...")
+        dicionario = {
             "Turno": self.Turno,
             "tempo_restante": self.tempo_restante,
-            "Centro": self.Centro,  # sem alteração, só copia a lista
-            "Loja": self.Loja,      # idem
-            "Baralho": self.Baralho.ToDic(),
-            "Mapa": self.Mapa.ToDic(),
-            "Jogador1": self.Jogador1.ToDic_Inicial(),
-            "Jogador2": self.Jogador2.ToDic_Inicial(),
-            "Vencedor": self.Vencedor,  # só copia (se for None ou nome ou id)
+            "Centro": self.Centro,
+            "Loja": self.Loja,
+            "Vencedor": self.Vencedor,
             "Perdedor": self.Perdedor,
         }
+
+        print("DEBUG ToDic_Inic: Convertendo Baralho...")
+        try:
+            dicionario["Baralho"] = self.Baralho.ToDic()
+            print("DEBUG ToDic_Inic: Baralho convertido com sucesso.")
+        except Exception as e:
+            print("ERRO em Baralho.ToDic():", e)
+
+        print("DEBUG ToDic_Inic: Convertendo Mapa...")
+        try:
+            dicionario["Mapa"] = self.Mapa.ToDic()
+            print("DEBUG ToDic_Inic: Mapa convertido com sucesso.")
+        except Exception as e:
+            print("ERRO em Mapa.ToDic():", e)
+
+        print("DEBUG ToDic_Inic: Convertendo Jogador1...")
+        try:
+            dicionario["Jogador1"] = self.Jogador1.ToDic_Inicial()
+            print("DEBUG ToDic_Inic: Jogador1 convertido com sucesso.")
+        except Exception as e:
+            print("ERRO em Jogador1.ToDic_Inicial():", e)
+
+        print("DEBUG ToDic_Inic: Convertendo Jogador2...")
+        try:
+            dicionario["Jogador2"] = self.Jogador2.ToDic_Inicial()
+            print("DEBUG ToDic_Inic: Jogador2 convertido com sucesso.")
+        except Exception as e:
+            print("ERRO em Jogador2.ToDic_Inicial():", e)
+
+        return dicionario
     
     def ToDic_Atualiza(self):
         return {
@@ -146,5 +192,7 @@ class PartidaOnline:
 def GeraPartidaOnline(player1,player2,Baralho,Mapa):
     return PartidaOnline(player1,player2,Baralho,Mapa)
 
-def GeraPartidaOnlineClone(Dados):
-    return PartidaOnline(None,None,None,None,Dados)
+def GeraPartidaOnlineClone(Dados,ID):
+    P = PartidaOnline(None,None,None,None,Dados)
+    P.ID = ID
+    return P

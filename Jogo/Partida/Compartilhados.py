@@ -784,6 +784,8 @@ def IniciaOnline(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
     global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez
 
+    print(2)
+
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
     tela.blit(Carregar,(0,0))
     texto = Fonte70.render("Carregando ...", True, PRETO)
@@ -804,6 +806,8 @@ def IniciaOnline(tela, config):
 
     from Fila import DadosGerais
     Partida = DadosGerais[0]
+
+    print(3)
 
     Partida.Jogador1.pokemons[0].pos = 0
     Partida.Jogador2.pokemons[0].pos = 0
@@ -832,10 +836,12 @@ def IniciaOnline(tela, config):
     cronometro.tempo_encerrado = False
 
     player.Habilidade(player, inimigo, Partida.Mapa, Partida.Baralho, Partida.Turno)
-    inimigo.Habilidade(inimigo, player, Partida.Mapa, Partida.Baralho, Partida.Turno)
+    # inimigo.Habilidade(inimigo, player, Partida.Mapa, Partida.Baralho, Partida.Turno)
 
     GPO.VerificaSituaçãoPokemon(player,inimigo,Partida.Mapa)
     Partida.Mapa.Verifica(player,inimigo)
+
+    print (4)
 
 def VerificaVitória(estados, Jogador1, Jogador2):
 
