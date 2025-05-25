@@ -1,6 +1,8 @@
 import pygame
 import requests
 import json
+import threading
+import time
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
 import Mapa as M
@@ -55,7 +57,7 @@ def Fila(tela, estados, relogio, Config):
     from PygameAções import informaçoesp1
     Jogador = Gerador_player(informaçoesp1)
 
-    JogadorDados = Jogador.ToDic_Inicial
+    JogadorDados = Jogador.ToDic_Inicial()
     resposta = requests.post("https://apipokemon-i9bb.onrender.com/entrar_partida", json=JogadorDados)
     data = resposta.json()
 
@@ -67,39 +69,44 @@ def Fila(tela, estados, relogio, Config):
         (1080 - texto.get_height()) // 2
     )
 
+    def contata_servidor():
+        global DadosGerais
+        while True:
+            try:
+                if data["estado"] == "criou":
+                    resposta = requests.get("https://apipokemon-i9bb.onrender.com/buscar_jogador", json=data)
+                    pronto = resposta.json()
+                    if pronto["pronto"]:
+                        PartidaOn = CriaPartidaOnline(Jogador, pronto["jogador2"], data["partida"])
+                        envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
+                        resposta = requests.get("https://apipokemon-i9bb.onrender.com/inicializar_partida", json=envio)
+                        DadosGerais = [PartidaOn, 1]
+                        A.Iniciar_partida_online(estados)
+                        break  # Finaliza a thread após iniciar
+
+                elif data["estado"] == "entrou":
+                    resposta = requests.get("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
+                    pronto = resposta.json()
+                    if pronto["criada"]:
+                        PartidaOn = GeraPartidaOnlineClone(pronto["dados"])
+                        PartidaOn.Jogador2 = Jogador
+                        DadosGerais = [PartidaOn, 2]
+                        A.Iniciar_partida_online(estados)
+                        break  # Finaliza a thread após iniciar
+
+                time.sleep(2)  # Espera 2 segundos antes de checar novamente
+
+            except Exception as e:
+                print("Erro na thread contata_servidor:", e)
+                time.sleep(5)
+
+    threading.Thread(target=contata_servidor, daemon=True).start()
     while estados["Rodando_Fila"]:
         eventos = pygame.event.get()
         for evento in eventos:
             if evento.type == pygame.QUIT:
                 estados["Rodando_Fila"] = False
                 estados["Rodando_Jogo"] = False
-        
-        if data["estado"] == "criou":
-            resposta = requests.get("https://apipokemon-i9bb.onrender.com/buscar_jogador", json=data)
-            pronto = resposta.json
-            if pronto["pronto"] == True:
-                PartidaOn = CriaPartidaOnline(Jogador,pronto["jogador2"],data["partida"])
-                envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
-                resposta = requests.get("https://apipokemon-i9bb.onrender.com//inicializar_partida", json=envio)
-                DadosGerais = [PartidaOn,1]
-                A.Iniciar_partida_online(estados)
-            else:
-                pass
-
-        elif data["estado"] == "entrou":
-            resposta = requests.get("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
-            pronto = resposta.json
-            if pronto["criada"] == True:
-                PartidaOn = GeraPartidaOnlineClone(pronto["dados"])
-                PartidaOn.Jogador2 = Jogador
-                DadosGerais = [PartidaOn,2]
-                A.Iniciar_partida_online(estados)
-            else:
-                pass
-
-
-        else:
-            pass
             
         tela.fill((0, 0, 0))  # Fundo preto
         tela.blit(texto, pos_texto)

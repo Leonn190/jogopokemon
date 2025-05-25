@@ -180,7 +180,7 @@ class Jogador:
     def ToDic_Inicial(self):
         return {
             "nome": self.nome,
-            "pokemons": [p.ToDic_Inicial() for p in self.pokemons],  # Pressupõe que cada Pokémon tem Todic()
+            "pokemons": [p.ToDic_Inicial() for p in self.pokemons],
             "inventario": self.inventario,
             "energias": self.energias.copy(),
             "energiasMax": self.energiasMax,

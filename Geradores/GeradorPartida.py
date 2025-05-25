@@ -2,9 +2,9 @@ import pygame
 import os
 import json
 import re
-from GeradorPokemon import Gerador_Clone
-from GeradorOutros import GeraBaralhoClone, Gera_Mapa
-from GeradorPlayer import Gerador_player_clone
+from Geradores.GeradorPokemon import Gerador_Clone
+from Geradores.GeradorOutros import GeraBaralhoClone, Gera_Mapa
+from Geradores.GeradorPlayer import Gerador_player_clone
 from deepdiff import DeepDiff
 
 class Partida:
