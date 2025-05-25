@@ -128,14 +128,14 @@ class PartidaOnline:
 
         print("DEBUG ToDic_Inic: Convertendo Jogador1...")
         try:
-            dicionario["Jogador1"] = self.Jogador1.ToDic_Inicial()
+            dicionario["Jogador1"] = self.Jogador1.ToDic()
             print("DEBUG ToDic_Inic: Jogador1 convertido com sucesso.")
         except Exception as e:
             print("ERRO em Jogador1.ToDic_Inicial():", e)
 
         print("DEBUG ToDic_Inic: Convertendo Jogador2...")
         try:
-            dicionario["Jogador2"] = self.Jogador2.ToDic_Inicial()
+            dicionario["Jogador2"] = self.Jogador2.ToDic()
             print("DEBUG ToDic_Inic: Jogador2 convertido com sucesso.")
         except Exception as e:
             print("ERRO em Jogador2.ToDic_Inicial():", e)
