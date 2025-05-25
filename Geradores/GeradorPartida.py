@@ -150,8 +150,8 @@ class PartidaOnline:
             "Loja": self.Loja,      # idem
             "Baralho": self.Baralho.ToDic(),
             "Mapa": self.Mapa.ToDic(),
-            "Jogador1": self.Jogador1.ToDic_Atualiza(),
-            "Jogador2": self.Jogador2.ToDic_Atualiza(),
+            "Jogador1": self.Jogador1.ToDic(),
+            "Jogador2": self.Jogador2.ToDic(),
             "Vencedor": self.Vencedor,  # só copia (se for None ou nome ou id)
             "Perdedor": self.Perdedor,
         }

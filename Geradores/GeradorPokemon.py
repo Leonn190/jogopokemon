@@ -242,6 +242,8 @@ class Pokemon:
             self.movimento4 = dados["Move4"]
             self.moveList = dados["MoveList"]
             self.movePossiveis = dados["possiveis"]
+            self.code = dados["code"]
+            self.ID = dados["ID"]
             self.guardado = dados["guardado"]
             self.local = dados["local"]
             self.efeitosPosi = dados["efeitosPositivos"]
@@ -442,7 +444,7 @@ class Pokemon:
             x, y = self.local
             self.rect = pygame.Rect(x - self.raio, y - self.raio, self.raio * 2, self.raio * 2)
 
-    def ToDic_Inicial(self):
+    def ToDic(self):
         return {
             "origem": self.origem,
             "nome": self.nome,
@@ -497,56 +499,8 @@ class Pokemon:
             "possiveis": self.movePossiveis,
             "guardado": self.guardado,
             "local": self.local,
-            "efeitosPositivos": self.efeitosPosi,
-            "efeitosNegativos": self.efeitosNega,
-            "PodeSerAtacado": self.PodeSerAtacado,
-        }
-    
-    def ToDic_Atualiza(self):
-        return {
-            "nome": self.nome,
-            "tipo": self.tipo,
-            "estagio": self.Estagio,
-            "altura": self.Altura,
-            "peso": self.Peso,
-            "raio": self.raio,
-            "tamanho": self.tamanho,
-            "barreira": self.barreira,
-            "amplificações": self.amplificações,
-            "vida": self.Vida,
-            "vida_max_base": self.VidaMaxB,
-            "vida_max": self.VidaMax,
-            "var_vida": self.VarVida,
-            "atk": self.Atk,
-            "atk_sp": self.Atk_sp,
-            "def": self.Def,
-            "def_sp": self.Def_sp,
-            "vel": self.vel,
-            "atkB": self.AtkB,
-            "atk_spB": self.Atk_spB,
-            "defB": self.DefB,
-            "def_spB": self.Def_spB,
-            "velB": self.velB,
-            "var_atk_temp": self.VarAtk_temp,
-            "var_atk_sp_temp": self.VarAtk_sp_temp,
-            "var_def_temp": self.VarDef_temp,
-            "var_def_sp_temp": self.VarDef_sp_temp,
-            "var_vel_temp": self.Varvel_temp,
-            "var_atk_perm": self.VarAtk_perm,
-            "var_atk_sp_perm": self.VarAtk_sp_perm,
-            "var_def_perm": self.VarDef_perm,
-            "var_def_sp_perm": self.VarDef_sp_perm,
-            "var_vel_perm": self.Varvel_perm,
-            "custo": self.custo,
-            "XP atu": self.xp_atu,
-            "XP": self.xp_total,
-            "Move1": remover_funcoes_do_dicionario(self.movimento1),
-            "Move2": remover_funcoes_do_dicionario(self.movimento2),
-            "Move3": remover_funcoes_do_dicionario(self.movimento3),
-            "Move4": remover_funcoes_do_dicionario(self.movimento4),
-            "possiveis": self.movePossiveis,
-            "guardado": self.guardado,
-            "local": self.local,
+            "code": self.code,
+            "ID": self.ID,
             "efeitosPositivos": self.efeitosPosi,
             "efeitosNegativos": self.efeitosNega,
             "PodeSerAtacado": self.PodeSerAtacado,
