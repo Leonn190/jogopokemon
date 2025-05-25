@@ -1,5 +1,7 @@
 import pygame
 import random
+import requests
+import threading
 from Visual.Imagens import Carregar_Imagens_Partida, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
@@ -23,9 +25,24 @@ from Visual.GeradoresVisuais import (
 import Partida.Compartilhados as C
 import Partida.Telas as T
 
+
+def enviar_diff(diff, partida_id, ID):
+    requests.post(
+        "https://apipokemon-i9bb.onrender.com/atualizar_partida",
+        json={"diff": diff, "partida": partida_id, "ID Jogador": ID}
+    )
+
+def coletar_diffs(partida_id, ID, callback):
+    resposta = requests.post(
+        "https://apipokemon-i9bb.onrender.com/coletar_diffs",
+        json={"partida": partida_id, "ID Jogador": ID}
+    )
+    diffs = resposta.json()
+    callback(diffs)
+
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
-    C.IniciaLocal(tela,config)
+    C.IniciaOnline(tela,config)
 
     while estados["Rodando_Partida"]:
         tela.fill(BRANCO)
@@ -51,6 +68,17 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                 if evento.button == 1 and C.peca_em_uso is not None:
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
+
+        if C.SuaVez is True:
+            diff = C.Partida.VerificaDiferença()
+            threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_Online), daemon=True).start()
+        else:
+            # Possivel Bug de Multiplas Threads alterando a partida
+            def processar_diffs(diffs):
+                for diff in diffs:
+                    C.Partida.atualizar(diff)
+
+            threading.Thread(target=coletar_diffs, args=(C.Partida.ID, C.player.ID_Online, processar_diffs), daemon=True).start()
         
         C.tocar_musica_do_estadio()
 
@@ -90,4 +118,3 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
         relogio.tick(config["FPS"])
-        

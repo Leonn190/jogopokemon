@@ -20,44 +20,56 @@ Pokedex = Pokemons_Todos
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 
 class Baralho:
-    def __init__(self,Deck1,Deck2):
-                
-        self.Comuns = []
-        self.Incomuns = []
-        self.Raros = []
-        self.Lendarios = []
-
-        self.PokeComuns = []
-        self.PokeIncomuns = []
-        self.PokeRaros = []
-        self.PokeEpicos = []
-        self.PokeMiticos = []
-        self.PokeLendarios = []
-
-        for item in Deck1["itens"] + Deck2["itens"]:
-            if item["raridade"] == "Comum":
-                self.Comuns.append(item)
-            elif item["raridade"] == "Incomum":
-                self.Incomuns.append(item)
-            elif item["raridade"] == "Raro":
-                self.Raros.append(item)
-            elif item["raridade"] == "Lendario":
-                self.Lendarios.append(item)
+    def __init__(self,Deck1,Deck2,Dados=False):
         
-        for pokemon in Deck1["pokemons"] + Deck2["pokemons"]:
-            if pokemon != 0:
-                if pokemon["raridade"] == "Comum":
-                    self.PokeComuns.append(pokemon)
-                elif pokemon["raridade"] == "Incomum":
-                    self.PokeIncomuns.append(pokemon)
-                elif pokemon["raridade"] == "Raro":
-                    self.PokeRaros.append(pokemon)
-                elif pokemon["raridade"] == "Epico":
-                    self.PokeEpicos.append(pokemon)
-                elif pokemon["raridade"] == "Mitico":
-                    self.PokeMiticos.append(pokemon)
-                elif pokemon["raridade"] == "Lendario":
-                    self.PokeLendarios.append(pokemon)
+        if Dados is False:
+            self.Comuns = []
+            self.Incomuns = []
+            self.Raros = []
+            self.Lendarios = []
+
+            self.PokeComuns = []
+            self.PokeIncomuns = []
+            self.PokeRaros = []
+            self.PokeEpicos = []
+            self.PokeMiticos = []
+            self.PokeLendarios = []
+
+            for item in Deck1["itens"] + Deck2["itens"]:
+                if item["raridade"] == "Comum":
+                    self.Comuns.append(item)
+                elif item["raridade"] == "Incomum":
+                    self.Incomuns.append(item)
+                elif item["raridade"] == "Raro":
+                    self.Raros.append(item)
+                elif item["raridade"] == "Lendario":
+                    self.Lendarios.append(item)
+            
+            for pokemon in Deck1["pokemons"] + Deck2["pokemons"]:
+                if pokemon != 0:
+                    if pokemon["raridade"] == "Comum":
+                        self.PokeComuns.append(pokemon)
+                    elif pokemon["raridade"] == "Incomum":
+                        self.PokeIncomuns.append(pokemon)
+                    elif pokemon["raridade"] == "Raro":
+                        self.PokeRaros.append(pokemon)
+                    elif pokemon["raridade"] == "Epico":
+                        self.PokeEpicos.append(pokemon)
+                    elif pokemon["raridade"] == "Mitico":
+                        self.PokeMiticos.append(pokemon)
+                    elif pokemon["raridade"] == "Lendario":
+                        self.PokeLendarios.append(pokemon)
+        else:
+            self.Comuns = Dados["Comuns"]
+            self.Incomuns = Dados["Incomuns"]
+            self.Raros = Dados["Raros"]
+            self.Lendarios = Dados["Lendarios"]
+            self.PokeComuns = Dados["PokeComuns"]
+            self.PokeIncomuns = Dados["PokeIncomuns"]
+            self.PokeRaros = Dados["PokeRaros"]
+            self.PokeEpicos = Dados["PokeEpicos"]
+            self.PokeMiticos = Dados["PokeMiticos"]
+            self.PokeLendarios = Dados["PokeLendarios"]
 
     def Tira_item(self,item):
         if item["raridade"] == "Comum":
@@ -107,6 +119,8 @@ class Baralho:
             "PokeLendarios": self.PokeLendarios,
         }
 
+def GeraBaralhoClone(dados):
+    Baralho(None,None,dados)
 
 def spawn_do_centro(centro,Baralho,turnos):
 
@@ -212,15 +226,18 @@ def coletor(player):
     if energia_sorteada is not None:
         player.energias[energia_sorteada] += 1
 
-def Gera_Mapa(i):
-    return Mapa(Estadios[i])
-
 def Gera_Baralho(Deck1,Deck2):
     return Baralho(Deck1,Deck2)
 
+def Gera_Mapa(i):
+    return Mapa(i)
+
 class Mapa:
-    def __init__(self, Info):
-        self.terreno = GV.Carregar_Imagem("imagens/Mapas/Mapa1.png", (600, 600), "PNG")
+    def __init__(self, i):
+
+        Info = Estadios[i]
+        self.i = i
+        self.terreno = Info["Code Tabuleiro"]
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
         self.Metros = Info["Metros"]
@@ -231,6 +248,7 @@ class Mapa:
     def MudarEstagio(self,i):
         
         Info = Estadios[i]
+        self.i = i
         self.terreno = Info["zona"]
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
@@ -253,11 +271,5 @@ class Mapa:
 
     def ToDic(self):
         return {
-            # "terreno": self.terreno,
-            "Musica": self.Musica,
-            "Fundo": self.Fundo,
-            "Metros": self.Metros,
-            "mudança": self.mudança,
-            # "Peças": self.Peças,
-            # "Ocupadas": self.Ocupadas,
+            "Code": self.i
     }

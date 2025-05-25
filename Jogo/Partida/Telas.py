@@ -24,11 +24,9 @@ import Partida.Compartilhados as C
 
 def TelaPokemons(tela, eventos,estados, config):
 
-    GV.Botao(tela, "Atacar", (1200, 400, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: C.Partida.salvar_como_json(),Fonte40, C.B22, 3, None, True, eventos)
-
     for pokemon in C.inimigo.pokemons:
         if pokemon.efeitosPosi["Provocando"] > 0:
-            provocar = True
+            C.provocar = True
 
     C.VerificaGIF(C.player,C.inimigo)
 

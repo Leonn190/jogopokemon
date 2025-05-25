@@ -1,12 +1,14 @@
 Normal = {
     "nome": "Arena Inicial",
+    "Code Tabuleiro": "0",
     "Code Musica": 0,
     "Code Tela": 0,
-    "Metros": 15
+    "Metros": 20
 }
 
 Mer = {
     "nome": "Estádio Mer",
+    "Code Tabuleiro": 0,
     "Code Musica": 1,
     "Code Tela": 1,
     "Metros": 10

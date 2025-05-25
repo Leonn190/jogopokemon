@@ -1,4 +1,4 @@
-from Geradores.GeradorPokemon import Gerador_final
+from Geradores.GeradorPokemon import Gerador_final, Gerador_Clone
 from Visual.Sonoridade import tocar
 from Jogo.Abas import Trocar_Ataque_Pergunta
 from Dados.Treinadores import Derrotas,Vitorias,Passivas,Habilidades
@@ -6,45 +6,72 @@ import Visual.GeradoresVisuais as GV
 import random
 
 class Jogador:
-    def __init__(self, informaçoes):
-        self.nome = informaçoes[0]
-        if informaçoes[1] is not None:
-            self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
-        else:
-            informaçoes[1] = informaçoes[2]["pokemons"][random.choice([0,1,2])]
-            self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
-        self.inventario = []
-        self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
-        self.energiasMax = 15
-        self.energiasDesc = []
-        self.ouro = 10
-        self.deck = informaçoes[2]
-        self.treinador = informaçoes[2]["treinador"]
-        self.tempo = self.treinador["tempo"]
-        self.AtivaPassiva = self.treinador["ativaTurno"]
-        self.ContaPassiva = self.treinador["ativaTurno"]
-        self.PoderCaptura = self.treinador["Poder"]
-        self.Derrota = Derrotas[self.treinador["nome"]]
-        self.Vitoria = Vitorias[self.treinador["nome"]]
-        self.Passiva = Passivas[self.treinador["nome"]]
-        self.Habilidade = Habilidades[self.treinador["nome"]]
-        self.NocautesSofridos = 0
-        self.NocautesRealizados = 0
-        self.PokemonsNocauteados = 0
-        self.PokemonsCapturados = 0
-        self.PontosSofridos = 0
-        self.Pontos = 0
-        self.PontosVitoria = self.treinador["Vitoria"]
-        self.PontosDerrota = self.treinador["Derrota"]
-        self.Megas = 0
-        self.Ultras = 0
-        self.Vstars = 0
-        self.Vmaxs = 0
-        self.MultiplicaIV = 1
+    def __init__(self, informaçoes, Dados=False):
+        
+        if Dados is False:
+            self.nome = informaçoes[0]
+            if informaçoes[1] is not None:
+                self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
+            else:
+                informaçoes[1] = informaçoes[2]["pokemons"][random.choice([0,1,2])]
+                self.pokemons = [Gerador_final(informaçoes[1]["code"],1,self)]
+            self.inventario = []
+            self.energias = {"vermelha": 0, "azul": 0, "amarela": 0, "verde": 0, "roxa": 0, "laranja": 0, "preta": 0}
+            self.energiasMax = 15
+            self.energiasDesc = []
+            self.ouro = 10
+            self.deck = informaçoes[2]
+            self.treinador = informaçoes[2]["treinador"]
+            self.tempo = self.treinador["tempo"]
+            self.AtivaPassiva = self.treinador["ativaTurno"]
+            self.ContaPassiva = self.treinador["ativaTurno"]
+            self.PoderCaptura = self.treinador["Poder"]
+            self.Derrota = Derrotas[self.treinador["nome"]]
+            self.Vitoria = Vitorias[self.treinador["nome"]]
+            self.Passiva = Passivas[self.treinador["nome"]]
+            self.Habilidade = Habilidades[self.treinador["nome"]]
+            self.NocautesSofridos = 0
+            self.NocautesRealizados = 0
+            self.PokemonsNocauteados = 0
+            self.PokemonsCapturados = 0
+            self.PontosSofridos = 0
+            self.Pontos = 0
+            self.PontosVitoria = self.treinador["Vitoria"]
+            self.PontosDerrota = self.treinador["Derrota"]
+            self.Megas = 0
+            self.Ultras = 0
+            self.Vstars = 0
+            self.Vmaxs = 0
+            self.MultiplicaIV = 1
 
-        for energia in self.deck["energiasD"]:
-            if energia is not None:
-                self.energiasDesc.append(energia)
+            for energia in self.deck["energiasD"]:
+                if energia is not None:
+                    self.energiasDesc.append(energia)
+        else:
+            self.nome = Dados["nome"]
+            self.pokemons = [Gerador_Clone(p) for p in Dados["pokemons"]]
+            self.inventario = Dados["inventario"]
+            self.energias = Dados["energias"]
+            self.energiasMax = Dados["energiasMax"]
+            self.ouro = Dados["ouro"]
+            self.deck = Dados["deck"]
+            self.treinador = Dados["treinador"]
+            self.tempo = Dados["tempo"]
+            self.AtivaPassiva = Dados["AtivaPassiva"]
+            self.ContaPassiva = Dados["ContaPassiva"]
+            self.PoderCaptura = Dados["PoderCaptura"]
+            self.NocautesSofridos = Dados["NocautesSofridos"]
+            self.NocautesRealizados = Dados["NocautesRealizados"]
+            self.PokemonsNocauteados = Dados["PokemonsNocauteados"]
+            self.PokemonsCapturados = Dados["PokemonsCapturados"]
+            self.PontosSofridos = Dados["PontosSofridos"]
+            self.Pontos = Dados["Pontos"]
+            self.PontosVitoria = Dados["PontosVitoria"]
+            self.PontosDerrota = Dados["PontosDerrota"]
+            self.Megas = Dados["Megas"]
+            self.Ultras = Dados["Ultras"]
+            self.Vstars = Dados["Vstars"]
+            self.Vmaxs = Dados["Vmaxs"]
     
     def usar_item(self,item,Pokemon,tela,Mapa,ataque,EstadoDaPergunta, Baralho):
             if item["classe"] in ["pokebola", "fruta"]:
@@ -204,3 +231,6 @@ class Jogador:
 
 def Gerador_player(informaçoes):
     return Jogador(informaçoes)
+
+def Gerador_player_clone(dados):
+    return Jogador(None,dados)

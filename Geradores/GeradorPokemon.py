@@ -89,104 +89,164 @@ def remover_funcoes_do_dicionario(d):
         return None
 
 class Pokemon:
-    def __init__(self, pokemon, player):
+    def __init__(self, pokemon, player, dados=False):
 
-        self.origem = pokemon["origem"]
-        self.nome = pokemon["nome"]
-        self.tipo = pokemon["tipo"]
-        self.raridade = pokemon["raridade"]
-        self.Estagio = pokemon["estagio"]
-        self.Altura = pokemon["altura"]
-        self.Peso = pokemon["peso"]
-        self.dono = player
+        if dados is False:
+            self.origem = pokemon["origem"]
+            self.nome = pokemon["nome"]
+            self.tipo = pokemon["tipo"]
+            self.raridade = pokemon["raridade"]
+            self.Estagio = pokemon["estagio"]
+            self.Altura = pokemon["altura"]
+            self.Peso = pokemon["peso"]
+            self.dono = player
 
-        self.CoefPeso = pokemon["coefP"]
-        self.CoefAltura = pokemon["coefA"]
+            self.CoefPeso = pokemon["coefP"]
+            self.CoefAltura = pokemon["coefA"]
 
-        self.raio = 0
-        self.tamanho = 1.4
+            self.raio = 0
+            self.tamanho = 1.4
 
-        self.barreira = 0
-        self.amplificações = 0
+            self.barreira = 0
+            self.amplificações = 0
 
-        self.Vida = pokemon["vida"]
-        self.Atk = 0
-        self.Atk_sp = 0
-        self.Def = 0
-        self.Def_sp = 0
-        self.vel = 0 
+            self.Vida = pokemon["vida"]
+            self.Atk = 0
+            self.Atk_sp = 0
+            self.Def = 0
+            self.Def_sp = 0
+            self.vel = 0 
 
-        self.VidaMaxB = pokemon["vida"]
-        self.VidaMax = 1
-        self.VarVida = 0
+            self.VidaMaxB = pokemon["vida"]
+            self.VidaMax = 1
+            self.VarVida = 0
 
-        self.AtkB = pokemon["atk"]
-        self.Atk_spB = pokemon["atk SP"]
-        self.DefB = pokemon["def"]
-        self.Def_spB = pokemon["def SP"] 
-        self.velB = pokemon["velocidade"]
+            self.AtkB = pokemon["atk"]
+            self.Atk_spB = pokemon["atk SP"]
+            self.DefB = pokemon["def"]
+            self.Def_spB = pokemon["def SP"] 
+            self.velB = pokemon["velocidade"]
 
-        self.VarAtk_temp = 0
-        self.VarAtk_sp_temp = 0
-        self.VarDef_temp = 0
-        self.VarDef_sp_temp = 0
-        self.Varvel_temp = 0
+            self.VarAtk_temp = 0
+            self.VarAtk_sp_temp = 0
+            self.VarDef_temp = 0
+            self.VarDef_sp_temp = 0
+            self.Varvel_temp = 0
 
-        self.VarAtk_perm = 0
-        self.VarAtk_sp_perm = 0
-        self.VarDef_perm = 0
-        self.VarDef_sp_perm = 0
-        self.Varvel_perm = 0
+            self.VarAtk_perm = 0
+            self.VarAtk_sp_perm = 0
+            self.VarDef_perm = 0
+            self.VarDef_sp_perm = 0
+            self.Varvel_perm = 0
 
-        self.custo = pokemon["custo"]
-        self.evolucao = pokemon["evolução"]
-        self.FF = pokemon["FF"]
-        self.xp_atu = pokemon["XP atu"]
-        self.xp_total = pokemon["XP"]
+            self.custo = pokemon["custo"]
+            self.evolucao = pokemon["evolução"]
+            self.FF = pokemon["FF"]
+            self.xp_atu = pokemon["XP atu"]
+            self.xp_total = pokemon["XP"]
 
-        self.IV = pokemon["IV"]
-        self.IV_vida = pokemon["IV vida"]
-        self.IV_atk = pokemon["IV atk"]
-        self.IV_atkSP = pokemon["IV atk SP"]
-        self.IV_def = pokemon["IV def"]
-        self.IV_defSP = pokemon["IV def SP"]
-        self.IV_vel = pokemon["IV vel"]
+            self.IV = pokemon["IV"]
+            self.IV_vida = pokemon["IV vida"]
+            self.IV_atk = pokemon["IV atk"]
+            self.IV_atkSP = pokemon["IV atk SP"]
+            self.IV_def = pokemon["IV def"]
+            self.IV_defSP = pokemon["IV def SP"]
+            self.IV_vel = pokemon["IV vel"]
 
-        self.CoefVida = calcular_coef(self.IV_vida)
-        self.CoefAtk = calcular_coef(self.IV_atk)
-        self.CoefAtkSP = calcular_coef(self.IV_atkSP)
-        self.CoefDef = calcular_coef(self.IV_def)
-        self.CoefDefSP = calcular_coef(self.IV_defSP)
-        self.CoefVel = calcular_coef(self.IV_vel)
+            self.CoefVida = calcular_coef(self.IV_vida)
+            self.CoefAtk = calcular_coef(self.IV_atk)
+            self.CoefAtkSP = calcular_coef(self.IV_atkSP)
+            self.CoefDef = calcular_coef(self.IV_def)
+            self.CoefDefSP = calcular_coef(self.IV_defSP)
+            self.CoefVel = calcular_coef(self.IV_vel)
 
-        self.movimento1 = pokemon["Move1"]
-        self.movimento2 = pokemon["Move2"]
-        self.movimento3 = pokemon["Move3"]
-        self.movimento4 = pokemon["Move4"]
-        self.moveList = pokemon["MoveList"]
-        self.movePossiveis = pokemon["possiveis"]
+            self.movimento1 = pokemon["Move1"]
+            self.movimento2 = pokemon["Move2"]
+            self.movimento3 = pokemon["Move3"]
+            self.movimento4 = pokemon["Move4"]
+            self.moveList = pokemon["MoveList"]
+            self.movePossiveis = pokemon["possiveis"]
 
-        self.code = pokemon["code"]
-        self.ID = pokemon["ID"] #unico
+            self.code = pokemon["code"]
+            self.ID = pokemon["ID"] #unico
 
-        self.guardado = 0
-        self.local = None
-        self.efeitosPosi = EfeitosPositivos.copy()
-        self.efeitosNega = EfeitosNegativos.copy()
-        self.descrição = EfeitosDescrição
-        
-        try:
-            player.pokemons.append(self)
-            self.pos = player.pokemons.index(self)
-        except AttributeError:
-            self.pos = None
-        
-        self.atacou = False
-        self.moveu = False
-        self.PodeMover = True
-        self.PodeEvoluir = True
-        self.PodeAtacar = True
-        self.PodeSerAtacado = True
+            self.guardado = 0
+            self.local = None
+            self.efeitosPosi = EfeitosPositivos.copy()
+            self.efeitosNega = EfeitosNegativos.copy()
+            self.descrição = EfeitosDescrição
+            
+            try:
+                player.pokemons.append(self)
+                self.pos = player.pokemons.index(self)
+            except AttributeError:
+                self.pos = None
+            
+            self.atacou = False
+            self.moveu = False
+            self.PodeMover = True
+            self.PodeEvoluir = True
+            self.PodeAtacar = True
+            self.PodeSerAtacado = True
+
+        else:
+
+            self.origem = dados["origem"]
+            self.nome = dados["nome"]
+            self.tipo = dados["tipo"]
+            self.raridade = dados["raridade"]
+            self.Estagio = dados["estagio"]
+            self.Altura = dados["altura"]
+            self.Peso = dados["peso"]
+            self.raio = dados["raio"]
+            self.tamanho = dados["tamanho"]
+            self.barreira = dados["barreira"]
+            self.amplificações = dados["amplificações"]
+            self.Vida = dados["vida"]
+            self.VidaMaxB = dados["vida_max_base"]
+            self.VidaMax = dados["vida_max"]
+            self.VarVida = dados["var_vida"]
+            self.Atk = dados["atk"]
+            self.Atk_sp = dados["atk_sp"]
+            self.Def = dados["def"]
+            self.Def_sp = dados["def_sp"]
+            self.vel = dados["vel"]
+            self.AtkB = dados["atkB"]
+            self.Atk_spB = dados["atk_spB"]
+            self.DefB = dados["defB"]
+            self.Def_spB = dados["def_spB"]
+            self.velB = dados["velB"]
+            self.VarAtk_temp = dados["var_atk_temp"]
+            self.VarAtk_sp_temp = dados["var_atk_sp_temp"]
+            self.VarDef_temp = dados["var_def_temp"]
+            self.VarDef_sp_temp = dados["var_def_sp_temp"]
+            self.Varvel_temp = dados["var_vel_temp"]
+            self.VarAtk_perm = dados["var_atk_perm"]
+            self.VarAtk_sp_perm = dados["var_atk_sp_perm"]
+            self.VarDef_perm = dados["var_def_perm"]
+            self.VarDef_sp_perm = dados["var_def_sp_perm"]
+            self.Varvel_perm = dados["var_vel_perm"]
+            self.custo = dados["custo"]
+            self.xp_atu = dados["XP atu"]
+            self.xp_total = dados["XP"]
+            self.IV = dados["IV"]
+            self.IV_vida = dados["IV vida"]
+            self.IV_atk = dados["IV atk"]
+            self.IV_atkSP = dados["IV atk SP"]
+            self.IV_def = dados["IV def"]
+            self.IV_defSP = dados["IV def SP"]
+            self.IV_vel = dados["IV vel"]
+            self.movimento1 = dados["Move1"]
+            self.movimento2 = dados["Move2"]
+            self.movimento3 = dados["Move3"]
+            self.movimento4 = dados["Move4"]
+            self.moveList = dados["MoveList"]
+            self.movePossiveis = dados["possiveis"]
+            self.guardado = dados["guardado"]
+            self.local = dados["local"]
+            self.efeitosPosi = dados["efeitosPositivos"]
+            self.efeitosNega = dados["efeitosNegativos"]
+            self.PodeSerAtacado = dados["PodeSerAtacado"]
 
     def FormaFinal(self,item,player):
         if self.xp_atu >= self.xp_total:
@@ -613,6 +673,9 @@ def Gerador(Pokemon,P):
 
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokemons_Todos[code],P),player)
+
+def Gerador_Clone(Dados):
+    return Pokemon(None,None,Dados)
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 

@@ -3,10 +3,11 @@ import requests
 import json
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
+import Mapa as M
 from Config import aplicar_claridade
-from Geradores.GeradorPlayer import Gerador_player
-from Geradores.GeradorPartida import GeraPartidaOnline
-from Geradores.GeradorOutros import Gera_Baralho, Gera_Mapa
+from Geradores.GeradorPlayer import Gerador_player, Gerador_player_clone
+from Geradores.GeradorPartida import GeraPartidaOnline, GeraPartidaOnlineClone
+from Geradores.GeradorOutros import Gera_Baralho, Gera_Mapa, coletor
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import gerar_gif
 from Visual.GeradoresVisuais import (
@@ -23,15 +24,30 @@ B1 = {"estado": False}
 
 DadosGerais = [None,None]
 
-def CriaPartidaOnline(player1,player2):
+def CriaPartidaOnline(player1,player2,ID):
+
+    player2 = Gerador_player_clone(player2)
+
+    for i in range(15):
+        coletor(player1)
+        coletor(player2)
 
     Mapa = Gera_Mapa(0)
     Baralho = Gera_Baralho(player1.deck,player2.deck)
     Partida = GeraPartidaOnline(player1,player2,Baralho,Mapa)
 
+    largura, altura = M.Tabuleiros[Mapa.terreno].get_size()
+
+    player2.pokemons[0].local = 960, 570 - altura // 2
+    player1.pokemons[0].local = 960, 510 + altura // 2
+
+    Partida.ID = ID
+
     return Partida
 
 def Fila(tela, estados, relogio, Config):
+    global DadosGerais
+
     pygame.mixer.music.load('Audio/Musicas/Carregamento.ogg')
     pygame.mixer.music.set_volume(Config["Volume"])
     pygame.mixer.music.play(-1)
@@ -39,7 +55,8 @@ def Fila(tela, estados, relogio, Config):
     from PygameAções import informaçoesp1
     Jogador = Gerador_player(informaçoesp1)
 
-    resposta = requests.post("https://apipokemon-i9bb.onrender.com/entrar_partida", json=Jogador)
+    JogadorDados = Jogador.ToDic_Inicial
+    resposta = requests.post("https://apipokemon-i9bb.onrender.com/entrar_partida", json=JogadorDados)
     data = resposta.json()
 
     Gif = gerar_gif(Carregando_Frames,(1765,930), 62)
@@ -61,10 +78,10 @@ def Fila(tela, estados, relogio, Config):
             resposta = requests.get("https://apipokemon-i9bb.onrender.com/buscar_jogador", json=data)
             pronto = resposta.json
             if pronto["pronto"] == True:
-                PartidaOn = CriaPartidaOnline(Jogador,pronto["jogador2"])
+                PartidaOn = CriaPartidaOnline(Jogador,pronto["jogador2"],data["partida"])
                 envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
                 resposta = requests.get("https://apipokemon-i9bb.onrender.com//inicializar_partida", json=envio)
-                DadosGerais = []
+                DadosGerais = [PartidaOn,1]
                 A.Iniciar_partida_online(estados)
             else:
                 pass
@@ -72,8 +89,11 @@ def Fila(tela, estados, relogio, Config):
         elif data["estado"] == "entrou":
             resposta = requests.get("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
             pronto = resposta.json
-            if pronto["pronto"] == True:
-                pass
+            if pronto["criada"] == True:
+                PartidaOn = GeraPartidaOnlineClone(pronto["dados"])
+                PartidaOn.Jogador2 = Jogador
+                DadosGerais = [PartidaOn,2]
+                A.Iniciar_partida_online(estados)
             else:
                 pass
 

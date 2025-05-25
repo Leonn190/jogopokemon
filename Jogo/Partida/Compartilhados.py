@@ -715,7 +715,7 @@ B24 = {"estado": False}
 
 def IniciaLocal(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
-    global player, inimigo, Tela, Musica_Estadio_atual, Partida
+    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
     tela.blit(Carregar,(0,0))
@@ -747,7 +747,7 @@ def IniciaLocal(tela, config):
         GO.coletor(Jogador1)
         GO.coletor(Jogador2)
 
-    largura, altura = Mapa.terreno.get_size()
+    largura, altura = M.Tabuleiros[Mapa.terreno].get_size()
 
     Jogador2.pokemons[0].local = 960, 570 - altura // 2
     Jogador1.pokemons[0].local = 960, 510 + altura // 2
@@ -764,6 +764,68 @@ def IniciaLocal(tela, config):
 
     Pausa = False
     Partida = GP.GeraPartida(Jogador1,Jogador2,Baralho,Mapa)
+
+    Resetar_Cronometro()
+    cronometro.inicio = pygame.time.get_ticks()
+    cronometro.tempo_encerrado = False
+
+    player.Habilidade(player, inimigo, Partida.Mapa, Partida.Baralho, Partida.Turno)
+    inimigo.Habilidade(inimigo, player, Partida.Mapa, Partida.Baralho, Partida.Turno)
+
+    GPO.VerificaSituaçãoPokemon(player,inimigo,Partida.Mapa)
+    Partida.Mapa.Verifica(player,inimigo)
+
+
+# Exclusivos do modo Online
+
+SuaVez = True
+
+def IniciaOnline(tela, config):
+    global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
+    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez
+
+    Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
+    tela.blit(Carregar,(0,0))
+    texto = Fonte70.render("Carregando ...", True, PRETO)
+    tela.blit(texto, (tela.get_width() // 2 - 200, tela.get_height() // 2))
+    pygame.display.update()
+    pygame.mixer.music.load('Audio/Musicas/Carregamento.ogg')  
+    pygame.mixer.music.play(-1)
+
+    Tela = tela
+
+    fechar_tudo()
+    GV.limpa_terminal()
+
+    Musica_Estadio_atual = 0
+
+    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG, ImagensFichas = Carregar_Imagens_Partida(
+    ImagensPokemonIcons,PokeGifs,OutrosIMG,FundosIMG,EfeitosIMG,ImagensPokemonCentro,ImagensItens,TiposEnergiaIMG, ImagensFichas)
+
+    from Fila import DadosGerais
+    Partida = DadosGerais[0]
+
+    Partida.Jogador1.pokemons[0].pos = 0
+    Partida.Jogador2.pokemons[0].pos = 0
+
+    if DadosGerais[1] == 1:
+        player = Partida.Jogador1
+        inimigo = Partida.Jogador2
+        player.ID_online = 1
+        SuaVez = True
+    else:
+        player = Partida.Jogador2
+        inimigo = Partida.Jogador1
+        player.ID_online = 2
+        SuaVez = False
+
+    VerificaGIF(player,inimigo)
+
+    pygame.mixer.music.load('Audio/Musicas/Partida.ogg')  
+    pygame.mixer.music.set_volume(config["Volume"])
+    pygame.mixer.music.play(-1)
+
+    Pausa = False
 
     Resetar_Cronometro()
     cronometro.inicio = pygame.time.get_ticks()

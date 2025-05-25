@@ -15,6 +15,10 @@ B1 = {"estado": False}
 
 Size = 0
 
+Tabuleiros = {
+    "0": GV.Carregar_Imagem("imagens/Mapas/Mapa1.png", (600, 600), "PNG")
+}
+
 pokeiconsrecortados = {
     "Bulbasaur": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/bulbasaur.png", (Size, Size), "PNG"),
     "Ivysaur": lambda: GV.Carregar_Imagem("imagens/pokeiconsrecortados/ivysaur.png", (Size, Size), "PNG"),
@@ -147,7 +151,7 @@ class PecaArrastavel:
 
             x_ini, y_ini = self.pos_inicial
             distancia = math.hypot(novo_x - x_ini, novo_y - y_ini)
-            raio_movimento = self.pokemon.vel * Mapa.Metros // 2 + self.pokemon.raio + 15
+            raio_movimento = self.pokemon.vel * Mapa.Metros // 2 + self.pokemon.raio + 25
 
             if distancia > raio_movimento:
                 # Muito longe: cancelar arrasto
@@ -280,7 +284,7 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, eventos, estadoAlvo,
     global terreno, x_terreno, y_terreno, largura_terreno, altura_terreno, Mapa
     Mapa = mapa
     
-    terreno = Mapa.terreno
+    terreno = Tabuleiros[Mapa.terreno]
     largura_terreno, altura_terreno = terreno.get_size()
 
     # Centralizar o terreno
@@ -332,7 +336,7 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, eventos, estadoAlvo,
                         x_img = x - largura_img // 2
                         y_img = y - altura_img // 2
 
-                        espaço = pygame.Rect(x_img + 1, y_img + 1, largura_img - 2, altura_img - 2)
+                        espaço = pygame.Rect(x_img + 1, y_img + 1, largura_img - 3, altura_img - 3)
                 
                         GV.Botao_Selecao2(
                         tela, espaço,
