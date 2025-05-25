@@ -57,7 +57,7 @@ def Fila(tela, estados, relogio, Config):
     from PygameAções import informaçoesp1
     Jogador = Gerador_player(informaçoesp1)
 
-    JogadorDados = Jogador.ToDic_Inicial()
+    JogadorDados = Jogador.ToDic()
     resposta = requests.post("https://apipokemon-i9bb.onrender.com/entrar_partida", json=JogadorDados)
     data = resposta.json()
 
