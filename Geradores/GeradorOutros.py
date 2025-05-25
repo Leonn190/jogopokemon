@@ -60,6 +60,7 @@ class Baralho:
                     elif pokemon["raridade"] == "Lendario":
                         self.PokeLendarios.append(pokemon)
         else:
+            print (Dados["Comuns"])
             self.Comuns = Dados["Comuns"]
             self.Incomuns = Dados["Incomuns"]
             self.Raros = Dados["Raros"]
@@ -120,7 +121,7 @@ class Baralho:
         }
 
 def GeraBaralhoClone(dados):
-    Baralho(None,None,dados)
+    return Baralho(None,None,dados)
 
 def spawn_do_centro(centro,Baralho,turnos):
 

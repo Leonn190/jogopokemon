@@ -49,5 +49,4 @@ if ram > 8:
 else:
     qualidade = 80
 
-while True:
-    extrair_frames_video("imagens/FundosAnimados/VID.mp4", 1, qualidade)
+extrair_frames_video("imagens/FundosAnimados/VID.mp4", 1, 100)

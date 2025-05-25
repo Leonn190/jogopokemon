@@ -82,7 +82,9 @@ class PartidaOnline:
             self.ID = 2
 
             print("DEBUG: Criando Baralho...")
+            print(Dados["Baralho"])
             self.Baralho = GeraBaralhoClone(Dados["Baralho"])
+            print (self.Baralho)
             print("DEBUG: Baralho criado com sucesso.")
 
             print("DEBUG: Gerando Mapa...")
