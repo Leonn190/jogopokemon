@@ -79,7 +79,8 @@ def Fila(tela, estados, relogio, Config):
                     if pronto["pronto"]:
                         PartidaOn = CriaPartidaOnline(Jogador, pronto["jogador2"], data["partida"])
                         envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
-                        resposta = requests.get("https://apipokemon-i9bb.onrender.com/inicializar_partida", json=envio)
+                        resposta = requests.post("https://apipokemon-i9bb.onrender.com/inicializar_partida", json=envio)
+                        print (resposta.json())
                         DadosGerais = [PartidaOn, 1]
                         A.Iniciar_partida_online(estados)
                         break  # Finaliza a thread após iniciar
@@ -87,6 +88,7 @@ def Fila(tela, estados, relogio, Config):
                 elif data["estado"] == "entrou":
                     resposta = requests.get("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
                     pronto = resposta.json()
+                    print (pronto)
                     if pronto["criada"]:
                         PartidaOn = GeraPartidaOnlineClone(pronto["dados"])
                         PartidaOn.Jogador2 = Jogador
