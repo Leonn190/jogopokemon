@@ -73,14 +73,14 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
 
         if C.SuaVez is True:
             diff = C.Partida.VerificaDiferença()
-            threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_Online), daemon=True).start()
+            threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_online), daemon=True).start()
         else:
             # Possivel Bug de Multiplas Threads alterando a partida
             def processar_diffs(diffs):
                 for diff in diffs:
                     C.Partida.atualizar(diff)
 
-            threading.Thread(target=coletar_diffs, args=(C.Partida.ID, C.player.ID_Online, processar_diffs), daemon=True).start()
+            threading.Thread(target=coletar_diffs, args=(C.Partida.ID, C.player.ID_online, processar_diffs), daemon=True).start()
         
         C.tocar_musica_do_estadio()
 
