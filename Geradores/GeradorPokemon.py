@@ -199,7 +199,6 @@ class Pokemon:
             self.Estagio = dados["estagio"]
             self.Altura = dados["altura"]
             self.Peso = dados["peso"]
-            self.raio = dados["raio"]
             self.tamanho = dados["tamanho"]
             self.barreira = dados["barreira"]
             self.amplificações = dados["amplificações"]
@@ -457,7 +456,6 @@ class Pokemon:
             "estagio": self.Estagio,
             "altura": self.Altura,
             "peso": self.Peso,
-            "raio": self.raio,
             "tamanho": self.tamanho,
             "barreira": self.barreira,
             "amplificações": self.amplificações,

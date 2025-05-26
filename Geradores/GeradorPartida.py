@@ -25,6 +25,15 @@ def GeraPartida(player1,player2,Baralho,Mapa):
     return Partida(player1,player2,Baralho,Mapa)
 
 
+def tornar_json_serializavel(obj):
+    if isinstance(obj, dict):
+        return {k: tornar_json_serializavel(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [tornar_json_serializavel(i) for i in obj]
+    elif isinstance(obj, type):  # aqui está o problema
+        return str(obj)
+    else:
+        return obj
 
 def navegar_e_setar(obj, caminho, valor):
     # Divide o caminho em partes (suporta ['chave'], [índice], .atributo)
@@ -148,13 +157,19 @@ class PartidaOnline:
         return dicionario
     
     def VerificaDiferença(self):
-        
         atual = self.ToDic_Inic()
-
         diff = DeepDiff(self.anterior, atual, verbose_level=2)
         self.anterior = atual
 
-        return diff.to_dict()
+        diff_dict = diff.to_dict()
+        diff_dict = tornar_json_serializavel(diff_dict)
+
+        # agora json.dumps deve funcionar
+        import json
+        json.dumps(diff_dict)
+
+        print (diff_dict)
+        return diff_dict
     
     def atualizar(self, diff):
         print("[DEBUG] Atualizando com diff:", diff)
