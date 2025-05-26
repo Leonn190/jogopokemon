@@ -13,7 +13,7 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
-    LARANJA, ROXO, ROSA, DOURADO, PRATA, cores_raridade, energia_cores)
+    LARANJA, ROXO, ROSA, DOURADO, PRATA, cores_raridade, energia_cores, TexturasDic)
 
 pygame.init()
 pygame.mixer.init()
@@ -1234,7 +1234,7 @@ def TelaDecks(tela,eventos,estados):
             tela.blit(icone_redimensionado, (icone_x, icone_y))
 
 
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
     
     if len(ListaDecks) < 16:

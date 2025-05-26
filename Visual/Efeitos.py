@@ -142,13 +142,15 @@ def atualizar_efeitos(tela):
             efeitos_ativos.remove(gif)
 
 class GifCondicional:
-    def __init__(self, frames, pos, intervalo):
+    def __init__(self, frames, pos, intervalo, loop=True):
         self.frames = frames
         self.index = 0
         self.tempo_entre_frames = intervalo
         self.ultimo_tempo = pygame.time.get_ticks()
-        self.pos = pos  # A posição de destino (onde você quer que o gif fique)
-        self.ativo = True  # Continua sendo ativo
+        self.pos = pos
+        self.ativo = True
+        self.loop = loop
+        self.direcao = 1  # 1 para frente, -1 para trás
 
     def atualizar(self, tela):
         if not self.ativo:
@@ -156,43 +158,32 @@ class GifCondicional:
 
         tempo_atual = pygame.time.get_ticks()
         if tempo_atual - self.ultimo_tempo > self.tempo_entre_frames:
-            self.index += 1
             self.ultimo_tempo = tempo_atual
 
-            # Redefine o índice para criar o efeito de repetição infinita
-            if self.index >= len(self.frames):
-                self.index = 0  # Volta ao primeiro frame
+            # Atualização de índice com base no modo de loop
+            if self.loop:
+                self.index = (self.index + 1) % len(self.frames)
+            else:
+                self.index += self.direcao
+                # Inverte a direção ao atingir as extremidades
+                if self.index >= len(self.frames):
+                    self.index = len(self.frames) - 2
+                    self.direcao = -1
+                elif self.index < 0:
+                    self.index = 1
+                    self.direcao = 1
 
         # Desenha o frame atual centralizado
-        if self.index < len(self.frames):
-            largura = self.frames[self.index].get_width()
-            altura = self.frames[self.index].get_height()
-
-            # Calculando a posição de modo que o gif fique centralizado
+        if 0 <= self.index < len(self.frames):
+            frame = self.frames[self.index]
+            largura = frame.get_width()
+            altura = frame.get_height()
             pos_x = self.pos[0] - largura // 2
             pos_y = self.pos[1] - altura // 2
-
-            tela.blit(self.frames[self.index], (pos_x, pos_y))  # Desenha o gif
+            tela.blit(frame, (pos_x, pos_y))
 
     def apagar(self):
-        self.ativo = False  # Caso precise parar manualmente em algum momento
+        self.ativo = False
 
-def gerar_gif(frames, posicao, intervalo=80):
-    return GifCondicional(frames, posicao, intervalo)
-
-
-class Fundo:
-    def __init__(self, frames):
-        """
-        frames: lista de surfaces do pygame (imagens)
-        """
-        self.frames = frames
-        self.index = 0  # frame atual
-
-    def atualizar(self):
-        """Avança para o próximo frame, em loop"""
-        self.index = (self.index + 1) % len(self.frames)
-
-    def desenhar(self, tela):
-        """Desenha o frame atual na posição 0,0 da tela"""
-        tela.blit(self.frames[self.index], (0, 0))
+def gerar_gif(frames, posicao, intervalo=80, Loop=True):
+    return GifCondicional(frames, posicao, intervalo, Loop)

@@ -16,7 +16,7 @@ Eletrolise_Hidrica = {
     "custo": ["normal","amarela","amarela"],
     "estilo": "E",
     "dano": 0.9,
-    "alcance": 25,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Se o alvo estiver encharcado esse ataque causará 125% a mais de dano",
     "efeito": "EnergiaAzul",
@@ -31,7 +31,7 @@ Faisca = {
     "custo": ["amarela"],
     "estilo": "N",
     "dano": 1,
-    "alcance": 10,
+    "alcance": 4,
     "precisão": 125, 
     "descrição": "Uma faisca certeira no oponente",
     "efeito": "RajadaAmarela",
@@ -49,7 +49,7 @@ Onda_Eletrica = {
     "custo": ["normal","amarela"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 36,
+    "alcance": 11,
     "precisão": 100, 
     "descrição": "Deixe o alvo paralisado por 3 turnos",
     "efeito": "Estouro",
@@ -70,7 +70,7 @@ Choque_do_Trovao = {
     "custo": ["amarela","amarela","amarela","amarela"],
     "estilo": "E",
     "dano": 1.6,
-    "alcance": 32,
+    "alcance": 10,
     "precisão": 99, 
     "descrição": "Um grande raio que tem 30% de chance de paralisar o alvo por 3 turnos",
     "efeito": "SuperDescarga",
@@ -104,7 +104,7 @@ Energizar = {
     }
 
 def Alv_Bola_Eletrica(PokemonS,Alvo,player,inimigo,Mapa):
-    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 3, Mapa.Zona)
     inimigos.append(Alvo)
     return inimigos
 
@@ -120,7 +120,7 @@ Bola_Eletrica = {
     "custo": ["amarela","amarela","amarela"],
     "estilo": "E",
     "dano": 1.3,
-    "alcance": 20,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
     "efeito": "FacasBrancas",
@@ -143,7 +143,7 @@ Tempestade_de_Raios = {
     "custo": ["normal","amarela","amarela"],
     "estilo": "E",
     "dano": 1.45,
-    "alcance": 100,
+    "alcance": 0,
     "precisão": 100, 
     "descrição": "Esse ataque atinge todos os pokemon encharcados inimigos",
     "efeito": "MarcaAmarela",

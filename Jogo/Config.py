@@ -1,5 +1,6 @@
 import pygame
 import os
+from Visual.Sonoridade import tocar
 import Visual.GeradoresVisuais as GV
 import PygameAções as A
 from Visual.Sonoridade import VerificaModoSilencioso
@@ -16,6 +17,8 @@ ConfigAntiga = None
 
 ConfigAvançada = False
 
+surface = None
+GerouSurface = False
 
 B1 = {"estado": False}
 B2 = {"estado": False}
@@ -26,7 +29,8 @@ B6 = {"estado": False}
 
 estadoConfigAvançada = {"selecionado_esquerdo": None}
 
-def aplicar_claridade(tela, claridade):
+def aplicar_claridade(tela, claridade,):
+    global GerouSurface, surface
     """
     Aplica efeito de claridade na tela.
     claridade: int de 0 a 150, 75 é neutro.
@@ -37,9 +41,12 @@ def aplicar_claridade(tela, claridade):
     # Normaliza a diferença em relação a 75 para valor alfa entre 0 e 150
     diff = abs(claridade - 50)
     alfa = int((diff / 50) * 100)  # máximo alfa = 150
-
-    from Game import surface
     
+    if GerouSurface is False:
+        surface = pygame.Surface(tela.get_size())
+        surface = surface.convert_alpha()
+        GerouSurface = True
+
     if claridade < 50:
         # Escurecer com preto semi-transparente
         surface.fill((0, 0, 0, alfa))
@@ -51,36 +58,46 @@ def aplicar_claridade(tela, claridade):
 
 def TrocaModoRapido(config):
     if config["Modo rápido"]:
+        tocar("Desativa")
         config["Modo rápido"] = False
     else:
+        tocar("Ativa")
         config["Modo rápido"] = True
 
 def TrocaModoSilencioso(config):
     if config["Modo silencioso"]:
+        tocar("Desativa")
         config["Modo silencioso"] = False
     else:
+        tocar("Ativa")
         config["Modo silencioso"] = True
     
     VerificaModoSilencioso(config)
 
 def TrocaMostraFpsPartida(config):
     if config["Mostrar Fps"]:
+        tocar("Desativa")
         config["Mostrar Fps"] = False
     else:
+        tocar("Ativa")
         config["Mostrar Fps"] = True
 
 def TrocaDicas(config):
     if config["Dicas"]:
+        tocar("Desativa")
         config["Dicas"] = False
     else:
+        tocar("Ativa")
         config["Dicas"] = True
 
 def AbreConfigAvançada():
     global ConfigAvançada
+    tocar("Abre")
     ConfigAvançada = True
 
 def FechaConfigAvançada():
     global ConfigAvançada
+    tocar("Fecha")
     ConfigAvançada = False
 
 def SalvarConfig():

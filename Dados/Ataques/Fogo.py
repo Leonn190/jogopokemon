@@ -13,7 +13,7 @@ Queimar = {
     "custo": ["normal","vermelha"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 15,
+    "alcance": 4,
     "precisão": 90, 
     "descrição": "Queime o pokemon inimigo por 3 turnos",
     "efeito": "Fogo",
@@ -23,7 +23,7 @@ Queimar = {
     }
 
 def Alv_Bola_de_Fogo(PokemonS,Alvo,player,inimigo,Mapa):
-    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 3, Mapa.Zona)
     inimigos.append(Alvo)
     return inimigos
 
@@ -39,7 +39,7 @@ Bola_de_Fogo = {
     "custo": ["vermelha","vermelha","vermelha"],
     "estilo": "E",
     "dano": 1.3,
-    "alcance": 20,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
     "efeito": "Fogo",
@@ -65,7 +65,7 @@ Superaquecer = {
     "custo": ["vermelha","vermelha"],
     "estilo": "E",
     "dano": 0.5,
-    "alcance": 20,
+    "alcance": 5,
     "precisão": 99, 
     "descrição": "Caso o alvo ja esteja queimado, acrescente 1 contador no efeito e cause mais 15% de dano, selecione um pokemon aliado para remover o efeito congelado e encharcado",
     "efeito": "Fogo",
@@ -87,7 +87,7 @@ Brasa = {
     "custo": ["normal","vermelha"],
     "estilo": "E",
     "dano": 1.05,
-    "alcance": 20,
+    "alcance": 5,
     "precisão": 100, 
     "descrição": "Esse ataque tem 15% de chance de deixar o alvo queimado por 2 turnos",
     "efeito": "Fogo",
@@ -136,7 +136,7 @@ Raio_de_Fogo = {
     "custo": ["normal","vermelha","vermelha","vermelha","vermelha"],
     "estilo": "E",
     "dano": 1.9,
-    "alcance": 25,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Lança um raio de calor concentrado extremo que remove o efeito congelado e encharcado do oponente",
     "efeito": "LabaredaMultipla",
@@ -151,7 +151,7 @@ Ataque_de_Chamas = {
     "custo": ["normal","vermelha"],
     "estilo": "N",
     "dano": 1.2,
-    "alcance": 10,
+    "alcance": 3,
     "precisão": 95, 
     "descrição": "Uma manobra poderosa onde se utiliza fogo",
     "efeito": "Fogo",
@@ -171,7 +171,7 @@ Laser_Incandescente = {
     "custo": ["vermelha","vermelha","vermelha","vermelha","vermelha"],
     "estilo": "E",
     "dano": 2,
-    "alcance": 28,
+    "alcance": 8,
     "precisão": 100, 
     "descrição": "Lança um laser de calor concentrado extremo que remove o efeito congelado e encharcado do oponente",
     "efeito": "LabaredaMultipla",

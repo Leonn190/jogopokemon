@@ -133,9 +133,9 @@ def Botao_Selecao(
     funcao_esquerdo=None, funcao_direito=None,
     desfazer_esquerdo=None, desfazer_direito=None,
     tecla_esquerda=None, tecla_direita=None,
-    grossura=5, som=None  
+    grossura=5, som=None,
+    branco=False  # NOVO ARGUMENTO
 ):
-
     x, y, largura, altura = espaço
     mouse = pygame.mouse.get_pos()
     clique = pygame.mouse.get_pressed()
@@ -180,7 +180,8 @@ def Botao_Selecao(
 
     pygame.draw.rect(tela, cor_borda_atual, (x, y, largura, altura), grossura)
 
-    texto_render = Fonte.render(texto, True, (0, 0, 0))
+    cor_texto = (255, 255, 255) if branco else (0, 0, 0)  # NOVA LÓGICA
+    texto_render = Fonte.render(texto, True, cor_texto)
     texto_rect = texto_render.get_rect(center=(x + largura // 2, y + altura // 2))
     tela.blit(texto_render, texto_rect)
 
@@ -501,6 +502,23 @@ def Texto(tela, texto, posicao, fonte, cor):
     render = fonte.render(texto, True, cor)
     tela.blit(render, posicao)
 
+def TextoBorda(tela, texto, pos, fonte, cor):
+    cor_borda = (0, 0, 0)  # cor da borda preta
+
+    # Renderiza as superfícies
+    texto_superficie = fonte.render(texto, True, cor)
+    borda_superficie = fonte.render(texto, True, cor_borda)
+
+    # Centraliza
+    rect = texto_superficie.get_rect(center=pos)
+
+    # Desenha borda ao redor
+    for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2), (-2, -2), (-2, 2), (2, -2), (2, 2)]:
+        tela.blit(borda_superficie, rect.move(dx, dy))
+
+    # Desenha o texto principal por cima
+    tela.blit(texto_superficie, rect)
+
 def Texto_caixa(tela, texto, espaço, fonte, cor_fundo, borda=PRETO,cor_texto=PRETO, grossura=3, y_final=None, anima=None, tempo=200):
     x, y_inicial, largura, altura = espaço
    
@@ -534,12 +552,19 @@ def limpa_terminal():
     mensagens_terminal.clear()
 
 def carregar_frames(pasta):
+    def extrair_numero(nome):
+        numeros = re.findall(r'\d+', nome)
+        return int(numeros[0]) if numeros else -1
+
+    arquivos = [nome for nome in os.listdir(pasta) if nome.lower().endswith((".png", ".jpg", ".jpeg"))]
+    arquivos.sort(key=extrair_numero)  # ordena com base nos números encontrados no nome
+
     frames = []
-    for nome in sorted(os.listdir(pasta)):
-        if nome.endswith(".png"):
-            caminho = os.path.join(pasta, nome)
-            imagem = pygame.image.load(caminho).convert_alpha()
-            frames.append(imagem)
+    for nome in arquivos:
+        caminho = os.path.join(pasta, nome)
+        imagem = pygame.image.load(caminho).convert_alpha()
+        frames.append(imagem)
+
     return frames
 
 import re

@@ -13,7 +13,7 @@ import subprocess
 # $arquivosTotais = Get-ChildItem -Recurse -File | Measure-Object | Select-Object -ExpandProperty Count
 # $linhasPython = $arquivosPython | Get-Content | Measure-Object -Line
 # "Arquivos totais: $arquivosTotais"
-# "Arquivos Python: $numeroArquivosPython"
+# "Arquivos Python: $numeroArquivosPython" 
 # "Linhas totais Python: $($linhasPython.Lines)"
 
 try:
@@ -26,9 +26,6 @@ pygame.mixer.init()
 
 tela = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 pygame.display.set_caption("Jogo Pokémon")
-
-surface = pygame.Surface(tela.get_size())
-surface = surface.convert_alpha()
 
 # Ícone da janela (comum)
 icone_surface = pygame.image.load("imagens/icones/Icone.png")

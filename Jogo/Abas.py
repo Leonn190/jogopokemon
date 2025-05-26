@@ -388,17 +388,25 @@ def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, A
         alcance = ataque["alcance"]
         precisao = ataque["precisão"]
 
-        if Alvo is not None:
-            distancia = distancia_entre_pokemons(Alvo,Pokemon,Mapa.Metros)
-            if distancia > alcance:
-                over = distancia - alcance
-                precisao -= over * 5
+        if alcance != 0:
+            if Alvo is not None:
+                distancia = distancia_entre_pokemons(Alvo,Pokemon,Mapa.Metros)
+                if distancia > alcance:
+                    over = distancia - alcance
+                    precisao -= over * 5
         
-        infos = [
-            f"Dano: {round(ataque['dano'] * 100)}%",
-            f"Alcance: {round(alcance)}m",
-            f"Precisão: {round(precisao)}%"
-        ]
+            infos = [
+                f"Dano: {round(ataque['dano'] * 100)}%",
+                f"Alcance: {round(alcance)}m",
+                f"Precisão: {round(precisao)}%"
+            ]
+
+        else:
+            infos = [
+                f"Dano: {round(ataque['dano'] * 100)}%",
+                f"Alcance: Global",
+                f"Precisão: {round(precisao)}%"
+            ]
 
         def obter_cor_status(status, tipo):
             if tipo == "dano":
@@ -407,8 +415,9 @@ def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, A
                 elif status < 160: return (0, 200, 0)
                 else: return (180, 90, 255)
             elif tipo == "alcance":
-                if status < 20: return (255, 0, 0)
-                elif status < 50: return (255, 255, 0)
+                if status == 0: return (180, 90, 255)
+                elif status < 5: return (255, 0, 0)
+                elif status < 8: return (255, 255, 0)
                 elif status < 90: return (0, 200, 0)
                 else: return (180, 90, 255)
             elif tipo == "precisão":

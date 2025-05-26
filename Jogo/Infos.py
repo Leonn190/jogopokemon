@@ -481,9 +481,15 @@ def PokemonInfo(pos, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, even
 
             botao_rect = pygame.Rect(pos_x, pos_y - 2, largura_botao, altura_botao)
 
+            cor = GV.TexturasDic[movimento["tipo"][0]]
+            if movimento["tipo"][0] in ["fantasma","sombrio","psiquico","terrestre","venenoso","dragao"]:
+                inversão = True
+            else:
+                inversão = False
+
             GV.Botao_Selecao(
                 tela, botao_rect, movimento["nome"], Fonte23,
-                (180,180,180), (255, 255, 255),
+                cor, (255, 255, 255),
                 funcao_esquerdo=lambda mov=movimento: OlhaAtaque(mov),
                 desfazer_esquerdo=lambda: FecharAtaque(),
                 funcao_direito=None,
@@ -492,7 +498,7 @@ def PokemonInfo(pos, tela, pokemon, PokemonEvo, PokemonEvoLim, ListaFormas, even
                 cor_borda_esquerda=VERMELHO,
                 cor_borda_direita=AZUL,
                 estado_global=estadoOlharAtaques, eventos=eventos,
-                grossura=2, cor_passagem=AMARELO
+                grossura=2, cor_passagem=AMARELO, branco=inversão
             )
     
     if AtaqueObservado is not None:

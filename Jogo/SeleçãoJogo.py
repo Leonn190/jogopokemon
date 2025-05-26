@@ -7,7 +7,7 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte23, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
-    LARANJA, ROXO, ROSA, DOURADO, PRATA,)
+    LARANJA, ROXO, ROSA, DOURADO, PRATA, TexturasDic)
 
 B1 = {"estado": False}
 
@@ -19,7 +19,7 @@ def TelaSeleção(tela,eventos,estados,Config):
     GV.Botao(tela, "Modo Online", (300, 400, 540, 120), CINZA, PRETO, DOURADO,
                  lambda: A.iniciar_prépartida(estados, Config, "Online"), Fonte70, B1, 4, None, True, eventos,"clique")
     
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
                  lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
 
 def Seleção(tela,estados,relogio,Config):

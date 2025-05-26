@@ -130,15 +130,15 @@ def FI_Vento_Forte(Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimig
     if peso > 400:
         return
     elif peso > 300:
-        metros = 5
+        metros = 2
     elif peso > 200:
-        metros = 10
+        metros = 4
     elif peso > 100:
-        metros = 20
+        metros = 6
     elif peso > 30:
-        metros = 30
+        metros = 7
     else:
-        metros = 35
+        metros = 8
 
     alcance_px = metros * Mapa.Metros
 
@@ -168,7 +168,7 @@ Vento_Forte = {
     "dano": 1.1,
     "alcance": 25,
     "precisão": 100, 
-    "descrição": "Mova o alvo para longe, o movimento varia do peso do inimigo, porém se ele tiver mais de 400kg ele não se move, se tiver menos de 30 se move 35 metros",
+    "descrição": "Mova o alvo para longe, o movimento varia do peso do inimigo, porém se ele tiver mais de 400kg ele não se move, se tiver menos de 30 se move 8 metros",
     "efeito": "Estouro",
     "extra": "A",
     "funçao": Regular,

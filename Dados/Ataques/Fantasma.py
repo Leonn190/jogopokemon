@@ -17,7 +17,7 @@ Assombrar = {
     "custo": ["preta"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 15,
+    "alcance": 3,
     "precisão": 95, 
     "descrição": "Aplica um efeito negativo aleatorio por 2 turnos no alvo",
     "efeito": "MagiaMagenta",
@@ -27,7 +27,7 @@ Assombrar = {
     }
 
 def FI_Lambida(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):
-    PokemonS.curar(Dano/15,player,tela)
+    PokemonS.curar(Dano/20,player,tela)
 
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
@@ -37,9 +37,9 @@ Lambida = {
     "custo": ["normal","preta"],
     "estilo": "N",
     "dano": 1.1,
-    "alcance": 10,
+    "alcance": 2,
     "precisão": 100, 
-    "descrição": "Cure 15% do dano causado",
+    "descrição": "Cure 20% do dano causado",
     "efeito": "MagiaMagenta",
     "extra": "A",
     "funçao": Regular,
@@ -59,7 +59,7 @@ Atravessar = {
     "custo": ["preta","preta"],
     "estilo": "E",
     "dano": 0.5,
-    "alcance": 9,
+    "alcance": 1,
     "precisão": 100, 
     "descrição": "Atravessa o alvo, removendo todos os efeitos negativos de si mesmo e passando para o alvo",
     "efeito": "FeixeMagenta",
@@ -157,7 +157,7 @@ Mao_Espectral = {
     "custo": ["normal","preta","preta"],
     "estilo": "E",
     "dano": 1,
-    "alcance": 40,
+    "alcance": 12,
     "precisão": 100, 
     "descrição": "Puxe o inimigo para perto de você",
     "efeito": "ExplosaoRoxa",
@@ -189,7 +189,7 @@ Maldade = {
     "custo": ["normal","preta","preta"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 50,
+    "alcance": 14,
     "precisão": 100, 
     "descrição": "Escolha entre 4 efeitos negativos aleatorios para colocar no alvo por 4 turnos",
     "efeito": "ChuvaVermelha",
@@ -212,7 +212,7 @@ Massacre_Fantasmagorico = {
     "custo": ["preta","preta","preta","preta"],
     "estilo": "E",
     "dano": 1.4,
-    "alcance": 10,
+    "alcance": 2,
     "precisão": 99, 
     "descrição": "Se o alvo não tiver nenhum efeito positivo, esse ataque irá causar mais 41% de dano",
     "efeito": "RasgosRosa",

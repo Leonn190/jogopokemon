@@ -10,7 +10,7 @@ Jato_de_Agua = {
     "custo": ["normal","azul"],
     "estilo": "E",
     "dano": 1,
-    "alcance": 25,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Lança um jato de agua intenso no oponente",
     "efeito": "EspiralAzul",
@@ -34,7 +34,7 @@ Jato_Duplo = {
     "custo": ["normal","azul","azul"],
     "estilo": "E",
     "dano": 0.9,
-    "alcance": 20,
+    "alcance": 6,
     "precisão": 95, 
     "descrição": "Esse ataque tem 50% de chance de causar mais 50% de dano e deixar o oponente encharcado por 3 turnos",
     "efeito": "EspiralAzul",
@@ -59,7 +59,7 @@ Bolhas = {
     "custo": ["azul"],
     "estilo": "N",
     "dano": 0.3,
-    "alcance": 25,
+    "alcance": 8,
     "precisão": 100, 
     "descrição": "Esse ataque causa mais 20% de dano por cada vez que o pokemon oponente foi atingido pelo ataque Bolhas",
     "efeito": "Agua",
@@ -71,7 +71,7 @@ Bolhas = {
 def FF_Controle_do_Oceano(PokemonS,PokemonV,AlvoS,Alvos,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,Escolha):
         
         x, y = AlvoS.local
-        movimento = 15 * Mapa.Metros
+        movimento = 7 * Mapa.Metros
 
         if Escolha == "Norte":
             mover(AlvoS,(x,y - movimento))
@@ -107,9 +107,9 @@ Controle_do_Oceano = {
     "custo": ["normal","azul","azul"],
     "estilo": "E",
     "dano": 0.7,
-    "alcance": 60,
+    "alcance": 0,
     "precisão": 100, 
-    "descrição": "Escolha para qual direçao irá mover o pokemon 15 metros",
+    "descrição": "Escolha para qual direçao irá mover o pokemon 7 metros",
     "efeito": "TornadoAgua",
     "extra": "A",
     "funçao": F_Controle_do_Oceano,
@@ -122,7 +122,7 @@ Splash = {
     "custo": ["azul"],
     "estilo": "N",
     "dano": 0.5,
-    "alcance": 15,
+    "alcance": 4,
     "precisão": 50, 
     "descrição": "A precisão do ataque é 50% pois esse ataque tem 50% de chance de não fazer nada",
     "efeito": "Agua",
@@ -165,7 +165,7 @@ Golpe_de_Concha = {
     "custo": ["normal","azul","azul"],
     "estilo": "N",
     "dano": 0.5,
-    "alcance": 10,
+    "alcance": 3,
     "precisão": 100, 
     "descrição": "Esse ataque causa dano baseado em defesa, defesa especial e em ataque, após esse ataque o pokemon perde o efeito reforçado caso tenha",
     "efeito": "HexagonoLaminas",
@@ -183,7 +183,7 @@ Gota_Pesada = {
     "custo": ["azul"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 25,
+    "alcance": 8,
     "precisão": 95, 
     "descrição": "Esse ataque deixa o oponente encharcado por 4 turnos mas sem dar dano nele",
     "efeito": "Agua",
@@ -193,7 +193,7 @@ Gota_Pesada = {
     }
 
 def Alv_Bola_de_Agua(PokemonS,Alvo,player,inimigo,Mapa):
-    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 3, Mapa.Zona)
     inimigos.append(Alvo)
     return inimigos
 
@@ -209,7 +209,7 @@ Bola_de_Agua = {
     "custo": ["azul","azul","azul"],
     "estilo": "E",
     "dano": 1.3,
-    "alcance": 20,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
     "efeito": "EspiralAzul",
@@ -231,7 +231,7 @@ Cachoeira = {
     "custo": ["normal","azul","azul","azul"],
     "estilo": "N",
     "dano": 1.55,
-    "alcance": 15,
+    "alcance": 4,
     "precisão": 100, 
     "descrição": "Uma manobra aquática poderosa que tem 25% de chance de fazer o pokemon alvo ser guardado por 3 turnos",
     "efeito": "TornadoAgua",
@@ -258,7 +258,7 @@ Jato_Triplo = {
     "custo": ["azul","azul","azul","azul"],
     "estilo": "E",
     "dano": 0.8,
-    "alcance": 18,
+    "alcance": 5,
     "precisão": 100, 
     "descrição": "Esse ataque tem 50% de chance de aumentar 55% de dano e deixar o alvo encharcado por 3 turnos e tem 30% de chance de aumentar 110% de dano e encharcar o alvo por 5 turnos, e 20% de chance de não fazer nada a mais",
     "efeito": "EspiralAzul",

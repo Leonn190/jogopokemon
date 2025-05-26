@@ -10,7 +10,7 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte23, Fonte30, Fonte40, Fonte50,Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
-    LARANJA, ROXO, ROSA, DOURADO, PRATA,)
+    LARANJA, ROXO, ROSA, DOURADO, PRATA, TexturasDic)
 
 pygame.mixer.init()
 
@@ -167,7 +167,7 @@ def TelaPréPartida_Solo(tela, eventos, estados):
 
     GV.Botao(tela, "Sair do jogo", (800, 400, 320, 80), CINZA, PRETO, AZUL,
              lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)  
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
              lambda: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
 
     largura_botao = 255
@@ -285,7 +285,7 @@ def TelaPréPartida(tela,eventos,estados):
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)  
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), CINZA, PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
                  lambda: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
 
     largura_botao = 240

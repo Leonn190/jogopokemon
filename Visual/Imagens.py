@@ -699,10 +699,51 @@ def Carregar_Imagens_Pré_Partida(ImagensPokemonInicial,IconesDeckIMG):
 
 def CarregarTexturas(TexturasDic):
 
-    FundoAmarelo1 = GV.Carregar_Imagem("imagens/Texturas/FundoAmarelo1.jpg", (700, 410),)
+    FundoAmarelo1 = GV.Carregar_Imagem("imagens/Texturas/FundoAmarelo1.jpg", (700, 410))
+    FundoCinza1 = GV.Carregar_Imagem("imagens/Texturas/FundoCinza1.jpg", (700, 410))
+
+    FundoSombrio = GV.Carregar_Imagem("imagens/Texturas/FundoSombrio.jpg", (320, 140))
+    FundoNormal = GV.Carregar_Imagem("imagens/Texturas/FundoNormal.jpg", (320, 140))
+    FundoFogo = GV.Carregar_Imagem("imagens/Texturas/FundoFogo.jpg", (320, 140))
+    FundoAgua = GV.Carregar_Imagem("imagens/Texturas/FundoAgua.jpg", (320, 140))
+    FundoPlanta = GV.Carregar_Imagem("imagens/Texturas/FundoPlanta.jpg", (320, 140))
+    FundoEletrico = GV.Carregar_Imagem("imagens/Texturas/FundoEletrico.jpg", (320, 140))
+    FundoGelo = GV.Carregar_Imagem("imagens/Texturas/FundoGelo.jpg", (320, 140))
+    FundoLutador = GV.Carregar_Imagem("imagens/Texturas/FundoLutador.jpg", (320, 140))
+    FundoVenenoso = GV.Carregar_Imagem("imagens/Texturas/FundoVenenoso.jpg", (320, 140))
+    FundoTerrestre = GV.Carregar_Imagem("imagens/Texturas/FundoTerrestre.jpg", (320, 140))
+    FundoVoador = GV.Carregar_Imagem("imagens/Texturas/FundoVoador.jpg", (320, 140))
+    FundoPsiquico = GV.Carregar_Imagem("imagens/Texturas/FundoPsiquico.jpg", (320, 140))
+    FundoInseto = GV.Carregar_Imagem("imagens/Texturas/FundoInseto.jpg", (320, 140))
+    FundoPedra = GV.Carregar_Imagem("imagens/Texturas/FundoPedra.jpg", (320, 140))
+    FundoFantasma = GV.Carregar_Imagem("imagens/Texturas/FundoFantasma.jpg", (320, 140))
+    FundoDragao = GV.Carregar_Imagem("imagens/Texturas/FundoDragao.jpg", (320, 140))
+    FundoMetal = GV.Carregar_Imagem("imagens/Texturas/FundoMetal.jpg", (320, 140))
+    FundoFada = GV.Carregar_Imagem("imagens/Texturas/FundoFada.jpg", (320, 140))
+
 
     TexturasDic = {
-        "FundoAmarelo1": FundoAmarelo1
+        "FundoAmarelo1": FundoAmarelo1,
+        "FundoCinza1": FundoCinza1,
+
+        "sombrio": FundoSombrio,
+        "normal": FundoNormal,
+        "fogo": FundoFogo,
+        "agua": FundoAgua,
+        "planta": FundoPlanta,
+        "eletrico": FundoEletrico,
+        "gelo": FundoGelo,
+        "lutador": FundoLutador,
+        "venenoso": FundoVenenoso,
+        "terrestre": FundoTerrestre,
+        "voador": FundoVoador,
+        "psiquico": FundoPsiquico,
+        "inseto": FundoInseto,
+        "pedra": FundoPedra,
+        "fantasma": FundoFantasma,
+        "dragao": FundoDragao,
+        "metal": FundoMetal,
+        "fada": FundoFada
     }
 
     return TexturasDic
