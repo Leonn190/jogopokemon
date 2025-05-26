@@ -23,7 +23,7 @@ Nas_Sombras = {
     }
 
 def Alv_Bola_Sombria(PokemonS,Alvo,player,inimigo,Mapa):
-    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 1, Mapa.Zona)
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 3, Mapa.Zona)
     inimigos.append(Alvo)
     return inimigos
 
@@ -39,7 +39,7 @@ Bola_Sombria = {
     "custo": ["preta","preta","preta"],
     "estilo": "E",
     "dano": 1.3,
-    "alcance": 20,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Esse ataque causa 50% do dano original aos pokemons inimigos adjacentes",
     "efeito": "ChuvaBrilhante",
@@ -64,7 +64,7 @@ Corte_Noturno = {
     "custo": ["normal","preta","preta"],
     "estilo": "N",
     "dano": 0.95,
-    "alcance": 5,
+    "alcance": 1,
     "precisão": 100, 
     "descrição": "Esse ataque causa 70% a mais de dano caso voce esteja atras do pokemon",
     "efeito": "CorteDourado",
@@ -85,7 +85,7 @@ Confronto_Trevoso = {
     "custo": ["normal","preta","preta"],
     "estilo": "N",
     "dano": 1.05,
-    "alcance": 25,
+    "alcance": 7,
     "precisão": 100, 
     "descrição": "Deixe a si mesmo e o alvo provocando por 3 turnos",
     "efeito": "RedemoinhoCosmico",

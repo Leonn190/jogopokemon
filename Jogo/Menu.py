@@ -68,7 +68,6 @@ def LigarParte2():
     A1 = 1081
     A2 = 570
     AnimaMenu = pygame.time.get_ticks()
-    transparencia_logo = 255
     tocar("Entrou")
 
     Parte2 = True
@@ -93,7 +92,8 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
                 GV.TextoBorda(tela,"Aperte qualquer botão para iniciar o jogo",(960,1000),Fonte70,AMARELO)
 
     else:
-        
+        transparencia_logo = 255
+
         # Animação de escala e posição da logo
         escala = animar_valor(LogoEscalaInicial, LogoEscalaFinal, AnimaMenu, 800)
         pos_y = animar_valor(LogoYInicial, LogoYFinal, AnimaMenu, 800)

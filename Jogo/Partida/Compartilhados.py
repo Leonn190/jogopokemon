@@ -780,6 +780,18 @@ def IniciaLocal(tela, config):
 
 SuaVez = True
 
+def PassarTurnoOnline():
+    pass
+
+def PausarOnline():
+    pass
+
+def IniciarTurno():
+    pass
+
+def VerificaVitóriaOnline():
+    pass
+
 def IniciaOnline(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
     global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez

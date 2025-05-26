@@ -42,9 +42,8 @@ def coletar_diffs(partida_id, ID, callback):
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
-    print (75)
     C.IniciaOnline(tela,config)
-    print (5)
+    contador = 0
 
     while estados["Rodando_PartidaOnline"]:
         tela.fill(BRANCO)
@@ -71,16 +70,17 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
 
-        if C.SuaVez is True:
-            diff = C.Partida.VerificaDiferença()
-            threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_online), daemon=True).start()
-        else:
-            # Possivel Bug de Multiplas Threads alterando a partida
-            def processar_diffs(diffs):
-                for diff in diffs:
-                    C.Partida.atualizar(diff)
+        if contador % config["FPS"] * 1.5 == 0:
+            if C.SuaVez is True:
+                diff = C.Partida.VerificaDiferença()
+                threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_online), daemon=True).start()
+            else:
+                # Possivel Bug de Multiplas Threads alterando a partida
+                def processar_diffs(diffs):
+                    for diff in diffs:
+                        C.Partida.atualizar(diff)
 
-            threading.Thread(target=coletar_diffs, args=(C.Partida.ID, C.player.ID_online, processar_diffs), daemon=True).start()
+                threading.Thread(target=coletar_diffs, args=(C.Partida.ID, C.player.ID_online, processar_diffs), daemon=True).start()
         
         C.tocar_musica_do_estadio()
 

@@ -60,7 +60,7 @@ if os.path.exists("ConfigFixa.py"):
         pass
 
 Config["Modo"] = None
-Config["Versão"] = "Beta 1.1.3"
+Config["Versão"] = "Beta 1.1.4"
 
 from Visual.Sonoridade import VerificaModoSilencioso
 VerificaModoSilencioso(Config)

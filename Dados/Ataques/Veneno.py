@@ -13,7 +13,7 @@ Envenenar = {
     "custo": ["roxa"],
     "estilo": "S",
     "dano": 0.0,
-    "alcance": 25,
+    "alcance": 7,
     "precisão": 80, 
     "descrição": "deixe o pokemon inimigo envenenado por 3 turnos",
     "efeito": "GasRoxo",
@@ -35,7 +35,7 @@ Acido = {
     "custo": ["roxa","roxa"],
     "estilo": "E",
     "dano": 1,
-    "alcance": 15,
+    "alcance": 5,
     "precisão": 100, 
     "descrição": "Esse ataque ignora 20% da defesa especial e tem 50% de chance de remover 1 de defesa especial permanente",
     "efeito": "MagiaMagenta",
@@ -45,7 +45,7 @@ Acido = {
     }
 
 def Alv_Bomba_de_Lodo(PokemonS,Alvo,player,inimigo,Mapa):
-    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 2, Mapa.Zona)
+    _, inimigos = pokemons_nos_arredores(Alvo, player, inimigo, 4, Mapa.Zona)
     inimigos.append(Alvo)
     return inimigos
 
@@ -62,7 +62,7 @@ Bomba_de_Lodo = {
     "custo": ["roxa","roxa","roxa"],
     "estilo": "E",
     "dano": 1,
-    "alcance": 20,
+    "alcance": 6,
     "precisão": 100, 
     "descrição": "Esse ataque causa envenenamento por 3 turnos aos pokemons inimigos adjacentes até 2 casas",
     "efeito": "Fogo",
@@ -85,7 +85,7 @@ Extraçao = {
     "custo": ["normal","roxa"],
     "estilo": "N",
     "dano": 1.05,
-    "alcance": 10,
+    "alcance": 2,
     "precisão": 100, 
     "descrição": "Esse ataque remove o efeito envenenar do oponente, para cada turno restante no efeito, cure 14 de vida",
     "efeito": "Mordida",

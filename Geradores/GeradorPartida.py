@@ -144,23 +144,9 @@ class PartidaOnline:
 
         return dicionario
     
-    def ToDic_Atualiza(self):
-        return {
-            "Turno": self.Turno,
-            "tempo_restante": self.tempo_restante,
-            "Centro": self.Centro,  # sem alteração, só copia a lista
-            "Loja": self.Loja,      # idem
-            "Baralho": self.Baralho.ToDic(),
-            "Mapa": self.Mapa.ToDic(),
-            "Jogador1": self.Jogador1.ToDic(),
-            "Jogador2": self.Jogador2.ToDic(),
-            "Vencedor": self.Vencedor,  # só copia (se for None ou nome ou id)
-            "Perdedor": self.Perdedor,
-        }
-    
     def VerificaDiferença(self):
         
-        atual = self.ToDic_Atualiza()
+        atual = self.ToDic_Inic()
 
         diff = DeepDiff(self.anterior, atual, verbose_level=2)
         self.anterior = atual
