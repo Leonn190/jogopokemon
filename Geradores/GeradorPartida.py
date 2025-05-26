@@ -174,13 +174,22 @@ class PartidaOnline:
 
         for caminho, valores in changes.items():
             caminho_obj = caminho.replace("root", "")
-            print(f"[DEBUG] Aplicando mudança em {caminho_obj} -> {valores['new_value']}")
+            novo_valor = valores["new_value"]
+
+            # Espelhar local do Pokémon se for o campo "local"
+            if re.search(r"Jogador[12].*pokemons.*local", caminho_obj):
+                if isinstance(novo_valor, list) and len(novo_valor) == 2:
+                    novo_valor = [novo_valor[0], 1080 - novo_valor[1]]
+                    print(f"[DEBUG] Invertendo local: {valores['new_value']} -> {novo_valor}")
+
+            print(f"[DEBUG] Aplicando mudança em {caminho_obj} -> {novo_valor}")
             try:
-                navegar_e_setar(self, caminho_obj, valores["new_value"])
+                navegar_e_setar(self, caminho_obj, novo_valor)
             except Exception as e:
                 print(f"[ERRO] Ao atualizar {caminho_obj}: {e}")
 
         self.anterior = self.ToDic_Inic()
+
 
 def GeraPartidaOnline(player1,player2,Baralho,Mapa):
     return PartidaOnline(player1,player2,Baralho,Mapa)

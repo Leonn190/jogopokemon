@@ -33,9 +33,6 @@ def CriaPartidaOnline(player1,player2,ID):
     for i in range(15):
         coletor(player1)
         coletor(player2)
-    
-    player1.pokemons[0].local = [960, 570 - 600 // 2]
-    player2.pokemons[0].local = [960, 510 + 600 // 2]
 
     Mapa = Gera_Mapa(0)
     Baralho = Gera_Baralho(player1.deck,player2.deck)
@@ -76,6 +73,8 @@ def Fila(tela, estados, relogio, Config):
                     pronto = resposta.json()
                     if pronto["pronto"]:
                         PartidaOn = CriaPartidaOnline(Jogador, pronto["jogador2"], data["partida"])
+                        PartidaOn.Jogador1.pokemons[0].local = [960, 570 - 600 // 2]
+                        PartidaOn.Jogador2.pokemons[0].local = [960, 510 + 600 // 2]
                         envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
                         resposta = requests.post("https://apipokemon-i9bb.onrender.com/inicializar_partida", json=envio)
                         print (resposta.json())

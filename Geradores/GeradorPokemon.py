@@ -90,7 +90,7 @@ def remover_funcoes_do_dicionario(d):
         return None
 
 class Pokemon:
-    def __init__(self, pokemon, player, dados=False):
+    def __init__(self, pokemon, player,dados=False):
 
         if dados is False:
             self.origem = pokemon["origem"]
@@ -246,8 +246,6 @@ class Pokemon:
             self.code = dados["code"]
             self.ID = dados["ID"]
             self.guardado = dados["guardado"]
-            print (dados["local"])
-            jo = input("continuar?")
             self.local = dados["local"]
             self.efeitosPosi = dados["efeitosPositivos"]
             self.efeitosNega = dados["efeitosNegativos"]
@@ -443,9 +441,12 @@ class Pokemon:
                 adicionar_mensagem_passageira(tela,f"+{round(cura,1)}",VERDE_CLARO,Fonte35,((1410 - i * 190),180))
     
     def atualizar_rect(self):
-        if self.local:
-            x, y = self.local
+        if len(self.local) == 2:
+            x = self.local[0]
+            y = self.local[1]
             self.rect = pygame.Rect(x - self.raio, y - self.raio, self.raio * 2, self.raio * 2)
+        else:
+            self.rect = pygame.Rect(0, 0, 0, 0)  # rect nulo ou invisível
 
     def ToDic(self):
         return {
