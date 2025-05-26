@@ -27,15 +27,17 @@ import Partida.Telas as T
 
 
 def enviar_diff(diff, partida_id, ID):
-    requests.post(
+    resposta = requests.post(
         "https://apipokemon-i9bb.onrender.com/atualizar_partida",
-        json={"diff": diff, "partida": partida_id, "ID Jogador": ID}
+        json={"diff": diff, "partida": partida_id, "ID_Jogador": ID}
     )
+    resposta = resposta.json()
+    print(resposta)
 
 def coletar_diffs(partida_id, ID, callback):
-    resposta = requests.post(
+    resposta = requests.get(
         "https://apipokemon-i9bb.onrender.com/coletar_diffs",
-        json={"partida": partida_id, "ID Jogador": ID}
+        json={"partida": partida_id, "ID_Jogador": ID}
     )
     diffs = resposta.json()
     callback(diffs)
@@ -70,7 +72,7 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
 
-        if contador % config["FPS"] * 1.5 == 0:
+        if contador % config["FPS"] * 5 == 0:
             if C.SuaVez is True:
                 diff = C.Partida.VerificaDiferença()
                 threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_online), daemon=True).start()
@@ -119,4 +121,5 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
 
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
+        contador += 1
         relogio.tick(config["FPS"])
