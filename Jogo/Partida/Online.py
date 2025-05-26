@@ -32,27 +32,27 @@ def enviar_diff(diff, partida_id, ID):
         json={"diff": diff, "partida": partida_id, "ID_Jogador": ID}
     )
     resposta = resposta.json()
-    print(resposta)
 
 def coletar_diffs(partida_id, ID, callback):
-    resposta = requests.get(
+    resposta = requests.post(
         "https://apipokemon-i9bb.onrender.com/coletar_diffs",
         json={"partida": partida_id, "ID_Jogador": ID}
     )
     diffs = resposta.json()
-    callback(diffs)
+    print (diffs["diffs"])
+    callback(diffs["diffs"])
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
     C.IniciaOnline(tela,config)
-    contador = 0
+    tempo_ultimo = pygame.time.get_ticks()
 
     while estados["Rodando_PartidaOnline"]:
         tela.fill(BRANCO)
         tela.blit(C.FundosIMG[C.Partida.Mapa.Fundo],(0,0))
+        agora = pygame.time.get_ticks()
         pygame.mixer.music.set_volume(config["Volume"])
         eventos = pygame.event.get()
-
         pos_mouse = pygame.mouse.get_pos()
         for evento in eventos:
             if evento.type == pygame.QUIT:
@@ -72,13 +72,15 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
 
-        if contador % config["FPS"] * 5 == 0:
+        if agora - tempo_ultimo >= 7000:
+            tempo_ultimo = agora
             if C.SuaVez is True:
                 diff = C.Partida.VerificaDiferença()
                 threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_online), daemon=True).start()
             else:
                 # Possivel Bug de Multiplas Threads alterando a partida
                 def processar_diffs(diffs):
+                    print (len(diffs))
                     for diff in diffs:
                         C.Partida.atualizar(diff)
 
@@ -121,5 +123,4 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
 
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
-        contador += 1
         relogio.tick(config["FPS"])

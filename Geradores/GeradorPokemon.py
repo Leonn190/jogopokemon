@@ -1,6 +1,7 @@
 import Visual.GeradoresVisuais as GV
 import random
 import pygame
+import time
 import json
 from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
@@ -171,7 +172,7 @@ class Pokemon:
             self.ID = pokemon["ID"] #unico
 
             self.guardado = 0
-            self.local = None
+            self.local = []
             self.efeitosPosi = EfeitosPositivos.copy()
             self.efeitosNega = EfeitosNegativos.copy()
             self.descrição = EfeitosDescrição
@@ -245,6 +246,8 @@ class Pokemon:
             self.code = dados["code"]
             self.ID = dados["ID"]
             self.guardado = dados["guardado"]
+            print (dados["local"])
+            jo = input("continuar?")
             self.local = dados["local"]
             self.efeitosPosi = dados["efeitosPositivos"]
             self.efeitosNega = dados["efeitosNegativos"]

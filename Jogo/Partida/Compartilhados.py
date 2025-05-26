@@ -749,8 +749,8 @@ def IniciaLocal(tela, config):
 
     largura, altura = M.Tabuleiros[Mapa.terreno].get_size()
 
-    Jogador2.pokemons[0].local = 960, 570 - altura // 2
-    Jogador1.pokemons[0].local = 960, 510 + altura // 2
+    Jogador2.pokemons[0].local = [960, 570 - altura // 2]
+    Jogador1.pokemons[0].local = [960, 510 + altura // 2]
 
     Baralho = GO.Gera_Baralho(Jogador1.deck,Jogador2.deck)
 
@@ -819,8 +819,6 @@ def IniciaOnline(tela, config):
     from Fila import DadosGerais
     Partida = DadosGerais[0]
 
-    print(3)
-
     Partida.Jogador1.pokemons[0].pos = 0
     Partida.Jogador2.pokemons[0].pos = 0
 
@@ -847,13 +845,11 @@ def IniciaOnline(tela, config):
     cronometro.inicio = pygame.time.get_ticks()
     cronometro.tempo_encerrado = False
 
-    player.Habilidade(player, inimigo, Partida.Mapa, Partida.Baralho, Partida.Turno)
+    # player.Habilidade(player, inimigo, Partida.Mapa, Partida.Baralho, Partida.Turno)
     # inimigo.Habilidade(inimigo, player, Partida.Mapa, Partida.Baralho, Partida.Turno)
 
     GPO.VerificaSituaçãoPokemon(player,inimigo,Partida.Mapa)
     Partida.Mapa.Verifica(player,inimigo)
-
-    print (4)
 
 def VerificaVitória(estados, Jogador1, Jogador2):
 

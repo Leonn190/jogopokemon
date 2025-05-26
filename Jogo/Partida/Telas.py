@@ -51,7 +51,7 @@ def TelaPokemons(tela, eventos,estados, config):
         GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
 
     try:
-        if C.PokemonS.local is not None:
+        if C.PokemonS.local != []:
             
             GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,2),Fonte40, C.B23, 3, None, True, eventos)
 
@@ -171,7 +171,7 @@ def TelaPokemons(tela, eventos,estados, config):
 
         tela.blit(frame, (pos_x, pos_y))
 
-        if C.player.pokemons[i].local is None:
+        if C.player.pokemons[i].local == []:
             tela.blit(C.OutrosIMG[11], ((x+10), (y+10)))
     
 
@@ -197,7 +197,7 @@ def TelaPokemons(tela, eventos,estados, config):
 
         tela.blit(frame, (pos_x, pos_y))
 
-        if C.inimigo.pokemons[i].local is None:
+        if C.inimigo.pokemons[i].local == []:
             tela.blit(C.OutrosIMG[11], ((x+15), (y+10)))
 
 

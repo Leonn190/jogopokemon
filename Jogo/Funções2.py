@@ -70,17 +70,22 @@ def efetividade(Tipo_do_ataque,Tipo_do_atacado,tela,AlvoLoc):
     return multiplicador
 
 def distancia_entre_pokemons(poke1, poke2, Metros):
-    x1, y1 = poke1.local
-    x2, y2 = poke2.local
+    if not isinstance(poke1.local, list) or len(poke1.local) != 2:
+        return None
+    if not isinstance(poke2.local, list) or len(poke2.local) != 2:
+        return None
+
+    x1 = poke1.local[0]
+    y1 = poke1.local[1]
+    x2 = poke2.local[0]
+    y2 = poke2.local[1]
 
     dx = x1 - x2
     dy = y1 - y2
     distancia_px = math.hypot(dx, dy)
 
-    # Subtrai os raios dos dois Pokémon (em pixels)
     distancia_real = max(0, distancia_px - poke1.raio - poke2.raio)
 
-    # Converte a distância para a unidade do mapa (ex: metros)
     return distancia_real / Metros
 
 def Aliado_menos_vida(pokemon,player,numero=1):
@@ -203,19 +208,21 @@ def inimigo_mais_longe(pokemon, playerinimigo, mapa, numero=1):
     return selecionados
 
 def pokemons_nos_arredores(pokemon, player, inimigo, arredores_metros, Mapa):
-    if pokemon.locall is None:
+    if not isinstance(pokemon.local, list) or len(pokemon.local) != 2:
         return [], []
 
-    x0, y0 = pokemon.locall
+    x0 = pokemon.local[0]
+    y0 = pokemon.local[1]
     raio_busca = arredores_metros * Mapa.Metros + pokemon.raio
 
     aliados_encontrados = []
     inimigos_encontrados = []
 
     def dentro_do_raio(p):
-        if p.locall is None or p is pokemon:
+        if not isinstance(p.local, list) or len(p.local) != 2 or p is pokemon:
             return False
-        x, y = p.locall
+        x = p.local[0]
+        y = p.local[1]
         distancia = math.hypot(x - x0, y - y0)
         return distancia <= (raio_busca + p.raio)
 
@@ -285,7 +292,6 @@ def VAcerta(pokemon,alvo,ataque,metros):
         assertividade = assertividade * 0.5
     if pokemon.efeitosPosi["Focado"] > 0:
         assertividade = assertividade * 1.5
-
 
     desfoco = random.randint(0,100)
     if desfoco > assertividade:

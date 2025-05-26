@@ -813,7 +813,7 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
         if dist_total == 0:
             return  # evita divisão por zero se o Pokémon tentar mirar a si mesmo
 
-        num_pontos = int(dist_total // 3)  # Número de segmentos (quanto menor, mais suave)
+        num_pontos = int(dist_total // 4)  # Número de segmentos (quanto menor, mais suave)
 
         # Normalizar direção
         dir_x = dx / dist_total

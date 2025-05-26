@@ -262,11 +262,11 @@ class Mapa:
         self.mudança = False
 
         for Peça in self.Peças:
-            if Peça.pokemon.local is None:
+            if not isinstance(Peça.pokemon.local, list) or len(Peça.pokemon.local) != 2:
                 self.Peças.remove(Peça)
 
         for pokemon in player.pokemons + inimigo.pokemons:
-            if pokemon.local is not None:
+            if isinstance(pokemon.local, list) and len(pokemon.local) == 2:
                 pokemon.atualizar_rect()
                 self.Ocupadas.append(pokemon.rect)
 

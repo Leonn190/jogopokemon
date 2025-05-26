@@ -19,6 +19,7 @@ class Partida:
         self.Jogador2 = player2
         self.Vencedor = None
         self.Perdedor = None
+        self.online = False
     
 def GeraPartida(player1,player2,Baralho,Mapa):
     return Partida(player1,player2,Baralho,Mapa)
@@ -68,6 +69,7 @@ class PartidaOnline:
             self.Jogador2 = player2
             self.Vencedor = None
             self.Perdedor = None
+            self.online = True
             self.anterior = self.ToDic_Inic()
 
         else:
@@ -79,6 +81,7 @@ class PartidaOnline:
             self.Loja = [None,None,None,None]
             self.Vencedor = None
             self.Perdedor = None
+            self.online = True
             self.ID = 2
 
             print("DEBUG: Criando Baralho...")
@@ -154,22 +157,24 @@ class PartidaOnline:
         return diff.to_dict()
     
     def atualizar(self, diff):
-        # Caso o diff contenha um novo dicionário completo do objeto (ex: Pokémon)
+        print("[DEBUG] Atualizando com diff:", diff)
+
         if "new" in diff and isinstance(diff["new"], dict):
             try:
                 clone = Gerador_Clone(diff["new"])
-                self.__dict__.update(clone.__dict__)  # substitui todos os atributos do objeto atual
+                self.__dict__.update(clone.__dict__)
                 self.anterior = self.ToDic_Inic()
                 print("[INFO] Objeto substituído por um clone completo.")
                 return
             except Exception as e:
                 print(f"[ERRO] Ao gerar clone de objeto: {e}")
 
-        # Caso o diff contenha mudanças parciais
         changes = diff.get("values_changed", {})
+        print("[DEBUG] Changes detectadas:", changes)
 
         for caminho, valores in changes.items():
-            caminho_obj = caminho.replace("root", "")  # remove "root"
+            caminho_obj = caminho.replace("root", "")
+            print(f"[DEBUG] Aplicando mudança em {caminho_obj} -> {valores['new_value']}")
             try:
                 navegar_e_setar(self, caminho_obj, valores["new_value"])
             except Exception as e:
