@@ -33,6 +33,9 @@ def CriaPartidaOnline(player1,player2,ID):
     for i in range(15):
         coletor(player1)
         coletor(player2)
+    
+    player1.pokemons[0].local = [960, 570 - 600 // 2]
+    player2.pokemons[0].local = [960, 510 + 600 // 2]
 
     Mapa = Gera_Mapa(0)
     Baralho = Gera_Baralho(player1.deck,player2.deck)
@@ -55,7 +58,6 @@ def Fila(tela, estados, relogio, Config):
     JogadorDados = Jogador.ToDic()
     resposta = requests.post("https://apipokemon-i9bb.onrender.com/entrar_partida", json=JogadorDados)
     data = resposta.json()
-    Jogador.pokemons[0].local = [960, 510 + 600 // 2]
 
     Gif = gerar_gif(Carregando_Frames,(1765,930), 62)
 
@@ -84,11 +86,11 @@ def Fila(tela, estados, relogio, Config):
                 elif data["estado"] == "entrou":
                     resposta = requests.get("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
                     pronto = resposta.json()
-                    print (pronto)
                     if pronto["criada"]:
                         PartidaOn = GeraPartidaOnlineClone(pronto["dados"], data["partida"])
                         PartidaOn.Jogador2 = Jogador
-                        PartidaOn.Jogador1.pokemons[0].local = [960, 570 - 600 // 2]
+                        PartidaOn.Jogador2.pokemons[0].local = [960, 570 - 600 // 2]
+                        PartidaOn.Jogador1.pokemons[0].local = [960, 510 + 600 // 2]
                         DadosGerais = [PartidaOn, 2]
                         A.Iniciar_partida_online(estados)
                         break  # Finaliza a thread após iniciar
