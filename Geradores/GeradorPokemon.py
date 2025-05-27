@@ -3,6 +3,7 @@ import random
 import pygame
 import time
 import json
+from Jogo.Funções2 import verificar_serializabilidade
 from Dados.Gen1.Basicos import Pokemons_Todos
 from Visual.Mensagens import adicionar_mensagem_passageira
 from Visual.Sonoridade import tocar
@@ -257,8 +258,12 @@ class Pokemon:
             self.movimento2 = SelecionaAtaques(dados["Move2"])
             if dados["Move3"] is not None:
                 self.movimento3 = SelecionaAtaques(dados["Move3"])
-                if dados["Move4"] is not None:
-                    self.movimento4 = SelecionaAtaques(dados["Move4"])
+            else:
+                self.movimento3 = None
+            if dados["Move4"] is not None:
+                self.movimento4 = SelecionaAtaques(dados["Move4"])
+            else:
+                self.movimento4 = None
             self.moveList = dados["MoveList"]
             self.movePossiveis = dados["possiveis"]
             self.code = dados["code"]
@@ -469,7 +474,7 @@ class Pokemon:
             self.rect = pygame.Rect(0, 0, 0, 0)  # rect nulo ou invisível
 
     def ToDic(self):
-        return {
+        data = {
             "origem": self.origem,
             "nome": self.nome,
             "tipo": self.tipo,
@@ -545,6 +550,9 @@ class Pokemon:
             "PodeAtacar": self.PodeAtacar,
             "pos": self.pos
         }
+
+        verificar_serializabilidade(data)
+        return data
 
 IDpoke = 0
 

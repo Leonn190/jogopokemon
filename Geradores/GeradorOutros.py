@@ -1,6 +1,7 @@
 import random
 import pygame
 from Visual.Sonoridade import tocar
+from Jogo.Funções2 import verificar_serializabilidade
 import Visual.GeradoresVisuais as GV
 from Geradores.GeradorPokemon import Pokemons_Todos
 from Dados.itens import Pokebolas_Todas,Estadios_Todos,Amplificadores_Todos,Frutas_Todas,Outros_Todos, Poçoes_Todas, dicionario_itens
@@ -107,7 +108,7 @@ class Baralho:
             self.PokeLendarios.append(pokemon)
 
     def ToDic(self):
-        return {
+        data = {
             "Comuns": self.Comuns,
             "Incomuns": self.Incomuns,
             "Raros": self.Raros,
@@ -119,6 +120,8 @@ class Baralho:
             "PokeMiticos": self.PokeMiticos,
             "PokeLendarios": self.PokeLendarios,
         }
+        verificar_serializabilidade(data)
+        return data
 
 def GeraBaralhoClone(dados):
     return Baralho(None,None,dados)
@@ -271,6 +274,8 @@ class Mapa:
                 self.Ocupadas.append(pokemon.rect)
 
     def ToDic(self):
-        return {
+        data = {
             "Code": self.i
     }
+        verificar_serializabilidade(data)
+        return data

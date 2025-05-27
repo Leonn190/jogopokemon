@@ -780,8 +780,10 @@ def IniciaLocal(tela, config):
 
 SuaVez = True
 PassouVez = False
+comunicaçao = False
 
 def PassarTurnoOnline():
+
     pass
 
 def PausarOnline():

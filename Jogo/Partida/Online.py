@@ -10,6 +10,7 @@ from Visual.Sonoridade import tocar
 from Abas import Status_Pokemon,Inventario,Atacar, Loja
 from Infos import TreinadorInfo
 from Config import Configuraçoes, aplicar_claridade
+from Jogo.Funções2 import verificar_serializabilidade
 import Mapa as M
 import Geradores.GeradorPlayer as GPA
 import Geradores.GeradorPokemon as GPO
@@ -29,16 +30,19 @@ import Partida.Telas as T
 def enviar_dados(dados, partida_id):
 
     while True:
+        envio = {"dados": dados, "partida": partida_id, "PassouVez": C.PassouVez}
+        verificar_serializabilidade(envio)
         # Envia o estado atualizado da partida uma vez
         resposta = requests.post(
             "https://apipokemon-i9bb.onrender.com/atualizar_partida",
-            json={"dados": dados, "partida": partida_id, "PassouVez": C.PassouVez}
+            json=envio
         )
 
         if C.PassouVez is True:
-            C.PassouVez == False
+            C.PassouVez = False
+            C.comunicaçao = False
             break
-        time.sleep(9)
+        time.sleep(10)
 
 def coletar_dados_loop(partida_id, ID,):
     while True:
@@ -53,9 +57,10 @@ def coletar_dados_loop(partida_id, ID,):
             C.Partida = GP.GeraPartidaOnlineClone(dados,partida_id)
         
         if data.get("PassouVez", False):
+            C.comunicaçao = False
             break
 
-        time.sleep(9)
+        time.sleep(10)
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
@@ -85,12 +90,14 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
         
-        if C.SuaVez:
-            dados_para_enviar = C.Partida.ToDic_inic
-            threading.Thread(target=enviar_dados, args=(dados_para_enviar, C.Partida.ID)).start()
-        
-        else:
-            threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online)).start()
+        if C.comunicaçao is False:
+            if C.SuaVez:
+                dados_para_enviar = C.Partida.ToDic_Inic()
+                threading.Thread(target=enviar_dados, args=(dados_para_enviar, C.Partida.ID)).start()
+            
+            else:
+                threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online)).start()
+            C.comunicaçao = True
 
         C.tocar_musica_do_estadio()
 

@@ -1,6 +1,7 @@
 from Geradores.GeradorPokemon import Gerador_final, Gerador_Clone
 from Visual.Sonoridade import tocar
 from Jogo.Abas import Trocar_Ataque_Pergunta
+from Jogo.Funções2 import verificar_serializabilidade
 from Dados.Treinadores import Derrotas,Vitorias,Passivas,Habilidades
 import Visual.GeradoresVisuais as GV
 import random
@@ -184,7 +185,7 @@ class Jogador:
                 return False
 
     def ToDic(self):
-        return {
+        data = {
             "nome": self.nome,
             "pokemons": [p.ToDic() for p in self.pokemons],
             "inventario": self.inventario,
@@ -211,8 +212,10 @@ class Jogador:
             "Vstars": self.Vstars,
             "Vmaxs": self.Vmaxs,
             "MultiplicaIV": self.MultiplicaIV,
-
         }
+
+        verificar_serializabilidade(data)
+        return data
     
 
 def Gerador_player(informaçoes):

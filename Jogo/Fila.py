@@ -26,9 +26,9 @@ B1 = {"estado": False}
 
 DadosGerais = [None,None]
 
-def CriaPartidaOnline(player1,player2,ID):
+def CriaPartidaOnline(player1,Dadosplayer2,ID):
 
-    player2 = Gerador_player_clone(player2)
+    player2 = Gerador_player_clone(Dadosplayer2)
 
     for i in range(15):
         coletor(player1)
@@ -77,7 +77,6 @@ def Fila(tela, estados, relogio, Config):
                         PartidaOn.Jogador1.pokemons[0].local = [960, 510 + 600 // 2]
                         envio = {"partida": data["partida"], "dados": PartidaOn.anterior}
                         resposta = requests.post("https://apipokemon-i9bb.onrender.com/inicializar_partida", json=envio)
-                        print (resposta.json())
                         DadosGerais = [PartidaOn, 1]
                         A.Iniciar_partida_online(estados)
                         break  # Finaliza a thread após iniciar

@@ -3,6 +3,7 @@ import os
 import copy
 import json
 import re
+from Jogo.Funções2 import verificar_serializabilidade
 from Geradores.GeradorPokemon import Gerador_Clone
 from Geradores.GeradorOutros import GeraBaralhoClone, Gera_Mapa
 from Geradores.GeradorPlayer import Gerador_player_clone
@@ -136,16 +137,17 @@ class PartidaOnline:
         except Exception:
             erros.append("Jogador1")
 
-        try:
-            dicionario["Jogador2"] = self.Jogador2.ToDic()
-        except Exception:
-            erros.append("Jogador2")
+        # try:
+        dicionario["Jogador2"] = self.Jogador2.ToDic()
+        # except Exception:
+        #     erros.append("Jogador2")
 
         if erros:
             print(f"ERRO ao converter para dicionário: falhou em {', '.join(erros)}")
         else:
             print("ToDic_Inic: Tudo passado para o dicionário com sucesso.")
 
+        verificar_serializabilidade(dicionario)
         return dicionario
 
 def GeraPartidaOnline(player1,player2,Baralho,Mapa):

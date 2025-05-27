@@ -3,6 +3,7 @@ import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Mensagens import adicionar_mensagem_passageira
 import math
+import json
 import pygame
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxo", "rosa", "laranja", "marrom", "preta", "cinza"]
@@ -334,3 +335,11 @@ def Vsteb(pokemon,dano,ataque):
     if ataque["tipo"] in pokemon.tipo:
         dano = dano * 1.2
     return dano
+
+def verificar_serializabilidade(dicionario):
+    for chave, valor in dicionario.items():
+        try:
+            json.dumps(valor)
+        except (TypeError, OverflowError) as e:
+            print(f"Erro na chave '{chave}': {repr(valor)} do tipo {type(valor)} não é serializável. Erro: {e}")
+            dd = input("erro")

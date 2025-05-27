@@ -30,7 +30,7 @@ def FI_Acido(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa
     return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
 
 Acido = {
-    "nome": "Acido",
+    "nome": "Ácido",
     "tipo": ["venenoso"],   
     "custo": ["roxa","roxa"],
     "estilo": "E",
