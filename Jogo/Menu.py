@@ -108,16 +108,16 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
 
         YBotoes = GV.animar(A1,A2,AnimaMenu, 320)
 
-        GV.Botao(tela, "Jogar", (680, YBotoes, 560, 110), TexturasDic["FundoAmarelo1"], PRETO, DOURADO,
+        GV.Botao(tela, "Jogar", (680, YBotoes, 560, 110), TexturasDic["FundoAzul"], PRETO, DOURADO,
                  lambda: A.iniciar_seleção(estados), Fonte70, B1, 4, None, True, eventos,"clique")
     
-        GV.Botao(tela, "Decks", (680, YBotoes + 130, 560, 110), TexturasDic["FundoAmarelo1"], PRETO, DOURADO,
+        GV.Botao(tela, "Decks", (680, YBotoes + 130, 560, 110), TexturasDic["FundoVerde"], PRETO, DOURADO,
                  lambda: A.iniciar_decks(estados), Fonte70, B1, 4, None, True, eventos,"clique")
         
-        GV.Botao(tela, "Configurações", (680, YBotoes + 260, 560, 110), TexturasDic["FundoAmarelo1"], PRETO, DOURADO,
+        GV.Botao(tela, "Configurações", (680, YBotoes + 260, 560, 110), TexturasDic["FundoAmarelo"], PRETO, DOURADO,
                  lambda: TrocaConfig(), Fonte70, B1, 4, None, True, eventos,)
         
-        GV.Botao(tela, "Sair do jogo", (680, YBotoes + 390, 560, 110), TexturasDic["FundoAmarelo1"], PRETO, DOURADO,
+        GV.Botao(tela, "Sair do jogo", (680, YBotoes + 390, 560, 110), TexturasDic["FundoVermelho"], PRETO, DOURADO,
                  lambda: A.fechar_jogo(estados), Fonte70, B1, 4, None, True, eventos,)
 
 
@@ -141,6 +141,9 @@ def Menu(tela, estados, relogio, config):
     config["Modo"] = None
 
     tempo_ultimo_movimento = pygame.time.get_ticks()
+
+    import Carregamento as C
+    C.Carregamento = False
 
     while estados["Rodando_Menu"]:
         if not isinstance(Fundo_Menu, list):

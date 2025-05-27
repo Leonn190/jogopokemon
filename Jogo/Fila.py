@@ -86,7 +86,7 @@ def Fila(tela, estados, relogio, Config):
                     resposta = requests.post("https://apipokemon-i9bb.onrender.com/verificar_partida_criada", json={"partida": data["partida"]})
                     pronto = resposta.json()
                     if pronto["criada"]:
-                        PartidaOn = GeraPartidaOnlineClone(pronto["dados"], data["partida"])
+                        PartidaOn = GeraPartidaOnlineClone(pronto["estado"], data["partida"])
                         PartidaOn.Jogador2 = Jogador
                         PartidaOn.Jogador1.pokemons[0].local = [960, 570 - 600 // 2]
                         PartidaOn.Jogador2.pokemons[0].local = [960, 510 + 600 // 2]

@@ -379,13 +379,22 @@ def adicionar_mensagem(texto, max_linhas=9):
 
 def Terminal(tela, espaço, fonte, cor_fundo, cor_texto):
     x, y, largura, altura = espaço
-    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+
+    # Se cor_fundo for uma imagem (Surface), aplica a imagem como fundo
+    if isinstance(cor_fundo, pygame.Surface):
+        fundo_redimensionado = pygame.transform.scale(cor_fundo, (largura, altura))
+        tela.blit(fundo_redimensionado, (x, y))
+    else:
+        pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+
+    # Borda do terminal
     pygame.draw.rect(tela, cor_texto, (x, y, largura, altura), 2)
 
+    # Renderizar mensagens
     espaco_linha = fonte.get_height() + 6
     for i, mensagem in enumerate(mensagens_terminal):
         texto = fonte.render(mensagem, True, cor_texto)
-        tela.blit(texto, (x + 10, y + 5 + i * espaco_linha))            
+        tela.blit(texto, (x + 10, y + 5 + i * espaco_linha))           
 
 def Tabela(nome, colunas, linhas, tela, x, y, largura_total, fonte, fonte_cabecalho, cor_fundo, cor_borda, cor_cabecalho):
     PRETO = (0, 0, 0)  # Cor padrão para texto

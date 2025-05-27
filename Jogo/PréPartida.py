@@ -14,6 +14,8 @@ from Visual.GeradoresVisuais import (
 
 pygame.mixer.init()
 
+PokemonSurface = pygame.Surface((300,300), pygame.SRCALPHA)
+
 ImagensPokemonInicial = {}
 IconesDeckIMG = {}
 
@@ -167,7 +169,7 @@ def TelaPréPartida_Solo(tela, eventos, estados):
 
     GV.Botao(tela, "Sair do jogo", (800, 400, 320, 80), CINZA, PRETO, AZUL,
              lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)  
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza"], PRETO, AZUL,
              lambda: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
 
     largura_botao = 255
@@ -197,9 +199,29 @@ def TelaPréPartida_Solo(tela, eventos, estados):
                 tecla_esquerda=[pygame.K_1, pygame.K_2, pygame.K_3][i],
                 tecla_direita=None, som="Seleciona"
             )
+            # Aumenta gradualmente o alpha até 255
+            if P1pokemonsAlpha < 255:
+                P1pokemonsAlpha += 10
+                if P1pokemonsAlpha > 255:
+                    P1pokemonsAlpha = 255
+
+            # Copia a imagem e aplica o alpha
             imagem = ImagensPokemonInicial[pokemon["nome"]]
-            imagem_rect = imagem.get_rect(center=(pos_x + largura_botao // 2, pos_y + altura_botao // 2))
-            tela.blit(imagem, imagem_rect)
+            imagem_alpha = imagem.copy()
+            imagem_alpha.set_alpha(P1pokemonsAlpha)
+
+            # Limpa a surface com fundo transparente
+            PokemonSurface.fill((0, 0, 0, 0))
+
+            # Centraliza a imagem na PokemonSurface
+            largura_s, altura_s = PokemonSurface.get_size()
+            imagem_rect = imagem_alpha.get_rect(center=(largura_s // 2, altura_s // 2))
+            PokemonSurface.blit(imagem_alpha, imagem_rect)
+
+            # Blita a surface final na tela
+            rect_surface = PokemonSurface.get_rect(center=(pos_x + largura_botao // 2, pos_y + altura_botao // 2))
+            tela.blit(PokemonSurface, rect_surface)
+            
         else:
             pygame.draw.rect(tela, CINZA, (pos_x, pos_y, largura_botao, altura_botao))
             pygame.draw.rect(tela, PRETO, (pos_x, pos_y, largura_botao, altura_botao), 5)
@@ -285,7 +307,7 @@ def TelaPréPartida(tela,eventos,estados):
 
     GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B2, 3, pygame.K_ESCAPE, False, eventos)  
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza"], PRETO, AZUL,
                  lambda: A.Voltar(estados), Fonte40, B8, 3, None, True, eventos)
 
     largura_botao = 240
@@ -467,7 +489,7 @@ def PréPartida(tela,estados,relogio,Config):
     Poke3_p2 = None
 
     pygame.mixer.music.load('Audio/Musicas/PréPartida.ogg')
-    pygame.mixer.music.set_volume(Config["Volume"] + 0.2)
+    pygame.mixer.music.set_volume(Config["Volume"] * 1.2)
     pygame.mixer.music.play(-1)
 
     Fundo_pré = GV.Carregar_Imagem("imagens/fundos/Fundo1.jpg", (1920,1080))
@@ -484,9 +506,9 @@ def PréPartida(tela,estados,relogio,Config):
                 estados["Rodando_PréPartida"] = False
                 estados["Rodando_Jogo"] = False
 
-        if Config["Modo"] == "Padrão":
+        if Config["Modo"] == "Modo Padrão":
             TelaPréPartida(tela,eventos,estados)
-        elif Config["Modo"] == "Online":
+        elif Config["Modo"] == "Modo Online":
             TelaPréPartida_Solo(tela,eventos,estados)
 
         aplicar_claridade(tela,Config["Claridade"])

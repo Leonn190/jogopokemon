@@ -69,7 +69,7 @@ def coletar_dados_loop(partida_id, ID):
             data = resposta.json()
 
             dados = data.get("dados")
-            if dados is not None:
+            if dados != {}:
                 C.Partida = GP.GeraPartidaOnlineClone(dados, partida_id)
 
             if data.get("PassouVez", False):
@@ -119,7 +119,7 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
         
         if C.comunicaçao is False:
             if C.SuaVez:
-                threading.Thread(target=enviar_dados, args=(C.Partida.ID)).start()
+                threading.Thread(target=enviar_dados, args=(C.Partida.ID,)).start()
             
             else:
                 threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online)).start()

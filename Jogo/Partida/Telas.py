@@ -18,7 +18,7 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte23, Fonte25, Fonte28, Fonte30, Fonte35, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA,CINZA_ESCURO, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO,VERMELHO_SUPER_CLARO, VERDE, VERDE_CLARO,
-    LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA, cores_raridade)
+    LARANJA,LARANJA_CLARO, ROXO,ROXO_CLARO, ROSA, DOURADO, PRATA, cores_raridade, TexturasDic)
 
 import Partida.Compartilhados as C
 
@@ -34,7 +34,7 @@ def TelaPokemons(tela, eventos,estados, config):
 
     try:
         if C.PokemonS.PodeAtacar == True:
-            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), VERMELHO_CLARO, PRETO, AZUL,lambda: Atacar(C.PokemonS,C.PokemonV,C.PokemonA,C.player,C.inimigo,C.Partida.Mapa,tela,C.Partida.Baralho),Fonte40, C.B22, 3, None, True, eventos)
+            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), TexturasDic["FundoAtacar"], PRETO, AZUL,lambda: Atacar(C.PokemonS,C.PokemonV,C.PokemonA,C.player,C.inimigo,C.Partida.Mapa,tela,C.Partida.Baralho),Fonte40, C.B22, 3, None, True, eventos)
         else:
             GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
     
@@ -43,7 +43,7 @@ def TelaPokemons(tela, eventos,estados, config):
         
     try:
         if C.PokemonS.PodeEvoluir == True:
-            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), VERDE_CLARO, PRETO, AZUL,lambda: C.PokemonS.evoluir(C.player),Fonte40, C.B22, 3, None, True, eventos)
+            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), TexturasDic["FundoEvolui"], PRETO, AZUL,lambda: C.PokemonS.evoluir(C.player),Fonte40, C.B22, 3, None, True, eventos)
         else:
             GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
     
@@ -53,18 +53,18 @@ def TelaPokemons(tela, eventos,estados, config):
     try:
         if C.PokemonS.local != []:
             
-            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,2),Fonte40, C.B23, 3, None, True, eventos)
+            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), TexturasDic["FundoGuardar"], PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,2),Fonte40, C.B23, 3, None, True, eventos)
 
         else:
             if C.PokemonS.guardado > 0:
                 GV.Botao(tela, f"Posicione em {C.PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B23, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), AZUL_CLARO, PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,0),Fonte40, C.B23, 3, None, True, eventos)
+                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), TexturasDic["FundoGuardar"], PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,0),Fonte40, C.B23, 3, None, True, eventos)
 
     except AttributeError:
         pass
 
-    for i in range(6):
+    for i in range(5):
         x = 420 + i * 190
         if len(C.player.pokemons) > i:
             id_poke = C.player.pokemons[i]
@@ -75,9 +75,9 @@ def TelaPokemons(tela, eventos,estados, config):
             if id_poke.atacou == True:
                 cor_do_fundo_pokemon = (123, 138, 148)
             else:
-                cor_do_fundo_pokemon = AZUL_SUPER_CLARO
+                cor_do_fundo_pokemon = TexturasDic["FundoPokemonAliado"]
         else:
-            cor_do_fundo_pokemon = AZUL_SUPER_CLARO
+            cor_do_fundo_pokemon = TexturasDic["FundoPokemonAliado"]
 
         GV.Botao_Selecao2(
             tela, (x, 890, 190, 190),
@@ -100,7 +100,7 @@ def TelaPokemons(tela, eventos,estados, config):
         GV.Botao_Selecao2(
             tela, (x, 0, 190, 190),
             "", Fonte30,
-            cor_fundo=VERMELHO_SUPER_CLARO, cor_borda_normal=PRETO,
+            cor_fundo=TexturasDic["FundoPokemonInimigo"], cor_borda_normal=PRETO,
             cor_borda_esquerda=VERMELHO, cor_borda_direita=AZUL,
             cor_passagem=AMARELO, id_botao=id_poke,
             estado_global_esquerdo=C.estadoAlvo ,estado_global_direito=C.estadoVisualiza, eventos=eventos,
@@ -242,7 +242,7 @@ def TelaOpções(tela, eventos,estados,config):
     GV.Botao(tela, "", (0, YT, 420, 50), PRETO, PRETO, PRETO,lambda: C.Troca_Terminal(),Fonte40, C.B24, 3, None, True, eventos)
     GV.Texto_caixa(tela,f"{C.player.ouro}",(280, (YT - 60), 140, 60),Fonte40,LARANJA,PRETO)
     GV.Texto_caixa(tela,C.player.nome,(0, YT, 420, 50),Fonte50,AZUL,PRETO) 
-    GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte23, AZUL_CLARO, PRETO)
+    GV.Terminal(tela, (0, (YT + 50), 420, 230), Fonte23, TexturasDic["FundoTerminal"], PRETO)
 
     nomes_botoes_outros = ["Inventario", "Centro", "Treinador", "Estadio"]
 
@@ -251,7 +251,7 @@ def TelaOpções(tela, eventos,estados,config):
             GV.Botao_Selecao(
                 tela, (i * 70, (YT - 60), 70, 60),
                 "", Fonte30,
-                cor_fundo=AZUL_CLARO, cor_borda_normal=PRETO,
+                cor_fundo=TexturasDic["FundoOpçoes"], cor_borda_normal=PRETO,
                 cor_borda_esquerda=VERDE, cor_borda_direita=None,
                 cor_passagem=AMARELO, id_botao=nome,   
                 estado_global=C.estadoOutros, eventos=eventos,
@@ -300,8 +300,13 @@ def TelaOutros(tela, eventos,estados, config):
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.pausarEdespausar(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.Muter(), Fonte50, C.B1, 3, pygame.K_m, False, eventos)
     GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.passar_turno(estados),Fonte40, C.B7, 3, None, True, eventos)
-    GV.Texto_caixa(tela,f"Turno: {C.Partida.Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO) 
-    GV.Texto_caixa(tela,C.inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
+    GV.Texto_caixa(tela,f"Turno: {C.Partida.Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO)
+    YTI = GV.animar(C.TI1,C.TI2,C.animaTI,450)
+    if YTI != 0:
+        pygame.draw.rect(tela, PRETO, (1500, YTI - 430, 420, 430))
+        TreinadorInfo((1520,YTI - 420),tela,C.inimigo.treinador,C.ImagensFichas,"P",C.inimigo)
+    GV.Botao(tela, "", (1500, YTI, 420, 50), PRETO, PRETO, PRETO,lambda: C.Troca_Terminal_Inimigo(),Fonte40, C.B24, 3, None, True, eventos)
+    GV.Texto_caixa(tela,C.inimigo.nome,(1500, YTI, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
 
     if C.Partida.online is True:
         if C.SuaVez is True:

@@ -1234,7 +1234,7 @@ def TelaDecks(tela,eventos,estados):
             tela.blit(icone_redimensionado, (icone_x, icone_y))
 
 
-    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza1"], PRETO, AZUL,
+    GV.Botao(tela, "Voltar", (0, 1020, 200, 60), TexturasDic["FundoCinza"], PRETO, AZUL,
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
     
     if len(ListaDecks) < 16:

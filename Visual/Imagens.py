@@ -699,32 +699,57 @@ def Carregar_Imagens_Pré_Partida(ImagensPokemonInicial,IconesDeckIMG):
 
 def CarregarTexturas(TexturasDic):
 
-    FundoAmarelo1 = GV.Carregar_Imagem("imagens/Texturas/FundoAmarelo1.jpg", (700, 410))
-    FundoCinza1 = GV.Carregar_Imagem("imagens/Texturas/FundoCinza1.jpg", (700, 410))
+    FundoAmarelo = GV.Carregar_Imagem("imagens/Texturas/FundoAmarelo.jpg", (700, 410))
+    FundoVerde = GV.Carregar_Imagem("imagens/Texturas/FundoVerde.jpg", (700, 410))
+    FundoVermelho = GV.Carregar_Imagem("imagens/Texturas/FundoVermelho.jpg", (700, 410))
+    FundoAzul = GV.Carregar_Imagem("imagens/Texturas/FundoAzul.jpg", (700, 410))
+    FundoRoxo = GV.Carregar_Imagem("imagens/Texturas/FundoRoxo.jpg", (700, 410))
+    FundoAzulEscuro = GV.Carregar_Imagem("imagens/Texturas/FundoAzulEscuro.jpg", (700, 410))
+    FundoCinza = GV.Carregar_Imagem("imagens/Texturas/FundoCinza.jpg", (700, 410))
+    FundoPokemonInimigo = GV.Carregar_Imagem("imagens/Texturas/FundoPokemonInimigo.jpg", (300, 300))
+    FundoPokemonAliado = GV.Carregar_Imagem("imagens/Texturas/FundoPokemonAliado.jpg", (300, 300))
+    FundoOpçoes = GV.Carregar_Imagem("imagens/Texturas/FundoOpçoes.jpg", (300, 300))
+    FundoTerminal = GV.Carregar_Imagem("imagens/Texturas/FundoTerminal.jpg", (600, 300))
+    FundoAtacar = GV.Carregar_Imagem("imagens/Texturas/FundoAtacar.jpg", (500, 150))
+    FundoEvolui = GV.Carregar_Imagem("imagens/Texturas/FundoEvolui.jpg", (500, 150))
+    FundoGuardar = GV.Carregar_Imagem("imagens/Texturas/FundoGuardar.jpg", (500, 150))
 
-    FundoSombrio = GV.Carregar_Imagem("imagens/Texturas/FundoSombrio.jpg", (320, 140))
-    FundoNormal = GV.Carregar_Imagem("imagens/Texturas/FundoNormal.jpg", (320, 140))
-    FundoFogo = GV.Carregar_Imagem("imagens/Texturas/FundoFogo.jpg", (320, 140))
-    FundoAgua = GV.Carregar_Imagem("imagens/Texturas/FundoAgua.jpg", (320, 140))
-    FundoPlanta = GV.Carregar_Imagem("imagens/Texturas/FundoPlanta.jpg", (320, 140))
-    FundoEletrico = GV.Carregar_Imagem("imagens/Texturas/FundoEletrico.jpg", (320, 140))
-    FundoGelo = GV.Carregar_Imagem("imagens/Texturas/FundoGelo.jpg", (320, 140))
-    FundoLutador = GV.Carregar_Imagem("imagens/Texturas/FundoLutador.jpg", (320, 140))
-    FundoVenenoso = GV.Carregar_Imagem("imagens/Texturas/FundoVenenoso.jpg", (320, 140))
-    FundoTerrestre = GV.Carregar_Imagem("imagens/Texturas/FundoTerrestre.jpg", (320, 140))
-    FundoVoador = GV.Carregar_Imagem("imagens/Texturas/FundoVoador.jpg", (320, 140))
-    FundoPsiquico = GV.Carregar_Imagem("imagens/Texturas/FundoPsiquico.jpg", (320, 140))
-    FundoInseto = GV.Carregar_Imagem("imagens/Texturas/FundoInseto.jpg", (320, 140))
-    FundoPedra = GV.Carregar_Imagem("imagens/Texturas/FundoPedra.jpg", (320, 140))
-    FundoFantasma = GV.Carregar_Imagem("imagens/Texturas/FundoFantasma.jpg", (320, 140))
-    FundoDragao = GV.Carregar_Imagem("imagens/Texturas/FundoDragao.jpg", (320, 140))
-    FundoMetal = GV.Carregar_Imagem("imagens/Texturas/FundoMetal.jpg", (320, 140))
-    FundoFada = GV.Carregar_Imagem("imagens/Texturas/FundoFada.jpg", (320, 140))
+
+    FundoSombrio = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoSombrio.jpg", (320, 140))
+    FundoNormal = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoNormal.jpg", (320, 140))
+    FundoFogo = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoFogo.jpg", (320, 140))
+    FundoAgua = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoAgua.jpg", (320, 140))
+    FundoPlanta = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoPlanta.jpg", (320, 140))
+    FundoEletrico = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoEletrico.jpg", (320, 140))
+    FundoGelo = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoGelo.jpg", (320, 140))
+    FundoLutador = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoLutador.jpg", (320, 140))
+    FundoVenenoso = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoVenenoso.jpg", (320, 140))
+    FundoTerrestre = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoTerrestre.jpg", (320, 140))
+    FundoVoador = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoVoador.jpg", (320, 140))
+    FundoPsiquico = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoPsiquico.jpg", (320, 140))
+    FundoInseto = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoInseto.jpg", (320, 140))
+    FundoPedra = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoPedra.jpg", (320, 140))
+    FundoFantasma = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoFantasma.jpg", (320, 140))
+    FundoDragao = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoDragao.jpg", (320, 140))
+    FundoMetal = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoMetal.jpg", (320, 140))
+    FundoFada = GV.Carregar_Imagem("imagens/Texturas/Ataques/FundoFada.jpg", (320, 140))
 
 
     TexturasDic = {
-        "FundoAmarelo1": FundoAmarelo1,
-        "FundoCinza1": FundoCinza1,
+        "FundoAmarelo": FundoAmarelo,
+        "FundoVerde": FundoVerde,
+        "FundoVermelho": FundoVermelho,
+        "FundoAzul": FundoAzul,
+        "FundoRoxo": FundoRoxo,
+        "FundoAzulEscuro": FundoAzulEscuro,
+        "FundoCinza": FundoCinza,
+        "FundoPokemonInimigo": FundoPokemonInimigo,
+        "FundoPokemonAliado": FundoPokemonAliado,
+        "FundoOpçoes": FundoOpçoes,
+        "FundoTerminal": FundoTerminal,
+        "FundoAtacar": FundoAtacar,
+        "FundoEvolui": FundoEvolui,
+        "FundoGuardar": FundoGuardar,
 
         "sombrio": FundoSombrio,
         "normal": FundoNormal,

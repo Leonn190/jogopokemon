@@ -772,7 +772,7 @@ superficie_transparente = None
 
 def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, precisao, Mapa):
     global superficie_transparente
-    if PeçaS is None or PeçaS.local is None:
+    if PeçaS is None or PeçaS.local is []:
         return
 
     if superficie_transparente == None:
@@ -781,17 +781,14 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
     superficie_transparente.fill((0, 0, 0, 0))  # limpar a surface com transparência
 
     centro_x, centro_y = PeçaS.local
-    raio = int(alcance_metros * pixels_por_metro + PeçaS.raio)
-
-    centro_x, centro_y = PeçaS.local
-    raio = int(alcance_metros * pixels_por_metro + PeçaS.raio)
+    raio = int((alcance_metros + PeçaS.tamanho) * pixels_por_metro )
 
     # Círculo de alcance
     pygame.draw.circle(superficie_transparente, (255, 0, 0, 120), (centro_x, centro_y), raio + 5)
     pygame.draw.circle(superficie_transparente, (255, 0, 0, 50), (centro_x, centro_y), raio)
 
     # Reta até o alvo, se houver
-    if Alvo is not None and hasattr(Alvo, 'local') and Alvo.local is not None:
+    if Alvo is not None and hasattr(Alvo, 'local') and Alvo.local is not []:
         alvo_x, alvo_y = Alvo.local
 
         # Distância real entre os Pokémon

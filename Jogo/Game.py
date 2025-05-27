@@ -1,8 +1,8 @@
 import pygame
 import sys
 import ctypes
+import threading
 import os
-import subprocess
 
 # evita estragar a resoluçao mesmo com o zoom de 125% do meu computador
 
@@ -30,6 +30,9 @@ pygame.display.set_caption("Jogo Pokémon")
 # Ícone da janela (comum)
 icone_surface = pygame.image.load("imagens/icones/Icone.png")
 pygame.display.set_icon(icone_surface)
+Surface = pygame.Surface(tela.get_size(), pygame.SRCALPHA)
+
+from Carregamento import TelaCarregamento
 
 import Menu 
 import PréPartida
@@ -60,10 +63,14 @@ if os.path.exists("ConfigFixa.py"):
         pass
 
 Config["Modo"] = None
-Config["Versão"] = "Beta 1.1.4"
+Config["Versão"] = "Beta 1.2.0"
 
 from Visual.Sonoridade import VerificaModoSilencioso
 VerificaModoSilencioso(Config)
+
+if Config["Modo rápido"] is not True:
+    thread_carregamento = threading.Thread(target=TelaCarregamento, args=(tela, relogio, Config, Surface))
+    thread_carregamento.start()
 
 estados = {
     "Rodando_Jogo": True,

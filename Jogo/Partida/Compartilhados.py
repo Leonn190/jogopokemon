@@ -60,6 +60,7 @@ Musica_Estadio_atual = None
 def TrocaConfig():
     global Config
     if Config == False:
+        tocar("Config")
         Config = True
     else:
         Config = False
@@ -172,6 +173,8 @@ V1 = 1920
 V2 = 1920
 T1 = 800
 T2 = 800
+TI1 = 0
+TI2 = 0
 OP1 = 1080
 OP2 = 1080
 
@@ -192,7 +195,7 @@ def seleciona(Pokemon):
             S1 = 1920
             S2 = 1540
             OP1 = 1080
-            OP2 = 930
+            OP2 = 920
             animaS = pygame.time.get_ticks()
             animaOP = pygame.time.get_ticks()
         else:
@@ -631,6 +634,18 @@ def Troca_Terminal():
         T2 = 800
         animaT = pygame.time.get_ticks()
 
+def Troca_Terminal_Inimigo():
+    global animaTI, TI1, TI2
+    if TI2 == 0:
+        TI1 = 0
+        TI2 = 423
+        animaTI = pygame.time.get_ticks()
+    else:
+        GV.limpa_terminal()
+        TI1 = 423
+        TI2 = 0
+        animaTI = pygame.time.get_ticks()
+
 def Passar_contadores():
     for pokemon in player.pokemons:
         if pokemon.Vida > 0:
@@ -701,7 +716,9 @@ animaAC = 0
 animaAL = 0
 animaV = 0
 animaT = 0
+animaTI = 0
 animaOP = 0
+
 
 B1 = {"estado": False}
 B6 = {"estado": False}
