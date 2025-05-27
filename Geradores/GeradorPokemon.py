@@ -255,8 +255,10 @@ class Pokemon:
             self.PodeAtacar = dados["PodeAtacar"]
             self.movimento1 = SelecionaAtaques(dados["Move1"])
             self.movimento2 = SelecionaAtaques(dados["Move2"])
-            self.movimento3 = SelecionaAtaques(dados["Move3"])
-            self.movimento4 = SelecionaAtaques(dados["Move4"])
+            if dados["Move3"] is not None:
+                self.movimento3 = SelecionaAtaques(dados["Move3"])
+                if dados["Move4"] is not None:
+                    self.movimento4 = SelecionaAtaques(dados["Move4"])
             self.moveList = dados["MoveList"]
             self.movePossiveis = dados["possiveis"]
             self.code = dados["code"]
@@ -522,8 +524,8 @@ class Pokemon:
             "CoefAltura": self.CoefAltura,
             "Move1": self.movimento1["nome"],
             "Move2": self.movimento2["nome"],
-            "Move3": self.movimento3["nome"],
-            "Move4": self.movimento4["nome"],
+            "Move3": self.movimento3["nome"] if self.movimento3 else None,
+            "Move4": self.movimento4["nome"] if self.movimento4 else None,
             "MoveList": self.moveList,
             "possiveis": self.movePossiveis,
             "guardado": self.guardado,
