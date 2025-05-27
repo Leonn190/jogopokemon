@@ -27,10 +27,12 @@ from Visual.GeradoresVisuais import (
 import Partida.Compartilhados as C
 import Partida.Telas as T
 
-def enviar_dados(dados, partida_id):
+def enviar_dados(partida_id):
 
     while True:
-        envio = {"dados": dados, "partida": partida_id, "PassouVez": C.PassouVez}
+        dados_para_enviar = C.Partida.ToDic_Inic()
+
+        envio = {"dados": dados_para_enviar, "partida": partida_id, "PassouVez": C.PassouVez}
         verificar_serializabilidade(envio)
         # Envia o estado atualizado da partida uma vez
         resposta = requests.post(
@@ -44,21 +46,46 @@ def enviar_dados(dados, partida_id):
             break
         time.sleep(10)
 
-def coletar_dados_loop(partida_id, ID,):
+def coletar_dados_loop(partida_id, ID):
     while True:
-        resposta = requests.post(
-            "https://apipokemon-i9bb.onrender.com/coletar_partida",
-            json={"partida": partida_id, "ID_Jogador": ID}
-        )
-        data = resposta.json()
-        dados = data.get("dados")
 
-        if dados is not None:
-            C.Partida = GP.GeraPartidaOnlineClone(dados,partida_id)
-        
-        if data.get("PassouVez", False):
-            C.comunicaçao = False
-            break
+        print (partida_id, ID)
+
+        try:
+            resposta = requests.post(
+                "https://apipokemon-i9bb.onrender.com/coletar_partida",
+                json={"partida": partida_id, "ID_Jogador": ID},
+                timeout=10
+            )
+
+            print("STATUS HTTP:", resposta.status_code)
+            print("RESPOSTA TEXTO:", resposta.text)
+
+            if resposta.status_code != 200:
+                print("Erro na resposta:", resposta.text)
+                time.sleep(5)
+                continue  # <- tenta de novo depois
+
+            data = resposta.json()
+
+            dados = data.get("dados")
+            if dados is not None:
+                C.Partida = GP.GeraPartidaOnlineClone(dados, partida_id)
+
+            if data.get("PassouVez", False):
+                C.comunicaçao = False
+                break  # <- esse break é válido, pois a vez realmente passou
+
+        except requests.exceptions.RequestException as e:
+            print("Erro na requisição:", e)
+            time.sleep(5)
+            continue  # tenta de novo depois
+
+        except ValueError as e:
+            print("Erro ao decodificar JSON:", e)
+            print("Conteúdo recebido:", resposta.text)
+            time.sleep(5)
+            continue  # tenta de novo depois
 
         time.sleep(10)
 
@@ -92,8 +119,7 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
         
         if C.comunicaçao is False:
             if C.SuaVez:
-                dados_para_enviar = C.Partida.ToDic_Inic()
-                threading.Thread(target=enviar_dados, args=(dados_para_enviar, C.Partida.ID)).start()
+                threading.Thread(target=enviar_dados, args=(C.Partida.ID)).start()
             
             else:
                 threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online)).start()
