@@ -92,6 +92,7 @@ ModoSelecionado = [None,None]
 
 def SelecionaModo(Modo):
     global ModoSelecionado
+    tocar("Seleciona")
     ModoSelecionado = Modo
 
 def DesselecionaModo():
@@ -150,19 +151,12 @@ def TelaSeleção(tela,eventos,estados,Config):
     for i in range(len(ListaModos)):
         y_base = 120 + i * 146 
         
-        if i in [0,1]:
-            cor = TexturasDic["FundoAzul"]
-        elif i in [2,3]:
-            cor = TexturasDic["FundoAzulEscuro"]
-        else:
-            cor = TexturasDic["FundoRoxo"]
-
         GV.Botao_Selecao(
             tela,
             (180, y_base, 540, 120),  # Posição com y dinâmico
             ListaModos[i][0],
             Fonte50,
-            cor_fundo=cor,
+            cor_fundo=TexturasDic["FundoAzul"],
             cor_borda_normal=PRETO,
             cor_borda_esquerda=VERDE,
             cor_borda_direita=None,

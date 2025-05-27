@@ -25,19 +25,17 @@ Sons = {
     "Apagou": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Apagou.wav"), "Volume": 1.8},
     "Seleciona": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/EscolhaPoke.wav"), "Volume": 0.3},
     "Alvo": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Alvo.wav"), "Volume": 0.4},
-    "Abre": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Abre.wav"), "Volume": 1},
-    "Fecha": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Fecha.wav"), "Volume": 1},
+    "Abre": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Abre.wav"), "Volume": 1.6},
+    "Fecha": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Fecha.wav"), "Volume": 1.6},
     "Config": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Config.wav"), "Volume": 1},
     "Entrou": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Entrou.mp3"), "Volume": 1},
-    "Ativa": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Ativa.mp3"), "Volume": 1},
-    "Desativa": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Desativa.mp3"), "Volume": 1},
+    "Ativa": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Ativa.mp3"), "Volume": 1.8},
+    "Desativa": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Desativa.mp3"), "Volume": 1.8},
 }
 
 def tocar(som):
     audio = Sons[som]["Som"]()
     volume = Sons[som]["Volume"]
-    
-    print(silencio["Sim"])
 
     if silencio["Sim"]:
         volume = 0

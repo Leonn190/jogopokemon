@@ -202,4 +202,7 @@ def Configuraçoes(tela, eventos, config):
                 tecla_esquerda=pygame.K_1, 
                 tecla_direita=None)
     
+    if modulador == False:
+        FechaConfigAvançada()
+
     return modulador
