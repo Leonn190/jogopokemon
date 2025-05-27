@@ -26,20 +26,6 @@ def GeraPartida(player1,player2,Baralho,Mapa):
     return Partida(player1,player2,Baralho,Mapa)
 
 
-def tornar_json_serializavel(obj):
-    if isinstance(obj, dict):
-        return {k: tornar_json_serializavel(v) for k, v in obj.items()}
-    elif isinstance(obj, list):
-        return [tornar_json_serializavel(i) for i in obj]
-    elif isinstance(obj, set):
-        return list(obj)
-    elif hasattr(obj, '__dict__'):
-        return str(obj)  # fallback: objetos complexos viram string
-    elif isinstance(obj, type):
-        return str(obj)
-    else:
-        return obj
-
 def navegar_e_setar(obj, caminho, valor):
     # Divide o caminho em partes (suporta ['chave'], [índice], .atributo)
     partes = re.findall(r"\['(.*?)'\]|\[(\d+)\]|\.([a-zA-Z_][\w]*)", caminho)
@@ -88,40 +74,44 @@ class PartidaOnline:
 
         else:
 
-            # Demais atributos simples
+                        # Demais atributos simples
             self.Turno = 1
             self.tempo_restante = 0
-            self.Centro = [None,None,None,None,None,None,None,None]
-            self.Loja = [None,None,None,None]
+            self.Centro = [None] * 8
+            self.Loja = [None] * 4
             self.Vencedor = None
             self.Perdedor = None
             self.online = True
             self.ID = 2
 
-            print("DEBUG: Criando Baralho...")
-            print(Dados["Baralho"])
-            self.Baralho = GeraBaralhoClone(Dados["Baralho"])
-            print (self.Baralho)
-            print("DEBUG: Baralho criado com sucesso.")
+            # Inicializações com prints resumidos
+            try:
+                self.Baralho = GeraBaralhoClone(Dados["Baralho"])
+            except Exception as e:
+                print("Erro ao gerar Baralho:", e)
 
-            print("DEBUG: Gerando Mapa...")
-            self.Mapa = Gera_Mapa(Dados["Mapa"]["Code"])
-            print("DEBUG: Mapa gerado com sucesso.")
+            try:
+                self.Mapa = Gera_Mapa(Dados["Mapa"]["Code"])
+            except Exception as e:
+                print("Erro ao gerar Mapa:", e)
 
-            print("DEBUG: Gerando Jogador 1...")
-            self.Jogador1 = Gerador_player_clone(Dados["Jogador1"])
-            print("DEBUG: Jogador 1 criado com sucesso.")
+            try:
+                self.Jogador1 = Gerador_player_clone(Dados["Jogador1"])
+            except Exception as e:
+                print("Erro ao gerar Jogador1:", e)
 
-            print("DEBUG: Gerando Jogador 2...")
-            self.Jogador2 = Gerador_player_clone(Dados["Jogador2"])
-            print("DEBUG: Jogador 2 criado com sucesso.")
+            try:
+                self.Jogador2 = Gerador_player_clone(Dados["Jogador2"])
+            except Exception as e:
+                print("Erro ao gerar Jogador2:", e)
 
-            print("DEBUG: Convertendo partida para dicionário...")
+            # Conversão final para dicionário
             self.anterior = self.ToDic_Inic()
-            print("DEBUG: Conversão para dicionário finalizada com sucesso.")
+            print("Partida inicializada e convertida para dicionário com sucesso.")
 
     def ToDic_Inic(self):
-        print("DEBUG ToDic_Inic: Convertendo Turno, tempo, Centro, Loja, Vencedor e Perdedor...")
+        erros = []
+
         dicionario = {
             "Turno": self.Turno,
             "tempo_restante": self.tempo_restante,
@@ -131,116 +121,32 @@ class PartidaOnline:
             "Perdedor": self.Perdedor,
         }
 
-        print("DEBUG ToDic_Inic: Convertendo Baralho...")
         try:
             dicionario["Baralho"] = self.Baralho.ToDic()
-            print("DEBUG ToDic_Inic: Baralho convertido com sucesso.")
-        except Exception as e:
-            print("ERRO em Baralho.ToDic():", e)
+        except Exception:
+            erros.append("Baralho")
 
-        print("DEBUG ToDic_Inic: Convertendo Mapa...")
         try:
             dicionario["Mapa"] = self.Mapa.ToDic()
-            print("DEBUG ToDic_Inic: Mapa convertido com sucesso.")
-        except Exception as e:
-            print("ERRO em Mapa.ToDic():", e)
+        except Exception:
+            erros.append("Mapa")
 
-        print("DEBUG ToDic_Inic: Convertendo Jogador1...")
         try:
             dicionario["Jogador1"] = self.Jogador1.ToDic()
-            print("DEBUG ToDic_Inic: Jogador1 convertido com sucesso.")
-        except Exception as e:
-            print("ERRO em Jogador1.ToDic_Inicial():", e)
+        except Exception:
+            erros.append("Jogador1")
 
-        print("DEBUG ToDic_Inic: Convertendo Jogador2...")
         try:
             dicionario["Jogador2"] = self.Jogador2.ToDic()
-            print("DEBUG ToDic_Inic: Jogador2 convertido com sucesso.")
-        except Exception as e:
-            print("ERRO em Jogador2.ToDic_Inicial():", e)
+        except Exception:
+            erros.append("Jogador2")
+
+        if erros:
+            print(f"ERRO ao converter para dicionário: falhou em {', '.join(erros)}")
+        else:
+            print("ToDic_Inic: Tudo passado para o dicionário com sucesso.")
 
         return dicionario
-    
-    def VerificaDiferença(self):
-        atual = self.ToDic_Inic()
-
-        diff = DeepDiff(self.anterior, atual, verbose_level=2, view='tree')
-        self.anterior = copy.deepcopy(atual)  # essencial: copia profunda
-
-        diff_dict = diff.to_dict()
-        diff_dict = tornar_json_serializavel(diff_dict)
-
-        try:
-            json.dumps(diff_dict)  # valida se é serializável
-        except Exception as e:
-            print("[ERRO JSON]", e)
-
-        print("[DEBUG] Diferenças detectadas:")
-        print(json.dumps(diff_dict, indent=2))
-
-        return diff_dict
-    
-    def atualizar(self, diff):
-        print("[DEBUG] Atualizando com diff:", diff)
-
-        if "new" in diff and isinstance(diff["new"], dict):
-            try:
-                clone = Gerador_Clone(diff["new"])
-                self.__dict__.update(clone.__dict__)
-                self.anterior = self.ToDic_Inic()
-                print("[INFO] Objeto substituído por um clone completo.")
-                return
-            except Exception as e:
-                print(f"[ERRO] Ao gerar clone de objeto: {e}")
-
-        changes = diff.get("values_changed", {})
-        print("[DEBUG] Changes detectadas:", changes)
-
-        for caminho, valores in changes.items():
-            caminho_obj = caminho.replace("root", "")
-            novo_valor = valores["new_value"]
-
-            if re.search(r"Jogador[12].*pokemons.*local", caminho_obj):
-                if isinstance(novo_valor, list) and len(novo_valor) == 2:
-                    novo_valor = [novo_valor[0], 1080 - novo_valor[1]]
-                    print(f"[DEBUG] Invertendo local: {valores['new_value']} -> {novo_valor}")
-
-            print(f"[DEBUG] Aplicando mudança em {caminho_obj} -> {novo_valor}")
-            try:
-                navegar_e_setar(self, caminho_obj, novo_valor)
-            except Exception as e:
-                print(f"[ERRO] Ao atualizar {caminho_obj}: {e}")
-
-        # ⬇️ Adicione esse bloco aqui para lidar com REMOÇÕES
-        for tipo in ["dictionary_item_removed", "iterable_item_removed"]:
-            if tipo in diff:
-                for caminho in diff[tipo]:
-                    caminho_obj = caminho.replace("root", "")
-                    valores = diff[tipo][caminho]  # pode ser o valor removido
-                    if tipo == "dictionary_item_removed":
-                        try:
-                            partes = re.findall(r"\['(.*?)'\]|\[(\d+)\]|\.([a-zA-Z_][\w]*)", caminho_obj)
-                            atual = self
-                            for parte in partes[:-1]:
-                                chave = parte[0] or parte[1] or parte[2]
-                                atual = atual[int(chave)] if parte[1] else atual[chave] if isinstance(atual, dict) else getattr(atual, chave)
-
-                            chave_final = partes[-1][0]
-                            if isinstance(atual, dict) and chave_final in atual:
-                                del atual[chave_final]
-                                print(f"[DEBUG] Removido dicionário: {caminho_obj}")
-                        except Exception as e:
-                            print(f"[ERRO] Ao remover item: {caminho_obj} -> {e}")
-
-                    elif tipo == "iterable_item_removed":
-                        try:
-                            print(f"[DEBUG] Item de lista removido em {caminho_obj} (valor: {valores}), mas requer lógica específica.")
-                            # Aqui você pode implementar remoção de item de lista se souber qual item é e onde ele está
-                        except Exception as e:
-                            print(f"[ERRO] Ao remover item de lista: {caminho_obj} -> {e}")
-
-        self.anterior = self.ToDic_Inic()
-
 
 def GeraPartidaOnline(player1,player2,Baralho,Mapa):
     return PartidaOnline(player1,player2,Baralho,Mapa)
@@ -249,3 +155,4 @@ def GeraPartidaOnlineClone(Dados,ID):
     P = PartidaOnline(None,None,None,None,Dados)
     P.ID = ID
     return P
+

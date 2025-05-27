@@ -1,5 +1,6 @@
 import pygame
 import random
+import time 
 import requests
 import threading
 from Visual.Imagens import Carregar_Imagens_Partida, Carrega_Gif_pokemon
@@ -25,32 +26,44 @@ from Visual.GeradoresVisuais import (
 import Partida.Compartilhados as C
 import Partida.Telas as T
 
+def enviar_dados(dados, partida_id):
 
-def enviar_diff(diff, partida_id, ID):
-    resposta = requests.post(
-        "https://apipokemon-i9bb.onrender.com/atualizar_partida",
-        json={"diff": diff, "partida": partida_id, "ID_Jogador": ID}
-    )
-    resposta = resposta.json()
+    while True:
+        # Envia o estado atualizado da partida uma vez
+        resposta = requests.post(
+            "https://apipokemon-i9bb.onrender.com/atualizar_partida",
+            json={"dados": dados, "partida": partida_id, "PassouVez": C.PassouVez}
+        )
 
-def coletar_diffs(partida_id, ID, callback):
-    resposta = requests.post(
-        "https://apipokemon-i9bb.onrender.com/coletar_diffs",
-        json={"partida": partida_id, "ID_Jogador": ID}
-    )
-    diffs = resposta.json()
-    print (diffs["diffs"])
-    callback(diffs["diffs"])
+        if C.PassouVez is True:
+            C.PassouVez == False
+            break
+        time.sleep(9)
+
+def coletar_dados_loop(partida_id, ID,):
+    while True:
+        resposta = requests.post(
+            "https://apipokemon-i9bb.onrender.com/coletar_partida",
+            json={"partida": partida_id, "ID_Jogador": ID}
+        )
+        data = resposta.json()
+        dados = data.get("dados")
+
+        if dados is not None:
+            C.Partida = GP.GeraPartidaOnlineClone(dados,partida_id)
+        
+        if data.get("PassouVez", False):
+            break
+
+        time.sleep(9)
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
     C.IniciaOnline(tela,config)
-    tempo_ultimo = pygame.time.get_ticks()
 
     while estados["Rodando_PartidaOnline"]:
         tela.fill(BRANCO)
         tela.blit(C.FundosIMG[C.Partida.Mapa.Fundo],(0,0))
-        agora = pygame.time.get_ticks()
         pygame.mixer.music.set_volume(config["Volume"])
         eventos = pygame.event.get()
         pos_mouse = pygame.mouse.get_pos()
@@ -71,21 +84,14 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                 if evento.button == 1 and C.peca_em_uso is not None:
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
-
-        if agora - tempo_ultimo >= 7000:
-            tempo_ultimo = agora
-            if C.SuaVez is True:
-                diff = C.Partida.VerificaDiferença()
-                threading.Thread(target=enviar_diff, args=(diff, C.Partida.ID, C.player.ID_online), daemon=True).start()
-            else:
-                # Possivel Bug de Multiplas Threads alterando a partida
-                def processar_diffs(diffs):
-                    print (len(diffs))
-                    for diff in diffs:
-                        C.Partida.atualizar(diff)
-
-                threading.Thread(target=coletar_diffs, args=(C.Partida.ID, C.player.ID_online, processar_diffs), daemon=True).start()
         
+        if C.SuaVez:
+            dados_para_enviar = C.Partida.ToDic_inic
+            threading.Thread(target=enviar_dados, args=(dados_para_enviar, C.Partida.ID)).start()
+        
+        else:
+            threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online)).start()
+
         C.tocar_musica_do_estadio()
 
         if not C.Pausa:

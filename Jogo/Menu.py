@@ -88,11 +88,11 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
             Logo_Menu.set_alpha(transparencia_logo)
             tela.blit(Logo_Menu, (LogoXInicial, LogoYInicial))
 
-            if transparencia_logo >= 50:  # só mostra texto após o logo aparecer minimamente
+            if transparencia_logo >= 80:  # só mostra texto após o logo aparecer minimamente
                 GV.TextoBorda(tela,"Aperte qualquer botão para iniciar o jogo",(960,1000),Fonte70,AMARELO)
 
     else:
-        transparencia_logo = 255
+        
 
         # Animação de escala e posição da logo
         escala = animar_valor(LogoEscalaInicial, LogoEscalaFinal, AnimaMenu, 800)
@@ -162,7 +162,7 @@ def Menu(tela, estados, relogio, config):
                     mostrar_mensagem = True
                     tempo_ultimo_movimento = pygame.time.get_ticks()
 
-                if mostrar_mensagem and (evento.type == pygame.MOUSEBUTTONDOWN or evento.type == pygame.KEYDOWN):
+                if mostrar_mensagem and (evento.type == pygame.MOUSEBUTTONDOWN or evento.type == pygame.KEYDOWN) and transparencia_logo == 255:
                     LigarParte2()
         if not Parte2:
             if tempo_atual - tempo_ultimo_movimento > tempo_limite_ocioso:

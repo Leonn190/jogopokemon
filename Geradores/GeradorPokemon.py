@@ -200,6 +200,7 @@ class Pokemon:
             self.Altura = dados["altura"]
             self.Peso = dados["peso"]
             self.tamanho = dados["tamanho"]
+            self.dono = player
             self.barreira = dados["barreira"]
             self.amplificações = dados["amplificações"]
             self.Vida = dados["vida"]
@@ -236,10 +237,26 @@ class Pokemon:
             self.IV_def = dados["IV def"]
             self.IV_defSP = dados["IV def SP"]
             self.IV_vel = dados["IV vel"]
-            self.movimento1 = dados["Move1"]
-            self.movimento2 = dados["Move2"]
-            self.movimento3 = dados["Move3"]
-            self.movimento4 = dados["Move4"]
+            self.CoefVida = dados["CoefVida"]
+            self.CoefAtk = dados["CoefAtk"]
+            self.CoefAtkSP = dados["CoefAtkSP"]
+            self.CoefDef = dados["CoefDef"]
+            self.CoefDefSP = dados["CoefDefSP"]
+            self.CoefVel = dados["CoefVel"]
+            self.CoefPeso = dados["CoefPeso"]
+            self.CoefAltura = dados["CoefAltura"]
+            self.raio = dados["raio"]
+            self.FF = dados["FF"]
+            self.evolucao = dados["evolucao"]
+            self.atacou = dados["atacou"]
+            self.moveu = dados["moveu"]
+            self.PodeMover = dados["PodeMover"]
+            self.PodeEvoluir = dados["PodeEvoluir"]
+            self.PodeAtacar = dados["PodeAtacar"]
+            self.movimento1 = SelecionaAtaques(dados["Move1"])
+            self.movimento2 = SelecionaAtaques(dados["Move2"])
+            self.movimento3 = SelecionaAtaques(dados["Move3"])
+            self.movimento4 = SelecionaAtaques(dados["Move4"])
             self.moveList = dados["MoveList"]
             self.movePossiveis = dados["possiveis"]
             self.code = dados["code"]
@@ -249,6 +266,8 @@ class Pokemon:
             self.efeitosPosi = dados["efeitosPositivos"]
             self.efeitosNega = dados["efeitosNegativos"]
             self.PodeSerAtacado = dados["PodeSerAtacado"]
+            self.pos = dados["pos"]
+            self.descrição = EfeitosDescrição
 
     def FormaFinal(self,item,player):
         if self.xp_atu >= self.xp_total:
@@ -493,10 +512,18 @@ class Pokemon:
             "IV def": self.IV_def,
             "IV def SP": self.IV_defSP,
             "IV vel": self.IV_vel,
-            "Move1": remover_funcoes_do_dicionario(self.movimento1),
-            "Move2": remover_funcoes_do_dicionario(self.movimento2),
-            "Move3": remover_funcoes_do_dicionario(self.movimento3),
-            "Move4": remover_funcoes_do_dicionario(self.movimento4),
+            "CoefVida": self.CoefVida,
+            "CoefAtk": self.CoefAtk,
+            "CoefAtkSP": self.CoefAtkSP,
+            "CoefDef": self.CoefDef,
+            "CoefDefSP": self.CoefDefSP,
+            "CoefVel": self.CoefVel,
+            "CoefPeso": self.CoefPeso,
+            "CoefAltura": self.CoefAltura,
+            "Move1": self.movimento1["nome"],
+            "Move2": self.movimento2["nome"],
+            "Move3": self.movimento3["nome"],
+            "Move4": self.movimento4["nome"],
             "MoveList": self.moveList,
             "possiveis": self.movePossiveis,
             "guardado": self.guardado,
@@ -506,6 +533,15 @@ class Pokemon:
             "efeitosPositivos": self.efeitosPosi,
             "efeitosNegativos": self.efeitosNega,
             "PodeSerAtacado": self.PodeSerAtacado,
+            "raio": self.raio,
+            "FF": self.FF,
+            "evolucao": self.evolucao,
+            "atacou": self.atacou,
+            "moveu": self.moveu,
+            "PodeMover": self.PodeMover,
+            "PodeEvoluir": self.PodeEvoluir,
+            "PodeAtacar": self.PodeAtacar,
+            "pos": self.pos
         }
 
 IDpoke = 0
@@ -630,8 +666,8 @@ def Gerador(Pokemon,P):
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokemons_Todos[code],P),player)
 
-def Gerador_Clone(Dados):
-    return Pokemon(None,None,Dados)
+def Gerador_Clone(Dados,player):
+    return Pokemon(None,player,Dados)
 
 Energias = ["vermelha", "azul", "amarela", "verde", "roxa", "laranja", "preta"]
 

@@ -303,7 +303,13 @@ def TelaOutros(tela, eventos,estados, config):
     GV.Texto_caixa(tela,f"Turno: {C.Partida.Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO) 
     GV.Texto_caixa(tela,C.inimigo.nome,(1500, 0, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
 
-    C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.passar_turno(estados),C.Partida.Turno)
+    if C.Partida.online is True:
+        if C.SuaVez is True:
+            C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.passar_turno(estados),C.Partida.Turno)
+        else:
+            C.cronometro_falso(tela, (0, 60, 360, 30), C.Partida.tempo_restante, C.inimigo.tempo,Fonte40, CINZA, PRETO, AMARELO,)
+    else:
+        C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.passar_turno(estados),C.Partida.Turno)
 
     XL = GV.animar(C.A7,C.A8,C.animaAL)
 

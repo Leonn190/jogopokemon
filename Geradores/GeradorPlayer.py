@@ -49,10 +49,11 @@ class Jogador:
                     self.energiasDesc.append(energia)
         else:
             self.nome = Dados["nome"]
-            self.pokemons = [Gerador_Clone(p) for p in Dados["pokemons"]]
+            self.pokemons = [Gerador_Clone(p, self) for p in Dados["pokemons"]]
             self.inventario = Dados["inventario"]
             self.energias = Dados["energias"]
             self.energiasMax = Dados["energiasMax"]
+            self.energiasDesc = Dados["energiasDesc"]
             self.ouro = Dados["ouro"]
             self.deck = Dados["deck"]
             self.treinador = Dados["treinador"]
@@ -60,6 +61,10 @@ class Jogador:
             self.AtivaPassiva = Dados["AtivaPassiva"]
             self.ContaPassiva = Dados["ContaPassiva"]
             self.PoderCaptura = Dados["PoderCaptura"]
+            self.Derrota = Derrotas[self.treinador["nome"]]
+            self.Vitoria = Vitorias[self.treinador["nome"]]
+            self.Passiva = Passivas[self.treinador["nome"]]
+            self.Habilidade = Habilidades[self.treinador["nome"]]
             self.NocautesSofridos = Dados["NocautesSofridos"]
             self.NocautesRealizados = Dados["NocautesRealizados"]
             self.PokemonsNocauteados = Dados["PokemonsNocauteados"]
@@ -72,6 +77,7 @@ class Jogador:
             self.Ultras = Dados["Ultras"]
             self.Vstars = Dados["Vstars"]
             self.Vmaxs = Dados["Vmaxs"]
+            self.MultiplicaIV = Dados["MultiplicaIV"]
     
     def usar_item(self,item,Pokemon,tela,Mapa,ataque,EstadoDaPergunta, Baralho):
             if item["classe"] in ["pokebola", "fruta"]:
@@ -184,6 +190,7 @@ class Jogador:
             "inventario": self.inventario,
             "energias": self.energias.copy(),
             "energiasMax": self.energiasMax,
+            "energiasDesc": self.energiasDesc.copy(),
             "ouro": self.ouro,
             "deck": self.deck,
             "treinador": self.treinador,
@@ -203,6 +210,8 @@ class Jogador:
             "Ultras": self.Ultras,
             "Vstars": self.Vstars,
             "Vmaxs": self.Vmaxs,
+            "MultiplicaIV": self.MultiplicaIV,
+
         }
     
 

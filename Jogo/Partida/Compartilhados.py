@@ -779,6 +779,7 @@ def IniciaLocal(tela, config):
 # Exclusivos do modo Online
 
 SuaVez = True
+PassouVez = False
 
 def PassarTurnoOnline():
     pass
@@ -792,11 +793,28 @@ def IniciarTurno():
 def VerificaVitóriaOnline():
     pass
 
+def cronometro_falso(tela, espaço, tempo_restante, duracao_maxima, fonte, cor_fundo, cor_borda, cor_tempo):
+    x, y, largura, altura = espaço
+
+    # Visual: fundo da barra
+    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+
+    # Barra de tempo restante proporcional ao tempo recebido
+    tempo_restante = max(0, min(tempo_restante, duracao_maxima))  # Garante valores válidos
+    largura_barra = int((tempo_restante / duracao_maxima) * largura)
+    pygame.draw.rect(tela, cor_tempo, (x, y, largura_barra, altura))
+
+    # Borda
+    pygame.draw.rect(tela, cor_borda, (x, y, largura, altura), 2)
+
+    # Texto do tempo restante
+    texto = fonte.render(str(int(tempo_restante)), True, (0, 0, 0))
+    texto_rect = texto.get_rect(center=(x + largura // 2, y + altura // 2))
+    tela.blit(texto, texto_rect)
+
 def IniciaOnline(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
     global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez
-
-    print(2)
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
     tela.blit(Carregar,(0,0))
