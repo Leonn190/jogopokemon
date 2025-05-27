@@ -14,8 +14,6 @@ from Visual.GeradoresVisuais import (
 
 pygame.mixer.init()
 
-PokemonSurface = pygame.Surface((300,300), pygame.SRCALPHA)
-
 ImagensPokemonInicial = {}
 IconesDeckIMG = {}
 
@@ -199,29 +197,9 @@ def TelaPréPartida_Solo(tela, eventos, estados):
                 tecla_esquerda=[pygame.K_1, pygame.K_2, pygame.K_3][i],
                 tecla_direita=None, som="Seleciona"
             )
-            # Aumenta gradualmente o alpha até 255
-            if P1pokemonsAlpha < 255:
-                P1pokemonsAlpha += 10
-                if P1pokemonsAlpha > 255:
-                    P1pokemonsAlpha = 255
-
-            # Copia a imagem e aplica o alpha
             imagem = ImagensPokemonInicial[pokemon["nome"]]
-            imagem_alpha = imagem.copy()
-            imagem_alpha.set_alpha(P1pokemonsAlpha)
-
-            # Limpa a surface com fundo transparente
-            PokemonSurface.fill((0, 0, 0, 0))
-
-            # Centraliza a imagem na PokemonSurface
-            largura_s, altura_s = PokemonSurface.get_size()
-            imagem_rect = imagem_alpha.get_rect(center=(largura_s // 2, altura_s // 2))
-            PokemonSurface.blit(imagem_alpha, imagem_rect)
-
-            # Blita a surface final na tela
-            rect_surface = PokemonSurface.get_rect(center=(pos_x + largura_botao // 2, pos_y + altura_botao // 2))
-            tela.blit(PokemonSurface, rect_surface)
-            
+            imagem_rect = imagem.get_rect(center=(pos_x + largura_botao // 2, pos_y + altura_botao // 2))
+            tela.blit(imagem, imagem_rect)
         else:
             pygame.draw.rect(tela, CINZA, (pos_x, pos_y, largura_botao, altura_botao))
             pygame.draw.rect(tela, PRETO, (pos_x, pos_y, largura_botao, altura_botao), 5)
