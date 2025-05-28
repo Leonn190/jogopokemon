@@ -79,7 +79,7 @@ def enviar_dados(partida_id, config):
             break
 
         # Delay entre os envios para evitar spam de rede
-        time.sleep(3 if config["OnlineRapido"] else 7)
+        time.sleep(2 if config["OnlineRapido"] else 6)
 
 # ------------------------
 # Função para coletar dados da partida em loop (usado quando não é sua vez)
@@ -98,7 +98,7 @@ def coletar_dados_loop(partida_id, ID, config):
             C.DeveIniciarTurno = True
             break
 
-        time.sleep(3 if config["OnlineRapido"] else 7)
+        time.sleep(2 if config["OnlineRapido"] else 6)
 
 # ------------------------
 # Loop principal da partida online
