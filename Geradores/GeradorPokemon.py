@@ -270,7 +270,7 @@ class Pokemon:
             self.ID = dados["ID"]
             self.guardado = dados["guardado"]
             self.local = dados["local"]
-            if self.local is not []:
+            if self.local != []:
                 local = [1080 - 1 - self.local[0], self.local[1]]
                 self.local = local
             self.efeitosPosi = dados["efeitosPositivos"]
