@@ -39,17 +39,17 @@ def aplicar_claridade(tela, claridade,):
     Aplica efeito de claridade na tela.
     claridade: int de 0 a 150, 75 é neutro.
     """
+    if GerouSurface is False:
+        surface = pygame.Surface(tela.get_size())
+        surface = surface.convert_alpha()
+        GerouSurface = True
+
     if claridade == 50:
         return  # sem alteração
 
     # Normaliza a diferença em relação a 75 para valor alfa entre 0 e 150
     diff = abs(claridade - 50)
     alfa = int((diff / 50) * 100)  # máximo alfa = 150
-    
-    if GerouSurface is False:
-        surface = pygame.Surface(tela.get_size())
-        surface = surface.convert_alpha()
-        GerouSurface = True
 
     if claridade < 50:
         # Escurecer com preto semi-transparente
