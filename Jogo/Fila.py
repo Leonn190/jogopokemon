@@ -94,7 +94,7 @@ def Fila(tela, estados, relogio, Config):
                         A.Iniciar_partida_online(estados)
                         break  # Finaliza a thread após iniciar
 
-                time.sleep(2)  # Espera 2 segundos antes de checar novamente
+                time.sleep(3)  # Espera 2 segundos antes de checar novamente
 
             except Exception as e:
                 print("Erro na thread contata_servidor:", e)

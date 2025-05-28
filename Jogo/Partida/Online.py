@@ -27,6 +27,29 @@ from Visual.GeradoresVisuais import (
 import Partida.Compartilhados as C
 import Partida.Telas as T
 
+def obter_dados_partida(numero):
+    url = "https://apipokemon-i9bb.onrender.com/estado_partida"
+    nome = f"partida{numero}"
+    resposta = requests.get(url, json={"partida": nome})
+
+    if resposta.status_code != 200:
+        print(f"Erro {resposta.status_code}: {resposta.text}")
+        return None
+
+    dados = resposta.json()
+
+    try:
+        resultado = dados["estado"]["partida"]
+        if isinstance(resultado, dict):
+            print(f"O dicionário tem {len(resultado)} chaves.")
+            return resultado
+        else:
+            print("Os dados da partida não são um dicionário válido.")
+            return None
+    except (KeyError, TypeError):
+        print("Formato inesperado da resposta:", dados)
+        return None
+
 def enviar_dados(partida_id):
 
     while True:
@@ -48,44 +71,49 @@ def enviar_dados(partida_id):
 
 def coletar_dados_loop(partida_id, ID):
     while True:
+        jojo = obter_dados_partida(1)
+        print (jojo["tempo_restante"])
+        C.Partida = GP.GeraPartidaOnlineClone(jojo,partida_id)
+        if ID == 1:
+            C.player = C.Partida.Jogador1
+            C.inimigo = C.Partida.Jogador2
+        else:
+            C.inimigo = C.Partida.Jogador1
+            C.player = C.Partida.Jogador2
+        # print (partida_id, ID)
 
-        print (partida_id, ID)
+        # try:
+        #     resposta = requests.post(
+        #         "https://apipokemon-i9bb.onrender.com/coletar_partida",
+        #         json={"partida": partida_id, "ID_Jogador": ID},
+        #         timeout=10
+        #     )
 
-        try:
-            resposta = requests.post(
-                "https://apipokemon-i9bb.onrender.com/coletar_partida",
-                json={"partida": partida_id, "ID_Jogador": ID},
-                timeout=10
-            )
+        #     print("STATUS HTTP:", resposta.status_code)
 
-            print("STATUS HTTP:", resposta.status_code)
-            print("RESPOSTA TEXTO:", resposta.text)
+        #     if resposta.status_code != 200:
+        #         time.sleep(5)
+        #         continue  # <- tenta de novo depois
 
-            if resposta.status_code != 200:
-                print("Erro na resposta:", resposta.text)
-                time.sleep(5)
-                continue  # <- tenta de novo depois
+        #     data = resposta.json()
 
-            data = resposta.json()
+        #     dados = data.get("dados")
+        #     if dados != {}:
+        #         C.Partida = GP.GeraPartidaOnlineClone(dados, partida_id)
 
-            dados = data.get("dados")
-            if dados != {}:
-                C.Partida = GP.GeraPartidaOnlineClone(dados, partida_id)
+        #     if data.get("PassouVez", False):
+        #         C.comunicaçao = False
+        #         break  # <- esse break é válido, pois a vez realmente passou
 
-            if data.get("PassouVez", False):
-                C.comunicaçao = False
-                break  # <- esse break é válido, pois a vez realmente passou
+        # except requests.exceptions.RequestException as e:
+        #     print("Erro na requisição:", e)
+        #     time.sleep(5)
+        #     continue  # tenta de novo depois
 
-        except requests.exceptions.RequestException as e:
-            print("Erro na requisição:", e)
-            time.sleep(5)
-            continue  # tenta de novo depois
-
-        except ValueError as e:
-            print("Erro ao decodificar JSON:", e)
-            print("Conteúdo recebido:", resposta.text)
-            time.sleep(5)
-            continue  # tenta de novo depois
+        # except ValueError as e:
+        #     print("Erro ao decodificar JSON:", e)
+        #     time.sleep(5)
+        #     continue  # tenta de novo depois
 
         time.sleep(10)
 

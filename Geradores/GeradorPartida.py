@@ -76,14 +76,13 @@ class PartidaOnline:
         else:
 
                         # Demais atributos simples
-            self.Turno = 1
-            self.tempo_restante = 0
-            self.Centro = [None] * 8
-            self.Loja = [None] * 4
-            self.Vencedor = None
-            self.Perdedor = None
+            self.Turno = Dados["Turno"]
+            self.tempo_restante = Dados["tempo_restante"]
+            self.Centro = Dados["Centro"]
+            self.Loja = Dados["Loja"]
+            self.Vencedor = Dados["Vencedor"]
+            self.Perdedor = Dados["Perdedor"]
             self.online = True
-            self.ID = 2
 
             # Inicializações com prints resumidos
             try:
@@ -100,6 +99,7 @@ class PartidaOnline:
                 self.Jogador1 = Gerador_player_clone(Dados["Jogador1"])
             except Exception as e:
                 print("Erro ao gerar Jogador1:", e)
+            print (self.Jogador1.pokemons[0].Atk)
 
             try:
                 self.Jogador2 = Gerador_player_clone(Dados["Jogador2"])
