@@ -63,7 +63,7 @@ def enviar_dados(partida_id):
             json=envio
         )
 
-        if C.PassouVez is True:
+        if resposta.status_code == 200 and C.PassouVez:
             C.PassouVez = False
             C.SuaVez = False
             C.comunicaçao = False
