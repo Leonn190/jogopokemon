@@ -803,7 +803,8 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
 
     superficie_transparente.fill((0, 0, 0, 0))  # limpar a surface com transparência
 
-    centro_x, centro_y = PeçaS.local
+    centro_x = PeçaS.local[0]
+    centro_y = PeçaS.local[1]
     raio = int((alcance_metros + PeçaS.tamanho) * pixels_por_metro )
 
     # Círculo de alcance
@@ -812,7 +813,8 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
 
     # Reta até o alvo, se houver
     if Alvo is not None and hasattr(Alvo, 'local') and Alvo.local is not []:
-        alvo_x, alvo_y = Alvo.local
+        alvo_x = Alvo.local[0]
+        alvo_y = Alvo.local[1]
 
         # Distância real entre os Pokémon
         distancia = distancia_entre_pokemons(PeçaS, Alvo, Mapa.Metros)
