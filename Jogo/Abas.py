@@ -5,6 +5,7 @@ import Visual.GeradoresVisuais as GV
 from Visual.Sonoridade import tocar
 from Visual.Efeitos import adicionar_efeito
 from Funções2 import VAcerta,VCusto, distancia_entre_pokemons
+from Geradores.GeradorOutros import Compra_Energia
 from Geradores.GeradorAtaques import SelecionaAtaques
 from Visual.GeradoresVisuais import VERMELHO,AMARELO,BRANCO,CINZA,PRETO,AZUL,Fonte20,Fonte15,Fonte25,Fonte50,VERDE_CLARO, energia_cores
 
@@ -1014,12 +1015,12 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco, itens_loja
 
 
 
-    # botao_compra_x = x + largura - 40  # 10px de margem da borda direita
-    # GV.Botao(
-    #     tela, "", (botao_compra_x, y + 5, 28, 28),
-    #     (50, 50, 50), (255, 255, 255), (80, 80, 80),
-    #     lambda: Comprar_Energias(player, 1),
-    #     fonte_, BotaoCompraEnergia,
-    #     grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
-    # )
+    botao_compra_x = x + largura - 30 # 10px de margem da borda direita
+    GV.Botao(
+        tela, "E", (botao_compra_x, y + 85, 28, 28),
+        (50, 50, 50), (255, 255, 255), (80, 80, 80),
+        lambda: Compra_Energia(player, 1),
+        fonte_, BotaoCompraEnergia,
+        grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
+    )
     # tela.blit(Imagem,(botao_compra_x, y + 5))

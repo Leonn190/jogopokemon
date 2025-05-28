@@ -17,7 +17,7 @@ Sons = {
     "Bom": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Bom.wav"), "Volume": 1},
     "Bloq": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Bloq.wav"), "Volume": 1},
     "Falhou": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Falhou.wav"), "Volume": 1},
-    "Energia": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Energia.wav"), "Volume": 1},
+    "Energia": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Energia.wav"), "Volume": 0.7},
     "Roletar": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Roletar.wav"), "Volume": 1.5},
     "Encaixe": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Encaixe.wav"), "Volume": 1},
     "Salvou": {"Som": lambda: pygame.mixer.Sound("Audio/Sons/Salvou.wav"), "Volume": 1.7},

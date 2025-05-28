@@ -188,6 +188,7 @@ def spawn_do_centro(centro,Baralho,turnos):
 
 def Compra_Energia(player,custo=0):
     if player.ouro >= custo:
+        player.ouro -= custo
         tocar("Energia")
         energia_sorteada = None
 

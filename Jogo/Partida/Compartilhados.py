@@ -824,6 +824,13 @@ def PassarTurnoOnline(estados):
     provocar = False
     VerificaVitória(estados, Partida.Jogador1, Partida.Jogador2)
     GV.adicionar_mensagem("Seu turno acabou")
+
+
+    
+    Partida.Turno += 1
+    Partida.Centro = GO.spawn_do_centro(Partida.Centro, Partida.Baralho, Partida.Turno)
+    Partida.tempo_restante = player.tempo
+
     PassouVez = True
     ComputouPassagemVez = False
 
@@ -843,11 +850,7 @@ def IniciarTurno():
 
     Passar_contadores()
 
-    Partida.Centro = GO.spawn_do_centro(Partida.Centro, Partida.Baralho, Partida.Turno)
-
-    Partida.Turno += 1
     GV.adicionar_mensagem("Sua vez de jogar")
-    Partida.tempo_restante = player.tempo
     SuaVez = True
     comunicaçao = False
 
