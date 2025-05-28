@@ -132,7 +132,7 @@ class PecaArrastavel:
             return False
         
         import Partida.Compartilhados as C
-        if C.SuaVez is True and C.ComputouPassagemVez:
+        if C.SuaVez is not True or C.ComputouPassagemVez is not True:
             C.Invalido()
             return
 
