@@ -119,6 +119,11 @@ Abaixo estão os principais diretórios e arquivos do projeto, com suas respecti
 - [Pygame](https://www.pygame.org/)
 - Bibliotecas adicionais: `time`, `threading`, `json`, `re`, `os`, `copy`, entre outras.
 - API feita com Flask e rodada pelo Render em um servidor da Virginia (EUA)
+- GPT foi utilizado na maioria das funções Visuais, alem dele ter me ensinado o pygame, flask e as bibliotecas extras
+- GPT foi utiizado em processos repetitivos e na passagem da planilha do google para os dicionarios pokemon
+- Também foi criado um GPT para analisar dados do jogo e ajudar no balanceamento
+- Gemini, Uma gema do gemini foi criada para ajudar na criaçao de ataques automatica atraves do leitor de ataques em Abas.py
+
 
 ---
 

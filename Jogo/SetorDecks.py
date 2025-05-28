@@ -6,7 +6,6 @@ import PygameAções as A
 from Config import aplicar_claridade
 from Infos import PokemonInfo, ItemInfo, TreinadorInfo
 from Visual.Arrastaveis import Arrastavel
-from Visual.Imagens import Carregar_Imagens_Decks
 from Geradores.GeradorOutros import Amplificadores_Todos,Frutas_Todas,Pokebolas_Todas,Poçoes_Todas,Estadios_Todos,Outros_Todos,Pokemons_Todos,Treinadores_Todos
 from Visual.Sonoridade import tocar
 from Visual.GeradoresVisuais import (
@@ -1232,17 +1231,17 @@ def TelaDecks(tela,eventos,estados):
                 lambda: A.Voltar(estados), Fonte40, B1, 3, None, True, eventos)
     
     if len(ListaDecks) < 16:
-        GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), AMARELO, PRETO, AZUL,
+        GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), TexturasDic["FundoAmarelo"], PRETO, AZUL,
                     lambda: Abre(False), Fonte50, B1, 3, None, True, eventos)
     else:
         GV.Botao(tela, "Criar Novo Baralho", (110, 450, 500, 80), CINZA, PRETO, AZUL,
                     lambda: tocar("Bloq"), Fonte50, B1, 3, None, True, eventos)
         
     if DeckSelecionado is not None:
-        GV.Botao(tela, "Editar Baralho", (710, 450, 500, 80), VERDE, PRETO, AZUL,
+        GV.Botao(tela, "Editar Baralho", (710, 450, 500, 80), TexturasDic["FundoVerde"], PRETO, AZUL,
                     lambda: Abre(True), Fonte50, B1, 3, None, True, eventos)
         
-        GV.Botao(tela, "Apagar Baralho", (1310, 450, 500, 80), VERMELHO, PRETO, AZUL,
+        GV.Botao(tela, "Apagar Baralho", (1310, 450, 500, 80), TexturasDic["FundoVermelho"], PRETO, AZUL,
                     lambda: Quer_Apagar(), Fonte50, B1, 3, None, True, eventos)
         
         desenhaBaralho(tela, DeckSelecionado, eventos)
@@ -1327,7 +1326,7 @@ def TelaCriador(tela,eventos,estados):
 
     desenhaEditor(tela, eventos)
 
-    GV.Botao(tela, "Salvar Deck", (1495, 910, 380, 100), AMARELO_CLARO, PRETO, AZUL,
+    GV.Botao(tela, "Salvar Deck", (1495, 910, 380, 100), TexturasDic["FundoAmarelo"], PRETO, AZUL,
                 lambda: salvar_dicionario_em_py(DeckSelecionado,DeckSelecionado["ID"],"Decks"), Fonte40, B1, 3, None, True, eventos)
 
 def TelaAviso(tela,eventos,estados):
