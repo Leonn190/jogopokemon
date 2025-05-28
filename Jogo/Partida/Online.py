@@ -9,7 +9,7 @@ from Visual.Efeitos import gerar_gif, atualizar_efeitos
 from Visual.Sonoridade import tocar
 from Abas import Status_Pokemon,Inventario,Atacar, Loja
 from Infos import TreinadorInfo
-from Config import Configuraçoes, aplicar_claridade
+from Config import Configuraçoes, aplicar_claridade, aplicar_acinzentamento
 from Jogo.Funções2 import verificar_serializabilidade
 import Mapa as M
 import Geradores.GeradorPlayer as GPA
@@ -39,10 +39,10 @@ def obter_dados_partida(numero):
     dados = resposta.json()
 
     try:
-        resultado = dados["estado"]["partida"]
-        if isinstance(resultado, dict):
-            print(f"O dicionário tem {len(resultado)} chaves.")
-            return resultado
+        resultado1 = dados["estado"]["partida"]
+        resultado2 = dados["estado"]["jogador"]
+        if isinstance(resultado1, dict):
+            return resultado1, resultado2
         else:
             print("Os dados da partida não são um dicionário válido.")
             return None
@@ -65,20 +65,25 @@ def enviar_dados(partida_id):
 
         if C.PassouVez is True:
             C.PassouVez = False
+            C.SuaVez = False
             C.comunicaçao = False
+            C.ComputouPassagemVez = True
             break
-        time.sleep(10)
+        time.sleep(9)
 
 def coletar_dados_loop(partida_id, ID):
     while True:
         try:
-            jojo = obter_dados_partida(1)
-            print(jojo["tempo_restante"])
-            nova_partida = GP.GeraPartidaOnlineClone(jojo, partida_id)
+            Dados, JogadorDaVez = obter_dados_partida(1)
+            print(Dados["tempo_restante"])
+            nova_partida = GP.GeraPartidaOnlineClone(Dados, partida_id)
             C.atualizacoes_online.put(nova_partida)
         except Exception as e:
             print("Erro na coleta de dados online:", e)
-        time.sleep(10)
+        if JogadorDaVez == ID:
+            C.DeveIniciarTurno = True
+            break
+        time.sleep(9)
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
@@ -87,6 +92,10 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
     while estados["Rodando_PartidaOnline"]:
         tela.fill(BRANCO)
         tela.blit(C.FundosIMG[C.Partida.Mapa.Fundo],(0,0))
+
+        if C.SuaVez is not True:
+            aplicar_acinzentamento(tela)
+
         pygame.mixer.music.set_volume(config["Volume"])
         eventos = pygame.event.get()
         pos_mouse = pygame.mouse.get_pos()
@@ -108,6 +117,10 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
         
+        if C.DeveIniciarTurno == True:
+            C.DeveIniciarTurno = False
+            C.IniciarTurno()
+
         if not C.comunicaçao:
             if C.SuaVez:
                 threading.Thread(target=enviar_dados, args=(C.Partida.ID,)).start()

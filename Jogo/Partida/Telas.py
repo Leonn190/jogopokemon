@@ -64,7 +64,7 @@ def TelaPokemons(tela, eventos,estados, config):
     except AttributeError:
         pass
 
-    for i in range(5):
+    for i in range(6):
         x = 420 + i * 190
         if len(C.player.pokemons) > i:
             id_poke = C.player.pokemons[i]
@@ -299,7 +299,14 @@ def TelaOpções(tela, eventos,estados,config):
 def TelaOutros(tela, eventos,estados, config):
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.pausarEdespausar(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.Muter(), Fonte50, C.B1, 3, pygame.K_m, False, eventos)
-    GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.passar_turno(estados),Fonte40, C.B7, 3, None, True, eventos)
+    
+    if C.Partida.online is True:
+        if C.SuaVez is True:
+            GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.PassarTurnoOnline(estados),Fonte40, C.B7, 3, None, True, eventos)
+        else:
+            GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.tocar("Bloq"),Fonte40, C.B7, 3, None, True, eventos)
+    else:
+        GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.passar_turno(estados),Fonte40, C.B7, 3, None, True, eventos)
     GV.Texto_caixa(tela,f"Turno: {C.Partida.Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO)
     YTI = GV.animar(C.TI1,C.TI2,C.animaTI,450)
     if YTI != 0:
@@ -309,10 +316,10 @@ def TelaOutros(tela, eventos,estados, config):
     GV.Texto_caixa(tela,C.inimigo.nome,(1500, YTI, 420, 50),Fonte50,VERMELHO_CLARO,PRETO)
 
     if C.Partida.online is True:
-        if C.SuaVez is True:
-            C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.passar_turno(estados),C.Partida.Turno)
+        if C.SuaVez is True and C.ComputouPassagemVez:
+            C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.PassarTurnoOnline(estados),C.Partida.Turno)
         else:
-            C.cronometro_falso(tela, (0, 60, 360, 30), C.Partida.tempo_restante, C.inimigo.tempo,Fonte40, CINZA, PRETO, AMARELO,)
+            C.cronometro_falso(tela, (0, 60, 360, 30), C.Partida.tempo_restante, C.inimigo.tempo,Fonte40, CINZA, PRETO, AMARELO)
     else:
         C.cronometro(tela, (0, 60, 360, 30), C.player.tempo, Fonte40, CINZA, PRETO, AMARELO, lambda:C.passar_turno(estados),C.Partida.Turno)
 

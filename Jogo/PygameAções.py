@@ -28,6 +28,7 @@ def fechar_jogo(estados):
     estados["Rodando_Menu"] = False
     estados["Rodando_PréPartida"] = False
     estados["Rodando_Partida"] = False
+    estados["Rodando_PartidaOnline"] = False
     estados["Rodando_Jogo"] = False
 
 def iniciar_decks(estados):

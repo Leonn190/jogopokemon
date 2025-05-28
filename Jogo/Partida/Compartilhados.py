@@ -800,9 +800,11 @@ SuaVez = True
 PassouVez = False
 comunicaçao = False
 atualizacoes_online = Queue()
+DeveIniciarTurno = False
+ComputouPassagemVez = True
 
 def PassarTurnoOnline(estados):
-    global player,inimigo,provocar,Partida
+    global player,inimigo,provocar,Partida, SuaVez, PassouVez, ComputouPassagemVez
 
     player.ouro += 2 + (Partida.tempo_restante // 25)
     GV.limpa_terminal()
@@ -820,9 +822,10 @@ def PassarTurnoOnline(estados):
     VerificaVitória(estados, Partida.Jogador1, Partida.Jogador2)
     GV.adicionar_mensagem("Seu turno acabou")
     PassouVez = True
-    SuaVez = False
+    ComputouPassagemVez = False
 
 def IniciarTurno():
+    global SuaVez, comunicaçao
     player.ContaPassiva += 1
     inimigo.ContaPassiva += 1
 
@@ -840,8 +843,9 @@ def IniciarTurno():
     Partida.Centro = GO.spawn_do_centro(Partida.Centro, Partida.Baralho, Partida.Turno)
 
     Partida.Turno += 1
-    fechar_tudo()
     GV.adicionar_mensagem("Sua vez de jogar")
+    SuaVez = True
+    comunicaçao = False
 
 def PausarOnline():
     pass
