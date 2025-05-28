@@ -69,7 +69,7 @@ def enviar_dados(partida_id):
             C.comunicaçao = False
             C.ComputouPassagemVez = True
             break
-        time.sleep(8)
+        time.sleep(5)
 
 def coletar_dados_loop(partida_id, ID):
     while True:
@@ -83,7 +83,7 @@ def coletar_dados_loop(partida_id, ID):
         if JogadorDaVez == ID:
             C.DeveIniciarTurno = True
             break
-        time.sleep(8)
+        time.sleep(5)
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
