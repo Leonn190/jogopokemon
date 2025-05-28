@@ -32,37 +32,38 @@ def TelaPokemons(tela, eventos,estados, config):
 
     YO = GV.animar(C.OP1,C.OP2,C.animaOP,tempo=250)
 
-    try:
-        if C.PokemonS.PodeAtacar == True:
-            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), TexturasDic["FundoAtacar"], PRETO, AZUL,lambda: Atacar(C.PokemonS,C.PokemonV,C.PokemonA,C.player,C.inimigo,C.Partida.Mapa,tela,C.Partida.Baralho),Fonte40, C.B22, 3, None, True, eventos)
-        else:
-            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
-    
-    except AttributeError:
-        GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
-        
-    try:
-        if C.PokemonS.PodeEvoluir == True:
-            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), TexturasDic["FundoEvolui"], PRETO, AZUL,lambda: C.PokemonS.evoluir(C.player),Fonte40, C.B22, 3, None, True, eventos)
-        else:
-            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
-    
-    except AttributeError:
-        GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
-
-    try:
-        if C.PokemonS.local != []:
-            
-            GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), TexturasDic["FundoGuardar"], PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,2),Fonte40, C.B23, 3, None, True, eventos)
-
-        else:
-            if C.PokemonS.guardado > 0:
-                GV.Botao(tela, f"Posicione em {C.PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B23, 3, None, True, eventos)
+    if C.SuaVez is True and C.ComputouPassagemVez is True:
+        try:
+            if C.PokemonS.PodeAtacar == True:
+                GV.Botao(tela, "Atacar", (1570, YO, 340, 50), TexturasDic["FundoAtacar"], PRETO, AZUL,lambda: Atacar(C.PokemonS,C.PokemonV,C.PokemonA,C.player,C.inimigo,C.Partida.Mapa,tela,C.Partida.Baralho),Fonte40, C.B22, 3, None, True, eventos)
             else:
-                GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), TexturasDic["FundoGuardar"], PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,0),Fonte40, C.B23, 3, None, True, eventos)
+                GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
+        
+        except AttributeError:
+            GV.Botao(tela, "Atacar", (1570, YO, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
+            
+        try:
+            if C.PokemonS.PodeEvoluir == True:
+                GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), TexturasDic["FundoEvolui"], PRETO, AZUL,lambda: C.PokemonS.evoluir(C.player),Fonte40, C.B22, 3, None, True, eventos)
+            else:
+                GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
+        
+        except AttributeError:
+            GV.Botao(tela, "Evoluir", (1570, YO + 50, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B22, 3, None, True, eventos)
 
-    except AttributeError:
-        pass
+        try:
+            if C.PokemonS.local != []:
+                
+                GV.Botao(tela, "Guardar", (1570, YO + 100, 340, 50), TexturasDic["FundoGuardar"], PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,2),Fonte40, C.B23, 3, None, True, eventos)
+
+            else:
+                if C.PokemonS.guardado > 0:
+                    GV.Botao(tela, f"Posicione em {C.PokemonS.guardado} turnos", (1570, YO + 100, 340, 50), (123, 138, 148), PRETO, AZUL,lambda: tocar("Bloq"),Fonte40, C.B23, 3, None, True, eventos)
+                else:
+                    GV.Botao(tela, "Posicionar", (1570, YO + 100, 340, 50), TexturasDic["FundoGuardar"], PRETO, AZUL,lambda: M.PosicionarGuardar(C.PokemonS,0),Fonte40, C.B23, 3, None, True, eventos)
+
+        except AttributeError:
+            pass
 
     for i in range(6):
         x = 420 + i * 190
@@ -310,11 +311,11 @@ def TelaOutros(tela, eventos,estados, config):
         GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.PausarOnline(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.Muter(), Fonte50, C.B1, 3, pygame.K_m, False, eventos)
     
-    if C.Partida.online is True:
-        if C.SuaVez is True:
+    if C.Partida.online is False:
+        if C.SuaVez is True and C.ComputouPassagemVez:
             GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.PassarTurnoOnline(estados),Fonte40, C.B7, 3, None, True, eventos)
         else:
-            GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.tocar("Bloq"),Fonte40, C.B7, 3, None, True, eventos)
+            GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.Invalido,Fonte40, C.B7, 3, None, True, eventos)
     else:
         GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.passar_turno(estados),Fonte40, C.B7, 3, None, True, eventos)
     GV.Texto_caixa(tela,f"Turno: {C.Partida.Turno}",(0, 0, 360, 60),Fonte70,AMARELO,PRETO)

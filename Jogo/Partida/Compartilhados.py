@@ -557,7 +557,12 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
     for i, item in enumerate([i for i in player.inventario if i.get("classe") == "pokebola"][:6]):
         x = x_inicial_animado + espacamento + i * (tamanho_botao_pokebola + espacamento)
         y = offset_y_pokebola
-
+        
+        if SuaVez is True and ComputouPassagemVez:
+            funçao = lambda item=item: seleciona_pokebola(item)
+        else:
+            funçao = lambda: Invalido()
+        
         GV.Botao_Selecao(
             tela, (x, y, tamanho_botao_pokebola, tamanho_botao_pokebola),
             "", Fonte28,
@@ -566,7 +571,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             cor_borda_direita=None,
             cor_passagem=AMARELO, id_botao=i,
             estado_global=estadoPokebola, eventos=eventos,
-            funcao_esquerdo=lambda item=item: seleciona_pokebola(item),
+            funcao_esquerdo=lambda: funçao(),
             funcao_direito=None,
             desfazer_esquerdo=lambda: desseleciona_pokebola(),
             desfazer_direito=None,
@@ -587,9 +592,14 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             cor_fundo = cores_raridade.get(pokemon["raridade"])
             
             # Desenha botão com cor de fundo conforme raridade
+            if SuaVez is True and ComputouPassagemVez:
+                funçao = lambda p=pokemon: PokemonCentro(p, player)
+            else:
+                funçao = lambda: Invalido()
+
             GV.Botao(
                 tela, "", (x, y, tamanho_pokemon, tamanho_pokemon), cor_fundo, PRETO, AZUL,
-                lambda p=pokemon: PokemonCentro(p, player),
+                lambda: funçao(),
                 Fonte50, B6, 2, None, True, eventos
             )
             tela.blit(ImagensPokemonCentro[pokemon["nome"]], (x, y))
@@ -607,6 +617,11 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
         x = x_inicial_animado + espacamento + i * (tamanho_fruta + espacamento)
         y = offset_y_fruta
 
+        if SuaVez is True and ComputouPassagemVez:
+            funçao = lambda item=item: seleciona_fruta(item)
+        else:
+            funçao = lambda: Invalido()
+
         GV.Botao_Selecao(
             tela, (x, y, tamanho_fruta, tamanho_fruta),
             "", Fonte28,
@@ -615,7 +630,7 @@ def Centroo(tela, x_inicial, y_inicial, Centro, player, Fonte50, Fonte28, B6, es
             cor_borda_direita=None,
             cor_passagem=AMARELO, id_botao=i,
             estado_global=estadoFruta, eventos=eventos,
-            funcao_esquerdo=lambda item=item: seleciona_fruta(item),
+            funcao_esquerdo=lambda: funçao(),
             funcao_direito=None,
             desfazer_esquerdo=lambda: desseleciona_fruta(),
             desfazer_direito=None,
@@ -736,7 +751,7 @@ B24 = {"estado": False}
 
 def IniciaLocal(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
-    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa
+    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez, DeveIniciarTurno, ComputouPassagemVez, PassouVez, comunicaçao
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
     tela.blit(Carregar,(0,0))
@@ -745,6 +760,12 @@ def IniciaLocal(tela, config):
     pygame.display.update()
     pygame.mixer.music.load('Audio/Musicas/Carregamento.ogg')  
     pygame.mixer.music.play(-1)
+
+    DeveIniciarTurno = False
+    ComputouPassagemVez = True
+    SuaVez = True
+    PassouVez = False
+    comunicaçao = False
 
     Tela = tela
     Mapa = GO.Gera_Mapa(0)
@@ -798,13 +819,17 @@ def IniciaLocal(tela, config):
 
 
 # Exclusivos do modo Online
-
+DeveIniciarTurno = False
+ComputouPassagemVez = True
 SuaVez = True
 PassouVez = False
 comunicaçao = False
 atualizacoes_online = Queue()
-DeveIniciarTurno = False
-ComputouPassagemVez = True
+
+
+def Invalido():
+    tocar("Bloq")
+    GV.adicionar_mensagem("Aguarde sua vez de jogar")
 
 def PassarTurnoOnline(estados):
     global player,inimigo,provocar,Partida, SuaVez, PassouVez, ComputouPassagemVez
@@ -825,30 +850,28 @@ def PassarTurnoOnline(estados):
     VerificaVitória(estados, Partida.Jogador1, Partida.Jogador2)
     GV.adicionar_mensagem("Seu turno acabou")
 
+    inimigo.ContaPassiva += 1
+    player.ContaPassiva += 1
 
-    
+    if inimigo.ContaPassiva >= inimigo.AtivaPassiva:
+        inimigo.Passiva(inimigo, player, Partida.Mapa, Partida.Baralho, Partida.Turno)
+        inimigo.ContaPassiva = 0
+
+    for pokemon in inimigo.pokemons:
+        if inimigo.local is not None:
+            inimigo.Ganhar_XP(2,inimigo)
+
+    Passar_contadores()
+
     Partida.Turno += 1
     Partida.Centro = GO.spawn_do_centro(Partida.Centro, Partida.Baralho, Partida.Turno)
-    Partida.tempo_restante = player.tempo
+    Partida.tempo_restante = inimigo.tempo
 
     PassouVez = True
     ComputouPassagemVez = False
 
 def IniciarTurno():
     global SuaVez, comunicaçao
-    player.ContaPassiva += 1
-    inimigo.ContaPassiva += 1
-
-    if player.ContaPassiva >= player.AtivaPassiva:
-        player.Passiva(player, inimigo, Partida.Mapa, Partida.Baralho, Partida.Turno)
-        GV.adicionar_mensagem("Passiva Ativada")
-        player.ContaPassiva = 0
-
-    for pokemon in player.pokemons:
-        if pokemon.local is not None:
-            pokemon.Ganhar_XP(2,player)
-
-    Passar_contadores()
 
     GV.adicionar_mensagem("Sua vez de jogar")
     SuaVez = True
@@ -925,7 +948,13 @@ def cronometro_falso(tela, espaço, tempo_restante, duracao_maxima, fonte, cor_f
 
 def IniciaOnline(tela, config):
     global ImagensPokemonCentro,ImagensPokemonIcons,ImagensFichas,PokeGifs,ImagensItens,OutrosIMG,FundosIMG,TiposEnergiaIMG,EfeitosIMG
-    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez
+    global player, inimigo, Tela, Musica_Estadio_atual, Partida, Pausa, SuaVez, DeveIniciarTurno, ComputouPassagemVez, PassouVez, comunicaçao
+
+    DeveIniciarTurno = False
+    ComputouPassagemVez = True
+    SuaVez = True
+    PassouVez = False
+    comunicaçao = False
 
     Carregar = GV.Carregar_Imagem("imagens/fundos/carregando.jpg",(1920,1080))
     tela.blit(Carregar,(0,0))

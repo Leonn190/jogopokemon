@@ -556,21 +556,40 @@ def Inventario(local, tela, player, ImagensItens, estado, eventos, PokemonS, Map
         # --- Linha divisória vertical entre descrição e botões ---
         pygame.draw.line(tela, (255, 255, 255), (x_botoes, y + 156), (x_botoes, y + altura - 180), 2)
 
+        import Partida.Compartilhados as C
+
         # --- Botões laterais usando GV ---
-        GV.Botao(
-            tela, "Usar",
-            (x_botoes + 6, y + 160, largura_botoes - 10, 36),
-            AZUL, PRETO, AZUL,
-            lambda: player.usar_item(H, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta, Baralho),
-            fonte_pequena, B1
-        )
-        GV.Botao(
-            tela, "Vender",
-            (x_botoes + 6, y + 200, largura_botoes - 10, 36),
-            VERMELHO, PRETO, VERMELHO,
-            lambda: player.vender_item(H, Baralho),
-            fonte_pequena, B1
-        )
+        if C.SuaVez is True and C.ComputouPassagemVez:
+            GV.Botao(
+                tela, "Usar",
+                (x_botoes + 6, y + 160, largura_botoes - 10, 36),
+                AZUL, PRETO, AZUL,
+                lambda: player.usar_item(H, PokemonS, tela, Mapa, AtaqueS, EstadoDaPergunta, Baralho),
+                fonte_pequena, B1
+            )
+            GV.Botao(
+                tela, "Vender",
+                (x_botoes + 6, y + 200, largura_botoes - 10, 36),
+                VERMELHO, PRETO, VERMELHO,
+                lambda: player.vender_item(H, Baralho),
+                fonte_pequena, B1
+            )
+
+        else:
+            GV.Botao(
+                tela, "Usar",
+                (x_botoes + 6, y + 160, largura_botoes - 10, 36),
+                AZUL, PRETO, AZUL,
+                lambda: C.Invalido(),
+                fonte_pequena, B1
+            )
+            GV.Botao(
+                tela, "Vender",
+                (x_botoes + 6, y + 200, largura_botoes - 10, 36),
+                VERMELHO, PRETO, VERMELHO,
+                lambda: C.Invalido(),
+                fonte_pequena, B1
+            )
 
         # --- Nome do item ---
         nome = H.get("nome", "")
@@ -958,6 +977,8 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco, itens_loja
     pos_base_y = y + 5
     espacamento_y = 20
 
+    import Partida.Compartilhados as C
+
     for idx, porcentagem in enumerate(porcentagens):
         cor = list(cor_raridade.values())[idx]
         texto = f"{porcentagem}%"
@@ -976,13 +997,20 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco, itens_loja
             if item is not None:
                 
                 CorBotao = cor_raridade[item["raridade"]]
-
-                GV.Botao(
-                    tela, "", (bx, by, 80, 80),
-                    CorBotao, PRETO, VERDE_CLARO,
-                    lambda: Comprar(item,i),
-                    Fonte50, botaoitem, 3, None, True, eventos
-                )
+                if C.SuaVez is True and C.ComputouPassagemVez:
+                    GV.Botao(
+                        tela, "", (bx, by, 80, 80),
+                        CorBotao, PRETO, VERDE_CLARO,
+                        lambda: Comprar(item,i),
+                        Fonte50, botaoitem, 3, None, True, eventos
+                    )
+                else:
+                    GV.Botao(
+                        tela, "", (bx, by, 80, 80),
+                        CorBotao, PRETO, VERDE_CLARO,
+                        lambda: C.Invalido(),
+                        Fonte50, botaoitem, 3, None, True, eventos
+                    )
 
                 preco_item = item["preço"]  # ← como você pediu, diretamente do dicionário
                 GV.Texto_caixa(
@@ -1001,26 +1029,43 @@ def Loja(pos, tela, baralho, imagens, turnos, eventos, player, preco, itens_loja
                 pygame.draw.rect(tela, (60, 60, 60), (bx, by, 80, 80), border_radius=5)
         else:
             # Botão Roletar
-            GV.Botao(
-                tela, "R", (bx, by, 80, 80),
-                (70,70,70), PRETO, VERDE_CLARO,
-                lambda: Roletar(itens_loja, baralho, raridades),
-                Fonte50, botao_RR, 3, None, True, eventos
-            )
+            if C.SuaVez is True and C.ComputouPassagemVez:
+                GV.Botao(
+                    tela, "R", (bx, by, 80, 80),
+                    (70,70,70), PRETO, VERDE_CLARO,
+                    lambda: Roletar(itens_loja, baralho, raridades),
+                    Fonte50, botao_RR, 3, None, True, eventos
+                )
+            else:
+                GV.Botao(
+                    tela, "R", (bx, by, 80, 80),
+                    (70,70,70), PRETO, VERDE_CLARO,
+                    lambda: C.Invalido(),
+                    Fonte50, botao_RR, 3, None, True, eventos
+                )
+
             # Exibir preço do roletar
             GV.Texto_caixa(
                 tela, str(preco), (bx + 15, by + 80, 50, 20),
                 Fonte20, AMARELO, PRETO, 2
             )
 
-
-
     botao_compra_x = x + largura - 30 # 10px de margem da borda direita
-    GV.Botao(
-        tela, "E", (botao_compra_x, y + 85, 28, 28),
-        (50, 50, 50), (255, 255, 255), (80, 80, 80),
-        lambda: Compra_Energia(player, 1),
-        fonte_, BotaoCompraEnergia,
-        grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
-    )
+    if C.SuaVez is True and C.ComputouPassagemVez:
+        GV.Botao(
+            tela, "E", (botao_compra_x, y + 85, 28, 28),
+            (50, 50, 50), (255, 255, 255), (80, 80, 80),
+            lambda: Compra_Energia(player, 1),
+            fonte_, BotaoCompraEnergia,
+            grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
+        )
+    else:
+        GV.Botao(
+            tela, "E", (botao_compra_x, y + 85, 28, 28),
+            (50, 50, 50), (255, 255, 255), (80, 80, 80),
+            lambda: C.Invalido(),
+            fonte_, BotaoCompraEnergia,
+            grossura=1, tecla_atalho=None, mostrar_na_tela=True, eventos=eventos, som=None
+        )
+
     # tela.blit(Imagem,(botao_compra_x, y + 5))
