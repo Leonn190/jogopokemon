@@ -1,5 +1,6 @@
 import pygame
 import random
+from queue import Queue
 from Visual.Imagens import Carregar_Imagens_Partida, Carrega_Gif_pokemon
 from Visual.Mensagens import mensagens_passageiras
 from Visual.Efeitos import gerar_gif, atualizar_efeitos
@@ -798,15 +799,51 @@ def IniciaLocal(tela, config):
 SuaVez = True
 PassouVez = False
 comunicaçao = False
+atualizacoes_online = Queue()
 
-def PassarTurnoOnline():
+def PassarTurnoOnline(estados):
+    global player,inimigo,provocar,Partida
 
-    pass
+    player.ouro += 2 + (Partida.tempo_restante // 25)
+    GV.limpa_terminal()
 
-def PausarOnline():
-    pass
+    Partida.Mapa.Peças = []
+
+    for pokemon in player.pokemons:
+        pokemon.atacou = False
+        pokemon.moveu = False
+        pokemon.PodeEvoluir = True
+        if pokemon.guardado != 0:
+            pokemon.guardado -= 1
+    
+    provocar = False
+    VerificaVitória(estados, Partida.Jogador1, Partida.Jogador2)
+    GV.adicionar_mensagem("Seu turno acabou")
+    PassouVez = True
+    SuaVez = False
 
 def IniciarTurno():
+    player.ContaPassiva += 1
+    inimigo.ContaPassiva += 1
+
+    if player.ContaPassiva >= player.AtivaPassiva:
+        player.Passiva(player, inimigo, Partida.Mapa, Partida.Baralho, Partida.Turno)
+        GV.adicionar_mensagem("Passiva Ativada")
+        player.ContaPassiva = 0
+
+    for pokemon in player.pokemons:
+        if pokemon.local is not None:
+            pokemon.Ganhar_XP(2,player)
+
+    Passar_contadores()
+
+    Partida.Centro = GO.spawn_do_centro(Partida.Centro, Partida.Baralho, Partida.Turno)
+
+    Partida.Turno += 1
+    fechar_tudo()
+    GV.adicionar_mensagem("Sua vez de jogar")
+
+def PausarOnline():
     pass
 
 def VerificaVitóriaOnline():

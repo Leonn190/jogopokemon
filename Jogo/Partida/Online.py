@@ -71,50 +71,13 @@ def enviar_dados(partida_id):
 
 def coletar_dados_loop(partida_id, ID):
     while True:
-        jojo = obter_dados_partida(1)
-        print (jojo["tempo_restante"])
-        C.Partida = GP.GeraPartidaOnlineClone(jojo,partida_id)
-        if ID == 1:
-            C.player = C.Partida.Jogador1
-            C.inimigo = C.Partida.Jogador2
-        else:
-            C.inimigo = C.Partida.Jogador1
-            C.player = C.Partida.Jogador2
-        # print (partida_id, ID)
-
-        # try:
-        #     resposta = requests.post(
-        #         "https://apipokemon-i9bb.onrender.com/coletar_partida",
-        #         json={"partida": partida_id, "ID_Jogador": ID},
-        #         timeout=10
-        #     )
-
-        #     print("STATUS HTTP:", resposta.status_code)
-
-        #     if resposta.status_code != 200:
-        #         time.sleep(5)
-        #         continue  # <- tenta de novo depois
-
-        #     data = resposta.json()
-
-        #     dados = data.get("dados")
-        #     if dados != {}:
-        #         C.Partida = GP.GeraPartidaOnlineClone(dados, partida_id)
-
-        #     if data.get("PassouVez", False):
-        #         C.comunicaçao = False
-        #         break  # <- esse break é válido, pois a vez realmente passou
-
-        # except requests.exceptions.RequestException as e:
-        #     print("Erro na requisição:", e)
-        #     time.sleep(5)
-        #     continue  # tenta de novo depois
-
-        # except ValueError as e:
-        #     print("Erro ao decodificar JSON:", e)
-        #     time.sleep(5)
-        #     continue  # tenta de novo depois
-
+        try:
+            jojo = obter_dados_partida(1)
+            print(jojo["tempo_restante"])
+            nova_partida = GP.GeraPartidaOnlineClone(jojo, partida_id)
+            C.atualizacoes_online.put(nova_partida)
+        except Exception as e:
+            print("Erro na coleta de dados online:", e)
         time.sleep(10)
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
@@ -145,13 +108,35 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.peca_em_uso.soltar(pos_mouse)
                     C.peca_em_uso = None
         
-        if C.comunicaçao is False:
+        if not C.comunicaçao:
             if C.SuaVez:
                 threading.Thread(target=enviar_dados, args=(C.Partida.ID,)).start()
-            
             else:
-                threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online)).start()
+                threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online), daemon=True).start()
             C.comunicaçao = True
+
+        if not C.atualizacoes_online.empty():
+            try:
+                nova = C.atualizacoes_online.get_nowait()
+                
+                ID_online_antigo = getattr(C.player, "ID_online", None)  # Salva antes de perder
+
+                C.Partida = nova
+
+                if ID_online_antigo == 1:
+                    C.player = C.Partida.Jogador1
+                    C.inimigo = C.Partida.Jogador2
+                else:
+                    C.inimigo = C.Partida.Jogador1
+                    C.player = C.Partida.Jogador2
+
+                # Reaplica o atributo que está faltando
+                C.player.ID_online = ID_online_antigo
+
+                print("Estado da partida atualizado com sucesso.")
+            
+            except Exception as e:
+                print("Erro ao aplicar nova partida:", e)
 
         C.tocar_musica_do_estadio()
 

@@ -137,10 +137,9 @@ class PartidaOnline:
         except Exception:
             erros.append("Jogador1")
 
-        # try:
+
         dicionario["Jogador2"] = self.Jogador2.ToDic()
-        # except Exception:
-        #     erros.append("Jogador2")
+
 
         if erros:
             print(f"ERRO ao converter para dicionário: falhou em {', '.join(erros)}")
