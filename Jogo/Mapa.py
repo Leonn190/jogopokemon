@@ -406,4 +406,15 @@ def inverter_tabuleiro(player, inimigo):
                 poke.local[1] = novo_y
 
     Mapa.mudança = True
+
+def InverteLocal(player):
+    for poke in player.pokemons:
+        if isinstance(poke.local, list) and len(poke.local) == 2:
+            x = poke.local[0]
+            y = poke.local[1]
+            
+            novo_x = x_terreno + (largura_terreno - 1) - (x - x_terreno)
+            novo_y = y_terreno + (altura_terreno - 1) - (y - y_terreno)
+
+            poke.local = [novo_x, novo_y]
     
