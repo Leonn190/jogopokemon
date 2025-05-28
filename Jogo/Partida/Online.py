@@ -92,6 +92,10 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
     while estados["Rodando_PartidaOnline"]:
         tela.fill(BRANCO)
         tela.blit(C.FundosIMG[C.Partida.Mapa.Fundo],(0,0))
+
+        if C.SuaVez is not True:
+            aplicar_acinzentamento(tela)
+
         pygame.mixer.music.set_volume(config["Volume"])
         eventos = pygame.event.get()
         pos_mouse = pygame.mouse.get_pos()
@@ -182,8 +186,6 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
         if config["Mostrar Fps"]:
             tela.blit(pygame.font.SysFont(None, 36).render(f"FPS: {relogio.get_fps():.2f}", True, (255, 255, 255)), (1780, 55))
 
-        if C.SuaVez is not True:
-            aplicar_acinzentamento(tela)
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
         relogio.tick(config["FPS"])

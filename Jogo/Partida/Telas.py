@@ -304,7 +304,10 @@ def TelaOpções(tela, eventos,estados,config):
         GV.tooltip((0, (YT - 60), 70, 60),(30,(YT - 130),360,70), f"Veja suas energias e seus itens, podendo usa-los", f"Inventário",Fonte25,Fonte35,tela)
 
 def TelaOutros(tela, eventos,estados, config):
-    GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.pausarEdespausar(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
+    if C.Partida.online is False:
+        GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.pausarEdespausar(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
+    else:
+        GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.PausarOnline(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.Muter(), Fonte50, C.B1, 3, pygame.K_m, False, eventos)
     
     if C.Partida.online is True:

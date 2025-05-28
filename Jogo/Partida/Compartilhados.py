@@ -847,6 +847,7 @@ def IniciarTurno():
 
     Partida.Turno += 1
     GV.adicionar_mensagem("Sua vez de jogar")
+    Partida.tempo_restante = player.tempo
     SuaVez = True
     comunicaçao = False
 
@@ -894,7 +895,11 @@ def barra_vida_simples(tela, x, y, largura, altura, vida_atual, vida_maxima, cor
         tela.blit(img, (img_x, img_y))
 
 def PausarOnline():
-    pass
+    global Pausa
+    if Pausa == True:
+        Pausa = False
+    else:
+        Pausa = True
 
 def cronometro_falso(tela, espaço, tempo_restante, duracao_maxima, fonte, cor_fundo, cor_borda, cor_tempo):
     x, y, largura, altura = espaço
