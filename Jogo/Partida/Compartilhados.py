@@ -858,7 +858,7 @@ def PassarTurnoOnline(estados):
         inimigo.ContaPassiva = 0
 
     for pokemon in inimigo.pokemons:
-        if inimigo.local is not None:
+        if pokemon.local is not None:
             inimigo.Ganhar_XP(2,inimigo)
 
     Passar_contadores()

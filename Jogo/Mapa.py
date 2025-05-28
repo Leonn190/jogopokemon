@@ -130,6 +130,11 @@ class PecaArrastavel:
     def iniciar_arraste(self, pos_mouse):
         if not self.pokemon.PodeMover:
             return False
+        
+        import Partida.Compartilhados as C
+        if C.SuaVez is True and C.ComputouPassagemVez:
+            C.Invalido()
+            return
 
         if not isinstance(self.pokemon.local, list) or len(self.pokemon.local) != 2:
             return False
@@ -412,7 +417,7 @@ def InverteLocal(player):
         if isinstance(poke.local, list) and len(poke.local) == 2:
             x = poke.local[0]
             y = poke.local[1]
-            
+
             novo_x = x_terreno + (largura_terreno - 1) - (x - x_terreno)
             novo_y = y_terreno + (altura_terreno - 1) - (y - y_terreno)
 

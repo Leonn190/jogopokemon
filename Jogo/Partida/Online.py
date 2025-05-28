@@ -104,16 +104,15 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                 estados["Rodando_PartidaOnline"] = False
                 estados["Rodando_Jogo"] = False
 
+
+
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Clique esquerdo
                     for peca in C.Partida.Mapa.Peças:
                         if peca.pokemon.PodeMover:
-                            if C.SuaVez is True and C.ComputouPassagemVez:
                                 if peca.iniciar_arraste(pos_mouse):
                                     C.peca_em_uso = peca
                                     break
-                            else:
-                                C.Invalido()
 
             elif evento.type == pygame.MOUSEBUTTONUP:
                 if evento.button == 1 and C.peca_em_uso is not None:
@@ -195,3 +194,4 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
         aplicar_claridade(tela,config["Claridade"])
         pygame.display.update()
         relogio.tick(config["FPS"])
+    
