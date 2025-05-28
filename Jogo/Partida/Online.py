@@ -147,6 +147,7 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                     C.player = C.Partida.Jogador2
                 
                 M.InverteLocal(C.player)
+                M.InverteLocal(C.inimigo)
 
                 # Reaplica o atributo que está faltando
                 C.player.ID_online = ID_online_antigo
