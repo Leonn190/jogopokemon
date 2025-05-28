@@ -32,7 +32,7 @@ estadoConfigAvançada = {"selecionado_esquerdo": None}
 def aplicar_acinzentamento(tela):
     largura, altura = tela.get_size()
     filtro_cinza = pygame.Surface((largura, altura), pygame.SRCALPHA)
-    filtro_cinza.fill((100, 100, 100, 120))  # RGB + Alpha (transparência)
+    filtro_cinza.fill((100, 100, 100, 100))  # RGB + Alpha (transparência)
     tela.blit(filtro_cinza, (0, 0))
 
 def aplicar_claridade(tela, claridade,):

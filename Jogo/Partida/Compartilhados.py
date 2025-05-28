@@ -250,6 +250,8 @@ def visualiza(Pokemon):
         V1 = 1920
         V2 = 1540
         animaV = pygame.time.get_ticks()
+        if TI2 != 0:
+            Troca_Terminal_Inimigo()
     else:
         PokemonV = None
         GV.adicionar_mensagem("Esse Pokémon ainda não foi adicionado.")     
@@ -641,8 +643,9 @@ def Troca_Terminal_Inimigo():
         TI1 = 0
         TI2 = 423
         animaTI = pygame.time.get_ticks()
+        if PokemonV is not None:
+            oculta()
     else:
-        GV.limpa_terminal()
         TI1 = 423
         TI2 = 0
         animaTI = pygame.time.get_ticks()
@@ -847,10 +850,50 @@ def IniciarTurno():
     SuaVez = True
     comunicaçao = False
 
-def PausarOnline():
-    pass
+def barra_vida_simples(tela, x, y, largura, altura, vida_atual, vida_maxima, cor_fundo, barreira=0):
+    # Cálculo das proporções
+    proporcao_vida = max(vida_atual, 0) / vida_maxima
+    proporcao_barreira = max(barreira, 0) / vida_maxima
 
-def VerificaVitóriaOnline():
+    largura_vida = int(largura * proporcao_vida)
+    largura_barreira = int(largura * proporcao_barreira)
+
+    # Garante que a soma não ultrapasse o total da barra
+    if largura_vida + largura_barreira > largura:
+        excesso = (largura_vida + largura_barreira) - largura
+        largura_vida = max(largura_vida - excesso, 0)
+
+    # Cor da vida conforme proporção
+    proporcao_vida_real = vida_atual / vida_maxima if vida_maxima > 0 else 0
+    if proporcao_vida_real > 0.6:
+        cor_vida = (0, 200, 0)
+    elif proporcao_vida_real > 0.3:
+        cor_vida = (255, 200, 0)
+    else:
+        cor_vida = (200, 0, 0)
+
+    # Fundo da barra
+    pygame.draw.rect(tela, cor_fundo, (x, y, largura, altura))
+
+    # Vida
+    pygame.draw.rect(tela, cor_vida, (x, y, largura_vida, altura))
+
+    # Barreira
+    if largura_barreira > 0:
+        pygame.draw.rect(tela, (0, 150, 255), (x + largura_vida, y, largura_barreira, altura))
+
+    # Borda
+    pygame.draw.rect(tela, (0, 0, 0), (x, y, largura, altura), 2)
+
+    # Ícone de morto
+    if vida_atual <= 0:
+        img = OutrosIMG[8]
+        img_rect = img.get_rect()
+        img_x = x + (largura - img_rect.width) // 2
+        img_y = y - img_rect.height + 12
+        tela.blit(img, (img_x, img_y))
+
+def PausarOnline():
     pass
 
 def cronometro_falso(tela, espaço, tempo_restante, duracao_maxima, fonte, cor_fundo, cor_borda, cor_tempo):

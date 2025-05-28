@@ -120,11 +120,18 @@ def TelaPokemons(tela, eventos,estados, config):
                     GV.Efeito(tela,(x + 150, 30 + j * 30),C.EfeitosIMG[efeito],VERMELHO,valor)
                     j +=1
 
-    for i in range(len(C.player.pokemons)):
-        C.barra_vida(tela, 425 + i * 190, 875, 180, 15, C.player.pokemons[i].Vida, C.player.pokemons[i].VidaMax,(100,100,100),C.player.pokemons[i].ID,C.player.pokemons[i].barreira)
-    
-    for i in range(len(C.inimigo.pokemons)):
-        C.barra_vida(tela, 1315 - i * 190, 190, 180, 15, C.inimigo.pokemons[i].Vida, C.inimigo.pokemons[i].VidaMax,(100,100,100),C.inimigo.pokemons[i].ID,C.inimigo.pokemons[i].barreira)
+    if C.Partida.online is not True:
+        for i in range(len(C.player.pokemons)):
+            C.barra_vida(tela, 425 + i * 190, 875, 180, 15, C.player.pokemons[i].Vida, C.player.pokemons[i].VidaMax,(100,100,100),C.player.pokemons[i].ID,C.player.pokemons[i].barreira)
+        
+        for i in range(len(C.inimigo.pokemons)):
+            C.barra_vida(tela, 1315 - i * 190, 190, 180, 15, C.inimigo.pokemons[i].Vida, C.inimigo.pokemons[i].VidaMax,(100,100,100),C.inimigo.pokemons[i].ID,C.inimigo.pokemons[i].barreira)
+    else:
+        for i in range(len(C.player.pokemons)):
+            C.barra_vida_simples(tela, 425 + i * 190, 875, 180, 15, C.player.pokemons[i].Vida, C.player.pokemons[i].VidaMax,(100,100,100),C.player.pokemons[i].barreira)
+        
+        for i in range(len(C.inimigo.pokemons)):
+            C.barra_vida_simples(tela, 1315 - i * 190, 190, 180, 15, C.inimigo.pokemons[i].Vida, C.inimigo.pokemons[i].VidaMax,(100,100,100),C.inimigo.pokemons[i].barreira)
 
     if C.PokemonS is not None:
         C.PokemonSV = C.PokemonS

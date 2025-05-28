@@ -34,7 +34,7 @@ Fundo = None
 mostrar_mensagem = False
 tempo_ultimo_movimento = 0
 transparencia_logo = 0
-tempo_limite_ocioso = 4500  # 5 segundos
+tempo_limite_ocioso = 5000  # 5 segundos
 fade_velocidade = 5
 
 AnimaMenu = 0
@@ -88,7 +88,7 @@ def TelaMenu(tela,eventos,estados, Logo_Menu):
             Logo_Menu.set_alpha(transparencia_logo)
             tela.blit(Logo_Menu, (LogoXInicial, LogoYInicial))
 
-            if transparencia_logo >= 80:  # só mostra texto após o logo aparecer minimamente
+            if transparencia_logo >= 85:  # só mostra texto após o logo aparecer minimamente
                 GV.TextoBorda(tela,"Aperte qualquer botão para iniciar o jogo",(960,1000),Fonte70,AMARELO)
 
     else:

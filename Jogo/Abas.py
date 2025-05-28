@@ -395,18 +395,11 @@ def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, A
                     over = distancia - alcance
                     precisao -= over * 5
         
-            infos = [
-                f"Dano: {round(ataque['dano'] * 100)}%",
-                f"Alcance: {round(alcance)}m",
-                f"Precisão: {round(precisao)}%"
-            ]
-
-        else:
-            infos = [
-                f"Dano: {round(ataque['dano'] * 100)}%",
-                f"Alcance: Global",
-                f"Precisão: {round(precisao)}%"
-            ]
+        infos = [
+            f"Dano: {round(ataque['dano'] * 100)}%",
+            f"Alcance: {round(alcance)}m" if not ataque.get("global") else "Alcance: Global",
+            f"Precisão: {round(precisao)}%"
+        ]
 
         def obter_cor_status(status, tipo):
             if tipo == "dano":
@@ -415,7 +408,9 @@ def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, A
                 elif status < 160: return (0, 200, 0)
                 else: return (180, 90, 255)
             elif tipo == "alcance":
-                if status == 0: return (180, 90, 255)
+                if isinstance(status, str) and status.lower() == "global":
+                    return (180, 90, 255)
+                elif status == 0: return (180, 90, 255)
                 elif status < 5: return (255, 0, 0)
                 elif status < 8: return (255, 255, 0)
                 elif status < 90: return (0, 200, 0)
@@ -428,10 +423,17 @@ def Mostrar_Ataque(tela, ataque, Mapa, posicao=(100, 100), imagens_tipos=None, A
 
         espacamento = largura_total // len(infos)
         for i, info in enumerate(infos):
-            tipo = info.split(":")[0].lower()
-            valor_bruto = float(info.split(":")[1].replace("m", "").replace("%", ""))
+            tipo = info.split(":")[0].lower().strip()
+            valor_str = info.split(":")[1].replace("m", "").replace("%", "").strip()
+
+            try:
+                valor_bruto = float(valor_str)
+            except ValueError:
+                valor_bruto = "global"  # ou qualquer string para indicar valor especial
+
+            cor = obter_cor_status(valor_bruto, tipo)
             texto_info = fonte_info.render(info.split(":")[0], True, TEXTO)
-            texto_valor = fonte_infoStat.render(info.split(":")[1], True, obter_cor_status(valor_bruto, tipo))
+            texto_valor = fonte_infoStat.render(info.split(":")[1], True, cor)
 
             centro_x = x + espacamento * i + espacamento // 2
             tela.blit(texto_info, texto_info.get_rect(center=(centro_x, y + altura_total - 55)))
