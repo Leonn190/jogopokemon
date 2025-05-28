@@ -193,7 +193,7 @@ def Configuraçoes(tela, eventos, config):
         GV.Botao(tela, "Mostrar Dicas", (x + 180, y + 350, 550, 50), cor4, PRETO, AZUL,
                 lambda: TrocaDicas(config), Fonte40, B6, 3, None, True, eventos)
         GV.Botao(tela, "Online Rápido", (x + 180, y + 420, 550, 50), cor5, PRETO, AZUL,
-                lambda: TrocaDicas(config), Fonte40, B6, 3, None, True, eventos)
+                lambda: TrocaOnlineRapido(config), Fonte40, B6, 3, None, True, eventos)
         
         
     GV.Botao(tela, "Voltar", (x + largura - 470 - 390, y + altura - 85, 390, 70), VERDE_CLARO, PRETO, AZUL,
