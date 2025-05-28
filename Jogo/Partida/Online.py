@@ -108,9 +108,12 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
                 if evento.button == 1:  # Clique esquerdo
                     for peca in C.Partida.Mapa.Peças:
                         if peca.pokemon.PodeMover:
-                            if peca.iniciar_arraste(pos_mouse):
-                                C.peca_em_uso = peca
-                                break
+                            if C.SuaVez is True and C.ComputouPassagemVez:
+                                if peca.iniciar_arraste(pos_mouse):
+                                    C.peca_em_uso = peca
+                                    break
+                            else:
+                                C.Invalido()
 
             elif evento.type == pygame.MOUSEBUTTONUP:
                 if evento.button == 1 and C.peca_em_uso is not None:

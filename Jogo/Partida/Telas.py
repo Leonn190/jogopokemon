@@ -311,7 +311,7 @@ def TelaOutros(tela, eventos,estados, config):
         GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.PausarOnline(), Fonte50, C.B1, 3, pygame.K_ESCAPE, False, eventos)
     GV.Botao(tela, "", (300, 400, 320, 80), CINZA, PRETO, AZUL,lambda: C.Muter(), Fonte50, C.B1, 3, pygame.K_m, False, eventos)
     
-    if C.Partida.online is False:
+    if C.Partida.online is True:
         if C.SuaVez is True and C.ComputouPassagemVez:
             GV.Botao(tela, "Passar Turno", (10, 90, 340, 50), AMARELO_CLARO, PRETO, AZUL,lambda: C.PassarTurnoOnline(estados),Fonte40, C.B7, 3, None, True, eventos)
         else:
