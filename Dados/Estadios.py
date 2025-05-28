@@ -11,7 +11,7 @@ Mer = {
     "Code Tabuleiro": "0",
     "Code Musica": 1,
     "Code Tela": 1,
-    "Metros": 10
+    "Metros": 20
 }
 
 Shivre = {
@@ -19,7 +19,7 @@ Shivre = {
     "Code Tabuleiro": "0",
     "Code Musica": 2,
     "Code Tela": 2,
-    "Metros": 10
+    "Metros": 20
 }
 
 Auroma = {
@@ -27,7 +27,7 @@ Auroma = {
     "Code Tabuleiro": "0",
     "Code Musica": 3,
     "Code Tela": 3,
-    "Metros": 10
+    "Metros": 20
 }
 
 Kalos = {
@@ -35,7 +35,7 @@ Kalos = {
     "Code Tabuleiro": "0",
     "Code Musica": 4,
     "Code Tela": 4,
-    "Metros": 10
+    "Metros": 20
 }
 
 Skyloft = {
@@ -43,7 +43,7 @@ Skyloft = {
     "Code Tabuleiro": "0",
     "Code Musica": 5,
     "Code Tela": 5,
-    "Metros": 10
+    "Metros": 20
 }
 
 Molgera = {
@@ -51,7 +51,7 @@ Molgera = {
     "Code Tabuleiro": "0",
     "Code Musica": 6,
     "Code Tela": 6,
-    "Metros": 10
+    "Metros": 20
 }
 
 

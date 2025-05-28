@@ -43,9 +43,11 @@ Tremor = {
 def Alv_Quebra_Chao(PokemonS,Alvo,player,inimigo,Mapa):
     if PokemonS.vel >= 30:
         aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,3,Mapa.Zona)
+        print (inimigos)
         return inimigos
     else:
         aliados, inimigos = pokemons_nos_arredores(PokemonS,player,inimigo,2,Mapa.Zona)
+        print (inimigos)
         return inimigos
 
 def FI_Quebra_Chao(Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta):

@@ -109,26 +109,29 @@ Bico_Broca = {
     }
 
 def FI_Vento_Forte(Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta):
-    if PokemonS.local is None or Alvo.locall is None:
-        return
+    # Verifica se algum dos Pokémon não está posicionado
+    if PokemonS.local == [] or Alvo.local == []:
+        return Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta
 
-    xS, yS = PokemonS.local
-    xA, yA = Alvo.locall
+    xS = PokemonS.local[0]
+    yS = PokemonS.local[1]
+    xA = Alvo.local[0]
+    yA = Alvo.local[1]
 
     dx = xA - xS
     dy = yA - yS
     dist_total = math.hypot(dx, dy)
 
     if dist_total == 0:
-        return  # Não há direção para empurrar
+        return Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta
 
     direcao_x = dx / dist_total
     direcao_y = dy / dist_total
 
-    # Define empurrão em metros
+    # Define empurrão em metros baseado no peso
     peso = Alvo.Peso
     if peso > 400:
-        return
+        return Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta
     elif peso > 300:
         metros = 2
     elif peso > 200:
@@ -142,23 +145,25 @@ def FI_Vento_Forte(Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimig
 
     alcance_px = metros * Mapa.Metros
 
-    # Gera lista de possíveis posições ao longo da direção
+    # Gera lista de posições possíveis
     possiveis_posicoes = []
-    nova_x = xA
-    nova_y = yA
+    nova_x = float(xA)
+    nova_y = float(yA)
 
-    for i in range(int(alcance_px)):
+    for _ in range(int(alcance_px)):
         nova_x += direcao_x
         nova_y += direcao_y
-        possiveis_posicoes.append((int(nova_x), int(nova_y)))
+        pos_int = [int(nova_x), int(nova_y)]
+        if pos_int not in possiveis_posicoes:
+            possiveis_posicoes.append(pos_int)
 
-    # Busca a posição mais distante possível que não colida
+    # Testa da posição mais distante até a mais próxima
     for pos in reversed(possiveis_posicoes):
         if not verifica_colisao(pos[0], pos[1], Alvo):
-            mover(Alvo, pos)
-            return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
+            mover(Alvo, (pos[0],pos[1]))  # pos já está no formato [x, y]
+            break
 
-    return Dano,Defesa,PokemonS,PokemonV,AlvoS,Alvo,player,inimigo,Ataque,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta
+    return Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta
 
 Vento_Forte = {
     "nome": "Vento Forte",

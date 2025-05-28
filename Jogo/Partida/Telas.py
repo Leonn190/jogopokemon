@@ -32,8 +32,6 @@ def TelaPokemons(tela, eventos,estados, config):
 
     YO = GV.animar(C.OP1,C.OP2,C.animaOP,tempo=250)
 
-    print (C.Partida.Mapa)
-
     if C.SuaVez is True and C.ComputouPassagemVez is True:
         try:
             if C.PokemonS.PodeAtacar == True:

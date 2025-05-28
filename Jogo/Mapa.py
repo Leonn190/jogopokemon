@@ -397,9 +397,9 @@ def mover(pokemon, pos):
     x, y = pos
     import Partida.Compartilhados as C
 
-    if ponto_valido(x, y, pokemon) == True:
-        C.Partida.Mapa.mudança = True
-        pokemon.local = [x, y]
+    # if ponto_valido(x, y, pokemon) == True:
+    C.Partida.Mapa.mudança = True
+    pokemon.local = [x, y]
     print (ponto_valido(x, y, pokemon))
 
 def inverter_tabuleiro(player, inimigo):

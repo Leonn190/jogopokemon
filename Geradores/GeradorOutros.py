@@ -215,7 +215,7 @@ def Compra_Energia(player,custo=0):
 
 def Gera_item(Lista,Baralho):
     item = random.choice(Lista)
-    Baralho.tira_item(item)
+    Baralho.Tira_item(item)
     return item
 
 def item_extra(player,item):
@@ -254,7 +254,7 @@ class Mapa:
         
         Info = Estadios[i]
         self.i = i
-        self.terreno = Info["zona"]
+        self.terreno = Info["Code Tabuleiro"]
         self.Musica = Info["Code Musica"]
         self.Fundo = Info["Code Tela"]
         self.Metros = Info["Metros"]

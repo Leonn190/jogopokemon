@@ -738,7 +738,6 @@ animaT = 0
 animaTI = 0
 animaOP = 0
 
-
 B1 = {"estado": False}
 B6 = {"estado": False}
 B7 = {"estado": False}
@@ -847,6 +846,7 @@ def PassarTurnoOnline(estados):
             pokemon.guardado -= 1
     
     provocar = False
+
     VerificaVitória(estados, Partida.Jogador1, Partida.Jogador2)
     GV.adicionar_mensagem("Seu turno acabou")
 
@@ -871,7 +871,9 @@ def PassarTurnoOnline(estados):
     ComputouPassagemVez = False
 
 def IniciarTurno():
-    global SuaVez, comunicaçao
+    global SuaVez, comunicaçao, provocar
+
+    provocar = False
 
     GV.adicionar_mensagem("Sua vez de jogar")
     SuaVez = True
