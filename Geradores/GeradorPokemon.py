@@ -107,7 +107,7 @@ class Pokemon:
             self.CoefAltura = pokemon["coefA"]
 
             self.raio = 0
-            self.tamanho = 1.4
+            self.tamanho = pokemon["tamanho"]
 
             self.barreira = 0
             self.amplificações = 0
@@ -372,7 +372,8 @@ class Pokemon:
         self.Atk_spB = round(self.CoefAtkSP * self.evolucao["atk SP"])
         self.velB = round(self.CoefVel * self.evolucao["velocidade"])
         self.custo = self.evolucao["custo"]
-        self.Estagio = self.evolucao["estagio"]
+        self.tamanho = self.evolucao["Tamanho"]
+        self.Estagio += 1
         self.FF = self.evolucao["FF"]
         self.xp_total = self.evolucao["XP"]
         self.evolucao = self.evolucao["evolução"]
@@ -645,6 +646,7 @@ def Gerador(Pokemon,P):
         "evolução": Pok["evolução"],
         "FF": Pok["FF"],
         "XP atu": 0,
+        "tamanho": Pok["Tamanho"],
         "IV": round(IV,1),
         "IV vida": round(IVV),
         "IV atk": round(IVA),

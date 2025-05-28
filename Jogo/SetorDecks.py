@@ -13,7 +13,8 @@ from Visual.GeradoresVisuais import (
     Fonte15, Fonte20, Fonte25, Fonte28, Fonte30, Fonte40, Fonte50, Fonte70,
     PRETO, BRANCO, CINZA, AZUL, AZUL_CLARO,AZUL_SUPER_CLARO,
     AMARELO, AMARELO_CLARO, VERMELHO,VERMELHO_CLARO, VERDE, VERDE_CLARO,
-    LARANJA, ROXO, ROSA, DOURADO, PRATA, cores_raridade, energia_cores, TexturasDic)
+    LARANJA, ROXO, ROSA, DOURADO, PRATA, cores_raridade, energia_cores, TexturasDic,
+    ImagensPokemon, ImagensFichas, ImagensTreinadores, ImagensItens, IconesDeckIMG, TiposEnergiaIMG)
 
 pygame.init()
 pygame.mixer.init()
@@ -50,13 +51,6 @@ ItemSelecionado = None
 TreinadorSelecionado = None
 
 Aviso_Apagar = False
-
-ImagensPokemon = {}
-ImagensItens = {}
-TiposEnergiaIMG = {}
-IconesDeckIMG = {}
-ImagensTreinadores = {}
-ImagensFichas = {}
 
 Areas_pokemon = []
 Areas_itens = []
@@ -1398,8 +1392,6 @@ def Decks(tela,estados,relogio,Config):
     global EditorSelecionado, EditorSelecionado_atual, Lista_atual_treinadores, Baralho_atual_treinador
 
     Fundo_Menu = GV.Carregar_Imagem("imagens/fundos/Decks.jpg", (1920,1080))
-    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG,ImagensTreinadores, ImagensFichas = Carregar_Imagens_Decks(
-    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas)
 
     pygame.mixer.music.load('Audio/Musicas/Decks.mp3')  
     pygame.mixer.music.set_volume(Config["Volume"])

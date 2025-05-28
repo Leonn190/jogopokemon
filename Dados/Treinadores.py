@@ -10,7 +10,7 @@ def PassivaAsh(player, inimigo, Mapa, Baralho, Turno):
     player.PoderCaptura += 1
 
 def HabilidadeAsh(player, inimigo, Mapa, Baralho, Turno):
-    player.pokemon[0].Ganhar_XP(10,player)
+    player.pokemons[0].Ganhar_XP(10,player)
 
 def VitoriaMisty(player, inimigo, Mapa, Baralho, Turno):
     if inimigo.PokemonsNocauteados > 1:
@@ -49,8 +49,8 @@ def DerrotaJessie(player, inimigo, Mapa, Baralho, Turno):
     player.PontosSofridos = player.NocautesSofridos
 
 def PassivaJessie(player, inimigo, Mapa, Baralho, Turno):
-    if inimigo.itens != []:
-        item = random.choice(inimigo.itens)
+    if inimigo.inventario != []:
+        item = random.choice(inimigo.inventario)
         player.inventario.append(item)
         inimigo.inventario.remove(item)
 
@@ -124,7 +124,7 @@ Habilidades = {
     "James": HabilidadeJames,
     "Giovanni": HabilidadeGiovanni,
     "Red": HabilidadeRed,
-    "Carvalho": HabilidadeCarvalho,
+    "Professor Carvalho": HabilidadeCarvalho,
 }
 
 Passivas = {
@@ -135,7 +135,7 @@ Passivas = {
     "James": PassivaJames,
     "Giovanni": PassivaGiovanni,
     "Red": PassivaRed,
-    "Carvalho": PassivaCarvalho,
+    "Professor Carvalho": PassivaCarvalho,
 }
 
 Vitorias = {
@@ -146,7 +146,7 @@ Vitorias = {
     "James": VitoriaJames,
     "Giovanni": VitoriaGiovanni,
     "Red": VitoriaRed,
-    "Carvalho": VitoriaCarvalho,
+    "Professor Carvalho": VitoriaCarvalho,
 }
 
 Derrotas = {
@@ -157,7 +157,7 @@ Derrotas = {
     "James": DerrotaJames,
     "Giovanni": DerrotaGiovanni,
     "Red": DerrotaRed,
-    "Carvalho": DerrotaCarvalho,
+    "Professor Carvalho": DerrotaCarvalho,
 }
 
 Ash = {

@@ -32,7 +32,7 @@ def Final(tela,estados,relogio,Config):
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(pygame.USEREVENT)
 
-    from Jogo.Partida.Compartilhados import Partida
+    import Partida.Compartilhados as C
 
     while estados["Rodando_Final"]:
         tela.blit(Fundo_pré,(0,0))
@@ -46,7 +46,7 @@ def Final(tela,estados,relogio,Config):
                 pygame.mixer.music.load('Audio/Musicas/Menu.ogg')
                 pygame.mixer.music.play()
         
-        GV.Texto_caixa(tela,f"{Partida.Vencedor.nome} Venceu, Parabens!", (450,200,1020,260),Fonte70, DOURADO,PRETO,4)
+        GV.Texto_caixa(tela,f"{C.Partida.Vencedor.nome} Venceu, Parabens!", (450,200,1020,260),Fonte70, DOURADO,PRETO,4)
 
         GV.Botao(tela, "Sair do jogo", (300, 400, 320, 80), CINZA, PRETO, AZUL,
                  lambda: A.fechar_jogo(estados), Fonte50, B1, 3, pygame.K_ESCAPE, False, eventos)  

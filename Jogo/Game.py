@@ -49,6 +49,7 @@ Config = {
     "Volume": 0.4,
     "FPS": 130,
     "Claridade": 50,
+    "OnlineRapido": False,
     "Modo rápido": False,
     "Dicas": True,
     "Modo silencioso": False,
@@ -63,7 +64,7 @@ if os.path.exists("ConfigFixa.py"):
         pass
 
 Config["Modo"] = None
-Config["Versão"] = "Beta 1.2.2"
+Config["Versão"] = "Beta 1.2.3"
 
 from Visual.Sonoridade import VerificaModoSilencioso
 VerificaModoSilencioso(Config)

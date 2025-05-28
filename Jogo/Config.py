@@ -60,6 +60,14 @@ def aplicar_claridade(tela, claridade,):
 
     tela.blit(surface, (0, 0))
 
+def TrocaOnlineRapido(config):
+    if config["OnlineRapido"]:
+        tocar("Desativa")
+        config["OnlineRapido"] = False
+    else:
+        tocar("Ativa")
+        config["OnlineRapido"] = True
+
 def TrocaModoRapido(config):
     if config["Modo rápido"]:
         tocar("Desativa")
@@ -170,6 +178,11 @@ def Configuraçoes(tela, eventos, config):
             cor4 = VERDE
         else:
             cor4 = CINZA
+
+        if config["OnlineRapido"]:
+            cor5 = VERDE
+        else:
+            cor5 = CINZA
         
         GV.Botao(tela, "Modo Rápido", (x + 180, y + 140, 550, 50), cor1, PRETO, AZUL,
                 lambda: TrocaModoRapido(config), Fonte40, B3, 3, None, True, eventos)
@@ -179,6 +192,9 @@ def Configuraçoes(tela, eventos, config):
                 lambda: TrocaMostraFpsPartida(config), Fonte40, B5, 3, None, True, eventos)
         GV.Botao(tela, "Mostrar Dicas", (x + 180, y + 350, 550, 50), cor4, PRETO, AZUL,
                 lambda: TrocaDicas(config), Fonte40, B6, 3, None, True, eventos)
+        GV.Botao(tela, "Online Rápido", (x + 180, y + 420, 550, 50), cor5, PRETO, AZUL,
+                lambda: TrocaDicas(config), Fonte40, B6, 3, None, True, eventos)
+        
         
     GV.Botao(tela, "Voltar", (x + largura - 470 - 390, y + altura - 85, 390, 70), VERDE_CLARO, PRETO, AZUL,
                     lambda: Cancelar(), Fonte50, B1, 3, None, True, eventos)

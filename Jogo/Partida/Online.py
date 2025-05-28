@@ -50,7 +50,7 @@ def obter_dados_partida(numero):
         print("Formato inesperado da resposta:", dados)
         return None
 
-def enviar_dados(partida_id):
+def enviar_dados(partida_id, config):
 
     while True:
         dados_para_enviar = C.Partida.ToDic_Inic()
@@ -69,9 +69,13 @@ def enviar_dados(partida_id):
             C.comunicaçao = False
             C.ComputouPassagemVez = True
             break
-        time.sleep(5)
 
-def coletar_dados_loop(partida_id, ID):
+        if config["OnlineRapido"]:
+            time.sleep(3)
+        else:
+            time.sleep(7)
+
+def coletar_dados_loop(partida_id, ID, config):
     while True:
         try:
             Dados, JogadorDaVez = obter_dados_partida(1)
@@ -83,7 +87,11 @@ def coletar_dados_loop(partida_id, ID):
         if JogadorDaVez == ID:
             C.DeveIniciarTurno = True
             break
-        time.sleep(5)
+
+        if config["OnlineRapido"]:
+            time.sleep(3)
+        else:
+            time.sleep(7)
 
 def PartidaOnlineLoop(tela,estados,relogio,config):
 
@@ -125,9 +133,9 @@ def PartidaOnlineLoop(tela,estados,relogio,config):
 
         if not C.comunicaçao:
             if C.SuaVez:
-                threading.Thread(target=enviar_dados, args=(C.Partida.ID,)).start()
+                threading.Thread(target=enviar_dados, args=(C.Partida.ID,config), daemon=True).start()
             else:
-                threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online), daemon=True).start()
+                threading.Thread(target=coletar_dados_loop, args=(C.Partida.ID, C.player.ID_online, config), daemon=True).start()
             C.comunicaçao = True
 
         if not C.atualizacoes_online.empty():

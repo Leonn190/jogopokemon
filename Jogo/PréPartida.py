@@ -271,7 +271,7 @@ def TelaPréPartida_Solo(tela, eventos, estados):
         GV.Botao(tela, "Entrar Na Fila", (770, 960, 380, 110), CINZA, PRETO, DOURADO,
                  lambda: tocar("Bloq"), Fonte70, B3, 4, None, True, eventos)
     else:
-        GV.Botao(tela, "Entrar Na Fila", (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
+        GV.Botao(tela, TexturasDic["FundoAmarelo"], (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
                  lambda: A.Entrar_Fila(estados), Fonte70, B3, 4, None, True, eventos, "clique")
 
 def TelaPréPartida(tela,eventos,estados):
@@ -435,7 +435,7 @@ def TelaPréPartida(tela,eventos,estados):
         GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), CINZA, PRETO, DOURADO,
                     lambda: tocar("Bloq"), Fonte70, B3, 4, None, True, eventos)
     else:
-        GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), AMARELO_CLARO, PRETO, DOURADO,
+        GV.Botao(tela, "Iniciar Partida", (770, 960, 380, 110), TexturasDic["FundoAmarelo"], PRETO, DOURADO,
                     lambda: A.Iniciar_partida(estados), Fonte70, B3, 4, None, True, eventos, "clique")
 
 def PréPartida(tela,estados,relogio,Config):

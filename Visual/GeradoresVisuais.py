@@ -1,6 +1,6 @@
 import pygame
 from Visual.Sonoridade import tocar
-from Visual.Imagens import CarregarTexturas
+from Visual.Imagens import CarregarTexturas, Carregar_Imagens_Decks
 import os
 
 pygame.font.init()
@@ -718,3 +718,13 @@ Slider.arrastando = None
 
 TexturasDic = {}
 TexturasDic = CarregarTexturas(TexturasDic)
+
+ImagensItens = {}
+ImagensPokemon = {}
+TiposEnergiaIMG = {}
+IconesDeckIMG = {}
+ImagensTreinadores = {}
+ImagensFichas = {}
+
+ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG,ImagensTreinadores, ImagensFichas = Carregar_Imagens_Decks(
+    ImagensItens,ImagensPokemon,TiposEnergiaIMG,IconesDeckIMG, ImagensTreinadores, ImagensFichas)

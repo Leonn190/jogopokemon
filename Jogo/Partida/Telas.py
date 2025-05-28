@@ -32,6 +32,8 @@ def TelaPokemons(tela, eventos,estados, config):
 
     YO = GV.animar(C.OP1,C.OP2,C.animaOP,tempo=250)
 
+    print (C.Partida.Mapa)
+
     if C.SuaVez is True and C.ComputouPassagemVez is True:
         try:
             if C.PokemonS.PodeAtacar == True:
@@ -339,10 +341,10 @@ def TelaOutros(tela, eventos,estados, config):
     Loja((XL,195),tela,C.Partida.Baralho,C.ImagensItens,C.Partida.Turno,eventos,C.player,2,C.Partida.Loja)
 
 def Telapausa(tela, eventos,estados, config):
-    GV.Botao(tela, "Despausar partida", (600, 160, 720, 130), CINZA, PRETO, AZUL,lambda: C.pausarEdespausar(),Fonte70, C.B6, 5, pygame.K_ESCAPE, True, eventos)
-    GV.Botao(tela, "Configuraçoes", (600, 385, 720, 130), CINZA, PRETO, AZUL,lambda: C.TrocaConfig(),Fonte70, C.B6, 5, None, True, eventos)
-    GV.Botao(tela, "Sair da partida", (600, 610, 720, 130), CINZA, PRETO, AZUL,lambda: A.Voltar(estados),Fonte70, C.B6, 5, None, True, eventos)
-    GV.Botao(tela, "Sair do jogo", (600, 835, 720, 130), CINZA, PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, C.B6, 5, None, True, eventos)
+    GV.Botao(tela, "Despausar partida", (600, 160, 720, 130), TexturasDic["FundoPausa"], PRETO, AZUL,lambda: C.pausarEdespausar(),Fonte70, C.B6, 5, pygame.K_ESCAPE, True, eventos)
+    GV.Botao(tela, "Configuraçoes", (600, 385, 720, 130), TexturasDic["FundoPausa"], PRETO, AZUL,lambda: C.TrocaConfig(),Fonte70, C.B6, 5, None, True, eventos)
+    GV.Botao(tela, "Sair da partida", (600, 610, 720, 130), TexturasDic["FundoPausa"], PRETO, AZUL,lambda: A.Voltar(estados),Fonte70, C.B6, 5, None, True, eventos)
+    GV.Botao(tela, "Sair do jogo", (600, 835, 720, 130), TexturasDic["FundoPausa"], PRETO, AZUL,lambda: A.fechar_jogo(estados),Fonte70, C.B6, 5, None, True, eventos)
 
 def TelaTabuleiro(tela, eventos, estados, config):
 

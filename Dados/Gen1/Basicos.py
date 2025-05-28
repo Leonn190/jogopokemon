@@ -18,9 +18,9 @@ Bulbasaur = {
     "velocidade": 22,
     "XP": 25,
     "custo": 1,
-    "moves": 2,
+    "moves": 4,
     "Tamanho": 1.3,
-    "movelist": ["Cabeçada", "Ácido", "Disparo de Semente", "Dreno", "Energia", "Crescer"],
+    "movelist": ["Teleporte", "Vento Forte", "Mão Espectral", "Tremor", "Quebra Chão", "Crescer"],
     "H": 0.58,
     "W": 7.5
 }

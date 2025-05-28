@@ -42,12 +42,12 @@ def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo, player=None):
         tela.blit(imagem_recortada, pos)
 
     if player is not None:
-
         # Texto com os pontos
         texto_pontos = str(player.Pontos)
         texto_sofridos = str(player.PontosSofridos)
+        texto_captura = str(player.PoderCaptura)
 
-        # Renderizar o texto
+        # Renderizar o texto dos pontos
         render_pontos = Fonte30.render(texto_pontos, True, AMARELO)
         render_sofridos = Fonte30.render(texto_sofridos, True, AMARELO)
 
@@ -55,9 +55,15 @@ def TreinadorInfo(pos, tela, treinador, ImagensFichas, estilo, player=None):
         x_texto = x + 28
         y_texto = y + 180
 
-        # Blitar os textos na tela
+        # Blitar os textos dos pontos e sofridos
         tela.blit(render_pontos, (x_texto, y_texto))
         tela.blit(render_sofridos, (x_texto + 313, y_texto))
+
+        if player.treinador["nome"] == "Ash":
+            # Posição e caixa para o PoderCaptura (60px acima dos pontos sofridos)
+            espaço_captura = (x_texto + 313 - 25, y_texto - 100, 60, 35)
+            GV.Texto_caixa(tela, texto_captura, espaço_captura, Fonte30, (50,50,50), (50,50,50), AMARELO, 3)
+
 
 
 def OlhaAtaque(ataque):

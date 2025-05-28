@@ -706,6 +706,7 @@ def CarregarTexturas(TexturasDic):
     FundoRoxo = GV.Carregar_Imagem("imagens/Texturas/FundoRoxo.jpg", (700, 410))
     FundoAzulEscuro = GV.Carregar_Imagem("imagens/Texturas/FundoAzulEscuro.jpg", (700, 410))
     FundoCinza = GV.Carregar_Imagem("imagens/Texturas/FundoCinza.jpg", (700, 410))
+    FundoPausa = GV.Carregar_Imagem("imagens/Texturas/FundoPausa.jpg", (1000, 400))
     FundoPokemonInimigo = GV.Carregar_Imagem("imagens/Texturas/FundoPokemonInimigo.jpg", (300, 300))
     FundoPokemonAliado = GV.Carregar_Imagem("imagens/Texturas/FundoPokemonAliado.jpg", (300, 300))
     FundoOpçoes = GV.Carregar_Imagem("imagens/Texturas/FundoOpçoes.jpg", (300, 300))
@@ -743,6 +744,7 @@ def CarregarTexturas(TexturasDic):
         "FundoRoxo": FundoRoxo,
         "FundoAzulEscuro": FundoAzulEscuro,
         "FundoCinza": FundoCinza,
+        "FundoPausa": FundoPausa,
         "FundoPokemonInimigo": FundoPokemonInimigo,
         "FundoPokemonAliado": FundoPokemonAliado,
         "FundoOpçoes": FundoOpçoes,

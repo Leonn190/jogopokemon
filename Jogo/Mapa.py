@@ -4,12 +4,13 @@ import random
 from Visual.Sonoridade import tocar
 import Visual.GeradoresVisuais as GV
 
-terreno = None
+
 Mapa = None
-x_terreno = 0
-y_terreno = 0
-largura_terreno = 0
-altura_terreno = 0
+terreno = GV.Carregar_Imagem("imagens/Mapas/Mapa1.png", (600, 600), "PNG")
+x_terreno = 660
+y_terreno = 240
+largura_terreno = 600
+altura_terreno = 600
 
 B1 = {"estado": False}
 
@@ -130,10 +131,9 @@ class PecaArrastavel:
     def iniciar_arraste(self, pos_mouse):
         if not self.pokemon.PodeMover:
             return False
-        
+
         import Partida.Compartilhados as C
         if C.SuaVez is not True or C.ComputouPassagemVez is not True:
-            C.Invalido()
             return
 
         if not isinstance(self.pokemon.local, list) or len(self.pokemon.local) != 2:
@@ -182,7 +182,7 @@ class PecaArrastavel:
         y_fim = pos_mouse[1] + self.offset_y
 
         distancia = math.hypot(x_fim - x_ini, y_fim - y_ini)
-        raio_movimento = self.pokemon.vel * Mapa.Metros // 2
+        raio_movimento = self.pokemon.vel * Mapa.Metros // 3
 
         if distancia <= raio_movimento + self.pokemon.raio and self.pokemon.PodeMover:
             if not ponto_valido(x_fim, y_fim, self.pokemon):
@@ -222,7 +222,7 @@ class PecaArrastavel:
         if not self.arrastando:
             return
         x_p, y_p = map(int, self.pos_inicial)
-        raio = int((self.pokemon.vel // 2) * Mapa.Metros + self.pokemon.raio)
+        raio = int((self.pokemon.vel // 3) * Mapa.Metros + self.pokemon.raio)
 
         superficie = pygame.Surface((raio * 2, raio * 2), pygame.SRCALPHA)
         pygame.draw.circle(superficie, (0, 255, 0, 60), (raio, raio), raio)
@@ -241,7 +241,9 @@ class PecaArrastavel:
 
         rect = self.imagem.get_rect(center=center)
 
-        if self.pokemon.PodeMover:
+        import Partida.Compartilhados as C
+
+        if self.pokemon.PodeMover and C.SuaVez is True and C.ComputouPassagemVez is True:
             raio = max(rect.width, rect.height) // 2 + 3
             pygame.draw.circle(self.tela, (0, 255, 0), center, raio, width=3)
 
@@ -249,11 +251,12 @@ class PecaArrastavel:
 
 def verifica_colisao(x, y, pokemon):
     """Verifica se o círculo em (x, y) com raio do Pokémon colide com áreas ocupadas."""
-    
+    import Partida.Compartilhados as C
+
     raio = int(pokemon.raio)
     novo_rect = pygame.Rect(x - raio, y - raio, raio * 2, raio * 2)
 
-    for rect in Mapa.Ocupadas:
+    for rect in C.Partida.Mapa.Ocupadas:
         # Ignora o próprio Pokémon, se estiver na lista
         if hasattr(pokemon, "rect") and rect == pokemon.rect:
             continue
@@ -346,7 +349,7 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, eventos, estadoAlvo,
                         x_img = x - largura_img // 2
                         y_img = y - altura_img // 2
 
-                        espaço = pygame.Rect(x_img + 1, y_img + 1, largura_img - 3, altura_img - 3)
+                        espaço = pygame.Rect(x_img + 1, y_img + 1, largura_img - 4, altura_img - 4)
 
                         GV.Botao_Selecao2(
                             tela, espaço,
@@ -369,6 +372,7 @@ def Desenhar_Casas_Disponiveis(tela, mapa, player, inimigo, eventos, estadoAlvo,
     desenhar_pokemons(inimigo, criar_pecas=False, cor_circulo=(255, 0, 0))  # vermelho para inimigos
 
 def PosicionarGuardar(pokemon, tempo):
+    import Partida.Compartilhados as C
     if pokemon.local == []:
         tentativas = 500  # evita loop infinito
 
@@ -380,21 +384,23 @@ def PosicionarGuardar(pokemon, tempo):
 
             if ponto_valido(x, y, pokemon):
                 pokemon.local = [x, y]
-                Mapa.mudança = True
-                Mapa.Peças = []
+                C.Partida.Mapa.mudança = True
+                C.Partida.Mapa.Peças = []
                 return
         
     else:
-        Mapa.mudança = True
+        C.Partida.Mapa.mudança = True
         pokemon.local = []
         pokemon.guardado = tempo
 
 def mover(pokemon, pos):
     x, y = pos
+    import Partida.Compartilhados as C
 
     if ponto_valido(x, y, pokemon) == True:
-        Mapa.mudança = True
+        C.Partida.Mapa.mudança = True
         pokemon.local = [x, y]
+    print (ponto_valido(x, y, pokemon))
 
 def inverter_tabuleiro(player, inimigo):
     for treinador in [player, inimigo]:

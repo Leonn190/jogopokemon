@@ -743,8 +743,9 @@ def Atacar(PokemonS,PokemonV,PokemonA,player,inimigo,Mapa,tela,Baralho):
             PokemonS.Ganhar_XP(4,player)
 
             if AtaqueS["extra"] == "A" or AtaqueS["extra"] == "AV":
-                if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
-                    return
+                if AtaqueS["alcance"] != 0:
+                    if VAcerta(PokemonS,PokemonA,AtaqueS,Mapa.Metros) == False:
+                        return
             
             adicionar_efeito(AtaqueS["efeito"],AlvoLoc,lambda: AtaqueS["funçao"](PokemonS,PokemonV,PokemonA,alvos,player,inimigo,AtaqueS,Mapa,tela,Baralho,AlvoLoc,EstadoDaPergunta,AtaqueS["irregularidade"]))
             if alvos is not None:

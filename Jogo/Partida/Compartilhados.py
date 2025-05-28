@@ -1033,14 +1033,17 @@ def VerificaVitória(estados, Jogador1, Jogador2):
         Partida.Perdedor = Jogador2
         A.Fim_da_partida(estados)
     if Jogador1.PontosSofridos >= Jogador1.PontosDerrota:
+        print(2)
         Partida.Vencedor = Jogador2
         Partida.Perdedor = Jogador1
         A.Fim_da_partida(estados)
     if Jogador2.Pontos >= Jogador2.PontosVitoria:
+        print(3)
         Partida.Vencedor = Jogador2
         Partida.Perdedor = Jogador1
         A.Fim_da_partida(estados)
     if Jogador2.PontosSofridos >= Jogador2.PontosDerrota:
+        print(4)
         Partida.Vencedor = Jogador1
         Partida.Perdedor = Jogador2
         A.Fim_da_partida(estados)

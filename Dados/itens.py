@@ -353,6 +353,7 @@ dicionario_itens = {
     "Citrino": Citrino,
     "Safira": Safira,
     "Rubi": Rubi,
+    "Gosma Desagradável": Gosma_Desagradável,
     "Ametista": Ametista,
     "Diamante": Diamante,
     "Rubelita": Rubelita,
