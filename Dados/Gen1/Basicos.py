@@ -20,7 +20,7 @@ Bulbasaur = {
     "custo": 1,
     "moves": 4,
     "Tamanho": 1.3,
-    "movelist": ["Teleporte", "Vento Forte", "Mão Espectral", "Tremor", "Quebra Chão", "Crescer"],
+    "movelist": ["Controle do Oceano", "Vento Forte", "Mão Espectral", "Tremor", "Quebra Chão", "Crescer"],
     "H": 0.58,
     "W": 7.5
 }

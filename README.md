@@ -78,14 +78,49 @@ No modo principal de **Pokémon Teams**, a partida acontece em turnos entre dois
 
 ---
 
+## 🧩 Módulos do Projeto
+
+Abaixo estão os principais diretórios e arquivos do projeto, com suas respectivas funções:
+
+- **Audio/**  
+  Contém músicas, sons e efeitos sonoros utilizados no jogo.
+
+- **Imagem/**  
+  Armazena imagens, animações, texturas e fundos usados nas interfaces e batalhas.
+
+- **Geradores/**  
+  Funções responsáveis pela geração de elementos do jogo, como pokémons, partidas, mapas, baralhos e itens.
+
+- **Decks/**  
+  Guarda os decks dos jogadores, incluindo os três modelos prontos e outros personalizados.
+
+- **Jogo/**  
+  Contém os módulos principais de funcionamento do jogo, incluindo os loops das partidas locais e online.
+
+- **Visual/**  
+  Agrupa diversas funções de suporte, geralmente ligadas a elementos visuais ou sonoros. Apesar do nome, algumas dessas funções afetam também o comportamento lógico do jogo.
+
+- **Dados/**  
+  Funciona como um banco de informações do jogo. Contém a maioria dos dicionários fixos que definem os pokémons, itens e outras estruturas essenciais.
+
+- **Z/**  
+  Pasta auxiliar usada durante o desenvolvimento. Contém arquivos que **podem ser removidos**, mas foram úteis como apoio em certos momentos.
+
+- **ConfigFixa.py**  
+  Arquivo de configuração básica do jogo, onde podem ser definidas opções fixas como volume, FPS e outras preferências.
+
+- **ControleAPI.py**  
+  Script que gerencia o funcionamento da API do modo online. Não faz parte de um módulo maior, mas é importante para testes com o servidor.
+
+
 ## 🛠 Tecnologias Usadas
 
 - Python 3.11 (variou)
 - [Pygame](https://www.pygame.org/)
 - Bibliotecas adicionais: `time`, `threading`, `json`, `re`, `os`, `copy`, entre outras.
-- API feita com flask e rodada pelo render em um servidor da Virginia (EUA)
+- API feita com Flask e rodada pelo Render em um servidor da Virginia (EUA)
 
---
+---
 
 ## 🚀 Como Rodar o Jogo
 
@@ -93,6 +128,12 @@ No modo principal de **Pokémon Teams**, a partida acontece em turnos entre dois
 > Algumas correções já podem ter sido feitas em versões mais recentes.
 
 1. Instale o Python 3: https://www.python.org  
-2. Instale o Pygame com o comando: `pip install pygame`  
-3. Instale as demais bibliotecas utilizadas (como flask, se necessário)  
-4. Rode o arquivo Game.py, que está dentro da pasta `Jogo`
+
+2. Instale o Pygame com o comando:  
+   `pip install pygame`
+
+3. Instale as demais bibliotecas utilizadas (como Flask, se necessário):  
+   `pip install flask`
+
+4. Rode o arquivo `game.py`, que está dentro da pasta `Jogo`:  
+   `python Jogo/game.py`

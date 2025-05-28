@@ -26,36 +26,6 @@ class Partida:
 def GeraPartida(player1,player2,Baralho,Mapa):
     return Partida(player1,player2,Baralho,Mapa)
 
-
-def navegar_e_setar(obj, caminho, valor):
-    # Divide o caminho em partes (suporta ['chave'], [índice], .atributo)
-    partes = re.findall(r"\['(.*?)'\]|\[(\d+)\]|\.([a-zA-Z_][\w]*)", caminho)
-
-    atual = obj
-    for i, parte in enumerate(partes[:-1]):
-        chave = parte[0] or parte[1] or parte[2]
-
-        # Caminho parcial para debug (opcional)
-        # print(f"Passo {i}: {repr(atual)} >> {repr(chave)}")
-
-        if parte[1]:  # índice de lista
-            atual = atual[int(chave)]
-        elif isinstance(atual, dict):
-            atual = atual.get(chave)
-        else:
-            atual = getattr(atual, chave)
-
-    # Última parte do caminho: onde o valor será atribuído
-    parte_final = partes[-1]
-    chave_final = parte_final[0] or parte_final[1] or parte_final[2]
-
-    if parte_final[1]:  # é índice de lista
-        atual[int(chave_final)] = valor
-    elif isinstance(atual, dict):  # é dicionário
-        atual[chave_final] = valor
-    else:  # é atributo de objeto
-        setattr(atual, chave_final, valor)
-
 class PartidaOnline:
     def __init__(self,player1,player2,Baralho,Mapa,Dados=False):
     

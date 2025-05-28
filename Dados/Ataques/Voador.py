@@ -146,22 +146,18 @@ def FI_Vento_Forte(Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimig
     alcance_px = metros * Mapa.Metros
 
     # Gera lista de posições possíveis
-    possiveis_posicoes = []
     nova_x = float(xA)
     nova_y = float(yA)
+
+    ultima_pos = [xA, yA]  # Começa na posição atual
 
     for _ in range(int(alcance_px)):
         nova_x += direcao_x
         nova_y += direcao_y
-        pos_int = [int(nova_x), int(nova_y)]
-        if pos_int not in possiveis_posicoes:
-            possiveis_posicoes.append(pos_int)
+        ultima_pos = [int(nova_x), int(nova_y)]
 
-    # Testa da posição mais distante até a mais próxima
-    for pos in reversed(possiveis_posicoes):
-        if not verifica_colisao(pos[0], pos[1], Alvo):
-            mover(Alvo, (pos[0],pos[1]))  # pos já está no formato [x, y]
-            break
+    # Move o Pokémon diretamente para a posição final ignorando colisões
+    mover(Alvo, (ultima_pos[0], ultima_pos[1]))
 
     return Dano, Defesa, PokemonS, PokemonV, AlvoS, Alvo, player, inimigo, Ataque, Mapa, tela, Baralho, AlvoLoc, EstadoDaPergunta
 
