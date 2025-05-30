@@ -529,7 +529,7 @@ Jynx = {
     "velocidade": 25,
     "XP": 0,
     "custo": 2,
-    "moves": 4,
+    "moves": 2,
     "Tamanho": 1.5,
     "movelist": ["Cristalizar", "Reinado de Gelo", "Magia de Gelo", "Bola Psíquica", "Mente Forte", "Tapa Especial"],
     "H": 1.34,

@@ -129,7 +129,7 @@ Abaixo estão os principais diretórios e arquivos do projeto, com suas respecti
 
 ## 🚀 Como Rodar o Jogo
 
-> ⚠️ Um vídeo explicativo será publicado em breve para facilitar o entendimento do jogo.  
+> ⚠️ Video Explicativo (https://www.youtube.com/watch?v=PlTGvAWhm3A).  
 > Algumas correções já podem ter sido feitas em versões mais recentes.
 
 1. Instale o Python 3: https://www.python.org  

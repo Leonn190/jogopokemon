@@ -803,9 +803,12 @@ def Desenhar_Alcance(tela, PeçaS, alcance_metros, pixels_por_metro, Alvo, preci
 
     superficie_transparente.fill((0, 0, 0, 0))  # limpar a surface com transparência
 
-    centro_x = PeçaS.local[0]
-    centro_y = PeçaS.local[1]
-    raio = int((alcance_metros + PeçaS.tamanho) * pixels_por_metro )
+    try:
+        centro_x = PeçaS.local[0]
+        centro_y = PeçaS.local[1]
+        raio = int((alcance_metros + PeçaS.tamanho) * pixels_por_metro )
+    except IndexError:
+        return
 
     # Círculo de alcance
     pygame.draw.circle(superficie_transparente, (255, 0, 0, 120), (centro_x, centro_y), raio + 5)
