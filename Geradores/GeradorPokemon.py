@@ -557,123 +557,126 @@ class Pokemon:
 
 IDpoke = 0
 
-def Gerador(Pokemon,P):
-    global IDpoke
-    IDpoke += 1
-    Pok = Pokemon
+IV_VARIACOES = {
+    "vida": (0.85, 1.15),
+    "padrao": (0.8, 1.2),
+}
 
-    vida_min = int(Pok["vida"] * 0.85)
-    vida_max = int(Pok["vida"] * 1.15)
-    vida_max_real = int(vida_max * P)
-    vida = random.randint(vida_min, vida_max_real)
-    vida = min(vida, int(Pok["vida"] * 1.15))
+CHAVES_STATS = ("vida", "atk", "atk SP", "def", "def SP", "velocidade")
 
-    atk_min = int(Pok["atk"] * 0.8)
-    atk_max = int(Pok["atk"] * 1.2)
-    atk_max_real = int(atk_max * P)
-    Atk = random.randint(atk_min, atk_max_real)
-    Atk = min(Atk, int(Pok["atk"] * 1.2))
+CHAVES_IV = {
+    "vida": "IV vida",
+    "atk": "IV atk",
+    "atk SP": "IV atk SP",
+    "def": "IV def",
+    "def SP": "IV def SP",
+    "velocidade": "IV vel",
+}
 
-    atkSP_min = int(Pok["atk SP"] * 0.8)
-    atkSP_max = int(Pok["atk SP"] * 1.2)
-    atkSP_max_real = int(atkSP_max * P)
-    Atk_SP = random.randint(atkSP_min, atkSP_max_real)
-    Atk_SP = min(Atk_SP, int(Pok["atk SP"] * 1.2))
+def obter_faixa_iv(chave):
+    return IV_VARIACOES["vida"] if chave == "vida" else IV_VARIACOES["padrao"]
 
-    def_min = int(Pok["def"] * 0.8)
-    def_max = int(Pok["def"] * 1.2)
-    def_max_real = int(def_max * P)
-    Def = random.randint(def_min, def_max_real)
-    Def = min(Def, int(Pok["def"] * 1.2))
+def gerar_stat(base, chave, potencial):
+    mult_min, mult_max = obter_faixa_iv(chave)
+    minimo = int(base * mult_min)
+    maximo = int(base * mult_max)
+    maximo_real = int(maximo * potencial)
 
-    defSP_min = int(Pok["def SP"] * 0.8)
-    defSP_max = int(Pok["def SP"] * 1.2)
-    defSP_max_real = int(defSP_max * P)
-    Def_SP = random.randint(defSP_min, defSP_max_real)
-    Def_SP = min(Def_SP, int(Pok["def SP"] * 1.2))
+    valor = random.randint(minimo, maximo_real)
+    valor = min(valor, maximo)
 
-    vel_min = int(Pok["velocidade"] * 0.8)
-    vel_max = int(Pok["velocidade"] * 1.2)
-    vel_max_real = int(vel_max * P)
-    vel = random.randint(vel_min, vel_max_real)
-    vel = min(vel, int(Pok["velocidade"] * 1.2))
+    return valor, minimo, maximo
 
-    IVV = ((vida - vida_min) / (vida_max - vida_min)) * 100
-    IVA = ((Atk - atk_min) / (atk_max - atk_min)) * 100
-    IVAS = ((Atk_SP - atkSP_min) / (atkSP_max - atkSP_min)) * 100
-    IVD = ((Def - def_min) / (def_max - def_min)) * 100
-    IVDS = ((Def_SP - defSP_min) / (defSP_max - defSP_min)) * 100
-    IVVE = ((vel - vel_min) / (vel_max - vel_min)) * 100
+def calcular_iv(valor, minimo, maximo):
+    return ((valor - minimo) / (maximo - minimo)) * 100
 
-    IV = round((IVV + IVA + IVAS + IVD + IVDS + IVVE) / 6, 2)
+def gerar_stats_e_ivs(pokemon, potencial):
+    stats = {}
+    ivs = {}
 
-    Coef_Genetico = random.uniform(0.75,1.1)
+    for chave in CHAVES_STATS:
+        valor, minimo, maximo = gerar_stat(pokemon[chave], chave, potencial)
+        stats[chave] = valor
+        ivs[chave] = calcular_iv(valor, minimo, maximo)
 
-    Altura = Pok["H"] * (Coef_Genetico + (IVV/800) + (IVA/900) + (IVAS/900))
-    Peso = Pok["W"] * (Coef_Genetico + (IVV/700) + (IVD/700) + (IVDS/700) - (IVVE/400))
+    return stats, ivs
 
-    CoefPeso = (Coef_Genetico + (IVV/800) + (IVA/900) + (IVAS/900))
-    CoefAltura = (Coef_Genetico + (IVV/700) + (IVD/700) + (IVDS/700) - (IVVE/400))
+def arredondar_altura(altura):
+    return round(altura, 1 if altura > 9.9 else 2)
 
-    if Altura > 9.9:
-        Altura = round(Altura,1)
-    else:
-        Altura = round(Altura,2)
+def arredondar_peso(peso):
+    return round(peso, 0 if peso > 99.5 else 1)
 
-    if Peso > 99.5:
-        Peso = round(Peso,0)
-    else:
-        Peso = round(Peso,1)
+def calcular_medidas(pokemon, ivs):
+    coef_genetico = random.uniform(0.75, 1.1)
 
-    Stats = {
-        "nome": Pok["nome"],
-        "tipo": Pok["tipo"],
-        "raridade": Pok["raridade"],
-        "origem": Pok,
-        "vida": vida,
+    coef_p = coef_genetico + (ivs["vida"] / 800) + (ivs["atk"] / 900) + (ivs["atk SP"] / 900)
+    coef_a = coef_genetico + (ivs["vida"] / 700) + (ivs["def"] / 700) + (ivs["def SP"] / 700) - (ivs["velocidade"] / 400)
+
+    altura = arredondar_altura(pokemon["H"] * coef_p)
+    peso = arredondar_peso(pokemon["W"] * coef_a)
+
+    return altura, peso, coef_p, coef_a
+
+def montar_stats_base(pokemon, stats_gerados, ivs, altura, peso, coef_p, coef_a):
+    iv_total = round(sum(ivs.values()) / len(ivs), 2)
+
+    stats = {
+        "nome": pokemon["nome"],
+        "tipo": pokemon["tipo"],
+        "raridade": pokemon["raridade"],
+        "origem": pokemon,
         "estagio": 1,
-        "altura": Altura,
-        "peso": Peso,
-        "coefP": CoefPeso,
-        "coefA": CoefAltura,
-        "atk": Atk,
-        "atk SP": Atk_SP,
-        "def": Def,
-        "def SP": Def_SP,
-        "velocidade": vel,
-        "XP": Pok["XP"],
-        "custo": Pok["custo"],
-        "evolução": Pok["evolução"],
-        "FF": Pok["FF"],
+        "altura": altura,
+        "peso": peso,
+        "coefP": coef_p,
+        "coefA": coef_a,
+        "XP": pokemon["XP"],
+        "custo": pokemon["custo"],
+        "evolução": pokemon["evolução"],
+        "FF": pokemon["FF"],
         "XP atu": 0,
-        "tamanho": Pok["Tamanho"],
-        "IV": round(IV,1),
-        "IV vida": round(IVV),
-        "IV atk": round(IVA),
-        "IV atk SP": round(IVAS),
-        "IV def": round(IVD),
-        "IV def SP": round(IVDS),
-        "IV vel": round(IVVE),
-        "code": Pok["code"],
-        "ID": IDpoke,
+        "tamanho": pokemon["Tamanho"],
+        "IV": round(iv_total, 1),
+        "code": pokemon["code"],
         "MoveList": [],
-        "possiveis": Pok["movelist"],
+        "possiveis": pokemon["movelist"],
         "Move1": None,
         "Move2": None,
         "Move3": None,
-        "Move4": None
+        "Move4": None,
+        **stats_gerados,
     }
 
-    for i in range(Pok["moves"]):
-        while True:
-            sorteado = random.choice(Pok["movelist"])
-            ataque = SelecionaAtaques(sorteado)
-            if sorteado not in Stats["MoveList"]:
-                Stats["MoveList"].append(sorteado)
-                Stats[f"Move{i+1}"] = ataque
-                break
+    for chave, nome_iv in CHAVES_IV.items():
+        stats[nome_iv] = round(ivs[chave])
 
-    return Stats
+    return stats
+
+def sortear_moves(pokemon, stats):
+    for i in range(pokemon["moves"]):
+        while True:
+            nome_move = random.choice(pokemon["movelist"])
+            if nome_move in stats["MoveList"]:
+                continue
+
+            stats["MoveList"].append(nome_move)
+            stats[f"Move{i + 1}"] = SelecionaAtaques(nome_move)
+            break
+
+def Gerador(Pokemon, P):
+    global IDpoke
+    IDpoke += 1
+
+    stats_gerados, ivs = gerar_stats_e_ivs(Pokemon, P)
+    altura, peso, coef_p, coef_a = calcular_medidas(Pokemon, ivs)
+
+    stats = montar_stats_base(Pokemon, stats_gerados, ivs, altura, peso, coef_p, coef_a)
+    stats["ID"] = IDpoke
+
+    sortear_moves(Pokemon, stats)
+
+    return stats
 
 def Gerador_final(code,P,player):
     return Pokemon(Gerador(Pokemons_Todos[code],P),player)
